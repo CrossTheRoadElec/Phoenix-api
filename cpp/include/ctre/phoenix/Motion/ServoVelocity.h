@@ -2,11 +2,11 @@
 
 #include "ctre/phoenix/Mechanical/SensoredGearbox.h"
 #include "ctre/phoenix/MotorControl/SmartMotorController.h"
-#include "ctre/phoenix/ILoopable.h"
+#include "ctre/phoenix/Tasking/ILoopable.h"
 
 namespace CTRE { namespace Motion {
 
-class ServoVelocity : public CTRE::ILoopable{
+class ServoVelocity : public CTRE::Tasking::ILoopable{
 public:
 	ServoVelocity(CTRE::MotorControl::SmartMotorController *motor,
 			CTRE::MotorControl::SmartMotorController::FeedbackDevice feedbackDevice, float velocity);

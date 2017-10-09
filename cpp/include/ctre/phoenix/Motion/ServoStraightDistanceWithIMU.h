@@ -3,13 +3,13 @@
 #include "ctre/phoenix/Drive/ISmartDriveTrain.h"
 #include "ctre/phoenix/Drive/Styles.h"
 #include "ctre/phoenix/Sensors/PigeonIMU.h"
-#include "ctre/phoenix/ILoopable.h"
+#include "ctre/phoenix/Tasking/ILoopable.h"
 #include "ServoGoStraightWithIMUSmart.h"
 #include "ServoParameters.h"
 
 namespace CTRE { namespace Motion {
 
-class ServoStraightDistanceWithImu : public CTRE::ILoopable{
+class ServoStraightDistanceWithImu : public CTRE::Tasking::ILoopable{
 public:
 	ServoParameters *straightServoParameters = new ServoParameters();
 	ServoParameters *distanceServoParameters = new ServoParameters();
