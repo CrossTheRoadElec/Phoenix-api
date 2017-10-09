@@ -3,12 +3,12 @@
 #include "ctre/phoenix/Drive/ISmartDrivetrain.h"
 #include "ctre/phoenix/Drive/Styles.h"
 #include "ctre/phoenix/Stopwatch.h"
-#include "ctre/phoenix/ILoopable.h"
+#include "ctre/phoenix/Tasking/ILoopable.h"
 #include "ServoParameters.h"
 
 namespace CTRE { namespace Motion {
 
-class ServoGoStraight : public CTRE::ILoopable{
+class ServoGoStraight : public CTRE::Tasking::ILoopable{
 public:
 	ServoParameters *servoParameters = new ServoParameters();
 	ServoGoStraight(CTRE::Drive::ISmartDrivetrain *driveTrain, CTRE::Drive::Styles::Smart selectedStyle,

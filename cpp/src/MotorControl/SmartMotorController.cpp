@@ -1397,8 +1397,9 @@ void SmartMotorController::ApplyControlMode(ControlMode::SmartControlMode talonM
 }
 
 
-void SmartMotorController::SetControlMode(MotorControl::ControlMode::BasicControlMode mode) {
-	SetControlMode(mode);
+void SmartMotorController::SetControlMode(ControlMode::BasicControlMode mode) {
+	ControlMode::SmartControlMode promotedBasic = ControlMode::Promote(mode);
+	SetControlMode(promotedBasic);
 }
 void SmartMotorController::SetControlMode(ControlMode::SmartControlMode mode) {
 	if(m_sendMode == mode) { /*Do nothing*/ }

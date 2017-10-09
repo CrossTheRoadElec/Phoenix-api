@@ -4,12 +4,12 @@
 #include "ctre/phoenix/Drive/Styles.h"
 #include "ctre/phoenix/Stopwatch.h"
 #include "ctre/phoenix/Sensors/PigeonIMU.h"
-#include "ctre/phoenix/ILoopable.h"
+#include "ctre/phoenix/Tasking/ILoopable.h"
 #include "ServoParameters.h"
 
 namespace CTRE { namespace Motion {
 
-class ServoZeroTurnWithImu : public CTRE::ILoopable{
+class ServoZeroTurnWithImu : public CTRE::Tasking::ILoopable{
 public:
 	ServoParameters *servoParams = new ServoParameters();
 	ServoZeroTurnWithImu(CTRE::PigeonImu *pigeonImu, CTRE::Drive::IDrivetrain *driveTrain,
