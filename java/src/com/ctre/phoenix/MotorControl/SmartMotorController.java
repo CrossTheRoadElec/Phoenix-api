@@ -355,8 +355,6 @@ public class SmartMotorController implements IMotorController, MotorSafety, PIDO
   /**
    * Newer APIs don't rely on the native implementions.
    */
-  private CtreCanMap _msgMap = new CtreCanMap();
-  private CtreCanMap.RxEvent _rxe = _msgMap.new RxEvent();
   private long _cache;
 	
   /**
@@ -2165,15 +2163,13 @@ public int GetVelocityMeasurementWindow(){
     com.ctre.phoenix.CTRLogger.Log(getLastError(), "Smart Motor Controller " + m_deviceNumber + " Set Data Port Output");
 	}
 	
-	private int ReceiveCAN(int arbId, int timeoutMs)
-	{
-		int retval = _msgMap.GetRx(arbId, timeoutMs, _rxe, true);
-		/* always pass up the data */
-		_cache = _rxe._data;
-		return retval;
-	}
 	
 	@Override
+	public int GetGadgeteerStatus(GadgeteerUartStatus status) {
+		return com.ctre.phoenix.CTR_Code.CTR_NotSupported.IntValue();
+	}
+	
+/*	@Override
 	public int GetGadgeteerStatus(GadgeteerUartStatus status) {
 
 		int bitrate;
@@ -2219,7 +2215,8 @@ public int GetVelocityMeasurementWindow(){
 		}
 		return errCode;
 	}
-
+*/
+	
   public int getLastError()
   {
 	  return TalonSRXJNI.GetLastError(m_handle);

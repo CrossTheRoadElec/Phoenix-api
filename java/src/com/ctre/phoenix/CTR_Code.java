@@ -10,7 +10,9 @@ public enum CTR_Code
 	CTR_TxFailed(5),			//!< Could not transmit the CAN frame.
 	CTR_SigNotUpdated(6),		//!< Have not received an value response for signal.
 	CTR_BufferFull(7),			//!< Caller attempted to insert data into a buffer that is full.
-	CTR_UnknownError(8);		//!< Error code not supported
+	CTR_UnknownError(8),		//!< Error code not supported
+	
+	CTR_NotSupported(101);		//!< Feature not supported
 
 	private int value; private CTR_Code(int value) { this.value = value; } 
 	public static CTR_Code getEnum(int value) {

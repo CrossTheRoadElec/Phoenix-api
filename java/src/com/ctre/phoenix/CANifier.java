@@ -23,9 +23,8 @@
  
  package com.ctre.phoenix;
  
- import com.ctre.phoenix.MotorControl.CtreCanMap;
  
- public class CANifier extends CtreCanMap
+ public class CANifier
  {
 	private long m_handle;
 	 

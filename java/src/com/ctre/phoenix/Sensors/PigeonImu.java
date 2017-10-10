@@ -23,13 +23,12 @@
 package com.ctre.phoenix.Sensors;
 
 import com.ctre.phoenix.MotorControl.CAN.TalonSRX;
-import com.ctre.phoenix.MotorControl.CtreCanMap;
 
 /** 
  * Pigeon IMU Class.
  * Class supports communicating over CANbus and over ribbon-cable (CAN Talon SRX).
  */
-public class PigeonImu extends CtreCanMap
+public class PigeonImu
 {
 	private long m_handle;
 	/** Data object for holding fusion information. */
