@@ -24,7 +24,7 @@ ext.javaSrc = "${rootDir}/java/src"
 ext.javaLibraryLoc = "${rootDir}/libraries/java/lib"
 
 // Locations for the JNI java files to generate headers from
-ext.jniDefinitions = ['com.ctre.ReversibleDigitalInputJNI']
+ext.jniDefinitions = []
 
 // Location for user provided java library source code if it is not already in a jar
 ext.userJavaSrc = "${rootDir}/libraries/java/src"

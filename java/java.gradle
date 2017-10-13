@@ -29,10 +29,10 @@ sourceSets {
 dependencies {
     compile sourceSets.user.output
     runtime sourceSets.user.output
-    compile 'edu.wpi.first.wpilibj:athena:+'
-    runtime 'edu.wpi.first.wpilibj:athena:+'
-    compile 'edu.wpi.first.wpilib.networktables.java:NetworkTables:+:arm'
-    runtime 'edu.wpi.first.wpilib.networktables.java:NetworkTables:+:arm'
+    compile wpilibjDep
+    runtime wpilibjDep
+    compile javaNetTablesDep
+    runtime javaNetTablesDep
     compile fileTree(dir: javaLibraryLoc, include: ['*.jar'])
     runtime fileTree(dir: javaLibraryLoc, include: ['*.jar'])
 }

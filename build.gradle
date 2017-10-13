@@ -2,7 +2,7 @@ import org.gradle.internal.os.OperatingSystem
 
 plugins {
     id 'net.ltgt.errorprone' version '0.0.8'
-    id 'edu.wpi.first.wpilib.versioning.WPILibVersioningPlugin' version '1.6'
+    id 'edu.wpi.first.wpilib.versioning.WPILibVersioningPlugin' version '2.0'
 }
 
 allprojects {
@@ -13,7 +13,7 @@ allprojects {
 
 if (!hasProperty('releaseType')) {
     WPILibVersion {
-        releaseType = 'official'
+        releaseType = 'dev'
     }
 }
 
@@ -74,8 +74,9 @@ ext.addUserLinks = { linker, targetPlatform, implLib ->
 }
 
 apply from: "properties.gradle"
+apply from: "options.gradle"
 
-apply from: "dependencies.gradle"
+apply from: wpiDeps
 
 apply from: "cpp.gradle"
 

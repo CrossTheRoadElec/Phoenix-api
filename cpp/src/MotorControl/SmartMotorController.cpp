@@ -66,7 +66,7 @@ SmartMotorController::SmartMotorController(int deviceNumber)
       m_safetyHelper(new frc::MotorSafetyHelper(this)) {
   ApplyControlMode(m_sendMode);
   c_Logger_Log(c_TalonSRX_SetProfileSlotSelect(m_handle, m_profile), ("TalonSRX " + std::to_string(m_deviceNumber) + " SetProfileSlotSelect").c_str(), frc::GetStackTrace(2).c_str());
-  frc::LiveWindow::GetInstance()->AddActuator("SmartMotorController", m_deviceNumber, this);
+//  frc::LiveWindow::GetInstance()->AddActuator("SmartMotorController", m_deviceNumber, this);
 }
 /**
  * Constructor for the SmartMotorController device.
@@ -81,11 +81,11 @@ SmartMotorController::SmartMotorController(int deviceNumber, int controlPeriodMs
       m_safetyHelper(new frc::MotorSafetyHelper(this)) {
   ApplyControlMode(m_sendMode);
   c_Logger_Log(c_TalonSRX_SetProfileSlotSelect(m_handle, m_profile), ("TalonSRX " + std::to_string(m_deviceNumber) + " SetProfileSlotSelect").c_str(), frc::GetStackTrace(2).c_str());
-  frc::LiveWindow::GetInstance()->AddActuator("SmartMotorController", m_deviceNumber, this);
+//  frc::LiveWindow::GetInstance()->AddActuator("SmartMotorController", m_deviceNumber, this);
 }
 
 SmartMotorController::~SmartMotorController() {
-  if (m_table != nullptr) m_table->RemoveTableListener(this);
+//  if (m_table != nullptr) m_table->RemoveTableListener(this);
   if (m_hasBeenMoved) return;
   Disable();
 }
@@ -1441,7 +1441,7 @@ void SmartMotorController::SetSafetyEnabled(bool enabled) {
   m_safetyHelper->SetSafetyEnabled(enabled);
 }
 
-void SmartMotorController::GetDescription(std::ostringstream& desc) const {
+void SmartMotorController::GetDescription(std::ostringstream& desc){
   desc << "SmartMotorController ID " << m_deviceNumber;
 }
 
@@ -2110,6 +2110,8 @@ void SmartMotorController::StopMotor() {
   m_stopped = true;
 }
 
+
+/*
 void SmartMotorController::ValueChanged(ITable* source, llvm::StringRef key,
                             std::shared_ptr<nt::Value> value, bool isNew) {
   if (key == "Mode" && value->IsDouble())
@@ -2164,7 +2166,7 @@ void SmartMotorController::InitTable(std::shared_ptr<ITable> subTable) {
 }
 
 std::shared_ptr<ITable> SmartMotorController::GetTable() const { return m_table; }
-
+*/
 
 }}
 #endif // CTR_EXCLUDE_WPILIB_CLASSES

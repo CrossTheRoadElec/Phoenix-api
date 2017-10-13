@@ -29,8 +29,8 @@ namespace CTRE {namespace MotorControl {
 class SmartMotorController : public IMotorController,
 				 	 	 	 public frc::MotorSafety,
 							 public frc::ErrorBase,
-							 public frc::LiveWindowSendable,
-							 public ITableListener,
+//							 public frc::LiveWindowSendable,
+//							 public ITableListener,
 							 public frc::PIDSource,
 							 public frc::PIDInterface,
 							 public IGadgeteerUartClient{
@@ -266,7 +266,9 @@ class SmartMotorController : public IMotorController,
   void StopMotor() override;
   void SetSafetyEnabled(bool enabled) override;
   bool IsSafetyEnabled() const override;
-  void GetDescription(std::ostringstream& desc) const override;
+  
+  
+  void GetDescription(std::ostringstream& desc);
 
   // CANSpeedController interface
   double Get() const;
@@ -591,6 +593,7 @@ class SmartMotorController : public IMotorController,
 
   int GetGadgeteerStatus(IGadgeteerUartClient::GadgeteerUartStatus & status);
 
+  /*
   // LiveWindow stuff.
   void ValueChanged(ITable* source, llvm::StringRef key,
                     std::shared_ptr<nt::Value> value, bool isNew) override;
@@ -600,6 +603,7 @@ class SmartMotorController : public IMotorController,
   std::string GetSmartDashboardType() const override;
   void InitTable(std::shared_ptr<ITable> subTable) override;
   std::shared_ptr<ITable> GetTable() const override;
+  */
 
   // SpeedController overrides
   void SetInverted(bool isInverted) override;
@@ -762,7 +766,7 @@ class SmartMotorController : public IMotorController,
 
 	
   // LiveWindow stuff.
-  std::shared_ptr<ITable> m_table;
+//  std::shared_ptr<ITable> m_table;
   /**
    * Flips the output direction during open-loop modes like percent
    * voltage, or certain closed loop modes like speed/current mode.

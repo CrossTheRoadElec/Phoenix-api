@@ -7,7 +7,6 @@
 
 package com.ctre.phoenix.MotorControl;
 
-import edu.wpi.first.wpilibj.CANSpeedController;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.MotorSafety;
 import edu.wpi.first.wpilibj.MotorSafetyHelper;
@@ -24,7 +23,7 @@ import edu.wpi.first.wpilibj.tables.ITableListener;
 import com.ctre.phoenix.*;
 import com.ctre.phoenix.MotorControl.CAN.*;
 
-public class SmartMotorController implements IMotorController, MotorSafety, PIDOutput, PIDSource, CANSpeedController, GadgeteerUartClient {
+public class SmartMotorController implements IMotorController, MotorSafety, PIDOutput, PIDSource, GadgeteerUartClient {
   private MotorSafetyHelper m_safetyHelper;
   private boolean m_isInverted = false;
   protected PIDSourceType m_pidSource = PIDSourceType.kDisplacement;
@@ -44,7 +43,7 @@ public class SmartMotorController implements IMotorController, MotorSafety, PIDO
    */
   private static final double kMinutesPer100msUnit = 1.0 / 600.0;
 
-  public enum TalonControlMode implements CANSpeedController.ControlMode {
+  public enum TalonControlMode {
     PercentVbus(0), Position(1), Speed(2), Current(3), Voltage(4), Follower(5), MotionProfile(6), MotionMagic(7),
     Disabled(15);
 
@@ -66,12 +65,12 @@ public class SmartMotorController implements IMotorController, MotorSafety, PIDO
       this.value = value;
     }
 
-    @Override
+//    @Override
     public boolean isPID() {
       return this == Current || this == Speed || this == Position;
     }
 
-    @Override
+//    @Override
     public int getValue() {
       return value;
     }
@@ -374,7 +373,7 @@ public class SmartMotorController implements IMotorController, MotorSafety, PIDO
     m_feedbackDevice = FeedbackDevice.QuadEncoder;
     setProfile(m_profile);
     applyControlMode(TalonControlMode.PercentVbus);
-    LiveWindow.addActuator("CAN::TalonSRX", m_deviceNumber, this);
+//    LiveWindow.addActuator("CAN::TalonSRX", m_deviceNumber, this);
   }
 
   /**
@@ -397,7 +396,7 @@ public class SmartMotorController implements IMotorController, MotorSafety, PIDO
     m_feedbackDevice = FeedbackDevice.QuadEncoder;
     setProfile(m_profile);
     applyControlMode(TalonControlMode.PercentVbus);
-    LiveWindow.addActuator("CAN::TalonSRX", m_deviceNumber, this);
+//    LiveWindow.addActuator("CAN::TalonSRX", m_deviceNumber, this);
   }
 
   /**
@@ -423,7 +422,7 @@ public class SmartMotorController implements IMotorController, MotorSafety, PIDO
     m_feedbackDevice = FeedbackDevice.QuadEncoder;
     setProfile(m_profile);
     applyControlMode(TalonControlMode.PercentVbus);
-    LiveWindow.addActuator("CAN::TalonSRX", m_deviceNumber, this);
+//    LiveWindow.addActuator("CAN::TalonSRX", m_deviceNumber, this);
   }
 
   @Override
@@ -1012,7 +1011,7 @@ public class SmartMotorController implements IMotorController, MotorSafety, PIDO
 	{  
 		m_usageHist |= usage.value;
 
-		HAL.report(tResourceType.kResourceType_TalonSRX, m_deviceNumber + 1,
+		HAL.report(tResourceType.kResourceType_CANTalonSRX, m_deviceNumber + 1,
 			m_usageHist);
 	}
   }
@@ -1468,7 +1467,7 @@ public class SmartMotorController implements IMotorController, MotorSafety, PIDO
     m_stopped = true;
   }
 
-  @Override
+//  @Override
   public void disable() {
     disableControl();
   }
@@ -2287,7 +2286,7 @@ public int GetVelocityMeasurementWindow(){
   /*
    * Live Window code, only does anything if live window is activated.
    */
-
+/*
   private ITable m_table = null;
   private ITableListener m_tableListener = null;
 
@@ -2320,7 +2319,7 @@ public int GetVelocityMeasurementWindow(){
     // TODO: See if this is still broken
     m_table.removeTableListener(m_tableListener);
   }
-  
+ */ 
   public void follow(Object masterToFollow)
   {
 	  SmartMotorController master = (SmartMotorController)masterToFollow;
