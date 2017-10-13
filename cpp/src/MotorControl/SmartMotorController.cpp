@@ -21,6 +21,7 @@
  * (INCLUDING NEGLIGENCE), BREACH OF WARRANTY, OR OTHERWISE
  */
 #ifndef CTR_EXCLUDE_WPILIB_CLASSES
+
 #include "ctre/phoenix/MotorControl/SmartMotorController.h"
 #include "ctre/phoenix/CTRLogger.h"
 
@@ -1441,9 +1442,15 @@ void SmartMotorController::SetSafetyEnabled(bool enabled) {
   m_safetyHelper->SetSafetyEnabled(enabled);
 }
 
-void SmartMotorController::GetDescription(std::ostringstream& desc){
+#ifdef Beta
+void SmartMotorController::GetDescription(llvm::raw_ostream& desc) const {
   desc << "SmartMotorController ID " << m_deviceNumber;
 }
+#else
+void SmartMotorController::GetDescription(std::ostringstream& desc) const {
+  desc << "SmartMotorController ID " << m_deviceNumber;
+}
+#endif
 
 /**
  * @param devToLookup FeedbackDevice to lookup the scalar for.  Because Talon

@@ -6,6 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 #pragma once
+#define Beta
 
 //#ifndef CTR_EXCLUDE_WPILIB_CLASSES
 #include <memory>
@@ -266,9 +267,11 @@ class SmartMotorController : public IMotorController,
   void StopMotor() override;
   void SetSafetyEnabled(bool enabled) override;
   bool IsSafetyEnabled() const override;
-  
-  
-  void GetDescription(std::ostringstream& desc);
+  #ifdef Beta
+  void GetDescription(llvm::raw_ostream& desc)const override;
+  #else
+  void GetDescription(std::ostringstream& desc)const override;
+  #endif
 
   // CANSpeedController interface
   double Get() const;
