@@ -6,7 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 #pragma once
-#define Beta
+//#define Beta
 
 //#ifndef CTR_EXCLUDE_WPILIB_CLASSES
 #include <memory>
@@ -270,7 +270,7 @@ class SmartMotorController : public IMotorController,
   #ifdef Beta
   void GetDescription(llvm::raw_ostream& desc)const override;
   #else
-  void GetDescription(std::ostringstream& desc)const override;
+  void GetDescription(llvm::raw_ostream& desc)const override;
   #endif
 
   // CANSpeedController interface

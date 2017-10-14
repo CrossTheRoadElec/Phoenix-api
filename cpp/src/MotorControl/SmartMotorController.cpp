@@ -1447,7 +1447,7 @@ void SmartMotorController::GetDescription(llvm::raw_ostream& desc) const {
   desc << "SmartMotorController ID " << m_deviceNumber;
 }
 #else
-void SmartMotorController::GetDescription(std::ostringstream& desc) const {
+void SmartMotorController::GetDescription(llvm::raw_ostream& desc) const {
   desc << "SmartMotorController ID " << m_deviceNumber;
 }
 #endif
