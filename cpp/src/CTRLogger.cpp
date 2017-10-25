@@ -1,4 +1,5 @@
 #include "ctre/phoenix/CTRLogger.h"
+#include "ctre/phoenix/CCI/Logger_CCI.h" // c_Logger_*
 #include <execinfo.h>
 
 namespace CTRE {

@@ -23,10 +23,14 @@
 
 #include "ctre/phoenix/MotorControl/CAN/TalonSRX.h"
 
-namespace CTRE{ namespace MotorControl{ namespace CAN
-{
+namespace CTRE {
+namespace MotorControl {
+namespace CAN {
 
-TalonSRX::TalonSRX(int deviceNumber)
-: SmartMotorController(deviceNumber) { }
+TalonSRX::TalonSRX(int deviceNumber) :
+		BaseMotorController(deviceNumber) {
+}
 
-}}}
+}
+}
+}

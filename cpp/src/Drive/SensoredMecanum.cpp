@@ -1,5 +1,5 @@
+#include <ctre/phoenix/MotorControl/DeviceCatalog.h>
 #include "ctre/phoenix/Drive/SensoredMecanum.h"
-#include "ctre/phoenix/MotorControl/GroupMotorControllers.h"
 #include "HAL/DriverStation.h"
 
 namespace CTRE { namespace Drive {
@@ -7,8 +7,6 @@ namespace CTRE { namespace Drive {
 SensoredMecanum::SensoredMecanum(CTRE::MotorControl::SmartMotorController *m1, CTRE::MotorControl::SmartMotorController *m2, CTRE::MotorControl::SmartMotorController *m3, CTRE::MotorControl::SmartMotorController *m4,
 			CTRE::MotorControl::SmartMotorController::FeedbackDevice feedbackDevice, bool useLeftFrontSensor, bool useRightFrontSensor, float thisWheelRadius)
 {
-	CTRE::MotorControl::GroupMotorControllers::Register(m1);
-
 	CTRE::Mechanical::SensoredGearbox *temp1 = new CTRE::Mechanical::SensoredGearbox(1, m1, feedbackDevice);
 	CTRE::Mechanical::SensoredGearbox *temp2 = new CTRE::Mechanical::SensoredGearbox(1, m2, feedbackDevice);
 	CTRE::Mechanical::SensoredGearbox *temp3 = new CTRE::Mechanical::SensoredGearbox(1, m3, feedbackDevice);
@@ -29,8 +27,6 @@ SensoredMecanum::SensoredMecanum(CTRE::MotorControl::SmartMotorController *m1, C
 SensoredMecanum::SensoredMecanum(CTRE::Mechanical::SensoredGearbox *m1, CTRE::Mechanical::SensoredGearbox *m2,
 		CTRE::Mechanical::SensoredGearbox *m3, CTRE::Mechanical::SensoredGearbox *m4, float thisWheelRadius)
 {
-	CTRE::MotorControl::GroupMotorControllers::Register(m1->GetMaster());
-
 	_1 = m1;
 	_2 = m2;
 	_3 = m3;

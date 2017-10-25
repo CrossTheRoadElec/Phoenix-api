@@ -1,5 +1,5 @@
+#include <ctre/phoenix/MotorControl/DeviceCatalog.h>
 #include "ctre/phoenix/Drive/Mecanum.h"
-#include "ctre/phoenix/MotorControl/GroupMotorControllers.h"
 #include "HAL/DriverStation.h"
 #include <cmath>
 
@@ -8,8 +8,6 @@ namespace CTRE { namespace Drive {
 Mecanum::Mecanum(CTRE::MotorControl::IMotorController *m1, CTRE::MotorControl::IMotorController *m2,
 		CTRE::MotorControl::IMotorController *m3, CTRE::MotorControl::IMotorController *m4)
 {
-	CTRE::MotorControl::GroupMotorControllers::Register(m1);
-
 	CTRE::Mechanical::Gearbox *temp1 = new CTRE::Mechanical::Gearbox(m1);
 	CTRE::Mechanical::Gearbox *temp2 = new CTRE::Mechanical::Gearbox(m2);
 	CTRE::Mechanical::Gearbox *temp3 = new CTRE::Mechanical::Gearbox(m3);
@@ -23,8 +21,6 @@ Mecanum::Mecanum(CTRE::MotorControl::IMotorController *m1, CTRE::MotorControl::I
 Mecanum::Mecanum(CTRE::Mechanical::Gearbox *m1, CTRE::Mechanical::Gearbox *m2,
 		CTRE::Mechanical::Gearbox *m3, CTRE::Mechanical::Gearbox *m4)
 {
-	CTRE::MotorControl::GroupMotorControllers::Register(m1->GetMaster());
-
 	_1 = m1;
 	_2 = m2;
 	_3 = m3;

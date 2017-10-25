@@ -1,5 +1,5 @@
+#include <ctre/phoenix/MotorControl/DeviceCatalog.h>
 #include "ctre/phoenix/Drive/SensoredTank.h"
-#include "ctre/phoenix/MotorControl/GroupMotorControllers.h"
 #include "ctre/phoenix/CTRLogger.h"
 #include "HAL/DriverStation.h"
 
@@ -8,7 +8,6 @@ namespace CTRE { namespace Drive {
 SensoredTank::SensoredTank(CTRE::Mechanical::SensoredGearbox *left, CTRE::Mechanical::SensoredGearbox *right,
 		bool leftInverted, bool rightInverted, float thisWheelRadius)
 {
-    CTRE::MotorControl::GroupMotorControllers::Register(left->GetMaster());
     _left = left;
     _right = right;
 
@@ -22,8 +21,6 @@ SensoredTank::SensoredTank(CTRE::Mechanical::SensoredGearbox *left, CTRE::Mechan
 SensoredTank::SensoredTank(CTRE::MotorControl::SmartMotorController *left, CTRE::MotorControl::SmartMotorController *right,
 		CTRE::MotorControl::SmartMotorController::FeedbackDevice feedbackDevice, bool leftInverted, bool rightInverted, float thisWheelRadius)
 {
-	CTRE::MotorControl::GroupMotorControllers::Register(left);
-
 	/* Create 2 single motor gearboxes */
 	CTRE::Mechanical::SensoredGearbox *temp1 = new CTRE::Mechanical::SensoredGearbox(1, left, feedbackDevice);
 	CTRE::Mechanical::SensoredGearbox *temp2 = new CTRE::Mechanical::SensoredGearbox(1, right, feedbackDevice);

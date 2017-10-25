@@ -26,7 +26,6 @@
 #ifndef CTR_EXCLUDE_WPILIB_CLASSES
 #include "ctre/phoenix/MotorControl/CAN/TalonSRX.h"
 #include "ctre/phoenix/core/CtreCanMap.h"
-#include "ctre/phoenix/CCI/PigeonIMU_CCI.h"
 #include "ErrorBase.h"
 
 namespace CTRE {

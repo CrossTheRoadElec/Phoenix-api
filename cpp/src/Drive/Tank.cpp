@@ -1,5 +1,5 @@
+#include <ctre/phoenix/MotorControl/DeviceCatalog.h>
 #include "ctre/phoenix/Drive/Tank.h"
-#include "ctre/phoenix/MotorControl/GroupMotorControllers.h"
 #include "HAL/DriverStation.h"
 
 namespace CTRE { namespace Drive {
@@ -7,8 +7,6 @@ namespace CTRE { namespace Drive {
 Tank::Tank(CTRE::Mechanical::Gearbox *left, CTRE::Mechanical::Gearbox *right,
 		bool leftInvert, bool rightInvert)
 {
-    CTRE::MotorControl::GroupMotorControllers::Register(left->GetMaster());
-
     _left = left;
     _right = right;
 
@@ -18,7 +16,6 @@ Tank::Tank(CTRE::Mechanical::Gearbox *left, CTRE::Mechanical::Gearbox *right,
 Tank::Tank(CTRE::MotorControl::IMotorController *left, CTRE::MotorControl::IMotorController *right,
 		bool leftInvert, bool rightInvert)
 {
-	CTRE::MotorControl::GroupMotorControllers::Register(left);
     /* Create 2 single motor gearboxes */
     CTRE::Mechanical::Gearbox *temp1 = new CTRE::Mechanical::Gearbox(left);
     CTRE::Mechanical::Gearbox *temp2 = new CTRE::Mechanical::Gearbox(right);

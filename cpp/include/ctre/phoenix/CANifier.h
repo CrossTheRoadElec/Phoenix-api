@@ -26,7 +26,6 @@
 #ifndef CTR_EXCLUDE_WPILIB_CLASSES
 
 #include <cstdint>
-#include "ctre/phoenix/CCI/CANifier_CCI.h"
 #include "ctre/phoenix/core/CtreCanMap.h"
 
 namespace CTRE {
@@ -41,19 +40,18 @@ public:
 	};
 	const int PWMChannelCount = 4;
 
-
 	enum GeneralPin {
-		QUAD_IDX = CANifier_CCI::GeneralPin::QUAD_IDX,
-		QUAD_B = CANifier_CCI::GeneralPin::QUAD_B,
-		QUAD_A = CANifier_CCI::GeneralPin::QUAD_A,
-		LIMR = CANifier_CCI::GeneralPin::LIMR,
-		LIMF = CANifier_CCI::GeneralPin::LIMF,
-		SDA = CANifier_CCI::GeneralPin::SDA,
-		SCL = CANifier_CCI::GeneralPin::SCL,
-		SPI_CS = CANifier_CCI::GeneralPin::SPI_CS,
-		SPI_MISO_PWM2P = CANifier_CCI::GeneralPin::SPI_MISO_PWM2P,
-		SPI_MOSI_PWM1P = CANifier_CCI::GeneralPin::SPI_MOSI_PWM1P,
-		SPI_CLK_PWM0P = CANifier_CCI::GeneralPin::SPI_CLK_PWM0P,
+		QUAD_IDX = 0,	//----- Must match CANifier_CCI enums -----//
+		QUAD_B = 1,
+		QUAD_A = 2,
+		LIMR = 3,
+		LIMF = 4,
+		SDA = 5,
+		SCL = 6,
+		SPI_CS = 7,
+		SPI_MISO_PWM2P = 8,
+		SPI_MOSI_PWM1P = 9,
+		SPI_CLK_PWM0P = 10,
 	};
 
 	struct PinValues {

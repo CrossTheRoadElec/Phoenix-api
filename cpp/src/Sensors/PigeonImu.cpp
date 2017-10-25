@@ -26,6 +26,8 @@
 #ifndef CTR_EXCLUDE_WPILIB_CLASSES
 #include "ctre/phoenix/Sensors/PigeonImu.h"
 #include "ctre/phoenix/CTRLogger.h"
+#include "ctre/phoenix/CCI/Logger_CCI.h"
+#include "ctre/phoenix/CCI/PigeonIMU_CCI.h"
 
 #include "FRC_NetworkCommunication/CANSessionMux.h"
 
