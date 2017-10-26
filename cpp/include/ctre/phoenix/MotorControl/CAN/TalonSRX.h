@@ -9,6 +9,12 @@ namespace CAN {
 class TalonSRX: public BaseMotorController {
 public:
 	TalonSRX(int deviceNumber);
+
+	ErrorCode ConfigPeakCurrentLimit(int amps, int timeoutMs);
+	ErrorCode ConfigPeakCurrentDuration(int milliseconds, int timeoutMs);
+	ErrorCode ConfigContinuousCurrentLimit(int amps, int timeoutMs);
+	void EnableCurrentLimit(bool enable);
+
 };
 
 } // namespace CAN

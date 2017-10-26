@@ -21,7 +21,6 @@ private:
 	ErrorCode _lastError;
 	// _sensColl;
 	MotController_LowLevel *_ll_pimpl; //!< Heap alloced member
-	MotController_LowLevel & _ll;
 
 	ControlMode m_controlMode = ControlMode::PercentOutput;
 	ControlMode m_sendMode;
@@ -33,6 +32,8 @@ private:
 
 	ErrorCode SetLastError(int error);
 	ErrorCode SetLastError(ErrorCode error);
+protected:
+	MotController_LowLevel & _ll;
 
 public:
 	BaseMotorController(int arbId);
