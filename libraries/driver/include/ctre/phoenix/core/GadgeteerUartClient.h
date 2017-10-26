@@ -2,6 +2,7 @@
 #define GadgeteerUartClient_h_
 #include "ctre.h"				//BIT Defines + Typedefs
 #include <stdint.h>
+#include <string>
 
 class IGadgeteerUartClient
 {

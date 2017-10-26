@@ -1,13 +1,16 @@
 #pragma once
 
-#include "../SmartMotorController.h"
+#include "ctre/phoenix/MotorControl/CAN/BaseMotorController.h"
 
-namespace CTRE{ namespace MotorControl{ namespace CAN
-{
+namespace CTRE {
+namespace MotorControl {
+namespace CAN {
 
-class TalonSRX : public SmartMotorController {
+class TalonSRX: public BaseMotorController {
 public:
-	explicit TalonSRX(int deviceNumber);
+	TalonSRX(int deviceNumber);
 };
 
-}}}
+} // namespace CAN
+} // namespace MotorControl
+} // namespace CTRE

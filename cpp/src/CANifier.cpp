@@ -25,10 +25,10 @@
 #include "ctre/phoenix/CANifier.h"
 #include "ctre/phoenix/CCI/CANifier_CCI.h"
 #include "ctre/phoenix/CTRLogger.h"
-#include "ctre/phoenix/core/CtreCanMap.h"
+#include "ctre/Phoenix/Platform/CANBusManager.h"
 
 namespace CTRE {
-CANifier::CANifier(int deviceNumber): CtreCanMap(0)
+CANifier::CANifier(int deviceNumber): CANBusAddressable(deviceNumber)
 {
 	m_handle = c_CANifier_Create1(deviceNumber);
 }

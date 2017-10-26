@@ -1,7 +1,16 @@
 #pragma once
 
-#include "NeutralMode.h"
-#include "ControlMode.h"
+#include "ctre/phoenix/MotorControl/ControlMode.h"
+#include "ctre/phoenix/MotorControl/ControlFrame.h"
+#include "ctre/phoenix/MotorControl/NeutralMode.h"
+#include "ctre/phoenix/MotorControl/FeedbackDevice.h"
+#include "ctre/phoenix/MotorControl/StatusFrame.h"
+#include "ctre/phoenix/MotorControl/LimitSwitchType.h"
+#include "ctre/phoenix/MotorControl/Faults.h"
+#include "ctre/phoenix/framing/ParamEnum.h"
+#include "ctre/phoenix/Motion/TrajectoryPoint.h"
+#include "ctre/phoenix/Motion/MotionProfileStatus.h"
+#include "ctre/phoenix/core/ErrorCode.h"
 #include "IFollower.h"
 
 namespace CTRE {
@@ -9,142 +18,158 @@ namespace MotorControl {
 
 class IMotorController: public IFollower {
 public:
-	~IMotorController() {
+	virtual ~IMotorController() {
 	}
 	//------ Set output routines. ----------//
-	void Set(ControlMode Mode, float demand);
-	void Set(ControlMode Mode, float demand0, float demand1);
-	void NeutralOutput();
-	void SetNeutralMode(NeutralMode neutralMode);
+	virtual void Set(ControlMode Mode, float demand) = 0;
+	virtual void Set(ControlMode Mode, float demand0, float demand1) = 0;
+	virtual void NeutralOutput() = 0;
+	virtual void SetNeutralMode(NeutralMode neutralMode) = 0;
 
 	//------ Invert behavior ----------//
-	void SetSensorPhase(bool PhaseSensor);
-	void SetInverted(bool invert);
-	bool GetInverted();
+	virtual void SetSensorPhase(bool PhaseSensor) = 0;
+	virtual void SetInverted(bool invert) = 0;
+	virtual bool GetInverted() = 0;
 
 	//----- general output shaping ------------------//
-	ErrorCode ConfigOpenloopRamp(float secondsFromNeutralToFull, int timeoutMs);
-	ErrorCode ConfigClosedloopRamp(float secondsFromNeutralToFull,
-			int timeoutMs);
-	ErrorCode ConfigPeakOutputForward(float percentOut, int timeoutMs);
-	ErrorCode ConfigPeakOutputReverse(float percentOut, int timeoutMs);
-	ErrorCode ConfigNominalOutputForward(float percentOut, int timeoutMs);
-	ErrorCode ConfigNominalOutputReverse(float percentOut, int timeoutMs);
-	ErrorCode ConfigOpenLoopNeutralDeadband(float percentDeadband,
-			int timeoutMs);
-	ErrorCode ConfigClosedLoopNeutralDeadband(float percentDeadband,
-			int timeoutMs);
+	virtual ErrorCode ConfigOpenloopRamp(float secondsFromNeutralToFull,
+			int timeoutMs) = 0;
+	virtual ErrorCode ConfigClosedloopRamp(float secondsFromNeutralToFull,
+			int timeoutMs) = 0;
+	virtual ErrorCode ConfigPeakOutputForward(float percentOut,
+			int timeoutMs) = 0;
+	virtual ErrorCode ConfigPeakOutputReverse(float percentOut,
+			int timeoutMs) = 0;
+	virtual ErrorCode ConfigNominalOutputForward(float percentOut,
+			int timeoutMs) = 0;
+	virtual ErrorCode ConfigNominalOutputReverse(float percentOut,
+			int timeoutMs) = 0;
+	virtual ErrorCode ConfigOpenLoopNeutralDeadband(float percentDeadband,
+			int timeoutMs) = 0;
+	virtual ErrorCode ConfigClosedLoopNeutralDeadband(float percentDeadband,
+			int timeoutMs) = 0;
 
 	//------ Voltage Compensation ----------//
-	ErrorCode ConfigVoltageCompSaturation(float voltage, int timeoutMs);
-	ErrorCode ConfigVoltageMeasurementFilter(int filterWindowSamples,
-			int timeoutMs);
-	void EnableVoltageCompensation(bool enable);
+	virtual ErrorCode ConfigVoltageCompSaturation(float voltage,
+			int timeoutMs) = 0;
+	virtual ErrorCode ConfigVoltageMeasurementFilter(int filterWindowSamples,
+			int timeoutMs) = 0;
+	virtual void EnableVoltageCompensation(bool enable) = 0;
 
 	//------ General Status ----------//
-	ErrorCode GetBusVoltage(float & param);
-	ErrorCode GetMotorOutputPercent(float & param);
-	ErrorCode GetMotorOutputVoltage(float & param);
-	ErrorCode GetOutputCurrent(float & param);
-	ErrorCode GetTemperature(float & param);
+	virtual ErrorCode GetBusVoltage(float & param) = 0;
+	virtual ErrorCode GetMotorOutputPercent(float & param) = 0;
+	virtual ErrorCode GetMotorOutputVoltage(float & param) = 0;
+	virtual ErrorCode GetOutputCurrent(float & param) = 0;
+	virtual ErrorCode GetTemperature(float & param) = 0;
 
 	//------ sensor selection ----------//
-	ErrorCode ConfigSelectedFeedbackSensor(RemoteFeedbackDevice feedbackDevice,
-			int timeoutMs);
+	virtual ErrorCode ConfigSelectedFeedbackSensor(
+			RemoteFeedbackDevice feedbackDevice, int timeoutMs) = 0;
 
 	//------- sensor status --------- //
-	int GetSelectedSensorPosition();
-	int GetSelectedSensorVelocity();
-	ErrorCode SetSelectedSensorPosition(int sensorPos, int timeoutMs);
+	virtual int GetSelectedSensorPosition() = 0;
+	virtual int GetSelectedSensorVelocity() = 0;
+	virtual ErrorCode SetSelectedSensorPosition(int sensorPos,
+			int timeoutMs) = 0;
 
 	//------ status frame period changes ----------//
-	ErrorCode SetControlFramePeriod(ControlFrame frame, int periodMs);
-	ErrorCode SetStatusFramePeriod(StatusFrame frame, int periodMs,
-			int timeoutMs);
-	ErrorCode GetStatusFramePeriod(StatusFrame frame, int & periodMs,
-			int timeoutMs);
+	virtual ErrorCode SetControlFramePeriod(ControlFrame frame,
+			int periodMs) = 0;
+	virtual ErrorCode SetStatusFramePeriod(StatusFrame frame, int periodMs,
+			int timeoutMs) = 0;
+	virtual ErrorCode GetStatusFramePeriod(StatusFrame frame, int & periodMs,
+			int timeoutMs) = 0;
 
 	//----- velocity signal conditionaing ------//
 	/* not supported */
 
 	//------ remote limit switch ----------//
-	ErrorCode ConfigForwardLimitSwitchSource(RemoteLimitSwitchSource type,
-			LimitSwitchNormal normalOpenOrClose, int deviceID, int timeoutMs);
-	ErrorCode ConfigReverseLimitSwitchSource(RemoteLimitSwitchSource type,
-			LimitSwitchNormal normalOpenOrClose, int deviceID, int timeoutMs);
-	void EnableLimitSwitches(bool enable);
+	virtual ErrorCode ConfigForwardLimitSwitchSource(
+			RemoteLimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
+			int deviceID, int timeoutMs) = 0;
+	virtual ErrorCode ConfigReverseLimitSwitchSource(
+			RemoteLimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
+			int deviceID, int timeoutMs) = 0;
+	virtual void EnableLimitSwitches(bool enable) = 0;
 
 	//------ local limit switch ----------//
 	/* not supported */
 
 	//------ soft limit ----------//
-	ErrorCode ConfigForwardSoftLimit(int forwardSensorLimit, int timeoutMs);
-	ErrorCode ConfigReverseSoftLimit(int reverseSensorLimit, int timeoutMs);
+	virtual ErrorCode ConfigForwardSoftLimit(int forwardSensorLimit,
+			int timeoutMs) = 0;
+	virtual ErrorCode ConfigReverseSoftLimit(int reverseSensorLimit,
+			int timeoutMs) = 0;
 
-	void EnableSoftLimits(bool enable);
+	virtual void EnableSoftLimits(bool enable) = 0;
 
 	//------ Current Lim ----------//
 	/* not supported */
 
 	//------ General Close loop ----------//
-	ErrorCode Config_kP(int slotIdx, float value, int timeoutMs);
-	ErrorCode Config_kI(int slotIdx, float value, int timeoutMs);
-	ErrorCode Config_kD(int slotIdx, float value, int timeoutMs);
-	ErrorCode Config_kF(int slotIdx, float value, int timeoutMs);
-	ErrorCode Config_IntegralZone(int slotIdx, int izone, int timeoutMs);
-	ErrorCode ConfigAllowableClosedloopError(int slotIdx,
-			int allowableCloseLoopError, int timeoutMs);
-	ErrorCode ConfigMaxIntegralAccumulator(int slotIdx, float iaccum,
-			timeoutMs);
+	virtual ErrorCode Config_kP(int slotIdx, float value, int timeoutMs) = 0;
+	virtual ErrorCode Config_kI(int slotIdx, float value, int timeoutMs) = 0;
+	virtual ErrorCode Config_kD(int slotIdx, float value, int timeoutMs) = 0;
+	virtual ErrorCode Config_kF(int slotIdx, float value, int timeoutMs) = 0;
+	virtual ErrorCode Config_IntegralZone(int slotIdx, int izone,
+			int timeoutMs) = 0;
+	virtual ErrorCode ConfigAllowableClosedloopError(int slotIdx,
+			int allowableCloseLoopError, int timeoutMs) = 0;
+	virtual ErrorCode ConfigMaxIntegralAccumulator(int slotIdx, float iaccum,
+			int timeoutMs) = 0;
 
-	ErrorCode SetIntegralAccumulator(float iaccum = 0, int timeoutMs);
+	virtual ErrorCode SetIntegralAccumulator(float iaccum, int timeoutMs) = 0;
 
-	ErrorCode GetClosedLoopError(int & error);
-	ErrorCode GetIntegralAccumulator(float & iaccum);
-	ErrorCode GetErrorDerivative(float & derivError);
+	virtual ErrorCode GetClosedLoopError(int & error) = 0;
+	virtual ErrorCode GetIntegralAccumulator(float & iaccum) = 0;
+	virtual ErrorCode GetErrorDerivative(float & derivError) = 0;
 
-	void SelectProfileSlot(int slotIdx);
+	virtual void SelectProfileSlot(int slotIdx) = 0;
 
 	//------ Motion Profile Settings used in Motion Magic and Motion Profile ----------//
-	ErrorCode ConfigMotionCruiseVelocity(int sensorUnitsPer100ms,
-			int timeoutMs);
-	ErrorCode ConfigMotionAcceleration(int sensorUnitsPer100msPerSec,
-			int timeoutMs);
+	virtual ErrorCode ConfigMotionCruiseVelocity(int sensorUnitsPer100ms,
+			int timeoutMs) = 0;
+	virtual ErrorCode ConfigMotionAcceleration(int sensorUnitsPer100msPerSec,
+			int timeoutMs) = 0;
 
 	//------ Motion Profile Buffer ----------//
-	void ClearMotionProfileTrajectories();
-	int GetMotionProfileTopLevelBufferCount();
-	ErrorCode PushMotionProfileTrajectory(Motion::TrajectoryPoint trajPt);
-	bool IsMotionProfileTopLevelBufferFull();
-	void ProcessMotionProfileBuffer();
-	void GetMotionProfileStatus(Motion::MotionProfileStatus statusToFill);
-	void ClearMotionProfileHasUnderrun(int timeoutMs);
+//	virtual void ClearMotionProfileTrajectories() = 0;
+//	virtual int GetMotionProfileTopLevelBufferCount() = 0;
+//	virtual ErrorCode PushMotionProfileTrajectory(
+//			CTRE::Motion::TrajectoryPoint trajPt) = 0;
+//	virtual bool IsMotionProfileTopLevelBufferFull() = 0;
+//	virtual void ProcessMotionProfileBuffer() = 0;
+//	virtual void GetMotionProfileStatus(
+//			CTRE::Motion::MotionProfileStatus statusToFill) = 0;
+//	virtual void ClearMotionProfileHasUnderrun(int timeoutMs) = 0;
 
-	//------ error ----------//
-	ErrorCode GetLastError();
+//------ error ----------//
+	virtual ErrorCode GetLastError() = 0;
 
 	//------ Faults ----------//
-	ErrorCode GetFaults(Faults toFill);
-	ErrorCode GetStickyFaults(Faults toFill);
-	ErrorCode ClearStickyFaults();
+	virtual ErrorCode GetFaults(Faults toFill) = 0;
+	virtual ErrorCode GetStickyFaults(Faults toFill) = 0;
+	virtual ErrorCode ClearStickyFaults() = 0;
 
 	//------ Firmware ----------//
-	int GetFirmwareVersion();
-	bool HasResetOccured();
+	virtual int GetFirmwareVersion() = 0;
+	virtual bool HasResetOccured() = 0;
 
 	//------ Custom Persistent Params ----------//
-	ErrorCode ConfigSetCustomParam(int newValue, int paramIndex, int timeoutMs);
-	ErrorCode ConfigGetCustomParam(int & readValue, int paramIndex,
-			int timeoutMs);
+	virtual ErrorCode ConfigSetCustomParam(int newValue, int paramIndex,
+			int timeoutMs) = 0;
+	virtual ErrorCode ConfigGetCustomParam(int & readValue, int paramIndex,
+			int timeoutMs) = 0;
 
 	//------ Generic Param API, typically not used ----------//
-	ErrorCode ConfigSetParameter(ParamEnum param, float value, byte subValue,
-			int ordinal, int timeoutMs);
-	ErrorCode ConfigGetParameter(ParamEnum paramEnum, float & value,
-			int ordinal, int timeoutMs);
+	virtual ErrorCode ConfigSetParameter(ParamEnum param, float value,
+			uint8_t subValue, int ordinal, int timeoutMs) = 0;
+	virtual ErrorCode ConfigGetParameter(ParamEnum paramEnum, float & value,
+			int ordinal, int timeoutMs) = 0;
 
 	//------ Misc. ----------//
-	int GetBaseID();
+	virtual int GetBaseID() = 0;
 
 	// ----- Follower ------//
 	/* in parent interface */

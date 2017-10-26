@@ -44,7 +44,6 @@ typedef unsigned long	ULONG;
 #define UNUSED(x) (void)(x)
 
 #include "ctre/Phoenix/core/ErrorCode.h"
-typedef ErrorCode CTR_Code;
 
 //
 //typedef enum {

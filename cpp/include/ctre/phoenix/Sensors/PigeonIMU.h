@@ -24,16 +24,23 @@
 #pragma once
 
 #ifndef CTR_EXCLUDE_WPILIB_CLASSES
-#include "ctre/phoenix/MotorControl/CAN/TalonSRX.h"
-#include "ctre/phoenix/core/CtreCanMap.h"
+#include "ctre/phoenix/Platform/CANBusManager.h"
+#include "ctre/phoenix/LowLevel/CANBusAddressable.h"
 #include "ErrorBase.h"
+
+/* forward prototype */
+namespace CTRE {
+namespace MotorControl {
+namespace CAN {
+	class TalonSRX;
+}}}
 
 namespace CTRE {
 /** 
  * Pigeon IMU Class.
  * Class supports communicating over CANbus and over ribbon-cable (CAN Talon SRX).
  */
-class PigeonImu : 	public CtreCanMap,
+class PigeonImu : 	public CANBusAddressable,
 					public frc::ErrorBase {
 public:
 	/** Data object for holding fusion information. */

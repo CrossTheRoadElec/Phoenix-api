@@ -8,7 +8,7 @@ class IMotorController;
 
 class IFollower {
 public:
-	virtual void Follow(IMotorController *masterToFollow) = 0;
+	virtual void Follow(CTRE::MotorControl::IMotorController & masterToFollow) = 0;
 	virtual void ValueUpdated()= 0;
 };
 

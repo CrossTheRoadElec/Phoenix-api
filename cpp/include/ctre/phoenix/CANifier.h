@@ -26,10 +26,11 @@
 #ifndef CTR_EXCLUDE_WPILIB_CLASSES
 
 #include <cstdint>
-#include "ctre/phoenix/core/CtreCanMap.h"
+#include "ctre/phoenix/LowLevel/CANBusAddressable.h"
+#include "ctre/phoenix/core/ErrorCode.h"
 
 namespace CTRE {
-class CANifier: public CtreCanMap {
+class CANifier: public CANBusAddressable {
 public:
 	enum LEDChannel {
 		LEDChannelA = 0, LEDChannelB = 1, LEDChannelC = 2,

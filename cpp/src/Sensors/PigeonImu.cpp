@@ -28,18 +28,21 @@
 #include "ctre/phoenix/CTRLogger.h"
 #include "ctre/phoenix/CCI/Logger_CCI.h"
 #include "ctre/phoenix/CCI/PigeonIMU_CCI.h"
+#include "ctre/phoenix/MotorControl/CAN/TalonSRX.h"
 
 #include "FRC_NetworkCommunication/CANSessionMux.h"
 
 #include "Utility.h"
 #include "HAL/HAL.h"
 
+using namespace CTRE::MotorControl::CAN;
+
 namespace CTRE {
 /**
  * Create a Pigeon object that communicates with Pigeon on CAN Bus.
  * @param deviceNumber CAN Device Id of Pigeon [0,62]
  */
-PigeonImu::PigeonImu(int deviceNumber) : CtreCanMap(0)
+PigeonImu::PigeonImu(int deviceNumber) : CANBusAddressable(deviceNumber)
 {
 	m_handle = c_PigeonIMU_Create1(deviceNumber);
 	_deviceNumber = deviceNumber;
@@ -51,7 +54,7 @@ PigeonImu::PigeonImu(int deviceNumber) : CtreCanMap(0)
  * Create a Pigeon object that communciates with Pigeon through the Gadgeteer ribbon
  * @param talonSrx cable connected to a Talon on CAN Bus.
  */
-PigeonImu::PigeonImu(CTRE::MotorControl::CAN::TalonSRX * talonSrx) : CtreCanMap(0)
+PigeonImu::PigeonImu(CTRE::MotorControl::CAN::TalonSRX * talonSrx) : CANBusAddressable(0)
 {
 	m_handle = c_PigeonIMU_Create2(talonSrx->GetDeviceID());
 	_deviceNumber = talonSrx->GetDeviceID();
