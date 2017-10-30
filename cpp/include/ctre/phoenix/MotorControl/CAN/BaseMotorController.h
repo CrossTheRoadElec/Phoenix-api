@@ -18,23 +18,23 @@ namespace CAN {
 
 class BaseMotorController: public virtual IMotorController {
 private:
-	ErrorCode _lastError;
+	ErrorCode _lastError = (ErrorCode)0;
 	// _sensColl;
-	MotController_LowLevel *_ll_pimpl; //!< Heap alloced member
 
 	ControlMode m_controlMode = ControlMode::PercentOutput;
-	ControlMode m_sendMode;
+	ControlMode m_sendMode = ControlMode::PercentOutput;
 
-	int _arbId;
+	int _arbId = 0;
 	float m_setPoint = 0;
-	bool _invert;
+	bool _invert = false;
 	int m_profile = 0;
 
 	ErrorCode SetLastError(int error);
 	ErrorCode SetLastError(ErrorCode error);
 protected:
-	MotController_LowLevel & _ll;
-
+	//MotController_LowLevel & _ll;
+	MotController_LowLevel *_ll; //!< Heap alloced member
+	MotController_LowLevel & GetLowLevel();
 public:
 	BaseMotorController(int arbId);
 	int GetDeviceID();

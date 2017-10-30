@@ -10,18 +10,18 @@ TalonSRX::TalonSRX(int deviceNumber) :
  //------ Current Lim ----------//
 ErrorCode TalonSRX::ConfigPeakCurrentLimit(int amps, int timeoutMs)
 {
-	return _ll.ConfigPeakCurrentLimit(amps, timeoutMs);
+	return GetLowLevel().ConfigPeakCurrentLimit(amps, timeoutMs);
 }
 ErrorCode TalonSRX::ConfigPeakCurrentDuration(int milliseconds, int timeoutMs)
 {
-	return _ll.ConfigPeakCurrentDuration(milliseconds, timeoutMs);
+	return GetLowLevel().ConfigPeakCurrentDuration(milliseconds, timeoutMs);
 }
 ErrorCode TalonSRX::ConfigContinuousCurrentLimit(int amps, int timeoutMs)
 {
-	return _ll.ConfigPeakCurrentDuration(amps, timeoutMs);
+	return GetLowLevel().ConfigPeakCurrentDuration(amps, timeoutMs);
 }
 void TalonSRX::EnableCurrentLimit(bool enable)
 {
-	_ll.EnableCurrentLimit(enable);
+	GetLowLevel().EnableCurrentLimit(enable);
 }
 
