@@ -21,6 +21,10 @@ MotController_LowLevel & BaseMotorController::GetLowLevel()
 {
 	return *_ll;
 }
+int BaseMotorController::GetDeviceID()
+{
+	return _ll->GetDeviceNumber();
+}
 //------ Set output routines. ----------//
 /**
  * Sets the appropriate output on the talon, depending on the mode.
@@ -51,6 +55,9 @@ void BaseMotorController::Set(ControlMode mode, float demand0, float demand1) {
 	case ControlMode::PercentOutput:
 	case ControlMode::TimedPercentOutput:
 		_ll->SetDemand(m_sendMode, (int) (1023 * demand0), 0);
+		break;
+	case ControlMode::Follower:
+		_ll->SetDemand(m_sendMode, (int) (demand0), 0);
 		break;
 	default:
 		_ll->SetDemand(m_sendMode, 0, 0);
@@ -450,8 +457,11 @@ int BaseMotorController::GetBaseID() {
 }
 // ----- Follower ------//
 void BaseMotorController::Follow(IMotorController & masterToFollow) {
-	/* set it up */
-	Set(ControlMode::Follower, masterToFollow.GetBaseID());
+	uint32_t baseId = masterToFollow.GetBaseID();
+	uint32_t id24 = (uint16_t) (baseId >> 0x10);
+	id24 <<= 8;
+	id24 |= (uint8_t) (baseId >> 0x00);
+	Set(ControlMode::Follower, (float)id24);
 }
 void BaseMotorController::ValueUpdated() {
 	//do nothing
