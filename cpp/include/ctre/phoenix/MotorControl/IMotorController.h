@@ -44,9 +44,7 @@ public:
 			int timeoutMs) = 0;
 	virtual ErrorCode ConfigNominalOutputReverse(float percentOut,
 			int timeoutMs) = 0;
-	virtual ErrorCode ConfigOpenLoopNeutralDeadband(float percentDeadband,
-			int timeoutMs) = 0;
-	virtual ErrorCode ConfigClosedLoopNeutralDeadband(float percentDeadband,
+	virtual ErrorCode ConfigNeutralDeadband(float percentDeadband,
 			int timeoutMs) = 0;
 
 	//------ Voltage Compensation ----------//

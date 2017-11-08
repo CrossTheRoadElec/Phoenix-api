@@ -136,13 +136,9 @@ ErrorCode BaseMotorController::ConfigNominalOutputReverse(float percentOut,
 		int timeoutMs) {
 	return _ll->ConfigNominalOutputReverse(percentOut, timeoutMs);
 }
-ErrorCode BaseMotorController::ConfigOpenLoopNeutralDeadband(
+ErrorCode BaseMotorController::ConfigNeutralDeadband(
 		float percentDeadband, int timeoutMs) {
-	return _ll->ConfigOpenLoopNeutralDeadband(percentDeadband, timeoutMs);
-}
-ErrorCode BaseMotorController::ConfigClosedLoopNeutralDeadband(
-		float percentDeadband, int timeoutMs) {
-	return _ll->ConfigClosedLoopNeutralDeadband(percentDeadband, timeoutMs);
+	return _ll->ConfigNeutralDeadband(percentDeadband, timeoutMs);
 }
 
 //------ Voltage Compensation ----------//

@@ -54,9 +54,7 @@ public:
 	ErrorCode ConfigPeakOutputReverse(float percentOut, int timeoutMs);
 	ErrorCode ConfigNominalOutputForward(float percentOut, int timeoutMs);
 	ErrorCode ConfigNominalOutputReverse(float percentOut, int timeoutMs);
-	ErrorCode ConfigOpenLoopNeutralDeadband(float percentDeadband,
-			int timeoutMs);
-	ErrorCode ConfigClosedLoopNeutralDeadband(float percentDeadband,
+	ErrorCode ConfigNeutralDeadband(float percentDeadband,
 			int timeoutMs);
 	//------ Voltage Compensation ----------//
 	ErrorCode ConfigVoltageCompSaturation(float voltage, int timeoutMs);
