@@ -9,8 +9,14 @@
 #include "ctre/phoenix/Motion/MotionProfileStatus.h"
 
 /* forward proto's */
-class MotControllerWithBuffer_LowLevel;
-class MotController_LowLevel;
+namespace CTRE {
+namespace MotorControl {
+namespace LowLevel {
+	class MotControllerWithBuffer_LowLevel;
+	class MotController_LowLevel;
+}
+}
+}
 
 namespace CTRE {
 namespace MotorControl {
@@ -33,8 +39,8 @@ private:
 	ErrorCode SetLastError(ErrorCode error);
 protected:
 	//MotController_LowLevel & _ll;
-	MotController_LowLevel *_ll; //!< Heap alloced member
-	MotController_LowLevel & GetLowLevel();
+	CTRE::MotorControl::LowLevel::MotController_LowLevel *_ll; //!< Heap alloced member
+	CTRE::MotorControl::LowLevel::MotController_LowLevel & GetLowLevel();
 public:
 	BaseMotorController(int arbId);
 	int GetDeviceID();
@@ -138,9 +144,9 @@ public:
 	//------ error ----------//
 	ErrorCode GetLastError();
 	//------ Faults ----------//
-	ErrorCode GetFaults(Faults toFill);
-	ErrorCode GetStickyFaults(Faults toFill);
-	ErrorCode ClearStickyFaults();
+	ErrorCode GetFaults(Faults & toFill);
+	ErrorCode GetStickyFaults(Faults & toFill);
+	ErrorCode ClearStickyFaults(int timeoutMs);
 	//------ Firmware ----------//
 	int GetFirmwareVersion();
 	bool HasResetOccured();

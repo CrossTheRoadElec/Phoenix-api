@@ -146,9 +146,9 @@ public:
 	virtual ErrorCode GetLastError() = 0;
 
 	//------ Faults ----------//
-	virtual ErrorCode GetFaults(Faults toFill) = 0;
-	virtual ErrorCode GetStickyFaults(Faults toFill) = 0;
-	virtual ErrorCode ClearStickyFaults() = 0;
+	virtual ErrorCode GetFaults(Faults & toFill) = 0;
+	virtual ErrorCode GetStickyFaults(Faults & toFill) = 0;
+	virtual ErrorCode ClearStickyFaults(int timeoutMs) = 0;
 
 	//------ Firmware ----------//
 	virtual int GetFirmwareVersion() = 0;

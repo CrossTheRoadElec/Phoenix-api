@@ -2,7 +2,10 @@
 #include "ctre/phoenix/LowLevel/MotControllerWithBuffer_LowLevel.h"
 #include "ctre/phoenix/LowLevel/MotController_LowLevel.h"
 
+using namespace CTRE::MotorControl;
 using namespace CTRE::MotorControl::CAN;
+using namespace CTRE::MotorControl::LowLevel;
+
 //--------------------- Constructors -----------------------------//
 /**
  * Constructor for the CANTalon device.
@@ -407,14 +410,14 @@ ErrorCode BaseMotorController::SetLastError(ErrorCode error) {
 }
 
 //------ Faults ----------//
-ErrorCode BaseMotorController::GetFaults(Faults toFill) {
-	return ErrorCode::FeatureNotSupported;
+ErrorCode BaseMotorController::GetFaults(Faults & toFill) {
+	return SetLastError(_ll->GetFaults(toFill));
 }
-ErrorCode BaseMotorController::GetStickyFaults(Faults toFill) {
-	return ErrorCode::FeatureNotSupported;
+ErrorCode BaseMotorController::GetStickyFaults(Faults & toFill) {
+	return SetLastError(_ll->GetStickyFaults(toFill));
 }
-ErrorCode BaseMotorController::ClearStickyFaults() {
-	return ErrorCode::FeatureNotSupported;
+ErrorCode BaseMotorController::ClearStickyFaults(int timeoutMs) {
+	return SetLastError(_ll->ClearStickyFaults(timeoutMs));
 }
 
 //------ Firmware ----------//
