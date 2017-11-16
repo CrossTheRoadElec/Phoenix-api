@@ -226,3 +226,5 @@ gradle-app.setting
 
 #VSCode
 .vscode/
+/Debug/
+/Release/

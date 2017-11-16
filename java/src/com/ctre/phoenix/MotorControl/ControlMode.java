@@ -1,40 +1,21 @@
 package com.ctre.phoenix.MotorControl;
 
-public class ControlMode
+public enum ControlMode
 {
-	public enum SmartControlMode
-	{
-		kPercentVbus(0),
-		kCurrent(1),
-		kSpeed(2),
-		kPosition(3),
-		kVoltage(4),
-		kFollower(5),
-		kMotionProfile(6),
-		kMotionMagic(7);
-		
-		public int value;
-		SmartControlMode(int value)
-		{
-			this.value = value;
-		}
-	};
+	PercentOutput(0),
+	Position(1),
+	Velocity(2),
+	Follower(5),
+	MotionProfile(6),
+	MotionMagic(7),
+	MotionMagicArc(8),
+	TimedPercentOutput(9),
 	
-	public enum BasicControlMode
-	{
-		kPercentVbus(0),
-		kVoltage(4),
-		kFollower(5);
-		
-		public int value;
-		BasicControlMode(int value)
-		{
-			this.value = value;
-		}
-	}
+	Disabled(15);
 	
-	public static SmartControlMode Promote(BasicControlMode basicControlMode)
+	public int value;
+	ControlMode(int value)
 	{
-		return SmartControlMode.values()[basicControlMode.value];
+		this.value = value;
 	}
-}
+};

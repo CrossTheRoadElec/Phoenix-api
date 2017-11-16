@@ -9,7 +9,7 @@
 #include "ctre/phoenix/Motion/MotionProfileStatus.h"
 
 /* forward proto's */
-class MotControllerWithBuffer_LowLevel;
+//class MotControllerWithBuffer_LowLevel;
 class MotController_LowLevel;
 
 namespace CTRE {
@@ -29,12 +29,16 @@ private:
 	bool _invert = false;
 	int m_profile = 0;
 
+	int temp = 0;
+
 	ErrorCode SetLastError(int error);
 	ErrorCode SetLastError(ErrorCode error);
 protected:
 	//MotController_LowLevel & _ll;
-	MotController_LowLevel *_ll; //!< Heap alloced member
-	MotController_LowLevel & GetLowLevel();
+	//MotController_LowLevel *_ll; //!< Heap alloced member
+	//MotController_LowLevel & GetLowLevel();
+	void* m_handle;
+	void* GetHandle();
 public:
 	BaseMotorController(int arbId);
 	int GetDeviceID();

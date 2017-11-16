@@ -1,6 +1,7 @@
 ﻿#include "ctre/phoenix/MotorControl/CAN/BaseMotorController.h"
-#include "ctre/phoenix/LowLevel/MotControllerWithBuffer_LowLevel.h"
-#include "ctre/phoenix/LowLevel/MotController_LowLevel.h"
+#include "ctre/phoenix/CCI/MotController_CCI.h"
+//#include "ctre/phoenix/LowLevel/MotControllerWithBuffer_LowLevel.h"
+//#include "ctre/phoenix/LowLevel/MotController_LowLevel.h"
 
 using namespace CTRE::MotorControl::CAN;
 //--------------------- Constructors -----------------------------//
@@ -12,18 +13,19 @@ using namespace CTRE::MotorControl::CAN;
  * 		another to control it.
  */
 BaseMotorController::BaseMotorController(int arbId) {
-	_ll = new MotController_LowLevel(arbId);
+	m_handle = c_MotController_Create1(arbId);
 	_arbId = arbId;
+
 	//_sensColl = new SensorCollection(_ll);
 }
 
-MotController_LowLevel & BaseMotorController::GetLowLevel()
+void* BaseMotorController::GetHandle()
 {
-	return *_ll;
+	return m_handle;
 }
 int BaseMotorController::GetDeviceID()
 {
-	return _ll->GetDeviceNumber();
+	return c_MotController_GetDeviceNumber(m_handle);
 }
 //------ Set output routines. ----------//
 /**
@@ -54,13 +56,13 @@ void BaseMotorController::Set(ControlMode mode, float demand0, float demand1) {
 	switch (m_controlMode) {
 	case ControlMode::PercentOutput:
 	case ControlMode::TimedPercentOutput:
-		_ll->SetDemand(m_sendMode, (int) (1023 * demand0), 0);
+		c_MotController_SetDemand(m_handle, (int)m_sendMode, (int) (1023 * demand0), 0);
 		break;
 	case ControlMode::Follower:
-		_ll->SetDemand(m_sendMode, (int) (demand0), 0);
+		c_MotController_SetDemand(m_handle, (int)m_sendMode, (int) (demand0), 0);
 		break;
 	default:
-		_ll->SetDemand(m_sendMode, 0, 0);
+		c_MotController_SetDemand(m_handle, (int)m_sendMode, 0, 0);
 		break;
 
 	}
@@ -96,16 +98,16 @@ void BaseMotorController::NeutralOutput() {
 	Set(ControlMode::Disabled, 0);
 }
 void BaseMotorController::SetNeutralMode(NeutralMode neutralMode) {
-	_ll->SetNeutralMode(neutralMode);
+	c_MotController_SetNeutralMode(m_handle, neutralMode);
 }
 
 //------ Invert behavior ----------//
 void BaseMotorController::SetSensorPhase(bool PhaseSensor) {
-	_ll->SetSensorPhase(PhaseSensor);
+	c_MotController_SetSensorPhase(m_handle, PhaseSensor);
 }
 void BaseMotorController::SetInverted(bool invert) {
 	_invert = invert; /* cache for getter */
-	_ll->SetInverted(_invert);
+	c_MotController_SetInverted(m_handle, _invert);
 }
 bool BaseMotorController::GetInverted() {
 	return _invert;
@@ -114,52 +116,52 @@ bool BaseMotorController::GetInverted() {
 //----- general output shaping ------------------//
 ErrorCode BaseMotorController::ConfigOpenloopRamp(
 		float secondsFromNeutralToFull, int timeoutMs) {
-	return _ll->ConfigOpenloopRamp(secondsFromNeutralToFull, timeoutMs);
+	return c_MotController_ConfigOpenLoopRamp(m_handle, secondsFromNeutralToFull, timeoutMs);
 }
 ErrorCode BaseMotorController::ConfigClosedloopRamp(
 		float secondsFromNeutralToFull, int timeoutMs) {
-	return _ll->ConfigClosedloopRamp(secondsFromNeutralToFull, timeoutMs);
+	return c_MotController_ConfigClosedLoopRamp(m_handle, secondsFromNeutralToFull, timeoutMs);
 }
 ErrorCode BaseMotorController::ConfigPeakOutputForward(float percentOut,
 		int timeoutMs) {
-	return _ll->ConfigPeakOutputForward(percentOut, timeoutMs);
+	return c_MotController_ConfigPeakOutputForward(m_handle, percentOut, timeoutMs);
 }
 ErrorCode BaseMotorController::ConfigPeakOutputReverse(float percentOut,
 		int timeoutMs) {
-	return _ll->ConfigPeakOutputReverse(percentOut, timeoutMs);
+	return c_MotController_ConfigPeakOutputReverse(m_handle, percentOut, timeoutMs);
 }
 ErrorCode BaseMotorController::ConfigNominalOutputForward(float percentOut,
 		int timeoutMs) {
-	return _ll->ConfigNominalOutputForward(percentOut, timeoutMs);
+	return c_MotController_ConfigNominalOutputForward(m_handle, percentOut, timeoutMs);
 }
 ErrorCode BaseMotorController::ConfigNominalOutputReverse(float percentOut,
 		int timeoutMs) {
-	return _ll->ConfigNominalOutputReverse(percentOut, timeoutMs);
+	return c_MotController_ConfigNominalOutputReverse(m_handle, percentOut, timeoutMs);
 }
 ErrorCode BaseMotorController::ConfigNeutralDeadband(
 		float percentDeadband, int timeoutMs) {
-	return _ll->ConfigNeutralDeadband(percentDeadband, timeoutMs);
+	return c_MotController_ConfigNeutralDeadband(m_handle, percentDeadband, timeoutMs);
 }
 
 //------ Voltage Compensation ----------//
 ErrorCode BaseMotorController::ConfigVoltageCompSaturation(float voltage,
 		int timeoutMs) {
-	return _ll->ConfigVoltageCompSaturation(voltage, timeoutMs);
+	return c_MotController_ConfigVoltageCompSaturation(m_handle, voltage, timeoutMs);
 }
 ErrorCode BaseMotorController::ConfigVoltageMeasurementFilter(
 		int filterWindowSamples, int timeoutMs) {
-	return _ll->ConfigVoltageMeasurementFilter(filterWindowSamples, timeoutMs);
+	return c_MotController_ConfigVoltageMeasurementFilter(m_handle, filterWindowSamples, timeoutMs);
 }
 void BaseMotorController::EnableVoltageCompensation(bool enable) {
-	_ll->EnableVoltageCompensation(enable);
+	c_MotController_EnableVoltageCompensation(m_handle, enable);
 }
 
 //------ General Status ----------//
 ErrorCode BaseMotorController::GetBusVoltage(float & param) {
-	return _ll->GetBusVoltage(param);
+	return c_MotController_GetBusVoltage(m_handle, &param);
 }
 ErrorCode BaseMotorController::GetMotorOutputPercent(float & param) {
-	return _ll->GetMotorOutputPercent(param);
+	return c_MotController_GetMotorOutputPercent(m_handle, &param);
 }
 ErrorCode BaseMotorController::GetMotorOutputVoltage(float & param) {
 	ErrorCode er;
@@ -171,21 +173,21 @@ ErrorCode BaseMotorController::GetMotorOutputVoltage(float & param) {
 	return er;
 }
 ErrorCode BaseMotorController::GetOutputCurrent(float & param) {
-	return _ll->GetOutputCurrent(param);
+	return c_MotController_GetOutputCurrent(m_handle, &param);
 }
 ErrorCode BaseMotorController::GetTemperature(float & param) {
-	return _ll->GetTemperature(param);
+	return c_MotController_GetTemperature(m_handle, &param);
 }
 
 //------ sensor selection ----------//
 ErrorCode BaseMotorController::ConfigSelectedFeedbackSensor(
 		RemoteFeedbackDevice feedbackDevice, int timeoutMs) {
 	/* we may break this into two APIs */
-	ErrorCode e1 = _ll->ConfigRemoteFeedbackFilter(feedbackDevice._arbId,
+	ErrorCode e1 = c_MotController_ConfigRemoteFeedbackFilter(m_handle, feedbackDevice._arbId,
 			feedbackDevice._peripheralIndex, feedbackDevice._reserved,
 			timeoutMs);
 
-	ErrorCode e2 = _ll->ConfigSelectedFeedbackSensor(
+	ErrorCode e2 = c_MotController_ConfigSelectedFeedbackSensor(m_handle,
 			FeedbackDevice::RemoteSensor, timeoutMs);
 
 	if (e1 == ErrorCode::OK) {
@@ -195,56 +197,56 @@ ErrorCode BaseMotorController::ConfigSelectedFeedbackSensor(
 }
 ErrorCode BaseMotorController::ConfigSelectedFeedbackSensor(
 		FeedbackDevice feedbackDevice, int timeoutMs) {
-	return _ll->ConfigSelectedFeedbackSensor(feedbackDevice, timeoutMs);
+	return c_MotController_ConfigSelectedFeedbackSensor(m_handle, feedbackDevice, timeoutMs);
 }
 
 //------- sensor status --------- //
 int BaseMotorController::GetSelectedSensorPosition() {
 	int retval;
-	SetLastError(_ll->GetSelectedSensorPosition(retval));
+	SetLastError(c_MotController_GetSelectedSensorPosition(m_handle, &retval));
 	return retval;
 }
 int BaseMotorController::GetSelectedSensorVelocity() {
 	int retval;
-	ErrorCode err = _ll->GetSelectedSensorVelocity(retval);
+	ErrorCode err = c_MotController_GetSelectedSensorVelocity(m_handle, &retval);
 	SetLastError(err);
 	return retval;
 }
 ErrorCode BaseMotorController::SetSelectedSensorPosition(int sensorPos,
 		int timeoutMs) {
-	return _ll->SetSelectedSensorPosition(sensorPos, timeoutMs);
+	return c_MotController_SetSelectedSensorPosition(m_handle, sensorPos, timeoutMs);
 }
 
 //------ status frame period changes ----------//
 ErrorCode BaseMotorController::SetControlFramePeriod(ControlFrame frame,
 		int periodMs) {
-	return _ll->SetControlFramePeriod(frame, periodMs);
+	return c_MotController_SetControlFramePeriod(m_handle, frame, periodMs);
 }
 ErrorCode BaseMotorController::SetStatusFramePeriod(StatusFrame frame,
 		int periodMs, int timeoutMs) {
-	return _ll->SetStatusFramePeriod(frame, periodMs, timeoutMs);
+	return c_MotController_SetStatusFramePeriod(m_handle, frame, periodMs, timeoutMs);
 }
 ErrorCode BaseMotorController::SetStatusFramePeriod(StatusFrameEnhanced frame,
 		int periodMs, int timeoutMs) {
-	return _ll->SetStatusFramePeriod(frame, periodMs, timeoutMs);
+	return c_MotController_SetStatusFramePeriod(m_handle, frame, periodMs, timeoutMs);
 }
 ErrorCode BaseMotorController::GetStatusFramePeriod(StatusFrame frame,
 		int & periodMs, int timeoutMs) {
-	return _ll->GetStatusFramePeriod(frame, periodMs, timeoutMs);
+	return c_MotController_GetStatusFramePeriod(m_handle, frame, &periodMs, timeoutMs);
 }
 ErrorCode BaseMotorController::GetStatusFramePeriod(StatusFrameEnhanced frame,
 		int & periodMs, int timeoutMs) {
-	return _ll->GetStatusFramePeriod(frame, periodMs, timeoutMs);
+	return c_MotController_GetStatusFramePeriod(m_handle, frame, &periodMs, timeoutMs);
 }
 
 //----- velocity signal conditionaing ------//
 ErrorCode BaseMotorController::ConfigVelocityMeasurementPeriod(
 		VelocityMeasPeriod period, int timeoutMs) {
-	return _ll->ConfigVelocityMeasurementPeriod(period, timeoutMs);
+	return c_MotController_ConfigVelocityMeasurementPeriod(m_handle, period, timeoutMs);
 }
 ErrorCode BaseMotorController::ConfigVelocityMeasurementWindow(int windowSize,
 		int timeoutMs) {
-	return _ll->ConfigVelocityMeasurementWindow(windowSize, timeoutMs);
+	return c_MotController_ConfigVelocityMeasurementWindow(m_handle, windowSize, timeoutMs);
 }
 
 //------ remote limit switch ----------//
@@ -252,7 +254,7 @@ ErrorCode BaseMotorController::ConfigForwardLimitSwitchSource(
 		RemoteLimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
 		int deviceID, int timeoutMs) {
 	LimitSwitchSource cciType = LimitSwitchRoutines::Promote(type);
-	return _ll->ConfigForwardLimitSwitchSource(cciType, normalOpenOrClose,
+	return c_MotController_ConfigForwardLimitSwitchSource(m_handle, cciType, normalOpenOrClose,
 			deviceID, timeoutMs);
 }
 
@@ -260,40 +262,40 @@ ErrorCode BaseMotorController::ConfigReverseLimitSwitchSource(
 		RemoteLimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
 		int deviceID, int timeoutMs) {
 	LimitSwitchSource cciType = LimitSwitchRoutines::Promote(type);
-	return _ll->ConfigReverseLimitSwitchSource(cciType, normalOpenOrClose,
+	return c_MotController_ConfigReverseLimitSwitchSource(m_handle, cciType, normalOpenOrClose,
 			deviceID, timeoutMs);
 }
 void BaseMotorController::EnableLimitSwitches(bool enable) {
-	_ll->EnableLimitSwitches(enable);
+	c_MotController_EnableLimitSwitches(m_handle, enable);
 }
 
 //------ local limit switch ----------//
 ErrorCode BaseMotorController::ConfigForwardLimitSwitchSource(
 		LimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
 		int timeoutMs) {
-	return _ll->ConfigForwardLimitSwitchSource(type, normalOpenOrClose, 0,
+	return c_MotController_ConfigForwardLimitSwitchSource(m_handle, type, normalOpenOrClose, 0,
 			timeoutMs);
 }
 ErrorCode BaseMotorController::ConfigReverseLimitSwitchSource(
 		LimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
 		int timeoutMs) {
-	return _ll->ConfigReverseLimitSwitchSource(type, normalOpenOrClose, 0,
+	return c_MotController_ConfigReverseLimitSwitchSource(m_handle, type, normalOpenOrClose, 0,
 			timeoutMs);
 }
 
 //------ soft limit ----------//
 ErrorCode BaseMotorController::ConfigForwardSoftLimit(int forwardSensorLimit,
 		int timeoutMs) {
-	return _ll->ConfigForwardSoftLimit(forwardSensorLimit, timeoutMs);
+	return c_MotController_ConfigForwardSoftLimit(m_handle, forwardSensorLimit, timeoutMs);
 }
 
 ErrorCode BaseMotorController::ConfigReverseSoftLimit(int reverseSensorLimit,
 		int timeoutMs) {
-	return _ll->ConfigReverseSoftLimit(reverseSensorLimit, timeoutMs);
+	return c_MotController_ConfigReverseSoftLimit(m_handle, reverseSensorLimit, timeoutMs);
 }
 
 void BaseMotorController::EnableSoftLimits(bool enable) {
-	_ll->EnableSoftLimits(enable);
+	c_MotController_EnableSoftLimits(m_handle, enable);
 }
 
 //------ Current Lim ----------//
@@ -302,47 +304,47 @@ void BaseMotorController::EnableSoftLimits(bool enable) {
 //------ General Close loop ----------//
 ErrorCode BaseMotorController::Config_kP(int slotIdx, float value,
 		int timeoutMs) {
-	return _ll->Config_kP(slotIdx, value, timeoutMs);
+	return c_MotController_Config_kP(m_handle, slotIdx, value, timeoutMs);
 }
 ErrorCode BaseMotorController::Config_kI(int slotIdx, float value,
 		int timeoutMs) {
-	return _ll->Config_kI(slotIdx, value, timeoutMs);
+	return c_MotController_Config_kI(m_handle, slotIdx, value, timeoutMs);
 }
 ErrorCode BaseMotorController::Config_kD(int slotIdx, float value,
 		int timeoutMs) {
-	return _ll->Config_kD(slotIdx, value, timeoutMs);
+	return c_MotController_Config_kD(m_handle, slotIdx, value, timeoutMs);
 }
 ErrorCode BaseMotorController::Config_kF(int slotIdx, float value,
 		int timeoutMs) {
-	return _ll->Config_kF(slotIdx, value, timeoutMs);
+	return c_MotController_Config_kF(m_handle, slotIdx, value, timeoutMs);
 }
 ErrorCode BaseMotorController::Config_IntegralZone(int slotIdx, int izone,
 		int timeoutMs) {
-	return _ll->Config_IntegralZone(slotIdx, izone, timeoutMs);
+	return c_MotController_Config_IntegralZone(m_handle, slotIdx, izone, timeoutMs);
 }
 ErrorCode BaseMotorController::ConfigAllowableClosedloopError(int slotIdx,
 		int allowableCloseLoopError, int timeoutMs) {
-	return _ll->ConfigAllowableClosedloopError(slotIdx, allowableCloseLoopError,
+	return c_MotController_ConfigAllowableClosedloopError(m_handle, slotIdx, allowableCloseLoopError,
 			timeoutMs);
 }
 ErrorCode BaseMotorController::ConfigMaxIntegralAccumulator(int slotIdx,
 		float iaccum, int timeoutMs) {
-	return _ll->ConfigMaxIntegralAccumulator(slotIdx, iaccum, timeoutMs);
+	return c_MotController_ConfigMaxIntegralAccumulator(m_handle, slotIdx, iaccum, timeoutMs);
 }
 
 ErrorCode BaseMotorController::SetIntegralAccumulator(float iaccum,
 		int timeoutMs) {
-	return _ll->SetIntegralAccumulator(iaccum, timeoutMs);
+	return c_MotController_SetIntegralAccumulator(m_handle, iaccum, timeoutMs);
 }
 
 ErrorCode BaseMotorController::GetClosedLoopError(int & closedLoopError) {
-	return SetLastError(_ll->GetClosedLoopError(closedLoopError, 0));
+	return SetLastError(c_MotController_GetClosedLoopError(m_handle, &closedLoopError, 0));
 }
 ErrorCode BaseMotorController::GetIntegralAccumulator(float & iaccum) {
-	return _ll->GetIntegralAccumulator(iaccum, 0);
+	return c_MotController_GetIntegralAccumulator(m_handle, &iaccum, 0);
 }
 ErrorCode BaseMotorController::GetErrorDerivative(float & derror) {
-	return SetLastError(_ll->GetErrorDerivative(derror, 0));
+	return SetLastError(c_MotController_GetErrorDerivative(m_handle, &derror, 0));
 }
 /**
  * SRX has two available slots for PID.
@@ -350,7 +352,7 @@ ErrorCode BaseMotorController::GetErrorDerivative(float & derror) {
  */
 void BaseMotorController::SelectProfileSlot(int slotIdx) {
 	m_profile = slotIdx; /* only get two slots for now */
-	_ll->SelectProfileSlot(m_profile);
+	c_MotController_SelectProfileSlot(m_handle, m_profile);
 }
 
 //------ Motion Profile Settings used in Motion Magic and Motion Profile ----------//
@@ -366,31 +368,31 @@ ErrorCode BaseMotorController::ConfigMotionAcceleration(
 //------ Motion Profile Buffer ----------//
 //void BaseMotorController::ClearMotionProfileTrajectories()
 //{
-//	_ll->ClearMotionProfileTrajectories();
+//	c_MotController_ClearMotionProfileTrajectories();
 //}
 //int BaseMotorController::GetMotionProfileTopLevelBufferCount()
 //{
-//	return _ll->GetMotionProfileTopLevelBufferCount();
+//	return c_MotController_GetMotionProfileTopLevelBufferCount();
 //}
 //bool BaseMotorController::IsMotionProfileTopLevelBufferFull()
 //{
-//	return _ll->IsMotionProfileTopLevelBufferFull();
+//	return c_MotController_IsMotionProfileTopLevelBufferFull();
 //}
 //void BaseMotorController::ProcessMotionProfileBuffer()
 //{
-//	_ll->ProcessMotionProfileBuffer();
+//	c_MotController_ProcessMotionProfileBuffer();
 //}
 //void BaseMotorController::GetMotionProfileStatus(Motion.MotionProfileStatus statusToFill)
 //{
-//	_ll->GetMotionProfileStatus(statusToFill);
+//	c_MotController_GetMotionProfileStatus(statusToFill);
 //}
 //ErrorCode BaseMotorController::PushMotionProfileTrajectory(Motion.TrajectoryPoint trajPt)
 //{
-//	return _ll->PushMotionProfileTrajectory(trajPt);
+//	return c_MotController_PushMotionProfileTrajectory(trajPt);
 //}
 //void BaseMotorController::ClearMotionProfileHasUnderrun(int timeoutMs)
 //{
-//	_ll->ClearMotionProfileHasUnderrun(timeoutMs);
+//	c_MotController_ClearMotionProfileHasUnderrun(timeoutMs);
 //}
 
 //------ error ----------//
@@ -419,31 +421,31 @@ ErrorCode BaseMotorController::ClearStickyFaults() {
 
 //------ Firmware ----------//
 int BaseMotorController::GetFirmwareVersion() {
-	return _ll->GetFirmwareVersion();
+	return c_MotController_GetFirmwareVersion(m_handle);
 }
 bool BaseMotorController::HasResetOccured() {
-	return _ll->HasResetOccured();
+	return c_MotController_HasResetOccurred(m_handle);
 }
 
 //------ Custom Persistent Params ----------//
 ErrorCode BaseMotorController::ConfigSetCustomParam(int newValue,
 		int paramIndex, int timeoutMs) {
-	return _ll->ConfigSetCustomParam(newValue, paramIndex, timeoutMs);
+	return c_MotController_ConfigSetCustomParam(m_handle, newValue, paramIndex, timeoutMs);
 }
 ErrorCode BaseMotorController::ConfigGetCustomParam(int & readValue,
 		int paramIndex, int timeoutMs) {
-	return _ll->ConfigGetCustomParam(readValue, paramIndex, timeoutMs);
+	return c_MotController_ConfigGetCustomParam(m_handle, &readValue, paramIndex, timeoutMs);
 }
 
 //------ Generic Param API, typically not used ----------//
 ErrorCode BaseMotorController::ConfigSetParameter(ParamEnum param, float value,
 		uint8_t subValue, int ordinal, int timeoutMs) {
-	return _ll->ConfigSetParameter(param, value, subValue, ordinal, timeoutMs);
+	return c_MotController_ConfigSetParameter(m_handle, param, value, subValue, ordinal, timeoutMs);
 
 }
 ErrorCode BaseMotorController::ConfigGetParameter(ParamEnum param,
 		float & value, int ordinal, int timeoutMs) {
-	ErrorCode retval = _ll->ConfigGetParameter(param, value, ordinal, timeoutMs);
+	ErrorCode retval = c_MotController_ConfigGetParameter(m_handle, param, &value, ordinal, timeoutMs);
 
 	return SetLastError(retval);
 }

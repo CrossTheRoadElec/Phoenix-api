@@ -1,5 +1,6 @@
 #include "ctre/phoenix/MotorControl/CAN/TalonSRX.h"
-#include "ctre/phoenix/LowLevel/MotController_LowLevel.h"
+#include "ctre/phoenix/CCI/MotController_CCI.h"
+//#include "ctre/phoenix/LowLevel/MotController_LowLevel.h"
 
 using namespace CTRE::MotorControl::CAN;
 
@@ -10,18 +11,18 @@ TalonSRX::TalonSRX(int deviceNumber) :
  //------ Current Lim ----------//
 ErrorCode TalonSRX::ConfigPeakCurrentLimit(int amps, int timeoutMs)
 {
-	return GetLowLevel().ConfigPeakCurrentLimit(amps, timeoutMs);
+	return c_MotController_ConfigPeakCurrentLimit(m_handle, amps, timeoutMs);
 }
 ErrorCode TalonSRX::ConfigPeakCurrentDuration(int milliseconds, int timeoutMs)
 {
-	return GetLowLevel().ConfigPeakCurrentDuration(milliseconds, timeoutMs);
+	return c_MotController_ConfigPeakCurrentDuration(m_handle, milliseconds, timeoutMs);
 }
 ErrorCode TalonSRX::ConfigContinuousCurrentLimit(int amps, int timeoutMs)
 {
-	return GetLowLevel().ConfigPeakCurrentDuration(amps, timeoutMs);
+	return c_MotController_ConfigPeakCurrentDuration(m_handle, amps, timeoutMs);
 }
 void TalonSRX::EnableCurrentLimit(bool enable)
 {
-	GetLowLevel().EnableCurrentLimit(enable);
+	c_MotController_EnableCurrentLimit(m_handle, enable);
 }
 

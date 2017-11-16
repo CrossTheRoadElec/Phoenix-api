@@ -80,7 +80,7 @@ ext.defineWpiUtilProperties = {
 		compileTask.dependsOn project(':').unzipWpiUtilHeaders
         String architecture = targetPlatform.architecture
         if (architecture.contains('arm')) {
-            linker.args wpiUtilSharedLib
+//            linker.args wpiUtilSharedLib
         }
     }
 }
