@@ -1,4 +1,4 @@
-package com.ctre.phoenix;
+package com.ctre.phoenix.MotorControl;
 
 public enum ParamEnum
 	{

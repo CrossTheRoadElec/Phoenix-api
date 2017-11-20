@@ -12,7 +12,7 @@ import com.ctre.phoenix.MotorControl.FeedbackDevice;
 import com.ctre.phoenix.MotorControl.StatusFrame;
 import com.ctre.phoenix.MotorControl.StatusFrameEnhanced;
 import com.ctre.phoenix.MotorControl.RemoteFeedbackDevice;
-import com.ctre.phoenix.ParamEnum;
+import com.ctre.phoenix.MotorControl.ParamEnum;
 import com.ctre.phoenix.ErrorCode;
 
 public class BaseMotorController implements com.ctre.phoenix.MotorControl.IMotorController {
