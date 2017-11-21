@@ -56,17 +56,29 @@ void BaseMotorController::Set(ControlMode mode, float demand0, float demand1) {
 	int status = 0;
 
 	switch (m_controlMode) {
-	case ControlMode::PercentOutput:
-	case ControlMode::TimedPercentOutput:
-		c_MotController_SetDemand(m_handle, (int)m_sendMode, (int) (1023 * demand0), 0);
-		break;
-	case ControlMode::Follower:
-		c_MotController_SetDemand(m_handle, (int)m_sendMode, (int) (demand0), 0);
-		break;
-	default:
-		c_MotController_SetDemand(m_handle, (int)m_sendMode, 0, 0);
-		break;
+		case ControlMode::PercentOutput:
+		case ControlMode::TimedPercentOutput:
+			c_MotController_SetDemand(m_handle, (int)m_sendMode, (int) (1023 * demand0), 0);
+			break;
+		case ControlMode::Follower:
+			c_MotController_SetDemand(m_handle, (int)m_sendMode, (int) (demand0), 0);
+			break;
 
+		case ControlMode::Velocity:
+		case ControlMode::Position:
+		case ControlMode::MotionMagic:
+		case ControlMode::MotionMagicArc:
+		case ControlMode::MotionProfile:
+			c_MotController_SetDemand(m_handle, (int)m_sendMode, (int) (demand0), 0);
+			break;
+		case ControlMode::Current:
+			c_MotController_SetDemand(m_handle, (int)m_sendMode, (int) (1000 * demand0), 0); /* milliamps */
+			break;
+		case ControlMode::Disabled:
+			/* fall thru...*/
+		default:
+			c_MotController_SetDemand(m_handle, (int)m_sendMode, 0, 0);
+			break;
 	}
 	//
 	//switch (m_controlMode)
@@ -360,11 +372,15 @@ void BaseMotorController::SelectProfileSlot(int slotIdx) {
 //------ Motion Profile Settings used in Motion Magic and Motion Profile ----------//
 ErrorCode BaseMotorController::ConfigMotionCruiseVelocity(
 		int sensorUnitsPer100ms, int timeoutMs) {
-	return ErrorCode::FeatureNotSupported;
+	return SetLastError(
+			c_MotController_ConfigMotionCruiseVelocity(m_handle,
+					sensorUnitsPer100ms, timeoutMs));
 }
 ErrorCode BaseMotorController::ConfigMotionAcceleration(
 		int sensorUnitsPer100msPerSec, int timeoutMs) {
-	return ErrorCode::FeatureNotSupported;
+	return SetLastError(
+			c_MotController_ConfigMotionAcceleration(m_handle,
+					sensorUnitsPer100msPerSec, timeoutMs));
 }
 
 //------ Motion Profile Buffer ----------//
@@ -412,13 +428,13 @@ ErrorCode BaseMotorController::SetLastError(ErrorCode error) {
 
 //------ Faults ----------//
 ErrorCode BaseMotorController::GetFaults(Faults & toFill) {
-	return SetLastError(_ll->GetFaults(toFill));
+	return ErrorCode::NotImplemented; // 	return SetLastError(_ll->GetFaults(toFill));
 }
-ErrorCode BaseMotorController::GetStickyFaults(Faults & toFill) {
-	return SetLastError(_ll->GetStickyFaults(toFill));
+ErrorCode BaseMotorController::GetStickyFaults(StickyFaults & toFill) {
+	return ErrorCode::NotImplemented; // return SetLastError(_ll->GetStickyFaults(toFill));
 }
 ErrorCode BaseMotorController::ClearStickyFaults(int timeoutMs) {
-	return SetLastError(_ll->ClearStickyFaults(timeoutMs));
+	return ErrorCode::NotImplemented; // return SetLastError(_ll->ClearStickyFaults(timeoutMs));
 }
 
 //------ Firmware ----------//
