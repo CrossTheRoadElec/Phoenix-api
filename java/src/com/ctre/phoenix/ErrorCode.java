@@ -68,7 +68,8 @@ public enum ErrorCode {
 
 	//General
 	GeneralWarning(100),
-	FeatureNotSupported(101);
+	FeatureNotSupported(101),
+	NotImplemented(102);
 	
 	//---------------------- Integral To Enum operators -----------//
     private int _value; //!< Hold the integral value of an enum instance.

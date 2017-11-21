@@ -112,7 +112,7 @@ public interface IMotorController
 
 	public ErrorCode SetIntegralAccumulator(double iaccum, int timeoutMs);
 
-	public int GetClosedLoopError(int slotIdx);
+	public int GetClosedLoopError();
 
 	public double GetIntegralAccumulator() ;
 
