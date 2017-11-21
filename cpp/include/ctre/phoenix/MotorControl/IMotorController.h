@@ -177,7 +177,7 @@ public:
 	/* in parent interface */
 
 	// ------ WPILIB ------//
-	virtual SpeedController & GetWPILIB_SpeedController() = 0;
+	virtual frc::SpeedController & GetWPILIB_SpeedController() = 0;
 };
 
 }

@@ -506,7 +506,7 @@ void BaseMotorController::ValueUpdated() {
 	//do nothing
 }
 // ----- WPILIB ------//
-SpeedController & BaseMotorController::GetWPILIB_SpeedController()
+frc::SpeedController & BaseMotorController::GetWPILIB_SpeedController()
 {
 	return *_wpilibSpeedController;
 }

@@ -172,7 +172,7 @@ public:
 	virtual void Follow(IMotorController & masterToFollow);
 	virtual void ValueUpdated();
 	// ----- WPILIB --------//
-	virtual SpeedController & GetWPILIB_SpeedController();
+	virtual frc::SpeedController & GetWPILIB_SpeedController();
 
 	//------ RAW Sensor API ----------//
 	/**
