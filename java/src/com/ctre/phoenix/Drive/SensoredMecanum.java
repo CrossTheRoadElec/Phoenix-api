@@ -14,14 +14,14 @@
 //    boolean _rightSensor;
 //
 //    /** Encoder heading properties */
-//    public float distanceBetweenWheels;
-//    public float wheelRadius;
-//    float tinyScalor = 1;   /* Not sure if I should make this setable */
+//    public double distanceBetweenWheels;
+//    public double wheelRadius;
+//    double tinyScalor = 1;   /* Not sure if I should make this setable */
 //
 //    /** Constructor that takes 4 SmartMotorcontrollers with a sensor on each side. Also, ask for FeedbackDevice and whether front sensor is used or back sensor is used */
-//    public SensoredMecanum(SmartMotorController m1, SmartMotorController m2, SmartMotorController m3, SmartMotorController m4, SmartMotorController.FeedbackDevice feedbackDevice, boolean useLeftFrontSensor, boolean useRightFrontSensor, float wheelRadius, float distanceBetweenWheels)
+//    public SensoredMecanum(SmartMotorController m1, SmartMotorController m2, SmartMotorController m3, SmartMotorController m4, SmartMotorController.FeedbackDevice feedbackDevice, boolean useLeftFrontSensor, boolean useRightFrontSensor, double wheelRadius, double distanceBetweenWheels)
 //    {
-//    	if(wheelRadius < 0.01) //Float value, can't use == 0
+//    	if(wheelRadius < 0.01) //double value, can't use == 0
 //    		com.ctre.phoenix.CTRLogger.Log(-500, "Sensored Mecanum");
 //    	
 //        GroupMotorControllers.Register(m1);
@@ -45,9 +45,9 @@
 //    }
 //
 //    /** Constructor that takes 4 SensoredGearboxes */
-//    public SensoredMecanum(SensoredGearbox m1, SensoredGearbox m2, SensoredGearbox m3, SensoredGearbox m4, float wheelRadius, float distanceBetweenWheels)
+//    public SensoredMecanum(SensoredGearbox m1, SensoredGearbox m2, SensoredGearbox m3, SensoredGearbox m4, double wheelRadius, double distanceBetweenWheels)
 //    {
-//    	if(wheelRadius < 0.01) //Float value, can't use == 0
+//    	if(wheelRadius < 0.01) //double value, can't use == 0
 //    		com.ctre.phoenix.CTRLogger.Log(-500, "Sensored Mecanum");
 //    	
 //        GroupMotorControllers.Register(m1.GetMaster());
@@ -72,11 +72,11 @@
 //     * @param   forward     Y direction of robot
 //     * @param   turn        twist of the robot
 //     */
-//    public void set(Styles.Smart mode, float forward, float turn)
+//    public void set(Styles.Smart mode, double forward, double turn)
 //    {
 //        Drive(mode, forward, 0, turn);
 //    }
-//    public void set(Styles.Basic basicStyle, float forward, float turn)
+//    public void set(Styles.Basic basicStyle, double forward, double turn)
 //    {
 //        set(Styles.Promote(basicStyle), forward, turn);
 //    }
@@ -88,11 +88,11 @@
 //     * @param   strafe      X direction of robot
 //     * @param   turn        twist of the robot (arch)
 //     */
-//    public void set(Styles.Smart mode, float forward, float strafe, float turn)
+//    public void set(Styles.Smart mode, double forward, double strafe, double turn)
 //    {
 //        Drive(mode, forward, strafe, turn);
 //    }
-//    public void set(Styles.Basic basicStyle, float forward, float strafe, float turn)
+//    public void set(Styles.Basic basicStyle, double forward, double strafe, double turn)
 //    {
 //        set(Styles.Promote(basicStyle), forward, turn);
 //    }
@@ -107,27 +107,27 @@
 //    }
 //
 //    /** Grab the distance from the left and right encoder */
-//    public float GetDistance()
+//    public double GetDistance()
 //    { 
-//        float l = GetLeftPosition();
-//        float r = GetRightPosition();
+//        double l = GetLeftPosition();
+//        double r = GetRightPosition();
 //
 //        return (l + r) * 0.5f;
 //    }
 //
 //    /** Grab the velocity from the left and right encoder */
-//    public float GetVelocity()
+//    public double GetVelocity()
 //    {
-//        float l = GetLeftVelocity();
-//        float r = GetRightVelocity();
+//        double l = GetLeftVelocity();
+//        double r = GetRightVelocity();
 //
 //        return (l + r) * 0.5f;
 //    }
 //
-//    public float GetEncoderHeading()
+//    public double GetEncoderHeading()
 //    {
-//        float l = GetLeftPosition();
-//        float r = GetRightPosition();
+//        double l = GetLeftPosition();
+//        double r = GetRightPosition();
 //        
 //        if(wheelRadius < 0.01)
 //        {
@@ -140,13 +140,13 @@
 //    		com.ctre.phoenix.CTRLogger.Log(-502, "Sensored Mecanum");
 //        	return 0;
 //        }
-//        float unitsPerTick = (float)(2 * Math.PI * wheelRadius);
-//        float theta = ((r - l) / (distanceBetweenWheels / unitsPerTick) * (float)(180 / Math.PI)) * tinyScalor;
+//        double unitsPerTick = (double)(2 * Math.PI * wheelRadius);
+//        double theta = ((r - l) / (distanceBetweenWheels / unitsPerTick) * (double)(180 / Math.PI)) * tinyScalor;
 //
 //        return theta;
 //    }
 //
-//    public void SetPosition(float position)
+//    public void SetPosition(double position)
 //    {
 //        _1.SetSensor(position);
 //        _2.SetSensor(position);
@@ -154,12 +154,12 @@
 //        _4.SetSensor(position);
 //    }
 //
-//    private void Drive(Styles.Smart mode, float forward, float strafe, float turn)
+//    private void Drive(Styles.Smart mode, double forward, double strafe, double turn)
 //    {
-//        float leftFrnt_throt = (forward + strafe + turn); // left front moves positive for forward, strafe-right, turn-right
-//        float leftRear_throt = (forward - strafe + turn); // left rear moves positive for forward, strafe-left, turn-right
-//        float rghtFrnt_throt = (forward - strafe - turn); // right front moves positive for forward, strafe-left, turn-left
-//        float rghtRear_throt = (forward + strafe - turn); // right rear moves positive for forward, strafe-right, turn-left
+//        double leftFrnt_throt = (forward + strafe + turn); // left front moves positive for forward, strafe-right, turn-right
+//        double leftRear_throt = (forward - strafe + turn); // left rear moves positive for forward, strafe-left, turn-right
+//        double rghtFrnt_throt = (forward - strafe - turn); // right front moves positive for forward, strafe-left, turn-left
+//        double rghtRear_throt = (forward + strafe - turn); // right rear moves positive for forward, strafe-right, turn-left
 //
 //        if (mode == Styles.Smart.Voltage)
 //        {
@@ -190,14 +190,14 @@
 //    }
 //
 //    /** Right and left postion */
-//    private float GetLeftPosition()
+//    private double GetLeftPosition()
 //    {
 //        if (_leftSensor)
 //            return _1.GetPosition();
 //        else
 //            return _2.GetPosition();
 //    }
-//    private float GetRightPosition()
+//    private double GetRightPosition()
 //    {
 //        if (_rightSensor)
 //            return _4.GetPosition();
@@ -206,14 +206,14 @@
 //    }
 //
 //    /** Right and left velocity */
-//    private float GetLeftVelocity()
+//    private double GetLeftVelocity()
 //    {
 //        if (_leftSensor)
 //            return _1.GetVelocity();
 //        else
 //            return _2.GetVelocity();
 //    }
-//    private float GetRightVelocity()
+//    private double GetRightVelocity()
 //    {
 //        if (_rightSensor)
 //            return _4.GetVelocity();
@@ -221,7 +221,7 @@
 //            return _3.GetVelocity();
 //    }
 //
-//    public void ConfigNominalPercentOutputVoltage(float forwardVoltage, float reverseVoltage)
+//    public void ConfigNominalPercentOutputVoltage(double forwardVoltage, double reverseVoltage)
 //    {
 //        _1.ConfigNominalOutputVoltage(forwardVoltage, reverseVoltage);
 //        _2.ConfigNominalOutputVoltage(forwardVoltage, reverseVoltage);
@@ -229,7 +229,7 @@
 //        _4.ConfigNominalOutputVoltage(forwardVoltage, reverseVoltage);
 //    }
 //
-//    public void ConfigPeakPercentOutputVoltage(float forwardVoltage, float reverseVoltage)
+//    public void ConfigPeakPercentOutputVoltage(double forwardVoltage, double reverseVoltage)
 //    {
 //        _1.ConfigPeakOutputVoltage(forwardVoltage, reverseVoltage);
 //        _2.ConfigPeakOutputVoltage(forwardVoltage, reverseVoltage);
@@ -237,7 +237,7 @@
 //        _4.ConfigPeakOutputVoltage(forwardVoltage, reverseVoltage);
 //    }
 //
-//    public void SetVoltageCompensationRampRate(float RampRate)
+//    public void SetVoltageCompensationRampRate(double RampRate)
 //    {
 //        _1.SetVoltageCompensationRampRate(RampRate);
 //        _2.SetVoltageCompensationRampRate(RampRate);
@@ -245,7 +245,7 @@
 //        _4.SetVoltageCompensationRampRate(RampRate);
 //    }
 //
-//    public void SetVoltageRampRate(float RampRate)
+//    public void SetVoltageRampRate(double RampRate)
 //    {
 //        _1.SetVoltageRampRate(RampRate);
 //        _2.SetVoltageRampRate(RampRate);
@@ -254,7 +254,7 @@
 //    }
 //
 //    /* IMotionMagical */
-//    public void SetMotionMagicAcceleration(float rotationsPerMinPerSec)
+//    public void SetMotionMagicAcceleration(double rotationsPerMinPerSec)
 //    {
 //        _1.SetMotionMagicAcceleration(rotationsPerMinPerSec);
 //        _2.SetMotionMagicAcceleration(rotationsPerMinPerSec);
@@ -262,7 +262,7 @@
 //        _4.SetMotionMagicAcceleration(rotationsPerMinPerSec);
 //    }
 //
-//    public void SetMotionMagicCruiseVelocity(float rotationsPerMin)
+//    public void SetMotionMagicCruiseVelocity(double rotationsPerMin)
 //    {
 //        _1.SetMotionMagicCruiseVelocity(rotationsPerMin);
 //        _2.SetMotionMagicCruiseVelocity(rotationsPerMin);

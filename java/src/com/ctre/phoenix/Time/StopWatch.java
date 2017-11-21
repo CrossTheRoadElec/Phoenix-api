@@ -10,9 +10,9 @@ public class StopWatch
 		_t0 = System.currentTimeMillis();
 	}
 	
-	public float getDuration()
+	public double getDuration()
 	{
-		return (float)getDurationMs() / 1000;
+		return (double)getDurationMs() / 1000;
 	}
 	public int getDurationMs()
 	{

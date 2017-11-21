@@ -33,40 +33,40 @@
 //    } 
 //	
 //	/** Inherited from IDrivetrain */
-//    public void set(Styles.Basic mode, float forward, float turn)
+//    public void set(Styles.Basic mode, double forward, double turn)
 //    {
-//        float l, r;
+//        double l, r;
 //        l = forward + turn;
 //        r = forward - turn;
 //
 //        Drive(mode, l, r);
 //    }
 //    
-//    public void SetVoltageRampRate(float rampRate)
+//    public void SetVoltageRampRate(double rampRate)
 //    {
 //        _left.SetVoltageRampRate(rampRate);
 //        _right.SetVoltageRampRate(rampRate);
 //    }
 //
-//    public void SetVoltageCompensationRampRate(float rampRate)
+//    public void SetVoltageCompensationRampRate(double rampRate)
 //    {
 //        _left.SetVoltageCompensationRampRate(rampRate);
 //        _right.SetVoltageCompensationRampRate(rampRate);
 //    }
 //
-//    public void ConfigPeakPercentOutputVoltage(float forwardVoltage, float reverseVoltage)
+//    public void ConfigPeakPercentOutputVoltage(double forwardVoltage, double reverseVoltage)
 //    {
 //        _left.ConfigPeakOutputVoltage(forwardVoltage, reverseVoltage);
 //        _right.ConfigPeakOutputVoltage(forwardVoltage, reverseVoltage);
 //    }
 //
-//    public void ConfigNominalPercentOutputVoltage(float forwardVoltage, float reverseVoltage)
+//    public void ConfigNominalPercentOutputVoltage(double forwardVoltage, double reverseVoltage)
 //    {
 //        _left.ConfigNominalOutputVoltage(forwardVoltage, reverseVoltage);
 //        _right.ConfigNominalOutputVoltage(forwardVoltage, reverseVoltage);
 //    }
 //
-//    private void Drive(Styles.Basic mode, float left, float right)
+//    private void Drive(Styles.Basic mode, double left, double right)
 //    {
 //        if (mode == Styles.Basic.Voltage)
 //        {

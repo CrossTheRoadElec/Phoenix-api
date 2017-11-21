@@ -2,7 +2,7 @@ package com.ctre.phoenix;
 
 public class Util
 {
-	public static float Cap(float value, float peak)
+	public static double Cap(double value, double peak)
 	{
 		if(value < -peak) value = -peak;
 		if(value > peak) value = peak;

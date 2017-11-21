@@ -4,6 +4,7 @@
 #include "ctre/phoenix/MotorControl/IMotorController.h"
 #include "ctre/phoenix/MotorControl/ControlMode.h"
 #include "ctre/phoenix/MotorControl/Faults.h"
+#include "ctre/phoenix/MotorControl/StickyFaults.h"
 #include "ctre/phoenix/MotorControl/VelocityMeasPeriod.h"
 #include "ctre/phoenix/Motion/TrajectoryPoint.h"
 #include "ctre/phoenix/Motion/MotionProfileStatus.h"
@@ -149,7 +150,7 @@ public:
 	ErrorCode GetLastError();
 	//------ Faults ----------//
 	ErrorCode GetFaults(Faults & toFill);
-	ErrorCode GetStickyFaults(Faults & toFill);
+	ErrorCode GetStickyFaults(StickyFaults & toFill);
 	ErrorCode ClearStickyFaults(int timeoutMs);
 	//------ Firmware ----------//
 	int GetFirmwareVersion();

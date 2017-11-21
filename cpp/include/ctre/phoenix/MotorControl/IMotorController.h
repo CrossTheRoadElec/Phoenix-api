@@ -7,6 +7,7 @@
 #include "ctre/phoenix/MotorControl/StatusFrame.h"
 #include "ctre/phoenix/MotorControl/LimitSwitchType.h"
 #include "ctre/phoenix/MotorControl/Faults.h"
+#include "ctre/phoenix/MotorControl/StickyFaults.h"
 #include "ctre/phoenix/framing/ParamEnum.h"
 #include "ctre/phoenix/Motion/TrajectoryPoint.h"
 #include "ctre/phoenix/Motion/MotionProfileStatus.h"
@@ -147,7 +148,7 @@ public:
 
 	//------ Faults ----------//
 	virtual ErrorCode GetFaults(Faults & toFill) = 0;
-	virtual ErrorCode GetStickyFaults(Faults & toFill) = 0;
+	virtual ErrorCode GetStickyFaults(StickyFaults & toFill) = 0;
 	virtual ErrorCode ClearStickyFaults(int timeoutMs) = 0;
 
 	//------ Firmware ----------//

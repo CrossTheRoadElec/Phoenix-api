@@ -2,17 +2,17 @@ package com.ctre.phoenix.Motion;
 
 public class ServoParameters
 {
-	public float P = 0;
-	public float I = 0;
-	public float D = 0;
-	public float maxOut = 0;
-	public float nominalOut = 0;
-	public float IZone = 0;
-	public float IMax = 0;
-	public float allowedError = 0;
-	public float timeToDone = 0;
+	public double P = 0;
+	public double I = 0;
+	public double D = 0;
+	public double maxOut = 0;
+	public double nominalOut = 0;
+	public double IZone = 0;
+	public double IMax = 0;
+	public double allowedError = 0;
+	public double timeToDone = 0;
 	
-	private float IAccum = 0;
+	private double IAccum = 0;
 	private com.ctre.phoenix.Time.StopWatch _st = new com.ctre.phoenix.Time.StopWatch();
 	private boolean hasStarted = false;
 	
@@ -26,7 +26,7 @@ public class ServoParameters
 	}
 	
 	//Sensor Derivative added for use with Pigeon get raw gyro and Talon get velocity measurement
-	public float PID(float error, float sensorDerivative)
+	public double PID(double error, double sensorDerivative)
 	{
 		//First call to PID means the stopwatch is guaranteed to have started
 		hasStarted = true;
@@ -35,7 +35,7 @@ public class ServoParameters
 		if(IAccum < -IMax) IAccum = -IMax;
 		if(Math.abs(error) > IZone) resetIAccum();
 		
-		float out = (P * error) + IAccum - (D * sensorDerivative);
+		double out = (P * error) + IAccum - (D * sensorDerivative);
 		if(Math.abs(error) > allowedError)
 		{
 			if(out > maxOut) out = maxOut;

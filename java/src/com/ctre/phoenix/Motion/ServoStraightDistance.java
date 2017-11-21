@@ -25,10 +25,10 @@ public class ServoStraightDistance implements com.ctre.phoenix.ILoopable
 	ServoGoStraight StraightDrive;
 	com.ctre.phoenix.Time.StopWatch _myStopWatch = new com.ctre.phoenix.Time.StopWatch();
 	
-	float _targetDistance;
-    float _targetHeading;
-    float _previousDistance;
-    float _timeElapsed;
+	double _targetDistance;
+    double _targetHeading;
+    double _previousDistance;
+    double _timeElapsed;
 
     boolean _isRunning = false;
     boolean _isDone = false;
@@ -36,7 +36,7 @@ public class ServoStraightDistance implements com.ctre.phoenix.ILoopable
     
 
     /** Straight servo constuctor that takes a smart drive train */
-    public ServoStraightDistance(ISmartDrivetrain driveTrain, Styles.Smart selectedStyle, ServoParameters turnParams, ServoParameters distanceParams, float targetHeading, float targetDistance)
+    public ServoStraightDistance(ISmartDrivetrain driveTrain, Styles.Smart selectedStyle, ServoParameters turnParams, ServoParameters distanceParams, double targetHeading, double targetDistance)
     {
         _driveTrain = driveTrain;
         _selectedStyle = selectedStyle;
@@ -75,39 +75,39 @@ public class ServoStraightDistance implements com.ctre.phoenix.ILoopable
             StraightDrive = new ServoGoStraight(_driveTrain, Styles.Smart.VelocityClosedLoop);
     }
 
-    public void Set(float targetHeading, float targetDistance)
+    public void Set(double targetHeading, double targetDistance)
     {
 		_targetHeading = targetHeading;
 		_targetDistance = targetDistance;
     }
 
     /** Return the heading from the encoders */
-    public float GetEncoderHeading()
+    public double GetEncoderHeading()
     {
         return _driveTrain.GetEncoderHeading();
     }
 
     /** Return the encoder distance of the drive train */
-    public float GetEncoderDistance()
+    public double GetEncoderDistance()
     {
         return _driveTrain.GetDistance();
     }
 
-    private void StraightDistance(float targetHeading, float targetDistance)
+    private void StraightDistance(double targetHeading, double targetDistance)
     {
     	if(straightServoParams.P == 0 && straightServoParams.I == 0 && straightServoParams.D == 0)
     		com.ctre.phoenix.CTRLogger.Log(-503, "Servo Straight Distance");
     	if(distanceServoParams.P == 0 && distanceServoParams.I == 0 && distanceServoParams.D == 0)
     		com.ctre.phoenix.CTRLogger.Log(-503, "Servo Straight Distance");
         /* Grab current heading and distance*/
-        float currentDistance = GetEncoderDistance();
+        double currentDistance = GetEncoderDistance();
 
         /* Find the error between the target and current value */
-        float distanceRate = _driveTrain.GetVelocity();
+        double distanceRate = _driveTrain.GetVelocity();
 
         /* Distance PID */
-        float distanceError = targetDistance - currentDistance;
-        float Y = distanceServoParams.PID(distanceError, distanceRate);
+        double distanceError = targetDistance - currentDistance;
+        double Y = distanceServoParams.PID(distanceError, distanceRate);
 
         /* StraightDrive moded selected when created within constructor */
         if (_selectedStyle == Styles.Smart.Voltage)

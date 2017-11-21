@@ -16,15 +16,15 @@ public class ServoGoStraightWithImuSmart implements com.ctre.phoenix.ILoopable
 		servoParams = params;
 	}
 
-    float _Y;
-    float _targetHeading;
+    double _Y;
+    double _targetHeading;
 
     boolean _isRunning = false;
     boolean _isDone = false;
 
 
     /** Constructor that uses ServoGoStraightWithImuSmart as an ILoopable */
-    public ServoGoStraightWithImuSmart(PigeonImu pigeonImu, ISmartDrivetrain driveTrain, Styles.Smart selectedStyle, ServoParameters straightParameters, float Y, float targetHeading)
+    public ServoGoStraightWithImuSmart(PigeonImu pigeonImu, ISmartDrivetrain driveTrain, Styles.Smart selectedStyle, ServoParameters straightParameters, double Y, double targetHeading)
     {
         _pidgey = pigeonImu;
         _driveTrain = driveTrain;
@@ -47,29 +47,29 @@ public class ServoGoStraightWithImuSmart implements com.ctre.phoenix.ILoopable
         _selectedStyle = selectedStyle;
     }
 
-    public void Set(float Y, float targetHeading)
+    public void Set(double Y, double targetHeading)
     {
 		_Y = Y;
 		_targetHeading = targetHeading;
     }
 
     /** Return the heading from the Pigeon*/
-    public float GetImuHeading()
+    public double GetImuHeading()
     {
-        return (float)_pidgey.GetYawPitchRoll()[0];
+        return (double)_pidgey.GetYawPitchRoll()[0];
     }
 	
 	public void resetIAccum() { servoParams.resetIAccum(); }
 
-    private void GoStraight(float Y, float targetHeading)
+    private void GoStraight(double Y, double targetHeading)
     {
     	if(servoParams.P == 0 && servoParams.I == 0 && servoParams.D == 0)
     		com.ctre.phoenix.CTRLogger.Log(-503, "Servo Go Straight With IMU Smart");
         /* Grab current heading */
-        float currentHeading = GetImuHeading();
+        double currentHeading = GetImuHeading();
 
         /* Grab angular rate from the pigeon */
-        float currentAngularRate = (float)_pidgey.GetRawGyro()[2];
+        double currentAngularRate = (double)_pidgey.GetRawGyro()[2];
 
         /* Grab Pigeon IMU status */
         boolean angleIsGood = (_pidgey.GetState() == PigeonImu.PigeonState.Ready) ? true : false;
@@ -78,8 +78,8 @@ public class ServoGoStraightWithImuSmart implements com.ctre.phoenix.ILoopable
         if (angleIsGood == true)
         {
             /* Heading PID */
-            float headingError = targetHeading - currentHeading;
-            float X = servoParams.PID(headingError, currentAngularRate);
+            double headingError = targetHeading - currentHeading;
+            double X = servoParams.PID(headingError, currentAngularRate);
             X = -X;
 
             /* Select control mode based on selected style */

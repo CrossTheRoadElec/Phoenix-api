@@ -1,5 +1,7 @@
 package com.ctre.phoenix;
 
+import java.util.HashMap;
+
 public enum ErrorCode {
 	//OK(0),
 
@@ -68,10 +70,28 @@ public enum ErrorCode {
 	GeneralWarning(100),
 	FeatureNotSupported(101);
 	
-	public int value;
-	ErrorCode(int value)
-	{
-		this.value = value;
-	}
-
+	//---------------------- Integral To Enum operators -----------//
+    private int _value; //!< Hold the integral value of an enum instance.
+    /** Keep singleton map to quickly lookup enum via int */
+    private static HashMap<Integer, ErrorCode> _map = null;
+    /** private c'tor for above declarations */
+	private ErrorCode(int value) {_value = value;	}
+	/** static c'tor, prepare the map */
+    static {
+    	_map = new HashMap<Integer, ErrorCode>();
+		for (ErrorCode type : ErrorCode.values()) {
+			_map.put(type._value, type);
+		}
+    }
+    /** public lookup to convert int to enum */
+	public static ErrorCode valueOf(int value) {
+		ErrorCode retval = _map.get(value);
+		if (retval != null)
+			return retval;
+		return GeneralError;
+    }
+	/** @return integral value of enum instance */
+    public int getValue() {
+        return _value;
+    }
 };

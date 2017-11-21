@@ -26,17 +26,17 @@
 //		_4 = temp4;
 //	}
 //	
-//	public void set(Styles.Basic mode, float forward, float turn)
+//	public void set(Styles.Basic mode, double forward, double turn)
 //	{
 //		Drive(mode, forward, 0, turn);
 //	}
 //	
-//	public void set(Styles.Basic mode, float forward, float strafe, float turn)
+//	public void set(Styles.Basic mode, double forward, double strafe, double turn)
 //	{
 //		Drive(mode, forward, strafe, turn);
 //	}
 //	
-//	public void SetVoltageRampRate(float rampRate)
+//	public void SetVoltageRampRate(double rampRate)
 //    {
 //        _1.SetVoltageRampRate(rampRate);
 //        _2.SetVoltageRampRate(rampRate);
@@ -44,7 +44,7 @@
 //        _4.SetVoltageRampRate(rampRate);
 //    }
 //
-//    public void SetVoltageCompensationRampRate(float rampRate)
+//    public void SetVoltageCompensationRampRate(double rampRate)
 //    {
 //        _1.SetVoltageCompensationRampRate(rampRate);
 //        _2.SetVoltageCompensationRampRate(rampRate);
@@ -52,7 +52,7 @@
 //        _4.SetVoltageCompensationRampRate(rampRate);
 //    }
 //
-//    public void ConfigPeakPercentOutputVoltage(float forwardVoltage, float reverseVoltage)
+//    public void ConfigPeakPercentOutputVoltage(double forwardVoltage, double reverseVoltage)
 //    {
 //        _1.ConfigPeakOutputVoltage(forwardVoltage, reverseVoltage);
 //        _2.ConfigPeakOutputVoltage(forwardVoltage, reverseVoltage);
@@ -60,7 +60,7 @@
 //        _4.ConfigPeakOutputVoltage(forwardVoltage, reverseVoltage);
 //    }
 //
-//    public void ConfigNominalPercentOutputVoltage(float forwardVoltage, float reverseVoltage)
+//    public void ConfigNominalPercentOutputVoltage(double forwardVoltage, double reverseVoltage)
 //    {
 //        _1.ConfigNominalOutputVoltage(forwardVoltage, reverseVoltage);
 //        _2.ConfigNominalOutputVoltage(forwardVoltage, reverseVoltage);
@@ -68,12 +68,12 @@
 //        _4.ConfigNominalOutputVoltage(forwardVoltage, reverseVoltage);
 //    } 
 //    
-//    private void Drive(Styles.Basic mode, float forward, float strafe, float turn)
+//    private void Drive(Styles.Basic mode, double forward, double strafe, double turn)
 //    {
-//        float leftFrnt_throt = (forward + strafe + turn); // left front moves positive for forward, strafe-right, turn-right
-//        float leftRear_throt = (forward - strafe + turn); // left rear moves positive for forward, strafe-left, turn-right
-//        float rghtFrnt_throt = (forward - strafe - turn); // right front moves positive for forward, strafe-left, turn-left
-//        float rghtRear_throt = (forward + strafe - turn); // right rear moves positive for forward, strafe-right, turn-left
+//        double leftFrnt_throt = (forward + strafe + turn); // left front moves positive for forward, strafe-right, turn-right
+//        double leftRear_throt = (forward - strafe + turn); // left rear moves positive for forward, strafe-left, turn-right
+//        double rghtFrnt_throt = (forward - strafe - turn); // right front moves positive for forward, strafe-left, turn-left
+//        double rghtRear_throt = (forward + strafe - turn); // right rear moves positive for forward, strafe-right, turn-left
 //
 //        /* Set control mode */
 //        if(mode == Styles.Basic.PercentOutput)

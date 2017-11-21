@@ -20,14 +20,14 @@
 //		servoParams = params;
 //	}
 //
-//    float _targetHeading;
+//    double _targetHeading;
 //	
 //    boolean _isRunning = false;
 //    boolean _isDone = false;
 //    byte _isGood = 0;
 //
 //    /** Constructor */
-//    public ServoZeroTurnWithImu(PigeonImu pigeonImu, IDrivetrain IDrivetrain, Styles.Basic selectedStyle, float targetHeading, ServoParameters Params)
+//    public ServoZeroTurnWithImu(PigeonImu pigeonImu, IDrivetrain IDrivetrain, Styles.Basic selectedStyle, double targetHeading, ServoParameters Params)
 //    {
 //        _pidgey = pigeonImu;
 //        _IDrivetrain = IDrivetrain;
@@ -45,25 +45,25 @@
 //        _selectedStyle = style;
 //    }
 //
-//    public void Set(float targetHeading)
+//    public void Set(double targetHeading)
 //    {
 //		_targetHeading = targetHeading;
 //    }
 //
-//    public float GetImuHeading()
+//    public double GetImuHeading()
 //    {
-//        return (float)_pidgey.GetYawPitchRoll()[0];
+//        return (double)_pidgey.GetYawPitchRoll()[0];
 //    }
 //
-//    private void ZeroTurn(float targetHeading)
+//    private void ZeroTurn(double targetHeading)
 //    {
 //    	if(servoParams.P == 0 && servoParams.I == 0 && servoParams.D == 0)
 //    		com.ctre.phoenix.CTRLogger.Log(-503, "Servo Zero Turn IMU");
 //        /* Grab the current heading */
-//        float currentHeading = GetImuHeading();
+//        double currentHeading = GetImuHeading();
 //
 //        /* Grab angular rate from the pigeon */
-//        float currentAngularRate = (float)_pidgey.GetRawGyro()[2];
+//        double currentAngularRate = (double)_pidgey.GetRawGyro()[2];
 //
 //        /* Grab Pigeon IMU status */
 //        boolean angleIsGood = (_pidgey.GetState() == PigeonImu.PigeonState.Ready) ? true : false;
@@ -72,8 +72,8 @@
 //        if (angleIsGood == true)
 //        {
 //            /* Heading PID */
-//            float headingError = targetHeading - currentHeading;
-//            float X = servoParams.PID(headingError, currentAngularRate);
+//            double headingError = targetHeading - currentHeading;
+//            double X = servoParams.PID(headingError, currentAngularRate);
 //            X = -X;
 //
 //

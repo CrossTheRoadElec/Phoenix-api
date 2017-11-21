@@ -4,20 +4,20 @@
 //
 //public class SensoredGearbox implements com.ctre.phoenix.Signals.IInvertable
 //{
-//	private float _unitsPerRevolution;
-//	private float _scalar;
+//	private double _unitsPerRevolution;
+//	private double _scalar;
 //	
 //	private boolean _isInverted;
 //	public SmartMotorController _controller;
 //	
 //	
-//	public SensoredGearbox(float unitsPerRevolution, SmartMotorController mc1, SmartMotorController.FeedbackDevice feedback)
+//	public SensoredGearbox(double unitsPerRevolution, SmartMotorController mc1, SmartMotorController.FeedbackDevice feedback)
 //	{
 //		_controller = mc1;
 //		_unitsPerRevolution = unitsPerRevolution;
 //		_controller.setFeedbackDevice(feedback);
 //	}
-//	public SensoredGearbox(float unitsPerRevolution, SmartMotorController mc1, IFollower mc2, SmartMotorController.FeedbackDevice feedback)
+//	public SensoredGearbox(double unitsPerRevolution, SmartMotorController mc1, IFollower mc2, SmartMotorController.FeedbackDevice feedback)
 //	{
 //		_controller = mc1;
 //		_unitsPerRevolution = unitsPerRevolution;
@@ -25,7 +25,7 @@
 //		
 //		mc2.follow(_controller);
 //	}
-//	public SensoredGearbox(float unitsPerRevolution, SmartMotorController mc1, IFollower mc2, IFollower mc3, SmartMotorController.FeedbackDevice feedback)
+//	public SensoredGearbox(double unitsPerRevolution, SmartMotorController mc1, IFollower mc2, IFollower mc3, SmartMotorController.FeedbackDevice feedback)
 //	{
 //		_controller = mc1;
 //		_unitsPerRevolution = unitsPerRevolution;
@@ -34,7 +34,7 @@
 //		mc2.follow(_controller);
 //		mc3.follow(_controller);
 //	}
-//	public SensoredGearbox(float unitsPerRevolution, SmartMotorController mc1, IFollower mc2, IFollower mc3, IFollower mc4, SmartMotorController.FeedbackDevice feedback)
+//	public SensoredGearbox(double unitsPerRevolution, SmartMotorController mc1, IFollower mc2, IFollower mc3, IFollower mc4, SmartMotorController.FeedbackDevice feedback)
 //	{
 //		_controller = mc1;
 //		_unitsPerRevolution = unitsPerRevolution;
@@ -48,16 +48,16 @@
 //	 /**
 //     * @return The geared output position in rotations.
 //     */
-//    public float GetPosition()
+//    public double GetPosition()
 //    {
-//        return (float)com.ctre.phoenix.Util.scaleNativeUnitsToRotations(_unitsPerRevolution, (long)_controller.getPosition());
+//        return (double)com.ctre.phoenix.Util.scaleNativeUnitsToRotations(_unitsPerRevolution, (long)_controller.getPosition());
 //    }
 //    /**
 //     * @return The geared output velocity in rotations per minute.
 //     */
-//    public float GetVelocity()
+//    public double GetVelocity()
 //    {
-//        return (float)com.ctre.phoenix.Util.scaleNativeUnitsToRpm(_unitsPerRevolution, (long)_controller.getSpeed());
+//        return (double)com.ctre.phoenix.Util.scaleNativeUnitsToRpm(_unitsPerRevolution, (long)_controller.getSpeed());
 //    }
 //
 //    public void SetCurrentLimit(int currentLimitAmps, int timeoutms)
@@ -65,7 +65,7 @@
 //        _controller.setCurrentLimit(currentLimitAmps);
 //    }
 //
-//    public void Set(float output)
+//    public void Set(double output)
 //    {
 //        if (_isInverted)
 //            output = -output;
@@ -80,7 +80,7 @@
 //    }
 //
 //    /** Set the limits on the forward and reverse drive */
-//    public void SetLimits(float forwardLimit, float reverseLimit)
+//    public void SetLimits(double forwardLimit, double reverseLimit)
 //    {
 //        _controller.setForwardSoftLimit(com.ctre.phoenix.Util.scaleRotationsToNativeUnits(_unitsPerRevolution, forwardLimit));
 //        _controller.setReverseSoftLimit(com.ctre.phoenix.Util.scaleRotationsToNativeUnits(_unitsPerRevolution, reverseLimit));
@@ -108,39 +108,39 @@
 //        _controller.reverseSensor(invert);
 //    }
 //
-//    public void SetSensor(float position)
+//    public void SetSensor(double position)
 //    {
 //        _controller.setPosition(com.ctre.phoenix.Util.scaleRotationsToNativeUnits(_unitsPerRevolution, position));
 //    }
 //
-//    public void ConfigNominalOutputVoltage(float forwardVoltage, float reverseVoltage)
+//    public void ConfigNominalOutputVoltage(double forwardVoltage, double reverseVoltage)
 //    {
 //        _controller.configNominalOutputVoltage(forwardVoltage, reverseVoltage);
 //    }
 //
-//    public void ConfigPeakOutputVoltage(float forwardVoltage, float reverseVoltage)
+//    public void ConfigPeakOutputVoltage(double forwardVoltage, double reverseVoltage)
 //    {
 //        _controller.configPeakOutputVoltage(forwardVoltage, reverseVoltage);
 //    }
 //
-//    public void SetVoltageCompensationRampRate(float RampRate)
+//    public void SetVoltageCompensationRampRate(double RampRate)
 //    {
 //        _controller.setVoltageCompensationRate(RampRate);
 //    }
 //
-//    public void SetVoltageRampRate(float RampRate)
+//    public void SetVoltageRampRate(double RampRate)
 //    {
 //        _controller.setVoltageRampRate(RampRate);
 //    }
 //
 //    /* IMotionMagical */
 //    /* Motion Magic stuff */
-//    public void SetMotionMagicCruiseVelocity(float RPM)
+//    public void SetMotionMagicCruiseVelocity(double RPM)
 //    {
 //        _controller.setMotionMagicCruiseVelocity(com.ctre.phoenix.Util.scaleVelocityToNativeUnits(_unitsPerRevolution, RPM));
 //    }
 //
-//    public void SetMotionMagicAcceleration(float RPM)
+//    public void SetMotionMagicAcceleration(double RPM)
 //    {
 //        _controller.setMotionMagicAcceleration(com.ctre.phoenix.Util.scaleVelocityToNativeUnits(_unitsPerRevolution, RPM));
 //    }

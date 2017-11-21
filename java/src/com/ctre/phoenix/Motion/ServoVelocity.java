@@ -9,17 +9,17 @@
 //{
 //
 //    SensoredGearbox Gearbox;
-//    float _targetVelocity = 0;
+//    double _targetVelocity = 0;
 //    
 //    /* SmartMotorController Constructor */
-//    public ServoVelocity(SmartMotorController motor, SmartMotorController.FeedbackDevice feedbackDevice, float velocity)
+//    public ServoVelocity(SmartMotorController motor, SmartMotorController.FeedbackDevice feedbackDevice, double velocity)
 //    {
 //        SensoredGearbox temp1 = new SensoredGearbox(1, motor, feedbackDevice);
 //        Gearbox = temp1;
 //        _targetVelocity = velocity;
 //    }
 //    /* SensoredGearbox Constructor */
-//    public ServoVelocity(SensoredGearbox gearbox, float velocity)
+//    public ServoVelocity(SensoredGearbox gearbox, double velocity)
 //    {
 //        Gearbox = gearbox;
 //        _targetVelocity = velocity;
@@ -36,7 +36,7 @@
 //        Gearbox.Set(0);
 //    }
 //    
-//    public void Set(float targetSpeed, float maxOut)
+//    public void Set(double targetSpeed, double maxOut)
 //    {
 //    	Gearbox.ConfigPeakOutputVoltage(maxOut, -maxOut);
 //    	Gearbox.SetControlMode(SmartControlMode.kSpeed);

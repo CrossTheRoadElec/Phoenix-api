@@ -217,7 +217,7 @@ public class PigeonImu
 	 */
 	public PigeonImu(TalonSRX talonSrx)
 	{
-		m_deviceNumber = talonSrx.getDeviceID();
+		m_deviceNumber = talonSrx.GetDeviceID();
 		m_handle = PigeonImuJNI.JNI_new_PigeonImu_Talon(m_deviceNumber);
 	}
 

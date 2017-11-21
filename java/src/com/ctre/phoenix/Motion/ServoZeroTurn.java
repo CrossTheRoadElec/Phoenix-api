@@ -20,16 +20,16 @@
 //	
 //    StopWatch _myStopwatch = new StopWatch();
 //
-//    float _targetHeading;
-//    float _previousHeading;
-//    float _timeElapsed;
+//    double _targetHeading;
+//    double _previousHeading;
+//    double _timeElapsed;
 //
 //    boolean _isRunning = false;
 //    boolean _isDone = false;
 //    byte _isGood = 0;
 //
 //    /** Constructor */
-//    public ServoZeroTurn(ISmartDrivetrain driveTrain, Styles.Smart smartStyle, float targetHeading, ServoParameters Params)
+//    public ServoZeroTurn(ISmartDrivetrain driveTrain, Styles.Smart smartStyle, double targetHeading, ServoParameters Params)
 //    {
 //        _driveTrain = driveTrain;
 //        _selectedStyle = smartStyle;
@@ -45,31 +45,31 @@
 //        _selectedStyle = style;
 //    }
 //
-//    public void Set(float targetHeading)
+//    public void Set(double targetHeading)
 //    {
 //		_targetHeading = targetHeading;
 //    }
 //
-//    public float GetEncoderHeading()
+//    public double GetEncoderHeading()
 //    {
 //        return _driveTrain.GetEncoderHeading();
 //    }
 //
-//    private void ZeroTurn(float targetHeading)
+//    private void ZeroTurn(double targetHeading)
 //    {
 //    	if(servoParams.P == 0 && servoParams.I == 0 && servoParams.D == 0)
 //    		com.ctre.phoenix.CTRLogger.Log(-503, "Servo Zero Turn");
 //        /* Grab the current heading*/
-//        float currentHeading = GetEncoderHeading();
+//        double currentHeading = GetEncoderHeading();
 //
 //        /* Find the difference between last heading and current heading */
 //        _timeElapsed = _myStopwatch.getDuration();
-//        float headingRate = currentHeading - _previousHeading;
+//        double headingRate = currentHeading - _previousHeading;
 //        _myStopwatch.start();
 //
 //        /* Heading PID */
-//        float headingError = targetHeading - currentHeading;
-//        float X = servoParams.PID(headingError, headingRate);
+//        double headingError = targetHeading - currentHeading;
+//        double X = servoParams.PID(headingError, headingRate);
 //        X = -X;
 //
 //

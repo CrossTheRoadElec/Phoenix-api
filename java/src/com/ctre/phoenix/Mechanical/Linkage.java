@@ -70,22 +70,22 @@
 //		return _isInverted;
 //	}
 //	
-//	public void SetVoltageRampRate(float rampRate)
+//	public void SetVoltageRampRate(double rampRate)
 //    {
 //        _motor.setVoltageRampRate(rampRate);
 //    }
 //
-//    public void SetVoltageCompensationRampRate(float rampRate)
+//    public void SetVoltageCompensationRampRate(double rampRate)
 //    {
 //        _motor.setVoltageRampRate(rampRate);
 //    }
 //
-//    public void ConfigNominalOutputVoltage(float forwardVoltage, float reverseVoltage)
+//    public void ConfigNominalOutputVoltage(double forwardVoltage, double reverseVoltage)
 //    {
 //        _motor.configNominalOutputVoltage(forwardVoltage, reverseVoltage);
 //    }
 //
-//    public void ConfigPeakOutputVoltage(float forwardVoltage, float reverseVoltage)
+//    public void ConfigPeakOutputVoltage(double forwardVoltage, double reverseVoltage)
 //    {
 //        _motor.configPeakOutputVoltage(forwardVoltage, reverseVoltage);
 //    }

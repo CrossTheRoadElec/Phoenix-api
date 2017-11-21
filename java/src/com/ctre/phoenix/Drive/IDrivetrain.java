@@ -2,9 +2,9 @@ package com.ctre.phoenix.Drive;
 
 public interface IDrivetrain
 {
-	void set(Styles.Basic mode, float forward, float turn);
-	void SetVoltageRampRate(float rampRate);
-	void SetVoltageCompensationRampRate(float rampRate);
-    void ConfigPeakPercentOutputVoltage(float forwardVoltage, float reverseVoltage); // TODO: rename to PercentOutput
-    void ConfigNominalPercentOutputVoltage(float forwardVoltage, float reverseVoltage); // TODO: rename to PercentOutput
+	void set(Styles.Basic mode, double forward, double turn);
+	void SetVoltageRampRate(double rampRate);
+	void SetVoltageCompensationRampRate(double rampRate);
+    void ConfigPeakPercentOutputVoltage(double forwardVoltage, double reverseVoltage); // TODO: rename to PercentOutput
+    void ConfigNominalPercentOutputVoltage(double forwardVoltage, double reverseVoltage); // TODO: rename to PercentOutput
 }
