@@ -68,14 +68,23 @@ void BaseMotorController::Set(ControlMode mode, float demand0, float demand1) {
 	m_setPoint = demand0;
 
 	int status = 0;
-
+	uint32_t work;
 	switch (m_controlMode) {
 		case ControlMode::PercentOutput:
 		case ControlMode::TimedPercentOutput:
 			c_MotController_SetDemand(m_handle, (int)m_sendMode, (int) (1023 * demand0), 0);
 			break;
 		case ControlMode::Follower:
-			c_MotController_SetDemand(m_handle, (int)m_sendMode, (int) (demand0), 0);
+			/* did caller specify device ID */
+			if ( (0 <= demand0) && (demand0 <= 62)) { // [0,62]
+				work = (uint32_t)GetBaseID();
+				work >>= 16;
+				work <<= 8;
+				work |= (uint8_t)demand0;
+			} else {
+				work = (uint32_t)demand0;
+			}
+			c_MotController_SetDemand(m_handle, (int)m_sendMode, work, 0);
 			break;
 
 		case ControlMode::Velocity:
@@ -490,7 +499,7 @@ void BaseMotorController::Follow(IMotorController & masterToFollow) {
 	uint32_t baseId = masterToFollow.GetBaseID();
 	uint32_t id24 = (uint16_t) (baseId >> 0x10);
 	id24 <<= 8;
-	id24 |= (uint8_t) (baseId >> 0x00);
+	id24 |= (uint8_t) (baseId);
 	Set(ControlMode::Follower, (float)id24);
 }
 void BaseMotorController::ValueUpdated() {
