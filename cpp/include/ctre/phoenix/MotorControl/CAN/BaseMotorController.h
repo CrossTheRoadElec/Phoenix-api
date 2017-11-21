@@ -8,13 +8,15 @@
 #include "ctre/phoenix/MotorControl/VelocityMeasPeriod.h"
 #include "ctre/phoenix/Motion/TrajectoryPoint.h"
 #include "ctre/phoenix/Motion/MotionProfileStatus.h"
+/* WPILIB */
+#include "SpeedController.h"
 
 /* forward proto's */
 namespace CTRE {
 namespace MotorControl {
 namespace LowLevel {
-	class MotControllerWithBuffer_LowLevel;
-	class MotController_LowLevel;
+class MotControllerWithBuffer_LowLevel;
+class MotController_LowLevel;
 }
 }
 }
@@ -23,10 +25,9 @@ namespace CTRE {
 namespace MotorControl {
 namespace CAN {
 
-class BaseMotorController: public virtual IMotorController {
+class BaseMotorController: public virtual IMotorController{
 private:
 	ErrorCode _lastError = (ErrorCode)0;
-	// _sensColl;
 
 	ControlMode m_controlMode = ControlMode::PercentOutput;
 	ControlMode m_sendMode = ControlMode::PercentOutput;
@@ -40,12 +41,16 @@ private:
 
 	ErrorCode SetLastError(int error);
 	ErrorCode SetLastError(ErrorCode error);
+
+	frc::SpeedController * _wpilibSpeedController;
 protected:
 	void* m_handle;
 	void* GetHandle();
 public:
 	BaseMotorController(int arbId);
+	~BaseMotorController();
 	int GetDeviceID();
+	virtual void Set(float value);
 	virtual void Set(ControlMode Mode, float value);
 	virtual void Set(ControlMode mode, float demand0, float demand1);
 	virtual void NeutralOutput();
@@ -166,6 +171,9 @@ public:
 	// ----- Follower ------//
 	virtual void Follow(IMotorController & masterToFollow);
 	virtual void ValueUpdated();
+	// ----- WPILIB --------//
+	virtual SpeedController & GetWPILIB_SpeedController();
+
 	//------ RAW Sensor API ----------//
 	/**
 	 * @retrieve object that can get/set individual RAW sensor values.

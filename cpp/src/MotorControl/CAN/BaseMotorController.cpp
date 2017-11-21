@@ -1,6 +1,7 @@
 ﻿#include "ctre/phoenix/MotorControl/CAN/BaseMotorController.h"
 #include "ctre/phoenix/CCI/MotController_CCI.h"
 #include "ctre/phoenix/LowLevel/MotControllerWithBuffer_LowLevel.h"
+#include "../WpilibSpeedController.h"
 
 using namespace CTRE::MotorControl;
 using namespace CTRE::MotorControl::CAN;
@@ -18,7 +19,15 @@ BaseMotorController::BaseMotorController(int arbId) {
 	m_handle = c_MotController_Create1(arbId);
 	_arbId = arbId;
 
+	_wpilibSpeedController = new CTRE::MotorControl::WpilibSpeedController(this);
+
 	//_sensColl = new SensorCollection(_ll);
+}
+
+BaseMotorController::~BaseMotorController()
+{
+	delete _wpilibSpeedController;
+	_wpilibSpeedController = 0;
 }
 
 void* BaseMotorController::GetHandle()
@@ -31,19 +40,24 @@ int BaseMotorController::GetDeviceID()
 }
 //------ Set output routines. ----------//
 /**
- * Sets the appropriate output on the talon, depending on the mode.
+ * Puts motor controller into PercentOutput mode.
+ * @param value Percent output [-1,+1]
+ */
+void BaseMotorController::Set(float value) {
+	Set(ControlMode::PercentOutput, value, 0);
+}
+/**
+ * @param Mode Sets the appropriate output on the talon, depending on the mode.
  *
  * In PercentOutput, the output is between -1.0 and 1.0, with 0.0 as stopped.
- * In Voltage mode, output value is in volts.
  * In Current mode, output value is in amperes.
- * In Speed mode, output value is in position change / 100ms.
+ * In Velocity mode, output value is in position change / 100ms.
  * In Position mode, output value is in encoder ticks or an analog value,
  *   depending on the sensor.
  * In Follower mode, the output value is the integer device ID of the talon to
  * duplicate.
  *
- * @param outputValue The setpoint value, as described above.
- * @see SelectProfileSlot to choose between the two sets of gains.
+ * @param value The setpoint value, as described above.
  */
 void BaseMotorController::Set(ControlMode Mode, float value) {
 	Set(Mode, value, 0);
@@ -482,4 +496,8 @@ void BaseMotorController::Follow(IMotorController & masterToFollow) {
 void BaseMotorController::ValueUpdated() {
 	//do nothing
 }
-
+// ----- WPILIB ------//
+SpeedController & BaseMotorController::GetWPILIB_SpeedController()
+{
+	return *_wpilibSpeedController;
+}

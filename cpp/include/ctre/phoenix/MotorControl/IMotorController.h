@@ -13,6 +13,8 @@
 #include "ctre/phoenix/Motion/MotionProfileStatus.h"
 #include "ctre/phoenix/core/ErrorCode.h"
 #include "IFollower.h"
+/* WPILIB */
+#include "SpeedController.h"
 
 namespace CTRE {
 namespace MotorControl {
@@ -22,6 +24,7 @@ public:
 	virtual ~IMotorController() {
 	}
 	//------ Set output routines. ----------//
+	virtual void Set(float value) = 0;
 	virtual void Set(ControlMode Mode, float demand) = 0;
 	virtual void Set(ControlMode Mode, float demand0, float demand1) = 0;
 	virtual void NeutralOutput() = 0;
@@ -172,6 +175,9 @@ public:
 
 	// ----- Follower ------//
 	/* in parent interface */
+
+	// ------ WPILIB ------//
+	virtual SpeedController & GetWPILIB_SpeedController() = 0;
 };
 
 }
