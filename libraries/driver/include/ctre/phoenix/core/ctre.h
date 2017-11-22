@@ -45,43 +45,4 @@ typedef unsigned long	ULONG;
 
 #include "ctre/Phoenix/core/ErrorCode.h"
 
-//
-//typedef enum {
-//		OKAY = 0,					//!< No Error - Function executed as expected
-//
-//		//CAN-Related
-//		TxFailed = -1,				//!< Could not transmit the CAN frame.
-//		InvalidParamValue = -2, 	//!< Caller passed an invalid param
-//		RxTimeout = -3,				//!< CAN frame has not been received within specified period of time.
-//		TxTimeout = -4,				//!< Not used.
-//		UnexpectedArbId = -5,		//!< Specified CAN Id is invalid.
-//		BufferFull = -6,			//!< Caller attempted to insert data into a buffer that is full.
-//		SensorNotPresent = -7,		//!< Sensor is not present
-//
-//		//General
-//		GeneralError = -100,		//!< User Specified General Error
-//
-//		//??
-//		SigNotUpdated = -200,			//!< Have not received an value response for signal.
-//		NotAllPIDValuesUpdated = -201,
-//
-//		//API
-//		WheelRadiusTooSmall = -500,
-//		TicksPerRevZero = -501,
-//		DistanceBetweenWheelsTooSmall = -502,
-//
-//		//Higher Level
-//		IncompatibleMode = -600,
-//		InvalidHandle = -601,		//!< Handle does not match stored map of handles
-//
-//
-//		//CAN Related
-//		PulseWidthSensorNotPresent = 1,	//!< Special Code for "isSensorPresent"
-//
-//		//General
-//		GeneralWarning = 100,
-//		//FeatureNotSupported = 101,
-//
-//}CTR_Code;
-
 #endif /* CTRE_H */

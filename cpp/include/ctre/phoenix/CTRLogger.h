@@ -1,4 +1,5 @@
 #include "ctre/phoenix/core/ctre.h"
+#include "ctre/phoenix/core/ErrorCode.h" // CTR_Code
 #include <string>
 
 namespace CTRE {

@@ -8,7 +8,7 @@
 #include "ctre/phoenix/MotorControl/LimitSwitchType.h"
 #include "ctre/phoenix/MotorControl/Faults.h"
 #include "ctre/phoenix/MotorControl/StickyFaults.h"
-#include "ctre/phoenix/framing/ParamEnum.h"
+#include "ctre/phoenix/defs/paramEnum.h"
 #include "ctre/phoenix/Motion/TrajectoryPoint.h"
 #include "ctre/phoenix/Motion/MotionProfileStatus.h"
 #include "ctre/phoenix/core/ErrorCode.h"

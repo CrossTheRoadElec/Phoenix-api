@@ -228,7 +228,7 @@ int PigeonImu::HandleError(int errorCode)
 	/* error handler */
 	if (errorCode != 0) {
 		/* what should we do here? */
-	    wpi_setErrorWithContext(errorCode, HAL_GetErrorMessage(errorCode));
+	    //wpi_setErrorWithContext(errorCode, HAL_GetErrorMessage(errorCode));
 	}
 	/* mirror last status */
 	_lastError = errorCode;

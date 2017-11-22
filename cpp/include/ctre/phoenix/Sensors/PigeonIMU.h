@@ -24,9 +24,9 @@
 #pragma once
 
 #ifndef CTR_EXCLUDE_WPILIB_CLASSES
-#include "ctre/phoenix/Platform/CANBusManager.h"
+#include <string>
 #include "ctre/phoenix/LowLevel/CANBusAddressable.h"
-#include "ErrorBase.h"
+//#include "ErrorBase.h" // TODO replace with logger
 
 /* forward prototype */
 namespace CTRE {
@@ -40,8 +40,7 @@ namespace CTRE {
  * Pigeon IMU Class.
  * Class supports communicating over CANbus and over ribbon-cable (CAN Talon SRX).
  */
-class PigeonImu : 	public CANBusAddressable,
-					public frc::ErrorBase {
+class PigeonImu : 	public CANBusAddressable { /*public frc::ErrorBase*/		
 public:
 	/** Data object for holding fusion information. */
 	struct FusionStatus {
