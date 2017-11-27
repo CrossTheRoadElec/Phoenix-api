@@ -4,7 +4,7 @@
 
 namespace CTRE { namespace Motion {
 
-ServoStraightDistanceWithImu::ServoStraightDistanceWithImu(CTRE::PigeonImu *pigeonImu, CTRE::Drive::ISmartDrivetrain *drivetrain, CTRE::Drive::Styles::Smart selectedStyle, ServoParameters *straightParameters,
+ServoStraightDistanceWithImu::ServoStraightDistanceWithImu(CTRE::PigeonIMU *pigeonImu, CTRE::Drive::ISmartDrivetrain *drivetrain, CTRE::Drive::Styles::Smart selectedStyle, ServoParameters *straightParameters,
 		ServoParameters *distanceParameters, float targetHeading, float targetDistance, float headingTolerance, float distanceTolerance, float maxOutput)
 {
     _pidgey = pigeonImu;
@@ -39,7 +39,7 @@ ServoStraightDistanceWithImu::ServoStraightDistanceWithImu(CTRE::PigeonImu *pige
 
     _maxOutput = maxOutput;
 }
-ServoStraightDistanceWithImu::ServoStraightDistanceWithImu(CTRE::PigeonImu *pigeonImu, CTRE::Drive::ISmartDrivetrain *drivetrain, CTRE::Drive::Styles::Smart selectedStyle){
+ServoStraightDistanceWithImu::ServoStraightDistanceWithImu(CTRE::PigeonIMU *pigeonImu, CTRE::Drive::ISmartDrivetrain *drivetrain, CTRE::Drive::Styles::Smart selectedStyle){
     _pidgey = pigeonImu;
     _driveTrain = drivetrain;
     _selectedStyle = selectedStyle;

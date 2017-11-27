@@ -40,7 +40,7 @@ namespace CTRE {
  * Pigeon IMU Class.
  * Class supports communicating over CANbus and over ribbon-cable (CAN Talon SRX).
  */
-class PigeonImu : 	public CANBusAddressable { /*public frc::ErrorBase*/		
+class PigeonIMU : 	public CANBusAddressable { /*public frc::ErrorBase*/		
 public:
 	/** Data object for holding fusion information. */
 	struct FusionStatus {
@@ -103,12 +103,12 @@ public:
 		 * The current state of the motion driver.  This reflects if the sensor signals are accurate.
 		 * Most calibration modes will force Pigeon to reinit the motion driver.
 		 */
-		PigeonImu::PigeonState state;
+		PigeonIMU::PigeonState state;
 		/**
 		 * The currently applied calibration mode if state is in UserCalibration or if bCalIsBooting is true.
 		 * Otherwise it holds the last selected calibration mode (when calibrationError was updated).
 		 */
-		PigeonImu::CalibrationMode currentMode;
+		PigeonIMU::CalibrationMode currentMode;
 		/**
 		 * The error code for the last calibration mode.
 		 * Zero represents a successful cal (with solid green LEDs at end of cal)
@@ -179,8 +179,8 @@ public:
 		StatusFrameRate_BiasedStatus_6_Accel = 10,
 	};
 
-	PigeonImu(int deviceNumber);
-	PigeonImu(CTRE::MotorControl::CAN::TalonSRX * talonSrx);
+	PigeonIMU(int deviceNumber);
+	PigeonIMU(CTRE::MotorControl::CAN::TalonSRX * talonSrx);
 
 	/**
 	 * General setter to allow for the use of future features, without having to update API.
@@ -206,7 +206,7 @@ public:
 	int SetCompassAngle(double angleDeg);
 
 	int EnterCalibrationMode(CalibrationMode calMode);
-	int GetGeneralStatus(PigeonImu::GeneralStatus & genStatusToFill);
+	int GetGeneralStatus(PigeonIMU::GeneralStatus & genStatusToFill);
 	int GetLastError();
 	int Get6dQuaternion(double wxyz[4]);
 	int GetYawPitchRoll(double ypr[3]);
@@ -232,7 +232,7 @@ public:
 
 	bool HasResetOccured();
 
-	static std::string ToString(PigeonImu::PigeonState state);
+	static std::string ToString(PigeonIMU::PigeonState state);
 	static std::string ToString(CalibrationMode cm);
 	
 	void* GetLowLevelHandle() {return m_handle;}
@@ -297,7 +297,7 @@ private:
 	int ConfigSetParameter(ParamEnum paramEnum, TareType tareType, double angleDeg);
 	int HandleError(int errorCode);
 
-	PigeonImu::PigeonState GetState(int errCode, const uint64_t & statusFrame);
+	PigeonIMU::PigeonState GetState(int errCode, const uint64_t & statusFrame);
 	double GetTemp(const uint64_t & statusFrame);
 	
 	void ApplyUsageStats(UsageFlags Usage);

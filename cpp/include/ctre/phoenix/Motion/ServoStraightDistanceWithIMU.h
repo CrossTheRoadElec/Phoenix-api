@@ -13,9 +13,9 @@ class ServoStraightDistanceWithImu : public CTRE::Tasking::ILoopable{
 public:
 	ServoParameters *straightServoParameters = new ServoParameters();
 	ServoParameters *distanceServoParameters = new ServoParameters();
-	ServoStraightDistanceWithImu(CTRE::PigeonImu *pigeonImu, CTRE::Drive::ISmartDrivetrain *drivetrain, CTRE::Drive::Styles::Smart selectedStyle, ServoParameters *straightParameters,
+	ServoStraightDistanceWithImu(CTRE::PigeonIMU *pigeonImu, CTRE::Drive::ISmartDrivetrain *drivetrain, CTRE::Drive::Styles::Smart selectedStyle, ServoParameters *straightParameters,
 			ServoParameters *distanceParameters, float targetHeading, float targetDistance, float headingTolerance, float distanceTolerance, float maxOutput);
-	ServoStraightDistanceWithImu(CTRE::PigeonImu *pigeonImu, CTRE::Drive::ISmartDrivetrain *drivetrain, CTRE::Drive::Styles::Smart selectedStyle);
+	ServoStraightDistanceWithImu(CTRE::PigeonIMU *pigeonImu, CTRE::Drive::ISmartDrivetrain *drivetrain, CTRE::Drive::Styles::Smart selectedStyle);
 	bool Set(float targetHeading, float targetDistance, float headingTolerance, float distanceTolerance, float maxOutput);
 	float GetImuHeading();
 	float GetEncoderDistance();
@@ -25,7 +25,7 @@ public:
 	void OnLoop();
 
 private:
-    CTRE::PigeonImu *_pidgey;
+    CTRE::PigeonIMU *_pidgey;
     CTRE::Drive::ISmartDrivetrain *_driveTrain;
     CTRE::Drive::Styles::Smart _selectedStyle;
     ServoGoStraightWithImuSmart *StraightDrive;

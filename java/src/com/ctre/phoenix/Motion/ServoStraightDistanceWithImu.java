@@ -1,12 +1,12 @@
 package com.ctre.phoenix.Motion;
 
-import com.ctre.phoenix.Sensors.PigeonImu;
+import com.ctre.phoenix.Sensors.PigeonIMU;
 import com.ctre.phoenix.Drive.*;
 import com.ctre.phoenix.Time.StopWatch;
 
 public class ServoStraightDistanceWithImu implements com.ctre.phoenix.ILoopable
 {
-	 PigeonImu _pidgey;
+	 PigeonIMU _pidgey;
      ISmartDrivetrain _driveTrain;
      Styles.Smart _selectedStyle;
 	 
@@ -40,7 +40,7 @@ public class ServoStraightDistanceWithImu implements com.ctre.phoenix.ILoopable
 
 
      /** Constructor that uses ServoStraightDistanceWithImu as an ILoopable */
-     public ServoStraightDistanceWithImu(PigeonImu pigeonImu, ISmartDrivetrain drivetrain, Styles.Smart selectedStyle, ServoParameters straightParameters, ServoParameters distanceParameters, double targetHeading, double targetDistance)
+     public ServoStraightDistanceWithImu(PigeonIMU pigeonImu, ISmartDrivetrain drivetrain, Styles.Smart selectedStyle, ServoParameters straightParameters, ServoParameters distanceParameters, double targetHeading, double targetDistance)
      {
          _pidgey = pigeonImu;
          _driveTrain = drivetrain;
@@ -65,7 +65,7 @@ public class ServoStraightDistanceWithImu implements com.ctre.phoenix.ILoopable
      }
 
      /** Constructor that uses ServoStraightDistanceWithImu as an ILoopable */
-     public ServoStraightDistanceWithImu(PigeonImu pigeonImu, ISmartDrivetrain drivetrain, Styles.Smart selectedStyle)
+     public ServoStraightDistanceWithImu(PigeonIMU pigeonImu, ISmartDrivetrain drivetrain, Styles.Smart selectedStyle)
      {
          _pidgey = pigeonImu;
          _driveTrain = drivetrain;

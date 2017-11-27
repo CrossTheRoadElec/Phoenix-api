@@ -12,9 +12,9 @@ namespace CTRE { namespace Motion {
 class ServoGoStraightWithImuSmart : public CTRE::Tasking::ILoopable{
 public:
 	ServoParameters *servoParameters = new ServoParameters();
-	ServoGoStraightWithImuSmart(CTRE::PigeonImu *pigeonImu, CTRE::Drive::ISmartDrivetrain *driveTrain, CTRE::Drive::Styles::Smart selectedStyle,
+	ServoGoStraightWithImuSmart(CTRE::PigeonIMU *pigeonImu, CTRE::Drive::ISmartDrivetrain *driveTrain, CTRE::Drive::Styles::Smart selectedStyle,
 			ServoParameters *straightParameters, float Y, float targetHeading, float headingTolerance, float maxOutput);
-	ServoGoStraightWithImuSmart(CTRE::PigeonImu *pigeonImu, CTRE::Drive::ISmartDrivetrain *driveTrain, CTRE::Drive::Styles::Smart selectedStyle);
+	ServoGoStraightWithImuSmart(CTRE::PigeonIMU *pigeonImu, CTRE::Drive::ISmartDrivetrain *driveTrain, CTRE::Drive::Styles::Smart selectedStyle);
 	bool Set(float Y, float targetHeading, float headingTolerance, float maxOutput);
 	float GetImuHeading();
 	void OnStart();
@@ -23,7 +23,7 @@ public:
 	void OnLoop();
 
 private:
-    CTRE::PigeonImu *_pidgey;
+    CTRE::PigeonIMU *_pidgey;
     CTRE::Drive::ISmartDrivetrain *_driveTrain;
     CTRE::Drive::Styles::Smart _selectedStyle;
     float _Y;

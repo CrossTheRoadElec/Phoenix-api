@@ -28,7 +28,7 @@ import com.ctre.phoenix.MotorControl.CAN.TalonSRX;
  * Pigeon IMU Class.
  * Class supports communicating over CANbus and over ribbon-cable (CAN Talon SRX).
  */
-public class PigeonImu
+public class PigeonIMU
 {
 	private long m_handle;
 	/** Data object for holding fusion information. */
@@ -205,7 +205,7 @@ public class PigeonImu
 	 * Create a Pigeon object that communicates with Pigeon on CAN Bus.
 	 * @param deviceNumber CAN Device Id of Pigeon [0,62]
 	 */
-	public PigeonImu(int deviceNumber)
+	public PigeonIMU(int deviceNumber)
 	{
 		m_handle = PigeonImuJNI.JNI_new_PigeonImu(deviceNumber);
 		m_deviceNumber = deviceNumber;
@@ -215,7 +215,7 @@ public class PigeonImu
 	 * Create a Pigeon object that communciates with Pigeon through the Gadgeteer ribbon
 	 * @param talonSrx cable connected to a Talon on CAN Bus.
 	 */
-	public PigeonImu(TalonSRX talonSrx)
+	public PigeonIMU(TalonSRX talonSrx)
 	{
 		m_deviceNumber = talonSrx.GetDeviceID();
 		m_handle = PigeonImuJNI.JNI_new_PigeonImu_Talon(m_deviceNumber);

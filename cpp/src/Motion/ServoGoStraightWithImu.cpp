@@ -4,7 +4,7 @@
 
 namespace CTRE { namespace Motion {
 
-ServoGoStraightWithImu::ServoGoStraightWithImu(CTRE::PigeonImu *pigeonImu, CTRE::Drive::IDrivetrain *driveTrain, CTRE::Drive::Styles::Basic selectedStyle,
+ServoGoStraightWithImu::ServoGoStraightWithImu(CTRE::PigeonIMU *pigeonImu, CTRE::Drive::IDrivetrain *driveTrain, CTRE::Drive::Styles::Basic selectedStyle,
 		ServoParameters *parameters, float Y, float targetHeading, float headingTolerance, float maxOutput)
 {
 	_pidgey = pigeonImu;
@@ -20,7 +20,7 @@ ServoGoStraightWithImu::ServoGoStraightWithImu(CTRE::PigeonImu *pigeonImu, CTRE:
 
 	_maxOutput = maxOutput;
 }
-ServoGoStraightWithImu::ServoGoStraightWithImu(CTRE::PigeonImu *pigeonImu, CTRE::Drive::IDrivetrain *driveTrain, CTRE::Drive::Styles::Basic selectedStyle){
+ServoGoStraightWithImu::ServoGoStraightWithImu(CTRE::PigeonIMU *pigeonImu, CTRE::Drive::IDrivetrain *driveTrain, CTRE::Drive::Styles::Basic selectedStyle){
 	_pidgey = pigeonImu;
 	_driveTrain = driveTrain;
 	_selectedStyle = selectedStyle;
@@ -69,7 +69,7 @@ bool ServoGoStraightWithImu::GoStraight(float Y, float targetHeading, float head
 	float currentAngularRate = (float)XYZ_Dps[2];
 
 	/* Grab Pigeon IMU status */
-	bool angleIsGood = (_pidgey->GetState() == CTRE::PigeonImu::PigeonState::Ready) ? true : false;
+	bool angleIsGood = (_pidgey->GetState() == CTRE::PigeonIMU::PigeonState::Ready) ? true : false;
 
 	/* Runs GoStraight if Pigeon IMU is present and in good health, else stop drivetrain */
 	if (angleIsGood == true)

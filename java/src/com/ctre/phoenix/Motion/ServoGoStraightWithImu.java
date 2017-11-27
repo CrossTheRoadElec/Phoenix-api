@@ -5,7 +5,7 @@ import com.ctre.phoenix.Drive.*;
 
 public class ServoGoStraightWithImu implements com.ctre.phoenix.ILoopable
 {
-	com.ctre.phoenix.Sensors.PigeonImu _pidgey;
+	com.ctre.phoenix.Sensors.PigeonIMU _pidgey;
     IDrivetrain _IDrivetrain;
     Styles.Basic _selectedStyle;
     private ServoParameters servoParams = new ServoParameters();
@@ -24,7 +24,7 @@ public class ServoGoStraightWithImu implements com.ctre.phoenix.ILoopable
 
 
     /** Go Straight using the IMU */
-    public ServoGoStraightWithImu(com.ctre.phoenix.Sensors.PigeonImu pigeonImu, IDrivetrain IDrivetrain, Styles.Basic selectedStyle, ServoParameters parameters, double Y, double targetHeading, double maxOutput)
+    public ServoGoStraightWithImu(com.ctre.phoenix.Sensors.PigeonIMU pigeonImu, IDrivetrain IDrivetrain, Styles.Basic selectedStyle, ServoParameters parameters, double Y, double targetHeading, double maxOutput)
     {
         _pidgey = pigeonImu;
         _IDrivetrain = IDrivetrain;
@@ -40,7 +40,7 @@ public class ServoGoStraightWithImu implements com.ctre.phoenix.ILoopable
     }
 
     /** Go Straight using the IMU */
-    public ServoGoStraightWithImu(com.ctre.phoenix.Sensors.PigeonImu pigeonImu, IDrivetrain IDrivetrain, Styles.Basic selectedStyle)
+    public ServoGoStraightWithImu(com.ctre.phoenix.Sensors.PigeonIMU pigeonImu, IDrivetrain IDrivetrain, Styles.Basic selectedStyle)
     {
         _pidgey = pigeonImu;
         _IDrivetrain = IDrivetrain;
@@ -72,7 +72,7 @@ public class ServoGoStraightWithImu implements com.ctre.phoenix.ILoopable
         double currentAngularRate = (double)_pidgey.GetRawGyro()[2];
 
         /* Grab Pigeon IMU status */
-        boolean angleIsGood = (_pidgey.GetState() == com.ctre.phoenix.Sensors.PigeonImu.PigeonState.Ready) ? true : false;
+        boolean angleIsGood = (_pidgey.GetState() == com.ctre.phoenix.Sensors.PigeonIMU.PigeonState.Ready) ? true : false;
 
         /* Runs GoStraight if Pigeon IMU is present and in good health, else stop IDrivetrain */
         if (angleIsGood == true)

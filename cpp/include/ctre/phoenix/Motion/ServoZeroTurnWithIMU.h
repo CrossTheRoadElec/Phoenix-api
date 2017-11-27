@@ -12,10 +12,10 @@ namespace CTRE { namespace Motion {
 class ServoZeroTurnWithImu : public CTRE::Tasking::ILoopable{
 public:
 	ServoParameters *servoParams = new ServoParameters();
-	ServoZeroTurnWithImu(CTRE::PigeonImu *pigeonImu, CTRE::Drive::IDrivetrain *driveTrain,
+	ServoZeroTurnWithImu(CTRE::PigeonIMU *pigeonImu, CTRE::Drive::IDrivetrain *driveTrain,
 			CTRE::Drive::Styles::Basic selectedStyle, float targetHeading, float headingTolerance,
 			ServoParameters *Params, float maxOutput);
-	ServoZeroTurnWithImu(CTRE::PigeonImu *pigeonImu, CTRE::Drive::IDrivetrain *driveTrain, CTRE::Drive::Styles::Basic selectedStyle);
+	ServoZeroTurnWithImu(CTRE::PigeonIMU *pigeonImu, CTRE::Drive::IDrivetrain *driveTrain, CTRE::Drive::Styles::Basic selectedStyle);
 	bool Set(float targetHeading, float headingTolerance, float maxOutput);
 	float GetImuHeading();
 	void OnStart();
@@ -24,7 +24,7 @@ public:
 	void OnLoop();
 
 private:
-    CTRE::PigeonImu *_pidgey;
+    CTRE::PigeonIMU *_pidgey;
     CTRE::Drive::IDrivetrain *_driveTrain;
     CTRE::Drive::Styles::Basic _selectedStyle;
     float _targetHeading;

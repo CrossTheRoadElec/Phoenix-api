@@ -1,11 +1,11 @@
 package com.ctre.phoenix.Motion;
 
-import com.ctre.phoenix.Sensors.PigeonImu;
+import com.ctre.phoenix.Sensors.PigeonIMU;
 import com.ctre.phoenix.Drive.*;
 
 public class ServoGoStraightWithImuSmart implements com.ctre.phoenix.ILoopable
 {
-	PigeonImu _pidgey;
+	PigeonIMU _pidgey;
     ISmartDrivetrain _driveTrain;
     Styles.Smart _selectedStyle;
     private ServoParameters servoParams = new ServoParameters();
@@ -24,7 +24,7 @@ public class ServoGoStraightWithImuSmart implements com.ctre.phoenix.ILoopable
 
 
     /** Constructor that uses ServoGoStraightWithImuSmart as an ILoopable */
-    public ServoGoStraightWithImuSmart(PigeonImu pigeonImu, ISmartDrivetrain driveTrain, Styles.Smart selectedStyle, ServoParameters straightParameters, double Y, double targetHeading)
+    public ServoGoStraightWithImuSmart(PigeonIMU pigeonImu, ISmartDrivetrain driveTrain, Styles.Smart selectedStyle, ServoParameters straightParameters, double Y, double targetHeading)
     {
         _pidgey = pigeonImu;
         _driveTrain = driveTrain;
@@ -40,7 +40,7 @@ public class ServoGoStraightWithImuSmart implements com.ctre.phoenix.ILoopable
     }
 
     /** Constructor that uses ServoGoStraightWithImuSmart as an ILoopable */
-    public ServoGoStraightWithImuSmart(PigeonImu pigeonImu, ISmartDrivetrain driveTrain, Styles.Smart selectedStyle)
+    public ServoGoStraightWithImuSmart(PigeonIMU pigeonImu, ISmartDrivetrain driveTrain, Styles.Smart selectedStyle)
     {
         _pidgey = pigeonImu;
         _driveTrain = driveTrain;
@@ -72,7 +72,7 @@ public class ServoGoStraightWithImuSmart implements com.ctre.phoenix.ILoopable
         double currentAngularRate = (double)_pidgey.GetRawGyro()[2];
 
         /* Grab Pigeon IMU status */
-        boolean angleIsGood = (_pidgey.GetState() == PigeonImu.PigeonState.Ready) ? true : false;
+        boolean angleIsGood = (_pidgey.GetState() == PigeonIMU.PigeonState.Ready) ? true : false;
 
         /* Runs GoStraight if Pigeon IMU is present and in good health, else stop drivetrain */
         if (angleIsGood == true)
