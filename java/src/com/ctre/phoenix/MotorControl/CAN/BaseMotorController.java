@@ -818,7 +818,7 @@ forward/reverse directions.
 		//MT
 	}
 	// ----- WPILIB ------//
-	SpeedController GetWPILIB_SpeedController()
+	public SpeedController GetWPILIB_SpeedController()
 	{
 		return _wpilibSpeedController;
 	}
