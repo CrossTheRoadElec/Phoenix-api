@@ -646,7 +646,10 @@ forward/reverse directions.
 	{
 		return MotControllerJNI.GetClosedLoopError(m_handle, 0); /* todo: remove slotIdx */
 	}
-
+  /**
+   * Gets the iaccum value.
+   *
+   * @return        Integral accumulator value.   */
 	public double GetIntegralAccumulator() {
 		return MotControllerJNI.GetIntegralAccumulator(m_handle, 0); /* todo: remove slotIdx */
 	}
@@ -654,16 +657,7 @@ forward/reverse directions.
 	public double GetErrorDerivative() {
 		return MotControllerJNI.GetErrorDerivative(m_handle, 0); /* todo: remove slotIdx */
 	}
-	
-  /**
-   * Gets the iaccum value.
-   *
-   * @param slotIdx Parameter slot of the constant.
-   * @return        Integral accumulator value.   */
-	public double GetIntegralAccumulator(int slotIdx)
-	{
-		return MotControllerJNI.GetIntegralAccumulator(m_handle, slotIdx);
-	}
+
   /**
    * Gets the derivative of the closed-loop error.
    *
