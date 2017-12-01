@@ -74,7 +74,7 @@
 //    }
 //
 //    /* Grab the position throught the talons' Smart features */
-//    public double GetDistance()
+//    public double getDistance()
 //    {
 //        double l = _left.GetPosition();
 //        double r = _right.GetPosition();
@@ -83,7 +83,7 @@
 //    }
 //
 //    /* Grab the velocity throught the talons' Smart features */
-//    public double GetVelocity()
+//    public double getVelocity()
 //    {
 //        double l = _left.GetVelocity();
 //        double r = _right.GetVelocity();
@@ -91,7 +91,7 @@
 //        return (double)(l + r) * (double)wheelRadius * (double)Math.PI;
 //    }
 //
-//    public double GetEncoderHeading()
+//    public double getEncoderHeading()
 //    {
 //        double l = (double)_left.GetPosition();
 //        double r = (double)_right.GetPosition();

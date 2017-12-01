@@ -3,6 +3,6 @@ import com.ctre.phoenix.MotorControl.IMotorController;
 
 public interface IFollower
 {
-	void Follow(IMotorController masterToFollow);
-	void ValueUpdated();
+	void follow(IMotorController masterToFollow);
+	void valueUpdated();
 }

@@ -4,17 +4,17 @@ import java.util.Arrays;
 
 public class CTRLogger
 {
-	public static void Close() {
+	public static void close() {
 		CTRLoggerJNI.JNI_Logger_Close();
 	}
 	
-	public static int Log(int code, String origin) {
+	public static int log(int code, String origin) {
 		String stack = Arrays.toString(Thread.currentThread().getStackTrace());
 		stack = stack.replaceAll(",", "\n");
 		return CTRLoggerJNI.JNI_Logger_Log(code, origin, stack);
 	}
 	
-	public static void Open() {
+	public static void open() {
 		CTRLoggerJNI.JNI_Logger_Open(2);
 	}
 	

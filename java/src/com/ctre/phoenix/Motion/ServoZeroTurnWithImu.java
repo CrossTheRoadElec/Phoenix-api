@@ -45,14 +45,14 @@
 //        _selectedStyle = style;
 //    }
 //
-//    public void Set(double targetHeading)
+//    public void set(double targetHeading)
 //    {
 //		_targetHeading = targetHeading;
 //    }
 //
-//    public double GetImuHeading()
+//    public double getImuHeading()
 //    {
-//        return (double)_pidgey.GetYawPitchRoll()[0];
+//        return (double)_pidgey.getYawPitchRoll()[0];
 //    }
 //
 //    private void ZeroTurn(double targetHeading)
@@ -91,31 +91,31 @@
 //    }
 //
 //    /* ILoopable */
-//    public void OnStart()
+//    public void onStart()
 //    {
 //        _isDone = false;
 //        _isGood = 0;
-//		servoParams.OnStart();
+//		servoParams.onStart();
 //    }
 //
-//    public void OnStop()
+//    public void onStop()
 //    {
 //        _IDrivetrain.set(Styles.Basic.PercentOutput, 0, 0);
 //        _isDone = true;
 //    }
 //
-//    public boolean IsDone()
+//    public boolean isDone()
 //    {
 //        return _isDone;
 //    }
 //
-//    public void OnLoop()
+//    public void onLoop()
 //    {
 //		if(!_isDone)
 //		{
 //			ZeroTurn(_targetHeading);
 //
-//			if (servoParams.IsDone())
+//			if (servoParams.isDone())
 //			{
 //				_IDrivetrain.set(Styles.Basic.PercentOutput, 0, 0);
 //				_isDone = true;

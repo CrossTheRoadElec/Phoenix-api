@@ -27,7 +27,7 @@ public class Styles
 		}
 	};
 	
-	public static Styles.Smart Promote(Basic basicStyle)
+	public static Styles.Smart promote(Basic basicStyle)
 	{
 		return Styles.Smart.values()[basicStyle.value];
 	}

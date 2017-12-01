@@ -23,6 +23,6 @@ public enum CTR_Code
 		}
 		return CTR_UnknownError;
 	}
-	public int IntValue() { return value;}
+	public int intValue() { return value;}
 }
 

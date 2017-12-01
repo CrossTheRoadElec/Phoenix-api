@@ -2,8 +2,8 @@ package com.ctre.phoenix;
 
 public interface ILoopable
 {
-	public void OnStart();
-	public void OnLoop();
-	public boolean IsDone();
-	public void OnStop();
+	public void onStart();
+	public void onLoop();
+	public boolean isDone();
+	public void onStop();
 }

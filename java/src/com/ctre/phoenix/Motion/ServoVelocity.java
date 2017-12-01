@@ -25,30 +25,30 @@
 //        _targetVelocity = velocity;
 //    }
 //
-//    public void OnStart()
+//    public void onStart()
 //    {
 //    }
 //
-//    public void OnStop()
+//    public void onStop()
 //    {
 //        /* stop the talon */
 //        Gearbox.SetControlMode(ControlMode.SmartControlMode.kPercentVbus);
 //        Gearbox.Set(0);
 //    }
 //    
-//    public void Set(double targetSpeed, double maxOut)
+//    public void set(double targetSpeed, double maxOut)
 //    {
 //    	Gearbox.ConfigPeakOutputVoltage(maxOut, -maxOut);
 //    	Gearbox.SetControlMode(SmartControlMode.kSpeed);
 //    	Gearbox.Set(targetSpeed);
 //    }
 //
-//    public boolean IsDone()
+//    public boolean isDone()
 //    {
 //        return false;
 //    }
 //
-//    public void OnLoop()
+//    public void onLoop()
 //    {
 //        Gearbox.SetControlMode(ControlMode.SmartControlMode	.kSpeed);
 //        Gearbox.Set(_targetVelocity);

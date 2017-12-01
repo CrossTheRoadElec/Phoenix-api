@@ -82,36 +82,36 @@ public class ServoStraightDistanceWithImu implements com.ctre.phoenix.ILoopable
 
 
      /** Sets target heading/distance along with tolerances and updates PID gains */
-     public void Set(double targetHeading, double targetDistance)
+     public void set(double targetHeading, double targetDistance)
      {
 		 _targetHeading = targetHeading;
 		 _targetDistance = targetDistance;
      }
 
      /** Return the heading from the Pigeon */
-     public double GetImuHeading()
+     public double getImuHeading()
      {
-         return (double)_pidgey.GetYawPitchRoll()[0];
+         return (double)_pidgey.getYawPitchRoll()[0];
      }
 
      /** Return the encoder distance from the DriveTrain */
-     public double GetEncoderDistance()
+     public double getEncoderDistance()
      {
-         return _driveTrain.GetDistance();
+         return _driveTrain.getDistance();
      }
 
      /** ServoStraightDistanceWithImu processing */
-     private void StraightDistance(double targetHeading, double targetDistance)
+     private void straightDistance(double targetHeading, double targetDistance)
      {
     	if(straightServoParameters.P == 0 && straightServoParameters.I == 0 && straightServoParameters.D == 0)
-    		com.ctre.phoenix.CTRLogger.Log(-503, "Servo Straight Distance With Imu");
+    		com.ctre.phoenix.CTRLogger.log(-503, "Servo Straight Distance With Imu");
     	if(distanceServoParameters.P == 0 && distanceServoParameters.I == 0 && distanceServoParameters.D == 0)
-    		com.ctre.phoenix.CTRLogger.Log(-503, "Servo Straight Distance With Imu");
+    		com.ctre.phoenix.CTRLogger.log(-503, "Servo Straight Distance With Imu");
          /* Grab current distance */
-         double currentDistance = GetEncoderDistance();
+         double currentDistance = getEncoderDistance();
 
          /* Grab the positionRate and elapsed time, must be done anytime we use D gain */
-         double positionRate = _driveTrain.GetVelocity();
+         double positionRate = _driveTrain.getVelocity();
 
          /* Distance PID */
          double distanceError = targetDistance - currentDistance;
@@ -120,44 +120,44 @@ public class ServoStraightDistanceWithImu implements com.ctre.phoenix.ILoopable
          /* StraightDrive moded selected when created within constructor */
          if (_selectedStyle == Styles.Smart.Voltage)
          {
-             _driveTrain.ConfigNominalPercentOutputVoltage(+0, -0);
-             _driveTrain.ConfigPeakPercentOutputVoltage(+distanceServoParameters.maxOut, -distanceServoParameters.maxOut);
+             _driveTrain.configNominalPercentOutputVoltage(+0, -0);
+             _driveTrain.configPeakPercentOutputVoltage(+distanceServoParameters.maxOut, -distanceServoParameters.maxOut);
          }
-         StraightDrive.Set(Y, targetHeading);
+         StraightDrive.set(Y, targetHeading);
 
          _previousDistance = currentDistance;
      }
 
      /** ILoopable */
-     public void OnStart()
+     public void onStart()
      {
          _isDone = false;
          _isGood = 0;
-		 StraightDrive.OnStart();
-		distanceServoParameters.OnStart();
-		straightServoParameters.OnStart();
+		 StraightDrive.onStart();
+		distanceServoParameters.onStart();
+		straightServoParameters.onStart();
      }
 
-     public void OnStop()
+     public void onStop()
      {
          _driveTrain.set(Styles.Basic.PercentOutput, 0, 0);
          _isRunning = false;
          _isDone = true;
      }
 
-     public boolean IsDone()
+     public boolean isDone()
      {
          return _isDone;
      }
 
-     public void OnLoop()
+     public void onLoop()
      {
 		if(!_isDone)
 		{
-			 StraightDistance(_targetHeading, _targetDistance);
-			 StraightDrive.OnLoop();
+			 straightDistance(_targetHeading, _targetDistance);
+			 StraightDrive.onLoop();
 			 
-			 if (distanceServoParameters.IsDone() && straightServoParameters.IsDone())
+			 if (distanceServoParameters.isDone() && straightServoParameters.isDone())
 			 {
 				 _driveTrain.set(Styles.Basic.PercentOutput, 0, 0);
 				 _isDone = true;

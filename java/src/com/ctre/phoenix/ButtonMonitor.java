@@ -20,7 +20,7 @@ public class ButtonMonitor implements ILoopable
 		_handler = ButtonPressEventHandler;
 	}
 
-	public void Process() {
+	public void process() {
 		boolean down = _gameCntrlr.getRawButton(_btnIdx);
 
 		if (!_isDown && down){
@@ -30,14 +30,14 @@ public class ButtonMonitor implements ILoopable
 		_isDown = down;
 	}
 
-	public void OnStart() {
+	public void onStart() {
 	}
-	public void OnLoop() {
-		Process();
+	public void onLoop() {
+		process();
 	}
-	public boolean IsDone() {
+	public boolean isDone() {
 		return false;
 	}
-	public void OnStop() {
+	public void onStop() {
 	}
 }

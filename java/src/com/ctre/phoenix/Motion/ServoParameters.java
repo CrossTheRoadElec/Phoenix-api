@@ -18,7 +18,7 @@ public class ServoParameters
 	
 	
 	public void resetIAccum() { IAccum = 0; } 
-	public void OnStart() 
+	public void onStart() 
 	{
 		//Clear variables since servo objects can be used more than once
 		hasStarted = false;
@@ -51,5 +51,5 @@ public class ServoParameters
 		return out;
 	}
 	//Stopwatch time has to be greater than specified time plus one loop cycle to ensure it's not just lag from the stopwatch
-	public boolean IsDone() { return _st.getDuration() > (timeToDone + 0.01) && hasStarted; }
+	public boolean isDone() { return _st.getDuration() > (timeToDone + 0.01) && hasStarted; }
 }

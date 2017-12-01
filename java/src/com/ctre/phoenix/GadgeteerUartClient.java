@@ -66,6 +66,6 @@ public interface GadgeteerUartClient
 			return GadState_WaitChirp1;
 		}
 	};
-    int GetGadgeteerStatus(GadgeteerUartStatus status);
+    int getGadgeteerStatus(GadgeteerUartStatus status);
 };
 

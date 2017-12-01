@@ -49,32 +49,32 @@ public class ServoGoStraightWithImu implements com.ctre.phoenix.ILoopable
 	
 	public void resetIAccum() { servoParams.resetIAccum(); }
 
-    public void Set(double Y, double targetHeading)
+    public void set(double Y, double targetHeading)
     {
 		_Y = Y;
 		_targetHeading = targetHeading;
     }
 
     /** Return the heading from the Pigeon*/
-    public double GetImuHeading()
+    public double getImuHeading()
     {
-        return (double)_pidgey.GetYawPitchRoll()[0];
+        return (double)_pidgey.getYawPitchRoll()[0];
     }
 
-    private void GoStraight(double Y, double targetHeading)
+    private void goStraight(double Y, double targetHeading)
     {
     	if(servoParams.P == 0 && servoParams.I == 0 && servoParams.D == 0)
-    		com.ctre.phoenix.CTRLogger.Log(-503, "Servo Go Straight With IMU");
+    		com.ctre.phoenix.CTRLogger.log(-503, "Servo Go Straight With IMU");
         /* Grab current heading */
-        double currentHeading = GetImuHeading();
+        double currentHeading = getImuHeading();
 
         /* Grab angular rate from the pigeon */
-        double currentAngularRate = (double)_pidgey.GetRawGyro()[2];
+        double currentAngularRate = (double)_pidgey.getRawGyro()[2];
 
         /* Grab Pigeon IMU status */
-        boolean angleIsGood = (_pidgey.GetState() == com.ctre.phoenix.Sensors.PigeonIMU.PigeonState.Ready) ? true : false;
+        boolean angleIsGood = (_pidgey.getState() == com.ctre.phoenix.Sensors.PigeonIMU.PigeonState.Ready) ? true : false;
 
-        /* Runs GoStraight if Pigeon IMU is present and in good health, else stop IDrivetrain */
+        /* Runs goStraight if Pigeon IMU is present and in good health, else stop IDrivetrain */
         if (angleIsGood == true)
         {
             /* Heading PID */
@@ -89,8 +89,8 @@ public class ServoGoStraightWithImu implements com.ctre.phoenix.ILoopable
                     _IDrivetrain.set(Styles.Basic.PercentOutput, Y, X);
                     break;
                 case Voltage:
-                    _IDrivetrain.ConfigNominalPercentOutputVoltage(+0.0f, -0.0f);
-                    _IDrivetrain.ConfigPeakPercentOutputVoltage(+servoParams.maxOut, -servoParams.maxOut);
+                    _IDrivetrain.configNominalPercentOutputVoltage(+0.0f, -0.0f);
+                    _IDrivetrain.configPeakPercentOutputVoltage(+servoParams.maxOut, -servoParams.maxOut);
                     _IDrivetrain.set(Styles.Basic.Voltage, Y, X);
                     break;
             }
@@ -103,26 +103,26 @@ public class ServoGoStraightWithImu implements com.ctre.phoenix.ILoopable
     }
 
     /** ILoopable */
-    public void OnStart()
+    public void onStart()
     {
         _isDone = false;
-		servoParams.OnStart();
+		servoParams.onStart();
     }
 
-    public void OnStop()
+    public void onStop()
     {
         _IDrivetrain.set(Styles.Basic.PercentOutput, 0, 0);
         _isRunning = false;
         _isDone = true;
     }
 
-    public boolean IsDone()
+    public boolean isDone()
     {
         return _isDone;
     }
 
-    public void OnLoop()
+    public void onLoop()
     {
-        GoStraight(_Y, _targetHeading);
+        goStraight(_Y, _targetHeading);
     }
 }

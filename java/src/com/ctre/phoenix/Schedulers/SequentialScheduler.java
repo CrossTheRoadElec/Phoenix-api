@@ -13,38 +13,38 @@ public class SequentialScheduler implements com.ctre.phoenix.ILoopable
 	{
 		_periodMs = periodMs;
 	}
-	public void Add(com.ctre.phoenix.ILoopable aLoop)
+	public void add(com.ctre.phoenix.ILoopable aLoop)
 	{
 		_loops.add(aLoop);
 	}
 
-	public com.ctre.phoenix.ILoopable GetCurrent()
+	public com.ctre.phoenix.ILoopable getCurrent()
 	{
 		return null;
 	}
 
-	public void RemoveAll()
+	public void removeAll()
 	{
 		_loops.clear();
 	}
 
-	public void Start()
+	public void start()
 	{
 		_idx = 0;
 		if(_loops.size() > 0)
-			_loops.get(0).OnStart();
+			_loops.get(0).onStart();
 		
 		_running = true;
 	}
-	public void Stop()
+	public void stop()
 	{
 		for (int i = 0; i < _loops.size(); i++)
 		{
-			_loops.get(i).OnStop();
+			_loops.get(i).onStop();
 		}
 		_running = false;
 	}
-	public void Process()
+	public void process()
 	{
 		_iterated = false;
 		if (_idx < _loops.size())
@@ -52,12 +52,12 @@ public class SequentialScheduler implements com.ctre.phoenix.ILoopable
 			if (_running)
 			{
 				com.ctre.phoenix.ILoopable loop = _loops.get(_idx);
-				loop.OnLoop();
-				if (loop.IsDone())
+				loop.onLoop();
+				if (loop.isDone())
 				{
 					_iterated = true;
 					++_idx;
-					if (_idx < _loops.size()) _loops.get(_idx).OnStart();
+					if (_idx < _loops.size()) _loops.get(_idx).onStart();
 				}
 			}
 		}
@@ -66,22 +66,22 @@ public class SequentialScheduler implements com.ctre.phoenix.ILoopable
 			_running = false;
 		}
 	}
-	public boolean Iterated()
+	public boolean iterated()
 	{
 		return _iterated;
 	}
 	//--- Loopable ---/
-	public void OnStart()
+	public void onStart()
 	{
-		Start();
+		start();
 	}
 
-	public void OnLoop()
+	public void onLoop()
 	{
-		Process();
+		process();
 	}
 
-	public boolean IsDone()
+	public boolean isDone()
 	{
 		/* Have to return something to know if we are done */
 		if (_running == false)
@@ -90,8 +90,8 @@ public class SequentialScheduler implements com.ctre.phoenix.ILoopable
 			return false;
 	}
 
-	public void OnStop()
+	public void onStop()
 	{
-		Stop();
+		stop();
 	}
 }

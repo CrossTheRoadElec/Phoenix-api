@@ -12,7 +12,7 @@ public class Faults {
 	boolean ResetDuringEn;
 
 	//!< True iff any of the above flags are true.
-	boolean HasAnyFault() {
+	boolean hasAnyFault() {
 		return HardwareFailure | UnderVoltage | OverTemp | ForwardLimitSwitch
 				| ReverseLimitSwitch | ForwardSoftLimit | ReverseSoftLimit
 				| MsgOverflow | ResetDuringEn;

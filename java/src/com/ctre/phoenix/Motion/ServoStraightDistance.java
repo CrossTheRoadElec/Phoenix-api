@@ -75,35 +75,35 @@ public class ServoStraightDistance implements com.ctre.phoenix.ILoopable
             StraightDrive = new ServoGoStraight(_driveTrain, Styles.Smart.VelocityClosedLoop);
     }
 
-    public void Set(double targetHeading, double targetDistance)
+    public void set(double targetHeading, double targetDistance)
     {
 		_targetHeading = targetHeading;
 		_targetDistance = targetDistance;
     }
 
     /** Return the heading from the encoders */
-    public double GetEncoderHeading()
+    public double getEncoderHeading()
     {
-        return _driveTrain.GetEncoderHeading();
+        return _driveTrain.getEncoderHeading();
     }
 
     /** Return the encoder distance of the drive train */
-    public double GetEncoderDistance()
+    public double getEncoderDistance()
     {
-        return _driveTrain.GetDistance();
+        return _driveTrain.getDistance();
     }
 
-    private void StraightDistance(double targetHeading, double targetDistance)
+    private void straightDistance(double targetHeading, double targetDistance)
     {
     	if(straightServoParams.P == 0 && straightServoParams.I == 0 && straightServoParams.D == 0)
-    		com.ctre.phoenix.CTRLogger.Log(-503, "Servo Straight Distance");
+    		com.ctre.phoenix.CTRLogger.log(-503, "Servo Straight Distance");
     	if(distanceServoParams.P == 0 && distanceServoParams.I == 0 && distanceServoParams.D == 0)
-    		com.ctre.phoenix.CTRLogger.Log(-503, "Servo Straight Distance");
+    		com.ctre.phoenix.CTRLogger.log(-503, "Servo Straight Distance");
         /* Grab current heading and distance*/
-        double currentDistance = GetEncoderDistance();
+        double currentDistance = getEncoderDistance();
 
         /* Find the error between the target and current value */
-        double distanceRate = _driveTrain.GetVelocity();
+        double distanceRate = _driveTrain.getVelocity();
 
         /* Distance PID */
         double distanceError = targetDistance - currentDistance;
@@ -112,44 +112,44 @@ public class ServoStraightDistance implements com.ctre.phoenix.ILoopable
         /* StraightDrive moded selected when created within constructor */
         if (_selectedStyle == Styles.Smart.Voltage)
         {
-            _driveTrain.ConfigNominalPercentOutputVoltage(+0, -0);
-            _driveTrain.ConfigPeakPercentOutputVoltage(+distanceServoParams.maxOut, -distanceServoParams.maxOut);
+            _driveTrain.configNominalPercentOutputVoltage(+0, -0);
+            _driveTrain.configPeakPercentOutputVoltage(+distanceServoParams.maxOut, -distanceServoParams.maxOut);
         }
-        StraightDrive.Set(Y, targetHeading);
+        StraightDrive.set(Y, targetHeading);
 
         _previousDistance = currentDistance;
     }
 
     /** ILoopable */
-    public void OnStart()
+    public void onStart()
     {
         _isDone = false;
         _isGood = 0;
-		StraightDrive.OnStart();
-		distanceServoParams.OnStart();
-		straightServoParams.OnStart();
+		StraightDrive.onStart();
+		distanceServoParams.onStart();
+		straightServoParams.onStart();
     }
 
-    public void OnStop()
+    public void onStop()
     {
         _driveTrain.set(Styles.Basic.PercentOutput, 0, 0);
         _isRunning = false;
         _isDone = true;
     }
 
-    public boolean IsDone()
+    public boolean isDone()
     {
         return _isDone;
     }
 
-    public void OnLoop()
+    public void onLoop()
     {
 		if(!_isDone)
 		{
-			StraightDistance(_targetHeading, _targetDistance);
-			StraightDrive.OnLoop();
+			straightDistance(_targetHeading, _targetDistance);
+			StraightDrive.onLoop();
 
-			if (distanceServoParams.IsDone() && straightServoParams.IsDone())
+			if (distanceServoParams.isDone() && straightServoParams.isDone())
 			{
 				_driveTrain.set(Styles.Basic.PercentOutput, 0, 0);
 				_isDone = true;

@@ -20,38 +20,38 @@ public interface IMotorControllerEnhanced extends IMotorController {
 
     //------ sensor selection ----------//
     /* expand the options */
-	 public ErrorCode ConfigSelectedFeedbackSensor(FeedbackDevice feedbackDevice, int timeoutMs );
+	 public ErrorCode configSelectedFeedbackSensor(FeedbackDevice feedbackDevice, int timeoutMs );
 
     //------ ??? ----------//
-    // public ErrorCode ConfigSensorIsContinuous(bool isContinuous, int timeoutMs = 0);  /* TODO: figure this out later */
-    // public ErrorCode ConfigAutoZeroSensor(ZeroSensorCriteria zeroSensorCriteria, int timeoutMs );
+    // public ErrorCode configSensorIsContinuous(bool isContinuous, int timeoutMs = 0);  /* TODO: figure this out later */
+    // public ErrorCode configAutoZeroSensor(ZeroSensorCriteria zeroSensorCriteria, int timeoutMs );
 
     //------- sensor status --------- //
     /* in parent */
 
     //------ status frame period changes ----------//
-    public ErrorCode SetStatusFramePeriod(StatusFrameEnhanced frame, int periodMs, int timeoutMs );
-    public int GetStatusFramePeriod(StatusFrameEnhanced frame, int timeoutMs );
+    public ErrorCode setStatusFramePeriod(StatusFrameEnhanced frame, int periodMs, int timeoutMs );
+    public int getStatusFramePeriod(StatusFrameEnhanced frame, int timeoutMs );
 
     //----- velocity signal conditionaing ------//
-    public ErrorCode ConfigVelocityMeasurementPeriod(VelocityMeasPeriod period, int timeoutMs );
-    public ErrorCode ConfigVelocityMeasurementWindow(int windowSize, int timeoutMs );
+    public ErrorCode configVelocityMeasurementPeriod(VelocityMeasPeriod period, int timeoutMs );
+    public ErrorCode configVelocityMeasurementWindow(int windowSize, int timeoutMs );
 
     //------ remote limit switch ----------//
     /* in parent */
 
     //------ local limit switch ----------//
-    public ErrorCode ConfigForwardLimitSwitchSource(LimitSwitchSource type, LimitSwitchNormal normalOpenOrClose, int timeoutMs );
-    public ErrorCode ConfigReverseLimitSwitchSource(LimitSwitchSource type, LimitSwitchNormal normalOpenOrClose, int timeoutMs );
+    public ErrorCode configForwardLimitSwitchSource(LimitSwitchSource type, LimitSwitchNormal normalOpenOrClose, int timeoutMs );
+    public ErrorCode configReverseLimitSwitchSource(LimitSwitchSource type, LimitSwitchNormal normalOpenOrClose, int timeoutMs );
 
     //------ soft limit ----------//
     /* in parent */
 
     //------ Current Lim ----------//
-    public ErrorCode ConfigPeakCurrentLimit(int amps, int timeoutMs );
-    public ErrorCode ConfigPeakCurrentDuration(int milliseconds, int timeoutMs );
-    public ErrorCode ConfigContinuousCurrentLimit(int amps, int timeoutMs );
-    public void EnableCurrentLimit(boolean enable);
+    public ErrorCode configPeakCurrentLimit(int amps, int timeoutMs );
+    public ErrorCode configPeakCurrentDuration(int milliseconds, int timeoutMs );
+    public ErrorCode configContinuousCurrentLimit(int amps, int timeoutMs );
+    public void enableCurrentLimit(boolean enable);
 
     //------ General Close loop ----------//
     /* in parent */

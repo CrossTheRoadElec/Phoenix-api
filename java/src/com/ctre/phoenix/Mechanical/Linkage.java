@@ -36,7 +36,7 @@
 //		Setup();
 //	}
 //	
-//	private void Setup()
+//	private void setup()
 //	{
 //		for(int i = 0; i < _followerCount; i++)
 //		{

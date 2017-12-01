@@ -128,7 +128,7 @@
 		m_handle = CANifierJNI.JNI_new_CANifier(deviceId);
 	}
 	
-	public void SetLEDOutput(double percentOutput, LEDChannel ledChannel)
+	public void setLEDOutput(double percentOutput, LEDChannel ledChannel)
 	{
 		/* convert float to integral fixed pt */
 		if (percentOutput > 1) { percentOutput = 1; }
@@ -138,17 +138,17 @@
 		CANifierJNI.JNI_SetLEDOutput(m_handle, dutyCycle, ledChannel.value);
 	}
 	
-	public void SetGeneralOutput(GeneralPin outputPin, boolean outputValue, boolean outputEnable)
+	public void setGeneralOutput(GeneralPin outputPin, boolean outputValue, boolean outputEnable)
 	{
 		CANifierJNI.JNI_SetGeneralOutput(m_handle, outputPin.value, outputValue, outputEnable);
 	}
 	
-	public void SetGeneralOutputs(int outputBits, int isOutputBits)
+	public void setGeneralOutputs(int outputBits, int isOutputBits)
 	{
 		CANifierJNI.JNI_SetGeneralOutputs(m_handle, outputBits, isOutputBits);
 	}
 	
-	public void GetGeneralInputs(PinValues allPins)
+	public void getGeneralInputs(PinValues allPins)
 	{
 		CANifierJNI.JNI_GetGeneralInputs(m_handle, _tempPins);
 		allPins.LIMF = _tempPins[GeneralPin.LIMF.value];
@@ -164,7 +164,7 @@
 		allPins.SPI_CS_PWM3 = _tempPins[GeneralPin.SPI_CS.value];
 	}
 	
-	public boolean GetGeneralInput(GeneralPin inputPin)
+	public boolean getGeneralInput(GeneralPin inputPin)
 	{
 		return CANifierJNI.JNI_GetGeneralInput(m_handle, inputPin.value);
 	}
@@ -173,12 +173,12 @@
 	 * Call GetLastError() to determine success.
 	 * @return true if specified input is high, false o/w.  
 	 */
-	public int GetLastError()
+	public int getLastError()
 	{
 		return CANifierJNI.JNI_GetLastError(m_handle);
 	}
 	
-	public void SetPWMOutput(int pwmChannel, float dutyCycle)
+	public void setPWMOutput(int pwmChannel, float dutyCycle)
 	{
 		if (dutyCycle < 0) { dutyCycle = 0; } else if(dutyCycle > 1) { dutyCycle = 1; }
 		if(pwmChannel < 0) { pwmChannel = 0;}
@@ -188,14 +188,14 @@
 		CANifierJNI.JNI_SetPWMOutput(m_handle, (int)pwmChannel, dutyCyc10bit);
 	}
 
-	public void EnablePWMOutput(int pwmChannel, boolean bEnable)
+	public void enablePWMOutput(int pwmChannel, boolean bEnable)
 	{
 		if(pwmChannel < 0) { pwmChannel = 0;}
 
 		CANifierJNI.JNI_EnablePWMOutput(m_handle, (int)pwmChannel, bEnable);
 	}
 	
-	public void GetPWMInput(PWMChannel pwmChannel, float[] dutyCycleAndPeriod)
+	public void getPWMInput(PWMChannel pwmChannel, float[] dutyCycleAndPeriod)
 	{
 		CANifierJNI.JNI_GetPWMInput(m_handle, pwmChannel.value, dutyCycleAndPeriod);
 	}

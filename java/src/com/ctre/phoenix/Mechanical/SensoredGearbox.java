@@ -48,14 +48,14 @@
 //	 /**
 //     * @return The geared output position in rotations.
 //     */
-//    public double GetPosition()
+//    public double getPosition()
 //    {
 //        return (double)com.ctre.phoenix.Util.scaleNativeUnitsToRotations(_unitsPerRevolution, (long)_controller.getPosition());
 //    }
 //    /**
 //     * @return The geared output velocity in rotations per minute.
 //     */
-//    public double GetVelocity()
+//    public double getVelocity()
 //    {
 //        return (double)com.ctre.phoenix.Util.scaleNativeUnitsToRpm(_unitsPerRevolution, (long)_controller.getSpeed());
 //    }
@@ -65,7 +65,7 @@
 //        _controller.setCurrentLimit(currentLimitAmps);
 //    }
 //
-//    public void Set(double output)
+//    public void set(double output)
 //    {
 //        if (_isInverted)
 //            output = -output;

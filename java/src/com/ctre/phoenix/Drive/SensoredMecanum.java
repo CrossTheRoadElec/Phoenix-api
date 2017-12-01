@@ -107,7 +107,7 @@
 //    }
 //
 //    /** Grab the distance from the left and right encoder */
-//    public double GetDistance()
+//    public double getDistance()
 //    { 
 //        double l = GetLeftPosition();
 //        double r = GetRightPosition();
@@ -116,7 +116,7 @@
 //    }
 //
 //    /** Grab the velocity from the left and right encoder */
-//    public double GetVelocity()
+//    public double getVelocity()
 //    {
 //        double l = GetLeftVelocity();
 //        double r = GetRightVelocity();
@@ -124,7 +124,7 @@
 //        return (l + r) * 0.5f;
 //    }
 //
-//    public double GetEncoderHeading()
+//    public double getEncoderHeading()
 //    {
 //        double l = GetLeftPosition();
 //        double r = GetRightPosition();
@@ -190,14 +190,14 @@
 //    }
 //
 //    /** Right and left postion */
-//    private double GetLeftPosition()
+//    private double getLeftPosition()
 //    {
 //        if (_leftSensor)
 //            return _1.GetPosition();
 //        else
 //            return _2.GetPosition();
 //    }
-//    private double GetRightPosition()
+//    private double getRightPosition()
 //    {
 //        if (_rightSensor)
 //            return _4.GetPosition();
@@ -206,14 +206,14 @@
 //    }
 //
 //    /** Right and left velocity */
-//    private double GetLeftVelocity()
+//    private double getLeftVelocity()
 //    {
 //        if (_leftSensor)
 //            return _1.GetVelocity();
 //        else
 //            return _2.GetVelocity();
 //    }
-//    private double GetRightVelocity()
+//    private double getRightVelocity()
 //    {
 //        if (_rightSensor)
 //            return _4.GetVelocity();

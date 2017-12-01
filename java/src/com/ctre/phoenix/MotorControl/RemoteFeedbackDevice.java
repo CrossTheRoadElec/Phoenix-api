@@ -19,7 +19,7 @@ public class RemoteFeedbackDevice {
 		_arbId = baseId;
 	}
 	
-	ErrorCode SetPosition(double position, int timeoutMs)
+	ErrorCode setPosition(double position, int timeoutMs)
 	{
 		return ErrorCode.FeatureNotSupported;
 	}

@@ -16,13 +16,13 @@ public class WpilibSpeedController implements SpeedController {
 	@Override
 	public void set(double speed) {
 		_speed = speed;
-		_mc.Set(ControlMode.PercentOutput, _speed);
+		_mc.set(ControlMode.PercentOutput, _speed);
 	}
 
 	@Override
 	public void pidWrite(double output) {
 		_speed = output;
-		_mc.Set(ControlMode.PercentOutput, _speed);
+		_mc.set(ControlMode.PercentOutput, _speed);
 	}
 
 	@Override
@@ -32,21 +32,21 @@ public class WpilibSpeedController implements SpeedController {
 
 	@Override
 	public void setInverted(boolean isInverted) {
-		_mc.SetInverted(isInverted);
+		_mc.setInverted(isInverted);
 	}
 
 	@Override
 	public boolean getInverted() {
-		return _mc.GetInverted();
+		return _mc.getInverted();
 	}
 
 	@Override
 	public void disable() {
-		_mc.NeutralOutput();
+		_mc.neutralOutput();
 	}
 
 	@Override
 	public void stopMotor() {
-		_mc.NeutralOutput();
+		_mc.neutralOutput();
 	}
 }

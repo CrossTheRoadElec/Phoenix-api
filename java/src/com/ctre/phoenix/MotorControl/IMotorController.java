@@ -5,165 +5,165 @@ import com.ctre.phoenix.ErrorCode;
 public interface IMotorController
 		extends com.ctre.phoenix.Signals.IOutputSignal, com.ctre.phoenix.Signals.IInvertable, IFollower {
 	// ------ Set output routines. ----------//
-	public void Set(ControlMode Mode, double demand);
+	public void set(ControlMode Mode, double demand);
 
-	public void Set(ControlMode Mode, double demand0, double demand1);
+	public void set(ControlMode Mode, double demand0, double demand1);
 
-	public void NeutralOutput();
+	public void neutralOutput();
 
-	public void SetNeutralMode(NeutralMode neutralMode);
+	public void setNeutralMode(NeutralMode neutralMode);
 
 	// ------ Invert behavior ----------//
-	public void SetSensorPhase(boolean PhaseSensor);
+	public void setSensorPhase(boolean PhaseSensor);
 
-	public void SetInverted(boolean invert);
+	public void setInverted(boolean invert);
 
-	public boolean GetInverted();
+	public boolean getInverted();
 
 	// ----- general output shaping ------------------//
-	public ErrorCode ConfigOpenloopRamp(double secondsFromNeutralToFull, int timeoutMs);
+	public ErrorCode configOpenloopRamp(double secondsFromNeutralToFull, int timeoutMs);
 
-	public ErrorCode ConfigClosedloopRamp(double secondsFromNeutralToFull, int timeoutMs);
+	public ErrorCode configClosedloopRamp(double secondsFromNeutralToFull, int timeoutMs);
 
-	public ErrorCode ConfigPeakOutputForward(double percentOut, int timeoutMs);
+	public ErrorCode configPeakOutputForward(double percentOut, int timeoutMs);
 
-	public ErrorCode ConfigPeakOutputReverse(double percentOut, int timeoutMs);
+	public ErrorCode configPeakOutputReverse(double percentOut, int timeoutMs);
 
-	public ErrorCode ConfigNominalOutputForward(double percentOut, int timeoutMs);
+	public ErrorCode configNominalOutputForward(double percentOut, int timeoutMs);
 
-	public ErrorCode ConfigNominalOutputReverse(double percentOut, int timeoutMs);
+	public ErrorCode configNominalOutputReverse(double percentOut, int timeoutMs);
 
-	public ErrorCode ConfigNeutralDeadband(double percentDeadband, int timeoutMs);
+	public ErrorCode configNeutralDeadband(double percentDeadband, int timeoutMs);
 
 	// ------ Voltage Compensation ----------//
-	public ErrorCode ConfigVoltageCompSaturation(double voltage, int timeoutMs);
+	public ErrorCode configVoltageCompSaturation(double voltage, int timeoutMs);
 
-	public ErrorCode ConfigVoltageMeasurementFilter(int filterWindowSamples, int timeoutMs);
+	public ErrorCode configVoltageMeasurementFilter(int filterWindowSamples, int timeoutMs);
 
-	public void EnableVoltageCompensation(boolean enable);
+	public void enableVoltageCompensation(boolean enable);
 
 	// ------ General Status ----------//
-	public double GetBusVoltage() ;
+	public double getBusVoltage() ;
 
-	public double GetMotorOutputPercent() ;
+	public double getMotorOutputPercent() ;
 
-	public double GetMotorOutputVoltage() ;
+	public double getMotorOutputVoltage() ;
 
-	public double GetOutputCurrent() ;
+	public double getOutputCurrent() ;
 
-	public double GetTemperature() ;
+	public double getTemperature() ;
 
 	//------ sensor selection ----------//
-	public ErrorCode ConfigSelectedFeedbackSensor(RemoteFeedbackDevice feedbackDevice, int timeoutMs);
+	public ErrorCode configSelectedFeedbackSensor(RemoteFeedbackDevice feedbackDevice, int timeoutMs);
 
 	// ------- sensor status --------- //
-	public int GetSelectedSensorPosition();
+	public int getSelectedSensorPosition();
 
-	public int GetSelectedSensorVelocity();
+	public int getSelectedSensorVelocity();
 
-	public ErrorCode SetSelectedSensorPosition(int sensorPos, int timeoutMs);
+	public ErrorCode setSelectedSensorPosition(int sensorPos, int timeoutMs);
 
 	// ------ status frame period changes ----------//
-	public ErrorCode SetControlFramePeriod(ControlFrame frame, int periodMs);
+	public ErrorCode setControlFramePeriod(ControlFrame frame, int periodMs);
 
-	public ErrorCode SetStatusFramePeriod(StatusFrame frame, int periodMs, int timeoutMs);
+	public ErrorCode setStatusFramePeriod(StatusFrame frame, int periodMs, int timeoutMs);
 
-	public int GetStatusFramePeriod(StatusFrame frame, int timeoutMs);
+	public int getStatusFramePeriod(StatusFrame frame, int timeoutMs);
 
 	//----- velocity signal conditionaing ------//
 	/* not supported */
 
 	//------ remote limit switch ----------//
-	public ErrorCode ConfigForwardLimitSwitchSource(RemoteLimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
+	public ErrorCode configForwardLimitSwitchSource(RemoteLimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
 			int deviceID, int timeoutMs);
 
-	public ErrorCode ConfigReverseLimitSwitchSource(RemoteLimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
+	public ErrorCode configReverseLimitSwitchSource(RemoteLimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
 			int deviceID, int timeoutMs);
 
-	public void EnableLimitSwitches(boolean enable);
+	public void enableLimitSwitches(boolean enable);
 
 	// ------ local limit switch ----------//
 	/* not supported */
 
 	// ------ soft limit ----------//
-	public ErrorCode ConfigForwardSoftLimit(int forwardSensorLimit, int timeoutMs);
+	public ErrorCode configForwardSoftLimit(int forwardSensorLimit, int timeoutMs);
 
-	public ErrorCode ConfigReverseSoftLimit(int reverseSensorLimit, int timeoutMs);
+	public ErrorCode configReverseSoftLimit(int reverseSensorLimit, int timeoutMs);
 
-	public void EnableSoftLimits(boolean enable);
+	public void enableSoftLimits(boolean enable);
 
 	// ------ Current Lim ----------//
 	/* not supported */
 
 	// ------ General Close loop ----------//
-	public ErrorCode Config_kP(int slotIdx, double value, int timeoutMs);
+	public ErrorCode config_kP(int slotIdx, double value, int timeoutMs);
 
-	public ErrorCode Config_kI(int slotIdx, double value, int timeoutMs);
+	public ErrorCode config_kI(int slotIdx, double value, int timeoutMs);
 
-	public ErrorCode Config_kD(int slotIdx, double value, int timeoutMs);
+	public ErrorCode config_kD(int slotIdx, double value, int timeoutMs);
 
-	public ErrorCode Config_kF(int slotIdx, double value, int timeoutMs);
+	public ErrorCode config_kF(int slotIdx, double value, int timeoutMs);
 
-	public ErrorCode Config_IntegralZone(int slotIdx, int izone, int timeoutMs);
+	public ErrorCode config_IntegralZone(int slotIdx, int izone, int timeoutMs);
 
-	public ErrorCode ConfigAllowableClosedloopError(int slotIdx, int allowableCloseLoopError, int timeoutMs);
+	public ErrorCode configAllowableClosedloopError(int slotIdx, int allowableCloseLoopError, int timeoutMs);
 
-	public ErrorCode ConfigMaxIntegralAccumulator(int slotIdx, double iaccum, int timeoutMs);
+	public ErrorCode configMaxIntegralAccumulator(int slotIdx, double iaccum, int timeoutMs);
 
-	public ErrorCode SetIntegralAccumulator(double iaccum, int timeoutMs);
+	public ErrorCode setIntegralAccumulator(double iaccum, int timeoutMs);
 
-	public int GetClosedLoopError();
+	public int getClosedLoopError();
 
-	public double GetIntegralAccumulator() ;
+	public double getIntegralAccumulator() ;
 
-	public double GetErrorDerivative() ;
+	public double getErrorDerivative() ;
 
-	public void SelectProfileSlot(int slotIdx);
+	public void selectProfileSlot(int slotIdx);
 
 	// ------ Motion Profile Settings used in Motion Magic and Motion Profile
-	public ErrorCode ConfigMotionCruiseVelocity(int sensorUnitsPer100ms, int timeoutMs);
+	public ErrorCode configMotionCruiseVelocity(int sensorUnitsPer100ms, int timeoutMs);
 
-	public ErrorCode ConfigMotionAcceleration(int sensorUnitsPer100msPerSec, int timeoutMs);
+	public ErrorCode configMotionAcceleration(int sensorUnitsPer100msPerSec, int timeoutMs);
 
 	// ------ Motion Profile Buffer ----------//
 	// public void ClearMotionProfileTrajectories() ;
-	// public int GetMotionProfileTopLevelBufferCount() ;
+	// public int getMotionProfileTopLevelBufferCount() ;
 	// public ErrorCode PushMotionProfileTrajectory(
 	// CTRE::Motion::TrajectoryPoint trajPt) ;
-	// public boolean IsMotionProfileTopLevelBufferFull() ;
+	// public boolean isMotionProfileTopLevelBufferFull() ;
 	// public void ProcessMotionProfileBuffer() ;
 	// public void GetMotionProfileStatus(
 	// CTRE::Motion::MotionProfileStatus statusToFill) ;
 	// public void ClearMotionProfileHasUnderrun(int timeoutMs) ;
 
 	// ------ error ----------//
-	public ErrorCode GetLastError();
+	public ErrorCode getLastError();
 
 	// ------ Faults ----------//
-	public ErrorCode GetFaults(Faults toFill) ;
+	public ErrorCode getFaults(Faults toFill) ;
 
-	public ErrorCode GetStickyFaults(StickyFaults toFill) ;
+	public ErrorCode getStickyFaults(StickyFaults toFill) ;
 
-	public ErrorCode ClearStickyFaults(int timeoutMs);
+	public ErrorCode clearStickyFaults(int timeoutMs);
 
 	// ------ Firmware ----------//
-	public int GetFirmwareVersion();
+	public int getFirmwareVersion();
 
-	public boolean HasResetOccurred();
+	public boolean hasResetOccurred();
 
 	// ------ Custom Persistent Params ----------//
-	public ErrorCode ConfigSetCustomParam(int newValue, int paramIndex, int timeoutMs);
+	public ErrorCode configSetCustomParam(int newValue, int paramIndex, int timeoutMs);
 
-	public int ConfigGetCustomParam(int paramIndex, int timoutMs);
+	public ErrorCode configGetCustomParam(int paramIndex, int timoutMs);
 
 	//------ Generic Param API, typically not used ----------//
-	public ErrorCode ConfigSetParameter(ParamEnum param, double value, int subValue, int ordinal, int timeoutMs);
+	public ErrorCode configSetParameter(ParamEnum param, double value, int subValue, int ordinal, int timeoutMs);
 
-	public double ConfigGetParameter(ParamEnum paramEnum, int ordinal, int timeoutMs) ;
+	public double configGetParameter(ParamEnum paramEnum, int ordinal, int timeoutMs) ;
 
 	//------ Misc. ----------//
-	public int GetBaseID();
-	public int GetDeviceID();
+	public int getBaseID();
+	public int getDeviceID();
 
 	// ----- Follower ------//
 	/* in parent interface */

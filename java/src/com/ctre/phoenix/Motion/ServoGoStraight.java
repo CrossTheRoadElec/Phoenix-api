@@ -41,26 +41,26 @@ public class ServoGoStraight implements com.ctre.phoenix.ILoopable
         _selectedStyle = style;
     }
     
-    public void Set(double Y , double heading)
+    public void set(double Y , double heading)
     {
         _y = Y;
 		_heading = heading;
     }
     
-    public double GetEncoderHeading()
+    public double getEncoderHeading()
     {
-        return _driveTrain.GetEncoderHeading();
+        return _driveTrain.getEncoderHeading();
     }
 	
 	public void resetIAccum() { servoParams.resetIAccum(); }
 
-    private void GoStraight(double Y, double heading)
+    private void goStraight(double Y, double heading)
     {
     	if(servoParams.P == 0 && servoParams.I == 0 && servoParams.D == 0)
-    		com.ctre.phoenix.CTRLogger.Log(-503, "Servo Go Straight");
+    		com.ctre.phoenix.CTRLogger.log(-503, "Servo Go Straight");
     	
         /* Grab encoder heading */
-        double currentHeading = GetEncoderHeading();
+        double currentHeading = getEncoderHeading();
 
         /* Find angular rate from the encoders */
         _timeElapsed = _myStopWatch.getDuration();
@@ -79,8 +79,8 @@ public class ServoGoStraight implements com.ctre.phoenix.ILoopable
                 _driveTrain.set(com.ctre.phoenix.Drive.Styles.Smart.PercentOutput, Y, X);
                 break;
             case Voltage:
-                _driveTrain.ConfigNominalPercentOutputVoltage(+0.0f, -0.0f);
-                _driveTrain.ConfigPeakPercentOutputVoltage(+servoParams.maxOut, -servoParams.maxOut);
+                _driveTrain.configNominalPercentOutputVoltage(+0.0f, -0.0f);
+                _driveTrain.configPeakPercentOutputVoltage(+servoParams.maxOut, -servoParams.maxOut);
                 _driveTrain.set(com.ctre.phoenix.Drive.Styles.Smart.Voltage, Y, X);
                 break;
             case VelocityClosedLoop:
@@ -92,26 +92,26 @@ public class ServoGoStraight implements com.ctre.phoenix.ILoopable
     }
 
     /** ILoopable */
-    public void OnStart()
+    public void onStart()
     {
         _isDone = false;
-		servoParams.OnStart();
+		servoParams.onStart();
     }
 
-    public void OnStop()
+    public void onStop()
     {
         _driveTrain.set(Styles.Smart.PercentOutput, 0, 0);
         _isRunning = false;
         _isDone = true;
     }
 
-    public boolean IsDone()
+    public boolean isDone()
     {
         return _isDone;
     }
 
-    public void OnLoop()
+    public void onLoop()
     {
-        GoStraight(_y, _heading);
+        goStraight(_y, _heading);
     }
 }
