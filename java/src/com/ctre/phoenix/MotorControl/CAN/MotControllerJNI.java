@@ -1,7 +1,7 @@
 package com.ctre.phoenix.MotorControl.CAN;
 import com.ctre.phoenix.MotorControl.*;
 
-@SuppressWarnings("MethodName")
+
 public class MotControllerJNI extends CTREJNIWrapper {
 	
     public static native long Create(int baseArbId);

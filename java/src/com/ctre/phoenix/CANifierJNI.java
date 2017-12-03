@@ -23,7 +23,6 @@
  package com.ctre.phoenix;
  import com.ctre.phoenix.MotorControl.*;
  
- @SuppressWarnings("MethodName")
  public class CANifierJNI extends CTREJNIWrapper {
 	 
 	public enum GeneralPin

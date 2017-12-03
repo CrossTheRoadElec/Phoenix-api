@@ -1,10 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) FIRST 2016. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package com.ctre.phoenix.MotorControl.CAN;
 
 import com.ctre.phoenix.ErrorCode;
@@ -12,7 +5,6 @@ import com.ctre.phoenix.MotorControl.FeedbackDevice;
 import com.ctre.phoenix.MotorControl.IMotorControllerEnhanced;
 import com.ctre.phoenix.MotorControl.LimitSwitchNormal;
 import com.ctre.phoenix.MotorControl.LimitSwitchSource;
-import com.ctre.phoenix.MotorControl.StatusFrame;
 import com.ctre.phoenix.MotorControl.StatusFrameEnhanced;
 import com.ctre.phoenix.MotorControl.VelocityMeasPeriod;
 import com.ctre.phoenix.MotorControl.CAN.MotControllerJNI;

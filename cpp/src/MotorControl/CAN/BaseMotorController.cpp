@@ -36,7 +36,9 @@ void* BaseMotorController::GetHandle()
 }
 int BaseMotorController::GetDeviceID()
 {
-	return c_MotController_GetDeviceNumber(m_handle);
+	int devID = 0;
+	(void)c_MotController_GetDeviceNumber(m_handle, &devID);
+	return devID;
 }
 //------ Set output routines. ----------//
 /**

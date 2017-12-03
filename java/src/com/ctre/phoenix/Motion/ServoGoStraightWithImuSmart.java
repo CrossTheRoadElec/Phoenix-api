@@ -1,6 +1,7 @@
 package com.ctre.phoenix.Motion;
 
 import com.ctre.phoenix.Sensors.PigeonIMU;
+import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.Drive.*;
 
 public class ServoGoStraightWithImuSmart implements com.ctre.phoenix.ILoopable
@@ -64,7 +65,7 @@ public class ServoGoStraightWithImuSmart implements com.ctre.phoenix.ILoopable
     private void goStraight(double Y, double targetHeading)
     {
     	if(servoParams.P == 0 && servoParams.I == 0 && servoParams.D == 0)
-    		com.ctre.phoenix.CTRLogger.log(-503, "Servo Go Straight With IMU Smart");
+    		com.ctre.phoenix.Logger.log(ErrorCode.GainsAreNotSet, "Servo Go Straight With IMU Smart");
         /* Grab current heading */
         double currentHeading = getImuHeading();
 

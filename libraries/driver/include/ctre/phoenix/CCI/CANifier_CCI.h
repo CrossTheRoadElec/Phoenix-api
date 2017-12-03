@@ -50,10 +50,10 @@ extern "C"{
 	CTR_Code c_CANifier_SetPWMOutput(void *handle,  uint32_t  pwmChannel,  uint32_t  dutyCycle);
 	CTR_Code c_CANifier_EnablePWMOutput(void *handle, uint32_t pwmChannel, bool bEnable);
 	CTR_Code c_CANifier_GetGeneralInputs(void *handle, bool allPins[], uint32_t capacity);
-	bool c_CANifier_GetGeneralInput(void *handle, uint32_t inputPin);
+	CTR_Code c_CANifier_GetGeneralInput(void *handle, uint32_t inputPin, bool * measuredInput);
 	CTR_Code c_CANifier_GetPWMInput(void *handle,  uint32_t  pwmChannel,  float dutyCycleAndPeriod [2]);
-	int c_CANifier_GetLastError(void *handle);
-	float c_CANifier_GetBatteryVoltage(void *handle);
+	CTR_Code c_CANifier_GetLastError(void *handle);
+	CTR_Code c_CANifier_GetBatteryVoltage(void *handle, float * batteryVoltage);
 	void c_CANifier_SetLastError(void *handle, int error);
 	//int c_CANifier_RequestParam(void *handle,  uint32_t  paramEnum);
 	//CTR_Code c_CANifier_SetParam(void *handle,  uint32_t  paramEnum,  float  value,  int  timeoutMs);

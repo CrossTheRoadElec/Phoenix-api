@@ -1,6 +1,7 @@
 #pragma once
 #include "ctre/phoenix/CANifier.h"
 #include "ctre/phoenix/MotorControl/CAN/TalonSRX.h"
+#include "ctre/phoenix/MotorControl/CAN/VictorSPX.h"
 #include "ctre/phoenix/MotorControl/Faults.h"
 #include "ctre/phoenix/Sensors/PigeonIMU.h"
 #include "ctre/phoenix/Tasking/Schedulers/ConcurrentScheduler.h"

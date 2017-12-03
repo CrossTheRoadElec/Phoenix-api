@@ -1,7 +1,7 @@
 package com.ctre.phoenix.Motion;
 
+import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.Drive.*;
-import com.ctre.phoenix.Util;
 
 public class ServoGoStraight implements com.ctre.phoenix.ILoopable
 {
@@ -57,7 +57,7 @@ public class ServoGoStraight implements com.ctre.phoenix.ILoopable
     private void goStraight(double Y, double heading)
     {
     	if(servoParams.P == 0 && servoParams.I == 0 && servoParams.D == 0)
-    		com.ctre.phoenix.CTRLogger.log(-503, "Servo Go Straight");
+    		com.ctre.phoenix.Logger.log(ErrorCode.GainsAreNotSet, "Servo Go Straight");
     	
         /* Grab encoder heading */
         double currentHeading = getEncoderHeading();

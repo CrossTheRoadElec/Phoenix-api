@@ -1,6 +1,6 @@
 package com.ctre.phoenix.MotorControl;
 
-@SuppressWarnings("MethodName")
+
 public class CTREJNIWrapper {
   static boolean libraryLoaded = false;
   

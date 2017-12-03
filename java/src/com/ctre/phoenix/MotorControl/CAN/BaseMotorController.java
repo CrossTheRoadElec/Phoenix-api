@@ -22,14 +22,11 @@ import edu.wpi.first.wpilibj.SpeedController;
 
 public abstract class BaseMotorController implements com.ctre.phoenix.MotorControl.IMotorController {
 	
-	private ErrorCode _lastError = ErrorCode.OKAY;
 	private ControlMode m_controlMode = ControlMode.PercentOutput;
 	private ControlMode m_sendMode = ControlMode.PercentOutput;
 	
 	private int _arbId = 0;
-	private double m_setPoint = 0;
 	private boolean _invert = false;
-	private int m_profile = 0;
 	
 	protected long m_handle;
 	
@@ -89,7 +86,6 @@ public abstract class BaseMotorController implements com.ctre.phoenix.MotorContr
 	{
 		m_controlMode = mode;
 		m_sendMode = mode;
-		m_setPoint = demand0;
 		int work;
 		
 		switch(m_controlMode)
@@ -674,7 +670,6 @@ forward/reverse directions.
    **/
 	public void selectProfileSlot(int slotIdx)
 	{
-		m_profile = slotIdx;
 		MotControllerJNI.SelectProfileSlot(m_handle, slotIdx);
 	}
   /**

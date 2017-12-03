@@ -55,8 +55,8 @@ CTR_Code CANifier::SetGeneralOutputs(int outputBits, int isOutputBits) {
 	return c_CANifier_SetGeneralOutputs(m_handle, outputBits, isOutputBits);
 }
 
-CTR_Code CANifier::GetGeneralInputs(CANifier::PinValues &allPins, int arraySize) {
-	return c_CANifier_GetGeneralInputs(m_handle, _tempPins, arraySize);
+CTR_Code CANifier::GetGeneralInputs(CANifier::PinValues &allPins) {
+	CTR_Code err = c_CANifier_GetGeneralInputs(m_handle, _tempPins, sizeof(_tempPins));
 	allPins.LIMF = _tempPins[LIMF];
 	allPins.LIMR = _tempPins[LIMR];
 	allPins.QUAD_A = _tempPins[QUAD_A];
@@ -68,17 +68,20 @@ CTR_Code CANifier::GetGeneralInputs(CANifier::PinValues &allPins, int arraySize)
 	allPins.SPI_MOSI_PWM1 = _tempPins[SPI_MOSI_PWM1P];
 	allPins.SPI_MISO_PWM2 = _tempPins[SPI_MISO_PWM2P];
 	allPins.SPI_CS_PWM3 = _tempPins[SPI_CS];
+	return err;
 }
 
 bool CANifier::GetGeneralInput(GeneralPin inputPin) {
-	return c_CANifier_GetGeneralInput(m_handle, inputPin);
+	bool retval = false;
+	(void)c_CANifier_GetGeneralInput(m_handle, inputPin, &retval);
+	return retval;
 }
 
 /**
  * Call GetLastError() to determine success.
  * @return true if specified input is high, false o/w.
  */
-int CANifier::GetLastError() {
+CTR_Code CANifier::GetLastError() {
 	return c_CANifier_GetLastError(m_handle);
 }
 

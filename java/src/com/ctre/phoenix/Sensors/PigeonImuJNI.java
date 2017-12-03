@@ -23,7 +23,7 @@
 package com.ctre.phoenix.Sensors;
 import com.ctre.phoenix.MotorControl.*;
 
-@SuppressWarnings("MethodName")
+
 public class PigeonImuJNI extends CTREJNIWrapper {
   
 	public static native long JNI_new_PigeonImu_Talon(int talonID);

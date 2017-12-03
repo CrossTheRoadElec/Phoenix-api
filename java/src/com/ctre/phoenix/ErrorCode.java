@@ -57,6 +57,7 @@ public enum ErrorCode {
 	WheelRadiusTooSmall(-500),
 	TicksPerRevZero(-501),
 	DistanceBetweenWheelsTooSmall(-502),
+	GainsAreNotSet(-503),
 
 	//Higher Level
 	IncompatibleMode(-600),

@@ -1,5 +1,6 @@
 package com.ctre.phoenix.Motion;
 
+import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.Drive.*;
 
 public class ServoStraightDistance implements com.ctre.phoenix.ILoopable
@@ -96,9 +97,9 @@ public class ServoStraightDistance implements com.ctre.phoenix.ILoopable
     private void straightDistance(double targetHeading, double targetDistance)
     {
     	if(straightServoParams.P == 0 && straightServoParams.I == 0 && straightServoParams.D == 0)
-    		com.ctre.phoenix.CTRLogger.log(-503, "Servo Straight Distance");
+    		com.ctre.phoenix.Logger.log(ErrorCode.GainsAreNotSet, "Servo Straight Distance");
     	if(distanceServoParams.P == 0 && distanceServoParams.I == 0 && distanceServoParams.D == 0)
-    		com.ctre.phoenix.CTRLogger.log(-503, "Servo Straight Distance");
+    		com.ctre.phoenix.Logger.log(ErrorCode.GainsAreNotSet, "Servo Straight Distance");
         /* Grab current heading and distance*/
         double currentDistance = getEncoderDistance();
 

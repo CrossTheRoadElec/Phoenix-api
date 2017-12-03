@@ -9,7 +9,7 @@ public:
 	static void Close();
 	static CTR_Code Log(CTR_Code code, std::string origin);
 	static void Open(int language);
-	static void Description(CTR_Code code, const char *&shrt, const char *&lng);
+	//static void Description(CTR_Code code, const char *&shrt, const char *&lng);
 };
 
 }

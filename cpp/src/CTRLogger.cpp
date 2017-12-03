@@ -17,13 +17,13 @@ CTR_Code CTRLogger::Log(CTR_Code code, std::string origin) {
 		stackTrace += strings[i];
 		stackTrace += "\n";
 	}
-	return c_Logger_Log(code, origin.c_str(), stackTrace.c_str());
+	return c_Logger_Log(code, origin.c_str(), 3, stackTrace.c_str());
 }
 void CTRLogger::Close() {
 	c_Logger_Close();
 }
-void CTRLogger::Description(CTR_Code code, const char *&shrt, const char *&lng) {
-	c_Logger_Description(code, shrt, lng);
-}
+//void CTRLogger::Description(CTR_Code code, const char *&shrt, const char *&lng) {
+//	c_Logger_Description(code, shrt, lng);
+//}
 	
 }

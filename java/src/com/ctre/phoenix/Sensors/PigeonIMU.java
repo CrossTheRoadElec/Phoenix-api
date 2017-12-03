@@ -196,9 +196,6 @@ public class PigeonIMU
 		}
 	}
 
-	/** Portion of the arbID for all status and control frames. */
-	private int _lastError = 0;
-	
 	private int m_deviceNumber = 0;
 
 	/**
@@ -230,16 +227,13 @@ public class PigeonIMU
 	public void configSetParameter(ParamEnum paramEnum, double paramValue)
 	{
 		PigeonImuJNI.JNI_ConfigSetParameter(m_handle, paramEnum.value, paramValue);
-		com.ctre.phoenix.CTRLogger.log(getLastError(), "PigeonImu " + m_deviceNumber + " ConfigSetParameter");
 	}
 	public void setStatusFrameRateMs(StatusFrameRate stateFrameRate, int periodMs) {
 		PigeonImuJNI.JNI_SetStatusFrameRateMs(m_handle, stateFrameRate.ordinal(), periodMs);
-		com.ctre.phoenix.CTRLogger.log(getLastError(), "PigeonImu " + m_deviceNumber + " SetStatusFrameRateMs");
 	}
 	public void setYaw(double angleDeg)
 	{
 		PigeonImuJNI.JNI_SetYaw(m_handle, angleDeg);
-		com.ctre.phoenix.CTRLogger.log(getLastError(), "PigeonImu " + m_deviceNumber + " SetYaw");
 	}
 	/**
 	 * Atomically add to the Yaw register.
@@ -247,32 +241,26 @@ public class PigeonIMU
 	public void addYaw(double angleDeg)
 	{
 		PigeonImuJNI.JNI_AddYaw(m_handle, angleDeg);
-		com.ctre.phoenix.CTRLogger.log(getLastError(), "PigeonImu " + m_deviceNumber + " AddYaw");
 	}
 	public void setYawToCompass()
 	{
 		PigeonImuJNI.JNI_SetYawToCompass(m_handle);
-		com.ctre.phoenix.CTRLogger.log(getLastError(), "PigeonImu " + m_deviceNumber + " SetYawToCompass");
 	}
 	public void setFusedHeading(double angleDeg)
 	{
 		PigeonImuJNI.JNI_SetFusedHeading(m_handle, angleDeg);
-		com.ctre.phoenix.CTRLogger.log(getLastError(), "PigeonImu " + m_deviceNumber + " SetFusedHeading");
 	}
 	public void addFusedHeading(double angleDeg)
 	{
 		PigeonImuJNI.JNI_AddFusedHeading(m_handle, angleDeg);
-		com.ctre.phoenix.CTRLogger.log(getLastError(), "PigeonImu " + m_deviceNumber + " AddFusedHeading");
 	}
 	public void setFusedHeadingToCompass()
 	{
 		PigeonImuJNI.JNI_SetFusedHeadingToCompass(m_handle);
-		com.ctre.phoenix.CTRLogger.log(getLastError(), "PigeonImu " + m_deviceNumber + " SetFusedHeadingToCompass");
 	}
 	public void setAccumZAngle(double angleDeg)
 	{
 		PigeonImuJNI.JNI_SetAccumZAngle(m_handle, angleDeg);
-		com.ctre.phoenix.CTRLogger.log(getLastError(), "PigeonImu " + m_deviceNumber + " SetAccumZAngle");
 	}
 	/**
 	 * Enable/Disable Temp compensation.  Pigeon defaults with this on at boot.
@@ -280,7 +268,6 @@ public class PigeonIMU
 	public void enableTemperatureCompensation(boolean bTempCompEnable)
 	{
 		PigeonImuJNI.JNI_EnableTemperatureCompensation(m_handle, bTempCompEnable ? 1 : 0);
-		com.ctre.phoenix.CTRLogger.log(getLastError(), "PigeonImu " + m_deviceNumber + " EnableTemperatureCompensation");
 	}
 	/**
 	 * Set the declination for compass.
@@ -289,7 +276,6 @@ public class PigeonIMU
 	public void setCompassDeclination(double angleDegOffset)
 	{
 		PigeonImuJNI.JNI_SetCompassDeclination(m_handle, angleDegOffset);
-		com.ctre.phoenix.CTRLogger.log(getLastError(), "PigeonImu " + m_deviceNumber + " SetCompassDeclination");
 	}
 	/**
 	 * Sets the compass angle.
@@ -299,13 +285,11 @@ public class PigeonIMU
 	public void setCompassAngle(double angleDeg)
 	{
 		PigeonImuJNI.JNI_SetCompassAngle(m_handle, angleDeg);
-		com.ctre.phoenix.CTRLogger.log(getLastError(), "PigeonImu " + m_deviceNumber + " SetCompassAngle");
 	}
 	//----------------------- Calibration routines -----------------------//
 	public void enterCalibrationMode(CalibrationMode calMode)
 	{
 		PigeonImuJNI.JNI_EnterCalibrationMode(m_handle, calMode.value);
-		com.ctre.phoenix.CTRLogger.log(getLastError(), "PigeonImu " + m_deviceNumber + " EnterCalibrationMode");
 	}
 	/**
 	 * Get the status of the current (or previousley complete) calibration.
@@ -373,7 +357,6 @@ public class PigeonIMU
 	{
 		GeneralStatus statusToFill = new GeneralStatus();
 		PigeonImuJNI.JNI_GetGeneralStatus(m_handle, this, statusToFill);
-		com.ctre.phoenix.CTRLogger.log(getLastError(), "PigeonImu " + m_deviceNumber + " GeneralStatus");
 		return statusToFill;
 	}
 	//----------------------- General Error status  -----------------------//
@@ -386,19 +369,16 @@ public class PigeonIMU
 	public double[] get6dQuaternion()
 	{
 		double[] k = PigeonImuJNI.JNI_Get6dQuaternion(m_handle);
-		com.ctre.phoenix.CTRLogger.log(getLastError(), "PigeonImu " + m_deviceNumber + " Get 6D Quaternion");
 		return k;
 	}
 	public double[] getYawPitchRoll()
 	{
 		double[] k = PigeonImuJNI.JNI_GetYawPitchRoll(m_handle);
-		com.ctre.phoenix.CTRLogger.log(getLastError(), "PigeonImu " + m_deviceNumber + " Get Yaw Pitch Roll");
 		return k;
 	}
 	public double[] getAccumGyro()
 	{
 		double[] k = PigeonImuJNI.JNI_GetAccumGyro(m_handle);
-		com.ctre.phoenix.CTRLogger.log(getLastError(), "PigeonImu " + m_deviceNumber + " Get Accum Gyro");
 		return k;
 	}
 	/**
@@ -407,7 +387,6 @@ public class PigeonIMU
 	public double getAbsoluteCompassHeading()
 	{
 		double k = PigeonImuJNI.JNI_GetAbsoluteCompassHeading(m_handle);
-		com.ctre.phoenix.CTRLogger.log(getLastError(), "PigeonImu " + m_deviceNumber + " GetAbsoluteCompassHeading");
 		return k;
 	}
 	/**
@@ -417,7 +396,6 @@ public class PigeonIMU
 	public double getCompassHeading()
 	{
 		double k = PigeonImuJNI.JNI_GetCompassHeading(m_handle);
-		com.ctre.phoenix.CTRLogger.log(getLastError(), "PigeonImu " + m_deviceNumber + " GetCompassHeading");
 		return k;
 	}
 	/**
@@ -426,25 +404,21 @@ public class PigeonIMU
 	public double getCompassFieldStrength()
 	{
 		double k = PigeonImuJNI.JNI_GetCompassFieldStrength(m_handle);
-		com.ctre.phoenix.CTRLogger.log(getLastError(), "PigeonImu " + m_deviceNumber + " GetCompassFieldStrength");
 		return k;
 	}
 	public double getTemp()
 	{
 		double k = PigeonImuJNI.JNI_GetTemp(m_handle);
-		com.ctre.phoenix.CTRLogger.log(getLastError(), "PigeonImu " + m_deviceNumber + " GetTemp");
 		return k;
 	}
 	public PigeonState getState(int errCode, long statusFrame)
 	{
 		PigeonState k = PigeonState.values()[PigeonImuJNI.JNI_GetState(m_handle)];
-		com.ctre.phoenix.CTRLogger.log(getLastError(), "PigeonImu " + m_deviceNumber + " GetState");
 		return k;
 	}
 	public PigeonState getState()
 	{
 		PigeonState retval = PigeonState.values()[PigeonImuJNI.JNI_GetState(m_handle)];
-		com.ctre.phoenix.CTRLogger.log(getLastError(), "PigeonImu " + m_deviceNumber + " GetState");
 		return retval;
 	}
 	/// <summary>
@@ -455,39 +429,33 @@ public class PigeonIMU
 	public int getUpTime()
 	{
 		int k = PigeonImuJNI.JNI_GetUpTime(m_handle);
-		com.ctre.phoenix.CTRLogger.log(getLastError(), "PigeonImu " + m_deviceNumber + " GetUpTime");
 		return k;
 	}
 
 	public short[] getRawMagnetometer()
 	{
 		short[] k = PigeonImuJNI.JNI_GetRawMagnetometer(m_handle);
-		com.ctre.phoenix.CTRLogger.log(getLastError(), "PigeonImu " + m_deviceNumber + " Get Raw Magnetometer");
 		return k;
 	}
 	public short[] getBiasedMagnetometer()
 	{
 		short[] k = PigeonImuJNI.JNI_GetBiasedMagnetometer(m_handle);
-		com.ctre.phoenix.CTRLogger.log(getLastError(), "PigeonImu " + m_deviceNumber + " Get Biased Magnetometer");
 		return k;
 	}
 	public short[] getBiasedAccelerometer()
 	{
 		short[] k = PigeonImuJNI.JNI_GetBiasedAccelerometer(m_handle);
-		com.ctre.phoenix.CTRLogger.log(getLastError(), "PigeonImu " + m_deviceNumber + " Get Biased Accelerometer");
 		return k;
 	}
 	public double[] getRawGyro()
 	{
 		double[] k = PigeonImuJNI.JNI_GetRawGyro(m_handle);
-		com.ctre.phoenix.CTRLogger.log(getLastError(), "PigeonImu " + m_deviceNumber + " Get Raw Gyro");
 		return k;
 	}
 	
 	public double[] getAccelerometerAngles()
 	{
 		double[] k = PigeonImuJNI.JNI_GetAccelerometerAngles(m_handle);
-		com.ctre.phoenix.CTRLogger.log(getLastError(), "PigeonImu " + m_deviceNumber + " Get Accelerometer Angles");
 		return k;
 	}
 	/**
@@ -524,7 +492,6 @@ public class PigeonIMU
 	{
 		FusionStatus status = new FusionStatus();
 		PigeonImuJNI.JNI_GetFusedHeading(m_handle, this, status);
-		com.ctre.phoenix.CTRLogger.log(getLastError(), "PigeonImu " + m_deviceNumber + " FusionStatus");
 		return status;
 	}
 	//----------------------- Startup/Reset status -----------------------//
@@ -535,20 +502,17 @@ public class PigeonIMU
 	public int getResetCount()
 	{
 		int k = PigeonImuJNI.JNI_GetResetCount(m_handle);
-		com.ctre.phoenix.CTRLogger.log(getLastError(), "PigeonImu " + m_deviceNumber + " GetResetCount");
 		return k;
 	}
 	public int getResetFlags()
 	{
 		int k = PigeonImuJNI.JNI_GetResetFlags(m_handle);
-		com.ctre.phoenix.CTRLogger.log(getLastError(), "PigeonImu " + m_deviceNumber + " GetResetFlags");
 		return k;
 	}
 	 /* @return param holds the version of the Talon.  Talon must be powered cycled at least once. */
 	public int getFirmVers()
 	{
 		int k = PigeonImuJNI.JNI_GetFirmVers(m_handle);
-		com.ctre.phoenix.CTRLogger.log(getLastError(), "PigeonImu " + m_deviceNumber + " GetFirmVers");
 		return k;
 	}
 	/**
@@ -557,7 +521,6 @@ public class PigeonIMU
 	public boolean hasResetOccured()
 	{
 		boolean k = PigeonImuJNI.JNI_HasResetOccured(m_handle);
-		com.ctre.phoenix.CTRLogger.log(getLastError(), "PigeonImu " + m_deviceNumber + " HasResetOccured");
 		return k;
 	}
 }

@@ -82,9 +82,9 @@ public:
 	CTR_Code SetLEDOutput(double percentOutput, LEDChannel ledChannel);
 	CTR_Code SetGeneralOutput(GeneralPin outputPin, bool outputValue, bool outputEnable);
 	CTR_Code SetGeneralOutputs(int outputBits, int isOutputBits);
-	CTR_Code GetGeneralInputs(PinValues &allPins, int arraySize);
+	CTR_Code GetGeneralInputs(PinValues &allPins);
 	bool GetGeneralInput(GeneralPin inputPin);
-	int GetLastError();
+	CTR_Code GetLastError();
 	CTR_Code SetPWMOutput(int pwmChannel, float dutyCycle);
 	CTR_Code EnablePWMOutput(int pwmChannel, bool bEnable);
 	CTR_Code GetPWMInput(PWMChannel pwmChannel, float dutyCycleAndPeriod[]);

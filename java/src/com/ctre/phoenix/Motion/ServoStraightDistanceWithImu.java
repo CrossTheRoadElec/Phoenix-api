@@ -1,6 +1,7 @@
 package com.ctre.phoenix.Motion;
 
 import com.ctre.phoenix.Sensors.PigeonIMU;
+import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.Drive.*;
 import com.ctre.phoenix.Time.StopWatch;
 
@@ -104,9 +105,9 @@ public class ServoStraightDistanceWithImu implements com.ctre.phoenix.ILoopable
      private void straightDistance(double targetHeading, double targetDistance)
      {
     	if(straightServoParameters.P == 0 && straightServoParameters.I == 0 && straightServoParameters.D == 0)
-    		com.ctre.phoenix.CTRLogger.log(-503, "Servo Straight Distance With Imu");
+    		com.ctre.phoenix.Logger.log(ErrorCode.GainsAreNotSet, "Servo Straight Distance With Imu");
     	if(distanceServoParameters.P == 0 && distanceServoParameters.I == 0 && distanceServoParameters.D == 0)
-    		com.ctre.phoenix.CTRLogger.log(-503, "Servo Straight Distance With Imu");
+    		com.ctre.phoenix.Logger.log(ErrorCode.GainsAreNotSet, "Servo Straight Distance With Imu");
          /* Grab current distance */
          double currentDistance = getEncoderDistance();
 
