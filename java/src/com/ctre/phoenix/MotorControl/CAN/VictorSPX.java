@@ -1,9 +1,11 @@
 package com.ctre.phoenix.MotorControl.CAN;
 
-public class VictorSPX extends com.ctre.phoenix.MotorControl.CAN.BaseMotorController {
+import com.ctre.phoenix.MotorControl.IMotorController;
 
-	public VictorSPX(int deviceNumber) {
-		super(deviceNumber | 0x01040000);
-	}
+public class VictorSPX extends com.ctre.phoenix.MotorControl.CAN.BaseMotorController
+    implements IMotorController {
 
+  public VictorSPX(int deviceNumber) {
+    super(deviceNumber | 0x01040000);
+  }
 }

@@ -1,21 +1,22 @@
 #pragma once
 
 #include "ctre/phoenix/MotorControl/CAN/BaseMotorController.h"
+#include "ctre/phoenix/MotorControl/IMotorController.h"
 
 namespace CTRE {
-namespace MotorControl {
+namespace Phoenix {
+namespace MotorControl{
 namespace CAN {
 
-class VictorSPX: public BaseMotorController {
+class VictorSPX: public virtual CTRE::MotorControl::CAN::BaseMotorController,
+                 public virtual CTRE::MotorControl::IMotorController {
+
 public:
+  VictorSPX(int deviceNumber);
+  virtual ~VictorSPX() {}
+}; //class VictorSPX
 
-	VictorSPX(int deviceNumber) :
-			BaseMotorController(deviceNumber | 0x01040000) {
-	}
-
-};
-
-} // namespace CAN
-} // namespace MotorControl
-} // namespace CTRE
-
+} //namespace CAN
+} //namespace MotorControl
+} //namespace Phoenix
+} //namespace CTRE
