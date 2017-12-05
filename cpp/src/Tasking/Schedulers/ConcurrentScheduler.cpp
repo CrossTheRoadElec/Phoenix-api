@@ -1,10 +1,13 @@
 #include "ctre/phoenix/Tasking/Schedulers/ConcurrentScheduler.h"
 
-namespace CTRE { namespace Tasking{ namespace Schedulers {
+namespace CTRE {
+namespace Tasking {
+namespace Schedulers {
 
 ConcurrentScheduler::ConcurrentScheduler() {
 }
-ConcurrentScheduler::~ConcurrentScheduler(){}
+ConcurrentScheduler::~ConcurrentScheduler() {
+}
 void ConcurrentScheduler::Add(ILoopable *aLoop, bool enable) {
 	_loops.push_back(aLoop);
 	_enabs.push_back(enable);
@@ -14,7 +17,7 @@ void ConcurrentScheduler::RemoveAll() {
 	_enabs.clear();
 }
 void ConcurrentScheduler::Start(ILoopable* toStart) {
-	for (int i = 0; i < (int)_loops.size(); ++i) {
+	for (int i = 0; i < (int) _loops.size(); ++i) {
 		ILoopable* lp = (ILoopable*) _loops[i];
 
 		if (lp == toStart) {
@@ -26,7 +29,7 @@ void ConcurrentScheduler::Start(ILoopable* toStart) {
 
 }
 void ConcurrentScheduler::Stop(ILoopable* toStop) {
-	for (int i = 0; i < (int)_loops.size(); ++i) {
+	for (int i = 0; i < (int) _loops.size(); ++i) {
 		ILoopable* lp = (ILoopable*) _loops[i];
 
 		if (lp == toStop) {
@@ -37,30 +40,28 @@ void ConcurrentScheduler::Stop(ILoopable* toStop) {
 	}
 }
 void ConcurrentScheduler::StartAll() {	//All Loops
-	for(auto loop : _loops){
+	for (auto loop : _loops) {
 		loop->OnStart();
 	}
-	for(auto enable : _enabs){
+	for (auto enable : _enabs) {
 		enable = true;
 	}
 }
 void ConcurrentScheduler::StopAll() {	//All Loops
-	for(auto loop : _loops){
+	for (auto loop : _loops) {
 		loop->OnStop();
 	}
-	for(auto enable : _enabs){
+	for (auto enable : _enabs) {
 		enable = false;
 	}
 }
 void ConcurrentScheduler::Process() {
-	for(int i = 0; i< (int)_loops.size(); ++i){
-		ILoopable* loop = (ILoopable*)_loops[i];
-		bool en = (bool)_enabs[i];
-		if(en){
+	for (int i = 0; i < (int) _loops.size(); ++i) {
+		ILoopable* loop = (ILoopable*) _loops[i];
+		bool en = (bool) _enabs[i];
+		if (en) {
 			loop->OnLoop();
-		}
-		else
-		{
+		} else {
 			/* Current ILoopable is turned off, don't call OnLoop for it */
 		}
 	}
@@ -76,6 +77,10 @@ void ConcurrentScheduler::OnStop() {
 	ConcurrentScheduler::StopAll();
 }
 bool ConcurrentScheduler::IsDone() {
-		return false;
+	return false;
 }
-}}}
+
+} // namespace Schedulers
+} // namespace Tasking
+} // namespace CTRE
+
