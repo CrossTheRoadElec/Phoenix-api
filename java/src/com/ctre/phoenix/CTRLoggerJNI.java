@@ -1,6 +1,6 @@
 package com.ctre.phoenix;
 
-import com.ctre.phoenix.MotorControl.CTREJNIWrapper;
+import com.ctre.phoenix.CTREJNIWrapper;
 
 /* package */ class CTRLoggerJNI extends CTREJNIWrapper {
 	/* package */ static native int JNI_Logger_Log(int code, String origin, String stackTrace);

@@ -1,5 +1,4 @@
-package com.ctre.phoenix.MotorControl;
-
+package com.ctre.phoenix;
 
 public class CTREJNIWrapper {
   static boolean libraryLoaded = false;

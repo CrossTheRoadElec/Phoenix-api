@@ -21,7 +21,6 @@
  * (INCLUDING NEGLIGENCE), BREACH OF WARRANTY, OR OTHERWISE
  */
  package com.ctre.phoenix;
- import com.ctre.phoenix.MotorControl.*;
  
  public class CANifierJNI extends CTREJNIWrapper {
 	 

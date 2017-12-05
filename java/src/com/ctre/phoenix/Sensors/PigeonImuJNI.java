@@ -21,7 +21,7 @@
  * (INCLUDING NEGLIGENCE), BREACH OF WARRANTY, OR OTHERWISE
  */
 package com.ctre.phoenix.Sensors;
-import com.ctre.phoenix.MotorControl.*;
+import com.ctre.phoenix.CTREJNIWrapper;
 
 
 public class PigeonImuJNI extends CTREJNIWrapper {
