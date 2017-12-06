@@ -1,4 +1,4 @@
-package com.ctre.phoenix.MotorControl;
+package com.ctre.phoenix;
 
 public enum ParamEnum
 	{
@@ -9,7 +9,7 @@ public enum ParamEnum
 	eOpenloopRamp(301),
 	eClosedloopRamp(302),
 	eNeutralDeadband(303),
-	//eClosedloopDeadband(304),
+
 	ePeakPosOutput(305),
 	eNominalPosOutput(306),
 	ePeakNegOutput(307),
@@ -66,8 +66,30 @@ public enum ParamEnum
 	eLimitRemoteFilter_IDValue(430), // ordinal (fwd=0),reverse=1)),
 	eLimitRemoteFilter_IDMask(431), // ordinal (fwd=0),reverse=1)),
 	eLimitRemoteFilter_BitPos(432), // ordinal (fwd=0),reverse=1)),
-	eLimitRemoteFilter_TimeoutMs(433); // ordinal (fwd=0),reverse=1)),
+	eLimitRemoteFilter_TimeoutMs(433), // ordinal (fwd=0),reverse=1)),
 
+	eMotionMeas_YawOffset(160), 
+	eMotionMeas_CompassOffset(161), 
+	eMotionMeas_BetaGain(162), 
+	eMotionMeas_EnableCompassFusion(163),
+	eMotionMeas_GyroNoMotionCal (	164),
+	eMotionMeas_EnterCalibration (	165),
+	eMotionMeas_FusedHeadingOffset	( 166),
+	eMotionMeas_PulseWidth	( 167),
+	eMotionMeas_RtsPin	( 168),
+	eMotionMeas_StatusFrameRate	( 169),
+	eMotionMeas_AccumZ	( 170),
+	eMotionMeas_TempCompDisable	( 171),
+	eMotionMeas_tap_threshX ( 172),
+	eMotionMeas_tap_threshY ( 173),
+	eMotionMeas_tap_threshZ ( 174),
+	eMotionMeas_tap_count ( 175),
+	eMotionMeas_tap_time ( 176),
+	eMotionMeas_tap_time_multi ( 177),
+	eMotionMeas_shake_reject_thresh ( 178),
+	eMotionMeas_shake_reject_time ( 179),
+	eMotionMeas_shake_reject_timeout ( 180);
+	
 	public int value;
 	ParamEnum(int value)
 	{
