@@ -1,6 +1,7 @@
 package com.ctre.phoenix.MotorControl;
 
 import com.ctre.phoenix.ErrorCode;
+import com.ctre.phoenix.ParamEnum;
 
 public interface IMotorController
 		extends com.ctre.phoenix.Signals.IOutputSignal, com.ctre.phoenix.Signals.IInvertable, IFollower {
