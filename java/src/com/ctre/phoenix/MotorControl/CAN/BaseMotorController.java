@@ -15,7 +15,7 @@ import com.ctre.phoenix.MotorControl.StatusFrame;
 import com.ctre.phoenix.MotorControl.StatusFrameEnhanced;
 import com.ctre.phoenix.MotorControl.StickyFaults;
 import com.ctre.phoenix.MotorControl.RemoteFeedbackDevice;
-import com.ctre.phoenix.MotorControl.ParamEnum;
+import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.ErrorCode;
 /* WPILIB */
 import edu.wpi.first.wpilibj.SpeedController;
