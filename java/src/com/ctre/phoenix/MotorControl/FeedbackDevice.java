@@ -15,9 +15,9 @@ public enum FeedbackDevice {
 	CurrentDrawMilliamperes(14),
 	SoftwarEmulatedSensor(15);
 	
-	public int value;
-	FeedbackDevice(int value)
+	public final int value;
+	FeedbackDevice(int initValue)
 	{
-		this.value = value;
+		this.value = initValue;
 	}
 };

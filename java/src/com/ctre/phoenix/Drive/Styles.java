@@ -8,7 +8,7 @@ public class Styles
 		PercentOutput(1),
 		VelocityClosedLoop(2);
 		
-		public int value;
+		public final int value;
 		Smart(int value)
 		{
 			this.value = value;
@@ -20,7 +20,7 @@ public class Styles
 		Voltage(0),
 		PercentOutput(1);
 		
-		public int value;
+		public final int value;
 		Basic(int value)
 		{
 			this.value = value;

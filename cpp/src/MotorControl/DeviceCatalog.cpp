@@ -1,5 +1,5 @@
 #include <ctre/phoenix/MotorControl/DeviceCatalog.h>
 
-using namespace CTRE::MotorControl;
+using namespace CTRE::Phoenix::MotorControl;
 
 DeviceCatalog * DeviceCatalog::_instance = 0;

@@ -3,9 +3,9 @@
 #include "ctre/phoenix/LowLevel/MotControllerWithBuffer_LowLevel.h"
 #include "../WpilibSpeedController.h"
 
-using namespace CTRE::MotorControl;
-using namespace CTRE::MotorControl::CAN;
-using namespace CTRE::MotorControl::LowLevel;
+using namespace CTRE::Phoenix::MotorControl;
+using namespace CTRE::Phoenix::MotorControl::CAN;
+using namespace CTRE::Phoenix::MotorControl::LowLevel;
 
 //--------------------- Constructors -----------------------------//
 /**
@@ -19,7 +19,7 @@ BaseMotorController::BaseMotorController(int arbId) {
 	m_handle = c_MotController_Create1(arbId);
 	_arbId = arbId;
 
-	_wpilibSpeedController = new CTRE::MotorControl::WpilibSpeedController(this);
+	_wpilibSpeedController = new WpilibSpeedController(this);
 
 	//_sensColl = new SensorCollection(_ll);
 }
@@ -69,12 +69,11 @@ void BaseMotorController::Set(ControlMode mode, float demand0, float demand1) {
 	m_sendMode = mode;
 	m_setPoint = demand0;
 
-	int status = 0;
 	uint32_t work;
 	switch (m_controlMode) {
 		case ControlMode::PercentOutput:
 		case ControlMode::TimedPercentOutput:
-			c_MotController_SetDemand(m_handle, (int)m_sendMode, (int) (1023 * demand0), 0);
+			c_MotController_SetDemand(m_handle, (int)m_sendMode, (int) (1023 * demand0), 1023 *demand1);
 			break;
 		case ControlMode::Follower:
 			/* did caller specify device ID */
@@ -94,7 +93,7 @@ void BaseMotorController::Set(ControlMode mode, float demand0, float demand1) {
 		case ControlMode::MotionMagic:
 		case ControlMode::MotionMagicArc:
 		case ControlMode::MotionProfile:
-			c_MotController_SetDemand(m_handle, (int)m_sendMode, (int) (demand0), 0);
+			c_MotController_SetDemand(m_handle, (int)m_sendMode, (int) (demand0), 1023 * demand1);
 			break;
 		case ControlMode::Current:
 			c_MotController_SetDemand(m_handle, (int)m_sendMode, (int) (1000 * demand0), 0); /* milliamps */
@@ -131,7 +130,7 @@ void BaseMotorController::Set(ControlMode mode, float demand0, float demand1) {
 	//        Debug.Print("The CTRE MotorController does not support this control mode.");
 	//        break;
 	//}
-	SetLastError(status);
+	//SetLastError(status);
 }
 void BaseMotorController::NeutralOutput() {
 	Set(ControlMode::Disabled, 0);
@@ -196,26 +195,28 @@ void BaseMotorController::EnableVoltageCompensation(bool enable) {
 }
 
 //------ General Status ----------//
-ErrorCode BaseMotorController::GetBusVoltage(float & param) {
-	return c_MotController_GetBusVoltage(m_handle, &param);
+float BaseMotorController::GetBusVoltage() {
+	float param = 0;
+	c_MotController_GetBusVoltage(m_handle, &param);
+	return param;
 }
-ErrorCode BaseMotorController::GetMotorOutputPercent(float & param) {
-	return c_MotController_GetMotorOutputPercent(m_handle, &param);
+float BaseMotorController::GetMotorOutputPercent() {
+	float param = 0;
+	c_MotController_GetMotorOutputPercent(m_handle, &param);
+	return param;
 }
-ErrorCode BaseMotorController::GetMotorOutputVoltage(float & param) {
-	ErrorCode er;
-	float v, p;
-	er = GetBusVoltage(v);
-	GetMotorOutputPercent(p);
-
-	param = v * p;
-	return er;
+float BaseMotorController::GetMotorOutputVoltage() {
+	return GetBusVoltage() * GetMotorOutputPercent();
 }
-ErrorCode BaseMotorController::GetOutputCurrent(float & param) {
-	return c_MotController_GetOutputCurrent(m_handle, &param);
+float BaseMotorController::GetOutputCurrent() {
+	float param = 0;
+	c_MotController_GetOutputCurrent(m_handle, &param);
+	return param;
 }
-ErrorCode BaseMotorController::GetTemperature(float & param) {
-	return c_MotController_GetTemperature(m_handle, &param);
+float BaseMotorController::GetTemperature() {
+	float param = 0;
+	c_MotController_GetTemperature(m_handle, &param);
+	return param;
 }
 
 //------ sensor selection ----------//
@@ -242,13 +243,12 @@ ErrorCode BaseMotorController::ConfigSelectedFeedbackSensor(
 //------- sensor status --------- //
 int BaseMotorController::GetSelectedSensorPosition() {
 	int retval;
-	SetLastError(c_MotController_GetSelectedSensorPosition(m_handle, &retval));
+	c_MotController_GetSelectedSensorPosition(m_handle, &retval);
 	return retval;
 }
 int BaseMotorController::GetSelectedSensorVelocity() {
 	int retval;
-	ErrorCode err = c_MotController_GetSelectedSensorVelocity(m_handle, &retval);
-	SetLastError(err);
+	c_MotController_GetSelectedSensorVelocity(m_handle, &retval);
 	return retval;
 }
 ErrorCode BaseMotorController::SetSelectedSensorPosition(int sensorPos,
@@ -269,13 +269,17 @@ ErrorCode BaseMotorController::SetStatusFramePeriod(StatusFrameEnhanced frame,
 		int periodMs, int timeoutMs) {
 	return c_MotController_SetStatusFramePeriod(m_handle, frame, periodMs, timeoutMs);
 }
-ErrorCode BaseMotorController::GetStatusFramePeriod(StatusFrame frame,
-		int & periodMs, int timeoutMs) {
-	return c_MotController_GetStatusFramePeriod(m_handle, frame, &periodMs, timeoutMs);
+int BaseMotorController::GetStatusFramePeriod(StatusFrame frame,
+		int timeoutMs) {
+	int periodMs = 0;
+	c_MotController_GetStatusFramePeriod(m_handle, frame, &periodMs, timeoutMs);
+	return periodMs;
 }
-ErrorCode BaseMotorController::GetStatusFramePeriod(StatusFrameEnhanced frame,
-		int & periodMs, int timeoutMs) {
-	return c_MotController_GetStatusFramePeriod(m_handle, frame, &periodMs, timeoutMs);
+int BaseMotorController::GetStatusFramePeriod(StatusFrameEnhanced frame,
+		int timeoutMs) {
+	int periodMs = 0;
+	c_MotController_GetStatusFramePeriod(m_handle, frame, &periodMs, timeoutMs);
+	return periodMs;
 }
 
 //----- velocity signal conditionaing ------//
@@ -376,14 +380,20 @@ ErrorCode BaseMotorController::SetIntegralAccumulator(float iaccum,
 	return c_MotController_SetIntegralAccumulator(m_handle, iaccum, timeoutMs);
 }
 
-ErrorCode BaseMotorController::GetClosedLoopError(int & closedLoopError) {
-	return SetLastError(c_MotController_GetClosedLoopError(m_handle, &closedLoopError, 0));
+int BaseMotorController::GetClosedLoopError() {
+	int closedLoopError = 0;
+	c_MotController_GetClosedLoopError(m_handle, &closedLoopError, 0);
+	return closedLoopError;
 }
-ErrorCode BaseMotorController::GetIntegralAccumulator(float & iaccum) {
-	return c_MotController_GetIntegralAccumulator(m_handle, &iaccum, 0);
+float BaseMotorController::GetIntegralAccumulator() {
+	float iaccum = 0;
+	c_MotController_GetIntegralAccumulator(m_handle, &iaccum, 0);
+	return iaccum;
 }
-ErrorCode BaseMotorController::GetErrorDerivative(float & derror) {
-	return SetLastError(c_MotController_GetErrorDerivative(m_handle, &derror, 0));
+float BaseMotorController::GetErrorDerivative() {
+	float derror = 0;
+	c_MotController_GetErrorDerivative(m_handle, &derror, 0);
+	return derror;
 }
 /**
  * SRX has two available slots for PID.
@@ -397,15 +407,13 @@ void BaseMotorController::SelectProfileSlot(int slotIdx) {
 //------ Motion Profile Settings used in Motion Magic and Motion Profile ----------//
 ErrorCode BaseMotorController::ConfigMotionCruiseVelocity(
 		int sensorUnitsPer100ms, int timeoutMs) {
-	return SetLastError(
-			c_MotController_ConfigMotionCruiseVelocity(m_handle,
-					sensorUnitsPer100ms, timeoutMs));
+	return c_MotController_ConfigMotionCruiseVelocity(m_handle,
+			sensorUnitsPer100ms, timeoutMs);
 }
 ErrorCode BaseMotorController::ConfigMotionAcceleration(
 		int sensorUnitsPer100msPerSec, int timeoutMs) {
-	return SetLastError(
-			c_MotController_ConfigMotionAcceleration(m_handle,
-					sensorUnitsPer100msPerSec, timeoutMs));
+	return c_MotController_ConfigMotionAcceleration(m_handle,
+			sensorUnitsPer100msPerSec, timeoutMs);
 }
 
 //------ Motion Profile Buffer ----------//
@@ -440,15 +448,7 @@ ErrorCode BaseMotorController::ConfigMotionAcceleration(
 
 //------ error ----------//
 ErrorCode BaseMotorController::GetLastError() {
-	return _lastError;
-}
-ErrorCode BaseMotorController::SetLastError(int error) {
-	_lastError = (ErrorCode) error;
-	return _lastError;
-}
-ErrorCode BaseMotorController::SetLastError(ErrorCode error) {
-	_lastError = (ErrorCode) error;
-	return _lastError;
+	return c_MotController_GetLastError(m_handle);
 }
 
 //------ Faults ----------//
@@ -464,10 +464,14 @@ ErrorCode BaseMotorController::ClearStickyFaults(int timeoutMs) {
 
 //------ Firmware ----------//
 int BaseMotorController::GetFirmwareVersion() {
-	return c_MotController_GetFirmwareVersion(m_handle);
+	int retval = -1;
+	c_MotController_GetFirmwareVersion(m_handle, &retval);
+	return retval;
 }
 bool BaseMotorController::HasResetOccured() {
-	return c_MotController_HasResetOccurred(m_handle);
+	bool retval = false;
+	c_MotController_HasResetOccurred(m_handle, &retval);
+	return retval;
 }
 
 //------ Custom Persistent Params ----------//
@@ -475,9 +479,11 @@ ErrorCode BaseMotorController::ConfigSetCustomParam(int newValue,
 		int paramIndex, int timeoutMs) {
 	return c_MotController_ConfigSetCustomParam(m_handle, newValue, paramIndex, timeoutMs);
 }
-ErrorCode BaseMotorController::ConfigGetCustomParam(int & readValue,
+int BaseMotorController::ConfigGetCustomParam(
 		int paramIndex, int timeoutMs) {
-	return c_MotController_ConfigGetCustomParam(m_handle, &readValue, paramIndex, timeoutMs);
+	int readValue;
+	c_MotController_ConfigGetCustomParam(m_handle, &readValue, paramIndex, timeoutMs);
+	return readValue;
 }
 
 //------ Generic Param API, typically not used ----------//
@@ -486,11 +492,10 @@ ErrorCode BaseMotorController::ConfigSetParameter(ParamEnum param, float value,
 	return c_MotController_ConfigSetParameter(m_handle, param, value, subValue, ordinal, timeoutMs);
 
 }
-ErrorCode BaseMotorController::ConfigGetParameter(ParamEnum param,
-		float & value, int ordinal, int timeoutMs) {
-	ErrorCode retval = c_MotController_ConfigGetParameter(m_handle, param, &value, ordinal, timeoutMs);
-
-	return SetLastError(retval);
+float BaseMotorController::ConfigGetParameter(ParamEnum param, int ordinal, int timeoutMs) {
+	float value = 0;
+	c_MotController_ConfigGetParameter(m_handle, param, &value, ordinal, timeoutMs);
+	return value;
 }
 //------ Misc. ----------//
 int BaseMotorController::GetBaseID() {

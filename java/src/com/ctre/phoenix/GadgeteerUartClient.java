@@ -8,7 +8,7 @@ public interface GadgeteerUartClient
 		PC_HERO(2),
 		Unknown(-1);
 		private int value; private GadgeteerProxyType(int value) { this.value = value; } 
-		public static GadgeteerProxyType getEnum(int value) {
+		public static GadgeteerProxyType valueOf(int value) {
 			for (GadgeteerProxyType e : GadgeteerProxyType.values()) {
 				if (e.value == value) {
 					return e;
@@ -24,7 +24,7 @@ public interface GadgeteerUartClient
 		Connected (2),
 		Unknown(-1);
 		private int value; private GadgeteerConnection(int value) { this.value = value; } 
-		public static GadgeteerConnection getEnum(int value) {
+		public static GadgeteerConnection valueOf(int value) {
 			for (GadgeteerConnection e : GadgeteerConnection.values()) {
 				if (e.value == value) {
 					return e;
@@ -57,7 +57,7 @@ public interface GadgeteerUartClient
 		GadState_Connected_RespIsoThenChirp(10),
 		GadState_Connected_RespIsoThenCanBus(11);
 		private int value; private GadgeteerState(int value) { this.value = value; } 
-		public static GadgeteerState getEnum(int value) {
+		public static GadgeteerState valueOf(int value) {
 			for (GadgeteerState e : GadgeteerState.values()) {
 				if (e.value == value) {
 					return e;

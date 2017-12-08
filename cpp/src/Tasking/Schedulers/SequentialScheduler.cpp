@@ -1,6 +1,7 @@
 #include "ctre/phoenix/Tasking/Schedulers/SequentialScheduler.h"
 
 namespace CTRE {
+namespace Phoenix {
 namespace Tasking {
 namespace Schedulers {
 
@@ -80,5 +81,6 @@ bool SequentialScheduler::IsDone() {
 
 } // namespace Schedulers
 } // namespace Tasking
+} // namespace Phoenix
 } // namespace CTRE
 

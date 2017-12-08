@@ -73,16 +73,16 @@ public enum ErrorCode {
 	NotImplemented(102);
 	
 	//---------------------- Integral To Enum operators -----------//
-    private int _value; //!< Hold the integral value of an enum instance.
+    public final int value; //!< Hold the integral value of an enum instance.
     /** Keep singleton map to quickly lookup enum via int */
     private static HashMap<Integer, ErrorCode> _map = null;
     /** private c'tor for above declarations */
-	private ErrorCode(int value) {_value = value;	}
+	private ErrorCode(int initValue) {this.value = initValue;	}
 	/** static c'tor, prepare the map */
     static {
     	_map = new HashMap<Integer, ErrorCode>();
 		for (ErrorCode type : ErrorCode.values()) {
-			_map.put(type._value, type);
+			_map.put(type.value, type);
 		}
     }
     /** public lookup to convert int to enum */
@@ -91,9 +91,5 @@ public enum ErrorCode {
 		if (retval != null)
 			return retval;
 		return GeneralError;
-    }
-	/** @return integral value of enum instance */
-    public int getValue() {
-        return _value;
     }
 };

@@ -12,6 +12,7 @@ namespace frc {
 }
 
 namespace CTRE {
+namespace Phoenix {
 namespace Tasking {
 
 class ButtonMonitor: public IProcessable, public ILoopable {
@@ -42,6 +43,7 @@ private:
 	IButtonPressEventHandler * _handler;
 	bool _isDown = false;
 };
+}
 }
 }
 #endif // CTR_EXCLUDE_WPILIB_CLASSES

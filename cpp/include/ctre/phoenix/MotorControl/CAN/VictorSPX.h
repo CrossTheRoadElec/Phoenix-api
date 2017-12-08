@@ -8,8 +8,8 @@ namespace Phoenix {
 namespace MotorControl{
 namespace CAN {
 
-class VictorSPX: public virtual CTRE::MotorControl::CAN::BaseMotorController,
-                 public virtual CTRE::MotorControl::IMotorController {
+class VictorSPX: public virtual CTRE::Phoenix::MotorControl::CAN::BaseMotorController,
+                 public virtual CTRE::Phoenix::MotorControl::IMotorController {
 
 public:
   VictorSPX(int deviceNumber);

@@ -27,6 +27,7 @@
 #include "ctre/phoenix/CTRLogger.h"
 
 namespace CTRE {
+namespace Phoenix {
 CANifier::CANifier(int deviceNumber): CANBusAddressable(deviceNumber)
 {
 	m_handle = c_CANifier_Create1(deviceNumber);
@@ -114,5 +115,30 @@ CTR_Code CANifier::GetPWMInput(PWMChannel pwmChannel, float dutyCycleAndPeriod[]
 	return c_CANifier_GetPWMInput(m_handle, pwmChannel,
 			dutyCycleAndPeriod);
 }
+
+//------ Custom Persistent Params ----------//
+//ErrorCode CANifier::ConfigSetCustomParam(int newValue,
+//		int paramIndex, int timeoutMs) {
+//	return c_CANifier_ConfigSetCustomParam(m_handle, newValue, paramIndex, timeoutMs);
+//}
+//int CANifier::ConfigGetCustomParam(
+//		int paramIndex, int timeoutMs) {
+//	int readValue;
+//	c_CANifier_ConfigGetCustomParam(m_handle, &readValue, paramIndex, timeoutMs);
+//	return readValue;
+//}
+
+//------ Generic Param API, typically not used ----------//
+ErrorCode CANifier::ConfigSetParameter(ParamEnum param, float value,
+		uint8_t subValue, int ordinal, int timeoutMs) {
+	return c_CANifier_ConfigSetParameter(m_handle, param, value, subValue, ordinal, timeoutMs);
+
 }
+float CANifier::ConfigGetParameter(ParamEnum param, int ordinal, int timeoutMs) {
+	float value = 0;
+	c_CANifier_ConfigGetParameter(m_handle, param, &value, ordinal, timeoutMs);
+	return value;
+}
+
+}}
 #endif // CTR_EXCLUDE_WPILIB_CLASSES

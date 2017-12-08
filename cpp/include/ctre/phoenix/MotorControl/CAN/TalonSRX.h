@@ -4,6 +4,7 @@
 #include "ctre/phoenix/MotorControl/IMotorControllerEnhanced.h"
 
 namespace CTRE {
+namespace Phoenix {
 namespace MotorControl {
 namespace CAN {
 
@@ -19,19 +20,29 @@ public:
 
 	virtual ErrorCode SetStatusFramePeriod(StatusFrameEnhanced frame,
 			int periodMs, int timeoutMs);
-	virtual ErrorCode GetStatusFramePeriod(StatusFrameEnhanced frame,
-			int & periodMs, int timeoutMs);
+	virtual int GetStatusFramePeriod(StatusFrameEnhanced frame, int timeoutMs);
 
+	//------ Velocity measurement ----------//
 	virtual ErrorCode ConfigVelocityMeasurementPeriod(VelocityMeasPeriod period,
 			int timeoutMs);
 	virtual ErrorCode ConfigVelocityMeasurementWindow(int windowSize,
 			int timeoutMs);
 
-	virtual ErrorCode ConfigForwardLimitSwitchSource(LimitSwitchSource type,
+	//------ limit switch ----------//
+	virtual ErrorCode ConfigForwardLimitSwitchSource(
+			LimitSwitchSource limitSwitchSource,
 			LimitSwitchNormal normalOpenOrClose, int timeoutMs);
-	virtual ErrorCode ConfigReverseLimitSwitchSource(LimitSwitchSource type,
+	virtual ErrorCode ConfigReverseLimitSwitchSource(
+			LimitSwitchSource limitSwitchSource,
 			LimitSwitchNormal normalOpenOrClose, int timeoutMs);
+	virtual ErrorCode ConfigForwardLimitSwitchSource(
+			RemoteLimitSwitchSource limitSwitchSource,
+			LimitSwitchNormal normalOpenOrClose, int deviceID, int timeoutMs);
+	virtual ErrorCode ConfigReverseLimitSwitchSource(
+			RemoteLimitSwitchSource limitSwitchSource,
+			LimitSwitchNormal normalOpenOrClose, int deviceID, int timeoutMs);
 
+	//------ Current Limit ----------//
 	virtual ErrorCode ConfigPeakCurrentLimit(int amps, int timeoutMs);
 	virtual ErrorCode ConfigPeakCurrentDuration(int milliseconds,
 			int timeoutMs);
@@ -40,6 +51,7 @@ public:
 
 };
 // class TalonSRX
-}// namespace CAN
+} // namespace CAN
 } // namespace MotorControl
+} // namespace Phoenix
 } // namespace CTRE

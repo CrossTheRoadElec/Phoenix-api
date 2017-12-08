@@ -41,19 +41,40 @@
 		final public int value;
 
 		GeneralPin(int value) {
-		this.value = value;
+			this.value = value;
 		}
 	}
 	
 	public static native long JNI_new_CANifier(int deviceNumber);
+
 	public static native void JNI_SetLEDOutput(long handle, int dutyCycle, int ledChannel);
+
 	public static native void JNI_SetGeneralOutputs(long handle, int outputBits, int isOutputBits);
-	public static native void JNI_SetGeneralOutput(long handle, int outputPin, boolean outputValue, boolean outputEnable);
+
+	public static native void JNI_SetGeneralOutput(long handle, int outputPin, boolean outputValue,
+			boolean outputEnable);
+
 	public static native void JNI_SetPWMOutput(long handle, int pwmChannel, int dutyCycle);
+
 	public static native void JNI_EnablePWMOutput(long handle, int pwmChannel, boolean bEnable);
-	public static native void JNI_GetGeneralInputs(long handle, boolean []allPins);
+
+	public static native void JNI_GetGeneralInputs(long handle, boolean[] allPins);
+
 	public static native boolean JNI_GetGeneralInput(long handl, int inputPin);
+
 	public static native void JNI_GetPWMInput(long handle, int pwmChannel, float dutyCycleAndPeriod[]);
+
 	public static native int JNI_GetLastError(long handle);
+
 	public static native float JNI_GetBatteryVoltage(long handle);
+
+	public static native int JNI_ConfigSetCustomParam(long handle, int newValue, int paramIndex, int timeoutMs);
+
+	public static native int JNI_ConfigGetCustomParam(long handle, int paramIndex, int timoutMs);
+
+	public static native int JNI_ConfigSetParameter(long handle, int param, double value, int subValue, int ordinal,
+			int timeoutMs);
+
+	public static native double JNI_ConfigGetParameter(long handle, int param, int ordinal, int timeoutMs);
+
  }

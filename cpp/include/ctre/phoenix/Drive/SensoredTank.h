@@ -5,18 +5,23 @@
 #include "Styles.h"
 #include "ISmartDrivetrain.h"
 
-namespace CTRE { namespace Drive {
+namespace CTRE {
+namespace Phoenix {
+namespace Drive {
 
-class SensoredTank : public ISmartDrivetrain{
+class SensoredTank: public ISmartDrivetrain {
 public:
 	float distanceBetweenWheels;
 	unsigned int ticksPerRev;
 	float wheelRadius;
 
-	SensoredTank(CTRE::Mechanical::SensoredGearbox *left, CTRE::Mechanical::SensoredGearbox *right,
+	SensoredTank(CTRE::Mechanical::SensoredGearbox *left,
+			CTRE::Mechanical::SensoredGearbox *right, bool leftInverted,
+			bool rightInverted, float wheelRadius);
+	SensoredTank(CTRE::MotorControl::SmartMotorController *left,
+			CTRE::MotorControl::SmartMotorController *right,
+			CTRE::MotorControl::SmartMotorController::FeedbackDevice feedbackDevice,
 			bool leftInverted, bool rightInverted, float wheelRadius);
-	SensoredTank(CTRE::MotorControl::SmartMotorController *left, CTRE::MotorControl::SmartMotorController *right,
-			CTRE::MotorControl::SmartMotorController::FeedbackDevice feedbackDevice, bool leftInverted, bool rightInverted, float wheelRadius);
 	void Set(Styles::Smart mode, float forward, float turn);
 	void Set(Styles::Basic mode, float forward, float turn);
 	void SetCurrentLimit(unsigned int currentAmps);
@@ -24,8 +29,10 @@ public:
 	float GetVelocity();
 	float GetEncoderHeading();
 	void SetPosition(float position);
-	void ConfigNominalPercentOutputVoltage(float forwardVoltage, float reverseVoltage);
-	void ConfigPeakPercentOutputVoltage(float forwardVoltage, float reverseVoltage);
+	void ConfigNominalPercentOutputVoltage(float forwardVoltage,
+			float reverseVoltage);
+	void ConfigPeakPercentOutputVoltage(float forwardVoltage,
+			float reverseVoltage);
 	void SetVoltageCompensationRampRate(float rampRate);
 	void SetVoltageRampRate(float rampRate);
 	void SetMotionMagicAcceleration(float rotationsPerMinPerSec);
@@ -40,4 +47,6 @@ private:
 
 };
 
-}}
+} // namespace Drive
+} // namespace Phoenix
+} // namespace CTRE

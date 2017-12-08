@@ -35,16 +35,17 @@
 #include "Utility.h"
 #include "HAL/HAL.h"
 
-using namespace CTRE::MotorControl::CAN;
+using namespace CTRE::Phoenix::MotorControl::CAN;
 
 namespace CTRE {
+namespace Phoenix {
 /**
  * Create a Pigeon object that communicates with Pigeon on CAN Bus.
  * @param deviceNumber CAN Device Id of Pigeon [0,62]
  */
 PigeonIMU::PigeonIMU(int deviceNumber) : CANBusAddressable(deviceNumber)
 {
-	m_handle = c_PigeonIMU_Create1(deviceNumber);
+	_handle = c_PigeonIMU_Create1(deviceNumber);
 	_deviceNumber = deviceNumber;
 	
 	PigeonIMU::ApplyUsageStats(UsageFlags::ConnectCAN);
@@ -54,52 +55,54 @@ PigeonIMU::PigeonIMU(int deviceNumber) : CANBusAddressable(deviceNumber)
  * Create a Pigeon object that communciates with Pigeon through the Gadgeteer ribbon
  * @param talonSrx cable connected to a Talon on CAN Bus.
  */
-PigeonIMU::PigeonIMU(CTRE::MotorControl::CAN::TalonSRX * talonSrx) : CANBusAddressable(0)
+PigeonIMU::PigeonIMU(CTRE::Phoenix::MotorControl::CAN::TalonSRX * talonSrx) : CANBusAddressable(0)
 {
-	m_handle = c_PigeonIMU_Create2(talonSrx->GetDeviceID());
+	_handle = c_PigeonIMU_Create2(talonSrx->GetDeviceID());
 	_deviceNumber = talonSrx->GetDeviceID();
 	PigeonIMU::ApplyUsageStats(UsageFlags::ConnectTalonSRX);
 }
 
 //----------------------- Control Param routines -----------------------//
-int PigeonIMU::ConfigSetParameter(ParamEnum paramEnum, double paramValue)
+int PigeonIMU::ConfigSetParameter(ParamEnum paramEnum, double paramValue, int timeoutMs)
 {
-	return c_PigeonIMU_ConfigSetParameter(m_handle, (int)paramEnum, paramValue);
+	int subValue = 0;
+	int ordinal = 0;
+	return c_PigeonIMU_ConfigSetParameter(_handle, (int)paramEnum, paramValue, subValue, ordinal, timeoutMs);
 }
 
 /**
  * Change the periodMs of a TALON's status frame.  See kStatusFrame_* enums for
  * what's available.
  */
-void PigeonIMU::SetStatusFrameRateMs(StatusFrameRate statusFrameRate, int periodMs) {
-	c_PigeonIMU_SetStatusFrameRateMs(m_handle, statusFrameRate, periodMs);
+void PigeonIMU::SetStatusFramePeriod(StatusFrameRate statusFrameRate, int periodMs, int timeoutMs) {
+	c_PigeonIMU_SetStatusFramePeriod(_handle, statusFrameRate, periodMs, timeoutMs);
 }
-int PigeonIMU::SetYaw(double angleDeg)
+int PigeonIMU::SetYaw(double angleDeg,int timeoutMs)
 {
-	int errCode = c_PigeonIMU_SetYaw(m_handle, angleDeg);
+	int errCode = c_PigeonIMU_SetYaw(_handle, angleDeg, timeoutMs);
 	return errCode;
 }
 /**
  * Atomically add to the Yaw register.
  */
-int PigeonIMU::AddYaw(double angleDeg)
+int PigeonIMU::AddYaw(double angleDeg,int timeoutMs)
 {
-	int errCode = c_PigeonIMU_AddYaw(m_handle, angleDeg);
+	int errCode = c_PigeonIMU_AddYaw(_handle, angleDeg, timeoutMs);
 	return errCode;
 }
-int PigeonIMU::SetYawToCompass()
+int PigeonIMU::SetYawToCompass(int timeoutMs)
 {
-	int errCode = c_PigeonIMU_SetYawToCompass(m_handle);
+	int errCode = c_PigeonIMU_SetYawToCompass(_handle, timeoutMs);
 	return errCode;
 }
-int PigeonIMU::SetFusedHeading(double angleDeg)
+int PigeonIMU::SetFusedHeading(double angleDeg,int timeoutMs)
 {
-	int errCode = c_PigeonIMU_SetFusedHeading(m_handle, angleDeg);
+	int errCode = c_PigeonIMU_SetFusedHeading(_handle, angleDeg, timeoutMs);
 	return errCode;
 }
-int PigeonIMU::SetAccumZAngle(double angleDeg)
+int PigeonIMU::SetAccumZAngle(double angleDeg,int timeoutMs)
 {
-	int errCode = c_PigeonIMU_SetAccumZAngle(m_handle, angleDeg);
+	int errCode = c_PigeonIMU_SetAccumZAngle(_handle, angleDeg, timeoutMs);
 	return errCode;
 }
 /**
@@ -107,32 +110,32 @@ int PigeonIMU::SetAccumZAngle(double angleDeg)
  * @param tempCompEnable
  * @return nonzero for error, zero for success.
  */
-int PigeonIMU::EnableTemperatureCompensation(bool bTempCompEnable)
+int PigeonIMU::ConfigTemperatureCompensationEnable(bool bTempCompEnable,int timeoutMs)
 {
-	int errCode = c_PigeonIMU_EnableTemperatureCompensation(m_handle, bTempCompEnable);
+	int errCode = c_PigeonIMU_ConfigTemperatureCompensationEnable(_handle, bTempCompEnable, timeoutMs);
 	PigeonIMU::ApplyUsageStats(UsageFlags::TempComp);
 	return errCode;
 }
 /**
  * Atomically add to the Fused Heading register.
  */
-int PigeonIMU::AddFusedHeading(double angleDeg)
+int PigeonIMU::AddFusedHeading(double angleDeg,int timeoutMs)
 {
-	int errCode = c_PigeonIMU_AddFusedHeading(m_handle, angleDeg);
+	int errCode = c_PigeonIMU_AddFusedHeading(_handle, angleDeg, timeoutMs);
 	return errCode;
 }
-int PigeonIMU::SetFusedHeadingToCompass()
+int PigeonIMU::SetFusedHeadingToCompass(int timeoutMs)
 {
-	int errCode = c_PigeonIMU_SetFusedHeadingToCompass(m_handle);
+	int errCode = c_PigeonIMU_SetFusedHeadingToCompass(_handle, timeoutMs);
 	return errCode;
 }
 /**
  * Set the declination for compass.
  * Declination is the difference between Earth Magnetic north, and the geographic "True North".
  */
-int PigeonIMU::SetCompassDeclination(double angleDegOffset)
+int PigeonIMU::SetCompassDeclination(double angleDegOffset,int timeoutMs)
 {
-	int errCode = c_PigeonIMU_SetCompassDeclination(m_handle, angleDegOffset);
+	int errCode = c_PigeonIMU_SetCompassDeclination(_handle, angleDegOffset, timeoutMs);
 	return errCode;
 }
 /**
@@ -140,15 +143,15 @@ int PigeonIMU::SetCompassDeclination(double angleDegOffset)
  * Although compass is absolute [0,360) degrees, the continuous compass
  * register holds the wrap-arounds.
  */
-int PigeonIMU::SetCompassAngle(double angleDeg)
+int PigeonIMU::SetCompassAngle(double angleDeg,int timeoutMs)
 {
-	int errCode = c_PigeonIMU_SetCompassAngle(m_handle, angleDeg);
+	int errCode = c_PigeonIMU_SetCompassAngle(_handle, angleDeg, timeoutMs);
 	return errCode;
 }
 //----------------------- Calibration routines -----------------------//
-int PigeonIMU::EnterCalibrationMode(CalibrationMode calMode)
+int PigeonIMU::EnterCalibrationMode(CalibrationMode calMode,int timeoutMs)
 {
-	return c_PigeonIMU_EnterCalibrationMode(m_handle, calMode);
+	return c_PigeonIMU_EnterCalibrationMode(_handle, calMode, timeoutMs);
 }
 /**
  * Get the status of the current (or previousley complete) calibration.
@@ -166,7 +169,7 @@ int PigeonIMU::GetGeneralStatus(PigeonIMU::GeneralStatus & statusToFill)
 	int tempCompensationCount;
 	int lastError;
 	
-	int errCode = c_PigeonIMU_GetGeneralStatus(m_handle, &state, &currentMode, &calibrationError, &bCalIsBooting, &tempC, &upTimeSec, &noMotionBiasCount, &tempCompensationCount, &lastError);
+	int errCode = c_PigeonIMU_GetGeneralStatus(_handle, &state, &currentMode, &calibrationError, &bCalIsBooting, &tempC, &upTimeSec, &noMotionBiasCount, &tempCompensationCount, &lastError);
 
 	statusToFill.currentMode = (PigeonIMU::CalibrationMode)currentMode;
 	statusToFill.calibrationError = calibrationError;
@@ -220,7 +223,7 @@ int PigeonIMU::GetGeneralStatus(PigeonIMU::GeneralStatus & statusToFill)
 //----------------------- General Error status  -----------------------//
 int PigeonIMU::GetLastError()
 {
-	return c_PigeonIMU_GetLastError(m_handle);
+	return c_PigeonIMU_GetLastError(_handle);
 }
 
 int PigeonIMU::HandleError(int errorCode)
@@ -238,18 +241,18 @@ int PigeonIMU::HandleError(int errorCode)
 //----------------------- Strongly typed Signal decoders  -----------------------//
 int PigeonIMU::Get6dQuaternion(double wxyz[4])
 {
-	int errCode = c_PigeonIMU_Get6dQuaternion(m_handle, wxyz);
+	int errCode = c_PigeonIMU_Get6dQuaternion(_handle, wxyz);
 	return errCode;
 }
 int PigeonIMU::GetYawPitchRoll(double ypr[3])
 {
-	int errCode = c_PigeonIMU_GetYawPitchRoll(m_handle, ypr);
+	int errCode = c_PigeonIMU_GetYawPitchRoll(_handle, ypr);
 	PigeonIMU::ApplyUsageStats(UsageFlags::GetYPR);
 	return errCode;
 }
 int PigeonIMU::GetAccumGyro(double xyz_deg[3])
 {
-	int errCode = c_PigeonIMU_GetAccumGyro(m_handle, xyz_deg);
+	int errCode = c_PigeonIMU_GetAccumGyro(_handle, xyz_deg);
 	return errCode;
 }
 /**
@@ -258,7 +261,7 @@ int PigeonIMU::GetAccumGyro(double xyz_deg[3])
 double PigeonIMU::GetAbsoluteCompassHeading()
 {
 	double retval;
-	c_PigeonIMU_GetAbsoluteCompassHeading(m_handle, &retval);
+	c_PigeonIMU_GetAbsoluteCompassHeading(_handle, &retval);
 	return retval;
 }
 /**
@@ -268,7 +271,7 @@ double PigeonIMU::GetAbsoluteCompassHeading()
 double PigeonIMU::GetCompassHeading()
 {
 	double retval;
-	c_PigeonIMU_GetCompassHeading(m_handle, &retval);
+	c_PigeonIMU_GetCompassHeading(_handle, &retval);
 	PigeonIMU::ApplyUsageStats(UsageFlags::GetCompass);
 	return retval;
 }
@@ -278,19 +281,19 @@ double PigeonIMU::GetCompassHeading()
 double PigeonIMU::GetCompassFieldStrength()
 {
 	double retval;
-	c_PigeonIMU_GetCompassFieldStrength(m_handle, &retval);
+	c_PigeonIMU_GetCompassFieldStrength(_handle, &retval);
 	return retval;
 }
 double PigeonIMU::GetTemp()
 {
 	double tempC;
-	c_PigeonIMU_GetTemp(m_handle, &tempC);
+	c_PigeonIMU_GetTemp(_handle, &tempC);
 	return tempC;
 }
 PigeonIMU::PigeonState PigeonIMU::GetState()
 {
 	int retval;
-	c_PigeonIMU_GetState(m_handle, &retval);
+	c_PigeonIMU_GetState(_handle, &retval);
 	return (PigeonIMU::PigeonState)retval;
 }
 /// <summary>
@@ -301,34 +304,34 @@ PigeonIMU::PigeonState PigeonIMU::GetState()
 uint32_t PigeonIMU::GetUpTime()
 {
 	int timeSec;
-	c_PigeonIMU_GetUpTime(m_handle, &timeSec);
+	c_PigeonIMU_GetUpTime(_handle, &timeSec);
 	return timeSec;
 }
 
 int PigeonIMU::GetRawMagnetometer(int16_t rm_xyz[3])
 {
-	int errCode = c_PigeonIMU_GetRawMagnetometer(m_handle, rm_xyz);
+	int errCode = c_PigeonIMU_GetRawMagnetometer(_handle, rm_xyz);
 	return errCode;
 }
 int PigeonIMU::GetBiasedMagnetometer(int16_t bm_xyz[3])
 {
-	int errCode = c_PigeonIMU_GetBiasedMagnetometer(m_handle, bm_xyz);
+	int errCode = c_PigeonIMU_GetBiasedMagnetometer(_handle, bm_xyz);
 	return errCode;
 }
 int PigeonIMU::GetBiasedAccelerometer(int16_t ba_xyz[3])
 {
-	int errCode = c_PigeonIMU_GetBiasedAccelerometer(m_handle, ba_xyz);
+	int errCode = c_PigeonIMU_GetBiasedAccelerometer(_handle, ba_xyz);
 	return errCode;
 }
 int PigeonIMU::GetRawGyro(double xyz_dps[3])
 {
-	int errCode = c_PigeonIMU_GetRawGyro(m_handle, xyz_dps);
+	int errCode = c_PigeonIMU_GetRawGyro(_handle, xyz_dps);
 	return errCode;
 }
 
 int PigeonIMU::GetAccelerometerAngles(double tiltAngles[3])
 {
-	int errCode = c_PigeonIMU_GetAccelerometerAngles(m_handle, tiltAngles);
+	int errCode = c_PigeonIMU_GetAccelerometerAngles(_handle, tiltAngles);
 	return errCode;
 }
 /**
@@ -342,7 +345,7 @@ double PigeonIMU::GetFusedHeading(FusionStatus & status)
 	double fusedHeading;
 	int lastError;
 
-	int errCode = c_PigeonIMU_GetFusedHeading2(m_handle, &bIsFusing, &bIsValid, &fusedHeading, &lastError);
+	int errCode = c_PigeonIMU_GetFusedHeading2(_handle, &bIsFusing, &bIsValid, &fusedHeading, &lastError);
 
 	std::string description;
 
@@ -374,19 +377,19 @@ double PigeonIMU::GetFusedHeading()
 {
 	double value;
 	PigeonIMU::ApplyUsageStats(UsageFlags::GetFused);
-	return c_PigeonIMU_GetFusedHeading1(m_handle, &value);
+	return c_PigeonIMU_GetFusedHeading1(_handle, &value);
 }
 //----------------------- Startup/Reset status -----------------------//
 uint32_t PigeonIMU::GetResetCount()
 {
 	int retval;
-	c_PigeonIMU_GetResetCount(m_handle, &retval);
+	c_PigeonIMU_GetResetCount(_handle, &retval);
 	return retval;
 }
 uint32_t PigeonIMU::GetResetFlags()
 {
 	int retval;
-	c_PigeonIMU_GetResetCount(m_handle, &retval);
+	c_PigeonIMU_GetResetCount(_handle, &retval);
 	return (uint32_t)retval;
 }
 /**
@@ -395,7 +398,7 @@ uint32_t PigeonIMU::GetResetFlags()
 uint32_t PigeonIMU::GetFirmVers()
 {
 	int retval;
-	c_PigeonIMU_GetFirmVers(m_handle, &retval);
+	c_PigeonIMU_GetFirmwareVersion(_handle, &retval);
 	return retval;
 }
 /**
@@ -404,7 +407,7 @@ uint32_t PigeonIMU::GetFirmVers()
 bool PigeonIMU::HasResetOccured()
 {
 	bool retval;
-	c_PigeonIMU_HasResetOccured(m_handle, &retval);
+	c_PigeonIMU_HasResetOccurred(_handle, &retval);
 	return retval;
 }
 
@@ -449,6 +452,34 @@ void PigeonIMU::ApplyUsageStats(UsageFlags Usage)
 
 		HAL_Report(61, _deviceNumber + 1, _usageHist);
 	}
+}
+#if 0
+//------ Custom Persistent Params ----------//
+ErrorCode PigeonIMU::ConfigSetCustomParam(int newValue,
+		int paramIndex, int timeoutMs) {
+	return c_PigeonIMU_ConfigSetCustomParam(_handle, newValue, paramIndex, timeoutMs);
+}
+int PigeonIMU::ConfigGetCustomParam(
+		int paramIndex, int timeoutMs) {
+	int readValue;
+	c_PigeonIMU_ConfigGetCustomParam(_handle, &readValue, paramIndex, timeoutMs);
+	return readValue;
+}
+
+//------ Generic Param API, typically not used ----------//
+ErrorCode PigeonIMU::ConfigSetParameter(ParamEnum param, float value,
+		uint8_t subValue, int ordinal, int timeoutMs) {
+	return c_PigeonIMU_ConfigSetParameter(_handle, param, value, subValue, ordinal, timeoutMs);
+
+}
+float BaseMotorController::ConfigGetParameter(ParamEnum param, int ordinal,
+		int timeoutMs) {
+	value = 0;
+	c_PigeonIMU_ConfigGetParameter(_handle, param, &value, ordinal, timeoutMs);
+	return value;
+}
+#endif
+
 }
 }
 #endif // CTR_EXCLUDE_WPILIB_CLASSES

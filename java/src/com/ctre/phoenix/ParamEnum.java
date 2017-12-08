@@ -90,9 +90,9 @@ public enum ParamEnum
 	eMotionMeas_shake_reject_time ( 179),
 	eMotionMeas_shake_reject_timeout ( 180);
 	
-	public int value;
-	ParamEnum(int value)
+	public final int value;
+	ParamEnum(int initValue)
 	{
-		this.value = value;
+		this.value = initValue;
 	}
 };

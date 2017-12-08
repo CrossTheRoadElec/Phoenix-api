@@ -9,11 +9,12 @@
 #include "ctre/phoenix/MotorControl/IMotorControllerEnhanced.h"
 
 namespace CTRE {
+namespace Phoenix {
 namespace MotorControl {
 
 class WpilibSpeedController: public virtual frc::SpeedController {
 public:
-	WpilibSpeedController(CAN::BaseMotorController * mc) {
+	WpilibSpeedController(CTRE::Phoenix::MotorControl::CAN::BaseMotorController * mc) {
 		_mc = mc;
 	}
 
@@ -75,12 +76,12 @@ public:
 		_mc->NeutralOutput();
 	}
 
-
 private:
 	CAN::BaseMotorController * _mc;
 	double _speed = 0;
 
 };
 // class WpilibSpeedController
-}// namespace MotorControl
+} // namespace MotorControl
+} // namespace Phoenix
 } // namespace CTRE

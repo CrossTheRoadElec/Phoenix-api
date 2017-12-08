@@ -5,8 +5,9 @@
 #include "ctre/phoenix/Tasking/IProcessable.h"
 
 namespace CTRE{
+namespace Phoenix {
 	
-class RCRadio3Ch : public CTRE::Tasking::IProcessable{
+class RCRadio3Ch : public CTRE::Phoenix::Tasking::IProcessable{
 public:
 	enum Channel{
 		Channel1,
@@ -20,7 +21,7 @@ public:
 	};
 	Status CurrentStatus = Status::Okay;
 
-	RCRadio3Ch(CTRE::CANifier *canifier);
+	RCRadio3Ch(CTRE::Phoenix::CANifier *canifier);
 	float GetDutyCycleUs(Channel channel);
 	float GetDutyCyclePerc(Channel channel);
 	bool GetSwitchValue(Channel channel);
@@ -31,7 +32,7 @@ public:
 
 private:
 	int _errorCodes[4];
-	CTRE::CANifier *_canifier;
+	CTRE::Phoenix::CANifier *_canifier;
 
 
 	//This is only a 2d array??
@@ -45,4 +46,4 @@ private:
 	double Interpolate(std::vector<double> &xData, std::vector<double> &yData, double x, bool extrapolate);
 };
 
-}
+}}

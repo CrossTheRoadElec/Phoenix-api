@@ -10,6 +10,7 @@
 #include "ctre/phoenix/Motion/TrajectoryPoint.h"
 
 namespace CTRE {
+namespace Phoenix {
 namespace Motion {
 
 /**
@@ -60,9 +61,10 @@ struct MotionProfileStatus {
 	 * When changing the set() value in MP mode, it's important to check this signal to
 	 * confirm the change takes effect before interacting with the top buffer.
 	 */
-	CTRE::Motion::SetValueMotionProfile outputEnable;
+	CTRE::Phoenix::Motion::SetValueMotionProfile outputEnable;
 };
 
 } // namespace Motion
+} // namespace Phoenix
 } // namespace CTRE
 

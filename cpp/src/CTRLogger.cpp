@@ -3,7 +3,8 @@
 #include <execinfo.h>
 
 namespace CTRE {
-	
+namespace Phoenix {
+
 void CTRLogger::Open(int language) {
 	c_Logger_Open(language, true);
 }
@@ -13,7 +14,7 @@ CTR_Code CTRLogger::Log(CTR_Code code, std::string origin) {
 	int size = backtrace(buf, 100);
 	strings = backtrace_symbols(buf, size);
 	std::string stackTrace;
-	for(int i = 1; i < size; i++) {
+	for (int i = 1; i < size; i++) {
 		stackTrace += strings[i];
 		stackTrace += "\n";
 	}
@@ -25,5 +26,6 @@ void CTRLogger::Close() {
 //void CTRLogger::Description(CTR_Code code, const char *&shrt, const char *&lng) {
 //	c_Logger_Description(code, shrt, lng);
 //}
-	
+
+}
 }

@@ -7,10 +7,10 @@ public enum ControlFrame
 	Control_4_Advanced(0x0400C0),
 	Control_6_MotProfAddTrajPoint(0x040140);
 	
-	public int value;
-	ControlFrame(int value)
+	public final int value;
+	ControlFrame(int initValue)
 	{
-		this.value = value;
+		this.value = initValue;
 	}
 };
 

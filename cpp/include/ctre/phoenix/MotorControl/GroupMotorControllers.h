@@ -3,7 +3,9 @@
 #include "IMotorController.h"
 #include <vector>
 
-namespace CTRE { namespace MotorControl {
+namespace CTRE {
+namespace Phoenix {
+namespace MotorControl {
 
 class GroupMotorControllers {
 public:
@@ -15,4 +17,7 @@ private:
 	static std::vector<IMotorController*> _mcs;
 };
 
-}}
+} // namespace MotorControl
+} // namespace Phoenix
+} // namespace CTRE
+

@@ -33,7 +33,7 @@
  ********************************************************************/
 
 namespace CTRE {
-//namespace Phoenix {
+namespace Phoenix {
 namespace Signals {
 
 class MovingAverage {
@@ -98,6 +98,6 @@ public:
 };
 
 } // namespace  Signals
-//} // namespace Phoenix
+} // namespace Phoenix
 } // namespace CTRE
 

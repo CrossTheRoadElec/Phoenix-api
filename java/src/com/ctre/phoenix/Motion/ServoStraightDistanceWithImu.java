@@ -39,6 +39,7 @@ public class ServoStraightDistanceWithImu implements com.ctre.phoenix.ILoopable
      boolean _isDone = false;
      byte _isGood = 0;
 
+     double [] _ypr = {0,0,0};
 
      /** Constructor that uses ServoStraightDistanceWithImu as an ILoopable */
      public ServoStraightDistanceWithImu(PigeonIMU pigeonImu, ISmartDrivetrain drivetrain, Styles.Smart selectedStyle, ServoParameters straightParameters, ServoParameters distanceParameters, double targetHeading, double targetDistance)
@@ -92,7 +93,8 @@ public class ServoStraightDistanceWithImu implements com.ctre.phoenix.ILoopable
      /** Return the heading from the Pigeon */
      public double getImuHeading()
      {
-         return (double)_pidgey.getYawPitchRoll()[0];
+         _pidgey.getYawPitchRoll(_ypr);
+         return _ypr[0];
      }
 
      /** Return the encoder distance from the DriveTrain */

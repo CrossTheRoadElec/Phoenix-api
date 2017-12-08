@@ -4,6 +4,7 @@
 #include <math.h>
 
 namespace CTRE {
+namespace Phoenix {
 /**
  * Convert hue/saturation/and value into RGB values
  *
@@ -96,9 +97,10 @@ void HsvToRgb::Convert(double hDegrees, double S, double V, float* r, float* g,
 			break;
 		}
 	}
-	*r = (float)R;
-	*g = (float)G;
-	*b = (float)B;
+	*r = (float) R;
+	*g = (float) G;
+	*b = (float) B;
+}
 }
 }
 #endif

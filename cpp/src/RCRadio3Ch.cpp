@@ -4,7 +4,9 @@
 #include <vector>
 
 namespace CTRE {
-RCRadio3Ch::RCRadio3Ch(CTRE::CANifier *canifier) {
+namespace Phoenix {
+
+RCRadio3Ch::RCRadio3Ch(CTRE::Phoenix::CANifier *canifier) {
 	_canifier = canifier;
 }
 
@@ -18,8 +20,7 @@ float RCRadio3Ch::GetDutyCyclePerc(Channel channel) {
 	std::vector<double> xData = { 1000, 2000 };
 	std::vector<double> yData = { -1, 1 };
 
-	retval = RCRadio3Ch::Interpolate(xData, yData,
-			retval, true);
+	retval = RCRadio3Ch::Interpolate(xData, yData, retval, true);
 
 	if (retval < -1) {
 		retval = -1;
@@ -43,13 +44,13 @@ float RCRadio3Ch::GetPeriodUs(Channel channel) {
 void RCRadio3Ch::Process() {
 	//Does some error code stuff, which we don't have...
 	_errorCodes[0] = _canifier->GetPWMInput(
-			CTRE::CANifier::PWMChannel::PWMChannel0, _dutyCycleAndPeriods[0]);
+			CTRE::Phoenix::CANifier::PWMChannel::PWMChannel0, _dutyCycleAndPeriods[0]);
 	_errorCodes[1] = _canifier->GetPWMInput(
-			CTRE::CANifier::PWMChannel::PWMChannel1, _dutyCycleAndPeriods[1]);
+			CTRE::Phoenix::CANifier::PWMChannel::PWMChannel1, _dutyCycleAndPeriods[1]);
 	_errorCodes[2] = _canifier->GetPWMInput(
-			CTRE::CANifier::PWMChannel::PWMChannel2, _dutyCycleAndPeriods[2]);
+			CTRE::Phoenix::CANifier::PWMChannel::PWMChannel2, _dutyCycleAndPeriods[2]);
 	_errorCodes[3] = _canifier->GetPWMInput(
-			CTRE::CANifier::PWMChannel::PWMChannel3, _dutyCycleAndPeriods[3]);
+			CTRE::Phoenix::CANifier::PWMChannel::PWMChannel3, _dutyCycleAndPeriods[3]);
 
 	Status health = Status::Okay;
 	if (health == Status::Okay) {
@@ -107,5 +108,6 @@ double RCRadio3Ch::Interpolate(std::vector<double> &xData,
 	return yL + dydx * (x - xL);
 }
 
+}
 }
 #endif

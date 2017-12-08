@@ -8,6 +8,7 @@
 #include "ServoParameters.h"
 
 namespace CTRE {
+namespace Phoenix {
 namespace Motion {
 
 /**
@@ -66,4 +67,5 @@ struct TrajectoryPoint {
 	bool zeroPos;
 };
 } // namespace Motion
+} // namespace Phoenix
 } // namespace CTRE

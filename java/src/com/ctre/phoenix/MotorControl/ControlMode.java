@@ -14,9 +14,9 @@ public enum ControlMode
 	
 	Disabled(15);
 	
-	public int value;
-	ControlMode(int value)
+	public final int value;
+	ControlMode(int initValue)
 	{
-		this.value = value;
+		this.value = initValue;
 	}
 };

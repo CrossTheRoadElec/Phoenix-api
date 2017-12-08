@@ -1,26 +1,3 @@
-/*
- *  Software License Agreement
- *
- * Copyright (C) Cross The Road Electronics.  All rights
- * reserved.
- * 
- * Cross The Road Electronics (CTRE) licenses to you the right to 
- * use, publish, and distribute copies of CRF (Cross The Road) firmware files (*.crf) and Software
- * API Libraries ONLY when in use with Cross The Road Electronics hardware products.
- * 
- * THE SOFTWARE AND DOCUMENTATION ARE PROVIDED "AS IS" WITHOUT
- * WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT
- * LIMITATION, ANY WARRANTY OF MERCHANTABILITY, FITNESS FOR A
- * PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. IN NO EVENT SHALL
- * CROSS THE ROAD ELECTRONICS BE LIABLE FOR ANY INCIDENTAL, SPECIAL, 
- * INDIRECT OR CONSEQUENTIAL DAMAGES, LOST PROFITS OR LOST DATA, COST OF
- * PROCUREMENT OF SUBSTITUTE GOODS, TECHNOLOGY OR SERVICES, ANY CLAIMS
- * BY THIRD PARTIES (INCLUDING BUT NOT LIMITED TO ANY DEFENSE
- * THEREOF), ANY CLAIMS FOR INDEMNITY OR CONTRIBUTION, OR OTHER
- * SIMILAR COSTS, WHETHER ASSERTED ON THE BASIS OF CONTRACT, TORT
- * (INCLUDING NEGLIGENCE), BREACH OF WARRANTY, OR OTHERWISE
- */
-
 #pragma once
 
 #include "../core/ctre.h"
@@ -55,6 +32,11 @@ extern "C"{
 	CTR_Code c_CANifier_GetLastError(void *handle);
 	CTR_Code c_CANifier_GetBatteryVoltage(void *handle, float * batteryVoltage);
 	void c_CANifier_SetLastError(void *handle, int error);
+	CTR_Code c_CANifier_ConfigSetCustomParam(void *handle, int newValue, int paramIndex, int timeoutMs);
+	CTR_Code c_CANifier_ConfigGetCustomParam(void *handle, int *readValue, int paramIndex, int timoutMs);
+	CTR_Code c_CANifier_ConfigSetParameter(void *handle, int param, float value, int subValue, int ordinal, int timeoutMs);
+	CTR_Code c_CANifier_ConfigGetParameter(void *handle, int param, float *value, int ordinal, int timeoutMs);
+
 	//int c_CANifier_RequestParam(void *handle,  uint32_t  paramEnum);
 	//CTR_Code c_CANifier_SetParam(void *handle,  uint32_t  paramEnum,  float  value,  int  timeoutMs);
 	//int c_CANifier_GetParamResponse(void *handle, uint32_t paramEnum, float *value);

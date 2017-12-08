@@ -4,6 +4,7 @@
 #include <vector>
 
 namespace CTRE {
+namespace Phoenix {
 namespace MotorControl {
 
 class DeviceCatalog {
@@ -32,5 +33,6 @@ private:
 };
 
 }
+} // namespace Phoenix
 }
 

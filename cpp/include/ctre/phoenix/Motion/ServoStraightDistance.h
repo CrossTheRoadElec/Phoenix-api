@@ -6,17 +6,24 @@
 #include "ServoGoStraight.h"
 #include "ServoParameters.h"
 
-namespace CTRE { namespace Motion {
+namespace CTRE {
+namespace Phoenix {
+namespace Motion {
 
-class ServoStraightDistance : public CTRE::Tasking::ILoopable{
+class ServoStraightDistance: public CTRE::Phoenix::Tasking::ILoopable {
 public:
 	ServoParameters *straightServoParameters = new ServoParameters();
 	ServoParameters *distanceServoParameters = new ServoParameters();
 
-	ServoStraightDistance(CTRE::Drive::ISmartDrivetrain *driveTrain, CTRE::Drive::Styles::Smart selectedStyle, ServoParameters *turnParams,
-			ServoParameters *distanceParams, float targetHeading, float targetDistance, float headingTolerance, float distanceTolerance, float maxOutput);
-	ServoStraightDistance(CTRE::Drive::ISmartDrivetrain *driveTrain, CTRE::Drive::Styles::Smart selectedStyle);
-	bool Set(float targetHeading, float targetDistance, float headingTolerance, float distanceTolerance, float maxOutput);
+	ServoStraightDistance(CTRE::Phoenix::Drive::ISmartDrivetrain *driveTrain,
+			CTRE::Phoenix::Drive::Styles::Smart selectedStyle,
+			ServoParameters *turnParams, ServoParameters *distanceParams,
+			float targetHeading, float targetDistance, float headingTolerance,
+			float distanceTolerance, float maxOutput);
+	ServoStraightDistance(CTRE::Phoenix::Drive::ISmartDrivetrain *driveTrain,
+			CTRE::Phoenix::Drive::Styles::Smart selectedStyle);
+	bool Set(float targetHeading, float targetDistance, float headingTolerance,
+			float distanceTolerance, float maxOutput);
 	float GetEncoderHeading();
 	float GetEncoderDistance();
 	void OnStart();
@@ -25,23 +32,26 @@ public:
 	void OnLoop();
 
 private:
-    CTRE::Drive::ISmartDrivetrain *_driveTrain;
-    CTRE::Drive::Styles::Smart _selectedStyle;
-    ServoGoStraight *StraightDrive;
-    CTRE::Stopwatch *_myStopWatch = new Stopwatch();
-    float _targetDistance;
-    float _targetHeading;
-    float _distanceTolerance;
-    float _headingTolerance;
-    float _previousDistance;
-    float _timeElapsed;
-    float _maxOutput;
-    bool _isRunning = false;
-    bool _isDone = false;
-    unsigned char _state = 0;
-    unsigned char _isGood = 0;
+	CTRE::Phoenix::Drive::ISmartDrivetrain *_driveTrain;
+	CTRE::Phoenix::Drive::Styles::Smart _selectedStyle;
+	ServoGoStraight *StraightDrive;
+	CTRE::Phoenix::Stopwatch *_myStopWatch = new Stopwatch();
+	float _targetDistance;
+	float _targetHeading;
+	float _distanceTolerance;
+	float _headingTolerance;
+	float _previousDistance;
+	float _timeElapsed;
+	float _maxOutput;
+	bool _isRunning = false;
+	bool _isDone = false;
+	unsigned char _state = 0;
+	unsigned char _isGood = 0;
 
-	bool StraightDistance(float targetHeading, float targetDistance, float headingTolerance, float distanceTolerance);
+	bool StraightDistance(float targetHeading, float targetDistance,
+			float headingTolerance, float distanceTolerance);
 };
 
-}}
+} // namespace Motion
+} // namespace Phoenix
+} // namespace CTRE

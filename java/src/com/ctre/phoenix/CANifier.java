@@ -41,7 +41,8 @@
 			}
 			return null;
 		}
-		public int value; LEDChannel(int value) { this.value = value; } 
+		public final int value;
+		LEDChannel(int initValue) { this.value = initValue; } 
 	}
 
 	public enum PWMChannel
@@ -58,7 +59,8 @@
 			}
 			return null;
 		}
-		public int value; PWMChannel(int value) { this.value = value; } 
+		public final int value;
+		PWMChannel(int initValue) { this.value = initValue; } 
 	}
 	
 	public final int PWMChannelCount = 4;
@@ -84,7 +86,8 @@
 			}
 			return null;
 		}
-		public int value; GeneralPin(int value) { this.value = value; } 
+		public final int value;
+		GeneralPin(int initValue) { this.value = initValue; } 
 	}
 	
 	public static class PinValues
@@ -118,7 +121,8 @@
 			}
 			return null;
 		}
-		public int value; StatusFrameRate(int value) { this.value = value; } 
+		public final int value;
+		StatusFrameRate(int initValue) { this.value = initValue; } 
 	}
 	
 	private boolean[] _tempPins = new boolean[11];

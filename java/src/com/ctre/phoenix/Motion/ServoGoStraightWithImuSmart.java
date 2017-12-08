@@ -22,6 +22,9 @@ public class ServoGoStraightWithImuSmart implements com.ctre.phoenix.ILoopable
 
     boolean _isRunning = false;
     boolean _isDone = false;
+    
+    double [] _ypr = {0,0,0};
+    double [] _dps = {0,0,0};
 
 
     /** Constructor that uses ServoGoStraightWithImuSmart as an ILoopable */
@@ -57,7 +60,8 @@ public class ServoGoStraightWithImuSmart implements com.ctre.phoenix.ILoopable
     /** Return the heading from the Pigeon*/
     public double getImuHeading()
     {
-        return (double)_pidgey.getYawPitchRoll()[0];
+        _pidgey.getYawPitchRoll(_ypr);
+        return _ypr[0];
     }
 	
 	public void resetIAccum() { servoParams.resetIAccum(); }
@@ -70,7 +74,8 @@ public class ServoGoStraightWithImuSmart implements com.ctre.phoenix.ILoopable
         double currentHeading = getImuHeading();
 
         /* Grab angular rate from the pigeon */
-        double currentAngularRate = (double)_pidgey.getRawGyro()[2];
+        _pidgey.getRawGyro(_dps);
+        double currentAngularRate = _dps[2];
 
         /* Grab Pigeon IMU status */
         boolean angleIsGood = (_pidgey.getState() == PigeonIMU.PigeonState.Ready) ? true : false;

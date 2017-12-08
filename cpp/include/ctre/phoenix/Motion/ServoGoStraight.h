@@ -6,15 +6,21 @@
 #include "ctre/phoenix/Tasking/ILoopable.h"
 #include "ServoParameters.h"
 
-namespace CTRE { namespace Motion {
+namespace CTRE {
+namespace Phoenix {
+namespace Motion {
 
-class ServoGoStraight : public CTRE::Tasking::ILoopable{
+class ServoGoStraight: public CTRE::Phoenix::Tasking::ILoopable {
 public:
 	ServoParameters *servoParameters = new ServoParameters();
-	ServoGoStraight(CTRE::Drive::ISmartDrivetrain *driveTrain, CTRE::Drive::Styles::Smart selectedStyle,
-			ServoParameters *params, float Y, float targetHeading, float headingTolerance, float maxOutput);
-	ServoGoStraight(CTRE::Drive::ISmartDrivetrain *driveTrain, CTRE::Drive::Styles::Smart selectedStyle);
-	bool Set(float Y, float targetHeading, float headingTolerance, float maxOutput);
+	ServoGoStraight(CTRE::Phoenix::Drive::ISmartDrivetrain *driveTrain,
+			CTRE::Phoenix::Drive::Styles::Smart selectedStyle, ServoParameters *params,
+			float Y, float targetHeading, float headingTolerance,
+			float maxOutput);
+	ServoGoStraight(CTRE::Phoenix::Drive::ISmartDrivetrain *driveTrain,
+			CTRE::Phoenix::Drive::Styles::Smart selectedStyle);
+	bool Set(float Y, float targetHeading, float headingTolerance,
+			float maxOutput);
 	float GetEncoderHeading();
 	void OnStart();
 	void OnStop();
@@ -22,9 +28,9 @@ public:
 	void OnLoop();
 
 private:
-	CTRE::Drive::ISmartDrivetrain *_driveTrain;
-	CTRE::Drive::Styles::Smart _selectedStyle;
-	CTRE::Stopwatch *_myStopWatch = new CTRE::Stopwatch();
+	CTRE::Phoenix::Drive::ISmartDrivetrain *_driveTrain;
+	CTRE::Phoenix::Drive::Styles::Smart _selectedStyle;
+	CTRE::Phoenix::Stopwatch *_myStopWatch = new CTRE::Phoenix::Stopwatch();
 	float _Y;
 	float _targetHeading;
 	float _headingTolerance;
@@ -38,4 +44,6 @@ private:
 	bool GoStraight(float Y, float targetHeading, float headingTolerance);
 };
 
-}}
+} // namespace Motion
+} // namespace Phoenix
+} // namespace CTRE

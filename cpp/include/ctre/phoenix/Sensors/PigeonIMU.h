@@ -26,21 +26,27 @@
 #ifndef CTR_EXCLUDE_WPILIB_CLASSES
 #include <string>
 #include "ctre/phoenix/LowLevel/CANBusAddressable.h"
-//#include "ErrorBase.h" // TODO replace with logger
+#include "ctre/phoenix/defs/paramEnum.h"
+#include "ctre/phoenix/core/ErrorCode.h"
 
 /* forward prototype */
 namespace CTRE {
+namespace Phoenix {
 namespace MotorControl {
 namespace CAN {
-	class TalonSRX;
-}}}
+class TalonSRX;
+}
+}
+}
+}
 
 namespace CTRE {
+namespace Phoenix {
 /** 
  * Pigeon IMU Class.
  * Class supports communicating over CANbus and over ribbon-cable (CAN Talon SRX).
  */
-class PigeonIMU : 	public CANBusAddressable { /*public frc::ErrorBase*/		
+class PigeonIMU: public CANBusAddressable { /*public frc::ErrorBase*/
 public:
 	/** Data object for holding fusion information. */
 	struct FusionStatus {
@@ -63,10 +69,7 @@ public:
 	};
 	/** Overall state of the Pigeon. */
 	enum PigeonState {
-		NoComm,
-		Initializing,
-		Ready,
-		UserCalibration,
+		NoComm, Initializing, Ready, UserCalibration,
 	};
 	/**
 	 * Data object for status on current calibration and general status.
@@ -159,9 +162,9 @@ public:
 		ParamEnum_GyroNoMotionCal = 164,
 		ParamEnum_EnterCalibration = 165,
 		ParamEnum_FusedHeadingOffset = 166,
-		ParamEnum_StatusFrameRate	= 169,
-		ParamEnum_AccumZ	= 170,
-		ParamEnum_TempCompDisable	= 171,
+		ParamEnum_StatusFrameRate = 169,
+		ParamEnum_AccumZ = 170,
+		ParamEnum_TempCompDisable = 171,
 	};
 
 	/** Enumerated type for status frame types. */
@@ -180,7 +183,7 @@ public:
 	};
 
 	PigeonIMU(int deviceNumber);
-	PigeonIMU(CTRE::MotorControl::CAN::TalonSRX * talonSrx);
+	PigeonIMU(CTRE::Phoenix::MotorControl::CAN::TalonSRX * talonSrx);
 
 	/**
 	 * General setter to allow for the use of future features, without having to update API.
@@ -188,24 +191,25 @@ public:
 	 * @param paramValue Parameter value
 	 * @return nonzero error code if set fails.
 	 */
-	int ConfigSetParameter(ParamEnum paramEnum, double paramValue);
+	int ConfigSetParameter(ParamEnum paramEnum, double paramValue, int timeoutMs);
 
-	void SetStatusFrameRateMs(StatusFrameRate statusFrameRate, int periodMs);
+	void SetStatusFramePeriod(StatusFrameRate statusFrameRate, int periodMs, int timeoutMs);
 
-	int SetYaw(double angleDeg);
-	int AddYaw(double angleDeg);
-	int SetYawToCompass();
+	int SetYaw(double angleDeg, int timeoutMs);
+	int AddYaw(double angleDeg, int timeoutMs);
+	int SetYawToCompass(int timeoutMs);
 
-	int SetFusedHeading(double angleDeg);
-	int AddFusedHeading(double angleDeg);
-	int SetFusedHeadingToCompass();
-	int SetAccumZAngle(double angleDeg);
-	int EnableTemperatureCompensation(bool bTempCompEnable);
+	int SetFusedHeading(double angleDeg, int timeoutMs);
+	int AddFusedHeading(double angleDeg, int timeoutMs);
+	int SetFusedHeadingToCompass(int timeoutMs);
+	int SetAccumZAngle(double angleDeg, int timeoutMs);
 
-	int SetCompassDeclination(double angleDegOffset);
-	int SetCompassAngle(double angleDeg);
+	int ConfigTemperatureCompensationEnable(bool bTempCompEnable,int timeoutMs);
 
-	int EnterCalibrationMode(CalibrationMode calMode);
+	int SetCompassDeclination(double angleDegOffset, int timeoutMs);
+	int SetCompassAngle(double angleDeg, int timeoutMs);
+
+	int EnterCalibrationMode(CalibrationMode calMode, int timeoutMs);
 	int GetGeneralStatus(PigeonIMU::GeneralStatus & genStatusToFill);
 	int GetLastError();
 	int Get6dQuaternion(double wxyz[4]);
@@ -234,8 +238,20 @@ public:
 
 	static std::string ToString(PigeonIMU::PigeonState state);
 	static std::string ToString(CalibrationMode cm);
-	
-	void* GetLowLevelHandle() {return m_handle;}
+
+	//------ Custom Persistent Params ----------//
+	ErrorCode ConfigSetCustomParam(int newValue, int paramIndex,
+			int timeoutMs);
+	int ConfigGetCustomParam(int paramIndex,
+			int timeoutMs);
+	//------ Generic Param API, typically not used ----------//
+	ErrorCode ConfigSetParameter(ParamEnum param, float value,
+			uint8_t subValue, int ordinal, int timeoutMs);
+	float ConfigGetParameter(ParamEnum param, int ordinal, int timeoutMs);
+
+	void* GetLowLevelHandle() {
+		return _handle;
+	}
 private:
 	/** firmware state reported over CAN */
 	enum MotionDriverState {
@@ -269,22 +285,22 @@ private:
 		int32_t firmVers;
 		bool hasReset;
 	};
-	ResetStats _resetStats= {0, 0, 0, false};
+	ResetStats _resetStats = { 0, 0, 0, false };
 
-	enum UsageFlags{
-	Default = 0x00000000, 
-	ConnectCAN = 0x00000001,
-	ConnectTalonSRX = 0x00000002,
-	
-	GetCompass = 0x08000000,
-	GetYPR = 0x10000000,
-	GetFused = 0x20000000,
-	GetAccel = 0x40000000,
-	TempComp = 0x80000000,
-    };
-	
+	enum UsageFlags {
+		Default = 0x00000000,
+		ConnectCAN = 0x00000001,
+		ConnectTalonSRX = 0x00000002,
+
+		GetCompass = 0x08000000,
+		GetYPR = 0x10000000,
+		GetFused = 0x20000000,
+		GetAccel = 0x40000000,
+		TempComp = 0x80000000,
+	};
+
 	/** Portion of the arbID for all status and control frames. */
-	void* m_handle;
+	void* _handle;
 	uint32_t _deviceNumber;
 	uint32_t _usageHist = 0;
 	int32_t _lastError = 0;
@@ -294,13 +310,15 @@ private:
 	/** overall threshold for when frame data is too old */
 	const uint32_t EXPECTED_RESPONSE_TIMEOUT_MS = (200);
 
-	int ConfigSetParameter(ParamEnum paramEnum, TareType tareType, double angleDeg);
+	int PrivateSetParameter(ParamEnum paramEnum, TareType tareType,
+			double angleDeg, int timeoutMs);
 	int HandleError(int errorCode);
 
 	PigeonIMU::PigeonState GetState(int errCode, const uint64_t & statusFrame);
 	double GetTemp(const uint64_t & statusFrame);
-	
+
 	void ApplyUsageStats(UsageFlags Usage);
 };
-}
+} // namespace Phoenix
+} // namespace CTRE
 #endif // CTR_EXCLUDE_WPILIB_CLASSES

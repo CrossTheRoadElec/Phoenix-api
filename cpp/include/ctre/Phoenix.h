@@ -15,8 +15,9 @@
 #include "ctre/phoenix/Signals/MovingAverage.h"
 
 using namespace CTRE;
-using namespace CTRE::MotorControl;
-using namespace CTRE::Signals;
-using namespace CTRE::MotorControl::CAN;
-using namespace CTRE::Tasking;
-using namespace CTRE::Tasking::Schedulers;
+using namespace CTRE::Phoenix;
+using namespace CTRE::Phoenix::MotorControl;
+using namespace CTRE::Phoenix::MotorControl::CAN;
+using namespace CTRE::Phoenix::Signals;
+using namespace CTRE::Phoenix::Tasking;
+using namespace CTRE::Phoenix::Tasking::Schedulers;

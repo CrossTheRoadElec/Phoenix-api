@@ -8,6 +8,7 @@
 #include "ServoParameters.h"
 
 namespace CTRE {
+namespace Phoenix {
 namespace Motion {
 
 enum SetValueMotionProfile {
@@ -15,4 +16,5 @@ enum SetValueMotionProfile {
 };
 
 } // namespace Motion
+} // namespace Phoenix
 } // namespace CTRE

@@ -8,9 +8,9 @@ public enum ControlFrameEnhanced
 	Control_5_FeedbackOutputOverride_(0x040100),
 	Control_6_MotProfAddTrajPoint(0x040140);
 	
-	public int value;
-	ControlFrameEnhanced(int value)
+	public final int value;
+	ControlFrameEnhanced(int initValue)
 	{
-		this.value = value;
+		this.value = initValue;
 	}
 };

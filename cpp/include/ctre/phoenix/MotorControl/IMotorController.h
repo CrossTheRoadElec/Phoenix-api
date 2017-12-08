@@ -17,6 +17,7 @@
 #include "SpeedController.h"
 
 namespace CTRE {
+namespace Phoenix {
 namespace MotorControl {
 
 class IMotorController: public IFollower {
@@ -59,11 +60,11 @@ public:
 	virtual void EnableVoltageCompensation(bool enable) = 0;
 
 	//------ General Status ----------//
-	virtual ErrorCode GetBusVoltage(float & param) = 0;
-	virtual ErrorCode GetMotorOutputPercent(float & param) = 0;
-	virtual ErrorCode GetMotorOutputVoltage(float & param) = 0;
-	virtual ErrorCode GetOutputCurrent(float & param) = 0;
-	virtual ErrorCode GetTemperature(float & param) = 0;
+	virtual float GetBusVoltage() = 0;
+	virtual float GetMotorOutputPercent() = 0;
+	virtual float GetMotorOutputVoltage() = 0;
+	virtual float GetOutputCurrent() = 0;
+	virtual float GetTemperature() = 0;
 
 	//------ sensor selection ----------//
 	virtual ErrorCode ConfigSelectedFeedbackSensor(
@@ -80,8 +81,7 @@ public:
 			int periodMs) = 0;
 	virtual ErrorCode SetStatusFramePeriod(StatusFrame frame, int periodMs,
 			int timeoutMs) = 0;
-	virtual ErrorCode GetStatusFramePeriod(StatusFrame frame, int & periodMs,
-			int timeoutMs) = 0;
+	virtual int GetStatusFramePeriod(StatusFrame frame, int timeoutMs) = 0;
 
 	//----- velocity signal conditionaing ------//
 	/* not supported */
@@ -123,9 +123,9 @@ public:
 
 	virtual ErrorCode SetIntegralAccumulator(float iaccum, int timeoutMs) = 0;
 
-	virtual ErrorCode GetClosedLoopError(int & error) = 0;
-	virtual ErrorCode GetIntegralAccumulator(float & iaccum) = 0;
-	virtual ErrorCode GetErrorDerivative(float & derivError) = 0;
+	virtual int GetClosedLoopError() = 0;
+	virtual float GetIntegralAccumulator() = 0;
+	virtual float GetErrorDerivative() = 0;
 
 	virtual void SelectProfileSlot(int slotIdx) = 0;
 
@@ -139,11 +139,11 @@ public:
 //	virtual void ClearMotionProfileTrajectories() = 0;
 //	virtual int GetMotionProfileTopLevelBufferCount() = 0;
 //	virtual ErrorCode PushMotionProfileTrajectory(
-//			CTRE::Motion::TrajectoryPoint trajPt) = 0;
+//			CTRE::Phoenix::Motion::TrajectoryPoint trajPt) = 0;
 //	virtual bool IsMotionProfileTopLevelBufferFull() = 0;
 //	virtual void ProcessMotionProfileBuffer() = 0;
 //	virtual void GetMotionProfileStatus(
-//			CTRE::Motion::MotionProfileStatus statusToFill) = 0;
+//			CTRE::Phoenix::Motion::MotionProfileStatus statusToFill) = 0;
 //	virtual void ClearMotionProfileHasUnderrun(int timeoutMs) = 0;
 
 //------ error ----------//
@@ -161,14 +161,13 @@ public:
 	//------ Custom Persistent Params ----------//
 	virtual ErrorCode ConfigSetCustomParam(int newValue, int paramIndex,
 			int timeoutMs) = 0;
-	virtual ErrorCode ConfigGetCustomParam(int & readValue, int paramIndex,
-			int timeoutMs) = 0;
+	virtual int ConfigGetCustomParam(int paramIndex, int timeoutMs) = 0;
 
 	//------ Generic Param API, typically not used ----------//
 	virtual ErrorCode ConfigSetParameter(ParamEnum param, float value,
 			uint8_t subValue, int ordinal, int timeoutMs) = 0;
-	virtual ErrorCode ConfigGetParameter(ParamEnum paramEnum, float & value,
-			int ordinal, int timeoutMs) = 0;
+	virtual float ConfigGetParameter(ParamEnum paramEnum, int ordinal,
+			int timeoutMs) = 0;
 
 	//------ Misc. ----------//
 	virtual int GetBaseID() = 0;
@@ -181,4 +180,5 @@ public:
 };
 
 }
+} // namespace Phoenix
 }

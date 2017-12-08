@@ -13,6 +13,7 @@
 
 /* forward proto's */
 namespace CTRE {
+namespace Phoenix {
 namespace MotorControl {
 namespace LowLevel {
 class MotControllerWithBuffer_LowLevel;
@@ -20,14 +21,16 @@ class MotController_LowLevel;
 }
 }
 }
+}
 
 namespace CTRE {
+namespace Phoenix {
 namespace MotorControl {
 namespace CAN {
 
-class BaseMotorController: public virtual IMotorController{
+class BaseMotorController: public virtual IMotorController {
 private:
-	ErrorCode _lastError = (ErrorCode)0;
+	ErrorCode _lastError = (ErrorCode) 0;
 
 	ControlMode m_controlMode = ControlMode::PercentOutput;
 	ControlMode m_sendMode = ControlMode::PercentOutput;
@@ -38,9 +41,6 @@ private:
 	int m_profile = 0;
 
 	int temp = 0;
-
-	ErrorCode SetLastError(int error);
-	ErrorCode SetLastError(ErrorCode error);
 
 	frc::SpeedController * _wpilibSpeedController;
 protected:
@@ -60,13 +60,16 @@ public:
 	virtual void SetInverted(bool invert);
 	virtual bool GetInverted();
 	//----- general output shaping ------------------//
-	virtual ErrorCode ConfigOpenloopRamp(float secondsFromNeutralToFull, int timeoutMs);
+	virtual ErrorCode ConfigOpenloopRamp(float secondsFromNeutralToFull,
+			int timeoutMs);
 	virtual ErrorCode ConfigClosedloopRamp(float secondsFromNeutralToFull,
 			int timeoutMs);
 	virtual ErrorCode ConfigPeakOutputForward(float percentOut, int timeoutMs);
 	virtual ErrorCode ConfigPeakOutputReverse(float percentOut, int timeoutMs);
-	virtual ErrorCode ConfigNominalOutputForward(float percentOut, int timeoutMs);
-	virtual ErrorCode ConfigNominalOutputReverse(float percentOut, int timeoutMs);
+	virtual ErrorCode ConfigNominalOutputForward(float percentOut,
+			int timeoutMs);
+	virtual ErrorCode ConfigNominalOutputReverse(float percentOut,
+			int timeoutMs);
 	virtual ErrorCode ConfigNeutralDeadband(float percentDeadband,
 			int timeoutMs);
 	//------ Voltage Compensation ----------//
@@ -75,16 +78,16 @@ public:
 			int timeoutMs);
 	virtual void EnableVoltageCompensation(bool enable);
 	//------ General Status ----------//
-	virtual ErrorCode GetBusVoltage(float & param);
-	virtual ErrorCode GetMotorOutputPercent(float & param);
-	virtual ErrorCode GetMotorOutputVoltage(float & param);
-	virtual ErrorCode GetOutputCurrent(float & param);
-	virtual ErrorCode GetTemperature(float & param);
+	virtual float GetBusVoltage();
+	virtual float GetMotorOutputPercent();
+	virtual float GetMotorOutputVoltage();
+	virtual float GetOutputCurrent();
+	virtual float GetTemperature();
 	//------ sensor selection ----------//
-	virtual ErrorCode ConfigSelectedFeedbackSensor(RemoteFeedbackDevice feedbackDevice,
-			int timeoutMs);
-	virtual ErrorCode ConfigSelectedFeedbackSensor(FeedbackDevice feedbackDevice,
-			int timeoutMs);
+	virtual ErrorCode ConfigSelectedFeedbackSensor(
+			RemoteFeedbackDevice feedbackDevice, int timeoutMs);
+	virtual ErrorCode ConfigSelectedFeedbackSensor(
+			FeedbackDevice feedbackDevice, int timeoutMs);
 	//------- sensor status --------- //
 	virtual int GetSelectedSensorPosition();
 	virtual int GetSelectedSensorVelocity();
@@ -93,21 +96,22 @@ public:
 	virtual ErrorCode SetControlFramePeriod(ControlFrame frame, int periodMs);
 	virtual ErrorCode SetStatusFramePeriod(StatusFrame frame, int periodMs,
 			int timeoutMs);
-	virtual ErrorCode SetStatusFramePeriod(StatusFrameEnhanced frame, int periodMs,
-			int timeoutMs);
-	virtual ErrorCode GetStatusFramePeriod(StatusFrame frame, int & periodMs,
-			int timeoutMs);
-	virtual ErrorCode GetStatusFramePeriod(StatusFrameEnhanced frame, int & periodMs,
-			int timeoutMs);
+	virtual ErrorCode SetStatusFramePeriod(StatusFrameEnhanced frame,
+			int periodMs, int timeoutMs);
+	virtual int GetStatusFramePeriod(StatusFrame frame, int timeoutMs);
+	virtual int GetStatusFramePeriod(StatusFrameEnhanced frame, int timeoutMs);
 	//----- velocity signal conditionaing ------//
 	virtual ErrorCode ConfigVelocityMeasurementPeriod(VelocityMeasPeriod period,
 			int timeoutMs);
-	virtual ErrorCode ConfigVelocityMeasurementWindow(int windowSize, int timeoutMs);
+	virtual ErrorCode ConfigVelocityMeasurementWindow(int windowSize,
+			int timeoutMs);
 	//------ remote limit switch ----------//
-	virtual ErrorCode ConfigForwardLimitSwitchSource(RemoteLimitSwitchSource type,
-			LimitSwitchNormal normalOpenOrClose, int deviceID, int timeoutMs);
-	virtual ErrorCode ConfigReverseLimitSwitchSource(RemoteLimitSwitchSource type,
-			LimitSwitchNormal normalOpenOrClose, int deviceID, int timeoutMs);
+	virtual ErrorCode ConfigForwardLimitSwitchSource(
+			RemoteLimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
+			int deviceID, int timeoutMs);
+	virtual ErrorCode ConfigReverseLimitSwitchSource(
+			RemoteLimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
+			int deviceID, int timeoutMs);
 	void EnableLimitSwitches(bool enable);
 	//------ local limit switch ----------//
 	virtual ErrorCode ConfigForwardLimitSwitchSource(LimitSwitchSource type,
@@ -115,8 +119,10 @@ public:
 	virtual ErrorCode ConfigReverseLimitSwitchSource(LimitSwitchSource type,
 			LimitSwitchNormal normalOpenOrClose, int timeoutMs);
 	//------ soft limit ----------//
-	virtual ErrorCode ConfigForwardSoftLimit(int forwardSensorLimit, int timeoutMs);
-	virtual ErrorCode ConfigReverseSoftLimit(int reverseSensorLimit, int timeoutMs);
+	virtual ErrorCode ConfigForwardSoftLimit(int forwardSensorLimit,
+			int timeoutMs);
+	virtual ErrorCode ConfigReverseSoftLimit(int reverseSensorLimit,
+			int timeoutMs);
 	virtual void EnableSoftLimits(bool enable);
 	//------ Current Lim ----------//
 	/* not available in base */
@@ -125,15 +131,16 @@ public:
 	virtual ErrorCode Config_kI(int slotIdx, float value, int timeoutMs);
 	virtual ErrorCode Config_kD(int slotIdx, float value, int timeoutMs);
 	virtual ErrorCode Config_kF(int slotIdx, float value, int timeoutMs);
-	virtual ErrorCode Config_IntegralZone(int slotIdx, int izone, int timeoutMs);
+	virtual ErrorCode Config_IntegralZone(int slotIdx, int izone,
+			int timeoutMs);
 	virtual ErrorCode ConfigAllowableClosedloopError(int slotIdx,
 			int allowableCloseLoopError, int timeoutMs);
 	virtual ErrorCode ConfigMaxIntegralAccumulator(int slotIdx, float iaccum,
 			int timeoutMs);
 	virtual ErrorCode SetIntegralAccumulator(float iaccum, int timeoutMs);
-	virtual ErrorCode GetClosedLoopError(int & closedLoopError);
-	virtual ErrorCode GetIntegralAccumulator(float & iaccum);
-	virtual ErrorCode GetErrorDerivative(float & derror);
+	virtual int GetClosedLoopError();
+	virtual float GetIntegralAccumulator();
+	virtual float GetErrorDerivative();
 	virtual void SelectProfileSlot(int slotIdx);
 	//------ Motion Profile Settings used in Motion Magic and Motion Profile ----------//
 	virtual ErrorCode ConfigMotionCruiseVelocity(int sensorUnitsPer100ms,
@@ -158,14 +165,14 @@ public:
 	virtual int GetFirmwareVersion();
 	virtual bool HasResetOccured();
 	//------ Custom Persistent Params ----------//
-	virtual ErrorCode ConfigSetCustomParam(int newValue, int paramIndex, int timeoutMs);
-	virtual ErrorCode ConfigGetCustomParam(int & readValue, int paramIndex,
+	virtual ErrorCode ConfigSetCustomParam(int newValue, int paramIndex,
+			int timeoutMs);
+	virtual int ConfigGetCustomParam(int paramIndex,
 			int timeoutMs);
 	//------ Generic Param API, typically not used ----------//
-	virtual ErrorCode ConfigSetParameter(ParamEnum param, float value, uint8_t subValue,
-			int ordinal, int timeoutMs);
-	virtual ErrorCode ConfigGetParameter(ParamEnum param, float & value, int ordinal,
-			int timeoutMs);
+	virtual ErrorCode ConfigSetParameter(ParamEnum param, float value,
+			uint8_t subValue, int ordinal, int timeoutMs);
+	virtual float ConfigGetParameter(ParamEnum param, int ordinal, int timeoutMs);
 	//------ Misc. ----------//
 	virtual int GetBaseID();
 	// ----- Follower ------//
@@ -181,6 +188,8 @@ public:
 	//SensorCollection & SensorCollection();
 };
 
-}
-}
-}
+} // namespace CAN
+} // namespace MotorControl
+} // namespace Phoenix
+} // namespace CTRE
+

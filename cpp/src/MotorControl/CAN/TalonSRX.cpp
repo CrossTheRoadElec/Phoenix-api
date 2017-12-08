@@ -1,8 +1,8 @@
 #include "ctre/phoenix/MotorControl/CAN/TalonSRX.h"
 #include "ctre/phoenix/CCI/MotController_CCI.h"
 
-using namespace CTRE::MotorControl::CAN;
-using namespace CTRE::MotorControl;
+using namespace CTRE::Phoenix::MotorControl::CAN;
+using namespace CTRE::Phoenix::MotorControl;
 
 TalonSRX::TalonSRX(int deviceNumber) :
 		BaseMotorController(deviceNumber | 0x02040000) {
@@ -17,9 +17,10 @@ ErrorCode TalonSRX::SetStatusFramePeriod(StatusFrameEnhanced frame,
 		int periodMs, int timeoutMs) {
 	return BaseMotorController::SetStatusFramePeriod(frame, periodMs, timeoutMs);
 }
-ErrorCode TalonSRX::GetStatusFramePeriod(StatusFrameEnhanced frame,
-		int & periodMs, int timeoutMs) {
-	return BaseMotorController::GetStatusFramePeriod(frame, periodMs, timeoutMs);
+int TalonSRX::GetStatusFramePeriod(StatusFrameEnhanced frame, int timeoutMs) {
+	int periodMs = 0;
+	BaseMotorController::GetStatusFramePeriod(frame, timeoutMs);
+	return periodMs;
 }
 
 ErrorCode TalonSRX::ConfigVelocityMeasurementPeriod(VelocityMeasPeriod period,
@@ -33,16 +34,33 @@ ErrorCode TalonSRX::ConfigVelocityMeasurementWindow(int windowSize,
 			timeoutMs);
 }
 
-ErrorCode TalonSRX::ConfigForwardLimitSwitchSource(LimitSwitchSource type,
+ErrorCode TalonSRX::ConfigForwardLimitSwitchSource(
+		LimitSwitchSource limitSwitchSource,
 		LimitSwitchNormal normalOpenOrClose, int timeoutMs) {
 
-	return BaseMotorController::ConfigForwardLimitSwitchSource(type,
-			normalOpenOrClose, timeoutMs);
+	return BaseMotorController::ConfigForwardLimitSwitchSource(
+			limitSwitchSource, normalOpenOrClose, timeoutMs);
 }
-ErrorCode TalonSRX::ConfigReverseLimitSwitchSource(LimitSwitchSource type,
+ErrorCode TalonSRX::ConfigReverseLimitSwitchSource(
+		LimitSwitchSource limitSwitchSource,
 		LimitSwitchNormal normalOpenOrClose, int timeoutMs) {
-	return BaseMotorController::ConfigReverseLimitSwitchSource(type,
-			normalOpenOrClose, timeoutMs);
+	return BaseMotorController::ConfigReverseLimitSwitchSource(
+			limitSwitchSource, normalOpenOrClose, timeoutMs);
+}
+
+ErrorCode TalonSRX::ConfigForwardLimitSwitchSource(
+		RemoteLimitSwitchSource limitSwitchSource,
+		LimitSwitchNormal normalOpenOrClose, int deviceID, int timeoutMs) {
+
+	return BaseMotorController::ConfigForwardLimitSwitchSource(
+			limitSwitchSource, normalOpenOrClose, deviceID, timeoutMs);
+}
+ErrorCode TalonSRX::ConfigReverseLimitSwitchSource(
+		RemoteLimitSwitchSource limitSwitchSource,
+		LimitSwitchNormal normalOpenOrClose, int deviceID, int timeoutMs) {
+
+	return BaseMotorController::ConfigReverseLimitSwitchSource(
+			limitSwitchSource, normalOpenOrClose, deviceID, timeoutMs);
 }
 
 //------ Current Lim ----------//

@@ -14,8 +14,9 @@ public enum CTR_Code
 	
 	CTR_NotSupported(101);		//!< Feature not supported
 
-	private int value; private CTR_Code(int value) { this.value = value; } 
-	public static CTR_Code getEnum(int value) {
+	public final int value;
+	private CTR_Code(int initValue) { this.value = initValue; } 
+	public static CTR_Code valueOf(int value) {
 		for (CTR_Code e : CTR_Code.values()) {
 			if (e.value == value) {
 				return e;
@@ -23,6 +24,5 @@ public enum CTR_Code
 		}
 		return CTR_UnknownError;
 	}
-	public int intValue() { return value;}
 }
 

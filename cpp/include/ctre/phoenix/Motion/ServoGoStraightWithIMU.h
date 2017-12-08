@@ -7,16 +7,23 @@
 #include "ctre/phoenix/Tasking/ILoopable.h"
 #include "ServoParameters.h"
 
+namespace CTRE {
+namespace Phoenix {
+namespace Motion {
 
-namespace CTRE { namespace Motion {
-
-class ServoGoStraightWithImu : public CTRE::Tasking::ILoopable{
+class ServoGoStraightWithImu: public CTRE::Phoenix::Tasking::ILoopable {
 public:
 	ServoParameters *servoParameters = new ServoParameters();
-	ServoGoStraightWithImu(CTRE::PigeonIMU *pigeonImu, CTRE::Drive::IDrivetrain *driveTrain, CTRE::Drive::Styles::Basic selectedStyle,
-			ServoParameters *parameters, float Y, float targetHeading, float headingTolerance, float maxOutput);
-	ServoGoStraightWithImu(CTRE::PigeonIMU *pigeonImu, CTRE::Drive::IDrivetrain *driveTrain, CTRE::Drive::Styles::Basic selectedStyle);
-	bool Set(float Y, float targetHeading, float headingTolerance, float maxOutput);
+	ServoGoStraightWithImu(CTRE::PigeonIMU *pigeonImu,
+			CTRE::Drive::IDrivetrain *driveTrain,
+			CTRE::Drive::Styles::Basic selectedStyle,
+			ServoParameters *parameters, float Y, float targetHeading,
+			float headingTolerance, float maxOutput);
+	ServoGoStraightWithImu(CTRE::PigeonIMU *pigeonImu,
+			CTRE::Drive::IDrivetrain *driveTrain,
+			CTRE::Drive::Styles::Basic selectedStyle);
+	bool Set(float Y, float targetHeading, float headingTolerance,
+			float maxOutput);
 	float GetImuHeading();
 	void OnStart();
 	void OnStop();
@@ -24,18 +31,20 @@ public:
 	void OnLoop();
 
 private:
-    CTRE::PigeonIMU *_pidgey;
-    CTRE::Drive::IDrivetrain *_driveTrain;
-    CTRE::Drive::Styles::Basic _selectedStyle;
-    float _Y;
-    float _targetHeading;
-    float _headingTolerance;
-    float _maxOutput;
-    bool _isRunning = false;
-    bool _isDone = false;
-    unsigned char _state = 0;
+	CTRE::Phoenix::PigeonIMU *_pidgey;
+	CTRE::Phoenix::Drive::IDrivetrain *_driveTrain;
+	CTRE::Phoenix::Drive::Styles::Basic _selectedStyle;
+	float _Y;
+	float _targetHeading;
+	float _headingTolerance;
+	float _maxOutput;
+	bool _isRunning = false;
+	bool _isDone = false;
+	unsigned char _state = 0;
 
 	bool GoStraight(float Y, float targetHeading, float headingTolerance);
 };
 
-}}
+} // namespace Motion
+} // namespace Phoenix
+} // namespace CTRE
