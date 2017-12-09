@@ -388,7 +388,7 @@ forward/reverse directions.
    * @param ordinal   Ordinal of parameter.
    * @param timeoutMs Timeout value in ms.  @see #ConfigOpenLoopRamp
    * @return          Value of parameter.   */
-	public static native float ConfigGetParameter(long handle, int param, int ordinal, int timeoutMs);
+	public static native double ConfigGetParameter(long handle, int param, int ordinal, int timeoutMs);
   /**
    * Configures the peak current limit of the motor controller.
    *

@@ -185,13 +185,6 @@ public:
 	PigeonIMU(int deviceNumber);
 	PigeonIMU(CTRE::Phoenix::MotorControl::CAN::TalonSRX * talonSrx);
 
-	/**
-	 * General setter to allow for the use of future features, without having to update API.
-	 * @param paramEnum Parameter to set
-	 * @param paramValue Parameter value
-	 * @return nonzero error code if set fails.
-	 */
-	int ConfigSetParameter(ParamEnum paramEnum, double paramValue, int timeoutMs);
 
 	void SetStatusFramePeriod(StatusFrameRate statusFrameRate, int periodMs, int timeoutMs);
 
@@ -239,15 +232,11 @@ public:
 	static std::string ToString(PigeonIMU::PigeonState state);
 	static std::string ToString(CalibrationMode cm);
 
-	//------ Custom Persistent Params ----------//
-	ErrorCode ConfigSetCustomParam(int newValue, int paramIndex,
-			int timeoutMs);
-	int ConfigGetCustomParam(int paramIndex,
-			int timeoutMs);
-	//------ Generic Param API, typically not used ----------//
-	ErrorCode ConfigSetParameter(ParamEnum param, float value,
+	ErrorCode ConfigSetCustomParam(int newValue, int paramIndex, int timeoutMs);
+	int ConfigGetCustomParam(int paramIndex, int timeoutMs);
+	ErrorCode ConfigSetParameter(ParamEnum param, double value,
 			uint8_t subValue, int ordinal, int timeoutMs);
-	float ConfigGetParameter(ParamEnum param, int ordinal, int timeoutMs);
+	double ConfigGetParameter(ParamEnum param, int ordinal, int timeoutMs);
 
 	void* GetLowLevelHandle() {
 		return _handle;

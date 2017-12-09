@@ -62,11 +62,11 @@
 
 	public static native boolean JNI_GetGeneralInput(long handl, int inputPin);
 
-	public static native void JNI_GetPWMInput(long handle, int pwmChannel, float dutyCycleAndPeriod[]);
+	public static native void JNI_GetPWMInput(long handle, int pwmChannel, double dutyCycleAndPeriod[]);
 
 	public static native int JNI_GetLastError(long handle);
 
-	public static native float JNI_GetBatteryVoltage(long handle);
+	public static native double JNI_GetBatteryVoltage(long handle);
 
 	public static native int JNI_ConfigSetCustomParam(long handle, int newValue, int paramIndex, int timeoutMs);
 

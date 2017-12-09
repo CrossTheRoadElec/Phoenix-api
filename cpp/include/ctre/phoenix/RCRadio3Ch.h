@@ -36,7 +36,7 @@ private:
 
 
 	//This is only a 2d array??
-	float _dutyCycleAndPeriods[4][2] =
+	double _dutyCycleAndPeriods[4][2] =
 	{
 			{ 0, 0 },
 			{ 0, 0 },

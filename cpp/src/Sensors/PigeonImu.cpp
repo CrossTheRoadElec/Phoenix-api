@@ -62,13 +62,6 @@ PigeonIMU::PigeonIMU(CTRE::Phoenix::MotorControl::CAN::TalonSRX * talonSrx) : CA
 	PigeonIMU::ApplyUsageStats(UsageFlags::ConnectTalonSRX);
 }
 
-//----------------------- Control Param routines -----------------------//
-int PigeonIMU::ConfigSetParameter(ParamEnum paramEnum, double paramValue, int timeoutMs)
-{
-	int subValue = 0;
-	int ordinal = 0;
-	return c_PigeonIMU_ConfigSetParameter(_handle, (int)paramEnum, paramValue, subValue, ordinal, timeoutMs);
-}
 
 /**
  * Change the periodMs of a TALON's status frame.  See kStatusFrame_* enums for
@@ -453,8 +446,7 @@ void PigeonIMU::ApplyUsageStats(UsageFlags Usage)
 		HAL_Report(61, _deviceNumber + 1, _usageHist);
 	}
 }
-#if 0
-//------ Custom Persistent Params ----------//
+
 ErrorCode PigeonIMU::ConfigSetCustomParam(int newValue,
 		int paramIndex, int timeoutMs) {
 	return c_PigeonIMU_ConfigSetCustomParam(_handle, newValue, paramIndex, timeoutMs);
@@ -466,19 +458,17 @@ int PigeonIMU::ConfigGetCustomParam(
 	return readValue;
 }
 
-//------ Generic Param API, typically not used ----------//
-ErrorCode PigeonIMU::ConfigSetParameter(ParamEnum param, float value,
+ErrorCode PigeonIMU::ConfigSetParameter(ParamEnum param, double value,
 		uint8_t subValue, int ordinal, int timeoutMs) {
 	return c_PigeonIMU_ConfigSetParameter(_handle, param, value, subValue, ordinal, timeoutMs);
 
 }
-float BaseMotorController::ConfigGetParameter(ParamEnum param, int ordinal,
+double PigeonIMU::ConfigGetParameter(ParamEnum param, int ordinal,
 		int timeoutMs) {
-	value = 0;
+	double value = 0;
 	c_PigeonIMU_ConfigGetParameter(_handle, param, &value, ordinal, timeoutMs);
 	return value;
 }
-#endif
 
 }
 }

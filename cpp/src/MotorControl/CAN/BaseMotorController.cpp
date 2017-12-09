@@ -493,9 +493,9 @@ ErrorCode BaseMotorController::ConfigSetParameter(ParamEnum param, float value,
 
 }
 float BaseMotorController::ConfigGetParameter(ParamEnum param, int ordinal, int timeoutMs) {
-	float value = 0;
+	double value = 0;
 	c_MotController_ConfigGetParameter(m_handle, param, &value, ordinal, timeoutMs);
-	return value;
+	return (float)value;
 }
 //------ Misc. ----------//
 int BaseMotorController::GetBaseID() {

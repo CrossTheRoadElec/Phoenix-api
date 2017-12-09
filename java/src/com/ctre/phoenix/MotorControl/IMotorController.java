@@ -155,7 +155,7 @@ public interface IMotorController
 	// ------ Custom Persistent Params ----------//
 	public ErrorCode configSetCustomParam(int newValue, int paramIndex, int timeoutMs);
 
-	public ErrorCode configGetCustomParam(int paramIndex, int timoutMs);
+	public int configGetCustomParam(int paramIndex, int timoutMs);
 
 	//------ Generic Param API, typically not used ----------//
 	public ErrorCode configSetParameter(ParamEnum param, double value, int subValue, int ordinal, int timeoutMs);

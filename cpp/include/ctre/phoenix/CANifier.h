@@ -63,9 +63,9 @@ public:
 	CTR_Code GetGeneralInputs(PinValues &allPins);
 	bool GetGeneralInput(GeneralPin inputPin);
 	CTR_Code GetLastError();
-	CTR_Code SetPWMOutput(int pwmChannel, float dutyCycle);
+	CTR_Code SetPWMOutput(int pwmChannel, double dutyCycle);
 	CTR_Code EnablePWMOutput(int pwmChannel, bool bEnable);
-	CTR_Code GetPWMInput(PWMChannel pwmChannel, float dutyCycleAndPeriod[]);
+	CTR_Code GetPWMInput(PWMChannel pwmChannel, double dutyCycleAndPeriod[]);
 
 	//------ Custom Persistent Params ----------//
 	ErrorCode ConfigSetCustomParam(int newValue, int paramIndex,
@@ -73,9 +73,9 @@ public:
 	int ConfigGetCustomParam(int paramIndex,
 			int timeoutMs);
 	//------ Generic Param API, typically not used ----------//
-	ErrorCode ConfigSetParameter(ParamEnum param, float value,
+	ErrorCode ConfigSetParameter(ParamEnum param, double value,
 			uint8_t subValue, int ordinal, int timeoutMs);
-	float ConfigGetParameter(ParamEnum param, int ordinal, int timeoutMs);
+	double ConfigGetParameter(ParamEnum param, int ordinal, int timeoutMs);
 private:
 	void* m_handle;
 	bool _tempPins[11];

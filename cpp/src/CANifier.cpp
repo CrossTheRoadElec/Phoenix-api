@@ -86,7 +86,7 @@ CTR_Code CANifier::GetLastError() {
 	return c_CANifier_GetLastError(m_handle);
 }
 
-CTR_Code CANifier::SetPWMOutput(int pwmChannel, float dutyCycle) {
+CTR_Code CANifier::SetPWMOutput(int pwmChannel, double dutyCycle) {
 	if (dutyCycle < 0) {
 		dutyCycle = 0;
 	} else if (dutyCycle > 1) {
@@ -111,31 +111,31 @@ CTR_Code CANifier::EnablePWMOutput(int pwmChannel, bool bEnable) {
 			bEnable);
 }
 
-CTR_Code CANifier::GetPWMInput(PWMChannel pwmChannel, float dutyCycleAndPeriod[]) {
+CTR_Code CANifier::GetPWMInput(PWMChannel pwmChannel, double dutyCycleAndPeriod[]) {
 	return c_CANifier_GetPWMInput(m_handle, pwmChannel,
 			dutyCycleAndPeriod);
 }
 
 //------ Custom Persistent Params ----------//
-//ErrorCode CANifier::ConfigSetCustomParam(int newValue,
-//		int paramIndex, int timeoutMs) {
-//	return c_CANifier_ConfigSetCustomParam(m_handle, newValue, paramIndex, timeoutMs);
-//}
-//int CANifier::ConfigGetCustomParam(
-//		int paramIndex, int timeoutMs) {
-//	int readValue;
-//	c_CANifier_ConfigGetCustomParam(m_handle, &readValue, paramIndex, timeoutMs);
-//	return readValue;
-//}
+ErrorCode CANifier::ConfigSetCustomParam(int newValue,
+		int paramIndex, int timeoutMs) {
+	return c_CANifier_ConfigSetCustomParam(m_handle, newValue, paramIndex, timeoutMs);
+}
+int CANifier::ConfigGetCustomParam(
+		int paramIndex, int timeoutMs) {
+	int readValue;
+	c_CANifier_ConfigGetCustomParam(m_handle, &readValue, paramIndex, timeoutMs);
+	return readValue;
+}
 
 //------ Generic Param API, typically not used ----------//
-ErrorCode CANifier::ConfigSetParameter(ParamEnum param, float value,
+ErrorCode CANifier::ConfigSetParameter(ParamEnum param, double value,
 		uint8_t subValue, int ordinal, int timeoutMs) {
 	return c_CANifier_ConfigSetParameter(m_handle, param, value, subValue, ordinal, timeoutMs);
 
 }
-float CANifier::ConfigGetParameter(ParamEnum param, int ordinal, int timeoutMs) {
-	float value = 0;
+double CANifier::ConfigGetParameter(ParamEnum param, int ordinal, int timeoutMs) {
+	double value = 0;
 	c_CANifier_ConfigGetParameter(m_handle, param, &value, ordinal, timeoutMs);
 	return value;
 }

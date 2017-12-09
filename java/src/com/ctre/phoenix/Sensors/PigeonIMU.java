@@ -25,12 +25,12 @@ package com.ctre.phoenix.Sensors;
 import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.MotorControl.CAN.TalonSRX;
+
 /**
- * Pigeon IMU Class.
- * Class supports communicating over CANbus and over ribbon-cable (CAN Talon SRX).
+ * Pigeon IMU Class. Class supports communicating over CANbus and over
+ * ribbon-cable (CAN Talon SRX).
  */
-public class PigeonIMU
-{
+public class PigeonIMU {
 	private long m_handle;
 
 	/** Data object for holding fusion information. */
@@ -38,12 +38,12 @@ public class PigeonIMU
 		public double heading;
 		public boolean bIsValid;
 		public boolean bIsFusing;
-		
+
 		/**
 		 * Same as getLastError()
 		 */
 		public ErrorCode lastError;
-		
+
 		public String ToString() {
 			String description;
 			if (lastError != ErrorCode.OKAY) {
@@ -61,12 +61,7 @@ public class PigeonIMU
 
 	/** Various calibration modes supported by Pigeon. */
 	public enum CalibrationMode {
-		BootTareGyroAccel(0),
-		Temperature(1),
-		Magnetometer12Pt(2), 
-		Magnetometer360(3), 
-		Accelerometer(5),
-		Unknown(-1);
+		BootTareGyroAccel(0), Temperature(1), Magnetometer12Pt(2), Magnetometer360(3), Accelerometer(5), Unknown(-1);
 		public final int value;
 
 		private CalibrationMode(int initValue) {
@@ -85,7 +80,7 @@ public class PigeonIMU
 
 	/** Overall state of the Pigeon. */
 	public enum PigeonState {
-		NoComm(0), Initializing(1), Ready(2), UserCalibration(3),Unknown(-1);
+		NoComm(0), Initializing(1), Ready(2), UserCalibration(3), Unknown(-1);
 		public final int value;
 
 		private PigeonState(int initValue) {
@@ -186,6 +181,7 @@ public class PigeonIMU
 		 * Same as getLastError()
 		 */
 		public ErrorCode lastError;
+
 		/**
 		 * general string description of current status
 		 */
@@ -199,39 +195,39 @@ public class PigeonIMU
 			} else if (state == PigeonState.UserCalibration) {
 				/* mode specific descriptions */
 				switch (currentMode) {
-					case BootTareGyroAccel:
-						description = "Boot-Calibration: Gyro and Accelerometer are being biased.";
-						break;
-					case Temperature:
-						description = "Temperature-Calibration: Pigeon is collecting temp data and will finish when temp range is reached. \n";
-						description += "Do not moved Pigeon.";
-						break;
-					case Magnetometer12Pt:
-						description = "Magnetometer Level 1 calibration: Orient the Pigeon PCB in the 12 positions documented in the User's Manual.";
-						break;
-					case Magnetometer360:
-						description = "Magnetometer Level 2 calibration: Spin robot slowly in 360' fashion.  ";
-						break;
-					case Accelerometer:
-						description = "Accelerometer Calibration: Pigeon PCB must be placed on a level source.  Follow User's Guide for how to level surfacee.  ";
-						break;
-					default:
-					case Unknown:
-						description = "Unknown status";
-						break;
+				case BootTareGyroAccel:
+					description = "Boot-Calibration: Gyro and Accelerometer are being biased.";
+					break;
+				case Temperature:
+					description = "Temperature-Calibration: Pigeon is collecting temp data and will finish when temp range is reached. \n";
+					description += "Do not moved Pigeon.";
+					break;
+				case Magnetometer12Pt:
+					description = "Magnetometer Level 1 calibration: Orient the Pigeon PCB in the 12 positions documented in the User's Manual.";
+					break;
+				case Magnetometer360:
+					description = "Magnetometer Level 2 calibration: Spin robot slowly in 360' fashion.  ";
+					break;
+				case Accelerometer:
+					description = "Accelerometer Calibration: Pigeon PCB must be placed on a level source.  Follow User's Guide for how to level surfacee.  ";
+					break;
+				default:
+				case Unknown:
+					description = "Unknown status";
+					break;
 				}
 			} else if (state == PigeonState.Ready) {
 				/*
-				 * definitely not doing anything cal-related. So just instrument the
-				 * motion driver state
+				 * definitely not doing anything cal-related. So just instrument
+				 * the motion driver state
 				 */
 				description = "Pigeon is running normally.  Last CAL error code was ";
 				description += Integer.toString(calibrationError);
 				description += ".";
 			} else if (state == PigeonState.Initializing) {
 				/*
-				 * definitely not doing anything cal-related. So just instrument the
-				 * motion driver state
+				 * definitely not doing anything cal-related. So just instrument
+				 * the motion driver state
 				 */
 				description = "Pigeon is boot-caling to properly bias accel and gyro.  Do not move Pigeon.";
 			} else {
@@ -241,23 +237,15 @@ public class PigeonIMU
 		}
 	};
 
-	
-
 	/**
 	 * Enumerated types for frame rate ms.
 	 */
-	public enum StatusFrame {		
-		CondStatus_1_General (0x042000),
-		CondStatus_9_SixDeg_YPR (0x042200),
-		CondStatus_6_SensorFusion (0x042140),
-		CondStatus_11_GyroAccum (0x042280),
-		CondStatus_2_GeneralCompass (0x042040),
-		CondStatus_3_GeneralAccel (0x042080),
-		CondStatus_10_SixDeg_Quat (0x042240),
-		RawStatus_4_Mag (0x041CC0),
-		BiasedStatus_2_Gyro (0x041C40),
-		BiasedStatus_4_Mag (0x041CC0),
-		BiasedStatus_6_Accel (0x41D40);
+	public enum StatusFrame {
+		CondStatus_1_General(0x042000), CondStatus_9_SixDeg_YPR(0x042200), CondStatus_6_SensorFusion(
+				0x042140), CondStatus_11_GyroAccum(0x042280), CondStatus_2_GeneralCompass(
+						0x042040), CondStatus_3_GeneralAccel(0x042080), CondStatus_10_SixDeg_Quat(
+								0x042240), RawStatus_4_Mag(0x041CC0), BiasedStatus_2_Gyro(
+										0x041C40), BiasedStatus_4_Mag(0x041CC0), BiasedStatus_6_Accel(0x41D40);
 
 		public final int value;
 
@@ -277,9 +265,9 @@ public class PigeonIMU
 
 	private int m_deviceNumber = 0;
 
-	private double [] _generalStatus = {0,0,0,0,0,0,0,0,0,0};
-	private double [] _fusionStatus = {0,0,0,0,0,0,0,0,0,0};
-	
+	private double[] _generalStatus = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+	private double[] _fusionStatus = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
 	/**
 	 * Create a Pigeon object that communicates with Pigeon on CAN Bus.
 	 * 
@@ -301,22 +289,6 @@ public class PigeonIMU
 	public PigeonIMU(TalonSRX talonSrx) {
 		m_deviceNumber = talonSrx.getDeviceID();
 		m_handle = PigeonImuJNI.JNI_new_PigeonImu_Talon(m_deviceNumber);
-	}
-
-	// ----------------------- Control Param routines -----------------------//
-	/**
-	 * General setter to allow for the use of future features, without having to
-	 * update API.
-	 * 
-	 * @param paramEnum
-	 *            Parameter to set
-	 * @param paramValue
-	 *            Parameter value
-	 */
-	public ErrorCode configSetParameter(ParamEnum param, double value,
-			int subValue, int ordinal, int timeoutMs) {
-		int retval = PigeonImuJNI.JNI_ConfigSetParameter(m_handle, param.value, value, 0, 0, timeoutMs);
-		return ErrorCode.valueOf(retval);
 	}
 
 	public ErrorCode setStatusFramePeriod(StatusFrame stateFrameRate, int periodMs, int timeoutMs) {
@@ -399,19 +371,18 @@ public class PigeonIMU
 	 * 
 	 * @param generalStatus
 	 */
-	public ErrorCode getGeneralStatus(GeneralStatus toFill)
-	{
+	public ErrorCode getGeneralStatus(GeneralStatus toFill) {
 		int retval = PigeonImuJNI.JNI_GetGeneralStatus(m_handle, _generalStatus);
-		toFill.state = PigeonState.valueOf((int)_generalStatus[0]);
-		toFill.currentMode = CalibrationMode.valueOf((int)_generalStatus[1]);
-		toFill.calibrationError = (int)_generalStatus[2];
+		toFill.state = PigeonState.valueOf((int) _generalStatus[0]);
+		toFill.currentMode = CalibrationMode.valueOf((int) _generalStatus[1]);
+		toFill.calibrationError = (int) _generalStatus[2];
 		toFill.bCalIsBooting = _generalStatus[3] != 0;
 		toFill.tempC = _generalStatus[4];
-		toFill.upTimeSec = (int)_generalStatus[5];
-		toFill.noMotionBiasCount = (int)_generalStatus[6];
-		toFill.tempCompensationCount = (int)_generalStatus[7];
+		toFill.upTimeSec = (int) _generalStatus[5];
+		toFill.noMotionBiasCount = (int) _generalStatus[6];
+		toFill.tempCompensationCount = (int) _generalStatus[7];
 		toFill.lastError = ErrorCode.valueOf(retval);
-		return toFill.lastError ;
+		return toFill.lastError;
 	}
 
 	// ----------------------- General Error status -----------------------//
@@ -427,39 +398,34 @@ public class PigeonIMU
 
 	// ----------------------- Strongly typed Signal decoders
 	// -----------------------//
-	public ErrorCode get6dQuaternion(double[] wxyz)
-	{
+	public ErrorCode get6dQuaternion(double[] wxyz) {
 		int retval = PigeonImuJNI.JNI_Get6dQuaternion(m_handle, wxyz);
 		return ErrorCode.valueOf(retval);
 	}
 
-	public ErrorCode getYawPitchRoll(double[] ypr_deg)
-	{
-		int retval =  PigeonImuJNI.JNI_GetYawPitchRoll(m_handle, ypr_deg );
+	public ErrorCode getYawPitchRoll(double[] ypr_deg) {
+		int retval = PigeonImuJNI.JNI_GetYawPitchRoll(m_handle, ypr_deg);
 		return ErrorCode.valueOf(retval);
 	}
 
-	public ErrorCode getAccumGyro(double []xyz_deg)
-	{
-		int retval =  PigeonImuJNI.JNI_GetAccumGyro(m_handle, xyz_deg);
+	public ErrorCode getAccumGyro(double[] xyz_deg) {
+		int retval = PigeonImuJNI.JNI_GetAccumGyro(m_handle, xyz_deg);
 		return ErrorCode.valueOf(retval);
 	}
 
 	/**
-	 *  @return compass heading [0,360) degrees.
+	 * @return compass heading [0,360) degrees.
 	 */
-	public double getAbsoluteCompassHeading()
-	{
+	public double getAbsoluteCompassHeading() {
 		double retval = PigeonImuJNI.JNI_GetAbsoluteCompassHeading(m_handle);
 		return retval;
 	}
 
 	/**
-	 *  @return continuous compass heading [-23040, 23040) degrees.
-	 *  Use SetCompassHeading to modify the wrap-around portion.
+	 * @return continuous compass heading [-23040, 23040) degrees. Use
+	 *         SetCompassHeading to modify the wrap-around portion.
 	 */
-	public double getCompassHeading()
-	{
+	public double getCompassHeading() {
 		double retval = PigeonImuJNI.JNI_GetCompassHeading(m_handle);
 		return retval;
 	}
@@ -467,72 +433,63 @@ public class PigeonIMU
 	/**
 	 * @return field strength in Microteslas (uT).
 	 */
-	public double getCompassFieldStrength()
-	{
+	public double getCompassFieldStrength() {
 		double retval = PigeonImuJNI.JNI_GetCompassFieldStrength(m_handle);
 		return retval;
 	}
 
-	public double getTemp()
-	{
+	public double getTemp() {
 		double retval = PigeonImuJNI.JNI_GetTemp(m_handle);
 		return retval;
 	}
 
-	public PigeonState getState()
-	{
+	public PigeonState getState() {
 		int retval = PigeonImuJNI.JNI_GetState(m_handle);
 		return PigeonState.valueOf(retval);
 	}
 
 	/**
-	 * @return How long has Pigeon been running in whole seconds.  Value caps at 255.
+	 * @return How long has Pigeon been running in whole seconds. Value caps at
+	 *         255.
 	 */
-	public int getUpTime()
-	{
+	public int getUpTime() {
 		int retval = PigeonImuJNI.JNI_GetUpTime(m_handle);
 		return retval;
 	}
 
-	public ErrorCode getRawMagnetometer(short [] rm_xyz)
-	{
+	public ErrorCode getRawMagnetometer(short[] rm_xyz) {
 		int retval = PigeonImuJNI.JNI_GetRawMagnetometer(m_handle, rm_xyz);
 		return ErrorCode.valueOf(retval);
 	}
 
-	public ErrorCode getBiasedMagnetometer(short [] bm_xyz)
-	{
+	public ErrorCode getBiasedMagnetometer(short[] bm_xyz) {
 		int retval = PigeonImuJNI.JNI_GetBiasedMagnetometer(m_handle, bm_xyz);
 		return ErrorCode.valueOf(retval);
 	}
 
-	public ErrorCode getBiasedAccelerometer(short [] ba_xyz)
-	{
+	public ErrorCode getBiasedAccelerometer(short[] ba_xyz) {
 		int retval = PigeonImuJNI.JNI_GetBiasedAccelerometer(m_handle, ba_xyz);
 		return ErrorCode.valueOf(retval);
 	}
 
-	public ErrorCode getRawGyro(double [] xyz_dps)
-	{
+	public ErrorCode getRawGyro(double[] xyz_dps) {
 		int retval = PigeonImuJNI.JNI_GetRawGyro(m_handle, xyz_dps);
 		return ErrorCode.valueOf(retval);
 	}
 
-	public ErrorCode getAccelerometerAngles(double [] tiltAngles)
-	{
+	public ErrorCode getAccelerometerAngles(double[] tiltAngles) {
 		int retval = PigeonImuJNI.JNI_GetAccelerometerAngles(m_handle, tiltAngles);
 		return ErrorCode.valueOf(retval);
 	}
 
-	public ErrorCode getFusedHeading(FusionStatus toFill)
-	{
+	public ErrorCode getFusedHeading(FusionStatus toFill) {
 		int retval = PigeonImuJNI.JNI_GetFusedHeading(m_handle, _fusionStatus);
 
 		toFill.heading = _fusionStatus[0];
 		toFill.bIsFusing = (_fusionStatus[1] != 0);
 		toFill.bIsValid = (_fusionStatus[2] != 0);
 		toFill.lastError = ErrorCode.valueOf(retval);
-		
+
 		return toFill.lastError;
 	}
 
@@ -540,8 +497,7 @@ public class PigeonIMU
 	 * @return param holds the version of the Talon. Talon must be powered
 	 * cycled at least once.
 	 */
-	public int getFirmwareVersion()
-	{
+	public int getFirmwareVersion() {
 		int k = PigeonImuJNI.JNI_GetFirmwareVersion(m_handle);
 		return k;
 	}
@@ -549,9 +505,74 @@ public class PigeonIMU
 	/**
 	 * @return true iff a reset has occured since last call.
 	 */
-	public boolean hasResetOccurred()
-	{
+	public boolean hasResetOccurred() {
 		boolean k = PigeonImuJNI.JNI_HasResetOccured(m_handle);
 		return k;
+	}
+
+	/**
+	 * Sets the value of a custom parameter.
+	 *
+	 * @param newValue
+	 *            Value for custom parameter.
+	 * @param paramIndex
+	 *            Index of custom parameter.
+	 * @param timeoutMs
+	 *            Timeout value in ms. @see #ConfigOpenLoopRamp
+	 * @return Error Code generated by function. 0 indicates no error.
+	 */
+	public ErrorCode configSetCustomParam(int newValue, int paramIndex, int timeoutMs) {
+		int retval = PigeonImuJNI.JNI_ConfigSetCustomParam(m_handle, newValue, paramIndex, timeoutMs);
+		return ErrorCode.valueOf(retval);
+	}
+
+	/**
+	 * Gets the value of a custom parameter.
+	 *
+	 * @param paramIndex
+	 *            Index of custom parameter.
+	 * @param timoutMs
+	 *            Timeout value in ms. @see #ConfigOpenLoopRamp
+	 * @return Value of the custom param.
+	 */
+	public int configGetCustomParam(int paramIndex, int timoutMs) {
+		int retval = PigeonImuJNI.JNI_ConfigGetCustomParam(m_handle, paramIndex, timoutMs);
+		return retval;
+	}
+
+	/**
+	 * Sets a parameter.
+	 *
+	 * @param param
+	 *            Parameter enumeration.
+	 * @param value
+	 *            Value of parameter.
+	 * @param subValue
+	 *            Subvalue for parameter. Maximum value of 255.
+	 * @param ordinal
+	 *            Ordinal of parameter.
+	 * @param timeoutMs
+	 *            Timeout value in ms. @see #ConfigOpenLoopRamp
+	 * @return Error Code generated by function. 0 indicates no error.
+	 */
+	public ErrorCode configSetParameter(ParamEnum param, double value, int subValue, int ordinal, int timeoutMs) {
+		int retval = PigeonImuJNI.JNI_ConfigSetParameter(m_handle, param.value, (float) value, subValue, ordinal,
+				timeoutMs);
+		return ErrorCode.valueOf(retval);
+	}
+
+	/**
+	 * Gets a parameter.
+	 *
+	 * @param param
+	 *            Parameter enumeration.
+	 * @param ordinal
+	 *            Ordinal of parameter.
+	 * @param timeoutMs
+	 *            Timeout value in ms. @see #ConfigOpenLoopRamp
+	 * @return Value of parameter.
+	 */
+	public double configGetParameter(ParamEnum param, int ordinal, int timeoutMs) {
+		return PigeonImuJNI.JNI_ConfigGetParameter(m_handle, param.value, ordinal, timeoutMs);
 	}
 }
