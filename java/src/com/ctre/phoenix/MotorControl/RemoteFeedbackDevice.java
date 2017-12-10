@@ -1,6 +1,6 @@
-package com.ctre.phoenix.MotorControl;
+package com.ctre.phoenix.motorcontrol;
 
-import com.ctre.phoenix.MotorControl.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.ErrorCode;
 
 public class RemoteFeedbackDevice {

@@ -3,9 +3,9 @@
 #include "IMotorController.h"
 #include <vector>
 
-namespace CTRE {
-namespace Phoenix {
-namespace MotorControl {
+namespace ctre {
+namespace phoenix {
+namespace motorcontrol {
 
 class DeviceCatalog {
 public:
@@ -33,6 +33,6 @@ private:
 };
 
 }
-} // namespace Phoenix
+} // namespace phoenix
 }
 

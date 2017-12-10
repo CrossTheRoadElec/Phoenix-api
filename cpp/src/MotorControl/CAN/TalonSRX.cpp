@@ -1,8 +1,8 @@
 #include "ctre/phoenix/MotorControl/CAN/TalonSRX.h"
 #include "ctre/phoenix/CCI/MotController_CCI.h"
 
-using namespace CTRE::Phoenix::MotorControl::CAN;
-using namespace CTRE::Phoenix::MotorControl;
+using namespace ctre::phoenix::motorcontrol::can;
+using namespace ctre::phoenix::motorcontrol;
 
 TalonSRX::TalonSRX(int deviceNumber) :
 		BaseMotorController(deviceNumber | 0x02040000) {

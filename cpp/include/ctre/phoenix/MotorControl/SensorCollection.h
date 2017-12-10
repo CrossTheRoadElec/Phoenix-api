@@ -22,8 +22,8 @@
 //#include "IMotorController.h"
 //#include "ControlMode.h"
 //
-//namespace CTRE {
-//namespace MotorControl {
+//namespace ctre {
+//namespace motorcontrol {
 ///**
 // * CTRE Talon SRX Speed Controller with CAN Control
 // */
@@ -646,7 +646,7 @@
 //
 //	int m_deviceNumber;
 //	void* m_handle;
-//	std::unique_ptr<frc::MotorSafetyHelper> m_safetyHelper;
+//	std::unique_ptr<frc::motorSafetyHelper> m_safetyHelper;
 //	int m_profile = 0; // Profile from SmartMotorController to use. Set to zero until we can
 //					   // actually test this.
 //

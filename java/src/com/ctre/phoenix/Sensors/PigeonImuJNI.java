@@ -20,7 +20,7 @@
  * SIMILAR COSTS, WHETHER ASSERTED ON THE BASIS OF CONTRACT, TORT
  * (INCLUDING NEGLIGENCE), BREACH OF WARRANTY, OR OTHERWISE
  */
-package com.ctre.phoenix.Sensors;
+package com.ctre.phoenix.sensors;
 import com.ctre.phoenix.CTREJNIWrapper;
 
 

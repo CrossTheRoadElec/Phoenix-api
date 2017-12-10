@@ -20,11 +20,10 @@
  * SIMILAR COSTS, WHETHER ASSERTED ON THE BASIS OF CONTRACT, TORT
  * (INCLUDING NEGLIGENCE), BREACH OF WARRANTY, OR OTHERWISE
  */
-package com.ctre.phoenix.Sensors;
-
+package com.ctre.phoenix.sensors;
 import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.ParamEnum;
-import com.ctre.phoenix.MotorControl.CAN.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 /**
  * Pigeon IMU Class. Class supports communicating over CANbus and over

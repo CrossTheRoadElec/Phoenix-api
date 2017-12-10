@@ -1,8 +1,8 @@
 #pragma once
 
-namespace CTRE {
-namespace Phoenix {
-namespace MotorControl {
+namespace ctre {
+namespace phoenix {
+namespace motorcontrol {
 
 /* forward proto */
 class IMotorController;
@@ -10,10 +10,10 @@ class IMotorController;
 class IFollower {
 public:
 	virtual ~IFollower(){}
-	virtual void Follow(CTRE::Phoenix::MotorControl::IMotorController & masterToFollow) = 0;
+	virtual void Follow(ctre::phoenix::motorcontrol::IMotorController & masterToFollow) = 0;
 	virtual void ValueUpdated()= 0;
 };
 
-} // namespace MotorControl
-} // namespace Phoenix
-} // namespace CTRE
+} // namespace motorcontrol
+} // namespace phoenix
+} // namespace ctre

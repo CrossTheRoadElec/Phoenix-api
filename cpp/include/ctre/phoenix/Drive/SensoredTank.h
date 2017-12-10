@@ -5,9 +5,9 @@
 #include "Styles.h"
 #include "ISmartDrivetrain.h"
 
-namespace CTRE {
-namespace Phoenix {
-namespace Drive {
+namespace ctre {
+namespace phoenix {
+namespace drive {
 
 class SensoredTank: public ISmartDrivetrain {
 public:
@@ -15,12 +15,12 @@ public:
 	unsigned int ticksPerRev;
 	float wheelRadius;
 
-	SensoredTank(CTRE::Mechanical::SensoredGearbox *left,
-			CTRE::Mechanical::SensoredGearbox *right, bool leftInverted,
+	SensoredTank(ctre::phoenix::mechanical::SensoredGearbox *left,
+			ctre::phoenix::mechanical::SensoredGearbox *right, bool leftInverted,
 			bool rightInverted, float wheelRadius);
-	SensoredTank(CTRE::MotorControl::SmartMotorController *left,
-			CTRE::MotorControl::SmartMotorController *right,
-			CTRE::MotorControl::SmartMotorController::FeedbackDevice feedbackDevice,
+	SensoredTank(ctre::phoenix::motorcontrol::SmartMotorController *left,
+			ctre::phoenix::motorcontrol::SmartMotorController *right,
+			ctre::phoenix::motorcontrol::SmartMotorController::FeedbackDevice feedbackDevice,
 			bool leftInverted, bool rightInverted, float wheelRadius);
 	void Set(Styles::Smart mode, float forward, float turn);
 	void Set(Styles::Basic mode, float forward, float turn);
@@ -39,14 +39,14 @@ public:
 	void SetMotionMagicCruiseVelocity(float rotationsPerMin);
 
 private:
-	CTRE::Mechanical::SensoredGearbox *_left;
-	CTRE::Mechanical::SensoredGearbox *_right;
+	ctre::phoenix::mechanical::SensoredGearbox *_left;
+	ctre::phoenix::mechanical::SensoredGearbox *_right;
 	float tinyScalor = 1;
 
 	void Drive(Styles::Smart mode, float left, float right);
 
 };
 
-} // namespace Drive
-} // namespace Phoenix
-} // namespace CTRE
+} // namespace drive
+} // namespace phoenix
+} // namespace ctre

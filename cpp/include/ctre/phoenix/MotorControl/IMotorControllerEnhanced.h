@@ -14,9 +14,9 @@
 #include "ctre/phoenix/core/ErrorCode.h"
 #include "IFollower.h"
 
-namespace CTRE {
-namespace Phoenix {
-namespace MotorControl {
+namespace ctre {
+namespace phoenix {
+namespace motorcontrol {
 
 class IMotorControllerEnhanced: public virtual IMotorController {
 public:
@@ -108,6 +108,6 @@ public:
 	/* in parent */
 
 }; // class IMotorControllerEnhanced
-} // namespace MotorControl
-} // namespace Phoenix
-} // namespace CTRE
+} // namespace motorcontrol
+} // namespace phoenix
+} // namespace ctre

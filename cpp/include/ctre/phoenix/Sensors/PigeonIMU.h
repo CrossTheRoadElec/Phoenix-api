@@ -30,23 +30,24 @@
 #include "ctre/phoenix/core/ErrorCode.h"
 
 /* forward prototype */
-namespace CTRE {
-namespace Phoenix {
-namespace MotorControl {
-namespace CAN {
+namespace ctre {
+namespace phoenix {
+namespace motorcontrol {
+namespace can {
 class TalonSRX;
 }
 }
 }
 }
 
-namespace CTRE {
-namespace Phoenix {
+namespace ctre {
+namespace phoenix {
+namespace sensors {
 /** 
  * Pigeon IMU Class.
  * Class supports communicating over CANbus and over ribbon-cable (CAN Talon SRX).
  */
-class PigeonIMU: public CANBusAddressable { /*public frc::ErrorBase*/
+class PigeonIMU: public CANBusAddressable {
 public:
 	/** Data object for holding fusion information. */
 	struct FusionStatus {
@@ -183,10 +184,10 @@ public:
 	};
 
 	PigeonIMU(int deviceNumber);
-	PigeonIMU(CTRE::Phoenix::MotorControl::CAN::TalonSRX * talonSrx);
+	PigeonIMU(ctre::phoenix::motorcontrol::can::TalonSRX * talonSrx);
 
-
-	void SetStatusFramePeriod(StatusFrameRate statusFrameRate, int periodMs, int timeoutMs);
+	void SetStatusFramePeriod(StatusFrameRate statusFrameRate, int periodMs,
+			int timeoutMs);
 
 	int SetYaw(double angleDeg, int timeoutMs);
 	int AddYaw(double angleDeg, int timeoutMs);
@@ -197,7 +198,8 @@ public:
 	int SetFusedHeadingToCompass(int timeoutMs);
 	int SetAccumZAngle(double angleDeg, int timeoutMs);
 
-	int ConfigTemperatureCompensationEnable(bool bTempCompEnable,int timeoutMs);
+	int ConfigTemperatureCompensationEnable(bool bTempCompEnable,
+			int timeoutMs);
 
 	int SetCompassDeclination(double angleDegOffset, int timeoutMs);
 	int SetCompassAngle(double angleDeg, int timeoutMs);
@@ -308,6 +310,7 @@ private:
 
 	void ApplyUsageStats(UsageFlags Usage);
 };
-} // namespace Phoenix
-} // namespace CTRE
+} // namespace signals
+} // namespace phoenix
+} // namespace ctre
 #endif // CTR_EXCLUDE_WPILIB_CLASSES

@@ -12,10 +12,10 @@
 #include "SpeedController.h"
 
 /* forward proto's */
-namespace CTRE {
-namespace Phoenix {
-namespace MotorControl {
-namespace LowLevel {
+namespace ctre {
+namespace phoenix {
+namespace motorcontrol {
+namespace lowlevel {
 class MotControllerWithBuffer_LowLevel;
 class MotController_LowLevel;
 }
@@ -23,10 +23,10 @@ class MotController_LowLevel;
 }
 }
 
-namespace CTRE {
-namespace Phoenix {
-namespace MotorControl {
-namespace CAN {
+namespace ctre {
+namespace phoenix {
+namespace motorcontrol {
+namespace can {
 
 class BaseMotorController: public virtual IMotorController {
 private:
@@ -152,8 +152,8 @@ public:
 	//virtual int GetMotionProfileTopLevelBufferCount();
 	//virtual bool IsMotionProfileTopLevelBufferFull();
 	//virtual void ProcessMotionProfileBuffer();
-	//virtual void GetMotionProfileStatus(CTRE::Motion::MotionProfileStatus statusToFill);
-	//ErrorCode PushMotionProfileTrajectory(const CTRE::Motion::TrajectoryPoint & trajPt);
+	//virtual void GetMotionProfileStatus(ctre::motion::motionProfileStatus statusToFill);
+	//ErrorCode PushMotionProfileTrajectory(const ctre::motion::TrajectoryPoint & trajPt);
 //	virtual void ClearMotionProfileHasUnderrun(int timeoutMs);
 	//------ error ----------//
 	virtual ErrorCode GetLastError();
@@ -188,8 +188,8 @@ public:
 	//SensorCollection & SensorCollection();
 };
 
-} // namespace CAN
-} // namespace MotorControl
-} // namespace Phoenix
-} // namespace CTRE
+} // namespace can
+} // namespace motorcontrol
+} // namespace phoenix
+} // namespace ctre
 

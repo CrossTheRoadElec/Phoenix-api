@@ -1,4 +1,4 @@
-package com.ctre.phoenix.Schedulers;
+package com.ctre.phoenix.schedulers;
 import java.util.ArrayList;
 
 import com.ctre.phoenix.ILoopable;

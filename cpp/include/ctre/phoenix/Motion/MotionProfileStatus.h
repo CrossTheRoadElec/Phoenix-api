@@ -9,9 +9,9 @@
 #include "ctre/phoenix/Motion/SetValueMotionProfile.h"
 #include "ctre/phoenix/Motion/TrajectoryPoint.h"
 
-namespace CTRE {
-namespace Phoenix {
-namespace Motion {
+namespace ctre {
+namespace phoenix {
+namespace motion {
 
 /**
  * Motion Profile Status
@@ -55,16 +55,16 @@ struct MotionProfileStatus {
 	/**
 	 * The number of points in the low level Talon buffer.
 	 */
-	//CTRE::Motion::TrajectoryPoint activePoint;
+	//ctre::phoenix::motion::TrajectoryPoint activePoint;
 	/**
 	 * The current output mode of the motion profile executer (disabled, enabled, or hold).
 	 * When changing the set() value in MP mode, it's important to check this signal to
 	 * confirm the change takes effect before interacting with the top buffer.
 	 */
-	CTRE::Phoenix::Motion::SetValueMotionProfile outputEnable;
+	ctre::phoenix::motion::SetValueMotionProfile outputEnable;
 };
 
-} // namespace Motion
-} // namespace Phoenix
-} // namespace CTRE
+} // namespace motion
+} // namespace phoenix
+} // namespace ctre
 

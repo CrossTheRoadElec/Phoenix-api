@@ -1,15 +1,14 @@
-package com.ctre.phoenix.MotorControl.CAN;
-
+package com.ctre.phoenix.motorcontrol.can;
 import com.ctre.phoenix.ErrorCode;
-import com.ctre.phoenix.MotorControl.FeedbackDevice;
-import com.ctre.phoenix.MotorControl.IMotorControllerEnhanced;
-import com.ctre.phoenix.MotorControl.LimitSwitchNormal;
-import com.ctre.phoenix.MotorControl.LimitSwitchSource;
-import com.ctre.phoenix.MotorControl.StatusFrameEnhanced;
-import com.ctre.phoenix.MotorControl.VelocityMeasPeriod;
-import com.ctre.phoenix.MotorControl.CAN.MotControllerJNI;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.IMotorControllerEnhanced;
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
+import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
+import com.ctre.phoenix.motorcontrol.can.MotControllerJNI;
 
-public class TalonSRX extends com.ctre.phoenix.MotorControl.CAN.BaseMotorController
+public class TalonSRX extends com.ctre.phoenix.motorcontrol.can.BaseMotorController
 		implements IMotorControllerEnhanced {
 
 	public TalonSRX(int deviceNumber) {

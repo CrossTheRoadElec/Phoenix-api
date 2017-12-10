@@ -1,4 +1,4 @@
-package com.ctre.phoenix.MotorControl;
+package com.ctre.phoenix.motorcontrol;
 
 public enum StatusFrame {
 	Status_1_General_(0x1400),

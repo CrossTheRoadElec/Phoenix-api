@@ -1,7 +1,7 @@
 
-package com.ctre.phoenix.MotorControl;
+package com.ctre.phoenix.motorcontrol;
 
-import com.ctre.phoenix.MotorControl.CAN.BaseMotorController;
+import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 import edu.wpi.first.wpilibj.SpeedController;
 
 public class WpilibSpeedController implements SpeedController {

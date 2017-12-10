@@ -7,24 +7,24 @@
 #include "ServoGoStraightWithIMUSmart.h"
 #include "ServoParameters.h"
 
-namespace CTRE {
-namespace Phoenix {
-namespace Motion {
+namespace ctre {
+namespace phoenix {
+namespace motion {
 
-class ServoStraightDistanceWithImu: public CTRE::Phoenix::Tasking::ILoopable {
+class ServoStraightDistanceWithImu: public ctre::phoenix::tasking::ILoopable {
 public:
 	ServoParameters *straightServoParameters = new ServoParameters();
 	ServoParameters *distanceServoParameters = new ServoParameters();
-	ServoStraightDistanceWithImu(CTRE::Phoenix::PigeonIMU *pigeonImu,
-			CTRE::Phoenix::Drive::ISmartDrivetrain *drivetrain,
-			CTRE::Phoenix::Drive::Styles::Smart selectedStyle,
+	ServoStraightDistanceWithImu(ctre::phoenix::PigeonIMU *pigeonImu,
+			ctre::phoenix::drive::ISmartDrivetrain *drivetrain,
+			ctre::phoenix::drive::Styles::Smart selectedStyle,
 			ServoParameters *straightParameters,
 			ServoParameters *distanceParameters, float targetHeading,
 			float targetDistance, float headingTolerance,
 			float distanceTolerance, float maxOutput);
-	ServoStraightDistanceWithImu(CTRE::Phoenix::PigeonIMU *pigeonImu,
-			CTRE::Phoenix::Drive::ISmartDrivetrain *drivetrain,
-			CTRE::Phoenix::Drive::Styles::Smart selectedStyle);
+	ServoStraightDistanceWithImu(ctre::phoenix::PigeonIMU *pigeonImu,
+			ctre::phoenix::drive::ISmartDrivetrain *drivetrain,
+			ctre::phoenix::drive::Styles::Smart selectedStyle);
 	bool Set(float targetHeading, float targetDistance, float headingTolerance,
 			float distanceTolerance, float maxOutput);
 	float GetImuHeading();
@@ -35,9 +35,9 @@ public:
 	void OnLoop();
 
 private:
-	CTRE::Phoenix::PigeonIMU *_pidgey;
-	CTRE::Phoenix::Drive::ISmartDrivetrain *_driveTrain;
-	CTRE::Phoenix::Drive::Styles::Smart _selectedStyle;
+	ctre::phoenix::PigeonIMU *_pidgey;
+	ctre::phoenix::drive::ISmartDrivetrain *_driveTrain;
+	ctre::phoenix::drive::Styles::Smart _selectedStyle;
 	ServoGoStraightWithImuSmart *StraightDrive;
 	Stopwatch *_myStopWatch = new Stopwatch();
 	float _targetDistance;
@@ -56,6 +56,6 @@ private:
 			float headingTolerance, float distanceTolerance);
 };
 
-} // namespace Motion
-} // namespace Phoenix
-} // namespace CTRE
+} // namespace motion
+} // namespace phoenix
+} // namespace ctre

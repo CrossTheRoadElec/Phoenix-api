@@ -1,4 +1,4 @@
-package com.ctre.phoenix.Time;
+package com.ctre.phoenix.time;
 
 public class StopWatch
 {

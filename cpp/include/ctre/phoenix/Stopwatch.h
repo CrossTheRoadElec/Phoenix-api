@@ -2,8 +2,8 @@
 
 #include <time.h>
 
-namespace CTRE {
-namespace Phoenix {
+namespace ctre {
+namespace phoenix {
 
 class Stopwatch {
 public:

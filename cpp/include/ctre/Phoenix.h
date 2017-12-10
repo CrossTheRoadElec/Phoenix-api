@@ -14,10 +14,11 @@
 #include "ctre/phoenix/MotorControl/IMotorControllerEnhanced.h"
 #include "ctre/phoenix/Signals/MovingAverage.h"
 
-using namespace CTRE;
-using namespace CTRE::Phoenix;
-using namespace CTRE::Phoenix::MotorControl;
-using namespace CTRE::Phoenix::MotorControl::CAN;
-using namespace CTRE::Phoenix::Signals;
-using namespace CTRE::Phoenix::Tasking;
-using namespace CTRE::Phoenix::Tasking::Schedulers;
+using namespace ctre;
+using namespace ctre::phoenix;
+using namespace ctre::phoenix::motorcontrol;
+using namespace ctre::phoenix::motorcontrol::can;
+using namespace ctre::phoenix::sensors;
+using namespace ctre::phoenix::signals;
+using namespace ctre::phoenix::tasking;
+using namespace ctre::phoenix::tasking::schedulers;

@@ -1,8 +1,8 @@
 #include "ctre/phoenix/MotorControl/GroupMotorControllers.h"
 
-namespace CTRE {
-namespace Phoenix  {
-namespace MotorControl {
+namespace ctre {
+namespace phoenix  {
+namespace motorcontrol {
 
 std::vector<IMotorController*> GroupMotorControllers::_mcs;
 

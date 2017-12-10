@@ -1,24 +1,24 @@
 //#include "ctre/phoenix/Mechanical/Linkage.h"
 //
 //
-//namespace CTRE{ namespace Mechanical{
+//namespace ctre{ namespace mechanical{
 //
-//Linkage::Linkage(CTRE::MotorControl::IMotorController *mc1) {
+//Linkage::Linkage(ctre::motorcontrol::IMotorController *mc1) {
 //	_motor = mc1;
 //	Setup();
 //}
-//Linkage::Linkage(CTRE::MotorControl::IMotorController *mc1, CTRE::MotorControl::IFollower *mc2){
+//Linkage::Linkage(ctre::motorcontrol::IMotorController *mc1, ctre::motorcontrol::IFollower *mc2){
 //	_motor = mc1;
 //	_follower[_followerCount++] = mc2;
 //	Setup();
 //}
-//Linkage::Linkage(CTRE::MotorControl::IMotorController *mc1, CTRE::MotorControl::IFollower *mc2, CTRE::MotorControl::IFollower *mc3){
+//Linkage::Linkage(ctre::motorcontrol::IMotorController *mc1, ctre::motorcontrol::IFollower *mc2, ctre::motorcontrol::IFollower *mc3){
 //	_motor = mc1;
 //	_follower[_followerCount++] = mc2;
 //	_follower[_followerCount++] = mc3;
 //	Setup();
 //}
-//Linkage::Linkage(CTRE::MotorControl::IMotorController *mc1, CTRE::MotorControl::IFollower *mc2, CTRE::MotorControl::IFollower *mc3, CTRE::MotorControl::IFollower *mc4){
+//Linkage::Linkage(ctre::motorcontrol::IMotorController *mc1, ctre::motorcontrol::IFollower *mc2, ctre::motorcontrol::IFollower *mc3, ctre::motorcontrol::IFollower *mc4){
 //	_motor = mc1;
 //	_follower[_followerCount++] = mc2;
 //	_follower[_followerCount++] = mc3;
@@ -30,7 +30,7 @@
 //		output = -output;
 //	_motor->Set(output);
 //}
-//void Linkage::SetControlMode(CTRE::MotorControl::ControlMode::BasicControlMode mode){
+//void Linkage::SetControlMode(ctre::motorcontrol::ControlMode::BasicControlMode mode){
 //	_motor->SetControlMode(mode);
 //}
 //void Linkage::SetInverted(bool invert){
@@ -51,7 +51,7 @@
 //void Linkage::ConfigPeakOutputVoltage(float forwardVoltage, float reverseVoltage){
 //	_motor->ConfigPeakOutputVoltage(forwardVoltage, reverseVoltage);
 //}
-//CTRE::MotorControl::IMotorController *Linkage::GetMaster(){
+//ctre::motorcontrol::IMotorController *Linkage::GetMaster(){
 //	return _motor;
 //}
 //void Linkage::Setup(){

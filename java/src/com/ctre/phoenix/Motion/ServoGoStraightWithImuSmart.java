@@ -1,8 +1,8 @@
-package com.ctre.phoenix.Motion;
+package com.ctre.phoenix.motion;
 
-import com.ctre.phoenix.Sensors.PigeonIMU;
 import com.ctre.phoenix.ErrorCode;
-import com.ctre.phoenix.Drive.*;
+import com.ctre.phoenix.drive.*;
+import com.ctre.phoenix.sensors.PigeonIMU;
 
 public class ServoGoStraightWithImuSmart implements com.ctre.phoenix.ILoopable
 {

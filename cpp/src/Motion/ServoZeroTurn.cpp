@@ -2,12 +2,12 @@
 //#include "HAL/DriverStation.h"
 //#include <math.h>
 //
-//namespace CTRE {
-//namespace Phoenix {
-//namespace Motion {
+//namespace ctre {
+//namespace phoenix {
+//namespace motion {
 //
-//ServoZeroTurn::ServoZeroTurn(CTRE::Phoenix::Drive::ISmartDrivetrain *driveTrain,
-//		CTRE::Phoenix::Drive::Styles::Smart smartStyle, float targetHeading,
+//ServoZeroTurn::ServoZeroTurn(ctre::phoenix::drive::ISmartDrivetrain *driveTrain,
+//		ctre::phoenix::drive::Styles::Smart smartStyle, float targetHeading,
 //		float headingTolerance, ServoParameters *Params, float maxOutput) {
 //	_driveTrain = driveTrain;
 //	_selectedStyle = smartStyle;
@@ -21,8 +21,8 @@
 //	servoParams->I = Params->I;
 //	servoParams->D = Params->D;
 //}
-//ServoZeroTurn::ServoZeroTurn(CTRE::Phoenix::Drive::ISmartDrivetrain *driveTrain,
-//		CTRE::Phoenix::Drive::Styles::Smart smartStyle) {
+//ServoZeroTurn::ServoZeroTurn(ctre::phoenix::drive::ISmartDrivetrain *driveTrain,
+//		ctre::phoenix::drive::Styles::Smart smartStyle) {
 //	_driveTrain = driveTrain;
 //	_selectedStyle = smartStyle;
 //}
@@ -40,7 +40,7 @@
 //	_state = 0;
 //}
 //void ServoZeroTurn::OnStop() {
-//	_driveTrain->Set(CTRE::Phoenix::Drive::Styles::Smart::PercentOutput, 0, 0);
+//	_driveTrain->Set(ctre::phoenix::drive::Styles::Smart::PercentOutput, 0, 0);
 //	_isDone = true;
 //}
 //bool ServoZeroTurn::IsDone() {
@@ -60,7 +60,7 @@
 //		else if (_isGood < 10)
 //			++_isGood;
 //		else {
-//			_driveTrain->Set(CTRE::Phoenix::Drive::Styles::Smart::PercentOutput, 0, 0);
+//			_driveTrain->Set(ctre::phoenix::drive::Styles::Smart::PercentOutput, 0, 0);
 //			_isDone = true;
 //		}
 //		break;
@@ -89,14 +89,14 @@
 //	/** Set the output of the drivetrain */
 //	/** Set the output of the drivetrain */
 //	switch (_selectedStyle) {
-//	case CTRE::Phoenix::Drive::Styles::Smart::PercentOutput:
-//		_driveTrain->Set(CTRE::Phoenix::Drive::Styles::Smart::PercentOutput, 0, X);
+//	case ctre::phoenix::drive::Styles::Smart::PercentOutput:
+//		_driveTrain->Set(ctre::phoenix::drive::Styles::Smart::PercentOutput, 0, X);
 //		break;
-//	case CTRE::Phoenix::Drive::Styles::Smart::Voltage:
-//		_driveTrain->Set(CTRE::Phoenix::Drive::Styles::Smart::Voltage, 0, X);
+//	case ctre::phoenix::drive::Styles::Smart::Voltage:
+//		_driveTrain->Set(ctre::phoenix::drive::Styles::Smart::Voltage, 0, X);
 //		break;
-//	case CTRE::Phoenix::Drive::Styles::Smart::VelocityClosedLoop:
-//		_driveTrain->Set(CTRE::Phoenix::Drive::Styles::Smart::VelocityClosedLoop, 0, X);
+//	case ctre::phoenix::drive::Styles::Smart::VelocityClosedLoop:
+//		_driveTrain->Set(ctre::phoenix::drive::Styles::Smart::VelocityClosedLoop, 0, X);
 //		break;
 //	}
 //

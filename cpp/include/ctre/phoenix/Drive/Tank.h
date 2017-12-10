@@ -5,16 +5,16 @@
 #include "IDrivetrain.h"
 #include "Styles.h"
 
-namespace CTRE {
-namespace Phoenix {
-namespace Drive {
+namespace ctre {
+namespace phoenix {
+namespace drive {
 
 class Tank: public IDrivetrain {
 public:
-	Tank(CTRE::Mechanical::Gearbox *left, CTRE::Mechanical::Gearbox *right,
+	Tank(ctre::phoenix::mechanical::Gearbox *left, ctre::Mechanical::Gearbox *right,
 			bool leftInvert, bool rightInvert);
-	Tank(CTRE::MotorControl::IMotorController *left,
-			CTRE::MotorControl::IMotorController *right, bool leftInvert,
+	Tank(ctre::phoenix::motorcontrol::IMotorController *left,
+			ctre::phoenix::motorcontrol::IMotorController *right, bool leftInvert,
 			bool rightInvert);
 	void Set(Styles::Basic mode, float forward, float turn);
 	void SetVoltageRampRate(float rampRate);
@@ -25,12 +25,12 @@ public:
 			float reverseVoltage);
 
 private:
-	CTRE::Mechanical::Gearbox *_left;
-	CTRE::Mechanical::Gearbox *_right;
+	ctre::phoenix::mechanical::Gearbox *_left;
+	ctre::phoenix::mechanical::Gearbox *_right;
 	void Drive(Styles::Basic mode, float left, float right);
 };
 
-} // namespace Drive
-} // namespace Phoenix
-} // namespace CTRE
+} // namespace drive
+} // namespace phoenix
+} // namespace ctre
 

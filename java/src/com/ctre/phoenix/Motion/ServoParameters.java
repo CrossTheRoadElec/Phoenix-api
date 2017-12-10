@@ -1,4 +1,4 @@
-package com.ctre.phoenix.Motion;
+package com.ctre.phoenix.motion;
 
 public class ServoParameters
 {
@@ -13,7 +13,7 @@ public class ServoParameters
 	public double timeToDone = 0;
 	
 	private double IAccum = 0;
-	private com.ctre.phoenix.Time.StopWatch _st = new com.ctre.phoenix.Time.StopWatch();
+	private com.ctre.phoenix.time.StopWatch _st = new com.ctre.phoenix.time.StopWatch();
 	private boolean hasStarted = false;
 	
 	

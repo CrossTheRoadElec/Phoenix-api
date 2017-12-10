@@ -1,14 +1,14 @@
 //#include "ctre/phoenix/Mechanical/Gearbox.h"
 //
-//namespace CTRE{ namespace Mechanical{
+//namespace ctre{ namespace mechanical{
 //
-//Gearbox::Gearbox(CTRE::MotorControl::IMotorController *mc1)
+//Gearbox::Gearbox(ctre::motorcontrol::IMotorController *mc1)
 //: Linkage(mc1) { }
-//Gearbox::Gearbox(CTRE::MotorControl::IMotorController *mc1, CTRE::MotorControl::IFollower *mc2)
+//Gearbox::Gearbox(ctre::motorcontrol::IMotorController *mc1, ctre::motorcontrol::IFollower *mc2)
 //: Linkage(mc1, mc2) { }
-//Gearbox::Gearbox(CTRE::MotorControl::IMotorController *mc1, CTRE::MotorControl::IFollower *mc2, CTRE::MotorControl::IFollower *mc3)
+//Gearbox::Gearbox(ctre::motorcontrol::IMotorController *mc1, ctre::motorcontrol::IFollower *mc2, ctre::motorcontrol::IFollower *mc3)
 //: Linkage(mc1, mc2, mc3) { }
-//Gearbox::Gearbox(CTRE::MotorControl::IMotorController *mc1, CTRE::MotorControl::IFollower *mc2, CTRE::MotorControl::IFollower *mc3, CTRE::MotorControl::IFollower *mc4)
+//Gearbox::Gearbox(ctre::motorcontrol::IMotorController *mc1, ctre::motorcontrol::IFollower *mc2, ctre::motorcontrol::IFollower *mc3, ctre::motorcontrol::IFollower *mc4)
 //: Linkage(mc1, mc2, mc3, mc4) { }
 //
 //}}

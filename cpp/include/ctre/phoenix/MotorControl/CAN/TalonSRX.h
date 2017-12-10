@@ -3,10 +3,10 @@
 #include "ctre/phoenix/MotorControl/CAN/BaseMotorController.h"
 #include "ctre/phoenix/MotorControl/IMotorControllerEnhanced.h"
 
-namespace CTRE {
-namespace Phoenix {
-namespace MotorControl {
-namespace CAN {
+namespace ctre {
+namespace phoenix {
+namespace motorcontrol {
+namespace can {
 
 class TalonSRX: public virtual BaseMotorController,
 		public virtual IMotorControllerEnhanced {
@@ -51,7 +51,7 @@ public:
 
 };
 // class TalonSRX
-} // namespace CAN
-} // namespace MotorControl
-} // namespace Phoenix
-} // namespace CTRE
+} // namespace can
+} // namespace motorcontrol
+} // namespace phoenix
+} // namespace ctre

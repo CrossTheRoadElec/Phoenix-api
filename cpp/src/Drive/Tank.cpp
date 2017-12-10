@@ -2,9 +2,9 @@
 //#include "ctre/phoenix/Drive/Tank.h"
 //#include "HAL/DriverStation.h"
 //
-//namespace CTRE { namespace Drive {
+//namespace ctre { namespace drive {
 //
-//Tank::Tank(CTRE::Mechanical::Gearbox *left, CTRE::Mechanical::Gearbox *right,
+//Tank::tank(ctre::Mechanical::Gearbox *left, ctre::Mechanical::Gearbox *right,
 //		bool leftInvert, bool rightInvert)
 //{
 //    _left = left;
@@ -13,12 +13,12 @@
 //    _left->SetInverted(leftInvert);
 //    _right->SetInverted(rightInvert);
 //}
-//Tank::Tank(CTRE::MotorControl::IMotorController *left, CTRE::MotorControl::IMotorController *right,
+//Tank::tank(ctre::motorcontrol::IMotorController *left, ctre::motorcontrol::IMotorController *right,
 //		bool leftInvert, bool rightInvert)
 //{
 //    /* Create 2 single motor gearboxes */
-//    CTRE::Mechanical::Gearbox *temp1 = new CTRE::Mechanical::Gearbox(left);
-//    CTRE::Mechanical::Gearbox *temp2 = new CTRE::Mechanical::Gearbox(right);
+//    ctre::Mechanical::Gearbox *temp1 = new ctre::Mechanical::Gearbox(left);
+//    ctre::Mechanical::Gearbox *temp2 = new ctre::Mechanical::Gearbox(right);
 //
 //    _left = temp1;
 //    _right = temp2;
@@ -52,13 +52,13 @@
 //void Tank::Drive(Styles::Basic mode, float left, float right){
 //    if (mode == Styles::Basic::VoltageBasic)
 //    {
-//        _left->SetControlMode(CTRE::MotorControl::ControlMode::BasicControlMode::kVoltageBasic);
-//        _right->SetControlMode(CTRE::MotorControl::ControlMode::BasicControlMode::kVoltageBasic);
+//        _left->SetControlMode(ctre::motorcontrol::ControlMode::BasicControlMode::kVoltageBasic);
+//        _right->SetControlMode(ctre::motorcontrol::ControlMode::BasicControlMode::kVoltageBasic);
 //    }
 //    else if (mode == Styles::Basic::PercentOutputBasic)
 //    {
-//        _left->SetControlMode(CTRE::MotorControl::ControlMode::BasicControlMode::kPercentVbusBasic);
-//        _right->SetControlMode(CTRE::MotorControl::ControlMode::BasicControlMode::kPercentVbusBasic);
+//        _left->SetControlMode(ctre::motorcontrol::ControlMode::BasicControlMode::kPercentVbusBasic);
+//        _right->SetControlMode(ctre::motorcontrol::ControlMode::BasicControlMode::kPercentVbusBasic);
 //    }
 //
 //    _left->Set(left);

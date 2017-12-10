@@ -1,7 +1,7 @@
 #pragma once
 
-namespace CTRE {
-namespace Phoenix {
+namespace ctre {
+namespace phoenix {
 	
 class LinearInterpolation {
 public:

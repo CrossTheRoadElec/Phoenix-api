@@ -2,13 +2,13 @@
 //#include "HAL/DriverStation.h"
 //#include <math.h>
 //
-//namespace CTRE {
-//namespace Phoenix {
-//namespace Motion {
+//namespace ctre {
+//namespace phoenix {
+//namespace motion {
 //
 //ServoGoStraight::ServoGoStraight(
-//		CTRE::Phoenix::Drive::ISmartDrivetrain *driveTrain,
-//		CTRE::Phoenix::Drive::Styles::Smart selectedStyle,
+//		ctre::phoenix::drive::ISmartDrivetrain *driveTrain,
+//		ctre::phoenix::drive::Styles::Smart selectedStyle,
 //		ServoParameters *params, float Y, float targetHeading,
 //		float headingTolerance, float maxOutput) {
 //	_driveTrain = driveTrain;
@@ -25,8 +25,8 @@
 //	_maxOutput = maxOutput;
 //}
 //ServoGoStraight::ServoGoStraight(
-//		CTRE::Phoenix::Drive::ISmartDrivetrain *driveTrain,
-//		CTRE::Phoenix::Drive::Styles::Smart selectedStyle) {
+//		ctre::phoenix::drive::ISmartDrivetrain *driveTrain,
+//		ctre::phoenix::drive::Styles::Smart selectedStyle) {
 //	_driveTrain = driveTrain;
 //	_selectedStyle = selectedStyle;
 //}
@@ -43,7 +43,7 @@
 //	_state = 0;
 //}
 //void ServoGoStraight::OnStop() {
-//	_driveTrain->Set(CTRE::Phoenix::Drive::Styles::Smart::PercentOutput, 0, 0);
+//	_driveTrain->Set(ctre::phoenix::drive::Styles::Smart::PercentOutput, 0, 0);
 //	_isRunning = false;
 //	_isDone = true;
 //}
@@ -85,18 +85,18 @@
 //	/* Select control mode based on selected style */
 //	switch (_selectedStyle) {
 //	default:
-//	case CTRE::Phoenix::Drive::Styles::Smart::PercentOutput:
-//		_driveTrain->Set(CTRE::Phoenix::Drive::Styles::Smart::PercentOutput, Y,
+//	case ctre::phoenix::drive::Styles::Smart::PercentOutput:
+//		_driveTrain->Set(ctre::phoenix::drive::Styles::Smart::PercentOutput, Y,
 //				X);
 //		break;
-//	case CTRE::Phoenix::Drive::Styles::Smart::Voltage:
+//	case ctre::phoenix::drive::Styles::Smart::Voltage:
 //		_driveTrain->ConfigNominalPercentOutputVoltage(+0.0f, -0.0f);
 //		_driveTrain->ConfigPeakPercentOutputVoltage(+_maxOutput, -_maxOutput);
-//		_driveTrain->Set(CTRE::Phoenix::Drive::Styles::Smart::Voltage, Y, X);
+//		_driveTrain->Set(ctre::phoenix::drive::Styles::Smart::Voltage, Y, X);
 //		break;
-//	case CTRE::Phoenix::Drive::Styles::Smart::VelocityClosedLoop:
+//	case ctre::phoenix::drive::Styles::Smart::VelocityClosedLoop:
 //		_driveTrain->Set(
-//				CTRE::Phoenix::Drive::Styles::Smart::VelocityClosedLoop, Y, X);
+//				ctre::phoenix::drive::Styles::Smart::VelocityClosedLoop, Y, X);
 //		break;
 //	}
 //	_previousHeading = currentHeading;

@@ -2,14 +2,14 @@
 //#include "HAL/DriverStation.h"
 //#include <math.h>
 //
-//namespace CTRE {
-//namespace Phoenix {
-//namespace Motion {
+//namespace ctre {
+//namespace phoenix {
+//namespace motion {
 //}
 //
-//ServoZeroTurnWithImu::ServoZeroTurnWithImu(CTRE::Phoenix::PigeonIMU *pigeonImu,
-//		CTRE::Phoenix::Drive::IDrivetrain *driveTrain,
-//		CTRE::Phoenix::Drive::Styles::Basic selectedStyle, float targetHeading,
+//ServoZeroTurnWithImu::ServoZeroTurnWithImu(ctre::phoenix::PigeonIMU *pigeonImu,
+//		ctre::phoenix::drive::IDrivetrain *driveTrain,
+//		ctre::phoenix::drive::Styles::Basic selectedStyle, float targetHeading,
 //		float headingTolerance, ServoParameters *Params, float maxOutput) {
 //	_pidgey = pigeonImu;
 //	_driveTrain = driveTrain;
@@ -24,9 +24,9 @@
 //	servoParams->I = Params->I;
 //	servoParams->D = Params->D;
 //}
-//ServoZeroTurnWithImu::ServoZeroTurnWithImu(CTRE::Phoenix::PigeonIMU *pigeonImu,
-//		CTRE::Phoenix::Drive::IDrivetrain *driveTrain,
-//		CTRE::Phoenix::Drive::Styles::Basic selectedStyle) {
+//ServoZeroTurnWithImu::ServoZeroTurnWithImu(ctre::phoenix::PigeonIMU *pigeonImu,
+//		ctre::phoenix::drive::IDrivetrain *driveTrain,
+//		ctre::phoenix::drive::Styles::Basic selectedStyle) {
 //	_selectedStyle = selectedStyle;
 //	_pidgey = pigeonImu;
 //	_driveTrain = driveTrain;
@@ -47,7 +47,7 @@
 //	_state = 0;
 //}
 //void ServoZeroTurnWithImu::OnStop() {
-//	_driveTrain->Set(CTRE::Drive::Styles::Basic::PercentOutputBasic, 0, 0);
+//	_driveTrain->Set(ctre::Drive::Styles::Basic::PercentOutputBasic, 0, 0);
 //	_isDone = true;
 //}
 //bool ServoZeroTurnWithImu::IsDone() {
@@ -67,7 +67,7 @@
 //		else if (_isGood < 10)
 //			++_isGood;
 //		else {
-//			_driveTrain->Set(CTRE::Drive::Styles::Basic::PercentOutputBasic, 0,
+//			_driveTrain->Set(ctre::Drive::Styles::Basic::PercentOutputBasic, 0,
 //					0);
 //			_isDone = true;
 //		}
@@ -90,7 +90,7 @@
 //
 //	/* Grab Pigeon IMU status */
 //	bool angleIsGood =
-//			(_pidgey->GetState() == CTRE::PigeonIMU::PigeonState::Ready) ?
+//			(_pidgey->GetState() == ctre::PigeonIMU::PigeonState::Ready) ?
 //					true : false;
 //
 //	/* Runs ZeroTurn if Pigeon IMU is present and in good health, else do nothing */
@@ -104,12 +104,12 @@
 //
 //		/** Set the output of the drivetrain */
 //		switch (_selectedStyle) {
-//		case CTRE::Drive::Styles::Basic::PercentOutputBasic:
-//			_driveTrain->Set(CTRE::Drive::Styles::Basic::PercentOutputBasic, 0,
+//		case ctre::Drive::Styles::Basic::PercentOutputBasic:
+//			_driveTrain->Set(ctre::Drive::Styles::Basic::PercentOutputBasic, 0,
 //					X);
 //			break;
-//		case CTRE::Drive::Styles::Basic::VoltageBasic:
-//			_driveTrain->Set(CTRE::Drive::Styles::Basic::VoltageBasic, 0, X);
+//		case ctre::Drive::Styles::Basic::VoltageBasic:
+//			_driveTrain->Set(ctre::Drive::Styles::Basic::VoltageBasic, 0, X);
 //			break;
 //		}
 //
@@ -119,7 +119,7 @@
 //			_isRunning = false;
 //		}
 //	} else if (angleIsGood == false) {
-//		_driveTrain->Set(CTRE::Drive::Styles::Basic::PercentOutputBasic, 0, 0);
+//		_driveTrain->Set(ctre::Drive::Styles::Basic::PercentOutputBasic, 0, 0);
 //		_isRunning = false;
 //	}
 //	return _isRunning;

@@ -7,9 +7,9 @@
 #include "ctre/phoenix/Tasking/ILoopable.h"
 #include "ServoParameters.h"
 
-namespace CTRE {
-namespace Phoenix {
-namespace Motion {
+namespace ctre {
+namespace phoenix {
+namespace motion {
 
 /**
  * Motion Profile Trajectory Point
@@ -66,6 +66,6 @@ struct TrajectoryPoint {
 	 */
 	bool zeroPos;
 };
-} // namespace Motion
-} // namespace Phoenix
-} // namespace CTRE
+} // namespace motion
+} // namespace phoenix
+} // namespace ctre

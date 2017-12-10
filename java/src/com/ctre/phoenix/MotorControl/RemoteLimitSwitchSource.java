@@ -1,4 +1,4 @@
-package com.ctre.phoenix.MotorControl;
+package com.ctre.phoenix.motorcontrol;
 
 public enum RemoteLimitSwitchSource {
 	Disabled__(0), RemoteTalonSRX__(2), RemoteCANifier__(3);

@@ -1,4 +1,4 @@
-package com.ctre.phoenix.MotorControl.CAN;
+package com.ctre.phoenix.motorcontrol.can;
 import com.ctre.phoenix.CTREJNIWrapper;
 
 public class MotControllerJNI extends CTREJNIWrapper {

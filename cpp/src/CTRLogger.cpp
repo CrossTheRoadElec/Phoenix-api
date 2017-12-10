@@ -2,8 +2,8 @@
 #include "ctre/phoenix/CCI/Logger_CCI.h" // c_Logger_*
 #include <execinfo.h>
 
-namespace CTRE {
-namespace Phoenix {
+namespace ctre {
+namespace phoenix {
 
 void CTRLogger::Open(int language) {
 	c_Logger_Open(language, true);

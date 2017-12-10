@@ -1,5 +1,5 @@
-package com.ctre.phoenix.MotorControl;
-import com.ctre.phoenix.MotorControl.IMotorController;
+package com.ctre.phoenix.motorcontrol;
+import com.ctre.phoenix.motorcontrol.IMotorController;
 
 public interface IFollower
 {

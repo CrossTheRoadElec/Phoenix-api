@@ -1,7 +1,7 @@
-package com.ctre.phoenix.Motion;
+package com.ctre.phoenix.motion;
 
 import com.ctre.phoenix.ErrorCode;
-import com.ctre.phoenix.Drive.*;
+import com.ctre.phoenix.drive.*;
 
 public class ServoStraightDistance implements com.ctre.phoenix.ILoopable
 {
@@ -24,7 +24,7 @@ public class ServoStraightDistance implements com.ctre.phoenix.ILoopable
 	}
 	
 	ServoGoStraight StraightDrive;
-	com.ctre.phoenix.Time.StopWatch _myStopWatch = new com.ctre.phoenix.Time.StopWatch();
+	com.ctre.phoenix.time.StopWatch _myStopWatch = new com.ctre.phoenix.time.StopWatch();
 	
 	double _targetDistance;
     double _targetHeading;

@@ -4,10 +4,10 @@
 #include "ctre/phoenix/CANifier.h"
 #include "ctre/phoenix/Tasking/IProcessable.h"
 
-namespace CTRE{
-namespace Phoenix {
+namespace ctre{
+namespace phoenix {
 	
-class RCRadio3Ch : public CTRE::Phoenix::Tasking::IProcessable{
+class RCRadio3Ch : public ctre::phoenix::tasking::IProcessable{
 public:
 	enum Channel{
 		Channel1,
@@ -21,7 +21,7 @@ public:
 	};
 	Status CurrentStatus = Status::Okay;
 
-	RCRadio3Ch(CTRE::Phoenix::CANifier *canifier);
+	RCRadio3Ch(ctre::phoenix::CANifier *canifier);
 	float GetDutyCycleUs(Channel channel);
 	float GetDutyCyclePerc(Channel channel);
 	bool GetSwitchValue(Channel channel);
@@ -32,7 +32,7 @@ public:
 
 private:
 	int _errorCodes[4];
-	CTRE::Phoenix::CANifier *_canifier;
+	ctre::phoenix::CANifier *_canifier;
 
 
 	//This is only a 2d array??

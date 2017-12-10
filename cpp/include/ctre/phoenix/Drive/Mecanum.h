@@ -4,18 +4,18 @@
 #include "ctre/phoenix/MotorControl/IMotorController.h"
 #include "IDrivetrain.h"
 
-namespace CTRE {
-namespace Phoenix {
-namespace Drive {
+namespace ctre {
+namespace phoenix {
+namespace drive {
 
 class Mecanum: public IDrivetrain {
 public:
-	Mecanum(CTRE::MotorControl::IMotorController *m1,
-			CTRE::MotorControl::IMotorController *m2,
-			CTRE::MotorControl::IMotorController *m3,
-			CTRE::MotorControl::IMotorController *m4);
-	Mecanum(CTRE::Mechanical::Gearbox *m1, CTRE::Mechanical::Gearbox *m2,
-			CTRE::Mechanical::Gearbox *m3, CTRE::Mechanical::Gearbox *m4);
+	Mecanum(ctre::phoenix::motorcontrol::IMotorController *m1,
+			ctre::phoenix::motorcontrol::IMotorController *m2,
+			ctre::phoenix::motorcontrol::IMotorController *m3,
+			ctre::phoenix::motorcontrol::IMotorController *m4);
+	Mecanum(ctre::phoenix::mechanical::Gearbox *m1, ctre::Mechanical::Gearbox *m2,
+			ctre::phoenix::mechanical::Gearbox *m3, ctre::Mechanical::Gearbox *m4);
 	void Set(Styles::Basic mode, float forward, float turn);
 	void Set(Styles::Basic mode, float forward, float strafe, float turn);
 	void SetVoltageRampRate(float rampRate);
@@ -27,12 +27,12 @@ public:
 	void Drive(Styles::Basic mode, float forward, float strafe, float turn);
 
 private:
-	CTRE::Mechanical::Gearbox *_1;
-	CTRE::Mechanical::Gearbox *_2;
-	CTRE::Mechanical::Gearbox *_3;
-	CTRE::Mechanical::Gearbox *_4;
+	ctre::Mechanical::Gearbox *_1;
+	ctre::Mechanical::Gearbox *_2;
+	ctre::Mechanical::Gearbox *_3;
+	ctre::Mechanical::Gearbox *_4;
 };
 
-} // namespace Drive
-} // namespace Phoenix
-} // namespace CTRE
+} // namespace drive
+} // namespace phoenix
+} // namespace ctre

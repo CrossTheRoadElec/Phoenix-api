@@ -1,9 +1,10 @@
+package com.ctre.phoenix.motion;
 //package com.ctre.phoenix.Motion;
 //
 //import com.ctre.phoenix.Sensors.PigeonImu;
 //import com.ctre.phoenix.Util;
 //import com.ctre.phoenix.Drive.*;
-//import com.ctre.phoenix.MotorControl.*;
+//import com.ctre.phoenix.motorcontrol.*;
 //import com.ctre.phoenix.Mechanical.*;
 //import com.ctre.phoenix.Time.*;
 //

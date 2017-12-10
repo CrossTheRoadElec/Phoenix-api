@@ -2,9 +2,9 @@
 
 #include "Styles.h"
 
-namespace CTRE {
-namespace Phoenix {
-namespace Drive {
+namespace ctre {
+namespace phoenix {
+namespace drive {
 
 class IDrivetrain {
 public:
@@ -17,6 +17,6 @@ public:
 			float reverseVoltage) = 0;
 };
 
-} // namespace Drive
-} // namespace Phoenix
-} // namespace CTRE
+} // namespace drive
+} // namespace phoenix
+} // namespace ctre

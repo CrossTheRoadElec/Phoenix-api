@@ -1,6 +1,6 @@
 #pragma once
 
-namespace CTRE { namespace Phoenix { namespace Tasking {
+namespace ctre { namespace phoenix { namespace tasking {
 	
 class ILoopable{
 public:

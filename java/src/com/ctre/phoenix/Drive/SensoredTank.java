@@ -1,8 +1,9 @@
+package com.ctre.phoenix.drive;
 //package com.ctre.phoenix.Drive;
 //
 //import com.ctre.phoenix.Util;
 //import com.ctre.phoenix.Mechanical.*;
-//import com.ctre.phoenix.MotorControl.*;
+//import com.ctre.phoenix.motorcontrol.*;
 //
 //public class SensoredTank implements ISmartDrivetrain
 //{

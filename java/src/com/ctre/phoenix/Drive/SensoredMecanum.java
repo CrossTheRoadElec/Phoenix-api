@@ -1,6 +1,7 @@
+package com.ctre.phoenix.drive;
 //package com.ctre.phoenix.Drive;
 //
-//import com.ctre.phoenix.MotorControl.*;
+//import com.ctre.phoenix.motorcontrol.*;
 //import com.ctre.phoenix.Mechanical.*;
 //
 //public class SensoredMecanum implements ISmartDrivetrain

@@ -7,21 +7,21 @@
 #include "ctre/phoenix/Tasking/ILoopable.h"
 #include "ServoParameters.h"
 
-namespace CTRE {
-namespace Phoenix {
-namespace Motion {
+namespace ctre {
+namespace phoenix {
+namespace motion {
 
-class ServoGoStraightWithImuSmart: public CTRE::Phoenix::Tasking::ILoopable {
+class ServoGoStraightWithImuSmart: public ctre::phoenix::tasking::ILoopable {
 public:
 	ServoParameters *servoParameters = new ServoParameters();
-	ServoGoStraightWithImuSmart(CTRE::Phoenix::PigeonIMU *pigeonImu,
-			CTRE::Phoenix::Drive::ISmartDrivetrain *driveTrain,
-			CTRE::Phoenix::Drive::Styles::Smart selectedStyle,
+	ServoGoStraightWithImuSmart(ctre::phoenix::sensors::PigeonIMU *pigeonImu,
+			ctre::phoenix::drive::ISmartDrivetrain *driveTrain,
+			ctre::phoenix::drive::Styles::Smart selectedStyle,
 			ServoParameters *straightParameters, float Y, float targetHeading,
 			float headingTolerance, float maxOutput);
-	ServoGoStraightWithImuSmart(CTRE::Phoenix::PigeonIMU *pigeonImu,
-			CTRE::Phoenix::Drive::ISmartDrivetrain *driveTrain,
-			CTRE::Phoenix::Drive::Styles::Smart selectedStyle);
+	ServoGoStraightWithImuSmart(ctre::phoenix::sensors::PigeonIMU *pigeonImu,
+			ctre::phoenix::drive::ISmartDrivetrain *driveTrain,
+			ctre::phoenix::drive::Styles::Smart selectedStyle);
 	bool Set(float Y, float targetHeading, float headingTolerance,
 			float maxOutput);
 	float GetImuHeading();
@@ -31,9 +31,9 @@ public:
 	void OnLoop();
 
 private:
-	CTRE::Phoenix::PigeonIMU *_pidgey;
-	CTRE::Phoenix::Drive::ISmartDrivetrain *_driveTrain;
-	CTRE::Phoenix::Drive::Styles::Smart _selectedStyle;
+	ctre::phoenix::sensors::PigeonIMU *_pidgey;
+	ctre::phoenix::drive::ISmartDrivetrain *_driveTrain;
+	ctre::phoenix::drive::Styles::Smart _selectedStyle;
 	float _Y;
 	float _targetHeading;
 	float _headingTolerance;
@@ -45,6 +45,6 @@ private:
 	bool GoStraight(float Y, float targetHeading, float headingTolerance);
 };
 
-} // namespace Motion
-} // namespace Phoenix
-} // namespace CTRE
+} // namespace motion
+} // namespace phoenix
+} // namespace ctre

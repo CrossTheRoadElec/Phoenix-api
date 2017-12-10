@@ -3,9 +3,9 @@
 #include "Styles.h"
 #include "IDrivetrain.h"
 
-namespace CTRE {
-namespace Phoenix {
-namespace Drive {
+namespace ctre {
+namespace phoenix {
+namespace drive {
 
 class ISmartDrivetrain: public IDrivetrain {
 public:
@@ -18,6 +18,6 @@ public:
 	virtual void SetPosition(float position) = 0;
 };
 
-} // namespace Drive
-} // namespace Phoenix
-} // namespace CTRE
+} // namespace drive
+} // namespace phoenix
+} // namespace ctre

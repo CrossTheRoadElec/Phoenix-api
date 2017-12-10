@@ -26,8 +26,8 @@
 #include "ctre/phoenix/CCI/CANifier_CCI.h"
 #include "ctre/phoenix/CTRLogger.h"
 
-namespace CTRE {
-namespace Phoenix {
+namespace ctre {
+namespace phoenix {
 CANifier::CANifier(int deviceNumber): CANBusAddressable(deviceNumber)
 {
 	m_handle = c_CANifier_Create1(deviceNumber);

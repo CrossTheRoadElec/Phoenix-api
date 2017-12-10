@@ -3,9 +3,9 @@
 
 #ifndef CTR_EXCLUDE_WPILIB_CLASSES
 
-namespace CTRE {
-namespace Phoenix {
-namespace Tasking {
+namespace ctre {
+namespace phoenix {
+namespace tasking {
 
 ButtonMonitor::ButtonMonitor(frc::GenericHID * controller, int buttonIndex,
 		IButtonPressEventHandler * ButtonPressEventHandler) {
@@ -39,8 +39,8 @@ bool ButtonMonitor::IsDone() {
 void ButtonMonitor::OnStop() {
 }
 
-} // namespace Tasking
-} // namespace Phoenix
-} // namespace CTRE
+} // namespace tasking
+} // namespace phoenix
+} // namespace ctre
 
 #endif // CTR_EXCLUDE_WPILIB_CLASSES

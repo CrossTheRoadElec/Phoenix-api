@@ -3,10 +3,10 @@
 #include "ctre/phoenix/RCRadio3Ch.h"
 #include <vector>
 
-namespace CTRE {
-namespace Phoenix {
+namespace ctre {
+namespace phoenix {
 
-RCRadio3Ch::RCRadio3Ch(CTRE::Phoenix::CANifier *canifier) {
+RCRadio3Ch::RCRadio3Ch(ctre::phoenix::CANifier *canifier) {
 	_canifier = canifier;
 }
 
@@ -44,13 +44,13 @@ float RCRadio3Ch::GetPeriodUs(Channel channel) {
 void RCRadio3Ch::Process() {
 	//Does some error code stuff, which we don't have...
 	_errorCodes[0] = _canifier->GetPWMInput(
-			CTRE::Phoenix::CANifier::PWMChannel::PWMChannel0, _dutyCycleAndPeriods[0]);
+			ctre::phoenix::CANifier::PWMChannel::PWMChannel0, _dutyCycleAndPeriods[0]);
 	_errorCodes[1] = _canifier->GetPWMInput(
-			CTRE::Phoenix::CANifier::PWMChannel::PWMChannel1, _dutyCycleAndPeriods[1]);
+			ctre::phoenix::CANifier::PWMChannel::PWMChannel1, _dutyCycleAndPeriods[1]);
 	_errorCodes[2] = _canifier->GetPWMInput(
-			CTRE::Phoenix::CANifier::PWMChannel::PWMChannel2, _dutyCycleAndPeriods[2]);
+			ctre::phoenix::CANifier::PWMChannel::PWMChannel2, _dutyCycleAndPeriods[2]);
 	_errorCodes[3] = _canifier->GetPWMInput(
-			CTRE::Phoenix::CANifier::PWMChannel::PWMChannel3, _dutyCycleAndPeriods[3]);
+			ctre::phoenix::CANifier::PWMChannel::PWMChannel3, _dutyCycleAndPeriods[3]);
 
 	Status health = Status::Okay;
 	if (health == Status::Okay) {

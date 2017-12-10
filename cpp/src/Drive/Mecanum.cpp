@@ -3,23 +3,23 @@
 //#include "HAL/DriverStation.h"
 //#include <cmath>
 //
-//namespace CTRE { namespace Drive {
+//namespace ctre { namespace drive {
 //
-//Mecanum::Mecanum(CTRE::MotorControl::IMotorController *m1, CTRE::MotorControl::IMotorController *m2,
-//		CTRE::MotorControl::IMotorController *m3, CTRE::MotorControl::IMotorController *m4)
+//Mecanum::Mecanum(ctre::motorcontrol::IMotorController *m1, ctre::motorcontrol::IMotorController *m2,
+//		ctre::motorcontrol::IMotorController *m3, ctre::motorcontrol::IMotorController *m4)
 //{
-//	CTRE::Mechanical::Gearbox *temp1 = new CTRE::Mechanical::Gearbox(m1);
-//	CTRE::Mechanical::Gearbox *temp2 = new CTRE::Mechanical::Gearbox(m2);
-//	CTRE::Mechanical::Gearbox *temp3 = new CTRE::Mechanical::Gearbox(m3);
-//	CTRE::Mechanical::Gearbox *temp4 = new CTRE::Mechanical::Gearbox(m4);
+//	ctre::Mechanical::Gearbox *temp1 = new ctre::Mechanical::Gearbox(m1);
+//	ctre::Mechanical::Gearbox *temp2 = new ctre::Mechanical::Gearbox(m2);
+//	ctre::Mechanical::Gearbox *temp3 = new ctre::Mechanical::Gearbox(m3);
+//	ctre::Mechanical::Gearbox *temp4 = new ctre::Mechanical::Gearbox(m4);
 //
 //	_1 = temp1;
 //	_2 = temp2;
 //	_3 = temp3;
 //	_4 = temp4;
 //}
-//Mecanum::Mecanum(CTRE::Mechanical::Gearbox *m1, CTRE::Mechanical::Gearbox *m2,
-//		CTRE::Mechanical::Gearbox *m3, CTRE::Mechanical::Gearbox *m4)
+//Mecanum::Mecanum(ctre::Mechanical::Gearbox *m1, ctre::Mechanical::Gearbox *m2,
+//		ctre::Mechanical::Gearbox *m3, ctre::Mechanical::Gearbox *m4)
 //{
 //	_1 = m1;
 //	_2 = m2;
@@ -64,17 +64,17 @@
 //	/* Set control mode */
 //	if(mode == Styles::Basic::PercentOutputBasic)
 //	{
-//		_1->SetControlMode(CTRE::MotorControl::ControlMode::BasicControlMode::kPercentVbusBasic);
-//		_2->SetControlMode(CTRE::MotorControl::ControlMode::BasicControlMode::kPercentVbusBasic);
-//		_3->SetControlMode(CTRE::MotorControl::ControlMode::BasicControlMode::kPercentVbusBasic);
-//		_4->SetControlMode(CTRE::MotorControl::ControlMode::BasicControlMode::kPercentVbusBasic);
+//		_1->SetControlMode(ctre::motorcontrol::ControlMode::BasicControlMode::kPercentVbusBasic);
+//		_2->SetControlMode(ctre::motorcontrol::ControlMode::BasicControlMode::kPercentVbusBasic);
+//		_3->SetControlMode(ctre::motorcontrol::ControlMode::BasicControlMode::kPercentVbusBasic);
+//		_4->SetControlMode(ctre::motorcontrol::ControlMode::BasicControlMode::kPercentVbusBasic);
 //	}
 //	else if(mode == Styles::Basic::VoltageBasic)
 //	{
-//		_1->SetControlMode(CTRE::MotorControl::ControlMode::BasicControlMode::kVoltageBasic);
-//		_2->SetControlMode(CTRE::MotorControl::ControlMode::BasicControlMode::kVoltageBasic);
-//		_3->SetControlMode(CTRE::MotorControl::ControlMode::BasicControlMode::kVoltageBasic);
-//		_4->SetControlMode(CTRE::MotorControl::ControlMode::BasicControlMode::kVoltageBasic);
+//		_1->SetControlMode(ctre::motorcontrol::ControlMode::BasicControlMode::kVoltageBasic);
+//		_2->SetControlMode(ctre::motorcontrol::ControlMode::BasicControlMode::kVoltageBasic);
+//		_3->SetControlMode(ctre::motorcontrol::ControlMode::BasicControlMode::kVoltageBasic);
+//		_4->SetControlMode(ctre::motorcontrol::ControlMode::BasicControlMode::kVoltageBasic);
 //	}
 //
 //	/* Set motors */

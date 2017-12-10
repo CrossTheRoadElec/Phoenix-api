@@ -1,4 +1,4 @@
-package com.ctre.phoenix.MotorControl;
+package com.ctre.phoenix.motorcontrol;
 
 public enum NeutralMode {
 	/** Use the NeutralMode that is set by the jumper wire on the CAN device */

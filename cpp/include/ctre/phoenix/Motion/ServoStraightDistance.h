@@ -6,22 +6,22 @@
 #include "ServoGoStraight.h"
 #include "ServoParameters.h"
 
-namespace CTRE {
-namespace Phoenix {
-namespace Motion {
+namespace ctre {
+namespace phoenix {
+namespace motion {
 
-class ServoStraightDistance: public CTRE::Phoenix::Tasking::ILoopable {
+class ServoStraightDistance: public ctre::phoenix::tasking::ILoopable {
 public:
 	ServoParameters *straightServoParameters = new ServoParameters();
 	ServoParameters *distanceServoParameters = new ServoParameters();
 
-	ServoStraightDistance(CTRE::Phoenix::Drive::ISmartDrivetrain *driveTrain,
-			CTRE::Phoenix::Drive::Styles::Smart selectedStyle,
+	ServoStraightDistance(ctre::phoenix::drive::ISmartDrivetrain *driveTrain,
+			ctre::phoenix::drive::Styles::Smart selectedStyle,
 			ServoParameters *turnParams, ServoParameters *distanceParams,
 			float targetHeading, float targetDistance, float headingTolerance,
 			float distanceTolerance, float maxOutput);
-	ServoStraightDistance(CTRE::Phoenix::Drive::ISmartDrivetrain *driveTrain,
-			CTRE::Phoenix::Drive::Styles::Smart selectedStyle);
+	ServoStraightDistance(ctre::phoenix::drive::ISmartDrivetrain *driveTrain,
+			ctre::phoenix::drive::Styles::Smart selectedStyle);
 	bool Set(float targetHeading, float targetDistance, float headingTolerance,
 			float distanceTolerance, float maxOutput);
 	float GetEncoderHeading();
@@ -32,10 +32,10 @@ public:
 	void OnLoop();
 
 private:
-	CTRE::Phoenix::Drive::ISmartDrivetrain *_driveTrain;
-	CTRE::Phoenix::Drive::Styles::Smart _selectedStyle;
+	ctre::phoenix::drive::ISmartDrivetrain *_driveTrain;
+	ctre::phoenix::drive::Styles::Smart _selectedStyle;
 	ServoGoStraight *StraightDrive;
-	CTRE::Phoenix::Stopwatch *_myStopWatch = new Stopwatch();
+	ctre::phoenix::Stopwatch *_myStopWatch = new Stopwatch();
 	float _targetDistance;
 	float _targetHeading;
 	float _distanceTolerance;
@@ -52,6 +52,6 @@ private:
 			float headingTolerance, float distanceTolerance);
 };
 
-} // namespace Motion
-} // namespace Phoenix
-} // namespace CTRE
+} // namespace motion
+} // namespace phoenix
+} // namespace ctre

@@ -1,7 +1,7 @@
 #include "ctre/phoenix/LinearInterpolation.h"
 
-namespace CTRE {
-namespace Phoenix {
+namespace ctre {
+namespace phoenix {
 float LinearInterpolation::Calculate(float x, float x1, float y1, float x2,
 		float y2) {
 	float m = (y2 - y1) / (x2 - x1);

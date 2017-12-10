@@ -1,4 +1,4 @@
-package com.ctre.phoenix.MotorControl;
+package com.ctre.phoenix.motorcontrol;
 
 import java.util.*;
 

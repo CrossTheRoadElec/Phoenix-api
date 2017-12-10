@@ -7,7 +7,7 @@
 #include "ctre/phoenix/core/ErrorCode.h"
 #include "ctre/phoenix/defs/paramEnum.h"
 
-namespace CTRE {namespace Phoenix {
+namespace ctre {namespace phoenix {
 class CANifier: public CANBusAddressable {
 public:
 	enum LEDChannel {

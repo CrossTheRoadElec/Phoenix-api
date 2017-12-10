@@ -7,21 +7,21 @@
 #include "ctre/phoenix/Tasking/ILoopable.h"
 #include "ServoParameters.h"
 
-namespace CTRE {
-namespace Phoenix {
-namespace Motion {
+namespace ctre {
+namespace phoenix {
+namespace motion {
 
-class ServoGoStraightWithImu: public CTRE::Phoenix::Tasking::ILoopable {
+class ServoGoStraightWithImu: public ctre::phoenix::tasking::ILoopable {
 public:
 	ServoParameters *servoParameters = new ServoParameters();
-	ServoGoStraightWithImu(CTRE::PigeonIMU *pigeonImu,
-			CTRE::Drive::IDrivetrain *driveTrain,
-			CTRE::Drive::Styles::Basic selectedStyle,
+	ServoGoStraightWithImu(ctre::phoenix::sensors::PigeonIMU *pigeonImu,
+			ctre::phoenix::drive::IDrivetrain *driveTrain,
+			ctre::phoenix::drive::Styles::Basic selectedStyle,
 			ServoParameters *parameters, float Y, float targetHeading,
 			float headingTolerance, float maxOutput);
-	ServoGoStraightWithImu(CTRE::PigeonIMU *pigeonImu,
-			CTRE::Drive::IDrivetrain *driveTrain,
-			CTRE::Drive::Styles::Basic selectedStyle);
+	ServoGoStraightWithImu(ctre::phoenix::sensors::PigeonIMU *pigeonImu,
+			ctre::phoenix::drive::IDrivetrain *driveTrain,
+			ctre::phoenix::drive::Styles::Basic selectedStyle);
 	bool Set(float Y, float targetHeading, float headingTolerance,
 			float maxOutput);
 	float GetImuHeading();
@@ -31,9 +31,9 @@ public:
 	void OnLoop();
 
 private:
-	CTRE::Phoenix::PigeonIMU *_pidgey;
-	CTRE::Phoenix::Drive::IDrivetrain *_driveTrain;
-	CTRE::Phoenix::Drive::Styles::Basic _selectedStyle;
+	ctre::phoenix::sensors::PigeonIMU *_pidgey;
+	ctre::phoenix::drive::IDrivetrain *_driveTrain;
+	ctre::phoenix::drive::Styles::Basic _selectedStyle;
 	float _Y;
 	float _targetHeading;
 	float _headingTolerance;
@@ -45,6 +45,6 @@ private:
 	bool GoStraight(float Y, float targetHeading, float headingTolerance);
 };
 
-} // namespace Motion
-} // namespace Phoenix
-} // namespace CTRE
+} // namespace motion
+} // namespace phoenix
+} // namespace ctre

@@ -1,4 +1,4 @@
-package com.ctre.phoenix.Signals;
+package com.ctre.phoenix.signals;
 
 public interface IInvertable
 {

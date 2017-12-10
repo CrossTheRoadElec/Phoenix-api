@@ -1,7 +1,7 @@
 #include "ctre/phoenix/Utilities.h"
 
-namespace CTRE {
-namespace Phoenix {
+namespace ctre {
+namespace phoenix {
 
 float Utilities::abs(float f) {
 	if (f >= 0)

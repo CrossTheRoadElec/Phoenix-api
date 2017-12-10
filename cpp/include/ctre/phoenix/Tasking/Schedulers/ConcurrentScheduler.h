@@ -4,10 +4,10 @@
 #include "ctre/phoenix/Tasking/ILoopable.h"
 #include "ctre/phoenix/Tasking/IProcessable.h"
 
-namespace CTRE {
-namespace Phoenix {
-namespace Tasking {
-namespace Schedulers {
+namespace ctre {
+namespace phoenix {
+namespace tasking {
+namespace schedulers {
 
 class ConcurrentScheduler: public ILoopable, public IProcessable {
 public:

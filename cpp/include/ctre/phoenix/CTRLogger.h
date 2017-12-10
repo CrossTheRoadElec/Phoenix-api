@@ -2,8 +2,8 @@
 #include "ctre/phoenix/core/ErrorCode.h" // CTR_Code
 #include <string>
 
-namespace CTRE {
-namespace Phoenix {
+namespace ctre {
+namespace phoenix {
 
 class CTRLogger {
 public:

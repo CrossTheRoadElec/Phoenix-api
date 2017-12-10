@@ -2,13 +2,13 @@
 //#include "HAL/DriverStation.h"
 //#include <math.h>
 //
-//namespace CTRE {
-//namespace Phoenix {
-//namespace Motion {
+//namespace ctre {
+//namespace phoenix {
+//namespace motion {
 //
-//ServoGoStraightWithImu::ServoGoStraightWithImu(CTRE::PigeonIMU *pigeonImu,
-//		CTRE::Phoenix::Drive::IDrivetrain *driveTrain,
-//		CTRE::Phoenix::Drive::Styles::Basic selectedStyle, ServoParameters *parameters,
+//ServoGoStraightWithImu::ServoGoStraightWithImu(ctre::PigeonIMU *pigeonImu,
+//		ctre::phoenix::drive::IDrivetrain *driveTrain,
+//		ctre::phoenix::drive::Styles::Basic selectedStyle, ServoParameters *parameters,
 //		float Y, float targetHeading, float headingTolerance, float maxOutput) {
 //	_pidgey = pigeonImu;
 //	_driveTrain = driveTrain;
@@ -23,9 +23,9 @@
 //
 //	_maxOutput = maxOutput;
 //}
-//ServoGoStraightWithImu::ServoGoStraightWithImu(CTRE::PigeonIMU *pigeonImu,
-//		CTRE::Drive::IDrivetrain *driveTrain,
-//		CTRE::Drive::Styles::Basic selectedStyle) {
+//ServoGoStraightWithImu::ServoGoStraightWithImu(ctre::PigeonIMU *pigeonImu,
+//		ctre::Drive::IDrivetrain *driveTrain,
+//		ctre::Drive::Styles::Basic selectedStyle) {
 //	_pidgey = pigeonImu;
 //	_driveTrain = driveTrain;
 //	_selectedStyle = selectedStyle;
@@ -45,7 +45,7 @@
 //	_state = 0;
 //}
 //void ServoGoStraightWithImu::OnStop() {
-//	_driveTrain->Set(CTRE::Drive::Styles::Basic::PercentOutputBasic, 0, 0);
+//	_driveTrain->Set(ctre::Drive::Styles::Basic::PercentOutputBasic, 0, 0);
 //	_isRunning = false;
 //	_isDone = true;
 //}
@@ -79,7 +79,7 @@
 //
 //	/* Grab Pigeon IMU status */
 //	bool angleIsGood =
-//			(_pidgey->GetState() == CTRE::PigeonIMU::PigeonState::Ready) ?
+//			(_pidgey->GetState() == ctre::PigeonIMU::PigeonState::Ready) ?
 //					true : false;
 //
 //	/* Runs GoStraight if Pigeon IMU is present and in good health, else stop drivetrain */
@@ -93,15 +93,15 @@
 //
 //		/* Select control mode based on selected style */
 //		switch (_selectedStyle) {
-//		case CTRE::Drive::Styles::Basic::PercentOutputBasic:
-//			_driveTrain->Set(CTRE::Drive::Styles::Basic::PercentOutputBasic, Y,
+//		case ctre::Drive::Styles::Basic::PercentOutputBasic:
+//			_driveTrain->Set(ctre::Drive::Styles::Basic::PercentOutputBasic, Y,
 //					X);
 //			break;
-//		case CTRE::Drive::Styles::Basic::VoltageBasic:
+//		case ctre::Drive::Styles::Basic::VoltageBasic:
 //			_driveTrain->ConfigNominalPercentOutputVoltage(+0.0f, -0.0f);
 //			_driveTrain->ConfigPeakPercentOutputVoltage(+_maxOutput,
 //					-_maxOutput);
-//			_driveTrain->Set(CTRE::Drive::Styles::Basic::VoltageBasic, Y, X);
+//			_driveTrain->Set(ctre::Drive::Styles::Basic::VoltageBasic, Y, X);
 //			break;
 //		}
 //
@@ -111,12 +111,12 @@
 //			_isRunning = false;
 //		}
 //	} else if (angleIsGood == false) {
-//		_driveTrain->Set(CTRE::Drive::Styles::Basic::PercentOutputBasic, 0, 0);
+//		_driveTrain->Set(ctre::Drive::Styles::Basic::PercentOutputBasic, 0, 0);
 //		_isRunning = false;
 //	}
 //	return _isRunning;
 //}
 //
 //}
-//} // namespace Phoenix
+//} // namespace phoenix
 //}

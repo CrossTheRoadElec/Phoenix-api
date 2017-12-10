@@ -1,4 +1,4 @@
-package com.ctre.phoenix.Schedulers;
+package com.ctre.phoenix.schedulers;
 import java.util.ArrayList;
 
 public class SequentialScheduler implements com.ctre.phoenix.ILoopable

@@ -1,8 +1,8 @@
 #pragma once
 
-namespace CTRE {
-namespace Phoenix {
-namespace Motion {
+namespace ctre {
+namespace phoenix {
+namespace motion {
 
 class ServoParameters {
 public:
@@ -12,6 +12,6 @@ public:
 };
 
 
-} // namespace Motion
-} // namespace Phoenix
-} // namespace CTRE
+} // namespace motion
+} // namespace phoenix
+} // namespace ctre

@@ -2,13 +2,13 @@
 //#include "HAL/DriverStation.h"
 //#include <math.h>
 //
-//namespace CTRE {
-//namespace Phoenix {
-//namespace Motion {
+//namespace ctre {
+//namespace phoenix {
+//namespace motion {
 //
 //ServoStraightDistance::ServoStraightDistance(
-//		CTRE::Phoenix::Drive::ISmartDrivetrain *driveTrain,
-//		CTRE::Phoenix::Drive::Styles::Smart selectedStyle, ServoParameters *turnParams,
+//		ctre::phoenix::drive::ISmartDrivetrain *driveTrain,
+//		ctre::phoenix::drive::Styles::Smart selectedStyle, ServoParameters *turnParams,
 //		ServoParameters *distanceParams, float targetHeading,
 //		float targetDistance, float headingTolerance, float distanceTolerance,
 //		float maxOutput) {
@@ -16,15 +16,15 @@
 //	_selectedStyle = selectedStyle;
 //
 //	/* Construct a ServoGoStraight based on sytle selected */
-//	if (_selectedStyle == CTRE::Drive::Styles::Smart::Voltage)
+//	if (_selectedStyle == ctre::Drive::Styles::Smart::Voltage)
 //		StraightDrive = new ServoGoStraight(_driveTrain,
-//				CTRE::Drive::Styles::Smart::Voltage);
-//	else if (_selectedStyle == CTRE::Drive::Styles::Smart::PercentOutput)
+//				ctre::Drive::Styles::Smart::Voltage);
+//	else if (_selectedStyle == ctre::Drive::Styles::Smart::PercentOutput)
 //		StraightDrive = new ServoGoStraight(_driveTrain,
-//				CTRE::Drive::Styles::Smart::PercentOutput);
-//	else if (_selectedStyle == CTRE::Drive::Styles::Smart::VelocityClosedLoop)
+//				ctre::Drive::Styles::Smart::PercentOutput);
+//	else if (_selectedStyle == ctre::Drive::Styles::Smart::VelocityClosedLoop)
 //		StraightDrive = new ServoGoStraight(_driveTrain,
-//				CTRE::Drive::Styles::Smart::VelocityClosedLoop);
+//				ctre::Drive::Styles::Smart::VelocityClosedLoop);
 //
 //	//================================================//
 //	_targetHeading = targetHeading;
@@ -47,21 +47,21 @@
 //	_maxOutput = maxOutput;
 //}
 //ServoStraightDistance::ServoStraightDistance(
-//		CTRE::Phoenix::Drive::ISmartDrivetrain *driveTrain,
-//		CTRE::Phoenix::Drive::Styles::Smart selectedStyle) {
+//		ctre::phoenix::drive::ISmartDrivetrain *driveTrain,
+//		ctre::phoenix::drive::Styles::Smart selectedStyle) {
 //	_driveTrain = driveTrain;
 //	_selectedStyle = selectedStyle;
 //
 //	/* Construct a ServoGoStraight based on sytle selected */
-//	if (_selectedStyle == CTRE::Drive::Styles::Smart::Voltage)
+//	if (_selectedStyle == ctre::Drive::Styles::Smart::Voltage)
 //		StraightDrive = new ServoGoStraight(_driveTrain,
-//				CTRE::Drive::Styles::Smart::Voltage);
-//	else if (_selectedStyle == CTRE::Drive::Styles::Smart::PercentOutput)
+//				ctre::Drive::Styles::Smart::Voltage);
+//	else if (_selectedStyle == ctre::Drive::Styles::Smart::PercentOutput)
 //		StraightDrive = new ServoGoStraight(_driveTrain,
-//				CTRE::Drive::Styles::Smart::PercentOutput);
-//	else if (_selectedStyle == CTRE::Drive::Styles::Smart::VelocityClosedLoop)
+//				ctre::Drive::Styles::Smart::PercentOutput);
+//	else if (_selectedStyle == ctre::Drive::Styles::Smart::VelocityClosedLoop)
 //		StraightDrive = new ServoGoStraight(_driveTrain,
-//				CTRE::Drive::Styles::Smart::VelocityClosedLoop);
+//				ctre::Drive::Styles::Smart::VelocityClosedLoop);
 //}
 //bool ServoStraightDistance::Set(float targetHeading, float targetDistance,
 //		float headingTolerance, float distanceTolerance, float maxOutput) {
@@ -86,7 +86,7 @@
 //	_state = 0;
 //}
 //void ServoStraightDistance::OnStop() {
-//	_driveTrain->Set(CTRE::Phoenix::Drive::Styles::Smart::PercentOutput, 0, 0);
+//	_driveTrain->Set(ctre::phoenix::drive::Styles::Smart::PercentOutput, 0, 0);
 //	_isRunning = false;
 //	_isDone = true;
 //}
@@ -108,7 +108,7 @@
 //		else if (_isGood < 10)
 //			++_isGood;
 //		else {
-//			_driveTrain->Set(CTRE::Phoenix::Drive::Styles::Smart::PercentOutput, 0, 0);
+//			_driveTrain->Set(ctre::phoenix::drive::Styles::Smart::PercentOutput, 0, 0);
 //			_isDone = true;
 //		}
 //		break;
@@ -142,7 +142,7 @@
 //	Y = fmax(-_maxOutput, fmin(Y, _maxOutput));
 //
 //	/* StraightDrive moded selected when created within constructor */
-//	if (_selectedStyle == CTRE::Phoenix::Drive::Styles::Smart::Voltage) {
+//	if (_selectedStyle == ctre::phoenix::drive::Styles::Smart::Voltage) {
 //		_driveTrain->ConfigNominalPercentOutputVoltage(+0, -0);
 //		_driveTrain->ConfigPeakPercentOutputVoltage(+_maxOutput, -_maxOutput);
 //	}
@@ -160,5 +160,5 @@
 //}
 //
 //}
-//} // namespace Phoenix
+//} // namespace phoenix
 //}

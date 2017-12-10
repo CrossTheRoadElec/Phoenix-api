@@ -1,7 +1,7 @@
 #include "ctre/phoenix/Stopwatch.h"
 
-namespace CTRE {
-namespace Phoenix {
+namespace ctre {
+namespace phoenix {
 
 void Stopwatch::Start(){
 	_t0 = (float)clock();
@@ -16,5 +16,5 @@ float Stopwatch::Duration(){
 	return retval * _scalar;
 }
 
-} // namespace Phoenix
+} // namespace phoenix
 }

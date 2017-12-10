@@ -1,10 +1,10 @@
-package com.ctre.phoenix.MotorControl;
+package com.ctre.phoenix.motorcontrol;
 
 import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.ParamEnum;
 
 public interface IMotorController
-		extends com.ctre.phoenix.Signals.IOutputSignal, com.ctre.phoenix.Signals.IInvertable, IFollower {
+		extends com.ctre.phoenix.signals.IOutputSignal, com.ctre.phoenix.signals.IInvertable, IFollower {
 	// ------ Set output routines. ----------//
 	public void set(ControlMode Mode, double demand);
 

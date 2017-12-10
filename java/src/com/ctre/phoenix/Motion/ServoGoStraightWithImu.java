@@ -1,11 +1,11 @@
-package com.ctre.phoenix.Motion;
+package com.ctre.phoenix.motion;
 
 import com.ctre.phoenix.ErrorCode;
-import com.ctre.phoenix.Drive.*;
+import com.ctre.phoenix.drive.*;
 
 public class ServoGoStraightWithImu implements com.ctre.phoenix.ILoopable
 {
-	com.ctre.phoenix.Sensors.PigeonIMU _pidgey;
+	com.ctre.phoenix.sensors.PigeonIMU _pidgey;
     IDrivetrain _IDrivetrain;
     Styles.Basic _selectedStyle;
     private ServoParameters servoParams = new ServoParameters();
@@ -26,7 +26,7 @@ public class ServoGoStraightWithImu implements com.ctre.phoenix.ILoopable
     double [] _dps = {0,0,0};
 
     /** Go Straight using the IMU */
-    public ServoGoStraightWithImu(com.ctre.phoenix.Sensors.PigeonIMU pigeonImu, IDrivetrain IDrivetrain, Styles.Basic selectedStyle, ServoParameters parameters, double Y, double targetHeading, double maxOutput)
+    public ServoGoStraightWithImu(com.ctre.phoenix.sensors.PigeonIMU pigeonImu, IDrivetrain IDrivetrain, Styles.Basic selectedStyle, ServoParameters parameters, double Y, double targetHeading, double maxOutput)
     {
         _pidgey = pigeonImu;
         _IDrivetrain = IDrivetrain;
@@ -42,7 +42,7 @@ public class ServoGoStraightWithImu implements com.ctre.phoenix.ILoopable
     }
 
     /** Go Straight using the IMU */
-    public ServoGoStraightWithImu(com.ctre.phoenix.Sensors.PigeonIMU pigeonImu, IDrivetrain IDrivetrain, Styles.Basic selectedStyle)
+    public ServoGoStraightWithImu(com.ctre.phoenix.sensors.PigeonIMU pigeonImu, IDrivetrain IDrivetrain, Styles.Basic selectedStyle)
     {
         _pidgey = pigeonImu;
         _IDrivetrain = IDrivetrain;
@@ -76,7 +76,7 @@ public class ServoGoStraightWithImu implements com.ctre.phoenix.ILoopable
         double currentAngularRate = _dps[2];
 
         /* Grab Pigeon IMU status */
-        boolean angleIsGood = (_pidgey.getState() == com.ctre.phoenix.Sensors.PigeonIMU.PigeonState.Ready) ? true : false;
+        boolean angleIsGood = (_pidgey.getState() == com.ctre.phoenix.sensors.PigeonIMU.PigeonState.Ready) ? true : false;
 
         /* Runs goStraight if Pigeon IMU is present and in good health, else stop IDrivetrain */
         if (angleIsGood == true)

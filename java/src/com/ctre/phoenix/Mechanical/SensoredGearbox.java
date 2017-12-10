@@ -1,6 +1,7 @@
+package com.ctre.phoenix.mechanical;
 //package com.ctre.phoenix.Mechanical;
 //
-//import com.ctre.phoenix.MotorControl.*;
+//import com.ctre.phoenix.motorcontrol.*;
 //
 //public class SensoredGearbox implements com.ctre.phoenix.Signals.IInvertable
 //{

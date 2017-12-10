@@ -3,9 +3,9 @@
 #include "ctre/phoenix/LowLevel/MotControllerWithBuffer_LowLevel.h"
 #include "../WpilibSpeedController.h"
 
-using namespace CTRE::Phoenix::MotorControl;
-using namespace CTRE::Phoenix::MotorControl::CAN;
-using namespace CTRE::Phoenix::MotorControl::LowLevel;
+using namespace ctre::phoenix::motorcontrol;
+using namespace ctre::phoenix::motorcontrol::can;
+using namespace ctre::phoenix::motorcontrol::lowlevel;
 
 //--------------------- Constructors -----------------------------//
 /**
@@ -120,10 +120,10 @@ void BaseMotorController::Set(ControlMode mode, float demand0, float demand1) {
 	//    case ControlMode::Position:
 	//        status = _cci.SetDemand((int)demand0, (int)m_sendMode);
 	//        break;
-	//    case ControlMode::MotionProfile:
+	//    case ControlMode::motionProfile:
 	//        status = _cci.SetDemand((int)demand0, (int)m_sendMode);
 	//        break;
-	//    case ControlMode::MotionMagic:
+	//    case ControlMode::motionMagic:
 	//        status = _cci.SetDemand((int)demand0, (int)m_sendMode);
 	//        break;
 	//    default:

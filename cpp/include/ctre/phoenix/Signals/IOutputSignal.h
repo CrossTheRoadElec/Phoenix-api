@@ -1,8 +1,8 @@
 #pragma once
 
-namespace CTRE {
-namespace Phoenix {
-namespace Signals {
+namespace ctre {
+namespace phoenix {
+namespace signals {
 
 class IOutputSignal {
 public:
@@ -11,5 +11,5 @@ public:
 };
 
 } // namespace  Signals
-} // namespace Phoenix
-} // namespace CTRE
+} // namespace phoenix
+} // namespace ctre

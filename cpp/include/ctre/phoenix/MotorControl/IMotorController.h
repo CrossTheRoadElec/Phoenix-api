@@ -16,9 +16,9 @@
 /* WPILIB */
 #include "SpeedController.h"
 
-namespace CTRE {
-namespace Phoenix {
-namespace MotorControl {
+namespace ctre {
+namespace phoenix {
+namespace motorcontrol {
 
 class IMotorController: public IFollower {
 public:
@@ -139,11 +139,11 @@ public:
 //	virtual void ClearMotionProfileTrajectories() = 0;
 //	virtual int GetMotionProfileTopLevelBufferCount() = 0;
 //	virtual ErrorCode PushMotionProfileTrajectory(
-//			CTRE::Phoenix::Motion::TrajectoryPoint trajPt) = 0;
+//			ctre::phoenix::motion::TrajectoryPoint trajPt) = 0;
 //	virtual bool IsMotionProfileTopLevelBufferFull() = 0;
 //	virtual void ProcessMotionProfileBuffer() = 0;
 //	virtual void GetMotionProfileStatus(
-//			CTRE::Phoenix::Motion::MotionProfileStatus statusToFill) = 0;
+//			ctre::phoenix::motion::motionProfileStatus statusToFill) = 0;
 //	virtual void ClearMotionProfileHasUnderrun(int timeoutMs) = 0;
 
 //------ error ----------//
@@ -180,5 +180,5 @@ public:
 };
 
 }
-} // namespace Phoenix
+} // namespace phoenix
 }

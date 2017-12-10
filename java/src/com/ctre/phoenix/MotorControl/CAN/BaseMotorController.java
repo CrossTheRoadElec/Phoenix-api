@@ -1,27 +1,27 @@
-package com.ctre.phoenix.MotorControl.CAN;
+package com.ctre.phoenix.motorcontrol.can;
 
-import com.ctre.phoenix.MotorControl.CAN.MotControllerJNI;
-import com.ctre.phoenix.MotorControl.IMotorController;
-import com.ctre.phoenix.MotorControl.ControlMode;
-import com.ctre.phoenix.MotorControl.Faults;
-import com.ctre.phoenix.MotorControl.ControlFrame;
-import com.ctre.phoenix.MotorControl.VelocityMeasPeriod;
-import com.ctre.phoenix.MotorControl.WpilibSpeedController;
-import com.ctre.phoenix.MotorControl.NeutralMode;
-import com.ctre.phoenix.MotorControl.LimitSwitchSource;
-import com.ctre.phoenix.MotorControl.RemoteLimitSwitchSource;
-import com.ctre.phoenix.MotorControl.LimitSwitchNormal;
-import com.ctre.phoenix.MotorControl.FeedbackDevice;
-import com.ctre.phoenix.MotorControl.StatusFrame;
-import com.ctre.phoenix.MotorControl.StatusFrameEnhanced;
-import com.ctre.phoenix.MotorControl.StickyFaults;
-import com.ctre.phoenix.MotorControl.RemoteFeedbackDevice;
+import com.ctre.phoenix.motorcontrol.ControlFrame;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.Faults;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.IMotorController;
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.RemoteFeedbackDevice;
+import com.ctre.phoenix.motorcontrol.RemoteLimitSwitchSource;
+import com.ctre.phoenix.motorcontrol.StatusFrame;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
+import com.ctre.phoenix.motorcontrol.StickyFaults;
+import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
+import com.ctre.phoenix.motorcontrol.WpilibSpeedController;
+import com.ctre.phoenix.motorcontrol.can.MotControllerJNI;
 import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.ErrorCode;
 /* WPILIB */
 import edu.wpi.first.wpilibj.SpeedController;
 
-public abstract class BaseMotorController implements com.ctre.phoenix.MotorControl.IMotorController {
+public abstract class BaseMotorController implements com.ctre.phoenix.motorcontrol.IMotorController {
 
 	private ControlMode m_controlMode = ControlMode.PercentOutput;
 	private ControlMode m_sendMode = ControlMode.PercentOutput;

@@ -1,8 +1,9 @@
+package com.ctre.phoenix.motion;
 //package com.ctre.phoenix.Motion;
 //
 //import com.ctre.phoenix.Drive.*;
-//import com.ctre.phoenix.MotorControl.*;
-//import com.ctre.phoenix.MotorControl.ControlMode.SmartControlMode;
+//import com.ctre.phoenix.motorcontrol.*;
+//import com.ctre.phoenix.motorcontrol.ControlMode.SmartControlMode;
 //import com.ctre.phoenix.Mechanical.*;
 //
 //public class ServoVelocity implements com.ctre.phoenix.ILoopable

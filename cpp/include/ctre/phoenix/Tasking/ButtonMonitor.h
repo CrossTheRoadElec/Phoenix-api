@@ -11,9 +11,9 @@ namespace frc {
 	class GenericHID;
 }
 
-namespace CTRE {
-namespace Phoenix {
-namespace Tasking {
+namespace ctre {
+namespace phoenix {
+namespace tasking {
 
 class ButtonMonitor: public IProcessable, public ILoopable {
 public:

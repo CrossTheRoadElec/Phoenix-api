@@ -1,15 +1,15 @@
-package com.ctre.phoenix.Motion;
+package com.ctre.phoenix.motion;
 
 import com.ctre.phoenix.ErrorCode;
-import com.ctre.phoenix.Drive.*;
+import com.ctre.phoenix.drive.*;
 
 public class ServoGoStraight implements com.ctre.phoenix.ILoopable
 {
 	ISmartDrivetrain _driveTrain;
 	Styles.Smart _selectedStyle;
-	com.ctre.phoenix.Time.StopWatch _myStopWatch = new com.ctre.phoenix.Time.StopWatch();
+	com.ctre.phoenix.time.StopWatch _myStopWatch = new com.ctre.phoenix.time.StopWatch();
 	
-	private ServoParameters servoParams = new com.ctre.phoenix.Motion.ServoParameters(); 
+	private ServoParameters servoParams = new com.ctre.phoenix.motion.ServoParameters(); 
 	
 	public ServoParameters GetServoParams() { return servoParams; }
 	public void SetServoParams(ServoParameters params)
@@ -76,15 +76,15 @@ public class ServoGoStraight implements com.ctre.phoenix.ILoopable
         switch (_selectedStyle)
         {
             case PercentOutput:
-                _driveTrain.set(com.ctre.phoenix.Drive.Styles.Smart.PercentOutput, Y, X);
+                _driveTrain.set(com.ctre.phoenix.drive.Styles.Smart.PercentOutput, Y, X);
                 break;
             case Voltage:
                 _driveTrain.configNominalPercentOutputVoltage(+0.0f, -0.0f);
                 _driveTrain.configPeakPercentOutputVoltage(+servoParams.maxOut, -servoParams.maxOut);
-                _driveTrain.set(com.ctre.phoenix.Drive.Styles.Smart.Voltage, Y, X);
+                _driveTrain.set(com.ctre.phoenix.drive.Styles.Smart.Voltage, Y, X);
                 break;
             case VelocityClosedLoop:
-                _driveTrain.set(com.ctre.phoenix.Drive.Styles.Smart.VelocityClosedLoop, Y, X);
+                _driveTrain.set(com.ctre.phoenix.drive.Styles.Smart.VelocityClosedLoop, Y, X);
                 break;
         }
         _previousHeading = currentHeading;
