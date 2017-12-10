@@ -28,16 +28,12 @@ extern "C"{
 	CTR_Code c_CANifier_EnablePWMOutput(void *handle, uint32_t pwmChannel, bool bEnable);
 	CTR_Code c_CANifier_GetGeneralInputs(void *handle, bool allPins[], uint32_t capacity);
 	CTR_Code c_CANifier_GetGeneralInput(void *handle, uint32_t inputPin, bool * measuredInput);
-	CTR_Code c_CANifier_GetPWMInput(void *handle,  uint32_t  pwmChannel,  float dutyCycleAndPeriod [2]);
+	CTR_Code c_CANifier_GetPWMInput(void *handle,  uint32_t  pwmChannel,  double dutyCycleAndPeriod [2]);
 	CTR_Code c_CANifier_GetLastError(void *handle);
-	CTR_Code c_CANifier_GetBatteryVoltage(void *handle, float * batteryVoltage);
+	CTR_Code c_CANifier_GetBatteryVoltage(void *handle, double * batteryVoltage);
 	void c_CANifier_SetLastError(void *handle, int error);
+	CTR_Code c_CANifier_ConfigSetParameter(void *handle, int param, double value, int subValue, int ordinal, int timeoutMs);
+	CTR_Code c_CANifier_ConfigGetParameter(void *handle, int param, double *value, int ordinal, int timeoutMs);
 	CTR_Code c_CANifier_ConfigSetCustomParam(void *handle, int newValue, int paramIndex, int timeoutMs);
 	CTR_Code c_CANifier_ConfigGetCustomParam(void *handle, int *readValue, int paramIndex, int timoutMs);
-	CTR_Code c_CANifier_ConfigSetParameter(void *handle, int param, float value, int subValue, int ordinal, int timeoutMs);
-	CTR_Code c_CANifier_ConfigGetParameter(void *handle, int param, float *value, int ordinal, int timeoutMs);
-
-	//int c_CANifier_RequestParam(void *handle,  uint32_t  paramEnum);
-	//CTR_Code c_CANifier_SetParam(void *handle,  uint32_t  paramEnum,  float  value,  int  timeoutMs);
-	//int c_CANifier_GetParamResponse(void *handle, uint32_t paramEnum, float *value);
 }

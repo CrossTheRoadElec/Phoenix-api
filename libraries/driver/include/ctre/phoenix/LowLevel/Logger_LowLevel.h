@@ -12,9 +12,11 @@
 #include <thread>
 
 /* forward prototype */
-namespace CTRE {
-namespace Logger {
+namespace ctre {
+namespace phoenix {
+namespace logger {
 class TimestampMsgMap;
+}
 }
 }
 
@@ -40,7 +42,7 @@ private:
 	static unsigned long GetDirSize(DIR *t);
 	static std::vector<std::string> OrderedFiles(DIR *directory);
 	
-	CTRE::Logger::TimestampMsgMap * _msgMap;
+	ctre::phoenix::logger::TimestampMsgMap * _msgMap;
 
 //	unsigned long startOfSeconds = 0;
 //	//std::map<std::string, unsigned long> timeStamps;

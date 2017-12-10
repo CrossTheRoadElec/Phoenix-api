@@ -1,7 +1,6 @@
 #include "ctre/Phoenix/core/ErrorCode.h"
 
 extern "C"{
-	void c_Testblah();
 	void* c_MotController_Create1(int baseArbId);
 
 	ErrorCode c_MotController_GetDeviceNumber(void *handle, int *deviceNumber);
@@ -51,15 +50,16 @@ extern "C"{
 	ErrorCode c_MotController_GetIntegralAccumulator(void *handle, float *iaccum, int slotIdx);
 	ErrorCode c_MotController_GetErrorDerivative(void *handle, float *derror, int slotIdx);
 	void c_MotController_SelectProfileSlot(void *handle, int slotIdx);
+	void c_MotController_SelectProfileSlots(void *handle, int slotIdx, int secondarySlotIdx);
 	ErrorCode c_MotController_ConfigMotionCruiseVelocity(void *handle, int sensorUnitsPer100ms, int timeoutMs);
 	ErrorCode c_MotController_ConfigMotionAcceleration(void *handle, int sensorUnitsPer100msPerSec, int timeoutMs);
 	ErrorCode c_MotController_GetLastError(void *handle);
-	int c_MotController_GetFirmwareVersion(void *handle);
-	bool c_MotController_HasResetOccurred(void *handle);
+	ErrorCode c_MotController_GetFirmwareVersion(void *handle, int *);
+	ErrorCode c_MotController_HasResetOccurred(void *handle,bool *);
 	ErrorCode c_MotController_ConfigSetCustomParam(void *handle, int newValue, int paramIndex, int timeoutMs);
 	ErrorCode c_MotController_ConfigGetCustomParam(void *handle, int *readValue, int paramIndex, int timoutMs);
-	ErrorCode c_MotController_ConfigSetParameter(void *handle, int param, float value, int subValue, int ordinal, int timeoutMs);
-	ErrorCode c_MotController_ConfigGetParameter(void *handle, int param, float *value, int ordinal, int timeoutMs);
+	ErrorCode c_MotController_ConfigSetParameter(void *handle, int param, double value, int subValue, int ordinal, int timeoutMs);
+	ErrorCode c_MotController_ConfigGetParameter(void *handle, int param, double *value, int ordinal, int timeoutMs);
 	ErrorCode c_MotController_ConfigPeakCurrentLimit(void *handle, int amps, int timeoutMs);
 	ErrorCode c_MotController_ConfigPeakCurrentDuration(void *handle, int milliseconds, int timeoutMs);
 	ErrorCode c_MotController_ConfigContinuousCurrentLimit(void *handle, int amps, int timeoutMs);

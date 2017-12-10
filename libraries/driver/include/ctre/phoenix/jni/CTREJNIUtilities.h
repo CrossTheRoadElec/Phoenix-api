@@ -5,13 +5,13 @@
 //#endif
 //#include <stdint.h>
 //
-//namespace CTRE {
+//namespace ctre {
 //
 //void ReportError(JNIEnv *env, int32_t status, bool do_throw);
 //
 //}
 //
 //inline bool CheckStatus(JNIEnv *env, int32_t status, bool do_throw = true) {
-//  if (status != 0) CTRE::ReportError(env, status, do_throw);
+//  if (status != 0) ctre::ReportError(env, status, do_throw);
 //  return status == 0;
 //}

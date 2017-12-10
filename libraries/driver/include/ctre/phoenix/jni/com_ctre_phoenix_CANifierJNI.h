@@ -7,7 +7,6 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
 /*
  * Class:     com_ctre_phoenix_CANifierJNI
  * Method:    JNI_new_CANifier
@@ -15,62 +14,70 @@ extern "C" {
  */
 JNIEXPORT jlong JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1new_1CANifier
   (JNIEnv *, jclass, jint);
+
 /*
  * Class:     com_ctre_phoenix_CANifierJNI
  * Method:    JNI_SetLEDOutput
  * Signature: (JII)V
  */
 JNIEXPORT void JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1SetLEDOutput
- (JNIEnv *, jclass, jlong handle, jint dutyCycle, jint ledChannel);
+ (JNIEnv *, jclass, jlong , jint , jint );
+
  /*
  * Class:     com_ctre_phoenix_CANifierJNI
  * Method:    JNI_SetGeneralOutputs
  * Signature: (JII)V
  */
 JNIEXPORT void JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1SetGeneralOutputs
- (JNIEnv *, jclass, jlong handle, jint outputBits, jint isOutputBits);
+ (JNIEnv *, jclass, jlong , jint , jint );
+
  /*
  * Class:     com_ctre_phoenix_CANifierJNI
  * Method:    JNI_SetGeneralOutput
- * Signature: (JIBB)V
+ * Signature: (JIZZ)V
  */
 JNIEXPORT void JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1SetGeneralOutput
- (JNIEnv *, jclass, jlong handle, jint outputPin, jboolean outputValue, jboolean outputEnable);
+ (JNIEnv *, jclass, jlong , jint , jboolean , jboolean );
+
  /*
  * Class:     com_ctre_phoenix_CANifierJNI
  * Method:    JNI_SetPWMOutput
  * Signature: (JII)V
  */
 JNIEXPORT void JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1SetPWMOutput
- (JNIEnv *, jclass, jlong handle, jint pwmChannel, jint dutyCycle);
+ (JNIEnv *, jclass, jlong , jint , jint );
+
  /*
  * Class:     com_ctre_phoenix_CANifierJNI
  * Method:    JNI_EnablePWMOutput
- * Signature: (JIB)V
+ * Signature: (JIZ)V
  */
 JNIEXPORT void JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1EnablePWMOutput
- (JNIEnv *, jclass, jlong handle, jint pwmChannel, jboolean bEnable);
+ (JNIEnv *, jclass, jlong , jint , jboolean );
+
  /*
  * Class:     com_ctre_phoenix_CANifierJNI
  * Method:    JNI_GetGeneralInputs
- * Signature: (JB)V
+ * Signature: (J[Z)V
  */
 JNIEXPORT void JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1GetGeneralInputs
- (JNIEnv *, jclass, jlong handle, jbooleanArray allPins);
+ (JNIEnv *, jclass, jlong , jbooleanArray );
+
  /*
  * Class:     com_ctre_phoenix_CANifierJNI
  * Method:    JNI_GetGeneralInput
- * Signature: (JI)B
+ * Signature: (JI)Z
  */
 JNIEXPORT jboolean JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1GetGeneralInput
- (JNIEnv *, jclass, jlong handle, jint inputPin);
+ (JNIEnv *, jclass, jlong , jint );
+
  /*
  * Class:     com_ctre_phoenix_CANifierJNI
  * Method:    JNI_GetPWMInput
- * Signature: (JI)B
+ * Signature: (JI[D)V
  */
 JNIEXPORT void JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1GetPWMInput
-	 (JNIEnv * env, jclass, jlong handle, jint pwmChannel, jfloatArray dutyCycleAndPeriod);
+	 (JNIEnv * , jclass, jlong , jint , jdoubleArray );
 
  /*
  * Class:     com_ctre_phoenix_CANifierJNI
@@ -78,14 +85,48 @@ JNIEXPORT void JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1GetPWMInput
  * Signature: (J)I
  */
 JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1GetLastError
- (JNIEnv *, jclass, jlong handle);
+ (JNIEnv *, jclass, jlong );
+
  /*
  * Class:     com_ctre_phoenix_CANifierJNI
  * Method:    JNI_GetBatteryVoltage
- * Signature: (J)F
+ * Signature: (J)D
  */
-JNIEXPORT jfloat JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1GetBatteryVoltage
- (JNIEnv *, jclass, jlong handle);
+JNIEXPORT jdouble JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1GetBatteryVoltage
+ (JNIEnv *, jclass, jlong );
+
+/*
+ * Class:     com_ctre_phoenix_CANifierJNI
+ * Method:    JNI_ConfigSetCustomParam
+ * Signature: (JIII)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigSetCustomParam
+  (JNIEnv *, jclass, jlong, jint, jint, jint);
+
+/*
+ * Class:     com_ctre_phoenix_CANifierJNI
+ * Method:    JNI_ConfigGetCustomParam
+ * Signature: (JII)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigGetCustomParam
+  (JNIEnv *, jclass, jlong, jint, jint);
+
+/*
+ * Class:     com_ctre_phoenix_CANifierJNI
+ * Method:    JNI_ConfigSetParameter
+ * Signature: (JIDIII)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigSetParameter
+  (JNIEnv *, jclass, jlong, jint, jdouble, jint, jint, jint);
+
+/*
+ * Class:     com_ctre_phoenix_CANifierJNI
+ * Method:    JNI_ConfigGetParameter
+ * Signature: (JIII)D
+ */
+JNIEXPORT jdouble JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigGetParameter
+  (JNIEnv *, jclass, jlong, jint, jint, jint);
+
 #ifdef __cplusplus
 }
 #endif

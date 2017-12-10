@@ -3,8 +3,9 @@
 #include "ctre/phoenix/MotorControl/FeedbackDevice.h"
 #include "ctre/phoenix/core/ErrorCode.h"
 
-namespace CTRE {
-namespace MotorControl {
+namespace ctre {
+namespace phoenix {
+namespace motorcontrol {
 
 /** Motor controller with gadgeteer connector. */
 enum FeedbackDevice {
@@ -51,5 +52,6 @@ public:
 	ErrorCode SetPosition(float position, int timeoutMs);
 };
 
-} // namespace Motion
-} // namespace MotorControl
+} // namespace motorcontrol
+} // namespace phoenix
+} // namespace ctre

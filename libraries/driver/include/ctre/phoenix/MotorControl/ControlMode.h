@@ -1,6 +1,6 @@
 #pragma once
 
-//namespace CTRE.Phoenix.MotorControl
+//namespace ctre.Phoenix.MotorControl
 //
 ///**
 // * Common Control Modes for all CTRE Motor Controllers.
@@ -32,6 +32,10 @@
 //} ;
 //extern ControlMode ControlMode;
 
+namespace ctre {
+namespace phoenix {
+namespace motorcontrol {
+
 enum class ControlMode {
 	PercentOutput = 0,
 	Position = 1,
@@ -46,3 +50,6 @@ enum class ControlMode {
 	Disabled = 15,
 };
 
+}
+}
+}

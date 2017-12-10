@@ -71,4 +71,8 @@
 	ErrorCode c_PigeonIMU_GetFirmwareVersion(void *handle, int * firmwareVers);
 	ErrorCode c_PigeonIMU_HasResetOccurred(void *handle, bool * hasReset);
 	ErrorCode c_PigeonIMU_SetLastError(void *handle, int value);
+	ErrorCode c_PigeonIMU_ConfigSetCustomParam(void *handle, int newValue, int paramIndex, int timeoutMs);
+	ErrorCode c_PigeonIMU_ConfigGetCustomParam(void *handle, int *readValue, int paramIndex, int timoutMs);
+	ErrorCode c_PigeonIMU_ConfigSetParameter(void *handle, int param, double value, int subValue, int ordinal, int timeoutMs);
+	ErrorCode c_PigeonIMU_ConfigGetParameter(void *handle, int param, double *value, int ordinal, int timeoutMs);
 }

@@ -1,20 +1,26 @@
 #pragma once
 
-//namespace CTRE.Phoenix.MotorControl
-//{
+namespace ctre {
+namespace phoenix {
+namespace motorcontrol {
+
 enum LimitSwitchSource {
-	Disabled_ = 0,
-	FeedbackConnector_ = 1,
-	RemoteTalonSRX_ = 2,
-	RemoteCANifier_ = 3,
+	LimitSwitchSource_FeedbackConnector = 0, /* default */
+	LimitSwitchSource_RemoteTalonSRX = 1,
+	LimitSwitchSource_RemoteCANifier = 2,
+	LimitSwitchSource_Deactivated = 3,
 };
 
 enum RemoteLimitSwitchSource {
-	Disabled__ = 0, RemoteTalonSRX__ = 2, RemoteCANifier__ = 3,
+	RemoteLimitSwitchSource_RemoteTalonSRX = 1,
+	RemoteLimitSwitchSource_RemoteCANifier = 2,
+	RemoteLimitSwitchSource_Deactivated = 3,
 };
 
 enum LimitSwitchNormal {
-	NormallyOpen, NormallyClosed,
+	LimitSwitchNormal_NormallyOpen = 0,
+	LimitSwitchNormal_NormallyClosed = 1,
+	LimitSwitchNormal_Disabled = 2
 };
 
 class IHasRemoteLimitSwitches {
@@ -49,4 +55,6 @@ public:
 		return (LimitSwitchSource) limitSwitchSource;
 	}
 };
-//}
+} // namespace motorcontrol
+} // namespace phoenix
+} // namespace ctre

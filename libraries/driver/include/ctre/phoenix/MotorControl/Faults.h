@@ -1,9 +1,9 @@
 #pragma once
 
-namespace CTRE
-{
-namespace MotorControl
-{
+namespace ctre {
+namespace phoenix {
+namespace motorcontrol {
+
 struct Faults {
 	bool HardwareFailure;
 	bool UnderVoltage;
@@ -23,6 +23,7 @@ struct Faults {
 	}
 };
 
+}
 }
 }
 

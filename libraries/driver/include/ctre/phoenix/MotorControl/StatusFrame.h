@@ -1,7 +1,11 @@
 #pragma once
 
-//namespace CTRE.Phoenix.MotorControl
-//{
+
+namespace ctre {
+namespace phoenix {
+namespace motorcontrol {
+
+
 enum StatusFrameEnhanced {
 	Status_1_General = 0x1400,
 	Status_2_Feedback = 0x1440,
@@ -39,4 +43,6 @@ public:
 		return (StatusFrameEnhanced) statusFrame;
 	}
 };
-//}
+} // namespace motorcontrol
+} // namespace phoenix
+} // namespace ctre
