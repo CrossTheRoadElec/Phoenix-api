@@ -1,12 +1,5 @@
 #pragma once
 
-#include "ctre/phoenix/Drive/ISmartDrivetrain.h"
-#include "ctre/phoenix/Drive/Styles.h"
-#include "ctre/phoenix/Stopwatch.h"
-#include "ctre/phoenix/Sensors/PigeonIMU.h"
-#include "ctre/phoenix/Tasking/ILoopable.h"
-#include "ServoParameters.h"
-
 namespace ctre {
 namespace phoenix {
 namespace motion {
@@ -16,9 +9,9 @@ namespace motion {
  * This is simply a data transer object.
  */
 struct TrajectoryPoint {
-	float position; //!< The position to servo to.
-	float velocity; //!< The velocity to feed-forward.
-	float headingDeg;
+	double position; //!< The position to servo to.
+	double velocity; //!< The velocity to feed-forward.
+	double headingDeg;
 
 	/**
 	 * Time in milliseconds to process this point.

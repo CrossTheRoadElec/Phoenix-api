@@ -1,11 +1,5 @@
 #pragma once
 
-#include "ctre/phoenix/Drive/ISmartDrivetrain.h"
-#include "ctre/phoenix/Drive/Styles.h"
-#include "ctre/phoenix/Stopwatch.h"
-#include "ctre/phoenix/Sensors/PigeonIMU.h"
-#include "ctre/phoenix/Tasking/ILoopable.h"
-#include "ServoParameters.h"
 #include "ctre/phoenix/Motion/SetValueMotionProfile.h"
 #include "ctre/phoenix/Motion/TrajectoryPoint.h"
 
@@ -52,10 +46,10 @@ struct MotionProfileStatus {
 	 * The members in activePoint are only valid if this signal is set.
 	 */
 	bool activePointValid;
-	/**
-	 * The number of points in the low level Talon buffer.
-	 */
-	//ctre::phoenix::motion::TrajectoryPoint activePoint;
+
+	bool isLast;
+
+	int profileSlotSelect;
 	/**
 	 * The current output mode of the motion profile executer (disabled, enabled, or hold).
 	 * When changing the set() value in MP mode, it's important to check this signal to
