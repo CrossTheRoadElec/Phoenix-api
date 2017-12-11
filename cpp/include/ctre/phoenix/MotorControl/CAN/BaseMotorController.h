@@ -160,10 +160,6 @@ public:
 	virtual int GetActiveTrajectoryVelocity();
 	virtual double GetActiveTrajectoryHeading();
 
-	ErrorCode GetClosedLoopTarget(int & value);
-	ErrorCode GetActiveTrajectoryPosition(int & sensorUnits);
-	ErrorCode GetActiveTrajectoryVelocity(int & sensorUnitsPer100ms);
-	ErrorCode GetActiveTrajectoryHeading(double & headingDeg);
 	//------ Motion Profile Settings used in Motion Magic and Motion Profile ----------//
 	virtual ErrorCode ConfigMotionCruiseVelocity(int sensorUnitsPer100ms,
 			int timeoutMs);
