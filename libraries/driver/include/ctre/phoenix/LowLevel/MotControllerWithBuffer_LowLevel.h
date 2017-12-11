@@ -55,18 +55,23 @@ class MotControllerWithBuffer_LowLevel: public MotController_LowLevel {
 
 public:
 	MotControllerWithBuffer_LowLevel(int baseArbId);
-	virtual void ClearMotionProfileTrajectories();
-	virtual int GetMotionProfileTopLevelBufferCount();
-	virtual ErrorCode PushMotionProfileTrajectory(
-			const ctre::phoenix::motion::TrajectoryPoint & trajPt);
-	virtual bool IsMotionProfileTopLevelBufferFull();
-	virtual void ProcessMotionProfileBuffer();
-	virtual ErrorCode GetMotionProfileStatus(
-			ctre::phoenix::motion::MotionProfileStatus & statusToFill);
-	virtual ErrorCode ClearMotionProfileHasUnderrun(
-			int timeoutMs);
-	virtual void ChangeMotionControlFramePeriod(int periodMs);
-
+	virtual ErrorCode ClearMotionProfileTrajectories();
+	virtual ErrorCode GetMotionProfileTopLevelBufferCount(int & count);
+	virtual ErrorCode PushMotionProfileTrajectory(double position, double velocity, double headingDeg, int profileSlotSelect, bool isLastPoint, bool zeroPos);
+	virtual ErrorCode IsMotionProfileTopLevelBufferFull(bool & param);
+	virtual ErrorCode ProcessMotionProfileBuffer();
+	virtual ErrorCode GetMotionProfileStatus(uint32_t &topBufferRem,
+			uint32_t &topBufferCnt,
+			uint32_t &btmBufferCnt,
+			bool &hasUnderrun,
+			bool &isUnderrun,
+			bool &activePointValid,
+			bool &isLast,
+			int &profileSlotSelect,
+			int &outputEnable);
+	virtual ErrorCode ClearMotionProfileHasUnderrun(int timeoutMs);
+	virtual ErrorCode ChangeMotionControlFramePeriod(int periodMs);
+	virtual ErrorCode SetMotionProfileTrajectoryPeriod(int durationMs, int timeoutMs);
 private:
 
 #if 1

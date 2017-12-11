@@ -25,9 +25,9 @@ public:
 	virtual ~IMotorController() {
 	}
 	//------ Set output routines. ----------//
-	virtual void Set(float value) = 0;
-	virtual void Set(ControlMode Mode, float demand) = 0;
-	virtual void Set(ControlMode Mode, float demand0, float demand1) = 0;
+	virtual void Set(double value) = 0;
+	virtual void Set(ControlMode Mode, double demand) = 0;
+	virtual void Set(ControlMode Mode, double demand0, double demand1) = 0;
 	virtual void NeutralOutput() = 0;
 	virtual void SetNeutralMode(NeutralMode neutralMode) = 0;
 
@@ -37,34 +37,34 @@ public:
 	virtual bool GetInverted() = 0;
 
 	//----- general output shaping ------------------//
-	virtual ErrorCode ConfigOpenloopRamp(float secondsFromNeutralToFull,
+	virtual ErrorCode ConfigOpenloopRamp(double secondsFromNeutralToFull,
 			int timeoutMs) = 0;
-	virtual ErrorCode ConfigClosedloopRamp(float secondsFromNeutralToFull,
+	virtual ErrorCode ConfigClosedloopRamp(double secondsFromNeutralToFull,
 			int timeoutMs) = 0;
-	virtual ErrorCode ConfigPeakOutputForward(float percentOut,
+	virtual ErrorCode ConfigPeakOutputForward(double percentOut,
 			int timeoutMs) = 0;
-	virtual ErrorCode ConfigPeakOutputReverse(float percentOut,
+	virtual ErrorCode ConfigPeakOutputReverse(double percentOut,
 			int timeoutMs) = 0;
-	virtual ErrorCode ConfigNominalOutputForward(float percentOut,
+	virtual ErrorCode ConfigNominalOutputForward(double percentOut,
 			int timeoutMs) = 0;
-	virtual ErrorCode ConfigNominalOutputReverse(float percentOut,
+	virtual ErrorCode ConfigNominalOutputReverse(double percentOut,
 			int timeoutMs) = 0;
-	virtual ErrorCode ConfigNeutralDeadband(float percentDeadband,
+	virtual ErrorCode ConfigNeutralDeadband(double percentDeadband,
 			int timeoutMs) = 0;
 
 	//------ Voltage Compensation ----------//
-	virtual ErrorCode ConfigVoltageCompSaturation(float voltage,
+	virtual ErrorCode ConfigVoltageCompSaturation(double voltage,
 			int timeoutMs) = 0;
 	virtual ErrorCode ConfigVoltageMeasurementFilter(int filterWindowSamples,
 			int timeoutMs) = 0;
 	virtual void EnableVoltageCompensation(bool enable) = 0;
 
 	//------ General Status ----------//
-	virtual float GetBusVoltage() = 0;
-	virtual float GetMotorOutputPercent() = 0;
-	virtual float GetMotorOutputVoltage() = 0;
-	virtual float GetOutputCurrent() = 0;
-	virtual float GetTemperature() = 0;
+	virtual double GetBusVoltage() = 0;
+	virtual double GetMotorOutputPercent() = 0;
+	virtual double GetMotorOutputVoltage() = 0;
+	virtual double GetOutputCurrent() = 0;
+	virtual double GetTemperature() = 0;
 
 	//------ sensor selection ----------//
 	virtual ErrorCode ConfigSelectedFeedbackSensor(
@@ -109,25 +109,32 @@ public:
 	//------ Current Lim ----------//
 	/* not supported */
 
-	//------ General Close loop ----------//
-	virtual ErrorCode Config_kP(int slotIdx, float value, int timeoutMs) = 0;
-	virtual ErrorCode Config_kI(int slotIdx, float value, int timeoutMs) = 0;
-	virtual ErrorCode Config_kD(int slotIdx, float value, int timeoutMs) = 0;
-	virtual ErrorCode Config_kF(int slotIdx, float value, int timeoutMs) = 0;
+	//------ Config Close loop ----------//
+	virtual ErrorCode Config_kP(int slotIdx, double value, int timeoutMs) = 0;
+	virtual ErrorCode Config_kI(int slotIdx, double value, int timeoutMs) = 0;
+	virtual ErrorCode Config_kD(int slotIdx, double value, int timeoutMs) = 0;
+	virtual ErrorCode Config_kF(int slotIdx, double value, int timeoutMs) = 0;
 	virtual ErrorCode Config_IntegralZone(int slotIdx, int izone,
 			int timeoutMs) = 0;
 	virtual ErrorCode ConfigAllowableClosedloopError(int slotIdx,
 			int allowableCloseLoopError, int timeoutMs) = 0;
-	virtual ErrorCode ConfigMaxIntegralAccumulator(int slotIdx, float iaccum,
+	virtual ErrorCode ConfigMaxIntegralAccumulator(int slotIdx, double iaccum,
 			int timeoutMs) = 0;
 
-	virtual ErrorCode SetIntegralAccumulator(float iaccum, int timeoutMs) = 0;
+	//------ Close loop State ----------//
+	virtual ErrorCode SetIntegralAccumulator(double iaccum, int pidIdx,
+			int timeoutMs) = 0;
+	virtual int GetClosedLoopError(int pidIdx) = 0;
+	virtual double GetIntegralAccumulator(int pidIdx) = 0;
+	virtual double GetErrorDerivative(int pidIdx) = 0;
 
-	virtual int GetClosedLoopError() = 0;
-	virtual float GetIntegralAccumulator() = 0;
-	virtual float GetErrorDerivative() = 0;
+	virtual ErrorCode SelectProfileSlot(int slotIdx) = 0;
+	virtual ErrorCode SelectProfileSlot(int slotIdx, int pidIdx) = 0;
 
-	virtual void SelectProfileSlot(int slotIdx) = 0;
+	virtual int GetClosedLoopTarget(int pidIdx) = 0;
+	virtual int GetActiveTrajectoryPosition() = 0;
+	virtual int GetActiveTrajectoryVelocity() = 0;
+	virtual double GetActiveTrajectoryHeading() = 0;
 
 	//------ Motion Profile Settings used in Motion Magic and Motion Profile ----------//
 	virtual ErrorCode ConfigMotionCruiseVelocity(int sensorUnitsPer100ms,
@@ -136,15 +143,16 @@ public:
 			int timeoutMs) = 0;
 
 	//------ Motion Profile Buffer ----------//
-//	virtual void ClearMotionProfileTrajectories() = 0;
-//	virtual int GetMotionProfileTopLevelBufferCount() = 0;
-//	virtual ErrorCode PushMotionProfileTrajectory(
-//			ctre::phoenix::motion::TrajectoryPoint trajPt) = 0;
-//	virtual bool IsMotionProfileTopLevelBufferFull() = 0;
-//	virtual void ProcessMotionProfileBuffer() = 0;
-//	virtual void GetMotionProfileStatus(
-//			ctre::phoenix::motion::motionProfileStatus statusToFill) = 0;
-//	virtual void ClearMotionProfileHasUnderrun(int timeoutMs) = 0;
+	virtual void ClearMotionProfileTrajectories()= 0;
+	virtual int GetMotionProfileTopLevelBufferCount()= 0;
+	virtual ErrorCode PushMotionProfileTrajectory(
+			const ctre::phoenix::motion::TrajectoryPoint & trajPt)= 0;
+	virtual bool IsMotionProfileTopLevelBufferFull()= 0;
+	virtual void ProcessMotionProfileBuffer()= 0;
+	virtual ErrorCode GetMotionProfileStatus(
+			ctre::phoenix::motion::MotionProfileStatus & statusToFill)= 0;
+	virtual ErrorCode ClearMotionProfileHasUnderrun(int timeoutMs)= 0;
+	virtual ErrorCode ChangeMotionControlFramePeriod(int periodMs)= 0;
 
 //------ error ----------//
 	virtual ErrorCode GetLastError() = 0;
@@ -164,9 +172,9 @@ public:
 	virtual int ConfigGetCustomParam(int paramIndex, int timeoutMs) = 0;
 
 	//------ Generic Param API, typically not used ----------//
-	virtual ErrorCode ConfigSetParameter(ParamEnum param, float value,
+	virtual ErrorCode ConfigSetParameter(ParamEnum param, double value,
 			uint8_t subValue, int ordinal, int timeoutMs) = 0;
-	virtual float ConfigGetParameter(ParamEnum paramEnum, int ordinal,
+	virtual double ConfigGetParameter(ParamEnum paramEnum, int ordinal,
 			int timeoutMs) = 0;
 
 	//------ Misc. ----------//

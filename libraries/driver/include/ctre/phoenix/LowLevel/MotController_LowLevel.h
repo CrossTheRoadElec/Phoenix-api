@@ -49,11 +49,11 @@ protected:
 	const uint32_t CONTROL_5 = 0x040100;
 	const uint32_t CONTROL_6 = 0x040140;
 
-	const float FLOAT_TO_FXP_10_22 = (float) 0x400000;
-	const float FXP_TO_FLOAT_10_22 = 0.0000002384185791015625f;
+	const double FLOAT_TO_FXP_10_22 = (double) 0x400000;
+	const double FXP_TO_FLOAT_10_22 = 0.0000002384185791015625f;
 
-	const float FLOAT_TO_FXP_0_8 = (float) 0x100;
-	const float FXP_TO_FLOAT_0_8 = 0.00390625f;
+	const double FLOAT_TO_FXP_0_8 = (double) 0x100;
+	const double FXP_TO_FLOAT_0_8 = 0.00390625f;
 
 	/* Motion Profile Set Output */
 	// Motor output is neutral, Motion Profile Executer is not running.
@@ -85,23 +85,23 @@ public:
 	void SetSensorPhase(bool PhaseSensor);
 	void SetInverted(bool invert);
 
-	ErrorCode ConfigOpenLoopRamp(float secondsFromNeutralToFull, int timeoutMs);
-	ErrorCode ConfigClosedLoopRamp(float secondsFromNeutralToFull,
+	ErrorCode ConfigOpenLoopRamp(double secondsFromNeutralToFull, int timeoutMs);
+	ErrorCode ConfigClosedLoopRamp(double secondsFromNeutralToFull,
 			int timeoutMs);
-	ErrorCode ConfigPeakOutputForward(float percentOut, int timeoutMs);
-	ErrorCode ConfigPeakOutputReverse(float percentOut, int timeoutMs);
-	ErrorCode ConfigNominalOutputForward(float percentOut, int timeoutMs);
-	ErrorCode ConfigNominalOutputReverse(float percentOut, int timeoutMs);
-	ErrorCode ConfigNeutralDeadband(float percentDeadband,
+	ErrorCode ConfigPeakOutputForward(double percentOut, int timeoutMs);
+	ErrorCode ConfigPeakOutputReverse(double percentOut, int timeoutMs);
+	ErrorCode ConfigNominalOutputForward(double percentOut, int timeoutMs);
+	ErrorCode ConfigNominalOutputReverse(double percentOut, int timeoutMs);
+	ErrorCode ConfigNeutralDeadband(double percentDeadband,
 			int timeoutMs);
-	ErrorCode ConfigVoltageCompSaturation(float voltage, int timeoutMs);
+	ErrorCode ConfigVoltageCompSaturation(double voltage, int timeoutMs);
 	ErrorCode ConfigVoltageMeasurementFilter(int filterWindowSamples,
 			int timeoutMs);
 	void EnableVoltageCompensation(bool enable);
-	ErrorCode GetBusVoltage(float & param);
-	ErrorCode GetMotorOutputPercent(float & param);
-	ErrorCode GetOutputCurrent(float & param);
-	ErrorCode GetTemperature(float & param);
+	ErrorCode GetBusVoltage(double & param);
+	ErrorCode GetMotorOutputPercent(double & param);
+	ErrorCode GetOutputCurrent(double & param);
+	ErrorCode GetTemperature(double & param);
 	ErrorCode ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice feedbackDevice,
 			int timeoutMs);
 	ErrorCode ConfigRemoteFeedbackFilter(int arbId, int peripheralIdx,
@@ -143,21 +143,21 @@ public:
 	ErrorCode ConfigPeakCurrentDuration(int milliseconds, int timeoutMs);
 	ErrorCode ConfigContinuousCurrentLimit(int amps, int timeoutMs);
 	void EnableCurrentLimit(bool enable);
-	ErrorCode Config_kP(int slotIdx, float value, int timeoutMs);
-	ErrorCode Config_kI(int slotIdx, float value, int timeoutMs);
-	ErrorCode Config_kD(int slotIdx, float value, int timeoutMs);
-	ErrorCode Config_kF(int slotIdx, float value, int timeoutMs);
+	ErrorCode Config_kP(int slotIdx, double value, int timeoutMs);
+	ErrorCode Config_kI(int slotIdx, double value, int timeoutMs);
+	ErrorCode Config_kD(int slotIdx, double value, int timeoutMs);
+	ErrorCode Config_kF(int slotIdx, double value, int timeoutMs);
 	ErrorCode Config_IntegralZone(int slotIdx, int izone, int timeoutMs);
 	ErrorCode ConfigAllowableClosedloopError(int slotIdx,
 			int allowableCloseLoopError, int timeoutMs);
-	ErrorCode ConfigMaxIntegralAccumulator(int slotIdx, float iaccum,
+	ErrorCode ConfigMaxIntegralAccumulator(int slotIdx, double iaccum,
 			int timeoutMs);
-	ErrorCode SetIntegralAccumulator(float iaccum, int timeoutMs);
+	ErrorCode SetIntegralAccumulator(double iaccum, int pidIdx, int timeoutMs);
 	ErrorCode GetClosedLoopError(int & error, int pidIdx);
-	ErrorCode GetIntegralAccumulator(float & iaccum, int pidIdx);
-	ErrorCode GetErrorDerivative(float & derivError, int pidIdx);
-	void SelectProfileSlot(int slotIdx);
-	void SelectProfileSlots(int slotIdx, int secondarySlotIdx);
+	ErrorCode GetIntegralAccumulator(double & iaccum, int pidIdx);
+	ErrorCode GetErrorDerivative(double & derivError, int pidIdx);
+	ErrorCode SelectProfileSlot(int slotIdx);
+	ErrorCode SelectProfileSlot(int slotIdx, int pidIdx);
 
 	ErrorCode GetFaults(ctre::phoenix::motorcontrol::Faults & toFill);
 	ErrorCode GetStickyFaults(ctre::phoenix::motorcontrol::StickyFaults& toFill);
@@ -184,7 +184,7 @@ public:
 	ErrorCode GetClosedLoopTarget(int & value);
 	ErrorCode GetActiveTrajectoryPosition(int & sensorUnits);
 	ErrorCode GetActiveTrajectoryVelocity(int & sensorUnitsPer100ms);
-	ErrorCode GetActiveTrajectoryHeading(float & headingDeg);
+	ErrorCode GetActiveTrajectoryHeading(double & headingDeg);
 
 	ErrorCode SetAnalogPosition(int newPosition, int timeoutMs);
 	ErrorCode SetQuadraturePosition(int newPosition, int timeoutMs);
