@@ -1,4 +1,5 @@
 ﻿#include "ctre/phoenix/MotorControl/CAN/BaseMotorController.h"
+#include "ctre/phoenix/MotorControl/SensorCollection.h"
 #include "ctre/phoenix/CCI/MotController_CCI.h"
 #include "ctre/phoenix/LowLevel/MotControllerWithBuffer_LowLevel.h"
 #include "../WpilibSpeedController.h"
@@ -21,13 +22,15 @@ BaseMotorController::BaseMotorController(int arbId) {
 
 	_wpilibSpeedController = new WpilibSpeedController(this);
 
-	//_sensColl = new SensorCollection(_ll);
+	_sensorColl = new motorcontrol::SensorCollection((void*)m_handle);
 }
 
 BaseMotorController::~BaseMotorController()
 {
 	delete _wpilibSpeedController;
 	_wpilibSpeedController = 0;
+	delete _sensorColl;
+	_sensorColl = 0;
 }
 
 void* BaseMotorController::GetHandle()
@@ -513,7 +516,13 @@ void BaseMotorController::ValueUpdated() {
 	//do nothing
 }
 // ----- WPILIB ------//
-frc::SpeedController & BaseMotorController::GetWPILIB_SpeedController()
-{
+frc::SpeedController & BaseMotorController::GetWPILIB_SpeedController() {
 	return *_wpilibSpeedController;
 }
+/**
+ * @retrieve object that can get/set individual RAW sensor values.
+ */
+ctre::phoenix::motorcontrol::SensorCollection & BaseMotorController::GetSensorCollection() {
+	return *_sensorColl;
+}
+

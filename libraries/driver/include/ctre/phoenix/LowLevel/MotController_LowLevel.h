@@ -186,6 +186,10 @@ public:
 	ErrorCode GetActiveTrajectoryVelocity(int & sensorUnitsPer100ms);
 	ErrorCode GetActiveTrajectoryHeading(float & headingDeg);
 
+	ErrorCode SetAnalogPosition(int newPosition, int timeoutMs);
+	ErrorCode SetQuadraturePosition(int newPosition, int timeoutMs);
+	ErrorCode SetPulseWidthPosition(int newPosition, int timeoutMs);
+
 	const static int kMinFirmwareVersionMajor = 2;
 	const static int kMinFirmwareVersionMinor = 123;
 

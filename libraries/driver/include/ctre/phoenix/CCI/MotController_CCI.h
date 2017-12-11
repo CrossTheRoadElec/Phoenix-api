@@ -65,4 +65,21 @@ extern "C"{
 	ErrorCode c_MotController_ConfigContinuousCurrentLimit(void *handle, int amps, int timeoutMs);
 	void c_MotController_EnableCurrentLimit(void *handle, bool enable);
 	ErrorCode c_MotController_SetLastError(void *handle, int error);
+	ErrorCode c_MotController_GetAnalogIn(void *handle, int * param);
+	ErrorCode c_MotController_SetAnalogPosition(void *handle,int newPosition, int timeoutMs);
+	ErrorCode c_MotController_GetAnalogInRaw(void *handle, int * param);
+	ErrorCode c_MotController_GetAnalogInVel(void *handle, int * param);
+	ErrorCode c_MotController_GetQuadraturePosition(void *handle, int * param);
+	ErrorCode c_MotController_SetQuadraturePosition(void *handle,int newPosition, int timeoutMs);
+	ErrorCode c_MotController_GetQuadratureVelocity(void *handle, int * param);
+	ErrorCode c_MotController_GetPulseWidthPosition(void *handle, int * param);
+	ErrorCode c_MotController_SetPulseWidthPosition(void *handle,int newPosition, int timeoutMs);
+	ErrorCode c_MotController_GetPulseWidthVelocity(void *handle, int * param);
+	ErrorCode c_MotController_GetPulseWidthRiseToFallUs(void *handle, int * param);
+	ErrorCode c_MotController_GetPulseWidthRiseToRiseUs(void *handle, int * param);
+	ErrorCode c_MotController_GetPinStateQuadA(void *handle, int * param);
+	ErrorCode c_MotController_GetPinStateQuadB(void *handle, int * param);
+	ErrorCode c_MotController_GetPinStateQuadIdx(void *handle, int * param);
+	ErrorCode c_MotController_IsFwdLimitSwitchClosed(void *handle, int * param);
+	ErrorCode c_MotController_IsRevLimitSwitchClosed(void *handle, int * param);
 }

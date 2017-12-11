@@ -26,6 +26,14 @@ class MotController_LowLevel;
 namespace ctre {
 namespace phoenix {
 namespace motorcontrol {
+class SensorCollection;
+}
+}
+}
+
+namespace ctre {
+namespace phoenix {
+namespace motorcontrol {
 namespace can {
 
 class BaseMotorController: public virtual IMotorController {
@@ -43,6 +51,8 @@ private:
 	int temp = 0;
 
 	frc::SpeedController * _wpilibSpeedController;
+
+	ctre::phoenix::motorcontrol::SensorCollection * _sensorColl;
 protected:
 	void* m_handle;
 	void* GetHandle();
@@ -185,7 +195,7 @@ public:
 	/**
 	 * @retrieve object that can get/set individual RAW sensor values.
 	 */
-	//SensorCollection & SensorCollection();
+	ctre::phoenix::motorcontrol::SensorCollection & GetSensorCollection();
 };
 
 } // namespace can

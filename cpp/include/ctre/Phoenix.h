@@ -3,6 +3,7 @@
 #include "ctre/phoenix/MotorControl/CAN/TalonSRX.h"
 #include "ctre/phoenix/MotorControl/CAN/VictorSPX.h"
 #include "ctre/phoenix/MotorControl/Faults.h"
+#include "ctre/phoenix/MotorControl/SensorCollection.h"
 #include "ctre/phoenix/Sensors/PigeonIMU.h"
 #include "ctre/phoenix/Tasking/Schedulers/ConcurrentScheduler.h"
 #include "ctre/phoenix/Tasking/ILoopable.h"
