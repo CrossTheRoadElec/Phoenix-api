@@ -1,3 +1,5 @@
+apply plugin: 'maven-publish'
+
 task javaSourceJar(type: Jar) {
     description = 'Generates the source jar for java'
     group = ''
@@ -270,6 +272,17 @@ project(':arm:cpp').tasks.whenTaskAdded { task ->
     }
 }
 
+// Zip release/ for distribution using library version
+task zipRelease(type: Zip) {
+    description = 'Creates a zip of release.'
+    group = ''
+    destinationDir = file("$buildDir/releases")
+    baseName = libraryName
+    version = libraryVersion
+    duplicatesStrategy = 'exclude'
+
+    from(releaseDir)
+}
 
 //build.dependsOn javaSourceJar
 //build.dependsOn javaJavadocJar
@@ -282,4 +295,66 @@ doc.mustRunAfter userStaticArtifacts
 
 if (setCopyToEclipse) {
     build.dependsOn copyToEclipse
+}
+
+// Maven Publishing
+task zipCppHeadersForPublish(type: Zip) {
+    destinationDir = archiveReleaseDir
+    baseName = libraryName
+    classifier = 'cppheaders'
+    duplicatesStrategy = 'exclude'
+    dependsOn userStaticArtifacts
+
+    from("$releaseDir/cpp/include")
+}
+
+task zipCppBinariesForPublish(type: Zip) {
+    destinationDir = archiveReleaseDir
+    baseName = libraryName
+    classifier = 'cppbinaries'
+    duplicatesStrategy = 'exclude'
+    dependsOn userStaticArtifacts
+
+    from("$releaseDir/cpp/lib")
+}
+
+task zipJavaNativeBinariesForPublish(type: Zip) {
+    destinationDir = archiveReleaseDir
+    baseName = libraryName
+    classifier = 'java-binaries'
+    duplicatesStrategy = 'exclude'
+    dependsOn userStaticArtifacts
+
+    from("$releaseDir/java/lib") {
+        include "*.so"
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            url "$buildDir/repo"
+        }
+    }
+    publications {
+        phoenixJava(MavenPublication) {
+            groupId 'com.ctre.phoenix'
+            artifactId 'CTRE-phoenix-java'
+            version libraryVersion
+
+            artifact source: project(':arm:cpp').jar
+            artifact source: javaSourceJar, classifier: 'sources'
+            artifact source: javaJavadocJar, classifier: 'javadoc'
+            artifact source: zipJavaNativeBinariesForPublish, classifier: 'native'
+        }
+
+        phoenixCpp(MavenPublication) {
+            groupId 'com.ctre.phoenix'
+            artifactId 'CTRE-phoenix-cpp'
+            version libraryVersion
+
+            artifact source: zipCppBinariesForPublish, classifier: null
+            artifact source: zipCppHeadersForPublish, classifier: 'headers'
+        }
+    }
 }
