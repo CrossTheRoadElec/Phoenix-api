@@ -280,6 +280,7 @@ task zipRelease(type: Zip) {
     baseName = libraryName
     version = libraryVersion
     duplicatesStrategy = 'exclude'
+    dependsOn build
 
     from(releaseDir)
 }
