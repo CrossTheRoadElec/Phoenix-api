@@ -24,7 +24,7 @@
 #pragma once
 
 #include "Device_LowLevel.h"
-#include "../core/ctre.h"
+#include "ctre/phoenix/core/ErrorCode.h"
 #include <FRC_NetworkCommunication/CANSessionMux.h>  //CAN Comm
 #include <map>
 

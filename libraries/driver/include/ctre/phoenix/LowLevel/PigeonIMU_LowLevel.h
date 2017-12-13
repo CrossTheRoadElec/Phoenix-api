@@ -24,7 +24,7 @@
 #pragma once
 
 #include "Device_LowLevel.h"
-#include "ctre/phoenix/core/ctre.h"
+#include "ctre/Phoenix/core/ErrorCode.h"
 #include <string>
 
 /** 

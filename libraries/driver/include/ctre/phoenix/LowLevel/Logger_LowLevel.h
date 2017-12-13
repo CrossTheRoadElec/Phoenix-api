@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ctre/Phoenix/core/ErrorCode.h"
 #include <string.h>
 #include <iostream>
 #include <fstream>
@@ -7,7 +8,6 @@
 #include <sys/stat.h>
 #include <vector>
 #include <dirent.h>
-#include "../core/ctre.h"
 #include <mutex>
 #include <thread>
 
