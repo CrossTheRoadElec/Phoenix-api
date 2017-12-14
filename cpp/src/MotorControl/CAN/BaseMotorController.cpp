@@ -4,6 +4,7 @@
 #include "ctre/phoenix/LowLevel/MotControllerWithBuffer_LowLevel.h"
 #include "../WpilibSpeedController.h"
 
+using namespace ctre::phoenix;
 using namespace ctre::phoenix::motorcontrol;
 using namespace ctre::phoenix::motorcontrol::can;
 using namespace ctre::phoenix::motorcontrol::lowlevel;
@@ -75,7 +76,7 @@ void BaseMotorController::Set(ControlMode mode, double demand0, double demand1) 
 	uint32_t work;
 	switch (m_controlMode) {
 		case ControlMode::PercentOutput:
-		case ControlMode::TimedPercentOutput:
+		//case ControlMode::TimedPercentOutput:
 			c_MotController_SetDemand(m_handle, (int)m_sendMode, (int) (1023 * demand0), 1023 *demand1);
 			break;
 		case ControlMode::Follower:
@@ -224,39 +225,38 @@ double BaseMotorController::GetTemperature() {
 
 //------ sensor selection ----------//
 ErrorCode BaseMotorController::ConfigSelectedFeedbackSensor(
-		RemoteFeedbackDevice feedbackDevice, int timeoutMs) {
-	/* we may break this into two APIs */
-	ErrorCode e1 = c_MotController_ConfigRemoteFeedbackFilter(m_handle, feedbackDevice._arbId,
-			feedbackDevice._peripheralIndex, feedbackDevice._reserved,
-			timeoutMs);
-
-	ErrorCode e2 = c_MotController_ConfigSelectedFeedbackSensor(m_handle,
-			FeedbackDevice::RemoteSensor, timeoutMs);
-
-	if (e1 == ErrorCode::OK) {
-		return e2;
-	}
-	return e1;
+		RemoteFeedbackDevice feedbackDevice, int pidxIdx, int timeoutMs) {
+	return c_MotController_ConfigSelectedFeedbackSensor(m_handle,
+			feedbackDevice, pidxIdx, timeoutMs);
 }
 ErrorCode BaseMotorController::ConfigSelectedFeedbackSensor(
-		FeedbackDevice feedbackDevice, int timeoutMs) {
-	return c_MotController_ConfigSelectedFeedbackSensor(m_handle, feedbackDevice, timeoutMs);
+		FeedbackDevice feedbackDevice, int pidxIdx, int timeoutMs) {
+	return c_MotController_ConfigSelectedFeedbackSensor(m_handle,
+			feedbackDevice, pidxIdx, timeoutMs);
 }
-
+ErrorCode BaseMotorController::ConfigRemoteFeedbackFilter(int deviceID,
+		RemoteSensorSource remoteSensorSource, int remoteOrdinal,
+		int timeoutMs) {
+	return c_MotController_ConfigRemoteFeedbackFilter(m_handle, deviceID, (int)remoteSensorSource, remoteOrdinal, timeoutMs);
+}
+ErrorCode BaseMotorController::ConfigSensorTerm(SensorTerm sensorTerm,
+		FeedbackDevice feedbackDevice, int timeoutMs) {
+	return c_MotController_ConfigSensorTerm(m_handle, (int)sensorTerm, (int)feedbackDevice, timeoutMs);
+}
 //------- sensor status --------- //
-int BaseMotorController::GetSelectedSensorPosition() {
+int BaseMotorController::GetSelectedSensorPosition(int pidIdx) {
 	int retval;
-	c_MotController_GetSelectedSensorPosition(m_handle, &retval);
+	c_MotController_GetSelectedSensorPosition(m_handle, &retval, pidIdx);
 	return retval;
 }
-int BaseMotorController::GetSelectedSensorVelocity() {
+int BaseMotorController::GetSelectedSensorVelocity(int pidIdx) {
 	int retval;
-	c_MotController_GetSelectedSensorVelocity(m_handle, &retval);
+	c_MotController_GetSelectedSensorVelocity(m_handle, &retval, pidIdx);
 	return retval;
 }
 ErrorCode BaseMotorController::SetSelectedSensorPosition(int sensorPos,
-		int timeoutMs) {
-	return c_MotController_SetSelectedSensorPosition(m_handle, sensorPos, timeoutMs);
+		int pidIdx, int timeoutMs) {
+	return c_MotController_SetSelectedSensorPosition(m_handle, sensorPos, pidIdx, timeoutMs);
 }
 
 //------ status frame period changes ----------//
@@ -402,11 +402,8 @@ double BaseMotorController::GetErrorDerivative(int pidIdx) {
  * SRX has two available slots for PID.
  * @param slotIdx one or zero depending on which slot caller wants.
  */
-ErrorCode BaseMotorController::SelectProfileSlot(int slotIdx) {
-	return c_MotController_SelectProfileSlot(m_handle, slotIdx);
-}
 ErrorCode BaseMotorController::SelectProfileSlot(int slotIdx, int pidIdx) {
-	return c_MotController_SelectProfileSlotSpecificPID(m_handle, slotIdx, pidIdx);
+	return c_MotController_SelectProfileSlot(m_handle, slotIdx, pidIdx);
 }
 
 int BaseMotorController::GetClosedLoopTarget(int pidIdx){
@@ -497,13 +494,19 @@ ErrorCode BaseMotorController::GetLastError() {
 
 //------ Faults ----------//
 ErrorCode BaseMotorController::GetFaults(Faults & toFill) {
-	return ErrorCode::NotImplemented; // 	return SetLastError(_ll->GetFaults(toFill));
+	int faultBits;
+	ErrorCode retval = c_MotController_GetFaults(m_handle, &faultBits);
+	toFill = Faults(faultBits);
+	return retval;
 }
 ErrorCode BaseMotorController::GetStickyFaults(StickyFaults & toFill) {
-	return ErrorCode::NotImplemented; // return SetLastError(_ll->GetStickyFaults(toFill));
+	int faultBits;
+	ErrorCode retval = c_MotController_GetFaults(m_handle, &faultBits);
+	toFill = StickyFaults(faultBits);
+	return retval;
 }
 ErrorCode BaseMotorController::ClearStickyFaults(int timeoutMs) {
-	return ErrorCode::NotImplemented; // return SetLastError(_ll->ClearStickyFaults(timeoutMs));
+	return c_MotController_ClearStickyFaults(m_handle, timeoutMs);
 }
 
 //------ Firmware ----------//

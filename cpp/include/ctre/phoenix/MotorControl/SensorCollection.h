@@ -5,7 +5,7 @@
  */
 #pragma once
 
-#include "ctre/phoenix/core/ErrorCode.h"
+#include "ctre/Phoenix/ErrorCode.h"
 
 namespace ctre {
 namespace phoenix {

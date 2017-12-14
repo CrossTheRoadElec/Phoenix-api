@@ -1,6 +1,7 @@
 #include "ctre/phoenix/MotorControl/SensorCollection.h"
 #include "ctre/phoenix/CCI/MotController_CCI.h"
 
+using namespace ctre::phoenix;
 using namespace ctre::phoenix::motorcontrol;
 
 SensorCollection::SensorCollection(void * handle) {

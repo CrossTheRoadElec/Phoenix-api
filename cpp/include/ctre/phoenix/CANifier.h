@@ -4,8 +4,8 @@
 
 #include <cstdint>
 #include "ctre/phoenix/LowLevel/CANBusAddressable.h"
-#include "ctre/phoenix/core/ErrorCode.h"
-#include "ctre/phoenix/defs/paramEnum.h"
+#include "ctre/Phoenix/ErrorCode.h"
+#include "ctre/phoenix/paramEnum.h"
 
 namespace ctre {namespace phoenix {
 class CANifier: public CANBusAddressable {

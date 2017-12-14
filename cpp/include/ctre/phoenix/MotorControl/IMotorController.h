@@ -4,14 +4,16 @@
 #include "ctre/phoenix/MotorControl/ControlFrame.h"
 #include "ctre/phoenix/MotorControl/NeutralMode.h"
 #include "ctre/phoenix/MotorControl/FeedbackDevice.h"
+#include "ctre/phoenix/MotorControl/RemoteSensorSource.h"
+#include "ctre/phoenix/MotorControl/SensorTerm.h"
 #include "ctre/phoenix/MotorControl/StatusFrame.h"
 #include "ctre/phoenix/MotorControl/LimitSwitchType.h"
 #include "ctre/phoenix/MotorControl/Faults.h"
 #include "ctre/phoenix/MotorControl/StickyFaults.h"
-#include "ctre/phoenix/defs/paramEnum.h"
+#include "ctre/phoenix/paramEnum.h"
 #include "ctre/phoenix/Motion/TrajectoryPoint.h"
 #include "ctre/phoenix/Motion/MotionProfileStatus.h"
-#include "ctre/phoenix/core/ErrorCode.h"
+#include "ctre/Phoenix/ErrorCode.h"
 #include "IFollower.h"
 /* WPILIB */
 #include "SpeedController.h"
@@ -68,12 +70,16 @@ public:
 
 	//------ sensor selection ----------//
 	virtual ErrorCode ConfigSelectedFeedbackSensor(
-			RemoteFeedbackDevice feedbackDevice, int timeoutMs) = 0;
+			RemoteFeedbackDevice feedbackDevice, int pidxIdx, int timeoutMs) = 0;
+	virtual ErrorCode ConfigRemoteFeedbackFilter(int deviceID,
+			RemoteSensorSource remoteSensorSource, int remoteOrdinal,
+			int timeoutMs)= 0;
+	virtual ErrorCode ConfigSensorTerm(SensorTerm sensorTerm, FeedbackDevice feedbackDevice, int timeoutMs)= 0;
 
 	//------- sensor status --------- //
-	virtual int GetSelectedSensorPosition() = 0;
-	virtual int GetSelectedSensorVelocity() = 0;
-	virtual ErrorCode SetSelectedSensorPosition(int sensorPos,
+	virtual int GetSelectedSensorPosition(int pidIdx) = 0;
+	virtual int GetSelectedSensorVelocity(int pidIdx) = 0;
+	virtual ErrorCode SetSelectedSensorPosition(int sensorPos, int pidIdx,
 			int timeoutMs) = 0;
 
 	//------ status frame period changes ----------//
@@ -128,7 +134,6 @@ public:
 	virtual double GetIntegralAccumulator(int pidIdx) = 0;
 	virtual double GetErrorDerivative(int pidIdx) = 0;
 
-	virtual ErrorCode SelectProfileSlot(int slotIdx) = 0;
 	virtual ErrorCode SelectProfileSlot(int slotIdx, int pidIdx) = 0;
 
 	virtual int GetClosedLoopTarget(int pidIdx) = 0;

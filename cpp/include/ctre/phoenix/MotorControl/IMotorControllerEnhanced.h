@@ -8,10 +8,10 @@
 #include "ctre/phoenix/MotorControl/LimitSwitchType.h"
 #include "ctre/phoenix/MotorControl/Faults.h"
 #include "ctre/phoenix/MotorControl/StickyFaults.h"
-#include "ctre/phoenix/defs/paramEnum.h"
+#include "ctre/phoenix/paramEnum.h"
 #include "ctre/phoenix/Motion/TrajectoryPoint.h"
 #include "ctre/phoenix/Motion/MotionProfileStatus.h"
-#include "ctre/phoenix/core/ErrorCode.h"
+#include "ctre/Phoenix/ErrorCode.h"
 #include "IFollower.h"
 
 namespace ctre {
@@ -41,11 +41,7 @@ public:
 	//------ sensor selection ----------//
 	/* expand the options */
 	virtual ErrorCode ConfigSelectedFeedbackSensor(
-			FeedbackDevice feedbackDevice, int timeoutMs) = 0;
-
-	//------ ??? ----------//
-	//ErrorCode ConfigSensorIsContinuous(bool isContinuous, int timeoutMs = 0);  /* TODO: figure this out later */
-	//ErrorCode ConfigAutoZeroSensor(ZeroSensorCriteria zeroSensorCriteria, int timeoutMs = 0);
+			FeedbackDevice feedbackDevice, int pidxIdx, int timeoutMs) = 0;
 
 	//------- sensor status --------- //
 	/* in parent */

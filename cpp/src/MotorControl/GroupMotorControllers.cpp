@@ -1,5 +1,7 @@
 #include "ctre/phoenix/MotorControl/GroupMotorControllers.h"
 
+using namespace ctre::phoenix;
+
 namespace ctre {
 namespace phoenix  {
 namespace motorcontrol {

@@ -1,5 +1,7 @@
 #pragma once
 #include "ctre/phoenix/CANifier.h"
+#include "ctre/phoenix/ErrorCode.h"
+#include "ctre/phoenix/paramEnum.h"
 #include "ctre/phoenix/HsvToRgb.h"
 #include "ctre/phoenix/LinearInterpolation.h"
 #include "ctre/phoenix/Motion/MotionProfileStatus.h"

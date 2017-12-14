@@ -26,8 +26,8 @@
 #ifndef CTR_EXCLUDE_WPILIB_CLASSES
 #include <string>
 #include "ctre/phoenix/LowLevel/CANBusAddressable.h"
-#include "ctre/phoenix/defs/paramEnum.h"
-#include "ctre/phoenix/core/ErrorCode.h"
+#include "ctre/phoenix/paramEnum.h"
+#include "ctre/Phoenix/ErrorCode.h"
 
 /* forward prototype */
 namespace ctre {
