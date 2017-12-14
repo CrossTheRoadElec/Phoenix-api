@@ -24,7 +24,6 @@
 #pragma once
 
 #include "Device_LowLevel.h"
-#include "ctre/Phoenix/core/ErrorCode.h"
 #include <string>
 
 /** 
@@ -163,46 +162,46 @@ public:
 	~LowLevelPigeonImu();
 
 
-	CTR_Code SetLastError(CTR_Code error);
+	ctre::phoenix::ErrorCode SetLastError(ctre::phoenix::ErrorCode error);
 
-	CTR_Code SetStatusFramePeriod(PigeonStatusFrame frame, int periodMs, int timeoutMs);
+	ctre::phoenix::ErrorCode SetStatusFramePeriod(PigeonStatusFrame frame, int periodMs, int timeoutMs);
 
-	CTR_Code SetYaw(double angleDeg, int timeoutMs);
-	CTR_Code AddYaw(double angleDeg, int timeoutMs);
-	CTR_Code SetYawToCompass(int timeoutMs);
+	ctre::phoenix::ErrorCode SetYaw(double angleDeg, int timeoutMs);
+	ctre::phoenix::ErrorCode AddYaw(double angleDeg, int timeoutMs);
+	ctre::phoenix::ErrorCode SetYawToCompass(int timeoutMs);
 
-	CTR_Code SetFusedHeading(double angleDeg, int timeoutMs);
-	CTR_Code AddFusedHeading(double angleDeg, int timeoutMs);
-	CTR_Code SetFusedHeadingToCompass(int timeoutMs);
-	CTR_Code SetAccumZAngle(double angleDeg, int timeoutMs);
-	CTR_Code ConfigTemperatureCompensationEnable(bool bTempCompEnable, int timeoutMs);
-	CTR_Code SetCompassDeclination(double angleDegOffset, int timeoutMs);
-	CTR_Code SetCompassAngle(double angleDeg, int timeoutMs);
+	ctre::phoenix::ErrorCode SetFusedHeading(double angleDeg, int timeoutMs);
+	ctre::phoenix::ErrorCode AddFusedHeading(double angleDeg, int timeoutMs);
+	ctre::phoenix::ErrorCode SetFusedHeadingToCompass(int timeoutMs);
+	ctre::phoenix::ErrorCode SetAccumZAngle(double angleDeg, int timeoutMs);
+	ctre::phoenix::ErrorCode ConfigTemperatureCompensationEnable(bool bTempCompEnable, int timeoutMs);
+	ctre::phoenix::ErrorCode SetCompassDeclination(double angleDegOffset, int timeoutMs);
+	ctre::phoenix::ErrorCode SetCompassAngle(double angleDeg, int timeoutMs);
 
-	CTR_Code EnterCalibrationMode(CalibrationMode calMode, int timeoutMs);
-	CTR_Code GetGeneralStatus(LowLevelPigeonImu::GeneralStatus & StatusToFill);
-	CTR_Code GetGeneralStatus(int &state, int &currentMode, int &calibrationError, int &bCalIsBooting, double &tempC, int &upTimeSec, int &noMotionBiasCount, int &tempCompensationCount, int &lastError);
-	CTR_Code GetLastError();
-	CTR_Code Get6dQuaternion(double wxyz[4]);
-	CTR_Code GetYawPitchRoll(double ypr[3]);
-	CTR_Code GetAccumGyro(double xyz_deg[3]);
-	CTR_Code GetAbsoluteCompassHeading(double &value);
-	CTR_Code GetCompassHeading(double &value);
-	CTR_Code GetCompassFieldStrength(double &value);
-	CTR_Code GetTemp(double &value);
+	ctre::phoenix::ErrorCode EnterCalibrationMode(CalibrationMode calMode, int timeoutMs);
+	ctre::phoenix::ErrorCode GetGeneralStatus(LowLevelPigeonImu::GeneralStatus & StatusToFill);
+	ctre::phoenix::ErrorCode GetGeneralStatus(int &state, int &currentMode, int &calibrationError, int &bCalIsBooting, double &tempC, int &upTimeSec, int &noMotionBiasCount, int &tempCompensationCount, int &lastError);
+	ctre::phoenix::ErrorCode GetLastError();
+	ctre::phoenix::ErrorCode Get6dQuaternion(double wxyz[4]);
+	ctre::phoenix::ErrorCode GetYawPitchRoll(double ypr[3]);
+	ctre::phoenix::ErrorCode GetAccumGyro(double xyz_deg[3]);
+	ctre::phoenix::ErrorCode GetAbsoluteCompassHeading(double &value);
+	ctre::phoenix::ErrorCode GetCompassHeading(double &value);
+	ctre::phoenix::ErrorCode GetCompassFieldStrength(double &value);
+	ctre::phoenix::ErrorCode GetTemp(double &value);
 	PigeonState GetState();
-	CTR_Code GetState(int &state);
-	CTR_Code GetUpTime(int &value);
-	CTR_Code GetRawMagnetometer(short rm_xyz[3]);
+	ctre::phoenix::ErrorCode GetState(int &state);
+	ctre::phoenix::ErrorCode GetUpTime(int &value);
+	ctre::phoenix::ErrorCode GetRawMagnetometer(short rm_xyz[3]);
 
-	CTR_Code GetBiasedMagnetometer(short bm_xyz[3]);
-	CTR_Code GetBiasedAccelerometer(short ba_xyz[3]);
-	CTR_Code GetRawGyro(double xyz_dps[3]);
-	CTR_Code GetAccelerometerAngles(double tiltAngles[3]);
+	ctre::phoenix::ErrorCode GetBiasedMagnetometer(short bm_xyz[3]);
+	ctre::phoenix::ErrorCode GetBiasedAccelerometer(short ba_xyz[3]);
+	ctre::phoenix::ErrorCode GetRawGyro(double xyz_dps[3]);
+	ctre::phoenix::ErrorCode GetAccelerometerAngles(double tiltAngles[3]);
 
-	CTR_Code GetFusedHeading(FusionStatus & status, double &value);
-	CTR_Code GetFusedHeading(int &bIsFusing, int &bIsValid, double &value, int &lastError);
-	CTR_Code GetFusedHeading(double &value);
+	ctre::phoenix::ErrorCode GetFusedHeading(FusionStatus & status, double &value);
+	ctre::phoenix::ErrorCode GetFusedHeading(int &bIsFusing, int &bIsValid, double &value, int &lastError);
+	ctre::phoenix::ErrorCode GetFusedHeading(double &value);
 
 	static std::string ToString(LowLevelPigeonImu::PigeonState state);
 	static std::string ToString(CalibrationMode cm);
@@ -248,23 +247,23 @@ private:
 	};
 
 	/** Portion of the arbID for all status and control frames. */
-	CTR_Code _lastError = OKAY;
+	ctre::phoenix::ErrorCode _lastError = ctre::phoenix::OKAY;
 	uint64_t _cache = 0;
 	uint32_t _len = 0;
 
 	void CheckFirm(int minMajor = kMinFirmwareVersionMajor, int minMinor = kMinFirmwareVersionMinor);
-	CTR_Code ConfigSetWrapper(ParamEnum paramEnum, TareType tareType, double angleDeg, int timeoutMs);
-	CTR_Code ConfigSetWrapper(ParamEnum paramEnum, double value, int timeoutMs);
-	CTR_Code ReceiveCAN(int arbId);
-	CTR_Code ReceiveCAN(int arbId, bool allowStale);
-	CTR_Code SendCAN(int arbId, const uint64_t & data, int dataSize, int periodMs);
-	CTR_Code GetTwoParam16(int arbId, short words[2]);
-	CTR_Code GetThreeParam16(int arbId, short words[3]);
-	CTR_Code GetThreeParam16(int arbId, double signals[3], double scalar);
+	ctre::phoenix::ErrorCode ConfigSetWrapper(ctre::phoenix::ParamEnum paramEnum, TareType tareType, double angleDeg, int timeoutMs);
+	ctre::phoenix::ErrorCode ConfigSetWrapper(ctre::phoenix::ParamEnum paramEnum, double value, int timeoutMs);
+	ctre::phoenix::ErrorCode ReceiveCAN(int arbId);
+	ctre::phoenix::ErrorCode ReceiveCAN(int arbId, bool allowStale);
+	ctre::phoenix::ErrorCode SendCAN(int arbId, const uint64_t & data, int dataSize, int periodMs);
+	ctre::phoenix::ErrorCode GetTwoParam16(int arbId, short words[2]);
+	ctre::phoenix::ErrorCode GetThreeParam16(int arbId, short words[3]);
+	ctre::phoenix::ErrorCode GetThreeParam16(int arbId, double signals[3], double scalar);
 	int GetThreeFloatAngles(int arbId, double signals[3], double scalar);
-	CTR_Code GetThreeBoundedAngles(int arbId, double boundedAngles[3]);
-	CTR_Code GetFourParam16(int arbId, double params[4], double scalar);
-	CTR_Code GetThreeParam20(int arbId, double param[3], double scalar);
+	ctre::phoenix::ErrorCode GetThreeBoundedAngles(int arbId, double boundedAngles[3]);
+	ctre::phoenix::ErrorCode GetFourParam16(int arbId, double params[4], double scalar);
+	ctre::phoenix::ErrorCode GetThreeParam20(int arbId, double param[3], double scalar);
 
 	LowLevelPigeonImu::PigeonState GetState(int errCode, const uint64_t & statusFrame);
 	double GetTemp(const uint64_t & statusFrame);

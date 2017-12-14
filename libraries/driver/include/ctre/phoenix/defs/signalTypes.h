@@ -6,13 +6,12 @@ enum{
 	modePosControl = 1,			//!< Demand 24bit position.
 	modeSpeedControl = 2,		//!< Demand is 24 bit speed.
 	modeCurrentControl = 3,		//!< Demand is 24 bit current.
-	//modeVoltageControl = 4,		//!< Demand is 8.8 voltage command.
 	modeSlaveFollower = 5,		//!< Demand is the can node to follow.
 	modeMotionProfile = 6,		//!< Demand is unused,could be used in future. Control6 has everything we want.
 	modeMotionMagic = 7,		//!< Reserved
-	//8
+	motionMagicArc = 8,
 	//9
-	//10
+	motionProfileArc = 10,
 	//11
 	//12
 	//13
@@ -23,25 +22,20 @@ enum{
 };
 
 typedef enum _feedbackDevice_t{
-	kFeedback_DigitalQuadEnc=0,
+	kQuadEncoder = 0,
 	//1
-	kFeedback_AnalogPot=2,
-	kFeedback_AnalogEncoder=3,
-	kFeedback_CountEveryRisingEdge=4,
-	kFeedback_CountEveryFallingEdge=5,
-	kFeedback_CtreMagEncoder_Relative = 6, //!< Cross The Road Electronics Magnetic Encoder in Absolute/PulseWidth Mode
-	kFeedback_CtreMagEncoder_Absolute = 7, //!< Cross The Road Electronics Magnetic Encoder in Relative/Quadrature Mode
-	kFeedback_PosIsPulseWidth=8,
+	kAnalog = 2,
+	//3
+	Tachometer= 4,
+	kPulseWidthEncodedPosition = 8,
 	
-	kFeedback_OtherTalonPos=9,
-	kFeedback_RobotPosition=10,
-	kFeedback_RobotHeading=11,
-	//10
-	//11
-	//12
+	kSensorSum = 9,
+	kSensorDifference = 10,
+	kRemoteSensor0 = 11,
+	kRemoteSensor1 = 12,
 	//13
 	//14
-	kFeedback_RampingPos=15,
+	kSoftwarEmulatedSensor=15,
 }feedbackDevice_t;
 
 typedef enum _MotProf_OutputType_t {
@@ -50,5 +44,44 @@ typedef enum _MotProf_OutputType_t {
 	MotProf_OutputType_Hold,
 	MotProf_OutputType_Invalid,
 }MotProf_OutputType_t;
+
+/**
+ * Saved to limitSwitchForward_Source/limitSwitchReverse_Source
+ */
+typedef enum _LimitSwitchSource_t {
+	LSS_Local=0,
+	LSS_RemoteTalon=1,
+	LSS_RemoteCanif=2,
+	LSS_Deactivated=3,
+}LimitSwitchSource_t;
+
+/**
+ * Saved to limitSwitchForward_normClosedAndDis / limitSwitchReverse_normClosedAndDis
+ */
+typedef enum _LimitSwitchNormClosedAndDis_t {
+	LSNCD_NormallyOpen=0,
+	LSNCD_NormallyClosed=1,
+	LSNCD_NormallyDisabled=2,
+}LimitSwitchNormClosedAndDis_t;
+
+typedef enum _RemoteSensorSource_t {
+	RSS_Off,
+	RSS_RemoteTalonSelSensor,
+	RSS_RemotePigeon_Yaw,
+	RSS_RemotePigeon_Pitch,
+	RSS_RemotePigeon_Roll,
+	RSS_RemoteCanif_Quad,
+	RSS_RemoteCanif_PWM0,
+	RSS_RemoteCanif_PWM1,
+	RSS_RemoteCanif_PWM2,
+	RSS_RemoteCanif_PWM3,
+} RemoteSensorSource_t;
+
+typedef enum _SensorTermOrdinal_t {
+	SensorTermOrdinal_Sum0 = 0,
+	SensorTermOrdinal_Sum1 = 0,
+	SensorTermOrdinal_Diff0 = 0,
+	SensorTermOrdinal_Diff1 = 0,
+}SensorTermOrdinal_t;
 
 #endif // signalTypes__h_

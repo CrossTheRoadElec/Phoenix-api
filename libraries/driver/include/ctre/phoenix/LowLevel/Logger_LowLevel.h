@@ -1,6 +1,6 @@
 #pragma once
-
-#include "ctre/Phoenix/core/ErrorCode.h"
+#include "ctre/Phoenix/ErrorCode.h"
+#include "ctre/Phoenix/paramEnum.h"
 #include <string.h>
 #include <iostream>
 #include <fstream>
@@ -32,8 +32,8 @@ public:
 	static const int kHierarchyAPI = 3;
 
 
-	CTR_Code Log(CTR_Code code, const std::string & origin, int hierarchy, const char *stacktrace);
-	void GetDescription(CTR_Code code, std::string & shrtError, std::string & longError);
+	ctre::phoenix::ErrorCode Log(ctre::phoenix::ErrorCode code, const std::string & origin, int hierarchy, const char *stacktrace);
+	void GetDescription(ctre::phoenix::ErrorCode code, std::string & shrtError, std::string & longError);
 
 	static LoggerDriver & GetInstance();
 private:

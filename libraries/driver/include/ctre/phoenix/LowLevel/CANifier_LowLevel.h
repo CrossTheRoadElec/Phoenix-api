@@ -24,7 +24,8 @@
 #pragma once
 
 #include "Device_LowLevel.h"
-#include "ctre/phoenix/core/ErrorCode.h"
+#include "ctre/Phoenix/ErrorCode.h"
+#include "ctre/Phoenix/paramEnum.h"
 #include <FRC_NetworkCommunication/CANSessionMux.h>  //CAN Comm
 #include <map>
 
@@ -52,17 +53,17 @@ public:
 	
 	explicit LowLevelCANifier(int deviceNumber = 0);
 
-	CTR_Code SetLEDOutput( int  dutyCycle,  int  ledChannel);
-	CTR_Code SetGeneralOutputs( int  outputsBits,  int  isOutputBits);
-	CTR_Code SetGeneralOutput(GeneralPin outputPin, bool bOutputValue, bool bOutputEnable);
-	CTR_Code SetPWMOutput( int  pwmChannel,  int  dutyCycle);
-	CTR_Code EnablePWMOutput( int  pwmChannel,  bool  bEnable);
-	CTR_Code GetGeneralInputs(bool allPins[], uint32_t capacity);
-	CTR_Code GetGeneralInput(GeneralPin inputPin, bool * measuredInput);
-	CTR_Code GetPWMInput( int  pwmChannel,  double dutyCycleAndPeriod[2]);
-	CTR_Code GetLastError();
-	CTR_Code GetBatteryVoltage(double * batteryVoltage);
-	CTR_Code SetLastError(CTR_Code error);
+	ctre::phoenix::ErrorCode SetLEDOutput( int  dutyCycle,  int  ledChannel);
+	ctre::phoenix::ErrorCode SetGeneralOutputs( int  outputsBits,  int  isOutputBits);
+	ctre::phoenix::ErrorCode SetGeneralOutput(GeneralPin outputPin, bool bOutputValue, bool bOutputEnable);
+	ctre::phoenix::ErrorCode SetPWMOutput( int  pwmChannel,  int  dutyCycle);
+	ctre::phoenix::ErrorCode EnablePWMOutput( int  pwmChannel,  bool  bEnable);
+	ctre::phoenix::ErrorCode GetGeneralInputs(bool allPins[], uint32_t capacity);
+	ctre::phoenix::ErrorCode GetGeneralInput(GeneralPin inputPin, bool * measuredInput);
+	ctre::phoenix::ErrorCode GetPWMInput( int  pwmChannel,  double dutyCycleAndPeriod[2]);
+	ctre::phoenix::ErrorCode GetLastError();
+	ctre::phoenix::ErrorCode GetBatteryVoltage(double * batteryVoltage);
+	ctre::phoenix::ErrorCode SetLastError(ctre::phoenix::ErrorCode error);
 
 
 	const static int kMinFirmwareVersionMajor = 0;
@@ -79,7 +80,7 @@ private:
     uint32_t _regLat = 0; //!< Decoded output latch
     uint32_t _regIsOutput = 0; //!< Decoded data direction register
 
-	CTR_Code _lastError = OKAY;
+	ctre::phoenix::ErrorCode _lastError = ctre::phoenix::OKAY;
 
 	void CheckFirm(int minMajor = kMinFirmwareVersionMajor, int minMinor = kMinFirmwareVersionMinor);
 	void EnsurePwmOutputFrameIsTransmitting();

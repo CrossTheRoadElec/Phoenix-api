@@ -1,13 +1,10 @@
 #pragma once
 
 #include <map>
+#include "ctre/Phoenix/ErrorCode.h"
+#include "ctre/Phoenix/paramEnum.h"
 #include "ctre/Phoenix/LowLevel/ResetStats.h"
 #include <FRC_NetworkCommunication/CANSessionMux.h>  // tCANStreamMessage
-/* forward proto's */
-enum ErrorCode
-: int32_t;
-enum ParamEnum
-: uint32_t;
 
 class Device_LowLevel {
 
@@ -15,15 +12,15 @@ protected:
 	int32_t _baseArbId;
 	/** child class has to provide a way to enable/disable firm status */
 	virtual void EnableFirmStatusFrame(bool enable) = 0;
-	virtual ErrorCode SetLastError(ErrorCode enable) = 0;
+	virtual ctre::phoenix::ErrorCode SetLastError(ctre::phoenix::ErrorCode enable) = 0;
 
 	/**
 	 * Change the periodMs of a TALON's status frame.  See kStatusFrame_* enums for
 	 * what's available.
 	 */
-	ErrorCode SetStatusFramePeriod_(int32_t statusArbID, int32_t periodMs,
+	ctre::phoenix::ErrorCode SetStatusFramePeriod_(int32_t statusArbID, int32_t periodMs,
 			int32_t timeoutMs);
-	ErrorCode GetStatusFramePeriod_(int32_t statusArbID, int32_t &periodMs,
+	ctre::phoenix::ErrorCode GetStatusFramePeriod_(int32_t statusArbID, int32_t &periodMs,
 			int32_t timeoutMs);
 
 	int32_t GetStartupStatus();
@@ -31,14 +28,14 @@ protected:
 	void CheckFirm(int minMajor, int minMinor, const std::string & origin);
 	void CheckFirm(int minMajor, int minMinor, const char * origin);
 
-	ErrorCode ConfigSetParameter(ParamEnum paramEnum, int32_t value,
+	ctre::phoenix::ErrorCode ConfigSetParameter(ctre::phoenix::ParamEnum paramEnum, int32_t value,
 			uint8_t subValue, int32_t ordinal, int32_t timeoutMs);
 
-	ErrorCode ConfigGetParameter(ParamEnum paramEnum, int32_t valueToSend,
+	ctre::phoenix::ErrorCode ConfigGetParameter(ctre::phoenix::ParamEnum paramEnum, int32_t valueToSend,
 			int32_t & valueReceived, uint8_t subValue, int32_t ordinal,
 			int32_t timeoutMs);
 
-	ErrorCode ConfigGetParameter(ParamEnum paramEnum, int32_t &value,
+	ctre::phoenix::ErrorCode ConfigGetParameter(ctre::phoenix::ParamEnum paramEnum, int32_t &value,
 			int32_t ordinal, int32_t timeoutMs);
 private:
 	int32_t _deviceNumber;
@@ -77,10 +74,10 @@ private:
 	void ProcessStreamMessages();
 
 
-	ErrorCode RequestParam(ParamEnum paramEnum, int32_t value, uint8_t subValue,
+	ctre::phoenix::ErrorCode RequestParam(ctre::phoenix::ParamEnum paramEnum, int32_t value, uint8_t subValue,
 			int32_t ordinal);
 
-	ErrorCode PollForParamResponse(ParamEnum paramEnum, int32_t & value, int32_t & subValue, int32_t & ordinal);
+	ctre::phoenix::ErrorCode PollForParamResponse(ctre::phoenix::ParamEnum paramEnum, int32_t & value, int32_t & subValue, int32_t & ordinal);
 
 public:
 
@@ -91,27 +88,27 @@ public:
 	virtual ~Device_LowLevel() {}
 
 	int GetDeviceNumber();
-	ErrorCode GetDeviceNumber(int & deviceNumber);
+	ctre::phoenix::ErrorCode GetDeviceNumber(int & deviceNumber);
 	int32_t GetFirmStatus();
 
-	ErrorCode GetResetCount(int & param);
-	ErrorCode GetResetFlags(int &param);
+	ctre::phoenix::ErrorCode GetResetCount(int & param);
+	ctre::phoenix::ErrorCode GetResetFlags(int &param);
 	/** return -1 if not available, return 0xXXYY format if available */
-	ErrorCode GetFirmwareVersion(int &param);
+	ctre::phoenix::ErrorCode GetFirmwareVersion(int &param);
 	int GetFirmwareVersion();
 	/**
 	 * @return true iff a reset has occured since last call.
 	 */
-	ErrorCode HasResetOccurred(bool & param);
+	ctre::phoenix::ErrorCode HasResetOccurred(bool & param);
 	bool HasResetOccurred();
 
-	ErrorCode ConfigSetParameter(ParamEnum paramEnum, double value,
+	ctre::phoenix::ErrorCode ConfigSetParameter(ctre::phoenix::ParamEnum paramEnum, double value,
 			uint8_t subValue, int32_t ordinal, int32_t timeoutMs);
 
-	ErrorCode ConfigGetParameter(ParamEnum paramEnum, double &value,
+	ctre::phoenix::ErrorCode ConfigGetParameter(ctre::phoenix::ParamEnum paramEnum, double &value,
 			int32_t ordinal, int32_t timeoutMs);
 
-	ErrorCode ConfigSetCustomParam(int value, int paramIndex, int timeoutMs);
-	ErrorCode ConfigGetCustomParam(int & value, int paramIndex, int timeoutMs);
+	ctre::phoenix::ErrorCode ConfigSetCustomParam(int value, int paramIndex, int timeoutMs);
+	ctre::phoenix::ErrorCode ConfigGetCustomParam(int & value, int paramIndex, int timeoutMs);
 
 };

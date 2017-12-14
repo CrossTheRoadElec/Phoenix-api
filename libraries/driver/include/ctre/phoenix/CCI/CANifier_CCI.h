@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ctre/Phoenix/core/ErrorCode.h"
+#include "ctre/Phoenix/ErrorCode.h"
 #include <set>
 
 namespace CANifier_CCI{
@@ -21,19 +21,19 @@ namespace CANifier_CCI{
 
 extern "C"{
 	void *c_CANifier_Create1(int deviceNumber);
-	CTR_Code c_CANifier_SetLEDOutput(void *handle,  uint32_t  dutyCycle,  uint32_t  ledChannel);
-	CTR_Code c_CANifier_SetGeneralOutputs(void *handle,  uint32_t  outputsBits,  uint32_t  isOutputBits);
-	CTR_Code c_CANifier_SetGeneralOutput(void *handle,  uint32_t  outputPin,  bool  outputValue,  bool  outputEnable);
-	CTR_Code c_CANifier_SetPWMOutput(void *handle,  uint32_t  pwmChannel,  uint32_t  dutyCycle);
-	CTR_Code c_CANifier_EnablePWMOutput(void *handle, uint32_t pwmChannel, bool bEnable);
-	CTR_Code c_CANifier_GetGeneralInputs(void *handle, bool allPins[], uint32_t capacity);
-	CTR_Code c_CANifier_GetGeneralInput(void *handle, uint32_t inputPin, bool * measuredInput);
-	CTR_Code c_CANifier_GetPWMInput(void *handle,  uint32_t  pwmChannel,  double dutyCycleAndPeriod [2]);
-	CTR_Code c_CANifier_GetLastError(void *handle);
-	CTR_Code c_CANifier_GetBatteryVoltage(void *handle, double * batteryVoltage);
+	ctre::phoenix::ErrorCode c_CANifier_SetLEDOutput(void *handle,  uint32_t  dutyCycle,  uint32_t  ledChannel);
+	ctre::phoenix::ErrorCode c_CANifier_SetGeneralOutputs(void *handle,  uint32_t  outputsBits,  uint32_t  isOutputBits);
+	ctre::phoenix::ErrorCode c_CANifier_SetGeneralOutput(void *handle,  uint32_t  outputPin,  bool  outputValue,  bool  outputEnable);
+	ctre::phoenix::ErrorCode c_CANifier_SetPWMOutput(void *handle,  uint32_t  pwmChannel,  uint32_t  dutyCycle);
+	ctre::phoenix::ErrorCode c_CANifier_EnablePWMOutput(void *handle, uint32_t pwmChannel, bool bEnable);
+	ctre::phoenix::ErrorCode c_CANifier_GetGeneralInputs(void *handle, bool allPins[], uint32_t capacity);
+	ctre::phoenix::ErrorCode c_CANifier_GetGeneralInput(void *handle, uint32_t inputPin, bool * measuredInput);
+	ctre::phoenix::ErrorCode c_CANifier_GetPWMInput(void *handle,  uint32_t  pwmChannel,  double dutyCycleAndPeriod [2]);
+	ctre::phoenix::ErrorCode c_CANifier_GetLastError(void *handle);
+	ctre::phoenix::ErrorCode c_CANifier_GetBatteryVoltage(void *handle, double * batteryVoltage);
 	void c_CANifier_SetLastError(void *handle, int error);
-	CTR_Code c_CANifier_ConfigSetParameter(void *handle, int param, double value, int subValue, int ordinal, int timeoutMs);
-	CTR_Code c_CANifier_ConfigGetParameter(void *handle, int param, double *value, int ordinal, int timeoutMs);
-	CTR_Code c_CANifier_ConfigSetCustomParam(void *handle, int newValue, int paramIndex, int timeoutMs);
-	CTR_Code c_CANifier_ConfigGetCustomParam(void *handle, int *readValue, int paramIndex, int timoutMs);
+	ctre::phoenix::ErrorCode c_CANifier_ConfigSetParameter(void *handle, int param, double value, int subValue, int ordinal, int timeoutMs);
+	ctre::phoenix::ErrorCode c_CANifier_ConfigGetParameter(void *handle, int param, double *value, int ordinal, int timeoutMs);
+	ctre::phoenix::ErrorCode c_CANifier_ConfigSetCustomParam(void *handle, int newValue, int paramIndex, int timeoutMs);
+	ctre::phoenix::ErrorCode c_CANifier_ConfigGetCustomParam(void *handle, int *readValue, int paramIndex, int timoutMs);
 }

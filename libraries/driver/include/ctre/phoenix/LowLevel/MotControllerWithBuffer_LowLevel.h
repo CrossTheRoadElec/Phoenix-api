@@ -7,12 +7,6 @@
 #include <stdint.h>
 #include <mutex>
 
-/* forward proto's */
-enum ErrorCode
-: int32_t;
-enum ParamEnum
-: uint32_t;
-
 struct _Control_6_MotProfAddTrajPoint_t;
 
 namespace ctre {
@@ -55,12 +49,12 @@ class MotControllerWithBuffer_LowLevel: public MotController_LowLevel {
 
 public:
 	MotControllerWithBuffer_LowLevel(int baseArbId);
-	virtual ErrorCode ClearMotionProfileTrajectories();
-	virtual ErrorCode GetMotionProfileTopLevelBufferCount(int & count);
-	virtual ErrorCode PushMotionProfileTrajectory(double position, double velocity, double headingDeg, int profileSlotSelect, bool isLastPoint, bool zeroPos);
-	virtual ErrorCode IsMotionProfileTopLevelBufferFull(bool & param);
-	virtual ErrorCode ProcessMotionProfileBuffer();
-	virtual ErrorCode GetMotionProfileStatus(uint32_t &topBufferRem,
+	virtual ctre::phoenix::ErrorCode ClearMotionProfileTrajectories();
+	virtual ctre::phoenix::ErrorCode GetMotionProfileTopLevelBufferCount(int & count);
+	virtual ctre::phoenix::ErrorCode PushMotionProfileTrajectory(double position, double velocity, double headingDeg, int profileSlotSelect, bool isLastPoint, bool zeroPos);
+	virtual ctre::phoenix::ErrorCode IsMotionProfileTopLevelBufferFull(bool & param);
+	virtual ctre::phoenix::ErrorCode ProcessMotionProfileBuffer();
+	virtual ctre::phoenix::ErrorCode GetMotionProfileStatus(uint32_t &topBufferRem,
 			uint32_t &topBufferCnt,
 			uint32_t &btmBufferCnt,
 			bool &hasUnderrun,
@@ -69,9 +63,9 @@ public:
 			bool &isLast,
 			int &profileSlotSelect,
 			int &outputEnable);
-	virtual ErrorCode ClearMotionProfileHasUnderrun(int timeoutMs);
-	virtual ErrorCode ChangeMotionControlFramePeriod(int periodMs);
-	virtual ErrorCode SetMotionProfileTrajectoryPeriod(int durationMs, int timeoutMs);
+	virtual ctre::phoenix::ErrorCode ClearMotionProfileHasUnderrun(int timeoutMs);
+	virtual ctre::phoenix::ErrorCode ChangeMotionControlFramePeriod(int periodMs);
+	virtual ctre::phoenix::ErrorCode SetMotionProfileTrajectoryPeriod(int durationMs, int timeoutMs);
 private:
 
 #if 1

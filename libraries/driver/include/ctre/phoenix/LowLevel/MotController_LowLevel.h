@@ -1,8 +1,12 @@
 #pragma once
 
+#include "ctre/Phoenix/ErrorCode.h"
+#include "ctre/Phoenix/paramEnum.h"
 #include "ctre/Phoenix/LowLevel/Device_LowLevel.h"
 #include "ctre/Phoenix/MotorControl/FeedbackDevice.h"
 #include "ctre/Phoenix/MotorControl/ControlFrame.h"
+#include "ctre/Phoenix/MotorControl/SensorTerm.h"
+#include "ctre/Phoenix/MotorControl/RemoteSensorSource.h"
 #include "ctre/Phoenix/MotorControl/Faults.h"
 #include "ctre/Phoenix/MotorControl/StickyFaults.h"
 #include "ctre/Phoenix/MotorControl/NeutralMode.h"
@@ -12,12 +16,6 @@
 #include "ctre/Phoenix/MotorControl/VelocityMeasPeriod.h"
 #include <string>
 #include <stdint.h>
-
-/* forward proto's */
-enum ErrorCode
-: int32_t;
-enum ParamEnum
-: uint32_t;
 
 namespace ctre {
 namespace phoenix {
@@ -103,12 +101,13 @@ public:
 	ErrorCode GetOutputCurrent(double & param);
 	ErrorCode GetTemperature(double & param);
 	ErrorCode ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice feedbackDevice,
-			int timeoutMs);
-	ErrorCode ConfigRemoteFeedbackFilter(int arbId, int peripheralIdx,
-			int reserved, int timeoutMs);
-	ErrorCode GetSelectedSensorPosition(int & param);
-	ErrorCode GetSelectedSensorVelocity(int & param);
-	ErrorCode SetSelectedSensorPosition(int sensorPos, int timeoutMs);
+			int pidIdx, int timeoutMs);
+	ErrorCode ConfigRemoteFeedbackFilter(int deviceID,
+			RemoteSensorSource remoteSensorSource, int remoteOrdinal, int timeoutMs);
+	ErrorCode ConfigSensorTerm(SensorTerm sensorTerm, FeedbackDevice feedbackDevice, int timeoutMs);
+	ErrorCode GetSelectedSensorPosition(int & param, int pidIdx);
+	ErrorCode GetSelectedSensorVelocity(int & param, int pidIdx);
+	ErrorCode SetSelectedSensorPosition(int sensorPos, int pidIdx, int timeoutMs);
 	ErrorCode SetControlFramePeriod(
 			ctre::phoenix::motorcontrol::ControlFrame frame, int periodMs);
 	ErrorCode SetStatusFramePeriod(
@@ -156,7 +155,6 @@ public:
 	ErrorCode GetClosedLoopError(int & error, int pidIdx);
 	ErrorCode GetIntegralAccumulator(double & iaccum, int pidIdx);
 	ErrorCode GetErrorDerivative(double & derivError, int pidIdx);
-	ErrorCode SelectProfileSlot(int slotIdx);
 	ErrorCode SelectProfileSlot(int slotIdx, int pidIdx);
 
 	ErrorCode GetFaults(ctre::phoenix::motorcontrol::Faults & toFill);
@@ -181,7 +179,7 @@ public:
 	ErrorCode ConfigMotionCruiseVelocity(int sensorUnitsPer100ms, int timeoutMs);
 	ErrorCode ConfigMotionAcceleration(int sensorUnitsPer100msPerSec, int timeoutMs);
 
-	ErrorCode GetClosedLoopTarget(int & value);
+	ErrorCode GetClosedLoopTarget(int & value, int pidIdx);
 	ErrorCode GetActiveTrajectoryPosition(int & sensorUnits);
 	ErrorCode GetActiveTrajectoryVelocity(int & sensorUnitsPer100ms);
 	ErrorCode GetActiveTrajectoryHeading(double & headingDeg);

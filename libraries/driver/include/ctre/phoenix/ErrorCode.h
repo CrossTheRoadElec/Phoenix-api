@@ -1,6 +1,9 @@
 #pragma once
 #include <stdint.h>
 
+namespace ctre {
+namespace phoenix {
+
 enum ErrorCode
 
 	: int32_t
@@ -69,3 +72,5 @@ enum ErrorCode
 
 typedef ErrorCode CTR_Code;
 
+} // namespace phoenix
+} // namespace ctre

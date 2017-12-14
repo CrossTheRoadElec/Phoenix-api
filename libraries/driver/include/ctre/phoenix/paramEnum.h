@@ -1,6 +1,9 @@
 #pragma once
 #include <stdint.h>
 
+namespace ctre {
+namespace phoenix {
+
 /**
  * Signal enumeration for generic signal access.
  */
@@ -9,14 +12,17 @@ enum ParamEnum
 	{
 	eOnBoot_BrakeMode = 31,
 	eQuadFilterEn = 91,
-
+	eQuadIdxPolarity=108,
+	eClearPositionOnIdx = 100,
     eMotionProfileHasUnderrunErr = 119,
+	eClearPosOnLimitF = 144,
+	eClearPosOnLimitR = 145,
 
 	eStatusFramePeriod = 300,
 	eOpenloopRamp = 301,
 	eClosedloopRamp = 302,
 	eNeutralDeadband = 303,
-	//eClosedloopDeadband = 304,
+
 	ePeakPosOutput = 305,
 	eNominalPosOutput = 306,
 	ePeakNegOutput = 307,
@@ -28,7 +34,7 @@ enum ParamEnum
 	eProfileParamSlot_F = 313,
 	eProfileParamSlot_IZone = 314,
 	eProfileParamSlot_AllowableErr = 315,
-	eProfileParamSlot_MaxIAccum = 316,
+    eProfileParamSlot_MaxIAccum = 316,
 
 	eClearPositionOnLimitF = 320,
 	eClearPositionOnLimitR = 321,
@@ -37,9 +43,13 @@ enum ParamEnum
 	eSampleVelocityPeriod = 325,
 	eSampleVelocityWindow = 326,
 
-	eFeedbackSensorType = 330,
+	eFeedbackSensorType = 330, // feedbackDevice_t
 	eSelectedSensorPosition = 331,
 	eFeedbackNotContinuous = 332,
+	eRemoteSensorSource = 333, // RemoteSensorSource_t
+	eRemoteSensorDeviceID = 334, // [0,62] DeviceID
+	eSensorTerm = 335, // feedbackDevice_t (ordinal is the register)
+	eRemoteSensorClosedLoopDisableNeutralOnLOS = 336,
 
 	eForwardSoftLimitThreshold = 340,
 	eReverseSoftLimitThreshold = 341,
@@ -66,21 +76,21 @@ enum ParamEnum
 	eMotMag_Accel = 410,
 	eMotMag_VelCruise = 411,
 
-	eLimitSwitchSource = 421, // ordinal (fwd=0,reverse=1), 0-local, 1-RemoteTalon, 2-RemoteCanifer
-	eLimitSwitchNormClosedAndDis = 422, // ordinal (fwd=0,reverse=1). 0-Normally Open, 1-Normally Closed, 2- Disabled (web-selectable)
+	eLimitSwitchSource = 421, // ordinal (fwd=0,reverse=1), @see LimitSwitchSource_t
+	eLimitSwitchNormClosedAndDis = 422, // ordinal (fwd=0,reverse=1). @see LimitSwitchNormClosedAndDis_t
 	eLimitSwitchDisableNeutralOnLOS = 423,
 	eLimitSwitchRemoteDevID = 424,
 
-	eYawOffset = 160,
-	eCompassOffset = 161,
-	eBetaGain = 162,
-	eReserved163 = 163,
-	eGyroNoMotionCal = 164,
-	eEnterCalibration = 165,
-	eFusedHeadingOffset = 166,
-	eStatusFrameRate = 169,
-	eAccumZ = 170,
-	eTempCompDisable = 171,
+	eYawOffset	=160,
+	eCompassOffset	= 161,
+	eBetaGain =	162,
+	eEnableCompassFusion =	163,
+	eGyroNoMotionCal =	164,
+	eEnterCalibration =	165,
+	eFusedHeadingOffset	= 166,
+	eStatusFrameRate	= 169,
+	eAccumZ	= 170,
+	eTempCompDisable	= 171,
 	eMotionMeas_tap_threshX = 172,
 	eMotionMeas_tap_threshY = 173,
 	eMotionMeas_tap_threshZ = 174,
@@ -91,3 +101,6 @@ enum ParamEnum
 	eMotionMeas_shake_reject_time = 179,
 	eMotionMeas_shake_reject_timeout = 180,
 };
+
+}
+}
