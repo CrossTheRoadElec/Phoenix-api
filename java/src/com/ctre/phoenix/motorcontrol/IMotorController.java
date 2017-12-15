@@ -2,6 +2,10 @@ package com.ctre.phoenix.motorcontrol;
 
 import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.ParamEnum;
+import com.ctre.phoenix.motion.MotionProfileStatus;
+import com.ctre.phoenix.motion.TrajectoryPoint;
+
+import edu.wpi.first.wpilibj.SpeedController;
 
 public interface IMotorController
 		extends com.ctre.phoenix.signals.IOutputSignal, com.ctre.phoenix.signals.IInvertable, IFollower {
@@ -54,15 +58,20 @@ public interface IMotorController
 
 	public double getTemperature() ;
 
-	//------ sensor selection ----------//
-	public ErrorCode configSelectedFeedbackSensor(RemoteFeedbackDevice feedbackDevice, int timeoutMs);
+	// ------ sensor selection ----------//
+	public ErrorCode configSelectedFeedbackSensor(RemoteFeedbackDevice feedbackDevice, int pidIdx, int timeoutMs);
+
+	public ErrorCode configRemoteFeedbackFilter(int deviceID, RemoteSensorSource remoteSensorSource, int remoteOrdinal,
+			int timeoutMs);
+
+	public ErrorCode configSensorTerm(SensorTerm sensorTerm, FeedbackDevice feedbackDevice, int timeoutMs);
 
 	// ------- sensor status --------- //
-	public int getSelectedSensorPosition();
+	public int getSelectedSensorPosition(int pidIdx);
 
-	public int getSelectedSensorVelocity();
+	public int getSelectedSensorVelocity(int pidIdx);
 
-	public ErrorCode setSelectedSensorPosition(int sensorPos, int timeoutMs);
+	public ErrorCode setSelectedSensorPosition(int sensorPos, int pidIdx, int timeoutMs);
 
 	// ------ status frame period changes ----------//
 	public ErrorCode setControlFramePeriod(ControlFrame frame, int periodMs);
@@ -111,15 +120,24 @@ public interface IMotorController
 
 	public ErrorCode configMaxIntegralAccumulator(int slotIdx, double iaccum, int timeoutMs);
 
-	public ErrorCode setIntegralAccumulator(double iaccum, int timeoutMs);
+	//------ Close loop State ----------//
+	public ErrorCode setIntegralAccumulator(double iaccum, int pidIdx, int timeoutMs);
 
-	public int getClosedLoopError();
+	public int getClosedLoopError(int pidIdx);
 
-	public double getIntegralAccumulator() ;
+	public double getIntegralAccumulator(int pidIdx) ;
 
-	public double getErrorDerivative() ;
+	public double getErrorDerivative(int pidIdx) ;
 
-	public void selectProfileSlot(int slotIdx);
+	public void selectProfileSlot(int slotIdx, int pidIdx);
+
+	public int getClosedLoopTarget(int pidIdx);
+
+	public int getActiveTrajectoryPosition();
+
+	public int getActiveTrajectoryVelocity();
+
+	public double getActiveTrajectoryHeading();
 
 	// ------ Motion Profile Settings used in Motion Magic and Motion Profile
 	public ErrorCode configMotionCruiseVelocity(int sensorUnitsPer100ms, int timeoutMs);
@@ -127,15 +145,14 @@ public interface IMotorController
 	public ErrorCode configMotionAcceleration(int sensorUnitsPer100msPerSec, int timeoutMs);
 
 	// ------ Motion Profile Buffer ----------//
-	// public void ClearMotionProfileTrajectories() ;
-	// public int getMotionProfileTopLevelBufferCount() ;
-	// public ErrorCode PushMotionProfileTrajectory(
-	// CTRE::Motion::TrajectoryPoint trajPt) ;
-	// public boolean isMotionProfileTopLevelBufferFull() ;
-	// public void ProcessMotionProfileBuffer() ;
-	// public void GetMotionProfileStatus(
-	// CTRE::Motion::MotionProfileStatus statusToFill) ;
-	// public void ClearMotionProfileHasUnderrun(int timeoutMs) ;
+	public ErrorCode clearMotionProfileTrajectories();
+	public int getMotionProfileTopLevelBufferCount();
+	public ErrorCode pushMotionProfileTrajectory(TrajectoryPoint trajPt);
+	public boolean isMotionProfileTopLevelBufferFull();
+	public void processMotionProfileBuffer();
+	public ErrorCode getMotionProfileStatus(MotionProfileStatus statusToFill);
+	public ErrorCode clearMotionProfileHasUnderrun(int timeoutMs);
+	public ErrorCode changeMotionControlFramePeriod(int periodMs);
 
 	// ------ error ----------//
 	public ErrorCode getLastError();
@@ -168,4 +185,7 @@ public interface IMotorController
 
 	// ----- Follower ------//
 	/* in parent interface */
+
+	// ------ WPILIB ------//
+	SpeedController getWPILIB_SpeedController();
 }

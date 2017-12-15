@@ -1,6 +1,5 @@
 package com.ctre.phoenix.motorcontrol.can;
 import com.ctre.phoenix.ErrorCode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.IMotorControllerEnhanced;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
@@ -13,10 +12,6 @@ public class TalonSRX extends com.ctre.phoenix.motorcontrol.can.BaseMotorControl
 
 	public TalonSRX(int deviceNumber) {
 		super(deviceNumber | 0x02040000);
-	}
-
-	public ErrorCode configSelectedFeedbackSensor(FeedbackDevice feedbackDevice, int timeoutMs) {
-		return super.configSelectedFeedbackSensor(feedbackDevice, timeoutMs);
 	}
 
 	public ErrorCode setStatusFramePeriod(StatusFrameEnhanced frame, int periodMs, int timeoutMs) {
@@ -100,5 +95,4 @@ public class TalonSRX extends com.ctre.phoenix.motorcontrol.can.BaseMotorControl
 	public void enableCurrentLimit(boolean enable) {
 		MotControllerJNI.EnableCurrentLimit(m_handle, enable);
 	}
-
 }

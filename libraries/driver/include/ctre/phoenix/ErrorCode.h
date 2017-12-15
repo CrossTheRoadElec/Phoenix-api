@@ -5,10 +5,10 @@ namespace ctre {
 namespace phoenix {
 
 enum ErrorCode
-
-	: int32_t
-	{
-		OK = 0, OKAY = 0,		//!< No Error - Function executed as expected
+: int32_t
+{
+	OK = 0, 
+	OKAY = 0,		//!< No Error - Function executed as expected
 
 	//CAN-Related
 	CAN_MSG_STALE = 1,
@@ -69,8 +69,6 @@ enum ErrorCode
 	FirmVersionCouldNotBeRetrieved = 103,
 
 };
-
-typedef ErrorCode CTR_Code;
 
 } // namespace phoenix
 } // namespace ctre

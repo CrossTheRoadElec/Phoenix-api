@@ -10,10 +10,12 @@ public enum FeedbackDevice {
 
 	SensorSum(9),
 	SensorDifference(10),
-	Inertial(11),
-	RemoteSensor(12),
-	CurrentDrawMilliamperes(14),
-	SoftwarEmulatedSensor(15);
+	RemoteSensor0(11),
+	RemoteSensor1(12),
+	SoftwareEmulatedSensor(15),
+
+	CTRE_MagEncoder_Absolute(8),
+	CTRE_MagEncoder_Relative(0);
 	
 	public final int value;
 	FeedbackDevice(int initValue)

@@ -57,15 +57,15 @@ public:
 	};
 
 	CANifier(int deviceNumber);
-	CTR_Code SetLEDOutput(double percentOutput, LEDChannel ledChannel);
-	CTR_Code SetGeneralOutput(GeneralPin outputPin, bool outputValue, bool outputEnable);
-	CTR_Code SetGeneralOutputs(int outputBits, int isOutputBits);
-	CTR_Code GetGeneralInputs(PinValues &allPins);
+	ErrorCode SetLEDOutput(double percentOutput, LEDChannel ledChannel);
+	ErrorCode SetGeneralOutput(GeneralPin outputPin, bool outputValue, bool outputEnable);
+	ErrorCode SetGeneralOutputs(int outputBits, int isOutputBits);
+	ErrorCode GetGeneralInputs(PinValues &allPins);
 	bool GetGeneralInput(GeneralPin inputPin);
-	CTR_Code GetLastError();
-	CTR_Code SetPWMOutput(int pwmChannel, double dutyCycle);
-	CTR_Code EnablePWMOutput(int pwmChannel, bool bEnable);
-	CTR_Code GetPWMInput(PWMChannel pwmChannel, double dutyCycleAndPeriod[]);
+	ErrorCode GetLastError();
+	ErrorCode SetPWMOutput(int pwmChannel, double dutyCycle);
+	ErrorCode EnablePWMOutput(int pwmChannel, bool bEnable);
+	ErrorCode GetPWMInput(PWMChannel pwmChannel, double dutyCycleAndPeriod[]);
 
 	//------ Custom Persistent Params ----------//
 	ErrorCode ConfigSetCustomParam(int newValue, int paramIndex,

@@ -1,14 +1,11 @@
 package com.ctre.phoenix.motorcontrol;
 
 public enum LimitSwitchSource {
-	Disabled_(0),
-	FeedbackConnector_(1),
-	RemoteTalonSRX_(2),
-	RemoteCANifier_(3);
-	
+	FeedbackConnector(0), RemoteTalonSRX(1), RemoteCANifier(2), Deactivated(3);
+
 	public int value;
-	LimitSwitchSource(int value)
-	{
+
+	LimitSwitchSource(int value) {
 		this.value = value;
 	}
 };

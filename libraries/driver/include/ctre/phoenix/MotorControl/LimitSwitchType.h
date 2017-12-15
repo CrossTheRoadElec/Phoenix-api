@@ -23,31 +23,6 @@ enum LimitSwitchNormal {
 	LimitSwitchNormal_Disabled = 2
 };
 
-class IHasRemoteLimitSwitches {
-public:
-	virtual ~IHasRemoteLimitSwitches() {
-	}
-	virtual ErrorCode ConfigForwardLimitSwitchSource(
-			RemoteLimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
-			int deviceID)=0;
-	virtual ErrorCode ConfigReverseLimitSwitchSource(
-			RemoteLimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
-			int deviceID)=0;
-
-	virtual void EnableLimitSwitch(bool forwardEnable, bool reverseEnable)=0;
-};
-
-class IHasLimitSwitches {
-public:
-	virtual ~IHasLimitSwitches() {
-	}
-	virtual ErrorCode ConfigForwardLimitSwitchSource(LimitSwitchSource type,
-			LimitSwitchNormal normalOpenOrClose) = 0;
-	virtual ErrorCode ConfigReverseLimitSwitchSource(LimitSwitchSource type,
-			LimitSwitchNormal normalOpenOrClose) = 0;
-	virtual void EnableLimitSwitch(bool forwardEnable, bool reverseEnable) = 0;
-};
-
 class LimitSwitchRoutines {
 public:
 	static LimitSwitchSource Promote(

@@ -1,26 +1,17 @@
 package com.ctre.phoenix.motorcontrol;
 
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.ErrorCode;
+public enum RemoteFeedbackDevice {
+	None(-1),
 
-public class RemoteFeedbackDevice {
+	SensorSum(9),
+	SensorDifference(10),
+	RemoteSensor0(11),
+	RemoteSensor1(12),
+	SoftwareEmulatedSensor(15);
 	
-	public FeedbackDevice _type;
-	
-	public int _peripheralIndex;
-	public int _reserved;
-	public int _arbId;
-	
-	public RemoteFeedbackDevice(int baseId, FeedbackDevice type)
+	public final int value;
+	RemoteFeedbackDevice(int initValue)
 	{
-		_type = type;
-		_peripheralIndex = 0;
-		_reserved = 2;
-		_arbId = baseId;
+		this.value = initValue;
 	}
-	
-	ErrorCode setPosition(double position, int timeoutMs)
-	{
-		return ErrorCode.FeatureNotSupported;
-	}
-}
+};

@@ -64,6 +64,8 @@ public:
 	virtual void Set(ControlMode mode, double demand0, double demand1);
 	virtual void NeutralOutput();
 	virtual void SetNeutralMode(NeutralMode neutralMode);
+	void EnableHeadingHold(bool enable);
+	void SelectDemandType(bool value);
 	//------ Invert behavior ----------//
 	virtual void SetSensorPhase(bool PhaseSensor);
 	virtual void SetInverted(bool invert);
@@ -94,9 +96,9 @@ public:
 	virtual double GetTemperature();
 	//------ sensor selection ----------//
 	virtual ctre::phoenix::ErrorCode ConfigSelectedFeedbackSensor(
-			RemoteFeedbackDevice feedbackDevice, int pidxIdx, int timeoutMs);
+			RemoteFeedbackDevice feedbackDevice, int pidIdx, int timeoutMs);
 	virtual ctre::phoenix::ErrorCode ConfigSelectedFeedbackSensor(
-			FeedbackDevice feedbackDevice, int pidxIdx, int timeoutMs);
+			FeedbackDevice feedbackDevice, int pidIdx, int timeoutMs);
 	virtual ctre::phoenix::ErrorCode ConfigRemoteFeedbackFilter(int deviceID,
 			RemoteSensorSource remoteSensorSource, int remoteOrdinal,
 			int timeoutMs);

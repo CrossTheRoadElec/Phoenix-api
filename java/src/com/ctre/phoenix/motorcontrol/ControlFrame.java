@@ -13,9 +13,3 @@ public enum ControlFrame
 		this.value = initValue;
 	}
 };
-
-// class controlframeroutines{
-	// public static controlframeenhanced promote(controlframe controlframe){
-		// return (controlframeenhanced)controlframe;
-	// }
-// }

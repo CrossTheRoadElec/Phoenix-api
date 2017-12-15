@@ -70,7 +70,7 @@ public:
 
 	//------ sensor selection ----------//
 	virtual ErrorCode ConfigSelectedFeedbackSensor(
-			RemoteFeedbackDevice feedbackDevice, int pidxIdx, int timeoutMs) = 0;
+			RemoteFeedbackDevice feedbackDevice, int pidIdx, int timeoutMs) = 0;
 	virtual ErrorCode ConfigRemoteFeedbackFilter(int deviceID,
 			RemoteSensorSource remoteSensorSource, int remoteOrdinal,
 			int timeoutMs)= 0;

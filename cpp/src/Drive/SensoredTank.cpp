@@ -67,19 +67,19 @@
 //
 //    if (wheelRadius < 0.01)
 //    {
-//		CTRLogger::Log(CTR_Code::WheelRadiusTooSmall, "Sensored Tank");
+//		CTRLogger::Log(ErrorCode::WheelRadiusTooSmall, "Sensored Tank");
 //        return 0;
 //    }
 //
 //    if (ticksPerRev == 0)
 //    {
-//		CTRLogger::Log(CTR_Code::TicksPerRevZero, "Sensored Tank");
+//		CTRLogger::Log(ErrorCode::TicksPerRevZero, "Sensored Tank");
 //        return 0;
 //    }
 //
 //    if (distanceBetweenWheels < 0.01)
 //    {
-//		CTRLogger::Log(CTR_Code::DistanceBetweenWheelsTooSmall, "Sensored Tank");
+//		CTRLogger::Log(ErrorCode::DistanceBetweenWheelsTooSmall, "Sensored Tank");
 //        return 0;
 //    }
 //

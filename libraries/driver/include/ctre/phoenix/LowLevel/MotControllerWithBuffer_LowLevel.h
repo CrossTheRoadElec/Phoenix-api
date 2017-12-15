@@ -54,9 +54,9 @@ public:
 	virtual ctre::phoenix::ErrorCode PushMotionProfileTrajectory(double position, double velocity, double headingDeg, int profileSlotSelect, bool isLastPoint, bool zeroPos);
 	virtual ctre::phoenix::ErrorCode IsMotionProfileTopLevelBufferFull(bool & param);
 	virtual ctre::phoenix::ErrorCode ProcessMotionProfileBuffer();
-	virtual ctre::phoenix::ErrorCode GetMotionProfileStatus(uint32_t &topBufferRem,
-			uint32_t &topBufferCnt,
-			uint32_t &btmBufferCnt,
+	virtual ctre::phoenix::ErrorCode GetMotionProfileStatus(int &topBufferRem,
+			int &topBufferCnt,
+			int &btmBufferCnt,
 			bool &hasUnderrun,
 			bool &isUnderrun,
 			bool &activePointValid,

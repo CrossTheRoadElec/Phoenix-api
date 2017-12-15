@@ -10,11 +10,20 @@ TalonSRX::TalonSRX(int deviceNumber) :
 }
 
 ctre::phoenix::ErrorCode TalonSRX::ConfigSelectedFeedbackSensor(FeedbackDevice feedbackDevice,
-		int pidxIdx, int timeoutMs) {
+		int pidIdx, int timeoutMs) {
 	return BaseMotorController::ConfigSelectedFeedbackSensor(feedbackDevice,
-			pidxIdx, timeoutMs);
+			pidIdx, timeoutMs);
+}
+ctre::phoenix::ErrorCode TalonSRX::ConfigSelectedFeedbackSensor(RemoteFeedbackDevice feedbackDevice,
+		int pidIdx, int timeoutMs) {
+	return BaseMotorController::ConfigSelectedFeedbackSensor(feedbackDevice,
+			pidIdx, timeoutMs);
 }
 ctre::phoenix::ErrorCode TalonSRX::SetStatusFramePeriod(StatusFrameEnhanced frame,
+		int periodMs, int timeoutMs) {
+	return BaseMotorController::SetStatusFramePeriod(frame, periodMs, timeoutMs);
+}
+ctre::phoenix::ErrorCode TalonSRX::SetStatusFramePeriod(StatusFrame frame,
 		int periodMs, int timeoutMs) {
 	return BaseMotorController::SetStatusFramePeriod(frame, periodMs, timeoutMs);
 }
@@ -23,7 +32,11 @@ int TalonSRX::GetStatusFramePeriod(StatusFrameEnhanced frame, int timeoutMs) {
 	BaseMotorController::GetStatusFramePeriod(frame, timeoutMs);
 	return periodMs;
 }
-
+int TalonSRX::GetStatusFramePeriod(StatusFrame frame, int timeoutMs) {
+	int periodMs = 0;
+	BaseMotorController::GetStatusFramePeriod(frame, timeoutMs);
+	return periodMs;
+}
 ctre::phoenix::ErrorCode TalonSRX::ConfigVelocityMeasurementPeriod(VelocityMeasPeriod period,
 		int timeoutMs) {
 	return BaseMotorController::ConfigVelocityMeasurementPeriod(period,
@@ -34,7 +47,6 @@ ctre::phoenix::ErrorCode TalonSRX::ConfigVelocityMeasurementWindow(int windowSiz
 	return BaseMotorController::ConfigVelocityMeasurementWindow(windowSize,
 			timeoutMs);
 }
-
 ctre::phoenix::ErrorCode TalonSRX::ConfigForwardLimitSwitchSource(
 		LimitSwitchSource limitSwitchSource,
 		LimitSwitchNormal normalOpenOrClose, int timeoutMs) {

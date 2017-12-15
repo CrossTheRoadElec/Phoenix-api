@@ -20,11 +20,7 @@ public interface IMotorControllerEnhanced extends IMotorController {
 
     //------ sensor selection ----------//
     /* expand the options */
-	 public ErrorCode configSelectedFeedbackSensor(FeedbackDevice feedbackDevice, int timeoutMs );
-
-    //------ ??? ----------//
-    // public ErrorCode configSensorIsContinuous(bool isContinuous, int timeoutMs = 0);  /* TODO: figure this out later */
-    // public ErrorCode configAutoZeroSensor(ZeroSensorCriteria zeroSensorCriteria, int timeoutMs );
+	 public ErrorCode configSelectedFeedbackSensor(FeedbackDevice feedbackDevice, int pidIdx, int timeoutMs );
 
     //------- sensor status --------- //
     /* in parent */

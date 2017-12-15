@@ -63,7 +63,7 @@ extern "C"{
 	ctre::phoenix::ErrorCode c_MotController_IsMotionProfileTopLevelBufferFull(void *handle, bool * value);
 	ctre::phoenix::ErrorCode c_MotController_ProcessMotionProfileBuffer(void *handle);
 	ctre::phoenix::ErrorCode c_MotController_GetMotionProfileStatus(void *handle,
-			uint32_t *topBufferRem, uint32_t *topBufferCnt, uint32_t *btmBufferCnt,
+			int *topBufferRem, int *topBufferCnt, int *btmBufferCnt,
 			bool *hasUnderrun, bool *isUnderrun, bool *activePointValid,
 			bool *isLast, int *profileSlotSelect, int *outputEnable);
 	ctre::phoenix::ErrorCode c_MotController_ClearMotionProfileHasUnderrun(void *handle,
@@ -80,7 +80,7 @@ extern "C"{
 	ctre::phoenix::ErrorCode c_MotController_ConfigPeakCurrentLimit(void *handle, int amps, int timeoutMs);
 	ctre::phoenix::ErrorCode c_MotController_ConfigPeakCurrentDuration(void *handle, int milliseconds, int timeoutMs);
 	ctre::phoenix::ErrorCode c_MotController_ConfigContinuousCurrentLimit(void *handle, int amps, int timeoutMs);
-	void c_MotController_EnableCurrentLimit(void *handle, bool enable);
+	ctre::phoenix::ErrorCode c_MotController_EnableCurrentLimit(void *handle, bool enable);
 	ctre::phoenix::ErrorCode c_MotController_SetLastError(void *handle, int error);
 	ctre::phoenix::ErrorCode c_MotController_GetAnalogIn(void *handle, int * param);
 	ctre::phoenix::ErrorCode c_MotController_SetAnalogPosition(void *handle,int newPosition, int timeoutMs);

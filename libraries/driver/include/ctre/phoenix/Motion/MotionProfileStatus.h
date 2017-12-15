@@ -19,15 +19,15 @@ struct MotionProfileStatus {
 	 * can dump several points at once.  The API will then stream them into the Talon's
 	 * low-level buffer, allowing the Talon to act on them.
 	 */
-	uint32_t topBufferRem;
+	int topBufferRem;
 	/**
 	 * The number of points in the top trajectory buffer.
 	 */
-	uint32_t topBufferCnt;
+	int topBufferCnt;
 	/**
 	 * The number of points in the low level Talon buffer.
 	 */
-	uint32_t btmBufferCnt;
+	int btmBufferCnt;
 	/**
 	 * Set if isUnderrun ever gets set.
 	 * Only is cleared by clearMotionProfileHasUnderrun() to ensure

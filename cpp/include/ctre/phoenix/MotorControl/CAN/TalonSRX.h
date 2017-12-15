@@ -15,12 +15,14 @@ public:
 	virtual ~TalonSRX() {
 	}
 
-	virtual ctre::phoenix::ErrorCode ConfigSelectedFeedbackSensor(
-			FeedbackDevice feedbackDevice, int pidxIdx, int timeoutMs);
+	virtual ctre::phoenix::ErrorCode ConfigSelectedFeedbackSensor(FeedbackDevice feedbackDevice, int pidIdx, int timeoutMs);
+	virtual ctre::phoenix::ErrorCode ConfigSelectedFeedbackSensor(RemoteFeedbackDevice feedbackDevice, int pidIdx, int timeoutMs);
 
-	virtual ctre::phoenix::ErrorCode SetStatusFramePeriod(StatusFrameEnhanced frame,
-			int periodMs, int timeoutMs);
+	virtual ctre::phoenix::ErrorCode SetStatusFramePeriod(StatusFrameEnhanced frame,int periodMs, int timeoutMs);
+	virtual ctre::phoenix::ErrorCode SetStatusFramePeriod(StatusFrame frame,int periodMs, int timeoutMs);
+
 	virtual int GetStatusFramePeriod(StatusFrameEnhanced frame, int timeoutMs);
+	virtual int GetStatusFramePeriod(StatusFrame frame, int timeoutMs);
 
 	//------ Velocity measurement ----------//
 	virtual ctre::phoenix::ErrorCode ConfigVelocityMeasurementPeriod(VelocityMeasPeriod period,
