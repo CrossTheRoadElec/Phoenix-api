@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.RemoteFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.RemoteLimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
+import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.SensorTerm;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
@@ -40,6 +41,8 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 
 	private WpilibSpeedController _wpilibSpeedController;
 
+	private SensorCollection _sensorColl;
+	
 	// --------------------- Constructors -----------------------------//
 	/**
 	 * Constructor for motor controllers.
@@ -51,9 +54,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 		m_handle = MotControllerJNI.Create(arbId);
 		_arbId = arbId;
 		_wpilibSpeedController = new WpilibSpeedController(this);
+		_sensorColl = new SensorCollection(this);
 	}
 
-	protected long getHandle() {
+	public long getHandle() {
 		return m_handle;
 	}
 
@@ -1055,5 +1059,12 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	// ----- WPILIB ------//
 	public SpeedController getWPILIB_SpeedController() {
 		return _wpilibSpeedController;
+	}
+	
+	/**
+	 * @retrieve object that can get/set individual RAW sensor values.
+	 */
+	public SensorCollection getSensorCollection() {
+		return _sensorColl;
 	}
 }
