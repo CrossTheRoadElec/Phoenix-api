@@ -256,7 +256,6 @@ private:
 	ctre::phoenix::ErrorCode ConfigSetWrapper(ctre::phoenix::ParamEnum paramEnum, double value, int timeoutMs);
 	ctre::phoenix::ErrorCode ReceiveCAN(int arbId);
 	ctre::phoenix::ErrorCode ReceiveCAN(int arbId, bool allowStale);
-	ctre::phoenix::ErrorCode SendCAN(int arbId, const uint64_t & data, int dataSize, int periodMs);
 	ctre::phoenix::ErrorCode GetTwoParam16(int arbId, short words[2]);
 	ctre::phoenix::ErrorCode GetThreeParam16(int arbId, short words[3]);
 	ctre::phoenix::ErrorCode GetThreeParam16(int arbId, double signals[3], double scalar);
