@@ -11,8 +11,9 @@ namespace frc {
 	class GenericHID;
 }
 
-namespace CTRE {
-namespace Tasking {
+namespace ctre {
+namespace phoenix {
+namespace tasking {
 
 class ButtonMonitor: public IProcessable, public ILoopable {
 public:
@@ -42,6 +43,7 @@ private:
 	IButtonPressEventHandler * _handler;
 	bool _isDown = false;
 };
+}
 }
 }
 #endif // CTR_EXCLUDE_WPILIB_CLASSES

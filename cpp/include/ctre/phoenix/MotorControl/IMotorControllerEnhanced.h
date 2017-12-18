@@ -8,14 +8,15 @@
 #include "ctre/phoenix/MotorControl/LimitSwitchType.h"
 #include "ctre/phoenix/MotorControl/Faults.h"
 #include "ctre/phoenix/MotorControl/StickyFaults.h"
-#include "ctre/phoenix/defs/paramEnum.h"
+#include "ctre/phoenix/paramEnum.h"
 #include "ctre/phoenix/Motion/TrajectoryPoint.h"
 #include "ctre/phoenix/Motion/MotionProfileStatus.h"
-#include "ctre/phoenix/core/ErrorCode.h"
+#include "ctre/Phoenix/ErrorCode.h"
 #include "IFollower.h"
 
-namespace CTRE {
-namespace MotorControl {
+namespace ctre {
+namespace phoenix {
+namespace motorcontrol {
 
 class IMotorControllerEnhanced: public virtual IMotorController {
 public:
@@ -40,11 +41,7 @@ public:
 	//------ sensor selection ----------//
 	/* expand the options */
 	virtual ErrorCode ConfigSelectedFeedbackSensor(
-			FeedbackDevice feedbackDevice, int timeoutMs) = 0;
-
-	//------ ??? ----------//
-	//ErrorCode ConfigSensorIsContinuous(bool isContinuous, int timeoutMs = 0);  /* TODO: figure this out later */
-	//ErrorCode ConfigAutoZeroSensor(ZeroSensorCriteria zeroSensorCriteria, int timeoutMs = 0);
+			FeedbackDevice feedbackDevice, int pidIdx, int timeoutMs) = 0;
 
 	//------- sensor status --------- //
 	/* in parent */
@@ -52,8 +49,7 @@ public:
 	//------ status frame period changes ----------//
 	virtual ErrorCode SetStatusFramePeriod(StatusFrameEnhanced frame,
 			int periodMs, int timeoutMs) = 0;
-	virtual ErrorCode GetStatusFramePeriod(StatusFrameEnhanced frame,
-			int & periodMs, int timeoutMs) = 0;
+	virtual int GetStatusFramePeriod(StatusFrameEnhanced frame, int timeoutMs) = 0;
 
 	//----- velocity signal conditionaing ------//
 	virtual ErrorCode ConfigVelocityMeasurementPeriod(VelocityMeasPeriod period,
@@ -108,5 +104,6 @@ public:
 	/* in parent */
 
 }; // class IMotorControllerEnhanced
-} // namespace MotorControl
-} // namespace CTRE
+} // namespace motorcontrol
+} // namespace phoenix
+} // namespace ctre

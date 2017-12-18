@@ -1,10 +1,9 @@
 #pragma once
-
-namespace CTRE { namespace Tasking{
+namespace ctre { namespace phoenix { namespace tasking{
 	
 class IProcessable {
 public:
 	virtual ~IProcessable(){}
 	virtual void Process() = 0;
 };
-}}
+}}}

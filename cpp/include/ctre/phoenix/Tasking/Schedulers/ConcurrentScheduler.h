@@ -4,9 +4,12 @@
 #include "ctre/phoenix/Tasking/ILoopable.h"
 #include "ctre/phoenix/Tasking/IProcessable.h"
 
-namespace CTRE { namespace Tasking { namespace Schedulers {
+namespace ctre {
+namespace phoenix {
+namespace tasking {
+namespace schedulers {
 
-class ConcurrentScheduler: public ILoopable, public IProcessable{
+class ConcurrentScheduler: public ILoopable, public IProcessable {
 public:
 	std::vector<ILoopable*> _loops;
 	std::vector<bool> _enabs;
@@ -30,4 +33,7 @@ public:
 	void OnStop();
 	bool IsDone();
 };
-}}}
+}
+}
+}
+}

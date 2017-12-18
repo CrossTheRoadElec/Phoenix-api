@@ -1,35 +1,13 @@
-/*
- *  Software License Agreement
- *
- * Copyright (C) Cross The Road Electronics.  All rights
- * reserved.
- * 
- * Cross The Road Electronics (CTRE) licenses to you the right to 
- * use, publish, and distribute copies of CRF (Cross The Road) firmware files (*.crf) and Software
- * API Libraries ONLY when in use with Cross The Road Electronics hardware products.
- * 
- * THE SOFTWARE AND DOCUMENTATION ARE PROVIDED "AS IS" WITHOUT
- * WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT
- * LIMITATION, ANY WARRANTY OF MERCHANTABILITY, FITNESS FOR A
- * PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. IN NO EVENT SHALL
- * CROSS THE ROAD ELECTRONICS BE LIABLE FOR ANY INCIDENTAL, SPECIAL, 
- * INDIRECT OR CONSEQUENTIAL DAMAGES, LOST PROFITS OR LOST DATA, COST OF
- * PROCUREMENT OF SUBSTITUTE GOODS, TECHNOLOGY OR SERVICES, ANY CLAIMS
- * BY THIRD PARTIES (INCLUDING BUT NOT LIMITED TO ANY DEFENSE
- * THEREOF), ANY CLAIMS FOR INDEMNITY OR CONTRIBUTION, OR OTHER
- * SIMILAR COSTS, WHETHER ASSERTED ON THE BASIS OF CONTRACT, TORT
- * (INCLUDING NEGLIGENCE), BREACH OF WARRANTY, OR OTHERWISE
- */
-
 #pragma once
 
 #ifndef CTR_EXCLUDE_WPILIB_CLASSES
 
 #include <cstdint>
 #include "ctre/phoenix/LowLevel/CANBusAddressable.h"
-#include "ctre/phoenix/core/ErrorCode.h"
+#include "ctre/Phoenix/ErrorCode.h"
+#include "ctre/phoenix/paramEnum.h"
 
-namespace CTRE {
+namespace ctre {namespace phoenix {
 class CANifier: public CANBusAddressable {
 public:
 	enum LEDChannel {
@@ -79,19 +57,28 @@ public:
 	};
 
 	CANifier(int deviceNumber);
-	CTR_Code SetLEDOutput(double percentOutput, LEDChannel ledChannel);
-	CTR_Code SetGeneralOutput(GeneralPin outputPin, bool outputValue, bool outputEnable);
-	CTR_Code SetGeneralOutputs(int outputBits, int isOutputBits);
-	CTR_Code GetGeneralInputs(PinValues &allPins);
+	ErrorCode SetLEDOutput(double percentOutput, LEDChannel ledChannel);
+	ErrorCode SetGeneralOutput(GeneralPin outputPin, bool outputValue, bool outputEnable);
+	ErrorCode SetGeneralOutputs(int outputBits, int isOutputBits);
+	ErrorCode GetGeneralInputs(PinValues &allPins);
 	bool GetGeneralInput(GeneralPin inputPin);
-	CTR_Code GetLastError();
-	CTR_Code SetPWMOutput(int pwmChannel, float dutyCycle);
-	CTR_Code EnablePWMOutput(int pwmChannel, bool bEnable);
-	CTR_Code GetPWMInput(PWMChannel pwmChannel, float dutyCycleAndPeriod[]);
+	ErrorCode GetLastError();
+	ErrorCode SetPWMOutput(int pwmChannel, double dutyCycle);
+	ErrorCode EnablePWMOutput(int pwmChannel, bool bEnable);
+	ErrorCode GetPWMInput(PWMChannel pwmChannel, double dutyCycleAndPeriod[]);
 
+	//------ Custom Persistent Params ----------//
+	ErrorCode ConfigSetCustomParam(int newValue, int paramIndex,
+			int timeoutMs);
+	int ConfigGetCustomParam(int paramIndex,
+			int timeoutMs);
+	//------ Generic Param API, typically not used ----------//
+	ErrorCode ConfigSetParameter(ParamEnum param, double value,
+			uint8_t subValue, int ordinal, int timeoutMs);
+	double ConfigGetParameter(ParamEnum param, int ordinal, int timeoutMs);
 private:
 	void* m_handle;
 	bool _tempPins[11];
 };
-}
+}}
 #endif // CTR_EXCLUDE_WPILIB_CLASSES

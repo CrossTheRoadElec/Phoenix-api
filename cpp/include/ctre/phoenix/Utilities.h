@@ -1,6 +1,7 @@
 #pragma once
 
-namespace CTRE {
+namespace ctre {
+namespace phoenix {
 	
 class Utilities {
 public:
@@ -16,4 +17,4 @@ private:
 	static bool Contains(char array[], char item);
 };
 
-}
+}}

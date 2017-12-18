@@ -5,7 +5,7 @@
 //#include "Styles.h"
 //#include "ISmartDrivetrain.h"
 //
-//namespace CTRE { namespace Drive {
+//namespace ctre { namespace drive {
 //
 //class SensoredMecanum : public ISmartDrivetrain {
 //public:
@@ -13,9 +13,9 @@
 //	unsigned int ticksPerRev;
 //	float wheelRadius;
 //
-//	SensoredMecanum(CTRE::MotorControl::SmartMotorController *m1, CTRE::MotorControl::SmartMotorController *m2, CTRE::MotorControl::SmartMotorController *m3, CTRE::MotorControl::SmartMotorController *m4,
-//			CTRE::MotorControl::SmartMotorController::FeedbackDevice feedbackDevice, bool useLeftFrontSensor, bool useRightFrontSensor, float wheelRadius);
-//	SensoredMecanum(CTRE::Mechanical::SensoredGearbox *m1, CTRE::Mechanical::SensoredGearbox *m2, CTRE::Mechanical::SensoredGearbox *m3, CTRE::Mechanical::SensoredGearbox *m4, float wheelRadius);
+//	SensoredMecanum(ctre::motorcontrol::SmartMotorController *m1, ctre::motorcontrol::SmartMotorController *m2, ctre::motorcontrol::SmartMotorController *m3, ctre::motorcontrol::SmartMotorController *m4,
+//			ctre::motorcontrol::SmartMotorController::FeedbackDevice feedbackDevice, bool useLeftFrontSensor, bool useRightFrontSensor, float wheelRadius);
+//	SensoredMecanum(ctre::Mechanical::SensoredGearbox *m1, ctre::Mechanical::SensoredGearbox *m2, ctre::Mechanical::SensoredGearbox *m3, ctre::Mechanical::SensoredGearbox *m4, float wheelRadius);
 //	void Set(Styles::Smart mode, float forward, float turn);
 //	void Set(Styles::Basic mode, float forward, float turn);
 //	void Set(Styles::Smart mode, float forward, float strafe, float turn);
@@ -34,10 +34,10 @@
 //	void SetMotionMagicCruiseVelocity(float rotationsPerMin);
 //
 //private:
-//	CTRE::Mechanical::SensoredGearbox *_1;
-//	CTRE::Mechanical::SensoredGearbox *_2;
-//	CTRE::Mechanical::SensoredGearbox *_3;
-//	CTRE::Mechanical::SensoredGearbox *_4;
+//	ctre::Mechanical::SensoredGearbox *_1;
+//	ctre::Mechanical::SensoredGearbox *_2;
+//	ctre::Mechanical::SensoredGearbox *_3;
+//	ctre::Mechanical::SensoredGearbox *_4;
 //	bool _leftSensor;
 //	bool _rightSensor;
 //	float tinyScalar = 1;

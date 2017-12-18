@@ -1,7 +1,9 @@
 #pragma once
 
-//namespace CTRE.Phoenix.MotorControl
-//{
+namespace ctre {
+namespace phoenix {
+namespace motorcontrol {
+
 enum VelocityMeasPeriod {
 	Period_1Ms = 1,
 	Period_2Ms = 2,
@@ -12,4 +14,7 @@ enum VelocityMeasPeriod {
 	Period_50Ms = 50,
 	Period_100Ms = 100,
 };
-//}
+
+} // namespace motorcontrol
+} // namespace phoenix
+} // namespace ctre

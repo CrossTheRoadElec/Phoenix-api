@@ -5,21 +5,21 @@
 //#include "ctre/phoenix/MotorControl/ControlMode.h"
 //#include "ctre/phoenix/MotorControl/IMotorController.h"
 //
-//namespace CTRE{ namespace Mechanical{
+//namespace ctre{ namespace mechanical{
 //
-//class SensoredGearbox : public CTRE::Signals::IInvertable {
+//class SensoredGearbox : public ctre::signals::IInvertable {
 //public:
-//	CTRE::MotorControl::SmartMotorController *master;
-//	SensoredGearbox(float gearRatio, CTRE::MotorControl::SmartMotorController *talon, CTRE::MotorControl::SmartMotorController::FeedbackDevice feedbackDevice);
-//	SensoredGearbox(float gearRatio, CTRE::MotorControl::SmartMotorController *talon, CTRE::MotorControl::IFollower *slave1, CTRE::MotorControl::SmartMotorController::FeedbackDevice feedbackDevice);
-//	SensoredGearbox(float gearRatio, CTRE::MotorControl::SmartMotorController *talon, CTRE::MotorControl::IFollower *slave1, CTRE::MotorControl::IFollower *slave2, CTRE::MotorControl::SmartMotorController::FeedbackDevice feedbackDevice);
-//	SensoredGearbox(float gearRatio, CTRE::MotorControl::SmartMotorController *talon, CTRE::MotorControl::IFollower *slave1, CTRE::MotorControl::IFollower *slave2, CTRE::MotorControl::IFollower *slave3, CTRE::MotorControl::SmartMotorController::FeedbackDevice feedbackDevice);
+//	ctre::motorcontrol::SmartMotorController *master;
+//	SensoredGearbox(float gearRatio, ctre::motorcontrol::SmartMotorController *talon, ctre::motorcontrol::SmartMotorController::FeedbackDevice feedbackDevice);
+//	SensoredGearbox(float gearRatio, ctre::motorcontrol::SmartMotorController *talon, ctre::motorcontrol::IFollower *slave1, ctre::motorcontrol::SmartMotorController::FeedbackDevice feedbackDevice);
+//	SensoredGearbox(float gearRatio, ctre::motorcontrol::SmartMotorController *talon, ctre::motorcontrol::IFollower *slave1, ctre::motorcontrol::IFollower *slave2, ctre::motorcontrol::SmartMotorController::FeedbackDevice feedbackDevice);
+//	SensoredGearbox(float gearRatio, ctre::motorcontrol::SmartMotorController *talon, ctre::motorcontrol::IFollower *slave1, ctre::motorcontrol::IFollower *slave2, ctre::motorcontrol::IFollower *slave3, ctre::motorcontrol::SmartMotorController::FeedbackDevice feedbackDevice);
 //
 //	float GetPosition();
 //	float GetVelocity();
 //	void SetCurrentLimit(unsigned int curentLimitAmps);
 //	void Set(float output);
-//	void SetControlMode(CTRE::MotorControl::ControlMode::SmartControlMode mode);
+//	void SetControlMode(ctre::motorcontrol::ControlMode::SmartControlMode mode);
 //	void SetLimits(float forwardLimit, float reverseLimit);
 //	void DisableLimits();
 //	void SetInverted(bool invert);
@@ -32,7 +32,7 @@
 //	void SetVoltageRampRate(float rampRate);
 //	void SetMotionMagicCruiseVelocity(float RPM);
 //	void SetMotionMagicAcceleration(float RPM);
-//	CTRE::MotorControl::IMotorController *GetMaster();
+//	ctre::motorcontrol::IMotorController *GetMaster();
 //
 //private:
 //	float _gearRatio;

@@ -1,8 +1,8 @@
 //#include "ctre/phoenix/Mechanical/SensoredGearbox.h"
 //
-//using namespace CTRE::MotorControl;
+//using namespace ctre::motorcontrol;
 //
-//namespace CTRE{ namespace Mechanical{
+//namespace ctre{ namespace mechanical{
 //
 //SensoredGearbox::SensoredGearbox(float gearRatio, SmartMotorController *talon, SmartMotorController::FeedbackDevice feedbackDevice){
 //	master = talon;
@@ -44,7 +44,7 @@
 //		output = -output;
 //	master->Set(output);
 //}
-//void SensoredGearbox::SetControlMode(CTRE::MotorControl::ControlMode::SmartControlMode mode){
+//void SensoredGearbox::SetControlMode(ctre::motorcontrol::ControlMode::SmartControlMode mode){
 //	master->SetControlMode(mode);
 //}
 //void SensoredGearbox::SetLimits(float forwardLimit, float reverseLimit){
@@ -84,7 +84,7 @@
 //void SensoredGearbox::SetMotionMagicAcceleration(float RPM){
 //	master->SetMotionMagicAcceleration(RPM);
 //}
-//CTRE::MotorControl::IMotorController *SensoredGearbox::GetMaster(){
+//ctre::motorcontrol::IMotorController *SensoredGearbox::GetMaster(){
 //	return master;
 //}
 //

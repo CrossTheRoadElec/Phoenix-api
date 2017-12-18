@@ -1,59 +1,90 @@
 #include "ctre/phoenix/MotorControl/CAN/TalonSRX.h"
 #include "ctre/phoenix/CCI/MotController_CCI.h"
 
-using namespace CTRE::MotorControl::CAN;
-using namespace CTRE::MotorControl;
+using namespace ctre::phoenix;
+using namespace ctre::phoenix::motorcontrol::can;
+using namespace ctre::phoenix::motorcontrol;
 
 TalonSRX::TalonSRX(int deviceNumber) :
 		BaseMotorController(deviceNumber | 0x02040000) {
 }
 
-ErrorCode TalonSRX::ConfigSelectedFeedbackSensor(FeedbackDevice feedbackDevice,
-		int timeoutMs) {
+ctre::phoenix::ErrorCode TalonSRX::ConfigSelectedFeedbackSensor(FeedbackDevice feedbackDevice,
+		int pidIdx, int timeoutMs) {
 	return BaseMotorController::ConfigSelectedFeedbackSensor(feedbackDevice,
-			timeoutMs);
+			pidIdx, timeoutMs);
 }
-ErrorCode TalonSRX::SetStatusFramePeriod(StatusFrameEnhanced frame,
+ctre::phoenix::ErrorCode TalonSRX::ConfigSelectedFeedbackSensor(RemoteFeedbackDevice feedbackDevice,
+		int pidIdx, int timeoutMs) {
+	return BaseMotorController::ConfigSelectedFeedbackSensor(feedbackDevice,
+			pidIdx, timeoutMs);
+}
+ctre::phoenix::ErrorCode TalonSRX::SetStatusFramePeriod(StatusFrameEnhanced frame,
 		int periodMs, int timeoutMs) {
 	return BaseMotorController::SetStatusFramePeriod(frame, periodMs, timeoutMs);
 }
-ErrorCode TalonSRX::GetStatusFramePeriod(StatusFrameEnhanced frame,
-		int & periodMs, int timeoutMs) {
-	return BaseMotorController::GetStatusFramePeriod(frame, periodMs, timeoutMs);
+ctre::phoenix::ErrorCode TalonSRX::SetStatusFramePeriod(StatusFrame frame,
+		int periodMs, int timeoutMs) {
+	return BaseMotorController::SetStatusFramePeriod(frame, periodMs, timeoutMs);
 }
-
-ErrorCode TalonSRX::ConfigVelocityMeasurementPeriod(VelocityMeasPeriod period,
+int TalonSRX::GetStatusFramePeriod(StatusFrameEnhanced frame, int timeoutMs) {
+	int periodMs = 0;
+	BaseMotorController::GetStatusFramePeriod(frame, timeoutMs);
+	return periodMs;
+}
+int TalonSRX::GetStatusFramePeriod(StatusFrame frame, int timeoutMs) {
+	int periodMs = 0;
+	BaseMotorController::GetStatusFramePeriod(frame, timeoutMs);
+	return periodMs;
+}
+ctre::phoenix::ErrorCode TalonSRX::ConfigVelocityMeasurementPeriod(VelocityMeasPeriod period,
 		int timeoutMs) {
 	return BaseMotorController::ConfigVelocityMeasurementPeriod(period,
 			timeoutMs);
 }
-ErrorCode TalonSRX::ConfigVelocityMeasurementWindow(int windowSize,
+ctre::phoenix::ErrorCode TalonSRX::ConfigVelocityMeasurementWindow(int windowSize,
 		int timeoutMs) {
 	return BaseMotorController::ConfigVelocityMeasurementWindow(windowSize,
 			timeoutMs);
 }
-
-ErrorCode TalonSRX::ConfigForwardLimitSwitchSource(LimitSwitchSource type,
+ctre::phoenix::ErrorCode TalonSRX::ConfigForwardLimitSwitchSource(
+		LimitSwitchSource limitSwitchSource,
 		LimitSwitchNormal normalOpenOrClose, int timeoutMs) {
 
-	return BaseMotorController::ConfigForwardLimitSwitchSource(type,
-			normalOpenOrClose, timeoutMs);
+	return BaseMotorController::ConfigForwardLimitSwitchSource(
+			limitSwitchSource, normalOpenOrClose, timeoutMs);
 }
-ErrorCode TalonSRX::ConfigReverseLimitSwitchSource(LimitSwitchSource type,
+ctre::phoenix::ErrorCode TalonSRX::ConfigReverseLimitSwitchSource(
+		LimitSwitchSource limitSwitchSource,
 		LimitSwitchNormal normalOpenOrClose, int timeoutMs) {
-	return BaseMotorController::ConfigReverseLimitSwitchSource(type,
-			normalOpenOrClose, timeoutMs);
+	return BaseMotorController::ConfigReverseLimitSwitchSource(
+			limitSwitchSource, normalOpenOrClose, timeoutMs);
+}
+
+ctre::phoenix::ErrorCode TalonSRX::ConfigForwardLimitSwitchSource(
+		RemoteLimitSwitchSource limitSwitchSource,
+		LimitSwitchNormal normalOpenOrClose, int deviceID, int timeoutMs) {
+
+	return BaseMotorController::ConfigForwardLimitSwitchSource(
+			limitSwitchSource, normalOpenOrClose, deviceID, timeoutMs);
+}
+ctre::phoenix::ErrorCode TalonSRX::ConfigReverseLimitSwitchSource(
+		RemoteLimitSwitchSource limitSwitchSource,
+		LimitSwitchNormal normalOpenOrClose, int deviceID, int timeoutMs) {
+
+	return BaseMotorController::ConfigReverseLimitSwitchSource(
+			limitSwitchSource, normalOpenOrClose, deviceID, timeoutMs);
 }
 
 //------ Current Lim ----------//
-ErrorCode TalonSRX::ConfigPeakCurrentLimit(int amps, int timeoutMs) {
+ctre::phoenix::ErrorCode TalonSRX::ConfigPeakCurrentLimit(int amps, int timeoutMs) {
 	return c_MotController_ConfigPeakCurrentLimit(m_handle, amps, timeoutMs);
 }
-ErrorCode TalonSRX::ConfigPeakCurrentDuration(int milliseconds, int timeoutMs) {
+ctre::phoenix::ErrorCode TalonSRX::ConfigPeakCurrentDuration(int milliseconds, int timeoutMs) {
 	return c_MotController_ConfigPeakCurrentDuration(m_handle, milliseconds,
 			timeoutMs);
 }
-ErrorCode TalonSRX::ConfigContinuousCurrentLimit(int amps, int timeoutMs) {
+ctre::phoenix::ErrorCode TalonSRX::ConfigContinuousCurrentLimit(int amps, int timeoutMs) {
 	return c_MotController_ConfigPeakCurrentDuration(m_handle, amps, timeoutMs);
 }
 void TalonSRX::EnableCurrentLimit(bool enable) {

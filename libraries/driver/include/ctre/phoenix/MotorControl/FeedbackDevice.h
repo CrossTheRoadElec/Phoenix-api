@@ -1,10 +1,10 @@
 #pragma once
 
-#include "ctre/phoenix/MotorControl/FeedbackDevice.h"
-#include "ctre/phoenix/core/ErrorCode.h"
+#include "ctre/Phoenix/ErrorCode.h"
 
-namespace CTRE {
-namespace MotorControl {
+namespace ctre {
+namespace phoenix {
+namespace motorcontrol {
 
 /** Motor controller with gadgeteer connector. */
 enum FeedbackDevice {
@@ -19,37 +19,50 @@ enum FeedbackDevice {
 
 	SensorSum = 9,
 	SensorDifference = 10,
-	Inertial = 11,
-	RemoteSensor = 12,
+	RemoteSensor0 = 11,
+	RemoteSensor1 = 12,
 	//13
 	//14
-	SoftwarEmulatedSensor = 15,
+	SoftwareEmulatedSensor  = 15,
 
 	CTRE_MagEncoder_Absolute = PulseWidthEncodedPosition,
 	CTRE_MagEncoder_Relative = QuadEncoder,
 };
 
-typedef FeedbackDevice RemoteCANifierOrTalonOrPigeon;
+enum RemoteFeedbackDevice  {
+	RemoteFeedbackDevice_None = -1,
+
+	RemoteFeedbackDevice_SensorSum = 9,
+	RemoteFeedbackDevice_SensorDifference = 10,
+	RemoteFeedbackDevice_RemoteSensor0 = 11,
+	RemoteFeedbackDevice_RemoteSensor1 = 12,
+	//13
+	//14
+	RemoteFeedbackDevice_SoftwareEmulatedSensor = 15,
+};
+
+//typedef FeedbackDevice RemoteCANifierOrTalonOrPigeon;
 
 /* forward proto's */
 //class TalonSRX;
 //class CANifier;
 
-class RemoteFeedbackDevice {
-public:
-	RemoteCANifierOrTalonOrPigeon _type;
+//class RemoteFeedbackDevice {
+//public:
+//	RemoteCANifierOrTalonOrPigeon _type;
+//
+//	//----- very specific details here that are not worth exposing. ---- //
+//	int _peripheralIndex;
+//	int _reserved;
+//	int _arbId;
+//	//TalonSRX & _talon;
+//	//CANifier & _canifier;
+//	//void * _pigeon;
+//
+//	RemoteFeedbackDevice(int baseId, RemoteCANifierOrTalonOrPigeon type);
+//	ErrorCode SetPosition(float position, int timeoutMs);
+//};
 
-	//----- very specific details here that are not worth exposing. ---- //
-	int _peripheralIndex;
-	int _reserved;
-	int _arbId;
-	//TalonSRX & _talon;
-	//CANifier & _canifier;
-	//void * _pigeon;
-
-	RemoteFeedbackDevice(int baseId, RemoteCANifierOrTalonOrPigeon type);
-	ErrorCode SetPosition(float position, int timeoutMs);
-};
-
-} // namespace Motion
-} // namespace MotorControl
+} // namespace motorcontrol
+} // namespace phoenix
+} // namespace ctre

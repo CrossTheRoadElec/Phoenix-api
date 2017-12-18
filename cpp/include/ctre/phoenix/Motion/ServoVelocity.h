@@ -4,13 +4,13 @@
 //#include "ctre/phoenix/MotorControl/SmartMotorController.h"
 //#include "ctre/phoenix/Tasking/ILoopable.h"
 //
-//namespace CTRE { namespace Motion {
+//namespace ctre { namespace motion {
 //
-//class ServoVelocity : public CTRE::Tasking::ILoopable{
+//class ServoVelocity : public ctre::tasking::ILoopable{
 //public:
-//	ServoVelocity(CTRE::MotorControl::SmartMotorController *motor,
-//			CTRE::MotorControl::SmartMotorController::FeedbackDevice feedbackDevice, float velocity);
-//	ServoVelocity(CTRE::Mechanical::SensoredGearbox *gearbox, float velocity);
+//	ServoVelocity(ctre::motorcontrol::SmartMotorController *motor,
+//			ctre::motorcontrol::SmartMotorController::FeedbackDevice feedbackDevice, float velocity);
+//	ServoVelocity(ctre::Mechanical::SensoredGearbox *gearbox, float velocity);
 //	void Set(float targetSpeed, float maxOutput);
 //	void OnStart();
 //	void OnStop();
@@ -18,7 +18,7 @@
 //	void OnLoop();
 //
 //private:
-//	CTRE::Mechanical::SensoredGearbox *_gearbox;
+//	ctre::Mechanical::SensoredGearbox *_gearbox;
 //	float _targetVelocity = 0;
 //};
 //

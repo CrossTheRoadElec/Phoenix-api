@@ -4,7 +4,7 @@
 #include "ctre/phoenix/Tasking/ILoopable.h"
 #include "ctre/phoenix/Tasking/IProcessable.h"
 
-namespace CTRE { namespace Tasking { namespace Schedulers {
+namespace ctre { namespace phoenix { namespace tasking { namespace schedulers {
 
 class SequentialScheduler: public ILoopable, public IProcessable{
 public:
@@ -31,4 +31,4 @@ public:
 	void OnStop();
 	bool IsDone();
 };
-}}}
+}}}}

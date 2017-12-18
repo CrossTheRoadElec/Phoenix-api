@@ -3,9 +3,9 @@
 //#include "ctre/phoenix/CTRLogger.h"
 //#include "HAL/DriverStation.h"
 //
-//namespace CTRE { namespace Drive {
+//namespace ctre { namespace drive {
 //
-//SensoredTank::SensoredTank(CTRE::Mechanical::SensoredGearbox *left, CTRE::Mechanical::SensoredGearbox *right,
+//SensoredTank::SensoredTank(ctre::Mechanical::SensoredGearbox *left, ctre::Mechanical::SensoredGearbox *right,
 //		bool leftInverted, bool rightInverted, float thisWheelRadius)
 //{
 //    _left = left;
@@ -18,12 +18,12 @@
 //    	HAL_SendError(true, 1, false, "CTR: Sensored Tank wheel radius must be greater than 0.01", "", "", true);
 //    wheelRadius = thisWheelRadius;
 //}
-//SensoredTank::SensoredTank(CTRE::MotorControl::SmartMotorController *left, CTRE::MotorControl::SmartMotorController *right,
-//		CTRE::MotorControl::SmartMotorController::FeedbackDevice feedbackDevice, bool leftInverted, bool rightInverted, float thisWheelRadius)
+//SensoredTank::SensoredTank(ctre::motorcontrol::SmartMotorController *left, ctre::motorcontrol::SmartMotorController *right,
+//		ctre::motorcontrol::SmartMotorController::FeedbackDevice feedbackDevice, bool leftInverted, bool rightInverted, float thisWheelRadius)
 //{
 //	/* Create 2 single motor gearboxes */
-//	CTRE::Mechanical::SensoredGearbox *temp1 = new CTRE::Mechanical::SensoredGearbox(1, left, feedbackDevice);
-//	CTRE::Mechanical::SensoredGearbox *temp2 = new CTRE::Mechanical::SensoredGearbox(1, right, feedbackDevice);
+//	ctre::Mechanical::SensoredGearbox *temp1 = new ctre::Mechanical::SensoredGearbox(1, left, feedbackDevice);
+//	ctre::Mechanical::SensoredGearbox *temp2 = new ctre::Mechanical::SensoredGearbox(1, right, feedbackDevice);
 //
 //	_left = temp1;
 //	_right = temp2;
@@ -67,19 +67,19 @@
 //
 //    if (wheelRadius < 0.01)
 //    {
-//		CTRLogger::Log(CTR_Code::WheelRadiusTooSmall, "Sensored Tank");
+//		CTRLogger::Log(ErrorCode::WheelRadiusTooSmall, "Sensored Tank");
 //        return 0;
 //    }
 //
 //    if (ticksPerRev == 0)
 //    {
-//		CTRLogger::Log(CTR_Code::TicksPerRevZero, "Sensored Tank");
+//		CTRLogger::Log(ErrorCode::TicksPerRevZero, "Sensored Tank");
 //        return 0;
 //    }
 //
 //    if (distanceBetweenWheels < 0.01)
 //    {
-//		CTRLogger::Log(CTR_Code::DistanceBetweenWheelsTooSmall, "Sensored Tank");
+//		CTRLogger::Log(ErrorCode::DistanceBetweenWheelsTooSmall, "Sensored Tank");
 //        return 0;
 //    }
 //
@@ -120,18 +120,18 @@
 //void SensoredTank::Drive(Styles::Smart mode, float left, float right){
 //    if(mode == Styles::Smart::Voltage)
 //    {
-//        _left->SetControlMode(CTRE::MotorControl::ControlMode::SmartControlMode::kVoltage);
-//        _right->SetControlMode(CTRE::MotorControl::ControlMode::SmartControlMode::kVoltage);
+//        _left->SetControlMode(ctre::motorcontrol::ControlMode::SmartControlMode::kVoltage);
+//        _right->SetControlMode(ctre::motorcontrol::ControlMode::SmartControlMode::kVoltage);
 //    }
 //    else if (mode == Styles::Smart::PercentOutput)
 //    {
-//        _left->SetControlMode(CTRE::MotorControl::ControlMode::SmartControlMode::kPercentVbus);
-//        _right->SetControlMode(CTRE::MotorControl::ControlMode::SmartControlMode::kPercentVbus);
+//        _left->SetControlMode(ctre::motorcontrol::ControlMode::SmartControlMode::kPercentVbus);
+//        _right->SetControlMode(ctre::motorcontrol::ControlMode::SmartControlMode::kPercentVbus);
 //    }
 //    else if(mode == Styles::Smart::VelocityClosedLoop)
 //    {
-//        _left->SetControlMode(CTRE::MotorControl::ControlMode::SmartControlMode::kSpeed);
-//        _right->SetControlMode(CTRE::MotorControl::ControlMode::SmartControlMode::kSpeed);
+//        _left->SetControlMode(ctre::motorcontrol::ControlMode::SmartControlMode::kSpeed);
+//        _right->SetControlMode(ctre::motorcontrol::ControlMode::SmartControlMode::kSpeed);
 //    }
 //
 //    _left->Set(left);

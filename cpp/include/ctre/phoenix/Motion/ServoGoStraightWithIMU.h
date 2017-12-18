@@ -7,16 +7,23 @@
 #include "ctre/phoenix/Tasking/ILoopable.h"
 #include "ServoParameters.h"
 
+namespace ctre {
+namespace phoenix {
+namespace motion {
 
-namespace CTRE { namespace Motion {
-
-class ServoGoStraightWithImu : public CTRE::Tasking::ILoopable{
+class ServoGoStraightWithImu: public ctre::phoenix::tasking::ILoopable {
 public:
 	ServoParameters *servoParameters = new ServoParameters();
-	ServoGoStraightWithImu(CTRE::PigeonIMU *pigeonImu, CTRE::Drive::IDrivetrain *driveTrain, CTRE::Drive::Styles::Basic selectedStyle,
-			ServoParameters *parameters, float Y, float targetHeading, float headingTolerance, float maxOutput);
-	ServoGoStraightWithImu(CTRE::PigeonIMU *pigeonImu, CTRE::Drive::IDrivetrain *driveTrain, CTRE::Drive::Styles::Basic selectedStyle);
-	bool Set(float Y, float targetHeading, float headingTolerance, float maxOutput);
+	ServoGoStraightWithImu(ctre::phoenix::sensors::PigeonIMU *pigeonImu,
+			ctre::phoenix::drive::IDrivetrain *driveTrain,
+			ctre::phoenix::drive::Styles::Basic selectedStyle,
+			ServoParameters *parameters, float Y, float targetHeading,
+			float headingTolerance, float maxOutput);
+	ServoGoStraightWithImu(ctre::phoenix::sensors::PigeonIMU *pigeonImu,
+			ctre::phoenix::drive::IDrivetrain *driveTrain,
+			ctre::phoenix::drive::Styles::Basic selectedStyle);
+	bool Set(float Y, float targetHeading, float headingTolerance,
+			float maxOutput);
 	float GetImuHeading();
 	void OnStart();
 	void OnStop();
@@ -24,18 +31,20 @@ public:
 	void OnLoop();
 
 private:
-    CTRE::PigeonIMU *_pidgey;
-    CTRE::Drive::IDrivetrain *_driveTrain;
-    CTRE::Drive::Styles::Basic _selectedStyle;
-    float _Y;
-    float _targetHeading;
-    float _headingTolerance;
-    float _maxOutput;
-    bool _isRunning = false;
-    bool _isDone = false;
-    unsigned char _state = 0;
+	ctre::phoenix::sensors::PigeonIMU *_pidgey;
+	ctre::phoenix::drive::IDrivetrain *_driveTrain;
+	ctre::phoenix::drive::Styles::Basic _selectedStyle;
+	float _Y;
+	float _targetHeading;
+	float _headingTolerance;
+	float _maxOutput;
+	bool _isRunning = false;
+	bool _isDone = false;
+	unsigned char _state = 0;
 
 	bool GoStraight(float Y, float targetHeading, float headingTolerance);
 };
 
-}}
+} // namespace motion
+} // namespace phoenix
+} // namespace ctre

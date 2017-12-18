@@ -6,14 +6,18 @@
 #include "ctre/phoenix/Tasking/ILoopable.h"
 #include "ServoParameters.h"
 
-namespace CTRE { namespace Motion {
+namespace ctre {
+namespace phoenix {
+namespace motion {
 
-class ServoZeroTurn : public CTRE::Tasking::ILoopable{
+class ServoZeroTurn: public ctre::phoenix::tasking::ILoopable {
 public:
-    ServoParameters *servoParams = new ServoParameters();
-	ServoZeroTurn(CTRE::Drive::ISmartDrivetrain *driveTrain, CTRE::Drive::Styles::Smart smartStyle,
-			float targetHeading, float headingTolerance, ServoParameters *Params, float maxOutput);
-	ServoZeroTurn(CTRE::Drive::ISmartDrivetrain *driveTrain, CTRE::Drive::Styles::Smart smartStyle);
+	ServoParameters *servoParams = new ServoParameters();
+	ServoZeroTurn(ctre::phoenix::drive::ISmartDrivetrain *driveTrain,
+			ctre::phoenix::drive::Styles::Smart smartStyle, float targetHeading,
+			float headingTolerance, ServoParameters *Params, float maxOutput);
+	ServoZeroTurn(ctre::phoenix::drive::ISmartDrivetrain *driveTrain,
+			ctre::phoenix::drive::Styles::Smart smartStyle);
 	bool Set(float targetHeading, float headingTolerance, float maxOutput);
 	float GetEncoderHeading();
 	void OnStart();
@@ -22,20 +26,22 @@ public:
 	void OnLoop();
 
 private:
-    CTRE::Drive::ISmartDrivetrain *_driveTrain;
-    CTRE::Drive::Styles::Smart _selectedStyle;
-    CTRE::Stopwatch *_myStopwatch = new Stopwatch();
-    float _targetHeading;
-    float _headingTolerance;
-    float _previousHeading;
-    float _timeElapsed;
-    float _maxOutput;
-    bool _isRunning = false;
-    bool _isDone = false;
-    unsigned char _isGood = 0;
-    unsigned char _state = 0;
+	ctre::phoenix::drive::ISmartDrivetrain *_driveTrain;
+	ctre::phoenix::drive::Styles::Smart _selectedStyle;
+	ctre::phoenix::Stopwatch *_myStopwatch = new Stopwatch();
+	float _targetHeading;
+	float _headingTolerance;
+	float _previousHeading;
+	float _timeElapsed;
+	float _maxOutput;
+	bool _isRunning = false;
+	bool _isDone = false;
+	unsigned char _isGood = 0;
+	unsigned char _state = 0;
 
 	bool ZeroTurn(float targetHeading, float headingTolerance);
 };
 
-}}
+} // namespace motion
+} // namespace phoenix
+} // namespace ctre

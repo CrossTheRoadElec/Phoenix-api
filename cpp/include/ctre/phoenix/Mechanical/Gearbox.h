@@ -4,14 +4,24 @@
 #include "ctre/phoenix/MotorControl/IMotorController.h"
 #include "ctre/phoenix/MotorControl/IFollower.h"
 
-namespace CTRE{ namespace Mechanical{
+namespace ctre {
+namespace phoenix {
+namespace mechanical {
 
-class Gearbox : public Linkage{
+class Gearbox: public Linkage {
 public:
-	Gearbox(CTRE::MotorControl::IMotorController *mc1);
-	Gearbox(CTRE::MotorControl::IMotorController *mc1, CTRE::MotorControl::IFollower *mc2);
-	Gearbox(CTRE::MotorControl::IMotorController *mc1, CTRE::MotorControl::IFollower *mc2, CTRE::MotorControl::IFollower *mc3);
-	Gearbox(CTRE::MotorControl::IMotorController *mc1, CTRE::MotorControl::IFollower *mc2, CTRE::MotorControl::IFollower *mc3, CTRE::MotorControl::IFollower *mc4);
+	Gearbox(ctre::phoenix::motorcontrol::IMotorController *mc1);
+	Gearbox(ctre::phoenix::motorcontrol::IMotorController *mc1,
+			ctre::phoenix::motorcontrol::IFollower *mc2);
+	Gearbox(ctre::phoenix::motorcontrol::IMotorController *mc1,
+			ctre::phoenix::motorcontrol::IFollower *mc2,
+			ctre::phoenix::motorcontrol::IFollower *mc3);
+	Gearbox(ctre::phoenix::motorcontrol::IMotorController *mc1,
+			ctre::phoenix::motorcontrol::IFollower *mc2,
+			ctre::phoenix::motorcontrol::IFollower *mc3,
+			ctre::phoenix::motorcontrol::IFollower *mc4);
 };
 
-}}
+} // namespace mechanical
+} // namespace phoenix
+} // namespace ctre

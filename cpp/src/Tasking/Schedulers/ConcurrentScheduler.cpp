@@ -1,8 +1,9 @@
 #include "ctre/phoenix/Tasking/Schedulers/ConcurrentScheduler.h"
 
-namespace CTRE {
-namespace Tasking {
-namespace Schedulers {
+namespace ctre {
+namespace phoenix {
+namespace tasking {
+namespace schedulers {
 
 ConcurrentScheduler::ConcurrentScheduler() {
 }
@@ -80,7 +81,8 @@ bool ConcurrentScheduler::IsDone() {
 	return false;
 }
 
-} // namespace Schedulers
-} // namespace Tasking
-} // namespace CTRE
+} // namespace schedulers
+} // namespace tasking
+} // namespace phoenix
+} // namespace ctre
 

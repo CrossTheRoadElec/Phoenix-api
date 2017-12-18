@@ -3,7 +3,8 @@
 #include "ctre/phoenix/HsvToRgb.h"
 #include <math.h>
 
-namespace CTRE {
+namespace ctre {
+namespace phoenix {
 /**
  * Convert hue/saturation/and value into RGB values
  *
@@ -96,9 +97,10 @@ void HsvToRgb::Convert(double hDegrees, double S, double V, float* r, float* g,
 			break;
 		}
 	}
-	*r = (float)R;
-	*g = (float)G;
-	*b = (float)B;
+	*r = (float) R;
+	*g = (float) G;
+	*b = (float) B;
+}
 }
 }
 #endif

@@ -1,6 +1,9 @@
 #pragma once
 
-//namespace CTRE.Phoenix.MotorControl
+namespace ctre {
+namespace phoenix {
+namespace motorcontrol {
+
 //{
 enum ControlFrame {
 	Control_2_Enable_50m = 0x040040,
@@ -21,5 +24,8 @@ class ControlFrameRoutines {
 		return (ControlFrameEnhanced) controlFrame;
 	}
 };
-//}
+
+}
+}
+}
 

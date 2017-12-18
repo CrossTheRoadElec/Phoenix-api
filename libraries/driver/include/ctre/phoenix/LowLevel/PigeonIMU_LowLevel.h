@@ -23,15 +23,14 @@
 
 #pragma once
 
-#include "CANBusAddressable.h"
-#include "ctre/phoenix/core/ctre.h"
+#include "Device_LowLevel.h"
 #include <string>
 
 /** 
  * Pigeon IMU Class.
  * Class supports communicating over CANbus and over ribbon-cable (CAN Talon SRX).
  */
-class LowLevelPigeonImu: public CANBusAddressable {
+class LowLevelPigeonImu : public Device_LowLevel {
 public:
 	/** Data object for holding fusion information. */
 	struct FusionStatus {
@@ -141,97 +140,86 @@ public:
 		 */
 		int lastError;
 	};
-	/** General Parameter Enums */
-	enum ParamEnum {
-		ParamEnum_YawOffset = 160,
-		ParamEnum_CompassOffset = 161,
-		ParamEnum_BetaGain = 162,
-		ParamEnum_Reserved163 = 163,
-		ParamEnum_GyroNoMotionCal = 164,
-		ParamEnum_EnterCalibration = 165,
-		ParamEnum_FusedHeadingOffset = 166,
-		ParamEnum_StatusFrameRate	= 169,
-		ParamEnum_AccumZ	= 170,
-		ParamEnum_TempCompDisable	= 171,
-	};
 
 	/** Enumerated type for status frame types. */
-	enum StatusFrameRate {
-		StatusFrameRate_CondStatus_1_General = 2,
-		StatusFrameRate_CondStatus_9_SixDeg_YPR = 3,
-		StatusFrameRate_CondStatus_6_SensorFusion = 4,
-		StatusFrameRate_CondStatus_11_GyroAccum = 5,
-		StatusFrameRate_CondStatus_2_GeneralCompass = 11,
-		StatusFrameRate_CondStatus_3_GeneralAccel = 12,
-		StatusFrameRate_CondStatus_10_SixDeg_Quat = 14,
-		StatusFrameRate_RawStatus_4_Mag = 6,
-		StatusFrameRate_BiasedStatus_2_Gyro = 8,
-		StatusFrameRate_BiasedStatus_4_Mag = 9,
-		StatusFrameRate_BiasedStatus_6_Accel = 10,
+	enum PigeonStatusFrame {
+		Status_CondStatus_1_General = 0x042000,
+		Status_CondStatus_9_SixDeg_YPR = 0x042200,
+		Status_CondStatus_6_SensorFusion = 0x042140,
+		Status_CondStatus_11_GyroAccum = 0x042280,
+		Status_CondStatus_2_GeneralCompass = 0x042040,
+		Status_CondStatus_3_GeneralAccel = 0x042080,
+		Status_CondStatus_10_SixDeg_Quat = 0x042240,
+		Status_RawStatus_4_Mag = 0x041CC0,
+		Status_BiasedStatus_2_Gyro = 0x041C40,
+		Status_BiasedStatus_4_Mag = 0x041CC0,
+		Status_BiasedStatus_6_Accel = 0x41D40,
 	};
 	
-	LowLevelPigeonImu(int deviceNumber, bool talon);
+	static LowLevelPigeonImu * CreatePigeon(int deviceNumber, bool talon);
+
+	LowLevelPigeonImu(const LowLevelPigeonImu &) = delete;
 	~LowLevelPigeonImu();
 
 
-	void SetLastError(CTR_Code error);
+	ctre::phoenix::ErrorCode SetLastError(ctre::phoenix::ErrorCode error);
 
-	/**
-	 * General setter to allow for the use of future features, without having to update API.
-	 * @param paramEnum Parameter to set
-	 * @param paramValue Parameter value
-	 * @return nonzero error code if set fails.
-	 */
-	CTR_Code ConfigSetParameter(ParamEnum paramEnum, double paramValue);
+	ctre::phoenix::ErrorCode SetStatusFramePeriod(PigeonStatusFrame frame, int periodMs, int timeoutMs);
 
-	CTR_Code SetStatusFrameRateMs(StatusFrameRate statusFrameRate, int periodMs);
+	ctre::phoenix::ErrorCode SetYaw(double angleDeg, int timeoutMs);
+	ctre::phoenix::ErrorCode AddYaw(double angleDeg, int timeoutMs);
+	ctre::phoenix::ErrorCode SetYawToCompass(int timeoutMs);
 
-	CTR_Code SetYaw(double angleDeg);
-	CTR_Code AddYaw(double angleDeg);
-	CTR_Code SetYawToCompass();
+	ctre::phoenix::ErrorCode SetFusedHeading(double angleDeg, int timeoutMs);
+	ctre::phoenix::ErrorCode AddFusedHeading(double angleDeg, int timeoutMs);
+	ctre::phoenix::ErrorCode SetFusedHeadingToCompass(int timeoutMs);
+	ctre::phoenix::ErrorCode SetAccumZAngle(double angleDeg, int timeoutMs);
+	ctre::phoenix::ErrorCode ConfigTemperatureCompensationEnable(bool bTempCompEnable, int timeoutMs);
+	ctre::phoenix::ErrorCode SetCompassDeclination(double angleDegOffset, int timeoutMs);
+	ctre::phoenix::ErrorCode SetCompassAngle(double angleDeg, int timeoutMs);
 
-	CTR_Code SetFusedHeading(double angleDeg);
-	CTR_Code AddFusedHeading(double angleDeg);
-	CTR_Code SetFusedHeadingToCompass();
-	CTR_Code SetAccumZAngle(double angleDeg);
-	CTR_Code EnableTemperatureCompensation(bool bTempCompEnable);
-
-	CTR_Code SetCompassDeclination(double angleDegOffset);
-	CTR_Code SetCompassAngle(double angleDeg);
-
-	CTR_Code EnterCalibrationMode(CalibrationMode calMode);
-	CTR_Code GetGeneralStatus(LowLevelPigeonImu::GeneralStatus & StatusToFill);
-	CTR_Code GetGeneralStatus(int &state, int &currentMode, int &calibrationError, int &bCalIsBooting, double &tempC, int &upTimeSec, int &noMotionBiasCount, int &tempCompensationCount, int &lastError);
-	CTR_Code GetLastError();
-	CTR_Code Get6dQuaternion(double wxyz[4]);
-	CTR_Code GetYawPitchRoll(double ypr[3]);
-	CTR_Code GetAccumGyro(double xyz_deg[3]);
-	CTR_Code GetAbsoluteCompassHeading(double &value);
-	CTR_Code GetCompassHeading(double &value);
-	CTR_Code GetCompassFieldStrength(double &value);
-	CTR_Code GetTemp(double &value);
+	ctre::phoenix::ErrorCode EnterCalibrationMode(CalibrationMode calMode, int timeoutMs);
+	ctre::phoenix::ErrorCode GetGeneralStatus(LowLevelPigeonImu::GeneralStatus & StatusToFill);
+	ctre::phoenix::ErrorCode GetGeneralStatus(int &state, int &currentMode, int &calibrationError, int &bCalIsBooting, double &tempC, int &upTimeSec, int &noMotionBiasCount, int &tempCompensationCount, int &lastError);
+	ctre::phoenix::ErrorCode GetLastError();
+	ctre::phoenix::ErrorCode Get6dQuaternion(double wxyz[4]);
+	ctre::phoenix::ErrorCode GetYawPitchRoll(double ypr[3]);
+	ctre::phoenix::ErrorCode GetAccumGyro(double xyz_deg[3]);
+	ctre::phoenix::ErrorCode GetAbsoluteCompassHeading(double &value);
+	ctre::phoenix::ErrorCode GetCompassHeading(double &value);
+	ctre::phoenix::ErrorCode GetCompassFieldStrength(double &value);
+	ctre::phoenix::ErrorCode GetTemp(double &value);
 	PigeonState GetState();
-	CTR_Code GetState(int &state);
-	CTR_Code GetUpTime(int &value);
-	CTR_Code GetRawMagnetometer(short rm_xyz[3]);
+	ctre::phoenix::ErrorCode GetState(int &state);
+	ctre::phoenix::ErrorCode GetUpTime(int &value);
+	ctre::phoenix::ErrorCode GetRawMagnetometer(short rm_xyz[3]);
 
-	CTR_Code GetBiasedMagnetometer(short bm_xyz[3]);
-	CTR_Code GetBiasedAccelerometer(short ba_xyz[3]);
-	CTR_Code GetRawGyro(double xyz_dps[3]);
-	CTR_Code GetAccelerometerAngles(double tiltAngles[3]);
+	ctre::phoenix::ErrorCode GetBiasedMagnetometer(short bm_xyz[3]);
+	ctre::phoenix::ErrorCode GetBiasedAccelerometer(short ba_xyz[3]);
+	ctre::phoenix::ErrorCode GetRawGyro(double xyz_dps[3]);
+	ctre::phoenix::ErrorCode GetAccelerometerAngles(double tiltAngles[3]);
 
-	CTR_Code GetFusedHeading(FusionStatus & status, double &value);
-	CTR_Code GetFusedHeading(int &bIsFusing, int &bIsValid, double &value, int &lastError);
-	CTR_Code GetFusedHeading(double &value);
-	CTR_Code GetResetCount(int &value);
-	CTR_Code GetResetFlags(int &value);
-	CTR_Code GetFirmVers(int &value);
-
-	CTR_Code HasResetOccured(bool &value);
+	ctre::phoenix::ErrorCode GetFusedHeading(FusionStatus & status, double &value);
+	ctre::phoenix::ErrorCode GetFusedHeading(int &bIsFusing, int &bIsValid, double &value, int &lastError);
+	ctre::phoenix::ErrorCode GetFusedHeading(double &value);
 
 	static std::string ToString(LowLevelPigeonImu::PigeonState state);
 	static std::string ToString(CalibrationMode cm);
+
+	const static int kMinFirmwareVersionMajor = 0;
+	const static int kMinFirmwareVersionMinor = 40;
+
+protected:
+	virtual void EnableFirmStatusFrame(bool enable);
 private:
+
+	LowLevelPigeonImu(int32_t baseArbId,
+			int32_t arbIdStartupFrame,
+			int32_t paramReqId,
+			int32_t paramRespId,
+			int32_t paramSetId,
+			int32_t arbIdFrameApiStatus);
+
 	/** firmware state reported over CAN */
 	enum MotionDriverState {
 		Init0 = 0,
@@ -257,65 +245,24 @@ private:
 	enum TareType {
 		SetValue = 0x00, AddOffset = 0x01, MatchCompass = 0x02, SetOffset = 0xFF,
 	};
-	/** data storage for reset signals */
-	struct ResetStats {
-		int32_t resetCount;
-		int32_t resetFlags;
-		int32_t firmVers;
-		bool hasReset;
-	};
-	ResetStats _resetStats = { 0, 0, 0, false};
 
-	
 	/** Portion of the arbID for all status and control frames. */
-	uint32_t _deviceId;
-	uint32_t _deviceNumber;
-	CTR_Code _lastError = OKAY;
-	uint64_t _cache;
-	uint32_t _len;
+	ctre::phoenix::ErrorCode _lastError = ctre::phoenix::OKAY;
+	uint64_t _cache = 0;
+	uint32_t _len = 0;
 
-	/** overall threshold for when frame data is too old */
-	const uint32_t EXPECTED_RESPONSE_TIMEOUT_MS = (200);
-
-	const uint32_t RAW_STATUS_2 = 0x00040C40;
-	const uint32_t RAW_STATUS_4 = 0x00040CC0;
-	const uint32_t RAW_STATUS_6 = 0x00040D40;
-
-	const uint32_t BIASED_STATUS_2 = 0x00041C40;
-	const uint32_t BIASED_STATUS_4 = 0x00041CC0;
-	const uint32_t BIASED_STATUS_6 = 0x00041D40;
-
-	const uint32_t COND_STATUS_1 = 0x00042000;
-	const uint32_t COND_STATUS_2 = 0x00042040;
-	const uint32_t COND_STATUS_3 = 0x00042080;
-	const uint32_t COND_STATUS_4 = 0x000420c0;
-	const uint32_t COND_STATUS_5 = 0x00042100;
-	const uint32_t COND_STATUS_6 = 0x00042140;
-	const uint32_t COND_STATUS_7 = 0x00042180;
-	const uint32_t COND_STATUS_8 = 0x000421c0;
-	const uint32_t COND_STATUS_9 = 0x00042200;
-	const uint32_t COND_STATUS_10 = 0x00042240;
-	const uint32_t COND_STATUS_11 = 0x00042280;
-
-	const uint32_t CONTROL_1 = 0x00042800;
-
-	const uint32_t PARAM_REQUEST = 0x00042C00;
-	const uint32_t PARAM_RESPONSE = 0x00042C40;
-	const uint32_t PARAM_SET = 0x00042C80;
-
-	CTR_Code ConfigSetParameter(ParamEnum paramEnum, TareType tareType, double angleDeg);
-	CTR_Code HandleError(CTR_Code errorCode);
-	CTR_Code ReceiveCAN(int arbId);
-	CTR_Code ReceiveCAN(int arbId, bool allowStale);
-	CTR_Code SendCAN(int arbId, const uint64_t & data, int dataSize, int periodMs);
-	CTR_Code GetTwoParam16(int arbId, short words[2]);
-	CTR_Code GetThreeParam16(int arbId, short words[3]);
-	CTR_Code GetThreeParam16(int arbId, double signals[3], double scalar);
+	void CheckFirm(int minMajor = kMinFirmwareVersionMajor, int minMinor = kMinFirmwareVersionMinor);
+	ctre::phoenix::ErrorCode ConfigSetWrapper(ctre::phoenix::ParamEnum paramEnum, TareType tareType, double angleDeg, int timeoutMs);
+	ctre::phoenix::ErrorCode ConfigSetWrapper(ctre::phoenix::ParamEnum paramEnum, double value, int timeoutMs);
+	ctre::phoenix::ErrorCode ReceiveCAN(int arbId);
+	ctre::phoenix::ErrorCode ReceiveCAN(int arbId, bool allowStale);
+	ctre::phoenix::ErrorCode GetTwoParam16(int arbId, short words[2]);
+	ctre::phoenix::ErrorCode GetThreeParam16(int arbId, short words[3]);
+	ctre::phoenix::ErrorCode GetThreeParam16(int arbId, double signals[3], double scalar);
 	int GetThreeFloatAngles(int arbId, double signals[3], double scalar);
-	CTR_Code GetThreeBoundedAngles(int arbId, double boundedAngles[3]);
-	CTR_Code GetFourParam16(int arbId, double params[4], double scalar);
-	CTR_Code GetThreeParam20(int arbId, double param[3], double scalar);
-	CTR_Code GetStartupStatus();
+	ctre::phoenix::ErrorCode GetThreeBoundedAngles(int arbId, double boundedAngles[3]);
+	ctre::phoenix::ErrorCode GetFourParam16(int arbId, double params[4], double scalar);
+	ctre::phoenix::ErrorCode GetThreeParam20(int arbId, double param[3], double scalar);
 
 	LowLevelPigeonImu::PigeonState GetState(int errCode, const uint64_t & statusFrame);
 	double GetTemp(const uint64_t & statusFrame);

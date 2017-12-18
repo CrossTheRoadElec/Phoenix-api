@@ -2,7 +2,8 @@
 
 #include <time.h>
 
-namespace CTRE {
+namespace ctre {
+namespace phoenix {
 
 class Stopwatch {
 public:
@@ -16,4 +17,4 @@ private:
 	float _scalar = 0.001f / CLOCKS_PER_SEC;
 };
 
-}
+}}

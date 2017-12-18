@@ -13,7 +13,7 @@ public class Logger
 		if (code == ErrorCode.OKAY) {
 			String stack = java.util.Arrays.toString(Thread.currentThread().getStackTrace());
 			stack = stack.replaceAll(",", "\n");
-			int errCode = code.getValue();
+			int errCode = code.value;
 			return ErrorCode.valueOf(CTRLoggerJNI.JNI_Logger_Log(errCode, origin, stack));
 		}
 		/* otherwise return OK */

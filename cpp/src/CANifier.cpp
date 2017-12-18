@@ -26,13 +26,14 @@
 #include "ctre/phoenix/CCI/CANifier_CCI.h"
 #include "ctre/phoenix/CTRLogger.h"
 
-namespace CTRE {
+namespace ctre {
+namespace phoenix {
 CANifier::CANifier(int deviceNumber): CANBusAddressable(deviceNumber)
 {
 	m_handle = c_CANifier_Create1(deviceNumber);
 }
 
-CTR_Code CANifier::SetLEDOutput(double percentOutput, LEDChannel ledChannel) {
+ErrorCode CANifier::SetLEDOutput(double percentOutput, LEDChannel ledChannel) {
 	/* convert float to integral fixed pt */
 	if (percentOutput > 1) {
 		percentOutput = 1;
@@ -45,18 +46,18 @@ CTR_Code CANifier::SetLEDOutput(double percentOutput, LEDChannel ledChannel) {
 	return c_CANifier_SetLEDOutput(m_handle, dutyCycle, ledChannel);
 }
 
-CTR_Code CANifier::SetGeneralOutput(GeneralPin outputPin, bool outputValue,
+ErrorCode CANifier::SetGeneralOutput(GeneralPin outputPin, bool outputValue,
 		bool outputEnable) {
 	return  c_CANifier_SetGeneralOutput(m_handle, outputPin, outputValue,
 			outputEnable);
 }
 
-CTR_Code CANifier::SetGeneralOutputs(int outputBits, int isOutputBits) {
+ErrorCode CANifier::SetGeneralOutputs(int outputBits, int isOutputBits) {
 	return c_CANifier_SetGeneralOutputs(m_handle, outputBits, isOutputBits);
 }
 
-CTR_Code CANifier::GetGeneralInputs(CANifier::PinValues &allPins) {
-	CTR_Code err = c_CANifier_GetGeneralInputs(m_handle, _tempPins, sizeof(_tempPins));
+ErrorCode CANifier::GetGeneralInputs(CANifier::PinValues &allPins) {
+	ErrorCode err = c_CANifier_GetGeneralInputs(m_handle, _tempPins, sizeof(_tempPins));
 	allPins.LIMF = _tempPins[LIMF];
 	allPins.LIMR = _tempPins[LIMR];
 	allPins.QUAD_A = _tempPins[QUAD_A];
@@ -81,11 +82,11 @@ bool CANifier::GetGeneralInput(GeneralPin inputPin) {
  * Call GetLastError() to determine success.
  * @return true if specified input is high, false o/w.
  */
-CTR_Code CANifier::GetLastError() {
+ErrorCode CANifier::GetLastError() {
 	return c_CANifier_GetLastError(m_handle);
 }
 
-CTR_Code CANifier::SetPWMOutput(int pwmChannel, float dutyCycle) {
+ErrorCode CANifier::SetPWMOutput(int pwmChannel, double dutyCycle) {
 	if (dutyCycle < 0) {
 		dutyCycle = 0;
 	} else if (dutyCycle > 1) {
@@ -101,7 +102,7 @@ CTR_Code CANifier::SetPWMOutput(int pwmChannel, float dutyCycle) {
 			dutyCyc10bit);
 }
 
-CTR_Code CANifier::EnablePWMOutput(int pwmChannel, bool bEnable) {
+ErrorCode CANifier::EnablePWMOutput(int pwmChannel, bool bEnable) {
 	if (pwmChannel < 0) {
 		pwmChannel = 0;
 	}
@@ -110,9 +111,34 @@ CTR_Code CANifier::EnablePWMOutput(int pwmChannel, bool bEnable) {
 			bEnable);
 }
 
-CTR_Code CANifier::GetPWMInput(PWMChannel pwmChannel, float dutyCycleAndPeriod[]) {
+ErrorCode CANifier::GetPWMInput(PWMChannel pwmChannel, double dutyCycleAndPeriod[]) {
 	return c_CANifier_GetPWMInput(m_handle, pwmChannel,
 			dutyCycleAndPeriod);
 }
+
+//------ Custom Persistent Params ----------//
+ErrorCode CANifier::ConfigSetCustomParam(int newValue,
+		int paramIndex, int timeoutMs) {
+	return c_CANifier_ConfigSetCustomParam(m_handle, newValue, paramIndex, timeoutMs);
 }
+int CANifier::ConfigGetCustomParam(
+		int paramIndex, int timeoutMs) {
+	int readValue;
+	c_CANifier_ConfigGetCustomParam(m_handle, &readValue, paramIndex, timeoutMs);
+	return readValue;
+}
+
+//------ Generic Param API, typically not used ----------//
+ErrorCode CANifier::ConfigSetParameter(ParamEnum param, double value,
+		uint8_t subValue, int ordinal, int timeoutMs) {
+	return c_CANifier_ConfigSetParameter(m_handle, param, value, subValue, ordinal, timeoutMs);
+
+}
+double CANifier::ConfigGetParameter(ParamEnum param, int ordinal, int timeoutMs) {
+	double value = 0;
+	c_CANifier_ConfigGetParameter(m_handle, param, &value, ordinal, timeoutMs);
+	return value;
+}
+
+}}
 #endif // CTR_EXCLUDE_WPILIB_CLASSES

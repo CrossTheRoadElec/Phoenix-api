@@ -1,5 +1,6 @@
 #pragma once
-
+#include "ctre/Phoenix/ErrorCode.h"
+#include "ctre/Phoenix/paramEnum.h"
 #include <string.h>
 #include <iostream>
 #include <fstream>
@@ -7,14 +8,15 @@
 #include <sys/stat.h>
 #include <vector>
 #include <dirent.h>
-#include "../core/ctre.h"
 #include <mutex>
 #include <thread>
 
 /* forward prototype */
-namespace CTRE {
-namespace Logger {
+namespace ctre {
+namespace phoenix {
+namespace logger {
 class TimestampMsgMap;
+}
 }
 }
 
@@ -30,8 +32,8 @@ public:
 	static const int kHierarchyAPI = 3;
 
 
-	CTR_Code Log(CTR_Code code, const std::string & origin, int hierarchy, const char *stacktrace);
-	void GetDescription(CTR_Code code, std::string & shrtError, std::string & longError);
+	ctre::phoenix::ErrorCode Log(ctre::phoenix::ErrorCode code, const std::string & origin, int hierarchy, const char *stacktrace);
+	void GetDescription(ctre::phoenix::ErrorCode code, std::string & shrtError, std::string & longError);
 
 	static LoggerDriver & GetInstance();
 private:
@@ -40,7 +42,7 @@ private:
 	static unsigned long GetDirSize(DIR *t);
 	static std::vector<std::string> OrderedFiles(DIR *directory);
 	
-	CTRE::Logger::TimestampMsgMap * _msgMap;
+	ctre::phoenix::logger::TimestampMsgMap * _msgMap;
 
 //	unsigned long startOfSeconds = 0;
 //	//std::map<std::string, unsigned long> timeStamps;

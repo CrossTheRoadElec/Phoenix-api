@@ -1,8 +1,12 @@
 #pragma once
 
+#include "ctre/Phoenix/ErrorCode.h"
+#include "ctre/Phoenix/paramEnum.h"
 #include "ctre/Phoenix/LowLevel/Device_LowLevel.h"
 #include "ctre/Phoenix/MotorControl/FeedbackDevice.h"
 #include "ctre/Phoenix/MotorControl/ControlFrame.h"
+#include "ctre/Phoenix/MotorControl/SensorTerm.h"
+#include "ctre/Phoenix/MotorControl/RemoteSensorSource.h"
 #include "ctre/Phoenix/MotorControl/Faults.h"
 #include "ctre/Phoenix/MotorControl/StickyFaults.h"
 #include "ctre/Phoenix/MotorControl/NeutralMode.h"
@@ -13,15 +17,10 @@
 #include <string>
 #include <stdint.h>
 
-/* forward proto's */
-enum ErrorCode
-: int32_t;
-enum ParamEnum
-: uint32_t;
-
-namespace CTRE {
-namespace MotorControl {
-namespace LowLevel {
+namespace ctre {
+namespace phoenix {
+namespace motorcontrol {
+namespace lowlevel {
 
 class MotController_LowLevel: public Device_LowLevel {
 
@@ -48,11 +47,11 @@ protected:
 	const uint32_t CONTROL_5 = 0x040100;
 	const uint32_t CONTROL_6 = 0x040140;
 
-	const float FLOAT_TO_FXP_10_22 = (float) 0x400000;
-	const float FXP_TO_FLOAT_10_22 = 0.0000002384185791015625f;
+	const double FLOAT_TO_FXP_10_22 = (double) 0x400000;
+	const double FXP_TO_FLOAT_10_22 = 0.0000002384185791015625f;
 
-	const float FLOAT_TO_FXP_0_8 = (float) 0x100;
-	const float FXP_TO_FLOAT_0_8 = 0.00390625f;
+	const double FLOAT_TO_FXP_0_8 = (double) 0x100;
+	const double FXP_TO_FLOAT_0_8 = 0.00390625f;
 
 	/* Motion Profile Set Output */
 	// Motor output is neutral, Motion Profile Executer is not running.
@@ -70,86 +69,98 @@ protected:
 	ErrorCode SetLastError(ErrorCode errorCode);
 	ErrorCode SetLastError(int errorCode);
 
+	ErrorCode ConfigSingleLimitSwitchSource(
+			LimitSwitchSource limitSwitchSource, LimitSwitchNormal normalOpenOrClose,
+			int deviceIDIfApplicable, int timeoutMs, bool isForward);
 public:
 	MotController_LowLevel(int baseArbId);
 
-	void SetDemand(ControlMode mode, int demand0, int demand1);
+	void SetDemand(ctre::phoenix::motorcontrol::ControlMode mode, int demand0, int demand1);
 	void SelectDemandType(bool enable);
-	void SetNeutralMode(NeutralMode neutralMode);
+	void SetMPEOutput(int MpeOutput);
+	void EnableHeadingHold(bool enable);
+	void SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode neutralMode);
 	void SetSensorPhase(bool PhaseSensor);
 	void SetInverted(bool invert);
 
-	ErrorCode ConfigOpenLoopRamp(float secondsFromNeutralToFull, int timeoutMs);
-	ErrorCode ConfigClosedLoopRamp(float secondsFromNeutralToFull,
+	ErrorCode ConfigOpenLoopRamp(double secondsFromNeutralToFull, int timeoutMs);
+	ErrorCode ConfigClosedLoopRamp(double secondsFromNeutralToFull,
 			int timeoutMs);
-	ErrorCode ConfigPeakOutputForward(float percentOut, int timeoutMs);
-	ErrorCode ConfigPeakOutputReverse(float percentOut, int timeoutMs);
-	ErrorCode ConfigNominalOutputForward(float percentOut, int timeoutMs);
-	ErrorCode ConfigNominalOutputReverse(float percentOut, int timeoutMs);
-	ErrorCode ConfigNeutralDeadband(float percentDeadband,
+	ErrorCode ConfigPeakOutputForward(double percentOut, int timeoutMs);
+	ErrorCode ConfigPeakOutputReverse(double percentOut, int timeoutMs);
+	ErrorCode ConfigNominalOutputForward(double percentOut, int timeoutMs);
+	ErrorCode ConfigNominalOutputReverse(double percentOut, int timeoutMs);
+	ErrorCode ConfigNeutralDeadband(double percentDeadband,
 			int timeoutMs);
-	ErrorCode ConfigVoltageCompSaturation(float voltage, int timeoutMs);
+	ErrorCode ConfigVoltageCompSaturation(double voltage, int timeoutMs);
 	ErrorCode ConfigVoltageMeasurementFilter(int filterWindowSamples,
 			int timeoutMs);
 	void EnableVoltageCompensation(bool enable);
-	ErrorCode GetBusVoltage(float & param);
-	ErrorCode GetMotorOutputPercent(float & param);
-	ErrorCode GetOutputCurrent(float & param);
-	ErrorCode GetTemperature(float & param);
-	ErrorCode ConfigSelectedFeedbackSensor(CTRE::MotorControl::FeedbackDevice feedbackDevice,
+	ErrorCode GetBusVoltage(double & param);
+	ErrorCode GetMotorOutputPercent(double & param);
+	ErrorCode GetOutputCurrent(double & param);
+	ErrorCode GetTemperature(double & param);
+	ErrorCode ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice feedbackDevice,
+			int pidIdx, int timeoutMs);
+	ErrorCode ConfigRemoteFeedbackFilter(int deviceID,
+			RemoteSensorSource remoteSensorSource, int remoteOrdinal, int timeoutMs);
+	ErrorCode ConfigSensorTerm(SensorTerm sensorTerm, FeedbackDevice feedbackDevice, int timeoutMs);
+	ErrorCode GetSelectedSensorPosition(int & param, int pidIdx);
+	ErrorCode GetSelectedSensorVelocity(int & param, int pidIdx);
+	ErrorCode SetSelectedSensorPosition(int sensorPos, int pidIdx, int timeoutMs);
+	ErrorCode SetControlFramePeriod(
+			ctre::phoenix::motorcontrol::ControlFrame frame, int periodMs);
+	ErrorCode SetStatusFramePeriod(
+			ctre::phoenix::motorcontrol::StatusFrame frame, int periodMs,
 			int timeoutMs);
-	ErrorCode ConfigRemoteFeedbackFilter(int arbId, int peripheralIdx,
-			int reserved, int timeoutMs);
-	ErrorCode GetSelectedSensorPosition(int & param);
-	ErrorCode GetSelectedSensorVelocity(int & param);
-	ErrorCode SetSelectedSensorPosition(int sensorPos, int timeoutMs);
-	ErrorCode SetControlFramePeriod(ControlFrame frame, int periodMs);
-	ErrorCode SetStatusFramePeriod(StatusFrame frame, int periodMs,
+	ErrorCode SetStatusFramePeriod(
+			ctre::phoenix::motorcontrol::StatusFrameEnhanced frame,
+			int periodMs, int timeoutMs);
+	ErrorCode GetStatusFramePeriod(
+			ctre::phoenix::motorcontrol::StatusFrame frame, int & periodMs,
 			int timeoutMs);
-	ErrorCode SetStatusFramePeriod(StatusFrameEnhanced frame, int periodMs,
-			int timeoutMs);
-	ErrorCode GetStatusFramePeriod(StatusFrame frame, int & periodMs,
-			int timeoutMs);
-	ErrorCode GetStatusFramePeriod(StatusFrameEnhanced frame, int & periodMs,
-			int timeoutMs);
-	ErrorCode ConfigVelocityMeasurementPeriod(VelocityMeasPeriod period,
+	ErrorCode GetStatusFramePeriod(
+			ctre::phoenix::motorcontrol::StatusFrameEnhanced frame,
+			int & periodMs, int timeoutMs);
+	ErrorCode ConfigVelocityMeasurementPeriod(
+			ctre::phoenix::motorcontrol::VelocityMeasPeriod period,
 			int timeoutMs);
 	ErrorCode ConfigVelocityMeasurementWindow(int windowSize, int timeoutMs);
-	ErrorCode ConfigForwardLimitSwitchSource(LimitSwitchSource type,
-			LimitSwitchNormal normalOpenOrClose, int deviceIDIfApplicable,
-			int timeoutMs);
-	ErrorCode ConfigReverseLimitSwitchSource(LimitSwitchSource type,
-			LimitSwitchNormal normalOpenOrClose, int deviceIDIfApplicable,
-			int timeoutMs);
-	void EnableLimitSwitches(bool enable);
+	ErrorCode ConfigForwardLimitSwitchSource(
+			ctre::phoenix::motorcontrol::LimitSwitchSource type,
+			ctre::phoenix::motorcontrol::LimitSwitchNormal normalOpenOrClose,
+			int deviceIDIfApplicable, int timeoutMs);
+	ErrorCode ConfigReverseLimitSwitchSource(
+			ctre::phoenix::motorcontrol::LimitSwitchSource type,
+			ctre::phoenix::motorcontrol::LimitSwitchNormal normalOpenOrClose,
+			int deviceIDIfApplicable, int timeoutMs);
+	void OverrideLimitSwitchesEnable(bool enable);
 	ErrorCode ConfigForwardSoftLimit(int forwardSensorLimit, int timeoutMs);
 	ErrorCode ConfigReverseSoftLimit(int reverseSensorLimit, int timeoutMs);
-	void EnableSoftLimits(bool enable);
+	void OverrideSoftLimitsEnable(bool enable);
 	ErrorCode ConfigPeakCurrentLimit(int amps, int timeoutMs);
 	ErrorCode ConfigPeakCurrentDuration(int milliseconds, int timeoutMs);
 	ErrorCode ConfigContinuousCurrentLimit(int amps, int timeoutMs);
 	void EnableCurrentLimit(bool enable);
-	ErrorCode Config_kP(int slotIdx, float value, int timeoutMs);
-	ErrorCode Config_kI(int slotIdx, float value, int timeoutMs);
-	ErrorCode Config_kD(int slotIdx, float value, int timeoutMs);
-	ErrorCode Config_kF(int slotIdx, float value, int timeoutMs);
+	ErrorCode Config_kP(int slotIdx, double value, int timeoutMs);
+	ErrorCode Config_kI(int slotIdx, double value, int timeoutMs);
+	ErrorCode Config_kD(int slotIdx, double value, int timeoutMs);
+	ErrorCode Config_kF(int slotIdx, double value, int timeoutMs);
 	ErrorCode Config_IntegralZone(int slotIdx, int izone, int timeoutMs);
 	ErrorCode ConfigAllowableClosedloopError(int slotIdx,
 			int allowableCloseLoopError, int timeoutMs);
-	ErrorCode ConfigMaxIntegralAccumulator(int slotIdx, float iaccum,
+	ErrorCode ConfigMaxIntegralAccumulator(int slotIdx, double iaccum,
 			int timeoutMs);
-	ErrorCode SetIntegralAccumulator(float iaccum, int timeoutMs);
+	ErrorCode SetIntegralAccumulator(double iaccum, int pidIdx, int timeoutMs);
 	ErrorCode GetClosedLoopError(int & error, int pidIdx);
-	ErrorCode GetIntegralAccumulator(float & iaccum, int pidIdx);
-	ErrorCode GetErrorDerivative(float & derivError, int pidIdx);
-	void SelectProfileSlot(int slotIdx);
-	ErrorCode SetMotionAcceleration(int sensorUnitsPer100msPerSec,
-			int timeoutMs)/* implemented in child class */;
-	ErrorCode GetFaults(Faults & toFill);
-	ErrorCode GetStickyFaults(StickyFaults& toFill);
+	ErrorCode GetIntegralAccumulator(double & iaccum, int pidIdx);
+	ErrorCode GetErrorDerivative(double & derivError, int pidIdx);
+	ErrorCode SelectProfileSlot(int slotIdx, int pidIdx);
+
+	ErrorCode GetFaults(ctre::phoenix::motorcontrol::Faults & toFill);
+	ErrorCode GetStickyFaults(ctre::phoenix::motorcontrol::StickyFaults& toFill);
 	ErrorCode ClearStickyFaults(int timeoutMs);
-	ErrorCode ConfigSetCustomParam(int value, int paramIndex, int timeoutMs);
-	ErrorCode ConfigGetCustomParam(int & value, int paramIndex, int timeoutMs);
+
 	ErrorCode GetAnalogInWithOv(int & param);
 	ErrorCode GetAnalogInVel(int & param);
 	ErrorCode GetQuadraturePosition(int & param);
@@ -168,16 +179,29 @@ public:
 	ErrorCode ConfigMotionCruiseVelocity(int sensorUnitsPer100ms, int timeoutMs);
 	ErrorCode ConfigMotionAcceleration(int sensorUnitsPer100msPerSec, int timeoutMs);
 
-private:
+	ErrorCode GetClosedLoopTarget(int & value, int pidIdx);
+	ErrorCode GetActiveTrajectoryPosition(int & sensorUnits);
+	ErrorCode GetActiveTrajectoryVelocity(int & sensorUnitsPer100ms);
+	ErrorCode GetActiveTrajectoryHeading(double & headingDeg);
 
-	void CheckFirm(int minFirm, const char * message);
+	ErrorCode SetAnalogPosition(int newPosition, int timeoutMs);
+	ErrorCode SetQuadraturePosition(int newPosition, int timeoutMs);
+	ErrorCode SetPulseWidthPosition(int newPosition, int timeoutMs);
+
+	const static int kMinFirmwareVersionMajor = 2;
+	const static int kMinFirmwareVersionMinor = 123;
+
+private:
 
 	uint64_t _cache = 0;
 	int32_t _len = 0;
 	ErrorCode _lastError = (ErrorCode)0;
 
+	void CheckFirm(int minMajor = kMinFirmwareVersionMajor, int minMinor = kMinFirmwareVersionMinor);
+
 };
 
+}
 }
 }
 }

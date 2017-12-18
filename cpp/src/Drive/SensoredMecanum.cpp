@@ -2,15 +2,15 @@
 //#include "ctre/phoenix/Drive/SensoredMecanum.h"
 //#include "HAL/DriverStation.h"
 //
-//namespace CTRE { namespace Drive {
+//namespace ctre { namespace drive {
 //
-//SensoredMecanum::SensoredMecanum(CTRE::MotorControl::SmartMotorController *m1, CTRE::MotorControl::SmartMotorController *m2, CTRE::MotorControl::SmartMotorController *m3, CTRE::MotorControl::SmartMotorController *m4,
-//			CTRE::MotorControl::SmartMotorController::FeedbackDevice feedbackDevice, bool useLeftFrontSensor, bool useRightFrontSensor, float thisWheelRadius)
+//SensoredMecanum::SensoredMecanum(ctre::motorcontrol::SmartMotorController *m1, ctre::motorcontrol::SmartMotorController *m2, ctre::motorcontrol::SmartMotorController *m3, ctre::motorcontrol::SmartMotorController *m4,
+//			ctre::motorcontrol::SmartMotorController::FeedbackDevice feedbackDevice, bool useLeftFrontSensor, bool useRightFrontSensor, float thisWheelRadius)
 //{
-//	CTRE::Mechanical::SensoredGearbox *temp1 = new CTRE::Mechanical::SensoredGearbox(1, m1, feedbackDevice);
-//	CTRE::Mechanical::SensoredGearbox *temp2 = new CTRE::Mechanical::SensoredGearbox(1, m2, feedbackDevice);
-//	CTRE::Mechanical::SensoredGearbox *temp3 = new CTRE::Mechanical::SensoredGearbox(1, m3, feedbackDevice);
-//	CTRE::Mechanical::SensoredGearbox *temp4 = new CTRE::Mechanical::SensoredGearbox(1, m4, feedbackDevice);
+//	ctre::Mechanical::SensoredGearbox *temp1 = new ctre::Mechanical::SensoredGearbox(1, m1, feedbackDevice);
+//	ctre::Mechanical::SensoredGearbox *temp2 = new ctre::Mechanical::SensoredGearbox(1, m2, feedbackDevice);
+//	ctre::Mechanical::SensoredGearbox *temp3 = new ctre::Mechanical::SensoredGearbox(1, m3, feedbackDevice);
+//	ctre::Mechanical::SensoredGearbox *temp4 = new ctre::Mechanical::SensoredGearbox(1, m4, feedbackDevice);
 //
 //	_leftSensor = useLeftFrontSensor;
 //	_rightSensor = useRightFrontSensor;
@@ -24,8 +24,8 @@
 //		HAL_SendError(true, 1, false, "CTR: Sensored Mecanum cannot have wheel radius less than 0.01", "", "", true);
 //	wheelRadius = thisWheelRadius;
 //}
-//SensoredMecanum::SensoredMecanum(CTRE::Mechanical::SensoredGearbox *m1, CTRE::Mechanical::SensoredGearbox *m2,
-//		CTRE::Mechanical::SensoredGearbox *m3, CTRE::Mechanical::SensoredGearbox *m4, float thisWheelRadius)
+//SensoredMecanum::SensoredMecanum(ctre::Mechanical::SensoredGearbox *m1, ctre::Mechanical::SensoredGearbox *m2,
+//		ctre::Mechanical::SensoredGearbox *m3, ctre::Mechanical::SensoredGearbox *m4, float thisWheelRadius)
 //{
 //	_1 = m1;
 //	_2 = m2;
@@ -109,24 +109,24 @@
 //
 //    if (mode == Styles::Smart::Voltage)
 //    {
-//        _1->SetControlMode(CTRE::MotorControl::ControlMode::SmartControlMode::kVoltage);
-//        _2->SetControlMode(CTRE::MotorControl::ControlMode::SmartControlMode::kVoltage);
-//        _3->SetControlMode(CTRE::MotorControl::ControlMode::SmartControlMode::kVoltage);
-//        _4->SetControlMode(CTRE::MotorControl::ControlMode::SmartControlMode::kVoltage);
+//        _1->SetControlMode(ctre::motorcontrol::ControlMode::SmartControlMode::kVoltage);
+//        _2->SetControlMode(ctre::motorcontrol::ControlMode::SmartControlMode::kVoltage);
+//        _3->SetControlMode(ctre::motorcontrol::ControlMode::SmartControlMode::kVoltage);
+//        _4->SetControlMode(ctre::motorcontrol::ControlMode::SmartControlMode::kVoltage);
 //    }
 //    else if (mode == Styles::Smart::PercentOutput)
 //    {
-//        _1->SetControlMode(CTRE::MotorControl::ControlMode::SmartControlMode::kPercentVbus);
-//        _2->SetControlMode(CTRE::MotorControl::ControlMode::SmartControlMode::kPercentVbus);
-//        _3->SetControlMode(CTRE::MotorControl::ControlMode::SmartControlMode::kPercentVbus);
-//        _4->SetControlMode(CTRE::MotorControl::ControlMode::SmartControlMode::kPercentVbus);
+//        _1->SetControlMode(ctre::motorcontrol::ControlMode::SmartControlMode::kPercentVbus);
+//        _2->SetControlMode(ctre::motorcontrol::ControlMode::SmartControlMode::kPercentVbus);
+//        _3->SetControlMode(ctre::motorcontrol::ControlMode::SmartControlMode::kPercentVbus);
+//        _4->SetControlMode(ctre::motorcontrol::ControlMode::SmartControlMode::kPercentVbus);
 //    }
 //    else if(mode == Styles::Smart::VelocityClosedLoop)
 //    {
-//        _1->SetControlMode(CTRE::MotorControl::ControlMode::SmartControlMode::kSpeed);
-//        _2->SetControlMode(CTRE::MotorControl::ControlMode::SmartControlMode::kSpeed);
-//        _3->SetControlMode(CTRE::MotorControl::ControlMode::SmartControlMode::kSpeed);
-//        _4->SetControlMode(CTRE::MotorControl::ControlMode::SmartControlMode::kSpeed);
+//        _1->SetControlMode(ctre::motorcontrol::ControlMode::SmartControlMode::kSpeed);
+//        _2->SetControlMode(ctre::motorcontrol::ControlMode::SmartControlMode::kSpeed);
+//        _3->SetControlMode(ctre::motorcontrol::ControlMode::SmartControlMode::kSpeed);
+//        _4->SetControlMode(ctre::motorcontrol::ControlMode::SmartControlMode::kSpeed);
 //    }
 //
 //    _1->Set(leftFrnt_throt);

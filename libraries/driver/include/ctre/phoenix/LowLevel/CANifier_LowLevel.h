@@ -23,8 +23,9 @@
 
 #pragma once
 
-#include "CANBusAddressable.h"
-#include "../core/ctre.h"
+#include "Device_LowLevel.h"
+#include "ctre/Phoenix/ErrorCode.h"
+#include "ctre/Phoenix/paramEnum.h"
 #include <FRC_NetworkCommunication/CANSessionMux.h>  //CAN Comm
 #include <map>
 
@@ -32,18 +33,9 @@
  * CANifier Class.
  * Class supports communicating over CANbus.
  */
-class LowLevelCANifier : public CANBusAddressable {
+class LowLevelCANifier : public Device_LowLevel {
 
 public:
-	
-	static const int kDefaultControlPeriodMs = 20;
-	static const int kDefaultPwmOutputPeriodMs = 20;
-
-	/** General Parameter Enums */
-	enum ParamEnum {
-		ParamEnum_StatusFrameRate = 200,
-	};
-
 	enum GeneralPin{
 		QUAD_IDX = 0,
 		QUAD_B = 1,
@@ -58,46 +50,40 @@ public:
 		SPI_CLK_PWM0P = 10,
 	};
 	
-	bool _SendingPwmOutput = false;
 	
 	explicit LowLevelCANifier(int deviceNumber = 0);
 
-	void EnsurePwmOutputFrameIsTransmitting();
-	CTR_Code SetLEDOutput( int  dutyCycle,  int  ledChannel);
-	CTR_Code SetGeneralOutputs( int  outputsBits,  int  isOutputBits);
-	CTR_Code SetGeneralOutput(GeneralPin outputPin, bool bOutputValue, bool bOutputEnable);
-	CTR_Code SetPWMOutput( int  pwmChannel,  int  dutyCycle);
-	CTR_Code EnablePWMOutput( int  pwmChannel,  bool  bEnable);
-	CTR_Code GetGeneralInputs(bool allPins[], uint32_t capacity);
-	CTR_Code GetGeneralInput(GeneralPin inputPin, bool * measuredInput);
-	CTR_Code GetPWMInput( int  pwmChannel,  float dutyCycleAndPeriod[2]);
-	CTR_Code GetLastError();
-	CTR_Code GetBatteryVoltage(float * batteryVoltage);
-	CTR_Code SetLastError(CTR_Code error);
+	ctre::phoenix::ErrorCode SetLEDOutput( int  dutyCycle,  int  ledChannel);
+	ctre::phoenix::ErrorCode SetGeneralOutputs( int  outputsBits,  int  isOutputBits);
+	ctre::phoenix::ErrorCode SetGeneralOutput(GeneralPin outputPin, bool bOutputValue, bool bOutputEnable);
+	ctre::phoenix::ErrorCode SetPWMOutput( int  pwmChannel,  int  dutyCycle);
+	ctre::phoenix::ErrorCode EnablePWMOutput( int  pwmChannel,  bool  bEnable);
+	ctre::phoenix::ErrorCode GetGeneralInputs(bool allPins[], uint32_t capacity);
+	ctre::phoenix::ErrorCode GetGeneralInput(GeneralPin inputPin, bool * measuredInput);
+	ctre::phoenix::ErrorCode GetPWMInput( int  pwmChannel,  double dutyCycleAndPeriod[2]);
+	ctre::phoenix::ErrorCode GetLastError();
+	ctre::phoenix::ErrorCode GetBatteryVoltage(double * batteryVoltage);
+	ctre::phoenix::ErrorCode SetLastError(ctre::phoenix::ErrorCode error);
 
+
+	const static int kMinFirmwareVersionMajor = 0;
+	const static int kMinFirmwareVersionMinor = 40;
 
 private:
+
+	static const int kDefaultControlPeriodMs = 20;
+	static const int kDefaultPwmOutputPeriodMs = 20;
+
+	bool _SendingPwmOutput = false;
 
     uint32_t _regInput = 0; //!< Decoded inputs
     uint32_t _regLat = 0; //!< Decoded output latch
     uint32_t _regIsOutput = 0; //!< Decoded data direction register
 
-	CTR_Code _lastError = OKAY;
-	uint32_t _can_h;    //!< Session handle for catching response params.
-	int32_t _can_stat;  //!< Session handle status.
-	struct tCANStreamMessage _msgBuff[20];
-	static int const kMsgCapacity = 20;
-	typedef std::map<uint32_t, uint32_t> sigs_t;
-	// Catches signal updates that are solicited.  Expect this to be very few.
-	sigs_t _sigs;
-	void OpenSessionIfNeedBe();
-	void ProcessStreamMessages();
+	ctre::phoenix::ErrorCode _lastError = ctre::phoenix::OKAY;
 
-//	CTR_Code SetParamRaw( ParamEnum  paramEnum,  int  rawBits,  int  timeoutMs = 0);
-//	int GetParamResponseRaw(ParamEnum paramEnum, int *rawBits);
-//	int RequestParam( ParamEnum  paramEnum);
-//	CTR_Code SetParam( ParamEnum  paramEnum,  float  value,  int  timeoutMs = 0);
-//	int GetParamResponse(ParamEnum paramEnum, float *value);
-//	int GetParamResponseInt32(ParamEnum paramEnum, int *value);
+	void CheckFirm(int minMajor = kMinFirmwareVersionMajor, int minMinor = kMinFirmwareVersionMinor);
+	void EnsurePwmOutputFrameIsTransmitting();
+	void EnableFirmStatusFrame(bool enable);
 };
 

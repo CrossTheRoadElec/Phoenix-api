@@ -1,19 +1,25 @@
 #include "ctre/phoenix/MotorControl/GroupMotorControllers.h"
 
-namespace CTRE { namespace MotorControl {
+using namespace ctre::phoenix;
+
+namespace ctre {
+namespace phoenix  {
+namespace motorcontrol {
 
 std::vector<IMotorController*> GroupMotorControllers::_mcs;
 
-void GroupMotorControllers::Register(IMotorController *motorController){
+void GroupMotorControllers::Register(IMotorController *motorController) {
 	_mcs.push_back(motorController);
 }
 
-int GroupMotorControllers::MotorControllerCount(){
+int GroupMotorControllers::MotorControllerCount() {
 	return _mcs.size();
 }
 
-IMotorController* GroupMotorControllers::Get(int idx){
+IMotorController* GroupMotorControllers::Get(int idx) {
 	return _mcs[idx];
 }
 
-}}
+}
+}
+}

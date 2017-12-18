@@ -1,29 +1,6 @@
-/*
- *  Software License Agreement
- *
- * Copyright (C) Cross The Road Electronics.  All rights
- * reserved.
- * 
- * Cross The Road Electronics (CTRE) licenses to you the right to 
- * use, publish, and distribute copies of CRF (Cross The Road) firmware files (*.crf) and Software
- * API Libraries ONLY when in use with Cross The Road Electronics hardware products.
- * 
- * THE SOFTWARE AND DOCUMENTATION ARE PROVIDED "AS IS" WITHOUT
- * WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT
- * LIMITATION, ANY WARRANTY OF MERCHANTABILITY, FITNESS FOR A
- * PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. IN NO EVENT SHALL
- * CROSS THE ROAD ELECTRONICS BE LIABLE FOR ANY INCIDENTAL, SPECIAL, 
- * INDIRECT OR CONSEQUENTIAL DAMAGES, LOST PROFITS OR LOST DATA, COST OF
- * PROCUREMENT OF SUBSTITUTE GOODS, TECHNOLOGY OR SERVICES, ANY CLAIMS
- * BY THIRD PARTIES (INCLUDING BUT NOT LIMITED TO ANY DEFENSE
- * THEREOF), ANY CLAIMS FOR INDEMNITY OR CONTRIBUTION, OR OTHER
- * SIMILAR COSTS, WHETHER ASSERTED ON THE BASIS OF CONTRACT, TORT
- * (INCLUDING NEGLIGENCE), BREACH OF WARRANTY, OR OTHERWISE
- */
-
 #pragma once
 
-#include "../core/ctre.h"
+#include "ctre/Phoenix/ErrorCode.h"
 #include <set>
 
 namespace CANifier_CCI{
@@ -44,18 +21,19 @@ namespace CANifier_CCI{
 
 extern "C"{
 	void *c_CANifier_Create1(int deviceNumber);
-	CTR_Code c_CANifier_SetLEDOutput(void *handle,  uint32_t  dutyCycle,  uint32_t  ledChannel);
-	CTR_Code c_CANifier_SetGeneralOutputs(void *handle,  uint32_t  outputsBits,  uint32_t  isOutputBits);
-	CTR_Code c_CANifier_SetGeneralOutput(void *handle,  uint32_t  outputPin,  bool  outputValue,  bool  outputEnable);
-	CTR_Code c_CANifier_SetPWMOutput(void *handle,  uint32_t  pwmChannel,  uint32_t  dutyCycle);
-	CTR_Code c_CANifier_EnablePWMOutput(void *handle, uint32_t pwmChannel, bool bEnable);
-	CTR_Code c_CANifier_GetGeneralInputs(void *handle, bool allPins[], uint32_t capacity);
-	CTR_Code c_CANifier_GetGeneralInput(void *handle, uint32_t inputPin, bool * measuredInput);
-	CTR_Code c_CANifier_GetPWMInput(void *handle,  uint32_t  pwmChannel,  float dutyCycleAndPeriod [2]);
-	CTR_Code c_CANifier_GetLastError(void *handle);
-	CTR_Code c_CANifier_GetBatteryVoltage(void *handle, float * batteryVoltage);
+	ctre::phoenix::ErrorCode c_CANifier_SetLEDOutput(void *handle,  uint32_t  dutyCycle,  uint32_t  ledChannel);
+	ctre::phoenix::ErrorCode c_CANifier_SetGeneralOutputs(void *handle,  uint32_t  outputsBits,  uint32_t  isOutputBits);
+	ctre::phoenix::ErrorCode c_CANifier_SetGeneralOutput(void *handle,  uint32_t  outputPin,  bool  outputValue,  bool  outputEnable);
+	ctre::phoenix::ErrorCode c_CANifier_SetPWMOutput(void *handle,  uint32_t  pwmChannel,  uint32_t  dutyCycle);
+	ctre::phoenix::ErrorCode c_CANifier_EnablePWMOutput(void *handle, uint32_t pwmChannel, bool bEnable);
+	ctre::phoenix::ErrorCode c_CANifier_GetGeneralInputs(void *handle, bool allPins[], uint32_t capacity);
+	ctre::phoenix::ErrorCode c_CANifier_GetGeneralInput(void *handle, uint32_t inputPin, bool * measuredInput);
+	ctre::phoenix::ErrorCode c_CANifier_GetPWMInput(void *handle,  uint32_t  pwmChannel,  double dutyCycleAndPeriod [2]);
+	ctre::phoenix::ErrorCode c_CANifier_GetLastError(void *handle);
+	ctre::phoenix::ErrorCode c_CANifier_GetBatteryVoltage(void *handle, double * batteryVoltage);
 	void c_CANifier_SetLastError(void *handle, int error);
-	//int c_CANifier_RequestParam(void *handle,  uint32_t  paramEnum);
-	//CTR_Code c_CANifier_SetParam(void *handle,  uint32_t  paramEnum,  float  value,  int  timeoutMs);
-	//int c_CANifier_GetParamResponse(void *handle, uint32_t paramEnum, float *value);
+	ctre::phoenix::ErrorCode c_CANifier_ConfigSetParameter(void *handle, int param, double value, int subValue, int ordinal, int timeoutMs);
+	ctre::phoenix::ErrorCode c_CANifier_ConfigGetParameter(void *handle, int param, double *value, int ordinal, int timeoutMs);
+	ctre::phoenix::ErrorCode c_CANifier_ConfigSetCustomParam(void *handle, int newValue, int paramIndex, int timeoutMs);
+	ctre::phoenix::ErrorCode c_CANifier_ConfigGetCustomParam(void *handle, int *readValue, int paramIndex, int timoutMs);
 }

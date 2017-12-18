@@ -3,20 +3,20 @@
 #include "ctre/phoenix/MotorControl/CAN/BaseMotorController.h"
 #include "ctre/phoenix/MotorControl/IMotorController.h"
 
-namespace CTRE {
-namespace Phoenix {
-namespace MotorControl{
-namespace CAN {
+namespace ctre {
+namespace phoenix {
+namespace motorcontrol{
+namespace can {
 
-class VictorSPX: public virtual CTRE::MotorControl::CAN::BaseMotorController,
-                 public virtual CTRE::MotorControl::IMotorController {
+class VictorSPX: public virtual ctre::phoenix::motorcontrol::can::BaseMotorController,
+                 public virtual ctre::phoenix::motorcontrol::IMotorController {
 
 public:
   VictorSPX(int deviceNumber);
   virtual ~VictorSPX() {}
 }; //class VictorSPX
 
-} //namespace CAN
-} //namespace MotorControl
-} //namespace Phoenix
-} //namespace CTRE
+} //namespace can
+} //namespace motorcontrol
+} //namespace phoenix
+} //namespace ctre

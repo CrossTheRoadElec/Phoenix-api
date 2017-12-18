@@ -1,6 +1,6 @@
 #pragma once
 
-namespace CTRE { namespace Tasking{
+namespace ctre { namespace phoenix { namespace tasking {
 	
 class ILoopable{
 public:
@@ -10,4 +10,4 @@ public:
 	virtual bool IsDone() = 0;
 	virtual void OnStop() = 0;
 };
-}}
+}}}

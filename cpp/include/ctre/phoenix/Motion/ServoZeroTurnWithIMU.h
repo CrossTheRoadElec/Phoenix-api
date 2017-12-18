@@ -7,15 +7,20 @@
 #include "ctre/phoenix/Tasking/ILoopable.h"
 #include "ServoParameters.h"
 
-namespace CTRE { namespace Motion {
+namespace ctre {
+namespace phoenix {
+namespace motion {
 
-class ServoZeroTurnWithImu : public CTRE::Tasking::ILoopable{
+class ServoZeroTurnWithImu: public ctre::phoenix::tasking::ILoopable {
 public:
 	ServoParameters *servoParams = new ServoParameters();
-	ServoZeroTurnWithImu(CTRE::PigeonIMU *pigeonImu, CTRE::Drive::IDrivetrain *driveTrain,
-			CTRE::Drive::Styles::Basic selectedStyle, float targetHeading, float headingTolerance,
-			ServoParameters *Params, float maxOutput);
-	ServoZeroTurnWithImu(CTRE::PigeonIMU *pigeonImu, CTRE::Drive::IDrivetrain *driveTrain, CTRE::Drive::Styles::Basic selectedStyle);
+	ServoZeroTurnWithImu(ctre::phoenix::PigeonIMU *pigeonImu,
+			ctre::phoenix::drive::IDrivetrain *driveTrain,
+			ctre::phoenix::drive::Styles::Basic selectedStyle, float targetHeading,
+			float headingTolerance, ServoParameters *Params, float maxOutput);
+	ServoZeroTurnWithImu(ctre::phoenix::PigeonIMU *pigeonImu,
+			ctre::phoenix::drive::IDrivetrain *driveTrain,
+			ctre::phoenix::drive::Styles::Basic selectedStyle);
 	bool Set(float targetHeading, float headingTolerance, float maxOutput);
 	float GetImuHeading();
 	void OnStart();
@@ -24,18 +29,21 @@ public:
 	void OnLoop();
 
 private:
-    CTRE::PigeonIMU *_pidgey;
-    CTRE::Drive::IDrivetrain *_driveTrain;
-    CTRE::Drive::Styles::Basic _selectedStyle;
-    float _targetHeading;
-    float _headingTolerance;
-    float _maxOutput;
-    bool _isRunning = false;
-    bool _isDone = false;
-    unsigned char _isGood = 0;
-    unsigned char _state = 0;
+	ctre::phoenix::PigeonIMU *_pidgey;
+	ctre::phoenix::drive::IDrivetrain *_driveTrain;
+	ctre::phoenix::drive::Styles::Basic _selectedStyle;
+	float _targetHeading;
+	float _headingTolerance;
+	float _maxOutput;
+	bool _isRunning = false;
+	bool _isDone = false;
+	unsigned char _isGood = 0;
+	unsigned char _state = 0;
 
 	bool ZeroTurn(float targetHeading, float headingTolerance);
 };
 
-}}
+} // namespace motion
+} // namespace phoenix
+} // namespace ctre
+
