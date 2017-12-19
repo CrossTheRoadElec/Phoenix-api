@@ -99,18 +99,21 @@ public:
 	virtual ErrorCode ConfigReverseLimitSwitchSource(
 			RemoteLimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
 			int deviceID, int timeoutMs) = 0;
-	virtual void EnableLimitSwitches(bool enable) = 0;
+	virtual void OverrideLimitSwitchesEnable(bool enable) = 0;
 
 	//------ local limit switch ----------//
 	/* not supported */
 
 	//------ soft limit ----------//
-	virtual ErrorCode ConfigForwardSoftLimit(int forwardSensorLimit,
+	virtual ErrorCode ConfigForwardSoftLimitTheshold(int forwardSensorLimit,
 			int timeoutMs) = 0;
-	virtual ErrorCode ConfigReverseSoftLimit(int reverseSensorLimit,
+	virtual ErrorCode ConfigReverseSoftLimitTheshold(int reverseSensorLimit,
 			int timeoutMs) = 0;
-
-	virtual void EnableSoftLimits(bool enable) = 0;
+	virtual ErrorCode ConfigForwardSoftLimitEnable(bool enable,
+			int timeoutMs) = 0;
+	virtual ErrorCode ConfigReverseSoftLimitEnable(bool enable,
+			int timeoutMs) = 0;
+	virtual void OverrideSoftLimitsEnable(bool enable) = 0;
 
 	//------ Current Lim ----------//
 	/* not supported */

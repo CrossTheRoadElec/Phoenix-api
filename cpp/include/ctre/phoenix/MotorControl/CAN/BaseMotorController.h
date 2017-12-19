@@ -129,18 +129,22 @@ public:
 	virtual ctre::phoenix::ErrorCode ConfigReverseLimitSwitchSource(
 			RemoteLimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
 			int deviceID, int timeoutMs);
-	void EnableLimitSwitches(bool enable);
+	void OverrideLimitSwitchesEnable(bool enable);
 	//------ local limit switch ----------//
 	virtual ctre::phoenix::ErrorCode ConfigForwardLimitSwitchSource(LimitSwitchSource type,
 			LimitSwitchNormal normalOpenOrClose, int timeoutMs);
 	virtual ctre::phoenix::ErrorCode ConfigReverseLimitSwitchSource(LimitSwitchSource type,
 			LimitSwitchNormal normalOpenOrClose, int timeoutMs);
 	//------ soft limit ----------//
-	virtual ctre::phoenix::ErrorCode ConfigForwardSoftLimit(int forwardSensorLimit,
+	virtual ctre::phoenix::ErrorCode ConfigForwardSoftLimitThreshold(int forwardSensorLimit,
 			int timeoutMs);
-	virtual ctre::phoenix::ErrorCode ConfigReverseSoftLimit(int reverseSensorLimit,
+	virtual ctre::phoenix::ErrorCode ConfigReverseSoftLimitThreshold(int reverseSensorLimit,
 			int timeoutMs);
-	virtual void EnableSoftLimits(bool enable);
+	virtual ctre::phoenix::ErrorCode ConfigForwardSoftLimitEnable(bool enable,
+			int timeoutMs);
+	virtual ctre::phoenix::ErrorCode ConfigReverseSoftLimitEnable(bool enable,
+			int timeoutMs);		
+	virtual void OverrideSoftLimitsEnable(bool enable);
 	//------ Current Lim ----------//
 	/* not available in base */
 	//------ General Close loop ----------//
