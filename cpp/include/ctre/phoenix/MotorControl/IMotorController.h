@@ -105,9 +105,9 @@ public:
 	/* not supported */
 
 	//------ soft limit ----------//
-	virtual ErrorCode ConfigForwardSoftLimitTheshold(int forwardSensorLimit,
+	virtual ErrorCode ConfigForwardSoftLimitThreshold(int forwardSensorLimit,
 			int timeoutMs) = 0;
-	virtual ErrorCode ConfigReverseSoftLimitTheshold(int reverseSensorLimit,
+	virtual ErrorCode ConfigReverseSoftLimitThreshold(int reverseSensorLimit,
 			int timeoutMs) = 0;
 	virtual ErrorCode ConfigForwardSoftLimitEnable(bool enable,
 			int timeoutMs) = 0;
