@@ -41,28 +41,6 @@ enum RemoteFeedbackDevice  {
 	RemoteFeedbackDevice_SoftwareEmulatedSensor = 15,
 };
 
-//typedef FeedbackDevice RemoteCANifierOrTalonOrPigeon;
-
-/* forward proto's */
-//class TalonSRX;
-//class CANifier;
-
-//class RemoteFeedbackDevice {
-//public:
-//	RemoteCANifierOrTalonOrPigeon _type;
-//
-//	//----- very specific details here that are not worth exposing. ---- //
-//	int _peripheralIndex;
-//	int _reserved;
-//	int _arbId;
-//	//TalonSRX & _talon;
-//	//CANifier & _canifier;
-//	//void * _pigeon;
-//
-//	RemoteFeedbackDevice(int baseId, RemoteCANifierOrTalonOrPigeon type);
-//	ErrorCode SetPosition(float position, int timeoutMs);
-//};
-
 } // namespace motorcontrol
 } // namespace phoenix
 } // namespace ctre
