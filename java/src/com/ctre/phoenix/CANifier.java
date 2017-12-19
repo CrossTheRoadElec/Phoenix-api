@@ -176,8 +176,9 @@ public class CANifier {
 	 * 
 	 * @return true if specified input is high, false o/w.
 	 */
-	public int getLastError() {
-		return CANifierJNI.JNI_GetLastError(m_handle);
+	public ErrorCode getLastError() {
+		int retval = CANifierJNI.JNI_GetLastError(m_handle);
+		return ErrorCode.valueOf(retval);
 	}
 
 	public void setPWMOutput(int pwmChannel, double dutyCycle) {
