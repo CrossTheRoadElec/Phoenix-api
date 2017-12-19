@@ -233,9 +233,9 @@ public class CANifier {
 	 *            Timeout value in ms. @see #ConfigOpenLoopRamp
 	 * @return Value of the custom param.
 	 */
-	public int configGetCustomParam(int paramIndex, int timoutMs) {
+	public ErrorCode configGetCustomParam(int paramIndex, int timoutMs) {
 		int retval = CANifierJNI.JNI_ConfigGetCustomParam(m_handle, paramIndex, timoutMs);
-		return retval;
+		return ErrorCode.valueOf(retval);
 	}
 
 	/**
