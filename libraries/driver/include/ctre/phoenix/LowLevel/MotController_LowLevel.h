@@ -135,8 +135,10 @@ public:
 			ctre::phoenix::motorcontrol::LimitSwitchNormal normalOpenOrClose,
 			int deviceIDIfApplicable, int timeoutMs);
 	void OverrideLimitSwitchesEnable(bool enable);
-	ErrorCode ConfigForwardSoftLimit(int forwardSensorLimit, int timeoutMs);
-	ErrorCode ConfigReverseSoftLimit(int reverseSensorLimit, int timeoutMs);
+	ErrorCode ConfigForwardSoftLimitThreshold(int forwardSensorLimit, int timeoutMs);
+	ErrorCode ConfigReverseSoftLimitThreshold(int reverseSensorLimit, int timeoutMs);
+	ErrorCode ConfigForwardSoftLimitEnable(bool enable, int timeoutMs);
+	ErrorCode ConfigReverseSoftLimitEnable(bool enable, int timeoutMs);
 	void OverrideSoftLimitsEnable(bool enable);
 	ErrorCode ConfigPeakCurrentLimit(int amps, int timeoutMs);
 	ErrorCode ConfigPeakCurrentDuration(int milliseconds, int timeoutMs);

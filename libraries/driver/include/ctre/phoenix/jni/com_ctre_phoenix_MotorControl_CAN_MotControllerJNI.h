@@ -268,7 +268,7 @@ JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_C
  * Method:    EnableLimitSwitches
  * Signature: (JZ)V
  */
-JNIEXPORT void JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_EnableLimitSwitches
+JNIEXPORT void JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_OverrideLimitSwitchesEnable
   (JNIEnv *, jclass, jlong, jboolean);
 
 /*
@@ -276,7 +276,7 @@ JNIEXPORT void JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_E
  * Method:    ConfigForwardSoftLimit
  * Signature: (JII)I
  */
-JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigForwardSoftLimit
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigForwardSoftLimitThreshold
   (JNIEnv *, jclass, jlong, jint, jint);
 
 /*
@@ -284,15 +284,22 @@ JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_C
  * Method:    ConfigReverseSoftLimit
  * Signature: (JII)I
  */
-JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigReverseSoftLimit
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigReverseSoftLimitThreshold
   (JNIEnv *, jclass, jlong, jint, jint);
 
+
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigForwardSoftLimitEnable
+  (JNIEnv *, jclass, jlong, jboolean, jint);
+
+
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigReverseSoftLimitEnable
+  (JNIEnv *, jclass, jlong, jboolean, jint);
 /*
  * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
  * Method:    EnableSoftLimits
  * Signature: (JZ)V
  */
-JNIEXPORT void JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_EnableSoftLimits
+JNIEXPORT void JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_OverrideSoftLimitsEnable
   (JNIEnv *, jclass, jlong, jboolean);
 
 /*

@@ -90,17 +90,21 @@ public interface IMotorController
 	public ErrorCode configReverseLimitSwitchSource(RemoteLimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
 			int deviceID, int timeoutMs);
 
-	public void enableLimitSwitches(boolean enable);
+	public void overrideLimitSwitchesEnable(boolean enable);
 
 	// ------ local limit switch ----------//
 	/* not supported */
 
 	// ------ soft limit ----------//
-	public ErrorCode configForwardSoftLimit(int forwardSensorLimit, int timeoutMs);
+	public ErrorCode configForwardSoftLimitThreshold(int forwardSensorLimit, int timeoutMs);
 
-	public ErrorCode configReverseSoftLimit(int reverseSensorLimit, int timeoutMs);
+	public ErrorCode configReverseSoftLimitThreshold(int reverseSensorLimit, int timeoutMs);
+	
+	public ErrorCode configForwardSoftLimitEnable(boolean enable, int timeoutMs);
 
-	public void enableSoftLimits(boolean enable);
+	public ErrorCode configReverseSoftLimitEnable(boolean enable, int timeoutMs);
+
+	public void overrideSoftLimitsEnable(boolean enable);
 
 	// ------ Current Lim ----------//
 	/* not supported */
