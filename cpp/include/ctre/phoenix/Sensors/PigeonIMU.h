@@ -154,19 +154,6 @@ public:
 		 */
 		int lastError;
 	};
-	/** General Parameter Enums */
-	enum ParamEnum {
-		ParamEnum_YawOffset = 160,
-		ParamEnum_CompassOffset = 161,
-		ParamEnum_BetaGain = 162,
-		ParamEnum_Reserved163 = 163,
-		ParamEnum_GyroNoMotionCal = 164,
-		ParamEnum_EnterCalibration = 165,
-		ParamEnum_FusedHeadingOffset = 166,
-		ParamEnum_StatusFrameRate = 169,
-		ParamEnum_AccumZ = 170,
-		ParamEnum_TempCompDisable = 171,
-	};
 
 	/** Enumerated type for status frame types. */
 	enum StatusFrameRate {
@@ -238,7 +225,7 @@ public:
 	int ConfigGetCustomParam(int paramIndex, int timeoutMs);
 	ErrorCode ConfigSetParameter(ParamEnum param, double value,
 			uint8_t subValue, int ordinal, int timeoutMs);
-	double ConfigGetParameter(ParamEnum param, int ordinal, int timeoutMs);
+	double ConfigGetParameter(ctre::phoenix::ParamEnum param, int ordinal, int timeoutMs);
 
 	void* GetLowLevelHandle() {
 		return _handle;

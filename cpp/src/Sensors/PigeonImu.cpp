@@ -440,13 +440,13 @@ int PigeonIMU::ConfigGetCustomParam(int paramIndex, int timeoutMs) {
 	return readValue;
 }
 
-ErrorCode PigeonIMU::ConfigSetParameter(ParamEnum param, double value,
+ErrorCode PigeonIMU::ConfigSetParameter(ctre::phoenix::ParamEnum param, double value,
 		uint8_t subValue, int ordinal, int timeoutMs) {
 	return c_PigeonIMU_ConfigSetParameter(_handle, param, value, subValue,
 			ordinal, timeoutMs);
 
 }
-double PigeonIMU::ConfigGetParameter(ParamEnum param, int ordinal,
+double PigeonIMU::ConfigGetParameter(ctre::phoenix::ParamEnum param, int ordinal,
 		int timeoutMs) {
 	double value = 0;
 	c_PigeonIMU_ConfigGetParameter(_handle, param, &value, ordinal, timeoutMs);
