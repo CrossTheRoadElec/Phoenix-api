@@ -13,8 +13,8 @@ enum StatusFrameEnhanced {
 	Status_9_MotProfBuffer = 0x1600,
 	Status_10_MotionMagic = 0x1640,
 	Status_12_Feedback1 = 0x16C0,
-	Status_13_Base_PIDF1 = 0x1700,
-	Status_14_Turn_PIDF2 = 0x1740,
+	Status_13_Base_PIDF0 = 0x1700,
+	Status_14_Turn_PIDF1 = 0x1740,
 	Status_15_FirmareApiStatus = 0x1780,
 
 	Status_3_Quadrature = 0x1480,
@@ -31,8 +31,8 @@ enum StatusFrame {
 	Status_9_MotProfBuffer_ = 0x1600,
 	Status_10_MotionMagic_ = 0x1640,
 	Status_12_Feedback1_ = 0x16C0,
-	Status_13_Base_PIDF1_ = 0x1700,
-	Status_14_Turn_PIDF2_ = 0x1740,
+	Status_13_Base_PIDF0_ = 0x1700,
+	Status_14_Turn_PIDF1_ = 0x1740,
 	Status_15_FirmareApiStatus_ = 0x1780,
 };
 class StatusFrameRoutines {
