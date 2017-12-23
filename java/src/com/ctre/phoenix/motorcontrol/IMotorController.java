@@ -180,8 +180,10 @@ public interface IMotorController
 
 	//------ Generic Param API, typically not used ----------//
 	public ErrorCode configSetParameter(ParamEnum param, double value, int subValue, int ordinal, int timeoutMs);
+	public ErrorCode configSetParameter(int param, double value, int subValue, int ordinal, int timeoutMs);
 
 	public double configGetParameter(ParamEnum paramEnum, int ordinal, int timeoutMs) ;
+	public double configGetParameter(int paramEnum, int ordinal, int timeoutMs) ;
 
 	//------ Misc. ----------//
 	public int getBaseID();
