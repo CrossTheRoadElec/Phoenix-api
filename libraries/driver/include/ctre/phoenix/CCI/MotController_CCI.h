@@ -56,6 +56,7 @@ extern "C"{
 	ctre::phoenix::ErrorCode c_MotController_GetActiveTrajectoryPosition(void *handle, int *param);
 	ctre::phoenix::ErrorCode c_MotController_GetActiveTrajectoryVelocity(void *handle, int *param);
 	ctre::phoenix::ErrorCode c_MotController_GetActiveTrajectoryHeading(void *handle, double *param);
+	ctre::phoenix::ErrorCode c_MotController_GetActiveTrajectoryAll(void *handle, int * vel, int * pos, double *heading);
 	ctre::phoenix::ErrorCode c_MotController_ConfigMotionCruiseVelocity(void *handle, int sensorUnitsPer100ms, int timeoutMs);
 	ctre::phoenix::ErrorCode c_MotController_ConfigMotionAcceleration(void *handle, int sensorUnitsPer100msPerSec, int timeoutMs);
 	ctre::phoenix::ErrorCode c_MotController_ClearMotionProfileTrajectories(void *handle);
@@ -107,5 +108,9 @@ extern "C"{
 	ctre::phoenix::ErrorCode c_MotController_SelectDemandType(void *handle, bool enable);
 	ctre::phoenix::ErrorCode c_MotController_SetMPEOutput(void *handle, int MpeOutput);
 	ctre::phoenix::ErrorCode c_MotController_EnableHeadingHold(void *handle, bool enable);
-
+	ctre::phoenix::ErrorCode c_MotController_GetAnalogInAll(void *handle, int * withOv, int * raw, int * vel);
+	ctre::phoenix::ErrorCode c_MotController_GetQuadratureSensor(void *handle, int * pos, int * vel);
+	ctre::phoenix::ErrorCode c_MotController_GetPulseWidthAll(void *handle, int * pos, int * vel, int * riseToRiseUs, int * riseToFallUs);
+	ctre::phoenix::ErrorCode c_MotController_GetQuadPinStates(void *handle, int * quadA, int * quadB, int * quadIdx);
+  ctre::phoenix::ErrorCode c_MotController_GetLimitSwitchState(void *handle, int * isFwdClosed, int * isRevClosed);
 }

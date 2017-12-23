@@ -165,17 +165,22 @@ public:
 
 	ErrorCode GetAnalogInWithOv(int & param);
 	ErrorCode GetAnalogInVel(int & param);
+	ErrorCode GetAnalogInAll(int & withOv, int & vRaw, int & vel);
 	ErrorCode GetQuadraturePosition(int & param);
 	ErrorCode GetQuadratureVelocity(int & param);
+	ErrorCode GetQuadratureSensor(int & pos, int & vel);
 	ErrorCode GetPulseWidthPosition(int & param);
 	ErrorCode GetPulseWidthVelocity(int & param);
 	ErrorCode GetPulseWidthRiseToFallUs(int & param);
 	ErrorCode GetPulseWidthRiseToRiseUs(int & param);
+	ErrorCode GetPulseWidthAll(int & pos, int & vel, int & riseToRiseUs, int & riseToFallUs);
 	ErrorCode GetPinStateQuadA(int & param);
 	ErrorCode GetPinStateQuadB(int & param);
 	ErrorCode GetPinStateQuadIdx(int & param);
+	ErrorCode GetQuadPinStates(int & quadA, int & quadB, int & quadIdx);
 	ErrorCode IsFwdLimitSwitchClosed(int & param);
 	ErrorCode IsRevLimitSwitchClosed(int & param);
+	ErrorCode GetLimitSwitchState(int & isFwdClosed, int & isRevClosed);
 	ErrorCode GetLastError();
 
 	ErrorCode ConfigMotionCruiseVelocity(int sensorUnitsPer100ms, int timeoutMs);
@@ -185,6 +190,7 @@ public:
 	ErrorCode GetActiveTrajectoryPosition(int & sensorUnits);
 	ErrorCode GetActiveTrajectoryVelocity(int & sensorUnitsPer100ms);
 	ErrorCode GetActiveTrajectoryHeading(double & headingDeg);
+	ErrorCode GetActiveTrajectoryAll(int & vel, int & pos, double & heading);
 
 	ErrorCode SetAnalogPosition(int newPosition, int timeoutMs);
 	ErrorCode SetQuadraturePosition(int newPosition, int timeoutMs);
