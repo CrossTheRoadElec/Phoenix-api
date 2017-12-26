@@ -156,24 +156,24 @@ public:
 	};
 
 	/** Enumerated type for status frame types. */
-	enum StatusFrameRate {
-		StatusFrameRate_CondStatus_1_General = 2,
-		StatusFrameRate_CondStatus_9_SixDeg_YPR = 3,
-		StatusFrameRate_CondStatus_6_SensorFusion = 4,
-		StatusFrameRate_CondStatus_11_GyroAccum = 5,
-		StatusFrameRate_CondStatus_2_GeneralCompass = 11,
-		StatusFrameRate_CondStatus_3_GeneralAccel = 12,
-		StatusFrameRate_CondStatus_10_SixDeg_Quat = 14,
-		StatusFrameRate_RawStatus_4_Mag = 6,
-		StatusFrameRate_BiasedStatus_2_Gyro = 8,
-		StatusFrameRate_BiasedStatus_4_Mag = 9,
-		StatusFrameRate_BiasedStatus_6_Accel = 10,
+	enum PigeonStatusFrame {
+		PigeonStatusFrame_CondStatus_1_General			=	(0x042000),
+		PigeonStatusFrame_CondStatus_9_SixDeg_YPR		=	(0x042200),
+		PigeonStatusFrame_CondStatus_6_SensorFusion		=	(0x042140),
+		PigeonStatusFrame_CondStatus_11_GyroAccum		=	(0x042280),
+		PigeonStatusFrame_CondStatus_2_GeneralCompass	=	(0x042040),
+		PigeonStatusFrame_CondStatus_3_GeneralAccel		=	(0x042080),
+		PigeonStatusFrame_CondStatus_10_SixDeg_Quat		=	(0x042240),
+		PigeonStatusFrame_RawStatus_4_Mag		=	(0x041CC0),
+		PigeonStatusFrame_BiasedStatus_2_Gyro	=	(0x041C40),
+		PigeonStatusFrame_BiasedStatus_4_Mag	=	(0x041CC0),
+		PigeonStatusFrame_BiasedStatus_6_Accel	=	(0x041D40),
 	};
 
 	PigeonIMU(int deviceNumber);
 	PigeonIMU(ctre::phoenix::motorcontrol::can::TalonSRX * talonSrx);
 
-	void SetStatusFramePeriod(StatusFrameRate statusFrameRate, int periodMs,
+	ErrorCode SetStatusFramePeriod(PigeonStatusFrame statusFrame, int periodMs,
 			int timeoutMs);
 
 	int SetYaw(double angleDeg, int timeoutMs);

@@ -68,9 +68,9 @@ PigeonIMU::PigeonIMU(ctre::phoenix::motorcontrol::can::TalonSRX * talonSrx) :
  * Change the periodMs of a TALON's status frame.  See kStatusFrame_* enums for
  * what's available.
  */
-void PigeonIMU::SetStatusFramePeriod(StatusFrameRate statusFrameRate,
+ErrorCode PigeonIMU::SetStatusFramePeriod(PigeonStatusFrame statusFrame,
 		int periodMs, int timeoutMs) {
-	c_PigeonIMU_SetStatusFramePeriod(_handle, statusFrameRate, periodMs,
+	return c_PigeonIMU_SetStatusFramePeriod(_handle, statusFrame, periodMs,
 			timeoutMs);
 }
 int PigeonIMU::SetYaw(double angleDeg, int timeoutMs) {

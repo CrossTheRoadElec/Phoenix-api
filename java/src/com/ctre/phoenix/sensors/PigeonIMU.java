@@ -239,7 +239,7 @@ public class PigeonIMU {
 	/**
 	 * Enumerated types for frame rate ms.
 	 */
-	public enum StatusFrame {
+	public enum PigeonStatusFrame {
 		CondStatus_1_General(0x042000), CondStatus_9_SixDeg_YPR(0x042200), CondStatus_6_SensorFusion(
 				0x042140), CondStatus_11_GyroAccum(0x042280), CondStatus_2_GeneralCompass(
 						0x042040), CondStatus_3_GeneralAccel(0x042080), CondStatus_10_SixDeg_Quat(
@@ -248,12 +248,12 @@ public class PigeonIMU {
 
 		public final int value;
 
-		StatusFrame(int initValue) {
+		PigeonStatusFrame(int initValue) {
 			this.value = initValue;
 		}
 
-		public static StatusFrame valueOf(int value) {
-			for (StatusFrame mode : values()) {
+		public static PigeonStatusFrame valueOf(int value) {
+			for (PigeonStatusFrame mode : values()) {
 				if (mode.value == value) {
 					return mode;
 				}
@@ -290,8 +290,8 @@ public class PigeonIMU {
 		m_handle = PigeonImuJNI.JNI_new_PigeonImu_Talon(m_deviceNumber);
 	}
 
-	public ErrorCode setStatusFramePeriod(StatusFrame stateFrameRate, int periodMs, int timeoutMs) {
-		int retval = PigeonImuJNI.JNI_SetStatusFramePeriod(m_handle, stateFrameRate.value, periodMs, timeoutMs);
+	public ErrorCode setStatusFramePeriod(PigeonStatusFrame stateFrame, int periodMs, int timeoutMs) {
+		int retval = PigeonImuJNI.JNI_SetStatusFramePeriod(m_handle, stateFrame.value, periodMs, timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
 
