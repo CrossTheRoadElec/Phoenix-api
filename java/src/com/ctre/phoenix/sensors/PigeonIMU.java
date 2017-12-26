@@ -534,9 +534,9 @@ public class PigeonIMU {
 	 *            Timeout value in ms. @see #ConfigOpenLoopRamp
 	 * @return Value of the custom param.
 	 */
-	public ErrorCode configGetCustomParam(int paramIndex, int timoutMs) {
+	public int configGetCustomParam(int paramIndex, int timoutMs) {
 		int retval = PigeonImuJNI.JNI_ConfigGetCustomParam(m_handle, paramIndex, timoutMs);
-		return ErrorCode.valueOf(retval);
+		return retval;
 	}
 
 	/**
