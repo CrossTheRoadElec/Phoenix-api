@@ -21,6 +21,7 @@ namespace CANifier_CCI{
 
 extern "C"{
 	void *c_CANifier_Create1(int deviceNumber);
+	ctre::phoenix::ErrorCode c_CANifier_GetDescription(void *handle, char * toFill, int toFillByteSz, int * numBytesFilled);
 	ctre::phoenix::ErrorCode c_CANifier_SetLEDOutput(void *handle,  uint32_t  dutyCycle,  uint32_t  ledChannel);
 	ctre::phoenix::ErrorCode c_CANifier_SetGeneralOutputs(void *handle,  uint32_t  outputsBits,  uint32_t  isOutputBits);
 	ctre::phoenix::ErrorCode c_CANifier_SetGeneralOutput(void *handle,  uint32_t  outputPin,  bool  outputValue,  bool  outputEnable);
@@ -36,4 +37,12 @@ extern "C"{
 	ctre::phoenix::ErrorCode c_CANifier_ConfigGetParameter(void *handle, int param, double *value, int ordinal, int timeoutMs);
 	ctre::phoenix::ErrorCode c_CANifier_ConfigSetCustomParam(void *handle, int newValue, int paramIndex, int timeoutMs);
 	ctre::phoenix::ErrorCode c_CANifier_ConfigGetCustomParam(void *handle, int *readValue, int paramIndex, int timoutMs);
+	ctre::phoenix::ErrorCode c_CANifier_GetFaults(void *handle, int * param) ;
+	ctre::phoenix::ErrorCode c_CANifier_GetStickyFaults(void *handle, int * param) ;
+	ctre::phoenix::ErrorCode c_CANifier_ClearStickyFaults(void *handle, int timeoutMs) ;
+	ctre::phoenix::ErrorCode c_CANifier_GetFirmwareVersion(void *handle, int *firmwareVers);
+	ctre::phoenix::ErrorCode c_CANifier_HasResetOccurred(void *handle, bool * hasReset);
+	ctre::phoenix::ErrorCode c_CANifier_SetStatusFramePeriod(void *handle, int frame, int periodMs, int timeoutMs);
+	ctre::phoenix::ErrorCode c_CANifier_GetStatusFramePeriod(void *handle, int frame, int *periodMs, int timeoutMs);
+	ctre::phoenix::ErrorCode c_CANifier_SetControlFramePeriod(void *handle, int frame,	int periodMs) ;
 }

@@ -26,6 +26,7 @@ enum ErrorCode
 	CAN_OVERFLOW = -6,
 	SensorNotPresent = -7,		//!< Sensor is not present
 	FirmwareTooOld = -8,
+	CouldNotChangePeriod = -9,
 
 
 	//General
@@ -67,7 +68,7 @@ enum ErrorCode
 	FeatureNotSupported = 101,
 	NotImplemented = 102,
 	FirmVersionCouldNotBeRetrieved = 103,
-
+	FeaturesNotAvailableYet = 104,
 };
 
 } // namespace phoenix

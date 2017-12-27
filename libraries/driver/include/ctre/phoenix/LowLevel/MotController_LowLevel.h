@@ -205,7 +205,7 @@ private:
 	int32_t _len = 0;
 	ErrorCode _lastError = (ErrorCode)0;
 
-	void CheckFirm(int minMajor = kMinFirmwareVersionMajor, int minMinor = kMinFirmwareVersionMinor);
+	void CheckFirmVers(int minMajor = kMinFirmwareVersionMajor, int minMinor = kMinFirmwareVersionMinor);
 
 };
 

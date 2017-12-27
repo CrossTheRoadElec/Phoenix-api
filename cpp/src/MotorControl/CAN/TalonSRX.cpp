@@ -28,14 +28,10 @@ ctre::phoenix::ErrorCode TalonSRX::SetStatusFramePeriod(StatusFrame frame,
 	return BaseMotorController::SetStatusFramePeriod(frame, periodMs, timeoutMs);
 }
 int TalonSRX::GetStatusFramePeriod(StatusFrameEnhanced frame, int timeoutMs) {
-	int periodMs = 0;
-	BaseMotorController::GetStatusFramePeriod(frame, timeoutMs);
-	return periodMs;
+	return BaseMotorController::GetStatusFramePeriod(frame, timeoutMs);
 }
 int TalonSRX::GetStatusFramePeriod(StatusFrame frame, int timeoutMs) {
-	int periodMs = 0;
-	BaseMotorController::GetStatusFramePeriod(frame, timeoutMs);
-	return periodMs;
+	return BaseMotorController::GetStatusFramePeriod(frame, timeoutMs);
 }
 ctre::phoenix::ErrorCode TalonSRX::ConfigVelocityMeasurementPeriod(VelocityMeasPeriod period,
 		int timeoutMs) {
@@ -85,7 +81,7 @@ ctre::phoenix::ErrorCode TalonSRX::ConfigPeakCurrentDuration(int milliseconds, i
 			timeoutMs);
 }
 ctre::phoenix::ErrorCode TalonSRX::ConfigContinuousCurrentLimit(int amps, int timeoutMs) {
-	return c_MotController_ConfigPeakCurrentDuration(m_handle, amps, timeoutMs);
+	return c_MotController_ConfigContinuousCurrentLimit(m_handle, amps, timeoutMs);
 }
 void TalonSRX::EnableCurrentLimit(bool enable) {
 	c_MotController_EnableCurrentLimit(m_handle, enable);

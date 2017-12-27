@@ -958,7 +958,7 @@ ErrorCode BaseMotorController::GetFaults(Faults & toFill) {
 }
 ErrorCode BaseMotorController::GetStickyFaults(StickyFaults & toFill) {
 	int faultBits;
-	ErrorCode retval = c_MotController_GetFaults(m_handle, &faultBits);
+	ErrorCode retval = c_MotController_GetStickyFaults(m_handle, &faultBits);
 	toFill = StickyFaults(faultBits);
 	return retval;
 }
@@ -978,11 +978,11 @@ int BaseMotorController::GetFirmwareVersion() {
 	return retval;
 }
 /**
- * Returns true if the device has reset.
+ * Returns true if the device has reset since last call.
  *
  * @return Has a Device Reset Occurred?
  */
-bool BaseMotorController::HasResetOccured() {
+bool BaseMotorController::HasResetOccurred() {
 	bool retval = false;
 	c_MotController_HasResetOccurred(m_handle, &retval);
 	return retval;

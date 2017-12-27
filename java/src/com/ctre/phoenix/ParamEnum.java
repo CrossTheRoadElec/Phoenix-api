@@ -52,9 +52,9 @@ public enum ParamEnum
 	eBatteryVoltageFilterSize(351),
 
 	eContinuousCurrentLimitAmps(360),
-	eContinuousCurrentLimitMs(361),
+	ePeakCurrentLimitMs(361),
 	ePeakCurrentLimitAmps(362),
-
+	
 	eClosedLoopIAccum(370),
 
 	eCustomParam(380),

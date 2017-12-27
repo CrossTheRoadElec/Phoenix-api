@@ -26,6 +26,10 @@
 #include "Device_LowLevel.h"
 #include "ctre/Phoenix/ErrorCode.h"
 #include "ctre/Phoenix/paramEnum.h"
+#include "ctre/Phoenix/CANifierControlFrame.h"
+#include "ctre/Phoenix/CANifierFaults.h"
+#include "ctre/Phoenix/CANifierStatusFrame.h"
+#include "ctre/Phoenix/CANifierStickyFaults.h"
 #include <FRC_NetworkCommunication/CANSessionMux.h>  //CAN Comm
 #include <map>
 
@@ -49,8 +53,7 @@ public:
 		SPI_MOSI_PWM1P = 9,
 		SPI_CLK_PWM0P = 10,
 	};
-	
-	
+
 	explicit LowLevelCANifier(int deviceNumber = 0);
 
 	ctre::phoenix::ErrorCode SetLEDOutput( int  dutyCycle,  int  ledChannel);
@@ -65,6 +68,14 @@ public:
 	ctre::phoenix::ErrorCode GetBatteryVoltage(double * batteryVoltage);
 	ctre::phoenix::ErrorCode SetLastError(ctre::phoenix::ErrorCode error);
 
+	ctre::phoenix::ErrorCode GetFaults(ctre::phoenix::CANifierFaults & toFill);
+	ctre::phoenix::ErrorCode GetStickyFaults(ctre::phoenix::CANifierStickyFaults & toFill) ;
+	ctre::phoenix::ErrorCode ClearStickyFaults(int timeoutMs) ;
+	ctre::phoenix::ErrorCode SetStatusFramePeriod(ctre::phoenix::CANifierStatusFrame frame, int periodMs, int timeoutMs) ;
+	ctre::phoenix::ErrorCode GetStatusFramePeriod(ctre::phoenix::CANifierStatusFrame frame,
+			int & periodMs, int timeoutMs) ;
+	ctre::phoenix::ErrorCode SetControlFramePeriod(ctre::phoenix::CANifierControlFrame frame,
+			int periodMs);
 
 	const static int kMinFirmwareVersionMajor = 0;
 	const static int kMinFirmwareVersionMinor = 40;
@@ -82,7 +93,7 @@ private:
 
 	ctre::phoenix::ErrorCode _lastError = ctre::phoenix::OKAY;
 
-	void CheckFirm(int minMajor = kMinFirmwareVersionMajor, int minMinor = kMinFirmwareVersionMinor);
+	void CheckFirmVers(int minMajor = kMinFirmwareVersionMajor, int minMinor = kMinFirmwareVersionMinor);
 	void EnsurePwmOutputFrameIsTransmitting();
 	void EnableFirmStatusFrame(bool enable);
 };

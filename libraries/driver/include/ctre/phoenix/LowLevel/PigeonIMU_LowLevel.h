@@ -24,6 +24,10 @@
 #pragma once
 
 #include "Device_LowLevel.h"
+#include "ctre/Phoenix/Sensors/PigeonIMU_ControlFrame.h"
+#include "ctre/Phoenix/Sensors/PigeonIMU_Faults.h"
+#include "ctre/Phoenix/Sensors/PigeonIMU_StatusFrame.h"
+#include "ctre/Phoenix/Sensors/PigeonIMU_StickyFaults.h"
 #include <string>
 
 /** 
@@ -141,21 +145,6 @@ public:
 		int lastError;
 	};
 
-	/** Enumerated type for status frame types. */
-	enum PigeonStatusFrame {
-		Status_CondStatus_1_General = 0x042000,
-		Status_CondStatus_9_SixDeg_YPR = 0x042200,
-		Status_CondStatus_6_SensorFusion = 0x042140,
-		Status_CondStatus_11_GyroAccum = 0x042280,
-		Status_CondStatus_2_GeneralCompass = 0x042040,
-		Status_CondStatus_3_GeneralAccel = 0x042080,
-		Status_CondStatus_10_SixDeg_Quat = 0x042240,
-		Status_RawStatus_4_Mag = 0x041CC0,
-		Status_BiasedStatus_2_Gyro = 0x041C40,
-		Status_BiasedStatus_4_Mag = 0x041CC0,
-		Status_BiasedStatus_6_Accel = 0x41D40,
-	};
-	
 	static LowLevelPigeonImu * CreatePigeon(int deviceNumber, bool talon);
 
 	LowLevelPigeonImu(const LowLevelPigeonImu &) = delete;
@@ -163,8 +152,6 @@ public:
 
 
 	ctre::phoenix::ErrorCode SetLastError(ctre::phoenix::ErrorCode error);
-
-	ctre::phoenix::ErrorCode SetStatusFramePeriod(PigeonStatusFrame frame, int periodMs, int timeoutMs);
 
 	ctre::phoenix::ErrorCode SetYaw(double angleDeg, int timeoutMs);
 	ctre::phoenix::ErrorCode AddYaw(double angleDeg, int timeoutMs);
@@ -200,8 +187,23 @@ public:
 	ctre::phoenix::ErrorCode GetAccelerometerAngles(double tiltAngles[3]);
 
 	ctre::phoenix::ErrorCode GetFusedHeading(FusionStatus & status, double &value);
-	ctre::phoenix::ErrorCode GetFusedHeading(int &bIsFusing, int &bIsValid, double &value, int &lastError);
+	ctre::phoenix::ErrorCode GetFusedHeading(int &bIsFusing, int &bIsValid,
+			double &value, int &lastError);
 	ctre::phoenix::ErrorCode GetFusedHeading(double &value);
+
+	ctre::phoenix::ErrorCode SetStatusFramePeriod(
+			ctre::phoenix::sensors::PigeonIMU_StatusFrame frame, int periodMs,
+			int timeoutMs);
+	ctre::phoenix::ErrorCode GetStatusFramePeriod(
+			ctre::phoenix::sensors::PigeonIMU_StatusFrame frame, int & periodMs,
+			int timeoutMs);
+	ctre::phoenix::ErrorCode SetControlFramePeriod(
+			ctre::phoenix::sensors::PigeonIMU_ControlFrame frame, int periodMs);
+	ctre::phoenix::ErrorCode GetFaults(
+			ctre::phoenix::sensors::PigeonIMU_Faults & toFill);
+	ctre::phoenix::ErrorCode GetStickyFaults(
+			ctre::phoenix::sensors::PigeonIMU_StickyFaults & toFill);
+	ctre::phoenix::ErrorCode ClearStickyFaults(int timeoutMs);
 
 	static std::string ToString(LowLevelPigeonImu::PigeonState state);
 	static std::string ToString(CalibrationMode cm);
@@ -218,7 +220,8 @@ private:
 			int32_t paramReqId,
 			int32_t paramRespId,
 			int32_t paramSetId,
-			int32_t arbIdFrameApiStatus);
+			int32_t arbIdFrameApiStatus,
+			const std::string & description);
 
 	/** firmware state reported over CAN */
 	enum MotionDriverState {
@@ -251,7 +254,7 @@ private:
 	uint64_t _cache = 0;
 	uint32_t _len = 0;
 
-	void CheckFirm(int minMajor = kMinFirmwareVersionMajor, int minMinor = kMinFirmwareVersionMinor);
+	void CheckFirmVers(int minMajor = kMinFirmwareVersionMajor, int minMinor = kMinFirmwareVersionMinor);
 	ctre::phoenix::ErrorCode ConfigSetWrapper(ctre::phoenix::ParamEnum paramEnum, TareType tareType, double angleDeg, int timeoutMs);
 	ctre::phoenix::ErrorCode ConfigSetWrapper(ctre::phoenix::ParamEnum paramEnum, double value, int timeoutMs);
 	ctre::phoenix::ErrorCode ReceiveCAN(int arbId);

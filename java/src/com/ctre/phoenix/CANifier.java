@@ -106,11 +106,17 @@ public class CANifier {
 		public boolean SPI_CLK_PWM0;
 	}
 
-	public enum StatusFrameRate {
-		Status1_General(0), Status2_General(1), Status3_PwmInput0(2), Status4_PwmInput1(3), Status5_PwmInput2(
-				4), Status6_PwmInput3(5);
-		public static StatusFrameRate valueOf(int value) {
-			for (StatusFrameRate mode : values()) {
+	public enum CANifierStatusFrame {
+		Status_1_General(0x041400), 
+		Status_2_General(0x041440), 
+		Status_3_PwmInputs0(0x041480), 
+		Status_4_PwmInputs1(0x0414C0), 
+		Status_5_PwmInputs2(0x041500), 
+		Status_6_PwmInputs3(0x041540), 
+		Status_8_Misc(0x0415C0);
+
+		public static CANifierStatusFrame valueOf(int value) {
+			for (CANifierStatusFrame mode : values()) {
 				if (mode.value == value) {
 					return mode;
 				}
@@ -120,7 +126,7 @@ public class CANifier {
 
 		public final int value;
 
-		StatusFrameRate(int initValue) {
+		CANifierStatusFrame(int initValue) {
 			this.value = initValue;
 		}
 	}
@@ -129,6 +135,10 @@ public class CANifier {
 
 	public CANifier(int deviceId) {
 		m_handle = CANifierJNI.JNI_new_CANifier(deviceId);
+	}
+	public ErrorCode setStatusFramePeriod(CANifierStatusFrame stateFrame, int periodMs, int timeoutMs) {
+		int retval = CANifierJNI.JNI_SetStatusFramePeriod(m_handle, stateFrame.value, periodMs, timeoutMs);
+		return ErrorCode.valueOf(retval);
 	}
 
 	public void setLEDOutput(double percentOutput, LEDChannel ledChannel) {
@@ -233,9 +243,9 @@ public class CANifier {
 	 *            Timeout value in ms. @see #ConfigOpenLoopRamp
 	 * @return Value of the custom param.
 	 */
-	public ErrorCode configGetCustomParam(int paramIndex, int timoutMs) {
+	public int configGetCustomParam(int paramIndex, int timoutMs) {
 		int retval = CANifierJNI.JNI_ConfigGetCustomParam(m_handle, paramIndex, timoutMs);
-		return ErrorCode.valueOf(retval);
+		return retval;
 	}
 
 	/**

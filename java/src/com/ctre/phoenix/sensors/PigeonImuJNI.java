@@ -103,5 +103,5 @@ public class PigeonImuJNI extends CTREJNIWrapper {
 	  
 	public static native int JNI_GetLastError(long handle);
 	  
-	public static native boolean JNI_HasResetOccured(long handle);
+	public static native boolean JNI_HasResetOccurred(long handle);
 }

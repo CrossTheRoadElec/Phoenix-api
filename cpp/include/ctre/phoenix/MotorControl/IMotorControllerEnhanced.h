@@ -42,13 +42,18 @@ public:
 	/* expand the options */
 	virtual ErrorCode ConfigSelectedFeedbackSensor(
 			FeedbackDevice feedbackDevice, int pidIdx, int timeoutMs) = 0;
+	virtual ErrorCode ConfigSelectedFeedbackSensor(
+			RemoteFeedbackDevice feedbackDevice, int pidIdx, int timeoutMs) = 0;
 
 	//------- sensor status --------- //
 	/* in parent */
 
 	//------ status frame period changes ----------//
+	virtual ErrorCode SetStatusFramePeriod(StatusFrame frame, int periodMs,
+			int timeoutMs) = 0;
 	virtual ErrorCode SetStatusFramePeriod(StatusFrameEnhanced frame,
 			int periodMs, int timeoutMs) = 0;
+	virtual int GetStatusFramePeriod(StatusFrame frame, int timeoutMs) = 0;
 	virtual int GetStatusFramePeriod(StatusFrameEnhanced frame, int timeoutMs) = 0;
 
 	//----- velocity signal conditionaing ------//
@@ -58,7 +63,12 @@ public:
 			int timeoutMs)= 0;
 
 	//------ remote limit switch ----------//
-	/* in parent */
+	virtual ErrorCode ConfigForwardLimitSwitchSource(
+			RemoteLimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
+			int deviceID, int timeoutMs) = 0;
+	virtual ErrorCode ConfigReverseLimitSwitchSource(
+			RemoteLimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
+			int deviceID, int timeoutMs) = 0;
 
 	//------ local limit switch ----------//
 	virtual ErrorCode ConfigForwardLimitSwitchSource(LimitSwitchSource type,

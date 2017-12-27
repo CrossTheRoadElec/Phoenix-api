@@ -6,6 +6,10 @@
 #include "ctre/phoenix/LowLevel/CANBusAddressable.h"
 #include "ctre/Phoenix/ErrorCode.h"
 #include "ctre/phoenix/paramEnum.h"
+#include "ctre/phoenix/CANifierControlFrame.h"
+#include "ctre/phoenix/CANifierStatusFrame.h"
+#include "ctre/phoenix/CANifierStickyFaults.h"
+#include "ctre/phoenix/CANifierFaults.h"
 
 namespace ctre {namespace phoenix {
 class CANifier: public CANBusAddressable {
@@ -47,21 +51,18 @@ public:
 		bool SPI_CLK_PWM0;
 	};
 
-	enum StatusFrameRate {
-		Status1_General = 0,
-		Status2_General = 1,
-		Status3_PwmInput0 = 2,
-		Status4_PwmInput1 = 3,
-		Status5_PwmInput2 = 4,
-		Status6_PwmInput3 = 5,
-	};
-
 	CANifier(int deviceNumber);
 	ErrorCode SetLEDOutput(double percentOutput, LEDChannel ledChannel);
 	ErrorCode SetGeneralOutput(GeneralPin outputPin, bool outputValue, bool outputEnable);
 	ErrorCode SetGeneralOutputs(int outputBits, int isOutputBits);
 	ErrorCode GetGeneralInputs(PinValues &allPins);
 	bool GetGeneralInput(GeneralPin inputPin);
+	/**
+	 * Gets the bus voltage seen by the motor controller.
+	 *
+	 * @return The bus voltage value (in volts).
+	 */
+	double GetBusVoltage();
 	ErrorCode GetLastError();
 	ErrorCode SetPWMOutput(int pwmChannel, double dutyCycle);
 	ErrorCode EnablePWMOutput(int pwmChannel, bool bEnable);
@@ -76,6 +77,37 @@ public:
 	ErrorCode ConfigSetParameter(ParamEnum param, double value,
 			uint8_t subValue, int ordinal, int timeoutMs);
 	double ConfigGetParameter(ParamEnum param, int ordinal, int timeoutMs);
+
+
+	ErrorCode SetStatusFramePeriod(CANifierStatusFrame statusFrame,
+			int periodMs, int timeoutMs);
+	/**
+	 * Gets the period of the given status frame.
+	 *
+	 * @param frame
+	 *            Frame to get the period of.
+	 * @param timeoutMs
+	 *            Timeout value in ms. @see #ConfigOpenLoopRamp
+	 * @return Period of the given status frame.
+	 */
+	int GetStatusFramePeriod(CANifierStatusFrame frame, int timeoutMs);
+	ErrorCode SetControlFramePeriod(CANifierControlFrame frame, int periodMs);
+	/**
+	 * Gets the firmware version of the device.
+	 *
+	 * @return Firmware version of device.
+	 */
+	int GetFirmwareVersion();
+	/**
+	 * Returns true if the device has reset since last call.
+	 *
+	 * @return Has a Device Reset Occurred?
+	 */
+	bool HasResetOccurred();
+	ErrorCode GetFaults(CANifierFaults & toFill);
+	ErrorCode GetStickyFaults(CANifierStickyFaults & toFill);
+	ErrorCode ClearStickyFaults(int timeoutMs);
+
 private:
 	void* m_handle;
 	bool _tempPins[11];

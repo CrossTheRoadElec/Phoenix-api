@@ -381,10 +381,10 @@ uint32_t PigeonIMU::GetFirmVers() {
 	return retval;
 }
 /**
- * @return true iff a reset has occured since last call.
+ * @return true iff a reset has occurred since last call.
  */
-bool PigeonIMU::HasResetOccured() {
-	bool retval;
+bool PigeonIMU::HasResetOccurred() {
+	bool retval = false;
 	c_PigeonIMU_HasResetOccurred(_handle, &retval);
 	return retval;
 }
@@ -451,6 +451,60 @@ double PigeonIMU::ConfigGetParameter(ctre::phoenix::ParamEnum param, int ordinal
 	double value = 0;
 	c_PigeonIMU_ConfigGetParameter(_handle, param, &value, ordinal, timeoutMs);
 	return value;
+}
+
+
+//------ Frames ----------//
+ErrorCode PigeonIMU::SetStatusFramePeriod(PigeonIMU_StatusFrame statusFrame, int periodMs,
+		int timeoutMs) {
+	return c_PigeonIMU_SetStatusFramePeriod(_handle, statusFrame, periodMs,
+			timeoutMs);
+}
+/**
+ * Gets the period of the given status frame.
+ *
+ * @param frame
+ *            Frame to get the period of.
+ * @param timeoutMs
+ *            Timeout value in ms. @see #ConfigOpenLoopRamp
+ * @return Period of the given status frame.
+ */
+int PigeonIMU::GetStatusFramePeriod(PigeonIMU_StatusFrame frame,
+		int timeoutMs) {
+	int periodMs = 0;
+	c_PigeonIMU_GetStatusFramePeriod(_handle, frame, &periodMs, timeoutMs);
+	return periodMs;
+}
+ErrorCode PigeonIMU::SetControlFramePeriod(PigeonIMU_ControlFrame frame,
+		int periodMs) {
+	return c_PigeonIMU_SetControlFramePeriod(_handle, frame, periodMs);
+}
+//------ Firmware ----------//
+/**
+ * Gets the firmware version of the device.
+ *
+ * @return Firmware version of device.
+ */
+int PigeonIMU::GetFirmwareVersion() {
+	int retval = -1;
+	c_PigeonIMU_GetFirmwareVersion(_handle, &retval);
+	return retval;
+}
+//------ Faults ----------//
+ErrorCode PigeonIMU::GetFaults(PigeonIMU_Faults & toFill) {
+	int faultBits;
+	ErrorCode retval = c_PigeonIMU_GetFaults(_handle, &faultBits);
+	toFill = PigeonIMU_Faults(faultBits);
+	return retval;
+}
+ErrorCode PigeonIMU::GetStickyFaults(PigeonIMU_StickyFaults & toFill) {
+	int faultBits;
+	ErrorCode retval = c_PigeonIMU_GetFaults(_handle, &faultBits);
+	toFill = PigeonIMU_StickyFaults(faultBits);
+	return retval;
+}
+ErrorCode PigeonIMU::ClearStickyFaults(int timeoutMs) {
+	return c_PigeonIMU_ClearStickyFaults(_handle, timeoutMs);
 }
 
 } // namespace signals

@@ -4,6 +4,7 @@ extern "C"{
 	void* c_MotController_Create1(int baseArbId);
 
 	ctre::phoenix::ErrorCode c_MotController_GetDeviceNumber(void *handle, int *deviceNumber);
+	ctre::phoenix::ErrorCode c_MotController_GetDescription(void *handle, char * toFill, int toFillByteSz, int * numBytesFilled);
 	void c_MotController_SetDemand(void *handle, int mode, int demand0, int demand1);
 	void c_MotController_SetNeutralMode(void *handle, int neutralMode);
 	void c_MotController_SetSensorPhase(void *handle, bool PhaseSensor);
@@ -112,5 +113,5 @@ extern "C"{
 	ctre::phoenix::ErrorCode c_MotController_GetQuadratureSensor(void *handle, int * pos, int * vel);
 	ctre::phoenix::ErrorCode c_MotController_GetPulseWidthAll(void *handle, int * pos, int * vel, int * riseToRiseUs, int * riseToFallUs);
 	ctre::phoenix::ErrorCode c_MotController_GetQuadPinStates(void *handle, int * quadA, int * quadB, int * quadIdx);
-  ctre::phoenix::ErrorCode c_MotController_GetLimitSwitchState(void *handle, int * isFwdClosed, int * isRevClosed);
+	ctre::phoenix::ErrorCode c_MotController_GetLimitSwitchState(void *handle, int * isFwdClosed, int * isRevClosed);
 }

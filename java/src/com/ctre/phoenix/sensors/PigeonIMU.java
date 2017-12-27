@@ -502,10 +502,10 @@ public class PigeonIMU {
 	}
 
 	/**
-	 * @return true iff a reset has occured since last call.
+	 * @return true iff a reset has occurred since last call.
 	 */
 	public boolean hasResetOccurred() {
-		boolean k = PigeonImuJNI.JNI_HasResetOccured(m_handle);
+		boolean k = PigeonImuJNI.JNI_HasResetOccurred(m_handle);
 		return k;
 	}
 

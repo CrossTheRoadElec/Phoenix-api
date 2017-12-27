@@ -1,11 +1,10 @@
-package com.ctre.phoenix.drive;
-//package com.ctre.phoenix.Drive;
+//package com.ctre.phoenix.drive;
 //
 //import com.ctre.phoenix.Util;
-//import com.ctre.phoenix.Mechanical.*;
+//import com.ctre.phoenix.mechanical.*;
 //import com.ctre.phoenix.motorcontrol.*;
 //
-//public class SensoredTank implements ISmartDrivetrain
+//public class SensoredTank
 //{
 //	SensoredGearbox _left;
 //    SensoredGearbox _right;
@@ -53,7 +52,7 @@ package com.ctre.phoenix.drive;
 //    }
 //    
 //    /** Part of IDrivetrain; Takes control mode, forward output and turn output */
-//    public void set(Styles.Smart mode, double forward, double turn)
+//    public void set(DriveMode.Smart mode, double forward, double turn)
 //    {
 //        double l, r;
 //        l = forward + turn;
@@ -61,9 +60,9 @@ package com.ctre.phoenix.drive;
 //
 //        Drive(mode, l, r);
 //    }
-//    public void set(Styles.Basic basicStyle, double forward, double turn)
+//    public void set(DriveMode.Basic basicStyle, double forward, double turn)
 //    {
-//        set(Styles.Promote(basicStyle), forward, turn);
+//        set(DriveMode.Promote(basicStyle), forward, turn);
 //    }
 //    
 //
@@ -123,19 +122,19 @@ package com.ctre.phoenix.drive;
 //    }
 //
 //    /** Sensored Tank drive that takes the mode, left, and right side */
-//    private void Drive(Styles.Smart mode, double left, double right)
+//    private void Drive(DriveMode.Smart mode, double left, double right)
 //    {
-//        if(mode == Styles.Smart.Voltage)
+//        if(mode == DriveControlMode.DriveMode.Voltage)
 //        {
 //            _left.SetControlMode(ControlMode.SmartControlMode.kVoltage);
 //            _right.SetControlMode(ControlMode.SmartControlMode.kVoltage);
 //        }
-//        else if (mode == Styles.Smart.PercentOutput)
+//        else if (mode == DriveControlMode.DriveMode.PercentOutput)
 //        {
 //            _left.SetControlMode(ControlMode.SmartControlMode.kPercentVbus);
 //            _right.SetControlMode(ControlMode.SmartControlMode.kPercentVbus);
 //        }
-//        else if(mode == Styles.Smart.VelocityClosedLoop)
+//        else if(mode == DriveControlMode.DriveMode.VelocityClosedLoop)
 //        {
 //            _left.SetControlMode(ControlMode.SmartControlMode.kSpeed);
 //            _right.SetControlMode(ControlMode.SmartControlMode.kSpeed);

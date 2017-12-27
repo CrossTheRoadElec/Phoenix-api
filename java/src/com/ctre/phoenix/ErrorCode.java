@@ -83,5 +83,33 @@ public enum ErrorCode {
 		if (retval != null)
 			return retval;
 		return GeneralError;
-    }
+	}
+
+	/** @return the first nonzero error code */
+	public static ErrorCode worstOne(ErrorCode errorCode1, ErrorCode errorCode2) {
+		if (errorCode1.value != 0)
+			return errorCode1;
+		return errorCode2;
+	}
+
+	/** @return the first nonzero error code */
+	public static ErrorCode worstOne(ErrorCode errorCode1, ErrorCode errorCode2, ErrorCode errorCode3) {
+		if (errorCode1.value != 0)
+			return errorCode1;
+		if (errorCode2.value != 0)
+			return errorCode2;
+		return errorCode3;
+	}
+
+	/** @return the first nonzero error code */
+	public static ErrorCode worstOne(ErrorCode errorCode1, ErrorCode errorCode2, ErrorCode errorCode3,
+			ErrorCode errorCode4) {
+		if (errorCode1.value != 0)
+			return errorCode1;
+		if (errorCode2.value != 0)
+			return errorCode2;
+		if (errorCode3.value != 0)
+			return errorCode3;
+		return errorCode4;
+	}
 };

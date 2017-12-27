@@ -28,6 +28,10 @@
 #include "ctre/phoenix/LowLevel/CANBusAddressable.h"
 #include "ctre/phoenix/paramEnum.h"
 #include "ctre/Phoenix/ErrorCode.h"
+#include "ctre/Phoenix/Sensors/PigeonIMU_ControlFrame.h"
+#include "ctre/Phoenix/Sensors/PigeonIMU_Faults.h"
+#include "ctre/Phoenix/Sensors/PigeonIMU_StatusFrame.h"
+#include "ctre/Phoenix/Sensors/PigeonIMU_StickyFaults.h"
 
 /* forward prototype */
 namespace ctre {
@@ -216,7 +220,7 @@ public:
 	uint32_t GetResetFlags();
 	uint32_t GetFirmVers();
 
-	bool HasResetOccured();
+	bool HasResetOccurred();
 
 	static std::string ToString(PigeonIMU::PigeonState state);
 	static std::string ToString(CalibrationMode cm);
@@ -226,6 +230,29 @@ public:
 	ErrorCode ConfigSetParameter(ParamEnum param, double value,
 			uint8_t subValue, int ordinal, int timeoutMs);
 	double ConfigGetParameter(ctre::phoenix::ParamEnum param, int ordinal, int timeoutMs);
+
+	ErrorCode SetStatusFramePeriod(PigeonIMU_StatusFrame statusFrame, int periodMs,
+			int timeoutMs);
+	/**
+	 * Gets the period of the given status frame.
+	 *
+	 * @param frame
+	 *            Frame to get the period of.
+	 * @param timeoutMs
+	 *            Timeout value in ms. @see #ConfigOpenLoopRamp
+	 * @return Period of the given status frame.
+	 */
+	int GetStatusFramePeriod(PigeonIMU_StatusFrame frame,
+			int timeoutMs) ;
+	ErrorCode SetControlFramePeriod(PigeonIMU_ControlFrame frame,
+			int periodMs);
+	int GetFirmwareVersion() ;
+	ErrorCode GetFaults(PigeonIMU_Faults & toFill) ;
+	ErrorCode GetStickyFaults(PigeonIMU_StickyFaults & toFill);
+	ErrorCode ClearStickyFaults(int timeoutMs);
+
+
+
 
 	void* GetLowLevelHandle() {
 		return _handle;

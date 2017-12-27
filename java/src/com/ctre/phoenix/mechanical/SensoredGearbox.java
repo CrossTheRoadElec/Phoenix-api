@@ -1,24 +1,23 @@
-package com.ctre.phoenix.mechanical;
-//package com.ctre.phoenix.Mechanical;
+//package com.ctre.phoenix.mechanical;
 //
-//import com.ctre.phoenix.motorcontrol.*;
+//import com.ctre.phoenix.motorcontrol.can.BaseMotorController;
 //
-//public class SensoredGearbox implements com.ctre.phoenix.Signals.IInvertable
+//public class SensoredGearbox //implements com.ctre.phoenix.Signals.IInvertable
 //{
 //	private double _unitsPerRevolution;
 //	private double _scalar;
 //	
 //	private boolean _isInverted;
-//	public SmartMotorController _controller;
+//	public BaseMotorController _controller;
 //	
 //	
-//	public SensoredGearbox(double unitsPerRevolution, SmartMotorController mc1, SmartMotorController.FeedbackDevice feedback)
+//	public SensoredGearbox(double unitsPerRevolution, doublBaseMotorController mc1, BaseMotorController.FeedbackDevice feedback)
 //	{
 //		_controller = mc1;
 //		_unitsPerRevolution = unitsPerRevolution;
 //		_controller.setFeedbackDevice(feedback);
 //	}
-//	public SensoredGearbox(double unitsPerRevolution, SmartMotorController mc1, IFollower mc2, SmartMotorController.FeedbackDevice feedback)
+//	public SensoredGearbox(double unitsPerRevolution, BaseMotorController mc1, IFollower mc2, BaseMotorController.FeedbackDevice feedback)
 //	{
 //		_controller = mc1;
 //		_unitsPerRevolution = unitsPerRevolution;
@@ -26,7 +25,7 @@ package com.ctre.phoenix.mechanical;
 //		
 //		mc2.follow(_controller);
 //	}
-//	public SensoredGearbox(double unitsPerRevolution, SmartMotorController mc1, IFollower mc2, IFollower mc3, SmartMotorController.FeedbackDevice feedback)
+//	public SensoredGearbox(double unitsPerRevolution, BaseMotorController mc1, IFollower mc2, IFollower mc3, BaseMotorController.FeedbackDevice feedback)
 //	{
 //		_controller = mc1;
 //		_unitsPerRevolution = unitsPerRevolution;
@@ -35,7 +34,7 @@ package com.ctre.phoenix.mechanical;
 //		mc2.follow(_controller);
 //		mc3.follow(_controller);
 //	}
-//	public SensoredGearbox(double unitsPerRevolution, SmartMotorController mc1, IFollower mc2, IFollower mc3, IFollower mc4, SmartMotorController.FeedbackDevice feedback)
+//	public SensoredGearbox(double unitsPerRevolution, BaseMotorController mc1, IFollower mc2, IFollower mc3, IFollower mc4, BaseMotorController.FeedbackDevice feedback)
 //	{
 //		_controller = mc1;
 //		_unitsPerRevolution = unitsPerRevolution;
@@ -88,7 +87,7 @@ package com.ctre.phoenix.mechanical;
 //    }
 //    
 //    /** Disable limits of the gearbox */
-//    public void DisableLimits()
+//    public void disableLimits()
 //    {
 //        _controller.enableLimitSwitch(false, false);
 //    }
@@ -104,50 +103,50 @@ package com.ctre.phoenix.mechanical;
 //        return _isInverted;
 //    }
 //
-//    public void InvertSensor(boolean invert)
+//    public void invertSensor(boolean invert)
 //    {
 //        _controller.reverseSensor(invert);
 //    }
 //
-//    public void SetSensor(double position)
+//    public void setSensor(double position)
 //    {
 //        _controller.setPosition(com.ctre.phoenix.Util.scaleRotationsToNativeUnits(_unitsPerRevolution, position));
 //    }
 //
-//    public void ConfigNominalOutputVoltage(double forwardVoltage, double reverseVoltage)
+//    public void configNominalOutputVoltage(double forwardVoltage, double reverseVoltage)
 //    {
 //        _controller.configNominalOutputVoltage(forwardVoltage, reverseVoltage);
 //    }
 //
-//    public void ConfigPeakOutputVoltage(double forwardVoltage, double reverseVoltage)
+//    public void configPeakOutputVoltage(double forwardVoltage, double reverseVoltage)
 //    {
 //        _controller.configPeakOutputVoltage(forwardVoltage, reverseVoltage);
 //    }
 //
-//    public void SetVoltageCompensationRampRate(double RampRate)
+//    public void setVoltageCompensationRampRate(double RampRate)
 //    {
 //        _controller.setVoltageCompensationRate(RampRate);
 //    }
 //
-//    public void SetVoltageRampRate(double RampRate)
+//    public void setVoltageRampRate(double RampRate)
 //    {
 //        _controller.setVoltageRampRate(RampRate);
 //    }
 //
 //    /* IMotionMagical */
 //    /* Motion Magic stuff */
-//    public void SetMotionMagicCruiseVelocity(double RPM)
+//    public void setMotionMagicCruiseVelocity(double RPM)
 //    {
 //        _controller.setMotionMagicCruiseVelocity(com.ctre.phoenix.Util.scaleVelocityToNativeUnits(_unitsPerRevolution, RPM));
 //    }
 //
-//    public void SetMotionMagicAcceleration(double RPM)
+//    public void setMotionMagicAcceleration(double RPM)
 //    {
 //        _controller.setMotionMagicAcceleration(com.ctre.phoenix.Util.scaleVelocityToNativeUnits(_unitsPerRevolution, RPM));
 //    }
 //
-//    public SmartMotorController GetMaster()
+//    public BaseMotorController getMaster()
 //    {
 //        return _controller;
 //    }
-//}
+//}*/

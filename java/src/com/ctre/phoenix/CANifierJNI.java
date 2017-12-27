@@ -77,4 +77,5 @@
 
 	public static native double JNI_ConfigGetParameter(long handle, int param, int ordinal, int timeoutMs);
 
+	public static native int JNI_SetStatusFramePeriod(long handle, int statusFrame, int periodMs, int timeoutMs);
  }

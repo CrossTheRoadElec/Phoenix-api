@@ -25,19 +25,24 @@ protected:
 
 	int32_t GetStartupStatus();
 
-	void CheckFirm(int minMajor, int minMinor, const std::string & origin);
-	void CheckFirm(int minMajor, int minMinor, const char * origin);
+	void CheckFirmVers(int minMajor, int minMinor,
+			ctre::phoenix::ErrorCode failCode =
+					ctre::phoenix::ErrorCode::FirmwareTooOld);
 
 	ctre::phoenix::ErrorCode ConfigSetParameter(ctre::phoenix::ParamEnum paramEnum, int32_t value,
 			uint8_t subValue, int32_t ordinal, int32_t timeoutMs);
 
 	ctre::phoenix::ErrorCode ConfigGetParameter(ctre::phoenix::ParamEnum paramEnum, int32_t valueToSend,
-			int32_t & valueReceived, uint8_t subValue, int32_t ordinal,
+			int32_t & valueReceived, int32_t & subValue, int32_t ordinal,
 			int32_t timeoutMs);
 
 	ctre::phoenix::ErrorCode ConfigGetParameter(ctre::phoenix::ParamEnum paramEnum, int32_t &value,
 			int32_t ordinal, int32_t timeoutMs);
+
+	/** child class should call this once to set the description */
+	void SetDescription(const std::string & description);
 private:
+	std::string _description;
 	int32_t _deviceNumber;
 
 	int32_t _arbIdStartupFrame;
@@ -59,9 +64,9 @@ private:
 	ResetStats _resetStats;
 	int32_t _firmVers = -1; /* invalid */
 
-	std::map<int32_t, int32_t> _sigs_Value;
-	std::map<int32_t, int32_t> _sigs_SubValue;
-	std::map<int32_t, int32_t> _sigs_Ordinal;
+	std::map<uint32_t, int32_t> _sigs_Value;
+	std::map<uint32_t, int32_t> _sigs_SubValue;
+	std::map<uint32_t, int32_t> _sigs_Ordinal;
 
 	const int32_t kFullMessageIDMask = 0x1fffffff;
 	const double FLOAT_TO_FXP_10_22 = (double) 0x400000;
@@ -97,7 +102,7 @@ public:
 	ctre::phoenix::ErrorCode GetFirmwareVersion(int &param);
 	int GetFirmwareVersion();
 	/**
-	 * @return true iff a reset has occured since last call.
+	 * @return true iff a reset has occurred since last call.
 	 */
 	ctre::phoenix::ErrorCode HasResetOccurred(bool & param);
 	bool HasResetOccurred();
@@ -111,4 +116,7 @@ public:
 	ctre::phoenix::ErrorCode ConfigSetCustomParam(int value, int paramIndex, int timeoutMs);
 	ctre::phoenix::ErrorCode ConfigGetCustomParam(int & value, int paramIndex, int timeoutMs);
 
+	const std::string & ToString() const;
+
+	void GetDescription(char * toFill, int toFillByteSz, int & numBytesFilled);
 };

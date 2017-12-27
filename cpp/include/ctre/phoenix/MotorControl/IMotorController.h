@@ -22,7 +22,7 @@ namespace ctre {
 namespace phoenix {
 namespace motorcontrol {
 
-class IMotorController: public IFollower {
+class IMotorController: public virtual IFollower {
 public:
 	virtual ~IMotorController() {
 	}
@@ -172,7 +172,7 @@ public:
 
 	//------ Firmware ----------//
 	virtual int GetFirmwareVersion() = 0;
-	virtual bool HasResetOccured() = 0;
+	virtual bool HasResetOccurred() = 0;
 
 	//------ Custom Persistent Params ----------//
 	virtual ErrorCode ConfigSetCustomParam(int newValue, int paramIndex,

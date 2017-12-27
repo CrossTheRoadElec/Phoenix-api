@@ -195,7 +195,7 @@ public:
 	virtual ctre::phoenix::ErrorCode ClearStickyFaults(int timeoutMs);
 	//------ Firmware ----------//
 	virtual int GetFirmwareVersion();
-	virtual bool HasResetOccured();
+	virtual bool HasResetOccurred();
 	//------ Custom Persistent Params ----------//
 	virtual ctre::phoenix::ErrorCode ConfigSetCustomParam(int newValue, int paramIndex,
 			int timeoutMs);

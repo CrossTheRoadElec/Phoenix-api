@@ -1,5 +1,5 @@
 #pragma once
-
+#include <sstream>
 namespace ctre {
 namespace phoenix {
 namespace motorcontrol {
@@ -72,6 +72,21 @@ struct Faults {
 		SensorOutOfPhase = false;
 		HardwareESDReset = false;
 		RemoteLossOfSignal = false;
+	}
+	std::string ToString() {
+		std::stringstream work;
+		work << " UnderVoltage:" << (UnderVoltage ? "1" : "0");
+		work << " ForwardLimitSwitch:" << (ForwardLimitSwitch ? "1" : "0");
+		work << " ReverseLimitSwitch:" << (ReverseLimitSwitch ? "1" : "0");
+		work << " ForwardSoftLimit:" << (ForwardSoftLimit ? "1" : "0");
+		work << " ReverseSoftLimit:" << (ReverseSoftLimit ? "1" : "0");
+		work << " HardwareFailure:" << (HardwareFailure ? "1" : "0");
+		work << " ResetDuringEn:" << (ResetDuringEn ? "1" : "0");
+		work << " SensorOverflow:" << (SensorOverflow ? "1" : "0");
+		work << " SensorOutOfPhase:" << (SensorOutOfPhase ? "1" : "0");
+		work << " HardwareESDReset:" << (HardwareESDReset ? "1" : "0");
+		work << " RemoteLossOfSignal:" << (RemoteLossOfSignal ? "1" : "0");
+		return work.str();
 	}
 };
 

@@ -77,6 +77,16 @@ bool CANifier::GetGeneralInput(GeneralPin inputPin) {
 	(void)c_CANifier_GetGeneralInput(m_handle, inputPin, &retval);
 	return retval;
 }
+/**
+ * Gets the bus voltage seen by the motor controller.
+ *
+ * @return The bus voltage value (in volts).
+ */
+double CANifier::GetBusVoltage() {
+	double param = 0;
+	c_CANifier_GetBatteryVoltage(m_handle, &param);
+	return param;
+}
 
 /**
  * Call GetLastError() to determine success.
@@ -140,5 +150,69 @@ double CANifier::ConfigGetParameter(ParamEnum param, int ordinal, int timeoutMs)
 	return value;
 }
 
-}}
+//------ Frames ----------//
+ErrorCode CANifier::SetStatusFramePeriod(CANifierStatusFrame statusFrame, int periodMs,
+		int timeoutMs) {
+	return c_CANifier_SetStatusFramePeriod(m_handle, statusFrame, periodMs,
+			timeoutMs);
+}
+/**
+ * Gets the period of the given status frame.
+ *
+ * @param frame
+ *            Frame to get the period of.
+ * @param timeoutMs
+ *            Timeout value in ms. @see #ConfigOpenLoopRamp
+ * @return Period of the given status frame.
+ */
+int CANifier::GetStatusFramePeriod(CANifierStatusFrame frame,
+		int timeoutMs) {
+	int periodMs = 0;
+	c_CANifier_GetStatusFramePeriod(m_handle, frame, &periodMs, timeoutMs);
+	return periodMs;
+}
+ErrorCode CANifier::SetControlFramePeriod(CANifierControlFrame frame,
+		int periodMs) {
+	return c_CANifier_SetControlFramePeriod(m_handle, frame, periodMs);
+}
+//------ Firmware ----------//
+/**
+ * Gets the firmware version of the device.
+ *
+ * @return Firmware version of device.
+ */
+int CANifier::GetFirmwareVersion() {
+	int retval = -1;
+	c_CANifier_GetFirmwareVersion(m_handle, &retval);
+	return retval;
+}
+/**
+ * Returns true if the device has reset since last call.
+ *
+ * @return Has a Device Reset Occurred?
+ */
+bool CANifier::HasResetOccurred() {
+	bool retval = false;
+	c_CANifier_HasResetOccurred(m_handle, &retval);
+	return retval;
+}
+//------ Faults ----------//
+ErrorCode CANifier::GetFaults(CANifierFaults & toFill) {
+	int faultBits;
+	ErrorCode retval = c_CANifier_GetFaults(m_handle, &faultBits);
+	toFill = CANifierFaults(faultBits);
+	return retval;
+}
+ErrorCode CANifier::GetStickyFaults(CANifierStickyFaults & toFill) {
+	int faultBits;
+	ErrorCode retval = c_CANifier_GetFaults(m_handle, &faultBits);
+	toFill = CANifierStickyFaults(faultBits);
+	return retval;
+}
+ErrorCode CANifier::ClearStickyFaults(int timeoutMs) {
+	return c_CANifier_ClearStickyFaults(m_handle, timeoutMs);
+}
+
+} // phoenix
+} // ctre
 #endif // CTR_EXCLUDE_WPILIB_CLASSES

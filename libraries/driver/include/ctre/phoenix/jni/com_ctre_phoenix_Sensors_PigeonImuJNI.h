@@ -313,10 +313,10 @@ JNIEXPORT jint JNICALL Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1GetLastEr
 
 /*
  * Class:     com_ctre_phoenix_sensors_PigeonImuJNI
- * Method:    JNI_HasResetOccured
+ * Method:    JNI_HasResetOccurred
  * Signature: (J)Z
  */
-JNIEXPORT jboolean JNICALL Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1HasResetOccured
+JNIEXPORT jboolean JNICALL Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1HasResetOccurred
   (JNIEnv *, jclass, jlong);
 
 #ifdef __cplusplus
