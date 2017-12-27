@@ -10,7 +10,7 @@ public class Logger
 	 */
 	public static ErrorCode log(ErrorCode code, String origin) {
 		/* only take action if the error code is nonzero */
-		if (code == ErrorCode.OK) {
+		if (code != ErrorCode.OK) {
 			String stack = java.util.Arrays.toString(Thread.currentThread().getStackTrace());
 			stack = stack.replaceAll(",", "\n");
 			int errCode = code.value;
