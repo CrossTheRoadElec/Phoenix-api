@@ -31,7 +31,7 @@ extern "C"{
 	ctre::phoenix::ErrorCode c_CANifier_GetGeneralInput(void *handle, uint32_t inputPin, bool * measuredInput);
 	ctre::phoenix::ErrorCode c_CANifier_GetPWMInput(void *handle,  uint32_t  pwmChannel,  double dutyCycleAndPeriod [2]);
 	ctre::phoenix::ErrorCode c_CANifier_GetLastError(void *handle);
-	ctre::phoenix::ErrorCode c_CANifier_GetBatteryVoltage(void *handle, double * batteryVoltage);
+	ctre::phoenix::ErrorCode c_CANifier_GetBusVoltage(void *handle, double * batteryVoltage);
 	void c_CANifier_SetLastError(void *handle, int error);
 	ctre::phoenix::ErrorCode c_CANifier_ConfigSetParameter(void *handle, int param, double value, int subValue, int ordinal, int timeoutMs);
 	ctre::phoenix::ErrorCode c_CANifier_ConfigGetParameter(void *handle, int param, double *value, int ordinal, int timeoutMs);

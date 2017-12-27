@@ -319,6 +319,46 @@ JNIEXPORT jint JNICALL Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1GetLastEr
 JNIEXPORT jboolean JNICALL Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1HasResetOccurred
   (JNIEnv *, jclass, jlong);
 
+/*
+ * Class:     com_ctre_phoenix_sensors_PigeonImuJNI
+ * Method:    JNI_GetStatusFramePeriod
+ * Signature: (JII)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1GetStatusFramePeriod
+  (JNIEnv *, jclass, jlong, jint, jint);
+
+/*
+ * Class:     com_ctre_phoenix_sensors_PigeonImuJNI
+ * Method:    JNI_SetControlFramePeriod
+ * Signature: (JII)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1SetControlFramePeriod
+  (JNIEnv *, jclass, jlong, jint, jint);
+
+/*
+ * Class:     com_ctre_phoenix_sensors_PigeonImuJNI
+ * Method:    JNI_GetFaults
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1GetFaults
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_ctre_phoenix_sensors_PigeonImuJNI
+ * Method:    JNI_GetStickyFaults
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1GetStickyFaults
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_ctre_phoenix_sensors_PigeonImuJNI
+ * Method:    JNI_ClearStickyFaults
+ * Signature: (JI)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1ClearStickyFaults
+  (JNIEnv *, jclass, jlong, jint);
+
 #ifdef __cplusplus
 }
 #endif

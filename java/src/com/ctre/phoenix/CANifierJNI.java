@@ -78,4 +78,20 @@
 	public static native double JNI_ConfigGetParameter(long handle, int param, int ordinal, int timeoutMs);
 
 	public static native int JNI_SetStatusFramePeriod(long handle, int statusFrame, int periodMs, int timeoutMs);
+
+	public static native int JNI_GetStatusFramePeriod(long handle, int frame, int timeoutMs);
+
+	public static native int JNI_SetControlFramePeriod(long handle, int frame, int periodMs);
+
+	public static native int JNI_GetFirmwareVersion(long handle);
+
+	public static native boolean JNI_HasResetOccurred(long handle);
+
+	public static native int JNI_GetFaults(long handle);
+
+	public static native int JNI_GetStickyFaults(long handle);
+
+	public static native int JNI_ClearStickyFaults(long handle, int timeoutMs);
+
+	public static native double JNI_GetBusVoltage(long handle);
  }

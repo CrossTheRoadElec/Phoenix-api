@@ -84,7 +84,7 @@ bool CANifier::GetGeneralInput(GeneralPin inputPin) {
  */
 double CANifier::GetBusVoltage() {
 	double param = 0;
-	c_CANifier_GetBatteryVoltage(m_handle, &param);
+	c_CANifier_GetBusVoltage(m_handle, &param);
 	return param;
 }
 

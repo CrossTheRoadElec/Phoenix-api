@@ -963,12 +963,12 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	// ------ Faults ----------//
 	public ErrorCode getFaults(Faults toFill) {
 		int bits = MotControllerJNI.GetFaults(m_handle);
-		toFill.Update(bits);
+		toFill.update(bits);
 		return getLastError();
 	}
 	public ErrorCode getStickyFaults(StickyFaults toFill) {
 		int bits = MotControllerJNI.GetFaults(m_handle);
-		toFill.Update(bits);
+		toFill.update(bits);
 		return getLastError();
 	}
 

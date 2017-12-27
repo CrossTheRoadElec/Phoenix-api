@@ -104,4 +104,15 @@ public class PigeonImuJNI extends CTREJNIWrapper {
 	public static native int JNI_GetLastError(long handle);
 	  
 	public static native boolean JNI_HasResetOccurred(long handle);
+	
+	public static native int JNI_GetStatusFramePeriod(long handle, int frame, int timeoutMs);
+
+	public static native int JNI_SetControlFramePeriod(long handle, int frame, int periodMs);
+
+	public static native int JNI_GetFaults(long handle);
+
+	public static native int JNI_GetStickyFaults(long handle);
+
+	public static native int JNI_ClearStickyFaults(long handle, int timeoutMs);
+	
 }

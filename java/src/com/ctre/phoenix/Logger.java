@@ -10,14 +10,14 @@ public class Logger
 	 */
 	public static ErrorCode log(ErrorCode code, String origin) {
 		/* only take action if the error code is nonzero */
-		if (code == ErrorCode.OKAY) {
+		if (code == ErrorCode.OK) {
 			String stack = java.util.Arrays.toString(Thread.currentThread().getStackTrace());
 			stack = stack.replaceAll(",", "\n");
 			int errCode = code.value;
 			return ErrorCode.valueOf(CTRLoggerJNI.JNI_Logger_Log(errCode, origin, stack));
 		}
 		/* otherwise return OK */
-		return ErrorCode.OKAY;
+		return ErrorCode.OK;
 	}
 
 	//public static void close() {

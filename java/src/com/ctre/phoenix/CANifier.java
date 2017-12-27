@@ -106,39 +106,10 @@ public class CANifier {
 		public boolean SPI_CLK_PWM0;
 	}
 
-	public enum CANifierStatusFrame {
-		Status_1_General(0x041400), 
-		Status_2_General(0x041440), 
-		Status_3_PwmInputs0(0x041480), 
-		Status_4_PwmInputs1(0x0414C0), 
-		Status_5_PwmInputs2(0x041500), 
-		Status_6_PwmInputs3(0x041540), 
-		Status_8_Misc(0x0415C0);
-
-		public static CANifierStatusFrame valueOf(int value) {
-			for (CANifierStatusFrame mode : values()) {
-				if (mode.value == value) {
-					return mode;
-				}
-			}
-			return null;
-		}
-
-		public final int value;
-
-		CANifierStatusFrame(int initValue) {
-			this.value = initValue;
-		}
-	}
-
 	private boolean[] _tempPins = new boolean[11];
 
 	public CANifier(int deviceId) {
 		m_handle = CANifierJNI.JNI_new_CANifier(deviceId);
-	}
-	public ErrorCode setStatusFramePeriod(CANifierStatusFrame stateFrame, int periodMs, int timeoutMs) {
-		int retval = CANifierJNI.JNI_SetStatusFramePeriod(m_handle, stateFrame.value, periodMs, timeoutMs);
-		return ErrorCode.valueOf(retval);
 	}
 
 	public void setLEDOutput(double percentOutput, LEDChannel ledChannel) {
@@ -300,5 +271,68 @@ public class CANifier {
 	 */
 	public double configGetParameter(ParamEnum param, int ordinal, int timeoutMs) {
 		return CANifierJNI.JNI_ConfigGetParameter(m_handle, param.value, ordinal, timeoutMs);
+	}
+
+	public ErrorCode setStatusFramePeriod(CANifierStatusFrame stateFrame, int periodMs, int timeoutMs) {
+		int retval = CANifierJNI.JNI_SetStatusFramePeriod(m_handle, stateFrame.value, periodMs, timeoutMs);
+		return ErrorCode.valueOf(retval);
+	}
+	
+	/**
+	 * Gets the period of the given status frame.
+	 *
+	 * @param frame
+	 *            Frame to get the period of.
+	 * @param timeoutMs
+	 *            Timeout value in ms. @see #ConfigOpenLoopRamp
+	 * @return Period of the given status frame.
+	 */
+	public int getStatusFramePeriod(CANifierStatusFrame frame, int timeoutMs) {
+		return CANifierJNI.JNI_GetStatusFramePeriod(m_handle, frame.value, timeoutMs);
+	}
+
+	public ErrorCode setControlFramePeriod(CANifierControlFrame frame, int periodMs) {
+		int retval = CANifierJNI.JNI_SetControlFramePeriod(m_handle, frame.value, periodMs);
+		return ErrorCode.valueOf(retval);
+	}
+
+	/**
+	 * Gets the firmware version of the device.
+	 *
+	 * @return Firmware version of device.
+	 */
+	public int getFirmwareVersion() {
+		return CANifierJNI.JNI_GetFirmwareVersion(m_handle);
+	}
+
+	/**
+	 * Returns true if the device has reset since last call.
+	 *
+	 * @return Has a Device Reset Occurred?
+	 */
+	public boolean hasResetOccurred() {
+		return CANifierJNI.JNI_HasResetOccurred(m_handle);
+	}
+
+	// ------ Faults ----------//
+	public ErrorCode getFaults(CANifierFaults toFill) {
+		int bits = CANifierJNI.JNI_GetFaults(m_handle);
+		toFill.update(bits);
+		return getLastError();
+	}
+
+	public ErrorCode getStickyFaults(CANifierStickyFaults toFill) {
+		int bits = CANifierJNI.JNI_GetStickyFaults(m_handle);
+		toFill.update(bits);
+		return getLastError();
+	}
+
+	public ErrorCode clearStickyFaults(int timeoutMs) {
+		int retval = CANifierJNI.JNI_ClearStickyFaults(m_handle, timeoutMs);
+		return ErrorCode.valueOf(retval);
+	}
+
+	public double getBusVoltage() {
+		return CANifierJNI.JNI_GetBusVoltage(m_handle);
 	}
 }

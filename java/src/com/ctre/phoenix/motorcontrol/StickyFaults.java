@@ -13,7 +13,7 @@ public class StickyFaults {
 	public boolean RemoteLossOfSignal;
 
 	//!< True iff any of the above flags are true.
-	public boolean HasAnyFault() {
+	public boolean hasAnyFault() {
 		return 	UnderVoltage |
 				ForwardLimitSwitch |
 				ReverseLimitSwitch |
@@ -25,7 +25,7 @@ public class StickyFaults {
 				HardwareESDReset |
 				RemoteLossOfSignal;
 	}
-	public int ToBitfield() {
+	public int toBitfield() {
 		int retval = 0;
 		int mask = 1;
 		retval |= UnderVoltage ? mask : 0; mask <<= 1;
@@ -40,7 +40,7 @@ public class StickyFaults {
 		retval |= RemoteLossOfSignal ? mask : 0; mask <<= 1;
 		return retval;
 	}
-	public void Update(int bits) {
+	public void update(int bits) {
 		int mask = 1;
 		UnderVoltage = ((bits & mask)!=0) ? true : false; mask <<= 1;
 		ForwardLimitSwitch = ((bits & mask)!=0) ? true : false; mask <<= 1;
@@ -64,6 +64,20 @@ public class StickyFaults {
 		SensorOutOfPhase = false;
 		HardwareESDReset = false;
 		RemoteLossOfSignal = false;
+	}
+	public String toString() {
+		StringBuilder work = new StringBuilder();
+		work.append(" UnderVoltage:"); work.append(UnderVoltage ? "1" : "0");
+		work.append( " ForwardLimitSwitch:"); work.append(ForwardLimitSwitch ? "1" : "0");
+		work.append( " ReverseLimitSwitch:"); work.append(ReverseLimitSwitch ? "1" : "0");
+		work.append( " ForwardSoftLimit:"); work.append(ForwardSoftLimit ? "1" : "0");
+		work.append( " ReverseSoftLimit:"); work.append(ReverseSoftLimit ? "1" : "0");
+		work.append( " ResetDuringEn:"); work.append(ResetDuringEn ? "1" : "0");
+		work.append( " SensorOverflow:"); work.append(SensorOverflow ? "1" : "0");
+		work.append( " SensorOutOfPhase:"); work.append(SensorOutOfPhase ? "1" : "0");
+		work.append( " HardwareESDReset:"); work.append(HardwareESDReset ? "1" : "0");
+		work.append( " RemoteLossOfSignal:"); work.append(RemoteLossOfSignal ? "1" : "0");
+		return work.toString();
 	}
 };
 

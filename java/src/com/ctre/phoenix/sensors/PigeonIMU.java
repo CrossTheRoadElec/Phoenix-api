@@ -45,7 +45,7 @@ public class PigeonIMU {
 
 		public String ToString() {
 			String description;
-			if (lastError != ErrorCode.OKAY) {
+			if (lastError != ErrorCode.OK) {
 				description = "Could not receive status frame.  Check wiring and web-config.";
 			} else if (bIsValid == false) {
 				description = "Fused Heading is not valid.";
@@ -187,7 +187,7 @@ public class PigeonIMU {
 		public String ToString() {
 			String description;
 			/* build description string */
-			if (lastError != ErrorCode.OKAY) { // same as NoComm
+			if (lastError != ErrorCode.OK) { // same as NoComm
 				description = "Status frame was not received, check wired connections and web-based config.";
 			} else if (bCalIsBooting) {
 				description = "Pigeon is boot-caling to properly bias accel and gyro.  Do not move Pigeon.  When finished biasing, calibration mode will start.";
@@ -235,33 +235,7 @@ public class PigeonIMU {
 			return description;
 		}
 	};
-
-	/**
-	 * Enumerated types for frame rate ms.
-	 */
-	public enum PigeonStatusFrame {
-		CondStatus_1_General(0x042000), CondStatus_9_SixDeg_YPR(0x042200), CondStatus_6_SensorFusion(
-				0x042140), CondStatus_11_GyroAccum(0x042280), CondStatus_2_GeneralCompass(
-						0x042040), CondStatus_3_GeneralAccel(0x042080), CondStatus_10_SixDeg_Quat(
-								0x042240), RawStatus_4_Mag(0x041CC0), BiasedStatus_2_Gyro(
-										0x041C40), BiasedStatus_4_Mag(0x041CC0), BiasedStatus_6_Accel(0x41D40);
-
-		public final int value;
-
-		PigeonStatusFrame(int initValue) {
-			this.value = initValue;
-		}
-
-		public static PigeonStatusFrame valueOf(int value) {
-			for (PigeonStatusFrame mode : values()) {
-				if (mode.value == value) {
-					return mode;
-				}
-			}
-			return null;
-		}
-	}
-
+	
 	private int m_deviceNumber = 0;
 
 	private double[] _generalStatus = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -288,11 +262,6 @@ public class PigeonIMU {
 	public PigeonIMU(TalonSRX talonSrx) {
 		m_deviceNumber = talonSrx.getDeviceID();
 		m_handle = PigeonImuJNI.JNI_new_PigeonImu_Talon(m_deviceNumber);
-	}
-
-	public ErrorCode setStatusFramePeriod(PigeonStatusFrame stateFrame, int periodMs, int timeoutMs) {
-		int retval = PigeonImuJNI.JNI_SetStatusFramePeriod(m_handle, stateFrame.value, periodMs, timeoutMs);
-		return ErrorCode.valueOf(retval);
 	}
 
 	public ErrorCode setYaw(double angleDeg, int timeoutMs) {
@@ -604,5 +573,46 @@ public class PigeonIMU {
 	 */
 	public double configGetParameter(int param, int ordinal, int timeoutMs) {
 		return PigeonImuJNI.JNI_ConfigGetParameter(m_handle, param, ordinal, timeoutMs);
+	}
+	
+	public ErrorCode setStatusFramePeriod(PigeonIMU_StatusFrame stateFrame, int periodMs, int timeoutMs) {
+		int retval = PigeonImuJNI.JNI_SetStatusFramePeriod(m_handle, stateFrame.value, periodMs, timeoutMs);
+		return ErrorCode.valueOf(retval);
+	}
+	
+	/**
+	 * Gets the period of the given status frame.
+	 *
+	 * @param frame
+	 *            Frame to get the period of.
+	 * @param timeoutMs
+	 *            Timeout value in ms. @see #ConfigOpenLoopRamp
+	 * @return Period of the given status frame.
+	 */
+	public int getStatusFramePeriod(PigeonIMU_StatusFrame frame, int timeoutMs) {
+		return PigeonImuJNI.JNI_GetStatusFramePeriod(m_handle, frame.value, timeoutMs);
+	}
+
+	public ErrorCode setControlFramePeriod(PigeonIMU_ControlFrame frame, int periodMs) {
+		int retval = PigeonImuJNI.JNI_SetControlFramePeriod(m_handle, frame.value, periodMs);
+		return ErrorCode.valueOf(retval);
+	}
+
+	// ------ Faults ----------//
+	public ErrorCode getFaults(PigeonIMU_Faults toFill) {
+		int bits = PigeonImuJNI.JNI_GetFaults(m_handle);
+		toFill.update(bits);
+		return getLastError();
+	}
+
+	public ErrorCode getStickyFaults(PigeonIMU_StickyFaults toFill) {
+		int bits = PigeonImuJNI.JNI_GetStickyFaults(m_handle);
+		toFill.update(bits);
+		return getLastError();
+	}
+
+	public ErrorCode clearStickyFaults(int timeoutMs) {
+		int retval = PigeonImuJNI.JNI_ClearStickyFaults(m_handle, timeoutMs);
+		return ErrorCode.valueOf(retval);
 	}
 }

@@ -3,8 +3,7 @@ package com.ctre.phoenix;
 import java.util.HashMap;
 
 public enum ErrorCode {
-	OK(0),
-	OKAY(0),					//!< No Error - Function executed as expected
+	OK(0), 						//!< No Error - Function executed as expected
 
 	//CAN-Related
 	CAN_MSG_STALE(1),
