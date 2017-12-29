@@ -31,11 +31,11 @@ public:
 	 */
 	virtual void Set(double speed) {
 		_speed = speed;
-		_mc->Set(_speed);
+		_mc->Set(ControlMode::PercentOutput, _speed);
 	}
 	virtual void PIDWrite(double output) {
 		_speed = output;
-		_mc->Set(output);
+		_mc->Set(ControlMode::PercentOutput, output);
 	}
 
 	/**
