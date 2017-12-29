@@ -72,16 +72,6 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 
 	// ------ Set output routines. ----------//
 	/**
-	 * Puts motor controller into PercentOutput mode.
-	 * 
-	 * @param value
-	 *            Percent output [-1,+1]
-	 */
-	void set(double value) {
-		set(ControlMode.PercentOutput, value, 0);
-	}
-
-	/**
 	 * Sets the appropriate output on the talon, depending on the mode.
 	 *
 	 * In PercentOutput, the output is between -1.0 and 1.0, with 0.0 as

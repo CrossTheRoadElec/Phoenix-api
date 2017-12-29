@@ -45,13 +45,6 @@ int BaseMotorController::GetDeviceID() {
 }
 //------ Set output routines. ----------//
 /**
- * Puts motor controller into PercentOutput mode.
- * @param value Percent output [-1,+1]
- */
-void BaseMotorController::Set(double value) {
-	Set(ControlMode::PercentOutput, value, 0);
-}
-/**
  * @param Mode Sets the appropriate output on the talon, depending on the mode.
  *
  * In PercentOutput, the output is between -1.0 and 1.0, with 0.0 as stopped.
