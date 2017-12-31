@@ -1,9 +1,9 @@
 #pragma once
 
 #include <map>
-#include "ctre/Phoenix/ErrorCode.h"
-#include "ctre/Phoenix/paramEnum.h"
-#include "ctre/Phoenix/LowLevel/ResetStats.h"
+#include "ctre/phoenix/ErrorCode.h"
+#include "ctre/phoenix/paramEnum.h"
+#include "ctre/phoenix/LowLevel/ResetStats.h"
 #include <FRC_NetworkCommunication/CANSessionMux.h>  // tCANStreamMessage
 
 class Device_LowLevel {

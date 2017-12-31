@@ -4,7 +4,7 @@
 
 #include <cstdint>
 #include "ctre/phoenix/LowLevel/CANBusAddressable.h"
-#include "ctre/Phoenix/ErrorCode.h"
+#include "ctre/phoenix/ErrorCode.h"
 #include "ctre/phoenix/paramEnum.h"
 #include "ctre/phoenix/CANifierControlFrame.h"
 #include "ctre/phoenix/CANifierStatusFrame.h"

@@ -27,11 +27,11 @@
 #include <string>
 #include "ctre/phoenix/LowLevel/CANBusAddressable.h"
 #include "ctre/phoenix/paramEnum.h"
-#include "ctre/Phoenix/ErrorCode.h"
-#include "ctre/Phoenix/Sensors/PigeonIMU_ControlFrame.h"
-#include "ctre/Phoenix/Sensors/PigeonIMU_Faults.h"
-#include "ctre/Phoenix/Sensors/PigeonIMU_StatusFrame.h"
-#include "ctre/Phoenix/Sensors/PigeonIMU_StickyFaults.h"
+#include "ctre/phoenix/ErrorCode.h"
+#include "ctre/phoenix/Sensors/PigeonIMU_ControlFrame.h"
+#include "ctre/phoenix/Sensors/PigeonIMU_Faults.h"
+#include "ctre/phoenix/Sensors/PigeonIMU_StatusFrame.h"
+#include "ctre/phoenix/Sensors/PigeonIMU_StickyFaults.h"
 
 /* forward prototype */
 namespace ctre {

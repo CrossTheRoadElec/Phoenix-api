@@ -23,7 +23,7 @@
  
  #pragma once
  
-#include "ctre/Phoenix/ErrorCode.h"
+#include "ctre/phoenix/ErrorCode.h"
  #include <map>
  
  static std::map<void *, bool> pigeonPresent;

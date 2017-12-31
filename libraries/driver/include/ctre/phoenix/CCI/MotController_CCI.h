@@ -1,4 +1,4 @@
-#include "ctre/Phoenix/ErrorCode.h"
+#include "ctre/phoenix/ErrorCode.h"
 
 extern "C"{
 	void* c_MotController_Create1(int baseArbId);

@@ -1,19 +1,19 @@
 #pragma once
 
-#include "ctre/Phoenix/ErrorCode.h"
-#include "ctre/Phoenix/paramEnum.h"
-#include "ctre/Phoenix/LowLevel/Device_LowLevel.h"
-#include "ctre/Phoenix/MotorControl/FeedbackDevice.h"
-#include "ctre/Phoenix/MotorControl/ControlFrame.h"
-#include "ctre/Phoenix/MotorControl/SensorTerm.h"
-#include "ctre/Phoenix/MotorControl/RemoteSensorSource.h"
-#include "ctre/Phoenix/MotorControl/Faults.h"
-#include "ctre/Phoenix/MotorControl/StickyFaults.h"
-#include "ctre/Phoenix/MotorControl/NeutralMode.h"
-#include "ctre/Phoenix/MotorControl/ControlMode.h"
-#include "ctre/Phoenix/MotorControl/LimitSwitchType.h"
-#include "ctre/Phoenix/MotorControl/StatusFrame.h"
-#include "ctre/Phoenix/MotorControl/VelocityMeasPeriod.h"
+#include "ctre/phoenix/ErrorCode.h"
+#include "ctre/phoenix/paramEnum.h"
+#include "ctre/phoenix/LowLevel/Device_LowLevel.h"
+#include "ctre/phoenix/MotorControl/FeedbackDevice.h"
+#include "ctre/phoenix/MotorControl/ControlFrame.h"
+#include "ctre/phoenix/MotorControl/SensorTerm.h"
+#include "ctre/phoenix/MotorControl/RemoteSensorSource.h"
+#include "ctre/phoenix/MotorControl/Faults.h"
+#include "ctre/phoenix/MotorControl/StickyFaults.h"
+#include "ctre/phoenix/MotorControl/NeutralMode.h"
+#include "ctre/phoenix/MotorControl/ControlMode.h"
+#include "ctre/phoenix/MotorControl/LimitSwitchType.h"
+#include "ctre/phoenix/MotorControl/StatusFrame.h"
+#include "ctre/phoenix/MotorControl/VelocityMeasPeriod.h"
 #include <string>
 #include <stdint.h>
 

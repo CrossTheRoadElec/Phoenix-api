@@ -1,6 +1,6 @@
 #pragma once
-#include "ctre/Phoenix/ErrorCode.h"
-#include "ctre/Phoenix/paramEnum.h"
+#include "ctre/phoenix/ErrorCode.h"
+#include "ctre/phoenix/paramEnum.h"
 #include <string.h>
 #include <iostream>
 #include <fstream>
