@@ -13,7 +13,7 @@
 #include "ctre/phoenix/paramEnum.h"
 #include "ctre/phoenix/Motion/TrajectoryPoint.h"
 #include "ctre/phoenix/Motion/MotionProfileStatus.h"
-#include "ctre/Phoenix/ErrorCode.h"
+#include "ctre/phoenix/ErrorCode.h"
 #include "IFollower.h"
 /* WPILIB */
 #include "SpeedController.h"
@@ -27,7 +27,6 @@ public:
 	virtual ~IMotorController() {
 	}
 	//------ Set output routines. ----------//
-	virtual void Set(double value) = 0;
 	virtual void Set(ControlMode Mode, double demand) = 0;
 	virtual void Set(ControlMode Mode, double demand0, double demand1) = 0;
 	virtual void NeutralOutput() = 0;
