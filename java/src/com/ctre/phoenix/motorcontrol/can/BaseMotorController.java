@@ -367,7 +367,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	/**
 	 * Gets the temperature of the motor controller.
 	 *
-	 * @return Temperature of the motor controller (in °C)
+	 * @return Temperature of the motor controller (in 'C)
 	 */
 	public double getTemperature() {
 		return MotControllerJNI.GetTemperature(m_handle);
