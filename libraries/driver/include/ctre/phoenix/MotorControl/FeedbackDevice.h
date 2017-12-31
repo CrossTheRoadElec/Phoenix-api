@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ctre/Phoenix/ErrorCode.h"
+#include "ctre/phoenix/ErrorCode.h"
 
 namespace ctre {
 namespace phoenix {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ctre/Phoenix/ErrorCode.h"
+#include "ctre/phoenix/ErrorCode.h"
 #include <string>
 
 extern "C" {

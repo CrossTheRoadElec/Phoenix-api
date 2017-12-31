@@ -11,7 +11,7 @@
 #include "ctre/phoenix/paramEnum.h"
 #include "ctre/phoenix/Motion/TrajectoryPoint.h"
 #include "ctre/phoenix/Motion/MotionProfileStatus.h"
-#include "ctre/Phoenix/ErrorCode.h"
+#include "ctre/phoenix/ErrorCode.h"
 #include "IFollower.h"
 
 namespace ctre {

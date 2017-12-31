@@ -24,12 +24,12 @@
 #pragma once
 
 #include "Device_LowLevel.h"
-#include "ctre/Phoenix/ErrorCode.h"
-#include "ctre/Phoenix/paramEnum.h"
-#include "ctre/Phoenix/CANifierControlFrame.h"
-#include "ctre/Phoenix/CANifierFaults.h"
-#include "ctre/Phoenix/CANifierStatusFrame.h"
-#include "ctre/Phoenix/CANifierStickyFaults.h"
+#include "ctre/phoenix/ErrorCode.h"
+#include "ctre/phoenix/paramEnum.h"
+#include "ctre/phoenix/CANifierControlFrame.h"
+#include "ctre/phoenix/CANifierFaults.h"
+#include "ctre/phoenix/CANifierStatusFrame.h"
+#include "ctre/phoenix/CANifierStickyFaults.h"
 #include <FRC_NetworkCommunication/CANSessionMux.h>  //CAN Comm
 #include <map>
 

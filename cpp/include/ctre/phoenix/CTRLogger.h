@@ -1,4 +1,4 @@
-#include "ctre/Phoenix/ErrorCode.h" // ErrorCode
+#include "ctre/phoenix/ErrorCode.h" // ErrorCode
 #include <string>
 
 namespace ctre {

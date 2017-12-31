@@ -24,10 +24,10 @@
 #pragma once
 
 #include "Device_LowLevel.h"
-#include "ctre/Phoenix/Sensors/PigeonIMU_ControlFrame.h"
-#include "ctre/Phoenix/Sensors/PigeonIMU_Faults.h"
-#include "ctre/Phoenix/Sensors/PigeonIMU_StatusFrame.h"
-#include "ctre/Phoenix/Sensors/PigeonIMU_StickyFaults.h"
+#include "ctre/phoenix/Sensors/PigeonIMU_ControlFrame.h"
+#include "ctre/phoenix/Sensors/PigeonIMU_Faults.h"
+#include "ctre/phoenix/Sensors/PigeonIMU_StatusFrame.h"
+#include "ctre/phoenix/Sensors/PigeonIMU_StickyFaults.h"
 #include <string>
 
 /** 

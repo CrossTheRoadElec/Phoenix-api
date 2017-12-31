@@ -1,8 +1,8 @@
 #pragma once
 
-#include "ctre/Phoenix/LowLevel/MotController_LowLevel.h"
-#include "ctre/Phoenix/Motion/TrajectoryPoint.h"
-#include "ctre/Phoenix/Motion/MotionProfileStatus.h"
+#include "ctre/phoenix/LowLevel/MotController_LowLevel.h"
+#include "ctre/phoenix/Motion/TrajectoryPoint.h"
+#include "ctre/phoenix/Motion/MotionProfileStatus.h"
 #include <string>
 #include <stdint.h>
 #include <mutex>
