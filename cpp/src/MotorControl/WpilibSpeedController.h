@@ -8,11 +8,14 @@
 #include "ctre/phoenix/MotorControl/CAN/BaseMotorController.h"
 #include "ctre/phoenix/MotorControl/IMotorControllerEnhanced.h"
 
+#include "SmartDashboard/SendableBase.h"
+#include "SmartDashboard/SendableBuilder.h"
+
 namespace ctre {
 namespace phoenix {
 namespace motorcontrol {
 
-class WpilibSpeedController: public virtual frc::SpeedController {
+class WpilibSpeedController: public virtual frc::SpeedController, public frc::SendableBase {
 public:
 	WpilibSpeedController(ctre::phoenix::motorcontrol::can::BaseMotorController * mc) {
 		_mc = mc;
@@ -28,11 +31,11 @@ public:
 	 */
 	virtual void Set(double speed) {
 		_speed = speed;
-		_mc->Set(_speed);
+		_mc->Set(ControlMode::PercentOutput, _speed);
 	}
 	virtual void PIDWrite(double output) {
 		_speed = output;
-		_mc->Set(output);
+		_mc->Set(ControlMode::PercentOutput, output);
 	}
 
 	/**
@@ -74,6 +77,14 @@ public:
 	 */
 	virtual void StopMotor() {
 		_mc->NeutralOutput();
+	}
+	
+protected:
+    virtual void InitSendable(frc::SendableBuilder& builder) {
+	  builder.SetSmartDashboardType("Speed Controller");
+	  builder.SetSafeState([=]() { StopMotor(); });
+	  builder.AddDoubleProperty("Value", [=]() { return Get(); },
+								[=](double value) { Set(value); });
 	}
 
 private:

@@ -59,7 +59,6 @@ public:
 	BaseMotorController(int arbId);
 	~BaseMotorController();
 	int GetDeviceID();
-	virtual void Set(double value);
 	virtual void Set(ControlMode Mode, double value);
 	virtual void Set(ControlMode mode, double demand0, double demand1);
 	virtual void NeutralOutput();
