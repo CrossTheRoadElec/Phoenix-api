@@ -2,16 +2,15 @@
 def beta = project.hasProperty('beta') ? project.beta : false
 
 //defaults
-ext.wpiDepYear = 2017
-ext.wpiDeps = "wpi-dependencies-2017.gradle"
-ext.FRCToolChainYear = 2017
-ext.wpilibjDep = 'edu.wpi.first.wpilibj:athena:+'
-ext.javaNetTablesDep = 'edu.wpi.first.wpilib.networktables.java:NetworkTables:+:arm'
+ext.wpiDepYear = 2018
+ext.wpiDeps = "wpi-dependencies-2018.gradle"
+ext.FRCToolChainYear = 2018
+ext.wpilibjDep = 'edu.wpi.first.wpilibj:wpilibj-java:+'
+ext.javaNetTablesDep = 'edu.wpi.first.ntcore:ntcore-java:+'
 
 if(beta)
 {
-	wpiDepYear = 2018
-	FRCToolChainYear = 2018
+
 }
 
 
