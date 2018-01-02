@@ -1060,6 +1060,12 @@ double BaseMotorController::ConfigGetParameter(ParamEnum param, int ordinal,
 int BaseMotorController::GetBaseID() {
 	return _arbId;
 }
+/**
+ * @ retrieve control mode motor controller is in
+ */
+ControlMode BaseMotorController::GetControlMode() {
+	return m_controlMode;
+}
 
 // ----- Follower ------//
 void BaseMotorController::Follow(IMotorController & masterToFollow) {
@@ -1082,4 +1088,5 @@ frc::SpeedController & BaseMotorController::GetWPILIB_SpeedController() {
 ctre::phoenix::motorcontrol::SensorCollection & BaseMotorController::GetSensorCollection() {
 	return *_sensorColl;
 }
+
 
