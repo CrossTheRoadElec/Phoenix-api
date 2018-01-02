@@ -23,13 +23,9 @@ model {
                 // Gradle auto-adds the -m32 argument to the linker and compiler. Our compiler only supports
                 // arm, and doesn't understand this flag, so it is removed from both
                 cppCompiler.withArguments { args ->
-					//args << '-std=c++1y' << '-Wformat=2' << '-Wall' << '-Wextra' << '-Werror' << '-pedantic'
-                    args << '-std=c++1y' << '-Wformat=2' << '-Wall' << '-Wextra' << '-pedantic'
-                    args << '-Wno-psabi' << '-Wno-unused-parameter' << '-fPIC' << '-rdynamic'
-                    //TODO: When the compiler allows us to actually call deprecated functions from within
-                    // deprecated function, remove this line (this will cause calling deprecated functions
-                    // to be treated as a warning rather than an error).
-                    args << '-Wno-error=deprecated-declarations' << '-pthread'
+					args << '-std=c++1y' << '-Wformat=2' << '-Wall' << '-Wextra' << '-Werror' << '-pedantic'
+                    args << '-fPIC' << '-rdynamic'
+                    args << '-pthread'
                     args.remove('-m32')
                 }
                 linker.withArguments { args ->
