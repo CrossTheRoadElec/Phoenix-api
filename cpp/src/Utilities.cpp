@@ -27,6 +27,8 @@ float Utilities::cap(float value, float peak) {
 
 bool Utilities::Contains(char array[], char item) {
 	//Not sure how to implement in c++ yet, made private
+	(void)array;
+	(void)item;
 	return false;
 }
 
