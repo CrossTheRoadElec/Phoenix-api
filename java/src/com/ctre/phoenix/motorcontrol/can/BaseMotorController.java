@@ -1153,4 +1153,11 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	public SensorCollection getSensorCollection() {
 		return _sensorColl;
 	}
+	
+	/**
+	 * @retrieve control mode of motor controller
+	 */
+	public ControlMode getControlMode() {
+		return m_controlMode;
+	}
 }
