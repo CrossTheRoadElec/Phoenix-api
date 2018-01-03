@@ -1,5 +1,4 @@
 package com.ctre;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 /**
 *  @deprecated Use TalonSRX instead. This deprecated class will be removed in 2019.
