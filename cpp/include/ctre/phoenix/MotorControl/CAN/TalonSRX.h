@@ -14,6 +14,9 @@ public:
 	TalonSRX(int deviceNumber);
 	virtual ~TalonSRX() {
 	}
+	TalonSRX() = delete;
+	TalonSRX(TalonSRX const&) = delete;
+	TalonSRX& operator=(TalonSRX const&) = delete;
 
 	virtual ctre::phoenix::ErrorCode ConfigSelectedFeedbackSensor(FeedbackDevice feedbackDevice, int pidIdx, int timeoutMs);
 	virtual ctre::phoenix::ErrorCode ConfigSelectedFeedbackSensor(RemoteFeedbackDevice feedbackDevice, int pidIdx, int timeoutMs);

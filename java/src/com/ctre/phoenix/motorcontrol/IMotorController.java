@@ -5,8 +5,6 @@ import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motion.MotionProfileStatus;
 import com.ctre.phoenix.motion.TrajectoryPoint;
 
-import edu.wpi.first.wpilibj.SpeedController;
-
 public interface IMotorController
 		extends com.ctre.phoenix.signals.IOutputSignal, com.ctre.phoenix.signals.IInvertable, IFollower {
 	// ------ Set output routines. ----------//
@@ -191,7 +189,4 @@ public interface IMotorController
 
 	// ----- Follower ------//
 	/* in parent interface */
-
-	// ------ WPILIB ------//
-	SpeedController getWPILIB_SpeedController();
 }

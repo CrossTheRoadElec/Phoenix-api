@@ -17,15 +17,12 @@ import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.StickyFaults;
 import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
-import com.ctre.phoenix.motorcontrol.WpilibSpeedController;
 import com.ctre.phoenix.motorcontrol.can.MotControllerJNI;
 import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motion.MotionProfileStatus;
 import com.ctre.phoenix.motion.SetValueMotionProfile;
 import com.ctre.phoenix.motion.TrajectoryPoint;
 import com.ctre.phoenix.ErrorCode;
-/* WPILIB */
-import edu.wpi.first.wpilibj.SpeedController;
 
 public abstract class BaseMotorController implements com.ctre.phoenix.motorcontrol.IMotorController {
 
@@ -39,8 +36,6 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 
 	private int [] _motionProfStats = new int[9];
 
-	private WpilibSpeedController _wpilibSpeedController;
-
 	private SensorCollection _sensorColl;
 	
 	// --------------------- Constructors -----------------------------//
@@ -53,7 +48,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	public BaseMotorController(int arbId) {
 		m_handle = MotControllerJNI.Create(arbId);
 		_arbId = arbId;
-		_wpilibSpeedController = new WpilibSpeedController(this);
+		
 		_sensorColl = new SensorCollection(this);
 	}
 
@@ -1140,11 +1135,6 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 
 	public void valueUpdated() {
 		// MT
-	}
-
-	// ----- WPILIB ------//
-	public SpeedController getWPILIB_SpeedController() {
-		return _wpilibSpeedController;
 	}
 	
 	/**

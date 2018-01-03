@@ -12,8 +12,11 @@ class VictorSPX: public virtual ctre::phoenix::motorcontrol::can::BaseMotorContr
                  public virtual ctre::phoenix::motorcontrol::IMotorController {
 
 public:
-  VictorSPX(int deviceNumber);
-  virtual ~VictorSPX() {}
+	VictorSPX(int deviceNumber);
+	virtual ~VictorSPX() {
+	}
+	VictorSPX(VictorSPX const&) = delete;
+	VictorSPX& operator=(VictorSPX const&) = delete;
 }; //class VictorSPX
 
 } //namespace can

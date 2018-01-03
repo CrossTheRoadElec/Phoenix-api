@@ -35,7 +35,7 @@ public:
 	//------ Invert behavior ----------//
 	virtual void SetSensorPhase(bool PhaseSensor) = 0;
 	virtual void SetInverted(bool invert) = 0;
-	virtual bool GetInverted() = 0;
+	virtual bool GetInverted() const = 0;
 
 	//----- general output shaping ------------------//
 	virtual ErrorCode ConfigOpenloopRamp(double secondsFromNeutralToFull,
@@ -189,9 +189,6 @@ public:
 
 	// ----- Follower ------//
 	/* in parent interface */
-
-	// ------ WPILIB ------//
-	virtual frc::SpeedController & GetWPILIB_SpeedController() = 0;
 };
 
 }

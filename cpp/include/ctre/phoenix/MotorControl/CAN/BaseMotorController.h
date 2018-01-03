@@ -47,10 +47,6 @@ private:
 	double m_setPoint = 0;
 	bool _invert = false;
 
-	int temp = 0;
-
-	frc::SpeedController * _wpilibSpeedController;
-
 	ctre::phoenix::motorcontrol::SensorCollection * _sensorColl;
 protected:
 	void* m_handle;
@@ -58,6 +54,9 @@ protected:
 public:
 	BaseMotorController(int arbId);
 	~BaseMotorController();
+	BaseMotorController() = delete;
+	BaseMotorController(BaseMotorController const&) = delete;
+	BaseMotorController& operator=(BaseMotorController const&) = delete;
 	int GetDeviceID();
 	virtual void Set(ControlMode Mode, double value);
 	virtual void Set(ControlMode mode, double demand0, double demand1);
@@ -68,7 +67,7 @@ public:
 	//------ Invert behavior ----------//
 	virtual void SetSensorPhase(bool PhaseSensor);
 	virtual void SetInverted(bool invert);
-	virtual bool GetInverted();
+	virtual bool GetInverted() const;
 	//----- general output shaping ------------------//
 	virtual ctre::phoenix::ErrorCode ConfigOpenloopRamp(double secondsFromNeutralToFull,
 			int timeoutMs);
@@ -210,8 +209,6 @@ public:
 	// ----- Follower ------//
 	virtual void Follow(IMotorController & masterToFollow);
 	virtual void ValueUpdated();
-	// ----- WPILIB --------//
-	virtual frc::SpeedController & GetWPILIB_SpeedController();
 
 	//------ RAW Sensor API ----------//
 	/**

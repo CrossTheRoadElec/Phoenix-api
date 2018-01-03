@@ -2,7 +2,6 @@
 #include "ctre/phoenix/MotorControl/SensorCollection.h"
 #include "ctre/phoenix/CCI/MotController_CCI.h"
 #include "ctre/phoenix/LowLevel/MotControllerWithBuffer_LowLevel.h"
-#include "../WpilibSpeedController.h"
 
 using namespace ctre::phoenix;
 using namespace ctre::phoenix::motorcontrol;
@@ -18,14 +17,10 @@ BaseMotorController::BaseMotorController(int arbId) {
 	m_handle = c_MotController_Create1(arbId);
 	_arbId = arbId;
 
-	_wpilibSpeedController = new WpilibSpeedController(this);
-
 	_sensorColl = new motorcontrol::SensorCollection((void*) m_handle);
 }
 
 BaseMotorController::~BaseMotorController() {
-	delete _wpilibSpeedController;
-	_wpilibSpeedController = 0;
 	delete _sensorColl;
 	_sensorColl = 0;
 }
@@ -151,7 +146,7 @@ void BaseMotorController::SetInverted(bool invert) {
 	_invert = invert; /* cache for getter */
 	c_MotController_SetInverted(m_handle, _invert);
 }
-bool BaseMotorController::GetInverted() {
+bool BaseMotorController::GetInverted() const {
 	return _invert;
 }
 
@@ -1077,10 +1072,6 @@ void BaseMotorController::Follow(IMotorController & masterToFollow) {
 }
 void BaseMotorController::ValueUpdated() {
 	//do nothing
-}
-// ----- WPILIB ------//
-frc::SpeedController & BaseMotorController::GetWPILIB_SpeedController() {
-	return *_wpilibSpeedController;
 }
 /**
  * @retrieve object that can get/set individual RAW sensor values.

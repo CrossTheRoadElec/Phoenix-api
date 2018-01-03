@@ -8,6 +8,8 @@
 #include "ctre/phoenix/Motion/TrajectoryPoint.h"
 #include "ctre/phoenix/MotorControl/CAN/TalonSRX.h"
 #include "ctre/phoenix/MotorControl/CAN/VictorSPX.h"
+#include "ctre/phoenix/MotorControl/CAN/WPI_TalonSRX.h"
+#include "ctre/phoenix/MotorControl/CAN/WPI_VictorSPX.h"
 #include "ctre/phoenix/MotorControl/Faults.h"
 #include "ctre/phoenix/MotorControl/SensorCollection.h"
 #include "ctre/phoenix/MotorControl/IMotorController.h"
