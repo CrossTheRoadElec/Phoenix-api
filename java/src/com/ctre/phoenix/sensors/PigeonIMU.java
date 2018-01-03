@@ -1,24 +1,24 @@
 /*
- * Â Software License Agreement
+ *  Software License Agreement
  *
- *Â Copyright (C) Cross The Road Electronics.Â  All rights
- *Â reserved.
- *Â 
- *Â Cross The Road Electronics (CTRE) licenses to you the right toÂ 
- *Â use, publish, and distribute copies of CRF (Cross The Road) firmware files (*.crf) and Software
+ * Copyright (C) Cross The Road Electronics.  All rights
+ * reserved.
+ * 
+ * Cross The Road Electronics (CTRE) licenses to you the right to 
+ * use, publish, and distribute copies of CRF (Cross The Road) firmware files (*.crf) and Software
  * API Libraries ONLY when in use with Cross The Road Electronics hardware products.
- *Â 
- *Â THE SOFTWARE AND DOCUMENTATION ARE PROVIDED "AS IS" WITHOUT
- *Â WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT
- *Â LIMITATION, ANY WARRANTY OF MERCHANTABILITY, FITNESS FOR A
- *Â PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. IN NO EVENT SHALL
- *Â CROSS THE ROAD ELECTRONICS BE LIABLE FOR ANY INCIDENTAL, SPECIAL,Â 
- *Â INDIRECT OR CONSEQUENTIAL DAMAGES, LOST PROFITS OR LOST DATA, COST OF
- *Â PROCUREMENT OF SUBSTITUTE GOODS, TECHNOLOGY OR SERVICES, ANY CLAIMS
- *Â BY THIRD PARTIES (INCLUDING BUT NOT LIMITED TO ANY DEFENSE
- *Â THEREOF), ANY CLAIMS FOR INDEMNITY OR CONTRIBUTION, OR OTHER
- *Â SIMILAR COSTS, WHETHER ASSERTED ON THE BASIS OF CONTRACT, TORT
- *Â (INCLUDING NEGLIGENCE), BREACH OF WARRANTY, OR OTHERWISE
+ * 
+ * THE SOFTWARE AND DOCUMENTATION ARE PROVIDED "AS IS" WITHOUT
+ * WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT
+ * LIMITATION, ANY WARRANTY OF MERCHANTABILITY, FITNESS FOR A
+ * PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. IN NO EVENT SHALL
+ * CROSS THE ROAD ELECTRONICS BE LIABLE FOR ANY INCIDENTAL, SPECIAL, 
+ * INDIRECT OR CONSEQUENTIAL DAMAGES, LOST PROFITS OR LOST DATA, COST OF
+ * PROCUREMENT OF SUBSTITUTE GOODS, TECHNOLOGY OR SERVICES, ANY CLAIMS
+ * BY THIRD PARTIES (INCLUDING BUT NOT LIMITED TO ANY DEFENSE
+ * THEREOF), ANY CLAIMS FOR INDEMNITY OR CONTRIBUTION, OR OTHER
+ * SIMILAR COSTS, WHETHER ASSERTED ON THE BASIS OF CONTRACT, TORT
+ * (INCLUDING NEGLIGENCE), BREACH OF WARRANTY, OR OTHERWISE
  */
 package com.ctre.phoenix.sensors;
 import com.ctre.phoenix.ErrorCode;
@@ -43,7 +43,7 @@ public class PigeonIMU {
 		 */
 		public ErrorCode lastError;
 
-		public String ToString() {
+		public String toString() {
 			String description;
 			if (lastError != ErrorCode.OK) {
 				description = "Could not receive status frame.  Check wiring and web-config.";
@@ -184,7 +184,7 @@ public class PigeonIMU {
 		/**
 		 * general string description of current status
 		 */
-		public String ToString() {
+		public String toString() {
 			String description;
 			/* build description string */
 			if (lastError != ErrorCode.OK) { // same as NoComm
@@ -449,16 +449,30 @@ public class PigeonIMU {
 		int retval = PigeonImuJNI.JNI_GetAccelerometerAngles(m_handle, tiltAngles);
 		return ErrorCode.valueOf(retval);
 	}
+	/**
+	 * @param status 	object reference to fill with fusion status flags.
+	 *					Caller may pass null if flags are not needed.
+	 * @return The fused heading in degrees.
+	 */
+	public double getFusedHeading(FusionStatus toFill) {
+		int errorCode = PigeonImuJNI.JNI_GetFusedHeading(m_handle, _fusionStatus);
 
-	public ErrorCode getFusedHeading(FusionStatus toFill) {
-		int retval = PigeonImuJNI.JNI_GetFusedHeading(m_handle, _fusionStatus);
+		if (toFill != null) {
+			toFill.heading = _fusionStatus[0];
+			toFill.bIsFusing = (_fusionStatus[1] != 0);
+			toFill.bIsValid = (_fusionStatus[2] != 0);
+			toFill.lastError = ErrorCode.valueOf(errorCode);
+		}
 
-		toFill.heading = _fusionStatus[0];
-		toFill.bIsFusing = (_fusionStatus[1] != 0);
-		toFill.bIsValid = (_fusionStatus[2] != 0);
-		toFill.lastError = ErrorCode.valueOf(retval);
+		return _fusionStatus[0];
+	}
+	/**
+	 * @return The fused heading in degrees.
+	 */
+	public double getFusedHeading() {
+		PigeonImuJNI.JNI_GetFusedHeading(m_handle, _fusionStatus);
 
-		return toFill.lastError;
+		return _fusionStatus[0];
 	}
 
 	/*
