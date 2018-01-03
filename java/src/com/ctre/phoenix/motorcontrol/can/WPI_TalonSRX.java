@@ -35,6 +35,7 @@ public class WPI_TalonSRX extends TalonSRX implements SpeedController, Sendable,
 		_safetyHelper.setSafetyEnabled(false);
 
 		LiveWindow.add(this);
+		setName("Talon SRX ", deviceNumber);
 	}
 
 	// ------ set/get routines for WPILIB interfaces ------//

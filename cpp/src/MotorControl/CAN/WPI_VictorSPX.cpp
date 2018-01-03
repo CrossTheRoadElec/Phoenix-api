@@ -17,7 +17,7 @@ using namespace ctre::phoenix::motorcontrol::can;
 
 /** Constructor */
 WPI_VictorSPX::WPI_VictorSPX(int deviceNumber) :
-		BaseMotorController(deviceNumber | 0x02040000),
+		BaseMotorController(deviceNumber | 0x01040000),
 		VictorSPX(deviceNumber),
 		_safetyHelper(this) {
 	/* build string description */
@@ -27,6 +27,7 @@ WPI_VictorSPX::WPI_VictorSPX(int deviceNumber) :
 	/* prep motor safety */
 	_safetyHelper.SetExpiration(0.0);
 	_safetyHelper.SetSafetyEnabled(false);
+	SetName("Victor SPX ", deviceNumber);
 }
 WPI_VictorSPX::~WPI_VictorSPX() {
 	/* MT */

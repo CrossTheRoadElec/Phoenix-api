@@ -27,6 +27,7 @@ WPI_TalonSRX::WPI_TalonSRX(int deviceNumber) :
 	/* prep motor safety */
 	_safetyHelper.SetExpiration(0.0);
 	_safetyHelper.SetSafetyEnabled(false);
+	SetName("Talon SRX ", deviceNumber);
 }
 WPI_TalonSRX::~WPI_TalonSRX() {
 	/* MT */

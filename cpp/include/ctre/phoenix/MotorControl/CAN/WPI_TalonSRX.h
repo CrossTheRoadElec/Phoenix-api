@@ -118,7 +118,7 @@ protected:
 private:
 	double _speed = 0;
 	std::string _desc;
-	MotorSafetyHelper _safetyHelper;
+	frc::MotorSafetyHelper _safetyHelper;
 };
 
 } // namespace can

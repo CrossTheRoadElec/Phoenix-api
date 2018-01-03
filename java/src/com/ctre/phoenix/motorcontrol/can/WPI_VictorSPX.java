@@ -35,6 +35,7 @@ public class WPI_VictorSPX extends VictorSPX implements SpeedController, Sendabl
 		_safetyHelper.setSafetyEnabled(false);
 
 		LiveWindow.add(this);
+		setName("Victor SPX ", deviceNumber);
 	}
 
 	// ------ set/get routines for WPILIB interfaces ------//
