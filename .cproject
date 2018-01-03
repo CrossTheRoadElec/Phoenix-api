@@ -108,6 +108,8 @@
 									<listOptionValue builtIn="false"
 										value="${workspace_loc:/${ProjName}}\build\wpiutil\include" />
 									<listOptionValue builtIn="false"
+										value="${workspace_loc:/${ProjName}}\build\ntcore\include" />
+									<listOptionValue builtIn="false"
 										value="${workspace_loc:/${ProjName}}\libraries\driver\include" />
 								</option>
 								<option id="gnu.cpp.compiler.option.other.other.1388778170"
