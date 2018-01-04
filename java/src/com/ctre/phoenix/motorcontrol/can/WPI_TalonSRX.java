@@ -78,12 +78,12 @@ public class WPI_TalonSRX extends TalonSRX implements SpeedController, Sendable,
 	// ----------------------- Invert routines -------------------//
 	@Override
 	public void setInverted(boolean isInverted) {
-		setInverted(isInverted);
+		super.setInverted(isInverted);
 	}
 
 	@Override
 	public boolean getInverted() {
-		return getInverted();
+		return super.getInverted();
 	}
 
 	// ----------------------- turn-motor-off routines-------------------//
