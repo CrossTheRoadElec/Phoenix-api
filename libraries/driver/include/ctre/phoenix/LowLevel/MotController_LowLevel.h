@@ -75,7 +75,7 @@ protected:
 public:
 	MotController_LowLevel(int baseArbId);
 
-	void SetDemand(ctre::phoenix::motorcontrol::ControlMode mode, int demand0, int demand1);
+	ErrorCode SetDemand(ctre::phoenix::motorcontrol::ControlMode mode, int demand0, int demand1);
 	void SelectDemandType(bool enable);
 	void SetMPEOutput(int MpeOutput);
 	void EnableHeadingHold(bool enable);
@@ -196,15 +196,16 @@ public:
 	ErrorCode SetQuadraturePosition(int newPosition, int timeoutMs);
 	ErrorCode SetPulseWidthPosition(int newPosition, int timeoutMs);
 
-	const static int kMinFirmwareVersionMajor = 2;
-	const static int kMinFirmwareVersionMinor = 123;
+	const static int kMinFirmwareVersionMajor = 3;
+	const static int kMinFirmwareVersionMinor = 0;
 
 private:
 
 	uint64_t _cache = 0;
 	int32_t _len = 0;
 	ErrorCode _lastError = (ErrorCode)0;
-
+	int32_t _setPoint = 0;
+	ControlMode _appliedMode = ControlMode::Disabled;
 	void CheckFirmVers(int minMajor = kMinFirmwareVersionMajor, int minMinor = kMinFirmwareVersionMinor);
 
 };

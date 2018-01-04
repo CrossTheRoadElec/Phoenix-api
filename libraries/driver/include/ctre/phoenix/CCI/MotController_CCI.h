@@ -5,7 +5,7 @@ extern "C"{
 
 	ctre::phoenix::ErrorCode c_MotController_GetDeviceNumber(void *handle, int *deviceNumber);
 	ctre::phoenix::ErrorCode c_MotController_GetDescription(void *handle, char * toFill, int toFillByteSz, int * numBytesFilled);
-	void c_MotController_SetDemand(void *handle, int mode, int demand0, int demand1);
+	ctre::phoenix::ErrorCode c_MotController_SetDemand(void *handle, int mode, int demand0, int demand1);
 	void c_MotController_SetNeutralMode(void *handle, int neutralMode);
 	void c_MotController_SetSensorPhase(void *handle, bool PhaseSensor);
 	void c_MotController_SetInverted(void *handle, bool invert);
