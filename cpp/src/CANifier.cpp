@@ -25,12 +25,14 @@
 #include "ctre/phoenix/CANifier.h"
 #include "ctre/phoenix/CCI/CANifier_CCI.h"
 #include "ctre/phoenix/CTRLogger.h"
+#include "HAL/HAL.h"
 
 namespace ctre {
 namespace phoenix {
 CANifier::CANifier(int deviceNumber): CANBusAddressable(deviceNumber)
 {
 	m_handle = c_CANifier_Create1(deviceNumber);
+	HAL_Report(HALUsageReporting::kResourceType_CANifier, deviceNumber + 1);
 }
 
 ErrorCode CANifier::SetLEDOutput(double percentOutput, LEDChannel ledChannel) {

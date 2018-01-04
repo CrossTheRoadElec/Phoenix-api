@@ -7,11 +7,15 @@ import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 import com.ctre.phoenix.motorcontrol.can.MotControllerJNI;
 
+import edu.wpi.first.wpilibj.hal.FRCNetComm.tResourceType;
+import edu.wpi.first.wpilibj.hal.HAL;
+
 public class TalonSRX extends com.ctre.phoenix.motorcontrol.can.BaseMotorController
 		implements IMotorControllerEnhanced {
 
 	public TalonSRX(int deviceNumber) {
 		super(deviceNumber | 0x02040000);
+		HAL.report(tResourceType.kResourceType_CANTalonSRX, deviceNumber + 1);
 	}
 
 	public ErrorCode setStatusFramePeriod(StatusFrameEnhanced frame, int periodMs, int timeoutMs) {

@@ -298,18 +298,6 @@ private:
 	};
 	ResetStats _resetStats = { 0, 0, 0, false };
 
-	enum UsageFlags {
-		Default = 0x00000000,
-		ConnectCAN = 0x00000001,
-		ConnectTalonSRX = 0x00000002,
-
-		GetCompass = 0x08000000,
-		GetYPR = 0x10000000,
-		GetFused = 0x20000000,
-		GetAccel = 0x40000000,
-		TempComp = 0x80000000,
-	};
-
 	/** Portion of the arbID for all status and control frames. */
 	void* _handle;
 	uint32_t _deviceNumber;
@@ -327,8 +315,6 @@ private:
 
 	PigeonIMU::PigeonState GetState(int errCode, const uint64_t & statusFrame);
 	double GetTemp(const uint64_t & statusFrame);
-
-	void ApplyUsageStats(UsageFlags Usage);
 };
 } // namespace signals
 } // namespace phoenix

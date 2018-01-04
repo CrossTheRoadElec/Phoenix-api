@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj.MotorSafety;
 import edu.wpi.first.wpilibj.MotorSafetyHelper;
 import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj.hal.FRCNetComm.tResourceType;
+import edu.wpi.first.wpilibj.hal.HAL;
 
 public class WPI_TalonSRX extends TalonSRX implements SpeedController, Sendable, MotorSafety {
 
@@ -27,7 +29,7 @@ public class WPI_TalonSRX extends TalonSRX implements SpeedController, Sendable,
 	/** Constructor */
 	public WPI_TalonSRX(int deviceNumber) {
 		super(deviceNumber);
-
+		HAL.report(66, deviceNumber + 1);
 		_description = "Talon SRX " + deviceNumber;
 		/* prep motor safety */
 		_safetyHelper = new MotorSafetyHelper(this);

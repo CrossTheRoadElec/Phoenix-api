@@ -10,6 +10,7 @@
  */
 #include "ctre/phoenix/MotorControl/CAN/WPI_TalonSRX.h"
 #include "ctre/phoenix/MotorControl/CAN/BaseMotorController.h"
+#include "HAL/HAL.h"
 #include <sstream>
 
 using namespace ctre::phoenix::motorcontrol::can;
@@ -20,6 +21,7 @@ WPI_TalonSRX::WPI_TalonSRX(int deviceNumber) :
 		BaseMotorController(deviceNumber | 0x02040000),
 		TalonSRX(deviceNumber),
 		_safetyHelper(this) {
+	HAL_Report(HALUsageReporting::kResourceType_CTRE_future2, deviceNumber + 1);
 	/* build string description */
 	std::stringstream work;
 	work << "Talon SRX " << deviceNumber;

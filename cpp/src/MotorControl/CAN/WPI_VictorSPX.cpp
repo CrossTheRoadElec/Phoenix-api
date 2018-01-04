@@ -10,6 +10,7 @@
  */
 #include "ctre/phoenix/MotorControl/CAN/WPI_VictorSPX.h"
 #include "ctre/phoenix/MotorControl/CAN/BaseMotorController.h"
+#include "HAL/HAL.h"
 #include <sstream>
 
 using namespace ctre::phoenix::motorcontrol::can;
@@ -20,6 +21,7 @@ WPI_VictorSPX::WPI_VictorSPX(int deviceNumber) :
 		BaseMotorController(deviceNumber | 0x01040000),
 		VictorSPX(deviceNumber),
 		_safetyHelper(this) {
+	HAL_Report(HALUsageReporting::kResourceType_CTRE_future3, deviceNumber + 1);
 	/* build string description */
 	std::stringstream work;
 	work << "Victor SPX " << deviceNumber;

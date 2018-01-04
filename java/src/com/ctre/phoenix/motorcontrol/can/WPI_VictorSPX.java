@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj.MotorSafety;
 import edu.wpi.first.wpilibj.MotorSafetyHelper;
 import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj.hal.FRCNetComm.tResourceType;
+import edu.wpi.first.wpilibj.hal.HAL;
 
 public class WPI_VictorSPX extends VictorSPX implements SpeedController, Sendable, MotorSafety {
 
@@ -27,7 +29,7 @@ public class WPI_VictorSPX extends VictorSPX implements SpeedController, Sendabl
 	/** Constructor */
 	public WPI_VictorSPX(int deviceNumber) {
 		super(deviceNumber);
-
+		HAL.report(67, deviceNumber + 1);
 		_description = "Victor SPX " + deviceNumber;
 		/* prep motor safety */
 		_safetyHelper = new MotorSafetyHelper(this);
