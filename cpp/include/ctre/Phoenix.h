@@ -20,6 +20,7 @@
 #include "ctre/phoenix/Tasking/ILoopable.h"
 #include "ctre/phoenix/Tasking/IProcessable.h"
 #include "ctre/phoenix/Tasking/ButtonMonitor.h"
+#include "ctre/phoenix/Utilities.h"
 
 using namespace ctre;
 using namespace ctre::phoenix;
