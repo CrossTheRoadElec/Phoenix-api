@@ -64,15 +64,7 @@ PigeonIMU::PigeonIMU(ctre::phoenix::motorcontrol::can::TalonSRX * talonSrx) :
 	HAL_Report(HALUsageReporting::kResourceType_CTRE_future0, _deviceNumber + 1); //record as Pigeon-via-Uart
 }
 
-/**
- * Change the periodMs of a TALON's status frame.  See kStatusFrame_* enums for
- * what's available.
- */
-ErrorCode PigeonIMU::SetStatusFramePeriod(PigeonStatusFrame statusFrame,
-		int periodMs, int timeoutMs) {
-	return c_PigeonIMU_SetStatusFramePeriod(_handle, statusFrame, periodMs,
-			timeoutMs);
-}
+
 int PigeonIMU::SetYaw(double angleDeg, int timeoutMs) {
 	int errCode = c_PigeonIMU_SetYaw(_handle, angleDeg, timeoutMs);
 	return errCode;
@@ -445,8 +437,12 @@ double PigeonIMU::ConfigGetParameter(ctre::phoenix::ParamEnum param, int ordinal
 
 
 //------ Frames ----------//
-ErrorCode PigeonIMU::SetStatusFramePeriod(PigeonIMU_StatusFrame statusFrame, int periodMs,
-		int timeoutMs) {
+/**
+ * Change the periodMs of a TALON's status frame.  See kStatusFrame_* enums for
+ * what's available.
+ */
+ErrorCode PigeonIMU::SetStatusFramePeriod(PigeonIMU_StatusFrame statusFrame,
+		int periodMs, int timeoutMs) {
 	return c_PigeonIMU_SetStatusFramePeriod(_handle, statusFrame, periodMs,
 			timeoutMs);
 }

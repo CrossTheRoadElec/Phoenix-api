@@ -23,7 +23,6 @@
 
 package com.ctre.phoenix;
 
-import edu.wpi.first.wpilibj.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.wpilibj.hal.HAL;
 
 public class CANifier {
