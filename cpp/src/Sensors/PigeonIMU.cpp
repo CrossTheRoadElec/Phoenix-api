@@ -49,8 +49,7 @@ PigeonIMU::PigeonIMU(int deviceNumber) :
 		CANBusAddressable(deviceNumber) {
 	_handle = c_PigeonIMU_Create1(deviceNumber);
 	_deviceNumber = deviceNumber;
-
-	PigeonIMU::ApplyUsageStats(UsageFlags::ConnectCAN);
+	HAL_Report(HALUsageReporting::kResourceType_PigeonIMU, _deviceNumber + 1);
 }
 
 /**
@@ -61,7 +60,8 @@ PigeonIMU::PigeonIMU(ctre::phoenix::motorcontrol::can::TalonSRX * talonSrx) :
 		CANBusAddressable(0) {
 	_handle = c_PigeonIMU_Create2(talonSrx->GetDeviceID());
 	_deviceNumber = talonSrx->GetDeviceID();
-	PigeonIMU::ApplyUsageStats(UsageFlags::ConnectTalonSRX);
+	HAL_Report(HALUsageReporting::kResourceType_PigeonIMU, _deviceNumber + 1);
+	HAL_Report(HALUsageReporting::kResourceType_CTRE_future0, _deviceNumber + 1); //record as Pigeon-via-Uart
 }
 
 
@@ -97,7 +97,6 @@ int PigeonIMU::ConfigTemperatureCompensationEnable(bool bTempCompEnable,
 		int timeoutMs) {
 	int errCode = c_PigeonIMU_ConfigTemperatureCompensationEnable(_handle,
 			bTempCompEnable, timeoutMs);
-	PigeonIMU::ApplyUsageStats(UsageFlags::TempComp);
 	return errCode;
 }
 /**
@@ -233,7 +232,6 @@ int PigeonIMU::Get6dQuaternion(double wxyz[4]) {
 }
 int PigeonIMU::GetYawPitchRoll(double ypr[3]) {
 	int errCode = c_PigeonIMU_GetYawPitchRoll(_handle, ypr);
-	PigeonIMU::ApplyUsageStats(UsageFlags::GetYPR);
 	return errCode;
 }
 int PigeonIMU::GetAccumGyro(double xyz_deg[3]) {
@@ -255,7 +253,6 @@ double PigeonIMU::GetAbsoluteCompassHeading() {
 double PigeonIMU::GetCompassHeading() {
 	double retval;
 	c_PigeonIMU_GetCompassHeading(_handle, &retval);
-	PigeonIMU::ApplyUsageStats(UsageFlags::GetCompass);
 	return retval;
 }
 /**
@@ -344,7 +341,6 @@ double PigeonIMU::GetFusedHeading(FusionStatus & status) {
 	status.description = description;
 	status.lastError = errCode;
 
-	PigeonIMU::ApplyUsageStats(UsageFlags::GetFused);
 	return fusedHeading;
 }
 /**
@@ -352,7 +348,6 @@ double PigeonIMU::GetFusedHeading(FusionStatus & status) {
  */
 double PigeonIMU::GetFusedHeading() {
 	double fusedHeading;
-	PigeonIMU::ApplyUsageStats(UsageFlags::GetFused);
 	c_PigeonIMU_GetFusedHeading1(_handle, &fusedHeading);
 	return fusedHeading;
 }
@@ -413,14 +408,6 @@ bool PigeonIMU::HasResetOccurred() {
 		return "Accelerometer";
 	}
 	return retval;
-}
-
-void PigeonIMU::ApplyUsageStats(UsageFlags Usage) {
-	if ((Usage & _usageHist) == 0) {
-		_usageHist |= Usage;
-
-		HAL_Report(61, _deviceNumber + 1, _usageHist);
-	}
 }
 
 ErrorCode PigeonIMU::ConfigSetCustomParam(int newValue, int paramIndex,
