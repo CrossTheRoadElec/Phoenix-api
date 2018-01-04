@@ -883,9 +883,9 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 		MotControllerJNI.SelectProfileSlot(m_handle, slotIdx, pidIdx);
 	}
 
-	public int getClosedLoopTarget(int pidIdx) {
-		return MotControllerJNI.GetClosedLoopError(m_handle, pidIdx);
-	}
+	//public int getClosedLoopTarget(int pidIdx) {
+	//	return MotControllerJNI.GetClosedLoopTarget(m_handle, pidIdx); // TODO will be added to JNI
+	//}
 
 	public int getActiveTrajectoryPosition() {
 		return MotControllerJNI.GetActiveTrajectoryPosition(m_handle);

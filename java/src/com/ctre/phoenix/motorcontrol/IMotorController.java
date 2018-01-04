@@ -133,7 +133,7 @@ public interface IMotorController
 
 	public void selectProfileSlot(int slotIdx, int pidIdx);
 
-	public int getClosedLoopTarget(int pidIdx);
+	//public int getClosedLoopTarget(int pidIdx); // will be added to JNI
 
 	public int getActiveTrajectoryPosition();
 
