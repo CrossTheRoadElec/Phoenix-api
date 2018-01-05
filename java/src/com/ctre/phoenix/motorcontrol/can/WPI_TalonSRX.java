@@ -45,7 +45,7 @@ public class WPI_TalonSRX extends TalonSRX implements SpeedController, Sendable,
 	@Override
 	public void set(double speed) {
 		_speed = speed;
-		set(defaultControlMode, _speed);
+		set(defaultControlMode, _speed * scaleFactor);
 		_safetyHelper.feed();
 	}
 	
