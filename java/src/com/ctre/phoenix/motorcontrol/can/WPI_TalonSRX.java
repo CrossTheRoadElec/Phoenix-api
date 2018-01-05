@@ -24,6 +24,7 @@ public class WPI_TalonSRX extends TalonSRX implements SpeedController, Sendable,
 	private String _description;
 	private double _speed;
 	private MotorSafetyHelper _safetyHelper;
+	private ControlMode wpiControlMode = ControlMode.PercentOutput;
 
 	/** Constructor */
 	public WPI_TalonSRX(int deviceNumber) {
@@ -43,8 +44,13 @@ public class WPI_TalonSRX extends TalonSRX implements SpeedController, Sendable,
 	@Override
 	public void set(double speed) {
 		_speed = speed;
-		set(ControlMode.PercentOutput, _speed);
+		set(wpiControlMode, _speed);
 		_safetyHelper.feed();
+	}
+	
+	
+	public void setWpiControlMode(ControlMode mode){
+		wpiControlMode = mode;
 	}
 
 	@Override
