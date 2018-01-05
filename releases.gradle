@@ -258,6 +258,9 @@ task userStaticArtifacts(type: Copy) {
 }
 
 task doc(type: Exec){
+	doFirst{
+		mkdir "${releaseDir}/cpp/docs"
+	}
 	commandLine 'powershell', 'doxygen ctrlib.doxy'
 }
 
