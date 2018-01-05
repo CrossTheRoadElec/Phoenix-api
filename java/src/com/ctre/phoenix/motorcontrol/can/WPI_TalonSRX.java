@@ -45,7 +45,7 @@ public class WPI_TalonSRX extends TalonSRX implements SpeedController, Sendable,
 	@Override
 	public void set(double speed) {
 		_speed = speed;
-		if(mode == ControlMode.Velocity) {
+		if(wpiControlMode == ControlMode.Velocity) {
 			set(wpiControlMode, _speed*maxVelocity);
 		} else {
 			set(wpiControlMode, _speed);
@@ -54,7 +54,7 @@ public class WPI_TalonSRX extends TalonSRX implements SpeedController, Sendable,
 		_safetyHelper.feed();
 	}
 	
-	public void setWpiControlMode(ControlMode mode){
+	public void setWPIControlMode(ControlMode mode){
 		if(mode == ControlMode.Velocity) {
 			wpiControlMode = ControlMode.Velocity;
 		} else {
