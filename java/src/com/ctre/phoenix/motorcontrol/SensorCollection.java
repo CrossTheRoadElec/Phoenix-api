@@ -14,15 +14,12 @@ public class SensorCollection {
 	}
 
 	/**
-	 * Get the position of whatever is in the analog pin of the Talon,
-	 * regardless of whether it is actually being used for feedback.
+	 * Get the position of whatever is in the analog pin of the Talon, regardless of
+	 *   whether it is actually being used for feedback.
 	 *
-	 * @param [out]
-	 *            param The parameter to fill.
-	 *
-	 * @return the 24bit analog value. The bottom ten bits is the ADC (0 - 1023)
-	 *         on the analog pin of the Talon. The upper 14 bits tracks the
-	 *         overflows and underflows (continuous sensor).
+	 * @return  the 24bit analog value.  The bottom ten bits is the ADC (0 - 1023)
+	 *          on the analog pin of the Talon. The upper 14 bits tracks the overflows and underflows
+	 *          (continuous sensor).
 	 */
 
 	public int getAnalogIn() {
@@ -32,12 +29,13 @@ public class SensorCollection {
 	/**
 	 * Sets analog position.
 	 *
-	 * @param newPosition
-	 *            The new position.
-	 * @param timeoutMs
-	 *            (Optional) The timeout in milliseconds.
+	 * @param   newPosition The new position.
+	 * @param   timeoutMs
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
 	 *
-	 * @return an ErrorCode.
+	 * @return  an ErrorCode.
 	 */
 
 	public ErrorCode setAnalogPosition(int newPosition, int timeoutMs) {
@@ -46,13 +44,10 @@ public class SensorCollection {
 	}
 
 	/**
-	 * Get the position of whatever is in the analog pin of the Talon,
-	 * regardless of whether it is actually being used for feedback.
+	 * Get the position of whatever is in the analog pin of the Talon, regardless of whether
+	 *   it is actually being used for feedback.
 	 *
-	 * @param [out]
-	 *            param The parameter to fill.
-	 *
-	 * @return the ADC (0 - 1023) on analog pin of the Talon.
+	 * @return  the ADC (0 - 1023) on analog pin of the Talon.
 	 */
 
 	public int getAnalogInRaw() {
@@ -60,13 +55,10 @@ public class SensorCollection {
 	}
 
 	/**
-	 * Get the position of whatever is in the analog pin of the Talon,
-	 * regardless of whether it is actually being used for feedback.
+	 * Get the velocity of whatever is in the analog pin of the Talon, regardless of
+	 *   whether it is actually being used for feedback.
 	 *
-	 * @param [out]
-	 *            param The parameter to fill.
-	 *
-	 * @return the value (0 - 1023) on the analog pin of the Talon.
+	 * @return  the speed in units per 100ms where 1024 units is one rotation.
 	 */
 
 	public int getAnalogInVel() {
@@ -74,13 +66,10 @@ public class SensorCollection {
 	}
 
 	/**
-	 * Get the position of whatever is in the analog pin of the Talon,
-	 * regardless of whether it is actually being used for feedback.
+	 * Get the quadrature position of the Talon, regardless of whether
+	 *   it is actually being used for feedback.
 	 *
-	 * @param [out]
-	 *            param The value to fill with the Quad pos.
-	 *
-	 * @return the Error code of the request.
+	 * @return  the quadrature position.
 	 */
 
 	public int getQuadraturePosition() {
@@ -88,18 +77,17 @@ public class SensorCollection {
 	}
 
 	/**
-	 * Change the quadrature reported position. Typically this is used to "zero"
-	 * the sensor. This only works with Quadrature sensor. To set the selected
-	 * sensor position regardless of what type it is, see
-	 * SetSelectedSensorPosition in the motor controller class.
+	 * Change the quadrature reported position.  Typically this is used to "zero" the
+	 *   sensor. This only works with Quadrature sensor.  To set the selected sensor position
+	 *   regardless of what type it is, see SetSelectedSensorPosition in the motor controller class.
 	 *
-	 * @param newPosition
-	 *            The position value to apply to the sensor.
-	 * @param timeoutMs
-	 *            (Optional) How long to wait for confirmation. Pass zero so
-	 *            that call does not block.
+	 * @param   newPosition The position value to apply to the sensor.
+	 * @param   timeoutMs
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
 	 *
-	 * @return error code.
+	 * @return  error code.
 	 */
 
 	public ErrorCode setQuadraturePosition(int newPosition, int timeoutMs) {
@@ -108,13 +96,10 @@ public class SensorCollection {
 	}
 
 	/**
-	 * Get the position of whatever is in the analog pin of the Talon,
-	 * regardless of whether it is actually being used for feedback.
+	 * Get the quadrature velocity, regardless of whether
+	 *   it is actually being used for feedback.
 	 *
-	 * @param [out]
-	 *            param The parameter to fill.
-	 *
-	 * @return the value (0 - 1023) on the analog pin of the Talon.
+	 * @return  the quadrature velocity in units per 100ms.
 	 */
 
 	public int getQuadratureVelocity() {
@@ -122,12 +107,10 @@ public class SensorCollection {
 	}
 
 	/**
-	 * Gets pulse width position.
+	 * Gets pulse width position, regardless of whether
+	 *   it is actually being used for feedback.
 	 *
-	 * @param [out]
-	 *            param The parameter to fill.
-	 *
-	 * @return the pulse width position.
+	 * @return  the pulse width position.
 	 */
 
 	public int getPulseWidthPosition() {
@@ -137,13 +120,13 @@ public class SensorCollection {
 	/**
 	 * Sets pulse width position.
 	 *
-	 * @param newPosition
-	 *            The position value to apply to the sensor.
-	 * @param timeoutMs
-	 *            (Optional) How long to wait for confirmation. Pass zero so
-	 *            that call does not block.
+	 * @param   newPosition The position value to apply to the sensor.
+	 * @param   timeoutMs
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
 	 *
-	 * @return an ErrErrorCode
+	 * @return  an ErrErrorCode
 	 */
 	public ErrorCode setPulseWidthPosition(int newPosition, int timeoutMs) {
 		int retval = MotControllerJNI.SetPulseWidthPosition(_handle, newPosition, timeoutMs);
@@ -151,12 +134,10 @@ public class SensorCollection {
 	}
 
 	/**
-	 * Gets pulse width velocity.
+	 * Gets pulse width velocity, regardless of whether
+	 *   it is actually being used for feedback.
 	 *
-	 * @param [out]
-	 *            param The parameter to fill.
-	 *
-	 * @return the pulse width velocity.
+	 * @return  the pulse width velocity in units per 100ms (where 4096 units is 1 rotation).
 	 */
 
 	public int getPulseWidthVelocity() {
@@ -164,12 +145,9 @@ public class SensorCollection {
 	}
 
 	/**
-	 * Gets pulse width rise to fall us.
+	 * Gets pulse width rise to fall time.
 	 *
-	 * @param [out]
-	 *            param The parameter to fill.
-	 *
-	 * @return the pulse width rise to fall us.
+	 * @return  the pulse width rise to fall time in microseconds.
 	 */
 
 	public int getPulseWidthRiseToFallUs() {
@@ -177,12 +155,9 @@ public class SensorCollection {
 	}
 
 	/**
-	 * Gets pulse width rise to rise us.
+	 * Gets pulse width rise to rise time.
 	 *
-	 * @param [out]
-	 *            param The parameter to fill.
-	 *
-	 * @return the pulse width rise to rise us.
+	 * @return  the pulse width rise to rise time in microseconds.
 	 */
 
 	public int getPulseWidthRiseToRiseUs() {
@@ -192,10 +167,7 @@ public class SensorCollection {
 	/**
 	 * Gets pin state quad a.
 	 *
-	 * @param [out]
-	 *            param The parameter to fill.
-	 *
-	 * @return the pin state quad a.
+	 * @return  the pin state of quad a (1 if asserted, 0 if not asserted).
 	 */
 
 	public boolean getPinStateQuadA() {
@@ -205,10 +177,7 @@ public class SensorCollection {
 	/**
 	 * Gets pin state quad b.
 	 *
-	 * @param [out]
-	 *            param The parameter to fill.
-	 *
-	 * @return Digital level of QUADB pin.
+	 * @return  Digital level of QUADB pin (1 if asserted, 0 if not asserted).
 	 */
 
 	public boolean getPinStateQuadB() {
@@ -218,10 +187,7 @@ public class SensorCollection {
 	/**
 	 * Gets pin state quad index.
 	 *
-	 * @param [out]
-	 *            param The parameter to fill.
-	 *
-	 * @return Digital level of QUAD Index pin.
+	 * @return  Digital level of QUAD Index pin (1 if asserted, 0 if not asserted).
 	 */
 
 	public boolean getPinStateQuadIdx() {
@@ -231,12 +197,8 @@ public class SensorCollection {
 	/**
 	 * Is forward limit switch closed.
 	 *
-	 * @param [out]
-	 *            param The parameter to fill.
-	 *
-	 * @return '1' iff forward limit switch is closed, 0 iff switch is open.
-	 *         This function works regardless if limit switch feature is
-	 *         enabled.
+	 * @return  '1' iff forward limit switch is closed, 0 iff switch is open. This function works
+	 *          regardless if limit switch feature is enabled.
 	 */
 
 	public boolean isFwdLimitSwitchClosed() {
@@ -246,12 +208,8 @@ public class SensorCollection {
 	/**
 	 * Is reverse limit switch closed.
 	 *
-	 * @param [out]
-	 *            param The parameter to fill.
-	 *
-	 * @return '1' iff reverse limit switch is closed, 0 iff switch is open.
-	 *         This function works regardless if limit switch feature is
-	 *         enabled.
+	 * @return  '1' iff reverse limit switch is closed, 0 iff switch is open. This function works
+	 *          regardless if limit switch feature is enabled.
 	 */
 
 	public boolean isRevLimitSwitchClosed() {
