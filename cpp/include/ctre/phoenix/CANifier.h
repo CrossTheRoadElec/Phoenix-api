@@ -12,17 +12,31 @@
 #include "ctre/phoenix/CANifierFaults.h"
 
 namespace ctre {namespace phoenix {
+	/**
+	 * CTRE CANifier
+	 *
+	 * Device for interfacing common devices to the CAN bus.
+	 */
 class CANifier: public CANBusAddressable {
 public:
+	/**
+	 * Enum for the LED Output Channels
+	 */
 	enum LEDChannel {
 		LEDChannelA = 0, LEDChannelB = 1, LEDChannelC = 2,
 	};
 
+	/**
+	 * Enum for the PWM Input Channels
+	 */
 	enum PWMChannel {
 		PWMChannel0 = 0, PWMChannel1 = 1, PWMChannel2 = 2, PWMChannel3 = 3,
 	};
 	const int PWMChannelCount = 4;
 
+	/**
+	 * General IO Pins on the CANifier
+	 */
 	enum GeneralPin {
 		QUAD_IDX = 0,	//----- Must match CANifier_CCI enums -----//
 		QUAD_B = 1,
@@ -37,6 +51,9 @@ public:
 		SPI_CLK_PWM0P = 10,
 	};
 
+	/**
+	 * Structure to hold the pin values.
+	 */
 	struct PinValues {
 		bool QUAD_IDX;
 		bool QUAD_B;
