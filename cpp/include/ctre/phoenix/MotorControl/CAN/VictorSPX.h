@@ -8,6 +8,9 @@ namespace phoenix {
 namespace motorcontrol{
 namespace can {
 
+/**
+ * VEX Victor SPX Motor Controller when used on CAN Bus.
+ */
 class VictorSPX: public virtual ctre::phoenix::motorcontrol::can::BaseMotorController,
                  public virtual ctre::phoenix::motorcontrol::IMotorController {
 
