@@ -275,11 +275,6 @@ ctre::phoenix::ErrorCode TalonSRX::ConfigReverseLimitSwitchSource(
 //------ Current Lim ----------//
 /**
  * Configure the peak allowable current (when current limit is enabled).
- * @param amps	Amperes to limit.
- * @param timeoutMs
- *            Timeout value in ms. If nonzero, function will wait for
- *            config success and report an error if it times out.
- *            If zero, no blocking or checking is performed.
  *
  * Current limit is activated when current exceeds the peak limit for longer than the peak duration.
  * Then software will limit to the continuous limit.
@@ -287,17 +282,18 @@ ctre::phoenix::ErrorCode TalonSRX::ConfigReverseLimitSwitchSource(
  *
  * For simpler current-limiting (single threshold) use ConfigContinuousCurrentLimit()
  * and set the peak to zero: ConfigPeakCurrentLimit(0).
+ *
+ * @param amps	Amperes to limit.
+ * @param timeoutMs
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
  */
 ctre::phoenix::ErrorCode TalonSRX::ConfigPeakCurrentLimit(int amps, int timeoutMs) {
 	return c_MotController_ConfigPeakCurrentLimit(m_handle, amps, timeoutMs);
 }
 /**
  * Configure the peak allowable duration (when current limit is enabled).
- * @param milliseconds How long to allow current-draw past peak limit.
- * @param timeoutMs
- *            Timeout value in ms. If nonzero, function will wait for
- *            config success and report an error if it times out.
- *            If zero, no blocking or checking is performed.
  *
  * Current limit is activated when current exceeds the peak limit for longer than the peak duration.
  * Then software will limit to the continuous limit.
@@ -305,6 +301,12 @@ ctre::phoenix::ErrorCode TalonSRX::ConfigPeakCurrentLimit(int amps, int timeoutM
  *
  * For simpler current-limiting (single threshold) use ConfigContinuousCurrentLimit()
  * and set the peak to zero: ConfigPeakCurrentLimit(0).
+ *
+ * @param milliseconds How long to allow current-draw past peak limit.
+ * @param timeoutMs
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
  */
 ctre::phoenix::ErrorCode TalonSRX::ConfigPeakCurrentDuration(int milliseconds, int timeoutMs) {
 	return c_MotController_ConfigPeakCurrentDuration(m_handle, milliseconds,
@@ -312,11 +314,6 @@ ctre::phoenix::ErrorCode TalonSRX::ConfigPeakCurrentDuration(int milliseconds, i
 }
 /**
  * Configure the continuous allowable current-draw (when current limit is enabled).
- * @param amps	Amperes to limit.
- * @param timeoutMs
- *            Timeout value in ms. If nonzero, function will wait for
- *            config success and report an error if it times out.
- *            If zero, no blocking or checking is performed.
  *
  * Current limit is activated when current exceeds the peak limit for longer than the peak duration.
  * Then software will limit to the continuous limit.
@@ -324,13 +321,21 @@ ctre::phoenix::ErrorCode TalonSRX::ConfigPeakCurrentDuration(int milliseconds, i
  *
  * For simpler current-limiting (single threshold) use ConfigContinuousCurrentLimit()
  * and set the peak to zero: ConfigPeakCurrentLimit(0).
+ *
+ * @param amps	Amperes to limit.
+ * @param timeoutMs
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
  */
 ctre::phoenix::ErrorCode TalonSRX::ConfigContinuousCurrentLimit(int amps, int timeoutMs) {
 	return c_MotController_ConfigContinuousCurrentLimit(m_handle, amps, timeoutMs);
 }
 /**
  * Enable or disable Current Limit.
- * See ConfigPeakCurrentLimit, ConfigPeakCurrentDuration, ConfigContinuousCurrentLimit
+ * @param enable
+ *            Enable state of current limit.
+ * @see ConfigPeakCurrentLimit, ConfigPeakCurrentDuration, ConfigContinuousCurrentLimit
  */
 void TalonSRX::EnableCurrentLimit(bool enable) {
 	c_MotController_EnableCurrentLimit(m_handle, enable);
