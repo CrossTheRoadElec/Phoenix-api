@@ -72,7 +72,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	// ------ Set output routines. ----------//
 	/**
 	 * @param mode Sets the appropriate output on the talon, depending on the mode.
-	 * @param value The output value to apply.
+	 * @param mode The output mode to apply.
 	 * In PercentOutput, the output is between -1.0 and 1.0, with 0.0 as stopped.
 	 * In Current mode, output value is in amperes.
 	 * In Velocity mode, output value is in position change / 100ms.
