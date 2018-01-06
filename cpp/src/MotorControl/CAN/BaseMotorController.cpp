@@ -644,7 +644,10 @@ int BaseMotorController::GetStatusFramePeriod(StatusFrameEnhanced frame,
 //----- velocity signal conditioning ------//
 
 /**
- * Sets the period over which velocity measurements are taken.
+ * Configures the period of each velocity sample.
+ * Every 1ms a position value is sampled, and the delta between that sample
+ * and the position sampled kPeriod ms ago is inserted into a filter.
+ * kPeriod is configured with this function.
  *
  * @param period
  *            Desired period for the velocity measurement. @see

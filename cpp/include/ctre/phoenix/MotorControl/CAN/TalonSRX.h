@@ -8,6 +8,9 @@ namespace phoenix {
 namespace motorcontrol {
 namespace can {
 
+/**
+ * CTRE Talon SRX Motor Controller when used on CAN Bus.
+ */
 class TalonSRX: public virtual BaseMotorController,
 		public virtual IMotorControllerEnhanced {
 public:
