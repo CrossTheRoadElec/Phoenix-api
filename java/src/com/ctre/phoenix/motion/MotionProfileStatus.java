@@ -24,8 +24,8 @@ public class MotionProfileStatus {
 	 * Set if isUnderrun ever gets set. Only is cleared by
 	 * clearMotionProfileHasUnderrun() to ensure robot logic can react or
 	 * instrument it.
-	 * 
-	 * @see clearMotionProfileHasUnderrun()
+	 *
+	 * @see com.ctre.phoenix.motorcontrol.can.BaseMotorController#clearMotionProfileHasUnderrun(int)
 	 */
 	public boolean hasUnderrun;
 	/**
