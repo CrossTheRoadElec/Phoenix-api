@@ -37,7 +37,9 @@ namespace ctre {
 namespace phoenix {
 namespace motorcontrol {
 namespace can {
-
+/**
+ * Base motor controller features for all CTRE CAN motor controllers.
+ */
 class BaseMotorController: public virtual IMotorController {
 private:
 	ControlMode m_controlMode = ControlMode::PercentOutput;

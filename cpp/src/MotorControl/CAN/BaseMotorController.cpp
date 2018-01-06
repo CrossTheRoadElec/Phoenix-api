@@ -10,8 +10,9 @@ using namespace ctre::phoenix::motorcontrol::lowlevel;
 
 //--------------------- Constructors -----------------------------//
 /**
+ *
  * Constructor for motor controllers.
- * @param deviceNumber The CAN ID of the Motor Controller [0,62]
+ * @param arbId
  */
 BaseMotorController::BaseMotorController(int arbId) {
 	m_handle = c_MotController_Create1(arbId);
@@ -19,12 +20,17 @@ BaseMotorController::BaseMotorController(int arbId) {
 
 	_sensorColl = new motorcontrol::SensorCollection((void*) m_handle);
 }
-
+/**
+ *
+ * Destructor
+ */
 BaseMotorController::~BaseMotorController() {
 	delete _sensorColl;
 	_sensorColl = 0;
 }
-
+/**
+ * @return CCI handle for child classes.
+ */
 void* BaseMotorController::GetHandle() {
 	return m_handle;
 }
@@ -41,6 +47,7 @@ int BaseMotorController::GetDeviceID() {
 //------ Set output routines. ----------//
 /**
  * @param Mode Sets the appropriate output on the talon, depending on the mode.
+ * @param value The output value to apply.
  *
  * In PercentOutput, the output is between -1.0 and 1.0, with 0.0 as stopped.
  * In Current mode, output value is in amperes.
@@ -50,11 +57,24 @@ int BaseMotorController::GetDeviceID() {
  * In Follower mode, the output value is the integer device ID of the talon to
  * duplicate.
  *
- * @param value The setpoint value, as described above.
  */
 void BaseMotorController::Set(ControlMode Mode, double value) {
 	Set(Mode, value, 0);
 }
+/**
+ * @param mode Sets the appropriate output on the talon, depending on the mode.
+ * @param demand0 The output value to apply.
+ * 	such as advanced feed forward and/or cascaded close-looping in firmware.
+ * In PercentOutput, the output is between -1.0 and 1.0, with 0.0 as stopped.
+ * In Current mode, output value is in amperes.
+ * In Velocity mode, output value is in position change / 100ms.
+ * In Position mode, output value is in encoder ticks or an analog value,
+ *   depending on the sensor. See
+ * In Follower mode, the output value is the integer device ID of the talon to
+ * duplicate.
+ *
+ * @param demand1 Supplemental value.  This will also be control mode specific for future features.
+ */
 void BaseMotorController::Set(ControlMode mode, double demand0,
 		double demand1) {
 	m_controlMode = mode;
@@ -115,9 +135,22 @@ void BaseMotorController::NeutralOutput() {
 void BaseMotorController::SetNeutralMode(NeutralMode neutralMode) {
 	c_MotController_SetNeutralMode(m_handle, neutralMode);
 }
+/**
+ * Enables a future feature called "Heading Hold".
+ * For now this simply updates the CAN signal to the motor controller.
+ * Future firmware updates will use this.
+ *
+ *	@param enable true/false enable
+ */
 void BaseMotorController::EnableHeadingHold(bool enable) {
 	c_MotController_EnableHeadingHold(m_handle, enable);
 }
+/**
+ * For now this simply updates the CAN signal to the motor controller.
+ * Future firmware updates will use this to control advanced cascaded loop behavior.
+ *
+ *	@param value
+ */
 void BaseMotorController::SelectDemandType(bool value) {
 	c_MotController_SelectDemandType(m_handle, value);
 }
@@ -126,26 +159,37 @@ void BaseMotorController::SelectDemandType(bool value) {
 /**
  * Sets the phase of the sensor. Use when controller forward/reverse output
  * doesn't correlate to appropriate forward/reverse reading of sensor.
+ * Pick a value so that positive PercentOutput yields a positive change in sensor.
+ * After setting this, user can freely call SetInvert() with any value.
  *
  * @param PhaseSensor
  *            Indicates whether to invert the phase of the sensor.
- **/
+ */
 void BaseMotorController::SetSensorPhase(bool PhaseSensor) {
 	c_MotController_SetSensorPhase(m_handle, PhaseSensor);
 }
 
 /**
- * Inverts the output of the motor controller. LEDs, sensor phase, and limit
- * switches will also be inverted to match the new forward/reverse
- * directions.
+ * Inverts the hbridge output of the motor controller.
+ *
+ * This does not impact sensor phase and should not be used to correct sensor polarity.
+ *
+ * This will invert the hbridge output but NOT the LEDs.
+ * This ensures....
+ *  - Green LEDs always represents positive request from robot-controller/closed-looping mode.
+ *  - Green LEDs correlates to forward limit switch.
+ *  - Green LEDs correlates to forward soft limit.
  *
  * @param invert
  *            Invert state to set.
- **/
+ */
 void BaseMotorController::SetInverted(bool invert) {
 	_invert = invert; /* cache for getter */
 	c_MotController_SetInverted(m_handle, _invert);
 }
+/**
+ * @return invert setting of motor output.
+ */
 bool BaseMotorController::GetInverted() const {
 	return _invert;
 }
@@ -158,8 +202,9 @@ bool BaseMotorController::GetInverted() const {
  *            Minimum desired time to go from neutral to full throttle. A
  *            value of '0' will disable the ramp.
  * @param timeoutMs
- *            Timeout value in ms. Function will generate error if config is
- *            not successful within timeout.
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
  * @return Error Code generated by function. 0 indicates no error.
  */
 ErrorCode BaseMotorController::ConfigOpenloopRamp(
@@ -175,7 +220,9 @@ ErrorCode BaseMotorController::ConfigOpenloopRamp(
  *            Minimum desired time to go from neutral to full throttle. A
  *            value of '0' will disable the ramp.
  * @param timeoutMs
- *            Timeout value in ms. @see #ConfigOpenLoopRamp
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
  * @return Error Code generated by function. 0 indicates no error.
  */
 ErrorCode BaseMotorController::ConfigClosedloopRamp(
@@ -188,9 +235,11 @@ ErrorCode BaseMotorController::ConfigClosedloopRamp(
  * Configures the forward peak output percentage.
  *
  * @param percentOut
- *            Desired peak output percentage.
+ *            Desired peak output percentage. [0,+1]
  * @param timeoutMs
- *            Timeout value in ms. @see #ConfigOpenLoopRamp
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
  * @return Error Code generated by function. 0 indicates no error.
  */
 ErrorCode BaseMotorController::ConfigPeakOutputForward(double percentOut,
@@ -203,9 +252,11 @@ ErrorCode BaseMotorController::ConfigPeakOutputForward(double percentOut,
  * Configures the reverse peak output percentage.
  *
  * @param percentOut
- *            Desired peak output percentage.
+ *            Desired peak output percentage. [-1,0]
  * @param timeoutMs
- *            Timeout value in ms. @see #ConfigOpenLoopRamp
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
  * @return Error Code generated by function. 0 indicates no error.
  */
 ErrorCode BaseMotorController::ConfigPeakOutputReverse(double percentOut,
@@ -217,9 +268,11 @@ ErrorCode BaseMotorController::ConfigPeakOutputReverse(double percentOut,
  * Configures the forward nominal output percentage.
  *
  * @param percentOut
- *            Nominal (minimum) percent output.
+ *            Nominal (minimum) percent output. [0,+1]
  * @param timeoutMs
- *            Timeout value in ms. @see #ConfigOpenLoopRamp
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
  * @return Error Code generated by function. 0 indicates no error.
  */
 ErrorCode BaseMotorController::ConfigNominalOutputForward(double percentOut,
@@ -231,9 +284,11 @@ ErrorCode BaseMotorController::ConfigNominalOutputForward(double percentOut,
  * Configures the reverse nominal output percentage.
  *
  * @param percentOut
- *            Nominal (minimum) percent output.
+ *            Nominal (minimum) percent output. [-1,0]
  * @param timeoutMs
- *            Timeout value in ms. @see #ConfigOpenLoopRamp
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
  * @return Error Code generated by function. 0 indicates no error.
  */
 ErrorCode BaseMotorController::ConfigNominalOutputReverse(double percentOut,
@@ -246,9 +301,11 @@ ErrorCode BaseMotorController::ConfigNominalOutputReverse(double percentOut,
  *
  * @param percentDeadband
  *            Desired deadband percentage. Minimum is 0.1%, Maximum is
- *            25%.  Pass 0.04 for 4%.
+ *            25%.  Pass 0.04 for 4% (factory default).
  * @param timeoutMs
- *            Timeout value in ms. @see #ConfigOpenLoopRamp
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
  * @return Error Code generated by function. 0 indicates no error.
  */
 ErrorCode BaseMotorController::ConfigNeutralDeadband(double percentDeadband,
@@ -262,9 +319,14 @@ ErrorCode BaseMotorController::ConfigNeutralDeadband(double percentDeadband,
  * Configures the Voltage Compensation saturation voltage.
  *
  * @param voltage
- *            TO-DO: Comment me!
+ *            This is the max voltage to apply to the hbridge when voltage
+ *            compensation is enabled.  For example, if 10 (volts) is specified
+ *            and a TalonSRX is commanded to 0.5 (PercentOutput, closed-loop, etc)
+ *            then the TalonSRX will attempt to apply a duty-cycle to produce 5V.
  * @param timeoutMs
- *            Timeout value in ms. @see #ConfigOpenLoopRamp
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
  * @return Error Code generated by function. 0 indicates no error.
  */
 ErrorCode BaseMotorController::ConfigVoltageCompSaturation(double voltage,
@@ -280,7 +342,9 @@ ErrorCode BaseMotorController::ConfigVoltageCompSaturation(double voltage,
  *            Number of samples in the rolling average of voltage
  *            measurement.
  * @param timeoutMs
- *            Timeout value in ms. @see #ConfigOpenLoopRamp
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
  * @return Error Code generated by function. 0 indicates no error.
  */
 ErrorCode BaseMotorController::ConfigVoltageMeasurementFilter(
@@ -302,7 +366,7 @@ void BaseMotorController::EnableVoltageCompensation(bool enable) {
 
 //------ General Status ----------//
 /**
- * Gets the bus voltage seen by the motor controller.
+ * Gets the bus voltage seen by the device.
  *
  * @return The bus voltage value (in volts).
  */
@@ -315,7 +379,7 @@ double BaseMotorController::GetBusVoltage() {
 /**
  * Gets the output percentage of the motor controller.
  *
- * @return Output of the motor controller (in percent).
+ * @return Output of the motor controller (in percent).  [-1,+1]
  */
 double BaseMotorController::GetMotorOutputPercent() {
 	double param = 0;
@@ -324,7 +388,7 @@ double BaseMotorController::GetMotorOutputPercent() {
 }
 
 /**
- * @return applied voltage to motor
+ * @return applied voltage to motor in volts.
  */
 double BaseMotorController::GetMotorOutputVoltage() {
 	return GetBusVoltage() * GetMotorOutputPercent();
@@ -343,7 +407,7 @@ double BaseMotorController::GetOutputCurrent() {
 /**
  * Gets the temperature of the motor controller.
  *
- * @return Temperature of the motor controller (in °C)
+ * @return Temperature of the motor controller (in 'C)
  */
 double BaseMotorController::GetTemperature() {
 	double param = 0;
@@ -354,11 +418,16 @@ double BaseMotorController::GetTemperature() {
 //------ sensor selection ----------//
 /**
  * Select the remote feedback device for the motor controller.
+ * Most CTRE CAN motor controllers will support remote sensors over CAN.
  *
  * @param feedbackDevice
  *            Remote Feedback Device to select.
+ * @param pidIdx
+ *            0 for Primary closed-loop. 1 for cascaded closed-loop.
  * @param timeoutMs
- *            Timeout value in ms. @see #ConfigOpenLoopRamp
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
  * @return Error Code generated by function. 0 indicates no error.
  */
 ErrorCode BaseMotorController::ConfigSelectedFeedbackSensor(
@@ -366,14 +435,17 @@ ErrorCode BaseMotorController::ConfigSelectedFeedbackSensor(
 	return c_MotController_ConfigSelectedFeedbackSensor(m_handle,
 			feedbackDevice, pidIdx, timeoutMs);
 }
-
 /**
  * Select the feedback device for the motor controller.
  *
  * @param feedbackDevice
  *            Feedback Device to select.
+ * @param pidIdx
+ *            0 for Primary closed-loop. 1 for cascaded closed-loop.
  * @param timeoutMs
- *            Timeout value in ms. @see #ConfigOpenLoopRamp
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
  * @return Error Code generated by function. 0 indicates no error.
  */
 ErrorCode BaseMotorController::ConfigSelectedFeedbackSensor(
@@ -381,12 +453,45 @@ ErrorCode BaseMotorController::ConfigSelectedFeedbackSensor(
 	return c_MotController_ConfigSelectedFeedbackSensor(m_handle,
 			feedbackDevice, pidIdx, timeoutMs);
 }
+/**
+ * Select what remote device and signal to assign to Remote Sensor 0 or Remote Sensor 1.
+ * After binding a remote device and signal to Remote Sensor X, you may select Remote Sensor X
+ * as a PID source for closed-loop features.
+ *
+ * @param deviceID
+ *            The CAN ID of the remote sensor device.
+ * @param remoteSensorSource
+ *            The remote sensor device and signal type to bind.
+ * @param remoteOrdinal
+ *            0 for configuring Remote Sensor 0
+ *            1 for configuring Remote Sensor 1
+ * @param timeoutMs
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
+ * @return Error Code generated by function. 0 indicates no error.
+ */
 ErrorCode BaseMotorController::ConfigRemoteFeedbackFilter(int deviceID,
 		RemoteSensorSource remoteSensorSource, int remoteOrdinal,
 		int timeoutMs) {
 	return c_MotController_ConfigRemoteFeedbackFilter(m_handle, deviceID,
 			(int) remoteSensorSource, remoteOrdinal, timeoutMs);
 }
+/**
+ * Select what sensor term should be bound to switch feedback device.
+ * Sensor Sum = Sensor Sum Term 0 - Sensor Sum Term 1
+ * Sensor Difference = Sensor Diff Term 0 - Sensor Diff Term 1
+ * The four terms are specified with this routine.  Then Sensor Sum/Difference
+ * can be selected for closed-looping.
+ *
+ * @param sensorTerm Which sensor term to bind to a feedback source.
+ * @param feedbackDevice The sensor signal to attach to sensorTerm.
+ * @param timeoutMs
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
+ * @return Error Code generated by function. 0 indicates no error.
+ */
 ErrorCode BaseMotorController::ConfigSensorTerm(SensorTerm sensorTerm,
 		FeedbackDevice feedbackDevice, int timeoutMs) {
 	return c_MotController_ConfigSensorTerm(m_handle, (int) sensorTerm,
@@ -394,9 +499,12 @@ ErrorCode BaseMotorController::ConfigSensorTerm(SensorTerm sensorTerm,
 }
 //------- sensor status --------- //
 /**
- * Get the selected sensor position.
+ * Get the selected sensor position (in raw sensor units).
+ * @param pidIdx
+ *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+ * See Phoenix-Documentation for how to interpret.
  *
- * @return Position of selected sensor (in Raw Sensor Units).
+ * @return Position of selected sensor (in raw sensor units).
  */
 int BaseMotorController::GetSelectedSensorPosition(int pidIdx) {
 	int retval;
@@ -406,7 +514,10 @@ int BaseMotorController::GetSelectedSensorPosition(int pidIdx) {
 /**
  * Get the selected sensor velocity.
  *
- * @return selected sensor (in Raw Sensor Units) per 100ms.
+ * @param pidIdx
+ *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+ * @return selected sensor (in raw sensor units) per 100ms.
+ * See Phoenix-Documentation for how to interpret.
  */
 int BaseMotorController::GetSelectedSensorVelocity(int pidIdx) {
 	int retval;
@@ -417,9 +528,13 @@ int BaseMotorController::GetSelectedSensorVelocity(int pidIdx) {
  * Sets the sensor position to the given value.
  *
  * @param sensorPos
- *            Position to set for the selected sensor (in Raw Sensor Units).
+ *            Position to set for the selected sensor (in raw sensor units).
+ * @param pidIdx
+ *            0 for Primary closed-loop. 1 for cascaded closed-loop.
  * @param timeoutMs
- *            Timeout value in ms. @see #ConfigOpenLoopRamp
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
  * @return Error Code generated by function. 0 indicates no error.
  */
 ErrorCode BaseMotorController::SetSelectedSensorPosition(int sensorPos,
@@ -428,7 +543,7 @@ ErrorCode BaseMotorController::SetSelectedSensorPosition(int sensorPos,
 			pidIdx, timeoutMs);
 }
 
-//-----	- status frame period changes ----------//
+//------ status frame period changes ----------//
 /**
  * Sets the period of the given control frame.
  *
@@ -442,11 +557,49 @@ ErrorCode BaseMotorController::SetControlFramePeriod(ControlFrame frame,
 		int periodMs) {
 	return c_MotController_SetControlFramePeriod(m_handle, frame, periodMs);
 }
+/**
+ * Sets the period of the given status frame.
+ *
+ * User ensure CAN Bus utilization is not high.
+ *
+ * This setting is not persistent and is lost when device is reset.
+ * If this is a concern, calling application can use HasReset()
+ * to determine if the status frame needs to be reconfigured.
+ *
+ * @param frame
+ *            Frame whose period is to be changed.
+ * @param periodMs
+ *            Period in ms for the given frame.
+ * @param timeoutMs
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
+ * @return Error Code generated by function. 0 indicates no error.
+ */
 ErrorCode BaseMotorController::SetStatusFramePeriod(StatusFrame frame,
 		int periodMs, int timeoutMs) {
 	return c_MotController_SetStatusFramePeriod(m_handle, frame, periodMs,
 			timeoutMs);
 }
+/**
+ * Sets the period of the given status frame.
+ *
+ * User ensure CAN Bus utilization is not high.
+ *
+ * This setting is not persistent and is lost when device is reset.
+ * If this is a concern, calling application can use HasReset()
+ * to determine if the status frame needs to be reconfigured.
+ *
+ * @param frame
+ *            Frame whose period is to be changed.
+ * @param periodMs
+ *            Period in ms for the given frame.
+ * @param timeoutMs
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
+ * @return Error Code generated by function. 0 indicates no error.
+ */
 ErrorCode BaseMotorController::SetStatusFramePeriod(StatusFrameEnhanced frame,
 		int periodMs, int timeoutMs) {
 	return c_MotController_SetStatusFramePeriod(m_handle, frame, periodMs,
@@ -458,7 +611,9 @@ ErrorCode BaseMotorController::SetStatusFramePeriod(StatusFrameEnhanced frame,
  * @param frame
  *            Frame to get the period of.
  * @param timeoutMs
- *            Timeout value in ms. @see #ConfigOpenLoopRamp
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
  * @return Period of the given status frame.
  */
 int BaseMotorController::GetStatusFramePeriod(StatusFrame frame,
@@ -474,7 +629,9 @@ int BaseMotorController::GetStatusFramePeriod(StatusFrame frame,
  * @param frame
  *            Frame to get the period of.
  * @param timeoutMs
- *            Timeout value in ms. @see #ConfigOpenLoopRamp
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
  * @return Period of the given status frame.
  */
 int BaseMotorController::GetStatusFramePeriod(StatusFrameEnhanced frame,
@@ -484,7 +641,7 @@ int BaseMotorController::GetStatusFramePeriod(StatusFrameEnhanced frame,
 	return periodMs;
 }
 
-//----- velocity signal conditionaing ------//
+//----- velocity signal conditioning ------//
 
 /**
  * Sets the period over which velocity measurements are taken.
@@ -493,7 +650,9 @@ int BaseMotorController::GetStatusFramePeriod(StatusFrameEnhanced frame,
  *            Desired period for the velocity measurement. @see
  *            #VelocityMeasPeriod
  * @param timeoutMs
- *            Timeout value in ms. @see #ConfigOpenLoopRamp
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
  * @return Error Code generated by function. 0 indicates no error.
  */
 ErrorCode BaseMotorController::ConfigVelocityMeasurementPeriod(
@@ -507,9 +666,12 @@ ErrorCode BaseMotorController::ConfigVelocityMeasurementPeriod(
  *
  * @param windowSize
  *            Number of samples in the rolling average of velocity
- *            measurement.
+ *            measurement. Valid values are 1,2,4,8,16,32. If another
+ *            value is specified, it will truncate to nearest support value.
  * @param timeoutMs
- *            Timeout value in ms. @see #ConfigOpenLoopRamp
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
  * @return Error Code generated by function. 0 indicates no error.
  */
 ErrorCode BaseMotorController::ConfigVelocityMeasurementWindow(int windowSize,
@@ -521,15 +683,21 @@ ErrorCode BaseMotorController::ConfigVelocityMeasurementWindow(int windowSize,
 //------ remote limit switch ----------//
 /**
  * Configures the forward limit switch for a remote source.
+ * For example, a CAN motor controller may need to monitor the Limit-F pin
+ * of another Talon or CANifier.
  *
  * @param type
- *            Remote limit switch source. @see #LimitSwitchSource
+ *            Remote limit switch source.
+ *            User can choose between a remote Talon SRX, CANifier, or deactivate the feature.
  * @param normalOpenOrClose
- *            Setting for normally open or normally closed.
+ *            Setting for normally open, normally closed, or disabled. This setting
+ *            matches the web-based configuration drop down.
  * @param deviceID
- *            Device ID of remote source.
+ *            Device ID of remote source (Talon SRX or CANifier device ID).
  * @param timeoutMs
- *            Timeout value in ms. @see #ConfigOpenLoopRamp
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
  * @return Error Code generated by function. 0 indicates no error.
  */
 ErrorCode BaseMotorController::ConfigForwardLimitSwitchSource(
@@ -539,7 +707,25 @@ ErrorCode BaseMotorController::ConfigForwardLimitSwitchSource(
 	return c_MotController_ConfigForwardLimitSwitchSource(m_handle, cciType,
 			normalOpenOrClose, deviceID, timeoutMs);
 }
-
+/**
+ * Configures the reverse limit switch for a remote source.
+ * For example, a CAN motor controller may need to monitor the Limit-R pin
+ * of another Talon or CANifier.
+ *
+ * @param type
+ *            Remote limit switch source.
+ *            User can choose between a remote Talon SRX, CANifier, or deactivate the feature.
+ * @param normalOpenOrClose
+ *            Setting for normally open, normally closed, or disabled. This setting
+ *            matches the web-based configuration drop down.
+ * @param deviceID
+ *            Device ID of remote source (Talon SRX or CANifier device ID).
+ * @param timeoutMs
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
+ * @return Error Code generated by function. 0 indicates no error.
+ */
 ErrorCode BaseMotorController::ConfigReverseLimitSwitchSource(
 		RemoteLimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
 		int deviceID, int timeoutMs) {
@@ -550,21 +736,70 @@ ErrorCode BaseMotorController::ConfigReverseLimitSwitchSource(
 /**
  * Sets the enable state for limit switches.
  *
+ * This routine can be used to DISABLE the limit switch feature.
+ * This is helpful to force off the limit switch detection.
+ * For example, a module can leave limit switches enable for home-ing
+ * a continuous mechanism, and once done this routine can force off
+ * disabling of the motor controller.
+ *
+ * Limit switches must be enabled using the Config routines first.
+ *
  * @param enable
  *            Enable state for limit switches.
- **/
+ */
 void BaseMotorController::OverrideLimitSwitchesEnable(bool enable) {
 	c_MotController_OverrideLimitSwitchesEnable(m_handle, enable);
 }
 
 //------ local limit switch ----------//
-
+/**
+ * Configures a limit switch for a local/remote source.
+ *
+ * For example, a CAN motor controller may need to monitor the Limit-R pin
+ * of another Talon, CANifier, or local Gadgeteer feedback connector.
+ *
+ * If the sensor is remote, a device ID of zero is assumed.
+ * If that's not desired, use the four parameter version of this function.
+ *
+ * @param type
+ *            Limit switch source. @see #LimitSwitchSource
+ *            User can choose between the feedback connector, remote Talon SRX, CANifier, or deactivate the feature.
+ * @param normalOpenOrClose
+ *            Setting for normally open, normally closed, or disabled. This setting
+ *            matches the web-based configuration drop down.
+ * @param timeoutMs
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
+ * @return Error Code generated by function. 0 indicates no error.
+ */
 ErrorCode BaseMotorController::ConfigForwardLimitSwitchSource(
 		LimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
 		int timeoutMs) {
 	return c_MotController_ConfigForwardLimitSwitchSource(m_handle, type,
 			normalOpenOrClose, 0, timeoutMs);
 }
+/**
+ * Configures a limit switch for a local/remote source.
+ *
+ * For example, a CAN motor controller may need to monitor the Limit-R pin
+ * of another Talon, CANifier, or local Gadgeteer feedback connector.
+ *
+ * If the sensor is remote, a device ID of zero is assumed.
+ * If that's not desired, use the four parameter version of this function.
+ *
+ * @param type
+ *            Limit switch source. @see #LimitSwitchSource
+ *            User can choose between the feedback connector, remote Talon SRX, CANifier, or deactivate the feature.
+ * @param normalOpenOrClose
+ *            Setting for normally open, normally closed, or disabled. This setting
+ *            matches the web-based configuration drop down.
+ * @param timeoutMs
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
+ * @return Error Code generated by function. 0 indicates no error.
+ */
 ErrorCode BaseMotorController::ConfigReverseLimitSwitchSource(
 		LimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
 		int timeoutMs) {
@@ -577,9 +812,11 @@ ErrorCode BaseMotorController::ConfigReverseLimitSwitchSource(
  * Configures the forward soft limit threshold.
  *
  * @param forwardSensorLimit
- *            Forward Sensor Position Limit (in Raw Sensor Units).
+ *            Forward Sensor Position Limit (in raw sensor units).
  * @param timeoutMs
- *            Timeout value in ms. @see #ConfigOpenLoopRamp
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
  * @return Error Code generated by function. 0 indicates no error.
  */
 ErrorCode BaseMotorController::ConfigForwardSoftLimitThreshold(int forwardSensorLimit,
@@ -592,9 +829,11 @@ ErrorCode BaseMotorController::ConfigForwardSoftLimitThreshold(int forwardSensor
  * Configures the reverse soft limit threshold.
  *
  * @param reverseSensorLimit
- *            Reverse Sensor Position Limit (in Raw Sensor Units).
+ *            Reverse Sensor Position Limit (in raw sensor units).
  * @param timeoutMs
- *            Timeout value in ms. @see #ConfigOpenLoopRamp
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
  * @return Error Code generated by function. 0 indicates no error.
  */
 ErrorCode BaseMotorController::ConfigReverseSoftLimitThreshold(int reverseSensorLimit,
@@ -606,10 +845,12 @@ ErrorCode BaseMotorController::ConfigReverseSoftLimitThreshold(int reverseSensor
 /**
  * Configures the forward soft limit enable .
  *
- * @param forwardSensorLimit
- *            Forward Sensor Position Limit (in Raw Sensor Units).
+ * @param enable
+ *            True to enable soft limit. False to disable.
  * @param timeoutMs
- *            Timeout value in ms. @see #ConfigOpenLoopRamp
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
  * @return Error Code generated by function. 0 indicates no error.
  */
 ErrorCode BaseMotorController::ConfigForwardSoftLimitEnable(bool enable,
@@ -622,10 +863,12 @@ ErrorCode BaseMotorController::ConfigForwardSoftLimitEnable(bool enable,
 /**
  * Configures the reverse soft limit enable.
  *
- * @param reverseSensorLimit
- *            Reverse Sensor Position Limit (in Raw Sensor Units).
+ * @param enable
+ *            True to enable soft limit. False to disable.
  * @param timeoutMs
- *            Timeout value in ms. @see #ConfigOpenLoopRamp
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
  * @return Error Code generated by function. 0 indicates no error.
  */
 ErrorCode BaseMotorController::ConfigReverseSoftLimitEnable(bool enable,
@@ -635,7 +878,9 @@ ErrorCode BaseMotorController::ConfigReverseSoftLimitEnable(bool enable,
 }
 
 /**
- * Sets the enable state for soft limit switches.
+ * Can be used to override-disable the soft limits.
+ * This function can be used to quickly disable soft limits without
+ * having to modify the persistent configuration.
  *
  * @param enable
  *            Enable state for soft limit switches.
@@ -656,7 +901,9 @@ void BaseMotorController::OverrideSoftLimitsEnable(bool enable) {
  * @param value
  *            Value of the P constant.
  * @param timeoutMs
- *            Timeout value in ms. @see #ConfigOpenLoopRamp
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
  * @return Error Code generated by function. 0 indicates no error.
  */
 ErrorCode BaseMotorController::Config_kP(int slotIdx, double value,
@@ -672,7 +919,9 @@ ErrorCode BaseMotorController::Config_kP(int slotIdx, double value,
  * @param value
  *            Value of the I constant.
  * @param timeoutMs
- *            Timeout value in ms. @see #ConfigOpenLoopRamp
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
  * @return Error Code generated by function. 0 indicates no error.
  */
 ErrorCode BaseMotorController::Config_kI(int slotIdx, double value,
@@ -688,7 +937,9 @@ ErrorCode BaseMotorController::Config_kI(int slotIdx, double value,
  * @param value
  *            Value of the D constant.
  * @param timeoutMs
- *            Timeout value in ms. @see #ConfigOpenLoopRamp
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
  * @return Error Code generated by function. 0 indicates no error.
  */
 ErrorCode BaseMotorController::Config_kD(int slotIdx, double value,
@@ -704,7 +955,9 @@ ErrorCode BaseMotorController::Config_kD(int slotIdx, double value,
  * @param value
  *            Value of the F constant.
  * @param timeoutMs
- *            Timeout value in ms. @see #ConfigOpenLoopRamp
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
  * @return Error Code generated by function. 0 indicates no error.
  */
 ErrorCode BaseMotorController::Config_kF(int slotIdx, double value,
@@ -714,13 +967,18 @@ ErrorCode BaseMotorController::Config_kF(int slotIdx, double value,
 
 /**
  * Sets the Integral Zone constant in the given parameter slot.
+ * If the (absolute) closed-loop error is outside of this zone, integral accumulator
+ * is automatically cleared.  This ensures than integral wind up events will stop after
+ * the sensor gets far enough from its target.
  *
  * @param slotIdx
  *            Parameter slot for the constant.
  * @param izone
- *            Value of the Integral Zone constant.
+ *            Value of the Integral Zone constant (closed loop error units X 1ms).
  * @param timeoutMs
- *            Timeout value in ms. @see #ConfigOpenLoopRamp
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
  * @return Error Code generated by function. 0 indicates no error.
  */
 ErrorCode BaseMotorController::Config_IntegralZone(int slotIdx, int izone,
@@ -731,13 +989,16 @@ ErrorCode BaseMotorController::Config_IntegralZone(int slotIdx, int izone,
 
 /**
  * Sets the allowable closed-loop error in the given parameter slot.
+ * If (absolute) closed-loop error is within this value, the motor output is neutral.
  *
  * @param slotIdx
  *            Parameter slot for the constant.
- * @param allowableClosedLoopError
+ * @param allowableCloseLoopError
  *            Value of the allowable closed-loop error.
  * @param timeoutMs
- *            Timeout value in ms. @see #ConfigOpenLoopRamp
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
  * @return Error Code generated by function. 0 indicates no error.
  */
 ErrorCode BaseMotorController::ConfigAllowableClosedloopError(int slotIdx,
@@ -752,9 +1013,11 @@ ErrorCode BaseMotorController::ConfigAllowableClosedloopError(int slotIdx,
  * @param slotIdx
  *            Parameter slot for the constant.
  * @param iaccum
- *            Value of the maximum integral accumulator.
+ *            Value of the maximum integral accumulator (closed loop error units X 1ms).
  * @param timeoutMs
- *            Timeout value in ms. @see #ConfigOpenLoopRamp
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
  * @return Error Code generated by function. 0 indicates no error.
  */
 ErrorCode BaseMotorController::ConfigMaxIntegralAccumulator(int slotIdx,
@@ -764,12 +1027,18 @@ ErrorCode BaseMotorController::ConfigMaxIntegralAccumulator(int slotIdx,
 }
 
 /**
- * Sets the integral accumulator.
+ * Sets the integral accumulator. Typically this is used to clear/zero
+ * the integral accumulator, however some use cases may require seeding
+ * the accumulator for a faster response.
  *
  * @param iaccum
- *            Value to set for the integral accumulator.
+ *            Value to set for the integral accumulator (closed loop error units X 1ms).
+ * @param pidIdx
+ *            0 for Primary closed-loop. 1 for cascaded closed-loop.
  * @param timeoutMs
- *            Timeout value in ms. @see #ConfigOpenLoopRamp
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
  * @return Error Code generated by function. 0 indicates no error.
  */
 ErrorCode BaseMotorController::SetIntegralAccumulator(double iaccum, int pidIdx,
@@ -780,9 +1049,11 @@ ErrorCode BaseMotorController::SetIntegralAccumulator(double iaccum, int pidIdx,
 
 /**
  * Gets the closed-loop error.
+ * The units depend on which control mode is in use.
+ * See Phoenix-Documentation information on units.
  *
- * @param slotIdx
- *            Parameter slot of the constant.
+ * @param pidIdx
+ *            0 for Primary closed-loop. 1 for cascaded closed-loop.
  * @return Closed-loop error value.
  */
 int BaseMotorController::GetClosedLoopError(int pidIdx) {
@@ -793,8 +1064,9 @@ int BaseMotorController::GetClosedLoopError(int pidIdx) {
 
 /**
  * Gets the iaccum value.
- *
- * @return Integral accumulator value.
+ * @param pidIdx
+ *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+ * @return Integral accumulator value (Closed-loop error X 1ms).
  */
 double BaseMotorController::GetIntegralAccumulator(int pidIdx) {
 	double iaccum = 0;
@@ -806,8 +1078,8 @@ double BaseMotorController::GetIntegralAccumulator(int pidIdx) {
 /**
  * Gets the derivative of the closed-loop error.
  *
- * @param slotIdx
- *            Parameter slot of the constant.
+ * @param pidIdx
+ *            0 for Primary closed-loop. 1 for cascaded closed-loop.
  * @return The error derivative value.
  */
 double BaseMotorController::GetErrorDerivative(int pidIdx) {
@@ -821,26 +1093,52 @@ double BaseMotorController::GetErrorDerivative(int pidIdx) {
  *
  * @param slotIdx
  *            Profile slot to select.
+ * @param pidIdx
+ *            0 for Primary closed-loop. 1 for cascaded closed-loop.
  **/
 ErrorCode BaseMotorController::SelectProfileSlot(int slotIdx, int pidIdx) {
 	return c_MotController_SelectProfileSlot(m_handle, slotIdx, pidIdx);
 }
-
+/**
+ * Gets the current target of a given closed loop.
+ *
+ * @param pidIdx
+ *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+ * @return The closed loop target.
+ */
 int BaseMotorController::GetClosedLoopTarget(int pidIdx) {
 	int param = 0;
 	c_MotController_GetClosedLoopError(m_handle, &param, pidIdx);
 	return param;
 }
+/**
+ * Gets the active trajectory target position using
+ * MotionMagic/MotionProfile control modes.
+ *
+ * @return The Active Trajectory Position in sensor units.
+ */
 int BaseMotorController::GetActiveTrajectoryPosition() {
 	int param = 0;
 	c_MotController_GetActiveTrajectoryPosition(m_handle, &param);
 	return param;
 }
+/**
+ * Gets the active trajectory target velocity using
+ * MotionMagic/MotionProfile control modes.
+ *
+ * @return The Active Trajectory Velocity in sensor units per 100ms.
+ */
 int BaseMotorController::GetActiveTrajectoryVelocity() {
 	int param = 0;
 	c_MotController_GetActiveTrajectoryVelocity(m_handle, &param);
 	return param;
 }
+/**
+ * Gets the active trajectory target heading using
+ * MotionMagicArc/MotionProfileArc control modes.
+ *
+ * @return The Active Trajectory Heading in degreees.
+ */
 double BaseMotorController::GetActiveTrajectoryHeading() {
 	double param = 0;
 	c_MotController_GetActiveTrajectoryHeading(m_handle, &param);
@@ -850,12 +1148,15 @@ double BaseMotorController::GetActiveTrajectoryHeading() {
 //------ Motion Profile Settings used in Motion Magic and Motion Profile ----------//
 
 /**
- * Sets the Motion Magic Cruise Velocity.
+ * Sets the Motion Magic Cruise Velocity.  This is the peak target velocity
+ * that the motion magic curve generator can use.
  *
  * @param sensorUnitsPer100ms
- *            Motion Magic Cruise Velocity (in Raw Sensor Units per 100 ms).
+ *            Motion Magic Cruise Velocity (in raw sensor units per 100 ms).
  * @param timeoutMs
- *            Timeout value in ms. @see #ConfigOpenLoopRamp
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
  * @return Error Code generated by function. 0 indicates no error.
  */
 ErrorCode BaseMotorController::ConfigMotionCruiseVelocity(
@@ -864,13 +1165,16 @@ ErrorCode BaseMotorController::ConfigMotionCruiseVelocity(
 			sensorUnitsPer100ms, timeoutMs);
 }
 /**
- * Sets the Motion Magic Acceleration.
+ * Sets the Motion Magic Acceleration.  This is the target acceleration
+ * that the motion magic curve generator can use.
  *
  * @param sensorUnitsPer100msPerSec
- *            Motion Magic Acceleration (in Raw Sensor Units per 100 ms per
+ *            Motion Magic Acceleration (in raw sensor units per 100 ms per
  *            second).
  * @param timeoutMs
- *            Timeout value in ms. @see #ConfigOpenLoopRamp
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
  * @return Error Code generated by function. 0 indicates no error.
  */
 ErrorCode BaseMotorController::ConfigMotionAcceleration(
@@ -880,14 +1184,52 @@ ErrorCode BaseMotorController::ConfigMotionAcceleration(
 }
 
 //------ Motion Profile Buffer ----------//
+/**
+ * Clear the buffered motion profile in both motor controller's RAM (bottom), and in the API
+ * (top).
+ */
 void BaseMotorController::ClearMotionProfileTrajectories() {
 	c_MotController_ClearMotionProfileTrajectories(m_handle);
 }
+/**
+ * Retrieve just the buffer count for the api-level (top) buffer.
+ * This routine performs no CAN or data structure lookups, so its fast and ideal
+ * if caller needs to quickly poll the progress of trajectory points being
+ * emptied into motor controller's RAM. Otherwise just use GetMotionProfileStatus.
+ * @return number of trajectory points in the top buffer.
+ */
 int BaseMotorController::GetMotionProfileTopLevelBufferCount() {
 	int param = 0;
 	c_MotController_GetMotionProfileTopLevelBufferCount(m_handle, &param);
 	return param;
 }
+/**
+ * Push another trajectory point into the top level buffer (which is emptied
+ * into the motor controller's bottom buffer as room allows).
+ * @param trajPt to push into buffer.
+ * The members should be filled in with these values...
+ *
+ * 		targPos:  servo position in sensor units.
+ *		targVel:  velocity to feed-forward in sensor units
+ *                 per 100ms.
+ * 		profileSlotSelect  which slot to pull PIDF gains from.  Currently
+ *                           supports 0,1,2,3.
+
+ * 	isLastPoint  set to nonzero to signal motor controller to keep processing this
+ *                     trajectory point, instead of jumping to the next one
+ *                     when timeDurMs expires.  Otherwise MP executer will
+ *                     eventually see an empty buffer after the last point
+ *                     expires, causing it to assert the IsUnderRun flag.
+ *                     However this may be desired if calling application
+ *                     never wants to terminate the MP.
+ *		zeroPos  set to nonzero to signal motor controller to "zero" the selected
+ *                 position sensor before executing this trajectory point.
+ *                 Typically the first point should have this set only thus
+ *                 allowing the remainder of the MP positions to be relative to
+ *                 zero.
+ * @return CTR_OKAY if trajectory point push ok. ErrorCode if buffer is
+ *         full due to kMotionProfileTopBufferCapacity.
+ */
 ErrorCode BaseMotorController::PushMotionProfileTrajectory(
 		const ctre::phoenix::motion::TrajectoryPoint & trajPt) {
 	ErrorCode retval = c_MotController_PushMotionProfileTrajectory(m_handle,
@@ -895,19 +1237,75 @@ ErrorCode BaseMotorController::PushMotionProfileTrajectory(
 			trajPt.profileSlotSelect, trajPt.isLastPoint, trajPt.zeroPos);
 	return retval;
 }
+/**
+ * Retrieve just the buffer full for the api-level (top) buffer.
+ * This routine performs no CAN or data structure lookups, so its fast and ideal
+ * if caller needs to quickly poll. Otherwise just use GetMotionProfileStatus.
+ * @return number of trajectory points in the top buffer.
+ */
 bool BaseMotorController::IsMotionProfileTopLevelBufferFull() {
 	bool retval = false;
 	c_MotController_IsMotionProfileTopLevelBufferFull(m_handle, &retval);
 	return retval;
 }
+/**
+ * This must be called periodically to funnel the trajectory points from the
+ * API's top level buffer to the controller's bottom level buffer.  Recommendation
+ * is to call this twice as fast as the execution rate of the motion profile.
+ * So if MP is running with 20ms trajectory points, try calling this routine
+ * every 10ms.  All motion profile functions are thread-safe through the use of
+ * a mutex, so there is no harm in having the caller utilize threading.
+ */
 void BaseMotorController::ProcessMotionProfileBuffer() {
 	c_MotController_ProcessMotionProfileBuffer(m_handle);
 }
+/**
+ * Retrieve all status information.
+ * For best performance, Caller can snapshot all status information regarding the
+ * motion profile executer.
+ *
+ * @param [out] statusToFill  Caller supplied object to fill.
+ *
+ * The members are filled, as follows...
+ *
+ *	topBufferRem:	The available empty slots in the trajectory buffer.
+ * 	 				The robot API holds a "top buffer" of trajectory points, so your applicaion
+ * 	 				can dump several points at once.  The API will then stream them into the
+ * 	 		 		low-level buffer, allowing the motor controller to act on them.
+ *
+ *	topBufferRem: The number of points in the top trajectory buffer.
+ *
+ *	btmBufferCnt: The number of points in the low level controller buffer.
+ *
+ *	hasUnderrun: 	Set if isUnderrun ever gets set.
+ * 	 	 	 	 	Only is cleared by clearMotionProfileHasUnderrun() to ensure
+ *
+ *	isUnderrun:		This is set if controller needs to shift a point from its buffer into
+ *					the active trajectory point however
+ *					the buffer is empty.
+ *					This gets cleared automatically when is resolved.
+ *
+ *	activePointValid:	True if the active trajectory point has not empty, false otherwise. The members in activePoint are only valid if this signal is set.
+ *
+ *	isLast:	is set/cleared based on the MP executer's current
+ *                trajectory point's IsLast value.  This assumes
+ *                IsLast was set when PushMotionProfileTrajectory
+ *                was used to insert the currently processed trajectory
+ *                point.
+ *
+ *	profileSlotSelect: The currently processed trajectory point's
+ *      			  selected slot.  This can differ in the currently selected slot used
+ *       				 for Position and Velocity servo modes
+ *
+ *	outputEnable:		The current output mode of the motion profile
+ *						executer (disabled, enabled, or hold).  When changing the set()
+ *						value in MP mode, it's important to check this signal to
+ *						confirm the change takes effect before interacting with the top buffer.
+ */
 ErrorCode BaseMotorController::GetMotionProfileStatus(
 		ctre::phoenix::motion::MotionProfileStatus & statusToFill) {
 
 	int outputEnable = 0;
-
 	ErrorCode retval = c_MotController_GetMotionProfileStatus(m_handle,
 			&statusToFill.topBufferRem, &statusToFill.topBufferCnt,
 			&statusToFill.btmBufferCnt, &statusToFill.hasUnderrun,
@@ -920,9 +1318,26 @@ ErrorCode BaseMotorController::GetMotionProfileStatus(
 
 	return retval;
 }
+/**
+ * Clear the "Has Underrun" flag.  Typically this is called after application
+ * has confirmed an underrun had occured.
+ * @param timeoutMs
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
+ * @return Error Code generated by function. 0 indicates no error.
+ */
 ErrorCode BaseMotorController::ClearMotionProfileHasUnderrun(int timeoutMs) {
 	return c_MotController_ClearMotionProfileHasUnderrun(m_handle, timeoutMs);
 }
+/**
+ * Calling application can opt to speed up the handshaking between the robot API
+ * and the controller to increase the download rate of the controller's Motion Profile.
+ * Ideally the period should be no more than half the period of a trajectory
+ * point.
+ * @param periodMs The transmit period in ms.
+ * @return Error Code generated by function. 0 indicates no error.
+ */
 ErrorCode BaseMotorController::ChangeMotionControlFramePeriod(int periodMs) {
 	return c_MotController_ChangeMotionControlFramePeriod(m_handle, periodMs);
 }
@@ -930,6 +1345,8 @@ ErrorCode BaseMotorController::ChangeMotionControlFramePeriod(int periodMs) {
 //------ error ----------//
 /**
  * Gets the last error generated by this object.
+ * Not all functions return an error code but can potentially report errors.
+ * This function can be used to retrieve those error codes.
  *
  * @return Last Error Code generated by a function.
  */
@@ -938,18 +1355,36 @@ ErrorCode BaseMotorController::GetLastError() {
 }
 
 //------ Faults ----------//
+/**
+ * Polls the various fault flags.
+ * @param toFill Caller's object to fill with latest fault flags.
+ * @return Last Error Code generated by a function.
+ */
 ErrorCode BaseMotorController::GetFaults(Faults & toFill) {
 	int faultBits;
 	ErrorCode retval = c_MotController_GetFaults(m_handle, &faultBits);
 	toFill = Faults(faultBits);
 	return retval;
 }
+/**
+ * Polls the various sticky fault flags.
+ * @param toFill Caller's object to fill with latest sticky fault flags.
+ * @return Last Error Code generated by a function.
+ */
 ErrorCode BaseMotorController::GetStickyFaults(StickyFaults & toFill) {
 	int faultBits;
 	ErrorCode retval = c_MotController_GetStickyFaults(m_handle, &faultBits);
 	toFill = StickyFaults(faultBits);
 	return retval;
 }
+/**
+ * Clears all sticky faults.
+ * @param timeoutMs
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
+ * @return Last Error Code generated by a function.
+ */
 ErrorCode BaseMotorController::ClearStickyFaults(int timeoutMs) {
 	return c_MotController_ClearStickyFaults(m_handle, timeoutMs);
 }
@@ -958,7 +1393,7 @@ ErrorCode BaseMotorController::ClearStickyFaults(int timeoutMs) {
 /**
  * Gets the firmware version of the device.
  *
- * @return Firmware version of device.
+ * @return Firmware version of device.  For example: version 1-dot-2 is 0x0102.
  */
 int BaseMotorController::GetFirmwareVersion() {
 	int retval = -1;
@@ -978,14 +1413,20 @@ bool BaseMotorController::HasResetOccurred() {
 
 //------ Custom Persistent Params ----------//
 /**
- * Sets the value of a custom parameter.
+ * Sets the value of a custom parameter. This is for arbitrary use.
+ *
+ * Sometimes it is necessary to save calibration/limit/target
+ * information in the device. Particularly if the
+ * device is part of a subsystem that can be replaced.
  *
  * @param newValue
  *            Value for custom parameter.
  * @param paramIndex
- *            Index of custom parameter.
+ *            Index of custom parameter [0,1]
  * @param timeoutMs
- *            Timeout value in ms. @see #ConfigOpenLoopRamp
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
  * @return Error Code generated by function. 0 indicates no error.
  */
 ErrorCode BaseMotorController::ConfigSetCustomParam(int newValue,
@@ -998,9 +1439,11 @@ ErrorCode BaseMotorController::ConfigSetCustomParam(int newValue,
  * Gets the value of a custom parameter.
  *
  * @param paramIndex
- *            Index of custom parameter.
- * @param timoutMs
- *            Timeout value in ms. @see #ConfigOpenLoopRamp
+ *            Index of custom parameter [0,1].
+ * @param timeoutMs
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
  * @return Value of the custom param.
  */
 int BaseMotorController::ConfigGetCustomParam(int paramIndex, int timeoutMs) {
@@ -1012,7 +1455,11 @@ int BaseMotorController::ConfigGetCustomParam(int paramIndex, int timeoutMs) {
 
 //------ Generic Param API  ----------//
 /**
- * Sets a parameter.
+ * Sets a parameter. Generally this is not used.
+ * This can be utilized in
+ * - Using new features without updating API installation.
+ * - Errata workarounds to circumvent API implementation.
+ * - Allows for rapid testing / unit testing of firmware.
  *
  * @param param
  *            Parameter enumeration.
@@ -1023,7 +1470,9 @@ int BaseMotorController::ConfigGetCustomParam(int paramIndex, int timeoutMs) {
  * @param ordinal
  *            Ordinal of parameter.
  * @param timeoutMs
- *            Timeout value in ms. @see #ConfigOpenLoopRamp
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
  * @return Error Code generated by function. 0 indicates no error.
  */
 ErrorCode BaseMotorController::ConfigSetParameter(ParamEnum param, double value,
@@ -1040,7 +1489,9 @@ ErrorCode BaseMotorController::ConfigSetParameter(ParamEnum param, double value,
  * @param ordinal
  *            Ordinal of parameter.
  * @param timeoutMs
- *            Timeout value in ms. @see #ConfigOpenLoopRamp
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
  * @return Value of parameter.
  */
 double BaseMotorController::ConfigGetParameter(ParamEnum param, int ordinal,
@@ -1056,13 +1507,18 @@ int BaseMotorController::GetBaseID() {
 	return _arbId;
 }
 /**
- * @ retrieve control mode motor controller is in
+ * @return control mode motor controller is in
  */
 ControlMode BaseMotorController::GetControlMode() {
 	return m_controlMode;
 }
 
 // ----- Follower ------//
+/**
+ * Set the control mode and output value so that this motor controller will
+ * follow another motor controller.
+ * Currently supports following Victor SPX and Talon SRX.
+ */
 void BaseMotorController::Follow(IMotorController & masterToFollow) {
 	uint32_t baseId = masterToFollow.GetBaseID();
 	uint32_t id24 = (uint16_t) (baseId >> 0x10);
@@ -1070,11 +1526,12 @@ void BaseMotorController::Follow(IMotorController & masterToFollow) {
 	id24 |= (uint8_t) (baseId);
 	Set(ControlMode::Follower, (double) id24);
 }
+/** When master makes a device, this routine is called to signal the update. */
 void BaseMotorController::ValueUpdated() {
 	//do nothing
 }
 /**
- * @retrieve object that can get/set individual RAW sensor values.
+ * @return object that can get/set individual raw sensor values.
  */
 ctre::phoenix::motorcontrol::SensorCollection & BaseMotorController::GetSensorCollection() {
 	return *_sensorColl;
