@@ -202,7 +202,7 @@ public class PigeonIMU {
 					break;
 				case Temperature:
 					description = "Temperature-Calibration: Pigeon is collecting temp data and will finish when temp range is reached. \n";
-					description += "Do not moved Pigeon.";
+					description += "Do not move Pigeon.";
 					break;
 				case Magnetometer12Pt:
 					description = "Magnetometer Level 1 calibration: Orient the Pigeon PCB in the 12 positions documented in the User's Manual.";
@@ -601,7 +601,7 @@ public class PigeonIMU {
 	/**
 	 * Get Accelerometer tilt angles.
 	 *
-	 * @param tiltAngles Array to fill with x[0], y[1], and z[2] angles.
+	 * @param tiltAngles Array to fill with x[0], y[1], and z[2] angles in degrees.
 	 * @return The last ErrorCode generated.
 	 */
 	public ErrorCode getAccelerometerAngles(double[] tiltAngles) {
