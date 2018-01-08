@@ -1239,39 +1239,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 *         full due to kMotionProfileTopBufferCapacity.
 	 */
 	public ErrorCode pushMotionProfileTrajectory(TrajectoryPoint trajPt) {
-		int durationMs = 10;
-		switch (trajPt.timeDur)
-		{
-		case Trajectory_Duration_100ms:
-			durationMs = 100;
-			break;
-		case Trajectory_Duration_50ms:
-			durationMs = 50;
-			break;
-		case Trajectory_Duration_40ms:
-			durationMs = 40;
-			break;
-		case Trajectory_Duration_30ms:
-			durationMs = 30;
-			break;
-		case Trajectory_Duration_20ms:
-			durationMs = 20;
-			break;
-		case Trajectory_Duration_15ms:
-			durationMs = 15;
-			break;
-		default:
-		case Trajectory_Duration_10ms:
-			durationMs = 10;
-			break;
-		case Trajectory_Duration_5ms:
-			durationMs = 5;
-			break;
-		}
-		int retval = MotControllerJNI.PushMotionProfileTrajectory_2(m_handle,
+		int retval = MotControllerJNI.PushMotionProfileTrajectory2(m_handle,
 				trajPt.position, trajPt.velocity, trajPt.headingDeg,
 				trajPt.profileSlotSelect0, trajPt.profileSlotSelect1, 
-				trajPt.isLastPoint, trajPt.zeroPos, durationMs);
+				trajPt.isLastPoint, trajPt.zeroPos, trajPt.timeDur.value);
 		return ErrorCode.valueOf(retval);
 	}
 
@@ -1343,7 +1314,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 *						confirm the change takes effect before interacting with the top buffer.
 	 */
 	public ErrorCode getMotionProfileStatus(MotionProfileStatus statusToFill) {
-		int retval = MotControllerJNI.GetMotionProfileStatus(m_handle, _motionProfStats);
+		int retval = MotControllerJNI.GetMotionProfileStatus2(m_handle, _motionProfStats);
 		statusToFill.topBufferRem = _motionProfStats[0];
 		statusToFill.topBufferCnt = _motionProfStats[1];
 		statusToFill.btmBufferCnt = _motionProfStats[2];
