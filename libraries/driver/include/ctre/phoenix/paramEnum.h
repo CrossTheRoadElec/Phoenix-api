@@ -15,6 +15,7 @@ enum ParamEnum
 	eQuadIdxPolarity=108,
 	eClearPositionOnIdx = 100,
     eMotionProfileHasUnderrunErr = 119,
+    eMotionProfileTrajectoryPointDurationMs = 120,
 	eClearPosOnLimitF = 144,
 	eClearPosOnLimitR = 145,
 

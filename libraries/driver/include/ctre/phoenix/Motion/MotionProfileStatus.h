@@ -49,13 +49,21 @@ struct MotionProfileStatus {
 
 	bool isLast;
 
-	int profileSlotSelect;
+	/** Selected slot for PID Loop 0 */
+	int profileSlotSelect0;
+
+	/** Selected slot for PID Loop 0 */
+	int profileSlotSelect1;
+
 	/**
 	 * The current output mode of the motion profile executer (disabled, enabled, or hold).
 	 * When changing the set() value in MP mode, it's important to check this signal to
 	 * confirm the change takes effect before interacting with the top buffer.
 	 */
 	ctre::phoenix::motion::SetValueMotionProfile outputEnable;
+
+	/** The applied duration of the active trajectory point */
+	int timeDurMs;
 };
 
 } // namespace motion

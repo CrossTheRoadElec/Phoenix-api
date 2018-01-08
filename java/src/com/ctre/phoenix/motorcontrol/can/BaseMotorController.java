@@ -37,7 +37,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 
 	protected long m_handle;
 
-	private int [] _motionProfStats = new int[9];
+	private int [] _motionProfStats = new int[11];
 
 	private SensorCollection _sensorColl;
 	
@@ -1239,9 +1239,39 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 *         full due to kMotionProfileTopBufferCapacity.
 	 */
 	public ErrorCode pushMotionProfileTrajectory(TrajectoryPoint trajPt) {
-		int retval = MotControllerJNI.PushMotionProfileTrajectory(m_handle,
+		int durationMs = 10;
+		switch (trajPt.timeDur)
+		{
+		case Trajectory_Duration_100ms:
+			durationMs = 100;
+			break;
+		case Trajectory_Duration_50ms:
+			durationMs = 50;
+			break;
+		case Trajectory_Duration_40ms:
+			durationMs = 40;
+			break;
+		case Trajectory_Duration_30ms:
+			durationMs = 30;
+			break;
+		case Trajectory_Duration_20ms:
+			durationMs = 20;
+			break;
+		case Trajectory_Duration_15ms:
+			durationMs = 15;
+			break;
+		default:
+		case Trajectory_Duration_10ms:
+			durationMs = 10;
+			break;
+		case Trajectory_Duration_5ms:
+			durationMs = 5;
+			break;
+		}
+		int retval = MotControllerJNI.PushMotionProfileTrajectory_2(m_handle,
 				trajPt.position, trajPt.velocity, trajPt.headingDeg,
-				trajPt.profileSlotSelect, trajPt.isLastPoint, trajPt.zeroPos);
+				trajPt.profileSlotSelect0, trajPt.profileSlotSelect1, 
+				trajPt.isLastPoint, trajPt.zeroPos, durationMs);
 		return ErrorCode.valueOf(retval);
 	}
 
@@ -1323,6 +1353,8 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 		statusToFill.isLast = _motionProfStats[6] != 0;
 		statusToFill.profileSlotSelect = _motionProfStats[7];
 		statusToFill.outputEnable = SetValueMotionProfile.valueOf(_motionProfStats[8]);
+		statusToFill.timeDurMs = _motionProfStats[9];
+		statusToFill.profileSlotSelect1 = _motionProfStats[10];
 		return ErrorCode.valueOf(retval);
 	}
 

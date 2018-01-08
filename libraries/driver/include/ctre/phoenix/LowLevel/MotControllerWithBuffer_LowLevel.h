@@ -51,7 +51,7 @@ public:
 	MotControllerWithBuffer_LowLevel(int baseArbId);
 	virtual ctre::phoenix::ErrorCode ClearMotionProfileTrajectories();
 	virtual ctre::phoenix::ErrorCode GetMotionProfileTopLevelBufferCount(int & count);
-	virtual ctre::phoenix::ErrorCode PushMotionProfileTrajectory(double position, double velocity, double headingDeg, int profileSlotSelect, bool isLastPoint, bool zeroPos);
+	virtual ctre::phoenix::ErrorCode PushMotionProfileTrajectory(double position, double velocity, double headingDeg, int profileSlotSelect0, int profileSlotSelect1, bool isLastPoint, bool zeroPos, int durationMs);
 	virtual ctre::phoenix::ErrorCode IsMotionProfileTopLevelBufferFull(bool & param);
 	virtual ctre::phoenix::ErrorCode ProcessMotionProfileBuffer();
 	virtual ctre::phoenix::ErrorCode GetMotionProfileStatus(int &topBufferRem,
@@ -61,11 +61,13 @@ public:
 			bool &isUnderrun,
 			bool &activePointValid,
 			bool &isLast,
-			int &profileSlotSelect,
-			int &outputEnable);
+			int &profileSlotSelect0,
+			int &outputEnable,
+			int &timeDurMs,
+			int &profileSlotSelect1);
 	virtual ctre::phoenix::ErrorCode ClearMotionProfileHasUnderrun(int timeoutMs);
 	virtual ctre::phoenix::ErrorCode ChangeMotionControlFramePeriod(int periodMs);
-	virtual ctre::phoenix::ErrorCode SetMotionProfileTrajectoryPeriod(int durationMs, int timeoutMs);
+	virtual ctre::phoenix::ErrorCode ConfigMotionProfileTrajectoryPeriod(int durationMs, int timeoutMs);
 private:
 
 #if 1
@@ -99,17 +101,6 @@ private:
 	 * flow control to see if we need to start sending control6.
 	 */
 	void ReactToMotionProfileCall();
-	/**
-	 * Update the NextPt signals inside the control frame given the next pt to
-	 * send.
-	 * @param control pointer to the CAN frame payload containing control6.  Only
-	 *                the signals that serialize the next trajectory point are
-	 *                updated from the contents of newPt.
-	 * @param newPt point to the next trajectory that needs to be inserted into
-	 *              Talon RAM.
-	 */
-	void CopyTrajPtIntoControl(struct _Control_6_MotProfAddTrajPoint_t *control,
-			const struct _Control_6_MotProfAddTrajPoint_t *newPt);
 
 #endif
 };

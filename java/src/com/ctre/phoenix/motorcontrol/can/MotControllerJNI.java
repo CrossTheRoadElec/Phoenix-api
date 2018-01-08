@@ -565,11 +565,16 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	public static native int PushMotionProfileTrajectory(long handle, double position, double velocity,
 			double headingDeg, int profileSlotSelect, boolean isLastPoint, boolean zeroPos);
 
+	public static native int PushMotionProfileTrajectory_2(long handle, double position, double velocity, double headingDeg, 
+			int profileSlotSelect0, int profileSlotSelect1, boolean isLastPoint, boolean zeroPos, int durationMs);
+	
 	public static native boolean IsMotionProfileTopLevelBufferFull(long handle);
 
 	public static native int ProcessMotionProfileBuffer(long handle);
 
 	public static native int GetMotionProfileStatus(long handle, int[] toFill_9);
+	
+	public static native int GetMotionProfileStatus_2(long handle, int[] toFill_11);
 
 	public static native int ClearMotionProfileHasUnderrun(long handle, int timeoutMs);
 

@@ -50,4 +50,8 @@ public class MotionProfileStatus {
 	 * interacting with the top buffer.
 	 */
 	public SetValueMotionProfile outputEnable;
+	
+	public int timeDurMs;
+	
+	public int profileSlotSelect1;
 }
