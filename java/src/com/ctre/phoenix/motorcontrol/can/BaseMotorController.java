@@ -1120,9 +1120,9 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 *            0 for Primary closed-loop. 1 for cascaded closed-loop.
 	 * @return The closed loop target.
 	 */
-	//public int getClosedLoopTarget(int pidIdx) {
-	//	return MotControllerJNI.GetClosedLoopTarget(m_handle, pidIdx); // TODO will be added to JNI
-	//}
+	public int getClosedLoopTarget(int pidIdx) {
+		return MotControllerJNI.GetClosedLoopTarget(m_handle, pidIdx);
+	}
 
 	/**
 	 * Gets the active trajectory target position using

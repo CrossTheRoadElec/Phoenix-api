@@ -1111,7 +1111,7 @@ ErrorCode BaseMotorController::SelectProfileSlot(int slotIdx, int pidIdx) {
  */
 int BaseMotorController::GetClosedLoopTarget(int pidIdx) {
 	int param = 0;
-	c_MotController_GetClosedLoopError(m_handle, &param, pidIdx);
+	c_MotController_GetClosedLoopTarget(m_handle, &param, pidIdx);
 	return param;
 }
 /**

@@ -738,4 +738,6 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	public static native int SetMPEOutput(long handle, int mpeOutput);
 
 	public static native int EnableHeadingHold(long handle, int enable);
+	
+	public static native int GetClosedLoopTarget(long handle, int pidIdx);
 }

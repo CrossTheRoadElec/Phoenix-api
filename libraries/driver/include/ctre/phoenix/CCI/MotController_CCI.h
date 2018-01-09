@@ -64,16 +64,26 @@ extern "C"{
 	ctre::phoenix::ErrorCode c_MotController_GetMotionProfileTopLevelBufferCount(void *handle, int * value);
 	ctre::phoenix::ErrorCode c_MotController_PushMotionProfileTrajectory(void *handle, double position,
 			double velocity, double headingDeg, int profileSlotSelect, bool isLastPoint, bool zeroPos);
+ctre::phoenix::ErrorCode c_MotController_PushMotionProfileTrajectory_2(
+		void *handle, double position, double velocity, double headingDeg,
+		int profileSlotSelect0, int profileSlotSelect1, bool isLastPoint, bool zeroPos, int durationMs);
 	ctre::phoenix::ErrorCode c_MotController_IsMotionProfileTopLevelBufferFull(void *handle, bool * value);
 	ctre::phoenix::ErrorCode c_MotController_ProcessMotionProfileBuffer(void *handle);
 	ctre::phoenix::ErrorCode c_MotController_GetMotionProfileStatus(void *handle,
 			int *topBufferRem, int *topBufferCnt, int *btmBufferCnt,
 			bool *hasUnderrun, bool *isUnderrun, bool *activePointValid,
 			bool *isLast, int *profileSlotSelect, int *outputEnable);
+	ctre::phoenix::ErrorCode c_MotController_GetMotionProfileStatus_2(void *handle,
+			int *topBufferRem, int *topBufferCnt, int *btmBufferCnt,
+			bool *hasUnderrun, bool *isUnderrun, bool *activePointValid,
+			bool *isLast, int *profileSlotSelect, int *outputEnable, int *timeDurMs,
+			int *profileSlotSelect1);
 	ctre::phoenix::ErrorCode c_MotController_ClearMotionProfileHasUnderrun(void *handle,
 			int timeoutMs);
 	ctre::phoenix::ErrorCode c_MotController_ChangeMotionControlFramePeriod(void *handle,
 			int periodMs);
+	ctre::phoenix::ErrorCode c_MotController_ConfigMotionProfileTrajectoryPeriod(
+			void *handle, int durationMs, int timeoutMs);
 	ctre::phoenix::ErrorCode c_MotController_GetLastError(void *handle);
 	ctre::phoenix::ErrorCode c_MotController_GetFirmwareVersion(void *handle, int *);
 	ctre::phoenix::ErrorCode c_MotController_HasResetOccurred(void *handle,bool *);
@@ -114,4 +124,5 @@ extern "C"{
 	ctre::phoenix::ErrorCode c_MotController_GetPulseWidthAll(void *handle, int * pos, int * vel, int * riseToRiseUs, int * riseToFallUs);
 	ctre::phoenix::ErrorCode c_MotController_GetQuadPinStates(void *handle, int * quadA, int * quadB, int * quadIdx);
 	ctre::phoenix::ErrorCode c_MotController_GetLimitSwitchState(void *handle, int * isFwdClosed, int * isRevClosed);
+	ctre::phoenix::ErrorCode c_MotController_GetClosedLoopTarget(void *handle, int * value, int pidIdx);
 }
