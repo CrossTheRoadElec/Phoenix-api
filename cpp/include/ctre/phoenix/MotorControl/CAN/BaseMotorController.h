@@ -171,7 +171,7 @@ public:
 	virtual int GetActiveTrajectoryVelocity();
 	virtual double GetActiveTrajectoryHeading();
 
-	//------ Motion Profile Settings used in Motion Magic and Motion Profile ----------//
+	//------ Motion Profile Settings used in Motion Magic  ----------//
 	virtual ctre::phoenix::ErrorCode ConfigMotionCruiseVelocity(int sensorUnitsPer100ms,
 			int timeoutMs);
 	virtual ctre::phoenix::ErrorCode ConfigMotionAcceleration(int sensorUnitsPer100msPerSec,
@@ -187,6 +187,7 @@ public:
 			ctre::phoenix::motion::MotionProfileStatus & statusToFill);
 	virtual ctre::phoenix::ErrorCode ClearMotionProfileHasUnderrun(int timeoutMs);
 	virtual ctre::phoenix::ErrorCode ChangeMotionControlFramePeriod(int periodMs);
+	virtual ctre::phoenix::ErrorCode ConfigMotionProfileTrajectoryPeriod(int baseTrajDurationMs, int timeoutMs);
 	//------ error ----------//
 	virtual ctre::phoenix::ErrorCode GetLastError();
 	//------ Faults ----------//
