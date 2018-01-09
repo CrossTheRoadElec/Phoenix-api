@@ -202,7 +202,7 @@ public class PigeonIMU {
 					break;
 				case Temperature:
 					description = "Temperature-Calibration: Pigeon is collecting temp data and will finish when temp range is reached. \n";
-					description += "Do not moved Pigeon.";
+					description += "Do not move Pigeon.";
 					break;
 				case Magnetometer12Pt:
 					description = "Magnetometer Level 1 calibration: Orient the Pigeon PCB in the 12 positions documented in the User's Manual.";
@@ -562,6 +562,7 @@ public class PigeonIMU {
 	 * Get Raw Magnetometer data.
 	 *
 	 * @param rm_xyz Array to fill with x[0], y[1], and z[2] data
+	 * 				Number is equal to 0.6 microTeslas per unit.
 	 * @return The last ErrorCode generated.
 	 */
 	public ErrorCode getRawMagnetometer(short[] rm_xyz) {
@@ -572,6 +573,7 @@ public class PigeonIMU {
 	 * Get Biased Magnetometer data.
 	 *
 	 * @param bm_xyz Array to fill with x[0], y[1], and z[2] data
+	 * 				Number is equal to 0.6 microTeslas per unit.
 	 * @return The last ErrorCode generated.
 	 */
 	public ErrorCode getBiasedMagnetometer(short[] bm_xyz) {
@@ -581,7 +583,8 @@ public class PigeonIMU {
 	/**
 	 * Get Biased Accelerometer data.
 	 *
-	 * @param ba_xyz Array to fill with x[0], y[1], and z[2] data
+	 * @param ba_xyz Array to fill with x[0], y[1], and z[2] data.
+	 * 			These are in fixed point notation Q2.14.  eg. 16384 = 1G
 	 * @return The last ErrorCode generated.
 	 */
 	public ErrorCode getBiasedAccelerometer(short[] ba_xyz) {
@@ -589,7 +592,7 @@ public class PigeonIMU {
 		return ErrorCode.valueOf(retval);
 	}
 	/**
-	 * Get Biased Accelerometer data.
+	 * Get Raw Gyro data.
 	 *
 	 * @param xyz_dps Array to fill with x[0], y[1], and z[2] data in degrees per second.
 	 * @return The last ErrorCode generated.
@@ -601,7 +604,7 @@ public class PigeonIMU {
 	/**
 	 * Get Accelerometer tilt angles.
 	 *
-	 * @param tiltAngles Array to fill with x[0], y[1], and z[2] angles.
+	 * @param tiltAngles Array to fill with x[0], y[1], and z[2] angles in degrees.
 	 * @return The last ErrorCode generated.
 	 */
 	public ErrorCode getAccelerometerAngles(double[] tiltAngles) {
