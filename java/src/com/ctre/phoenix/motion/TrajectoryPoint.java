@@ -4,6 +4,18 @@ package com.ctre.phoenix.motion;
  * Motion Profile Trajectory Point This is simply a data transer object.
  */
 public class TrajectoryPoint {
+	public enum TrajectoryDuration
+	{
+		Trajectory_Duration_5ms,
+		Trajectory_Duration_10ms,
+		Trajectory_Duration_15ms,
+		Trajectory_Duration_20ms,
+		Trajectory_Duration_30ms,
+		Trajectory_Duration_40ms,
+		Trajectory_Duration_50ms,
+		Trajectory_Duration_100ms,
+	}
+	
 	public double position; // !< The position to servo to.
 	public double velocity; // !< The velocity to feed-forward.
 	public double headingDeg;
@@ -12,8 +24,16 @@ public class TrajectoryPoint {
 	 * Which slot to get PIDF gains. PID is used for position servo. F is used
 	 * as the Kv constant for velocity feed-forward. Typically this is hardcoded
 	 * to the a particular slot, but you are free gain schedule if need be.
+	 * Choose from [0,3]
 	 */
-	public int profileSlotSelect;
+	public int profileSlotSelect0;
+	
+	/**
+	 * Which slot to get PIDF gains for cascaded PId.
+	 * This only has impact during MotionProfileArc Control mode.
+	 * Choose from [0,1].
+	 */
+	public int profileSlotSelect1;
 
 	/**
 	 * Set to true to signal Talon that this is the final point, so do not
@@ -33,4 +53,9 @@ public class TrajectoryPoint {
 	 * positions of all trajectory points so they are correct.
 	 */
 	public boolean zeroPos;
+	
+	/**
+	 * Duration to apply this trajectory pt.
+	 */
+	public TrajectoryDuration timeDur;
 }
