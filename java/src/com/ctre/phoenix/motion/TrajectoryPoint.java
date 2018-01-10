@@ -56,6 +56,8 @@ public class TrajectoryPoint {
 	
 	/**
 	 * Duration to apply this trajectory pt.
+	 * This time unit is ADDED to the exising base time set by
+	 * configMotionProfileTrajectoryPeriod().
 	 */
 	public TrajectoryDuration timeDur;
 }
