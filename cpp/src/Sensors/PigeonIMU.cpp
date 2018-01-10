@@ -270,7 +270,7 @@ int PigeonIMU::GetGeneralStatus(PigeonIMU::GeneralStatus & statusToFill) {
 		case Temperature:
 			statusToFill.description =
 					"Temperature-Calibration: Pigeon is collecting temp data and will finish when temp range is reached.  "
-							"Do not moved Pigeon.";
+							"Do not move Pigeon.";
 			break;
 		case Magnetometer12Pt:
 			statusToFill.description =
@@ -411,6 +411,7 @@ uint32_t PigeonIMU::GetUpTime() {
  * Get Raw Magnetometer data.
  *
  * @param rm_xyz Array to fill with x[0], y[1], and z[2] data
+	 * 				Number is equal to 0.6 microTeslas per unit.
  * @return The last ErrorCode generated.
  */
 int PigeonIMU::GetRawMagnetometer(int16_t rm_xyz[3]) {
@@ -421,6 +422,7 @@ int PigeonIMU::GetRawMagnetometer(int16_t rm_xyz[3]) {
  * Get Biased Magnetometer data.
  *
  * @param bm_xyz Array to fill with x[0], y[1], and z[2] data
+	 * 				Number is equal to 0.6 microTeslas per unit.
  * @return The last ErrorCode generated.
  */
 int PigeonIMU::GetBiasedMagnetometer(int16_t bm_xyz[3]) {
@@ -431,6 +433,7 @@ int PigeonIMU::GetBiasedMagnetometer(int16_t bm_xyz[3]) {
  * Get Biased Accelerometer data.
  *
  * @param ba_xyz Array to fill with x[0], y[1], and z[2] data
+	 * 			These are in fixed point notation Q2.14.  eg. 16384 = 1G
  * @return The last ErrorCode generated.
  */
 int PigeonIMU::GetBiasedAccelerometer(int16_t ba_xyz[3]) {
@@ -438,7 +441,7 @@ int PigeonIMU::GetBiasedAccelerometer(int16_t ba_xyz[3]) {
 	return errCode;
 }
 /**
- * Get Biased Accelerometer data.
+ * Get Raw Gyro data.
  *
  * @param xyz_dps Array to fill with x[0], y[1], and z[2] data in degrees per second.
  * @return The last ErrorCode generated.
@@ -450,7 +453,7 @@ int PigeonIMU::GetRawGyro(double xyz_dps[3]) {
 /**
  * Get Accelerometer tilt angles.
  *
- * @param tiltAngles Array to fill with x[0], y[1], and z[2] angles.
+ * @param tiltAngles Array to fill with x[0], y[1], and z[2] angles in degrees.
  * @return The last ErrorCode generated.
  */
 int PigeonIMU::GetAccelerometerAngles(double tiltAngles[3]) {
