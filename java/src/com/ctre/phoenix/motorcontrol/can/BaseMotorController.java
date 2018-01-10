@@ -1221,9 +1221,14 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 * 		targPos:  servo position in sensor units.
 	 *		targVel:  velocity to feed-forward in sensor units
 	 *                 per 100ms.
-	 * 		profileSlotSelect  which slot to pull PIDF gains from.  Currently
-	 *                           supports 0,1,2,3.
-	 * 	isLastPoint  set to nonzero to signal motor controller to keep processing this
+	 * 		profileSlotSelect0  Which slot to get PIDF gains. PID is used for position servo. F is used
+	 *						   as the Kv constant for velocity feed-forward. Typically this is hardcoded
+	 *						   to the a particular slot, but you are free gain schedule if need be.
+	 *						   Choose from [0,3]
+	 *		profileSlotSelect1 Which slot to get PIDF gains for cascaded PId.
+	 *						   This only has impact during MotionProfileArc Control mode.
+	 *						   Choose from [0,1].
+	 * 	   isLastPoint  set to nonzero to signal motor controller to keep processing this
 	 *                     trajectory point, instead of jumping to the next one
 	 *                     when timeDurMs expires.  Otherwise MP executer will
 	 *                     eventually see an empty buffer after the last point
@@ -1235,6 +1240,9 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 *                 Typically the first point should have this set only thus
 	 *                 allowing the remainder of the MP positions to be relative to
 	 *                 zero.
+	 *		timeDur Duration to apply this trajectory pt.
+	 * 				This time unit is ADDED to the exising base time set by
+	 * 				configMotionProfileTrajectoryPeriod().
 	 * @return CTR_OKAY if trajectory point push ok. ErrorCode if buffer is
 	 *         full due to kMotionProfileTopBufferCapacity.
 	 */
