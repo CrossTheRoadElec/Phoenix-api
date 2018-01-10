@@ -6,14 +6,30 @@ package com.ctre.phoenix.motion;
 public class TrajectoryPoint {
 	public enum TrajectoryDuration
 	{
-		Trajectory_Duration_5ms,
-		Trajectory_Duration_10ms,
-		Trajectory_Duration_15ms,
-		Trajectory_Duration_20ms,
-		Trajectory_Duration_30ms,
-		Trajectory_Duration_40ms,
-		Trajectory_Duration_50ms,
-		Trajectory_Duration_100ms,
+		Trajectory_Duration_5ms(5),
+		Trajectory_Duration_10ms(10),
+		Trajectory_Duration_15ms(15),
+		Trajectory_Duration_20ms(20),
+		Trajectory_Duration_30ms(30),
+		Trajectory_Duration_40ms(40),
+		Trajectory_Duration_50ms(50),
+		Trajectory_Duration_100ms(100);
+		
+		public int value = 5;
+		
+		private TrajectoryDuration(int value)
+		{
+			this.value = value;
+		}
+		
+		public TrajectoryDuration valueOf(int val)
+		{
+			for(TrajectoryDuration td: TrajectoryDuration.values())
+			{
+				if(td.value == val) return td;
+			}
+			return Trajectory_Duration_100ms;
+		}
 	}
 	
 	public double position; // !< The position to servo to.
