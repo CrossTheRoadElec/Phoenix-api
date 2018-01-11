@@ -4,6 +4,11 @@ package com.ctre.phoenix.motion;
  * Motion Profile Trajectory Point This is simply a data transer object.
  */
 public class TrajectoryPoint {
+	/**
+	 * Duration to apply to a particular trajectory pt.
+	 * This time unit is ADDED to the exising base time set by
+	 * configMotionProfileTrajectoryPeriod().
+	 */
 	public enum TrajectoryDuration
 	{
 		Trajectory_Duration_0ms(0),

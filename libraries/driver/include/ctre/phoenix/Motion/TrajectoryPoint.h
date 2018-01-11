@@ -4,6 +4,11 @@ namespace ctre {
 namespace phoenix {
 namespace motion {
 
+/**
+ * Duration to apply to a particular trajectory pt.
+ * This time unit is ADDED to the exising base time set by
+ * ConfigMotionProfileTrajectoryPeriod().
+ */
 enum TrajectoryDuration {
 	TrajectoryDuration_0ms = 0,
 	TrajectoryDuration_5ms = 5,
