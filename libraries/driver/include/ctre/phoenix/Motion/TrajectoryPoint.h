@@ -61,6 +61,8 @@ struct TrajectoryPoint {
 
 	/**
 	 * Duration to apply this trajectory pt.
+	 * This time unit is ADDED to the exising base time set by
+	 * ConfigMotionProfileTrajectoryPeriod().
 	 */
 	TrajectoryDuration timeDur;
 };
