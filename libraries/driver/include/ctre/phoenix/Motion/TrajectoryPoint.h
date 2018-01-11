@@ -5,9 +5,9 @@ namespace phoenix {
 namespace motion {
 
 enum TrajectoryDuration {
+	TrajectoryDuration_0ms = 0,
 	TrajectoryDuration_5ms = 5,
 	TrajectoryDuration_10ms = 10,
-	TrajectoryDuration_15ms = 15,
 	TrajectoryDuration_20ms = 20,
 	TrajectoryDuration_30ms = 30,
 	TrajectoryDuration_40ms = 40,

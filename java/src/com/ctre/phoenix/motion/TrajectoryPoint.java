@@ -6,9 +6,9 @@ package com.ctre.phoenix.motion;
 public class TrajectoryPoint {
 	public enum TrajectoryDuration
 	{
+		Trajectory_Duration_0ms(0),
 		Trajectory_Duration_5ms(5),
 		Trajectory_Duration_10ms(10),
-		Trajectory_Duration_15ms(15),
 		Trajectory_Duration_20ms(20),
 		Trajectory_Duration_30ms(30),
 		Trajectory_Duration_40ms(40),
