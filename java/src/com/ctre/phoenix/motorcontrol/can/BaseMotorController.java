@@ -89,7 +89,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	/**
 	 * @param mode Sets the appropriate output on the talon, depending on the mode.
 	 * @param demand0 The output value to apply.
-	 * 	such as advanced feed forward and/or cascaded close-looping in firmware.
+	 * 	such as advanced feed forward and/or auxiliary close-looping in firmware.
 	 * In PercentOutput, the output is between -1.0 and 1.0, with 0.0 as stopped.
 	 * In Current mode, output value is in amperes.
 	 * In Velocity mode, output value is in position change / 100ms.
@@ -170,7 +170,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	}
 	/**
 	 * For now this simply updates the CAN signal to the motor controller.
-	 * Future firmware updates will use this to control advanced cascaded loop behavior.
+	 * Future firmware updates will use this to control advanced auxiliary loop behavior.
 	 *
 	 *	@param value
 	 */
@@ -432,7 +432,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 * @param feedbackDevice
 	 *            Remote Feedback Device to select.
 	 * @param pidIdx
-	 *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+	 *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
 	 * @param timeoutMs
 	 *            Timeout value in ms. If nonzero, function will wait for
 	 *            config success and report an error if it times out.
@@ -450,7 +450,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 * @param feedbackDevice
 	 *            Feedback Device to select.
 	 * @param pidIdx
-	 *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+	 *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
 	 * @param timeoutMs
 	 *            Timeout value in ms. If nonzero, function will wait for
 	 *            config success and report an error if it times out.
@@ -510,7 +510,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 * Get the selected sensor position (in raw sensor units).
 	 * 
 	 * @param pidIdx
-	 *            0 for Primary closed-loop. 1 for cascaded closed-loop. See
+	 *            0 for Primary closed-loop. 1 for auxiliary closed-loop. See
 	 *            Phoenix-Documentation for how to interpret.
 	 *
 	 * @return Position of selected sensor (in raw sensor units).
@@ -523,7 +523,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 * Get the selected sensor velocity.
 	 *
 	 * @param pidIdx
-	 *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+	 *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
 	 * @return selected sensor (in raw sensor units) per 100ms.
 	 * See Phoenix-Documentation for how to interpret.
 	 */
@@ -537,7 +537,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 * @param sensorPos
 	 *            Position to set for the selected sensor (in raw sensor units).
 	 * @param pidIdx
-	 *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+	 *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
 	 * @param timeoutMs
 	 *            Timeout value in ms. If nonzero, function will wait for
 	 *            config success and report an error if it times out.
@@ -1054,7 +1054,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 *            Value to set for the integral accumulator (closed loop error
 	 *            units X 1ms).
 	 * @param pidIdx
-	 *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+	 *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
 	 * @param timeoutMs
 	 *            Timeout value in ms. If nonzero, function will wait for config
 	 *            success and report an error if it times out. If zero, no
@@ -1071,7 +1071,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 * use. See Phoenix-Documentation information on units.
 	 *
 	 * @param pidIdx
-	 *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+	 *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
 	 * @return Closed-loop error value.
 	 */
 	public int getClosedLoopError(int pidIdx) {
@@ -1082,7 +1082,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 * Gets the iaccum value.
 	 * 
 	 * @param pidIdx
-	 *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+	 *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
 	 * @return Integral accumulator value (Closed-loop error X 1ms).
 	 */
 	public double getIntegralAccumulator(int pidIdx) {
@@ -1094,7 +1094,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 * Gets the derivative of the closed-loop error.
 	 *
 	 * @param pidIdx
-	 *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+	 *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
 	 * @return The error derivative value.
 	 */
 	public double getErrorDerivative(int pidIdx) {
@@ -1107,7 +1107,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 * @param slotIdx
 	 *            Profile slot to select.
 	 * @param pidIdx
-	 *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+	 *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
 	 **/
 	public void selectProfileSlot(int slotIdx, int pidIdx) {
 		MotControllerJNI.SelectProfileSlot(m_handle, slotIdx, pidIdx);
@@ -1117,7 +1117,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 * Gets the current target of a given closed loop.
 	 *
 	 * @param pidIdx
-	 *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+	 *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
 	 * @return The closed loop target.
 	 */
 	public int getClosedLoopTarget(int pidIdx) {
@@ -1225,7 +1225,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 *						   as the Kv constant for velocity feed-forward. Typically this is hardcoded
 	 *						   to the a particular slot, but you are free gain schedule if need be.
 	 *						   Choose from [0,3]
-	 *		profileSlotSelect1 Which slot to get PIDF gains for cascaded PId.
+	 *		profileSlotSelect1 Which slot to get PIDF gains for auxiliary PId.
 	 *						   This only has impact during MotionProfileArc Control mode.
 	 *						   Choose from [0,1].
 	 * 	   isLastPoint  set to nonzero to signal motor controller to keep processing this

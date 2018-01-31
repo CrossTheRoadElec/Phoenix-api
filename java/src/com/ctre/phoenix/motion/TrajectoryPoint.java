@@ -50,7 +50,7 @@ public class TrajectoryPoint {
 	public int profileSlotSelect0;
 	
 	/**
-	 * Which slot to get PIDF gains for cascaded PId.
+	 * Which slot to get PIDF gains for auxiliary PId.
 	 * This only has impact during MotionProfileArc Control mode.
 	 * Choose from [0,1].
 	 */

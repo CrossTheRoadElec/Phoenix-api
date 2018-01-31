@@ -20,7 +20,7 @@ TalonSRX::TalonSRX(int deviceNumber) :
  * @param feedbackDevice
  *            Feedback Device to select.
  * @param pidIdx
- *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+ *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
  * @param timeoutMs
  *            Timeout value in ms. If nonzero, function will wait for
  *            config success and report an error if it times out.
@@ -39,7 +39,7 @@ ctre::phoenix::ErrorCode TalonSRX::ConfigSelectedFeedbackSensor(FeedbackDevice f
  * @param feedbackDevice
  *            Remote Feedback Device to select.
  * @param pidIdx
- *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+ *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
  * @param timeoutMs
  *            Timeout value in ms. If nonzero, function will wait for
  *            config success and report an error if it times out.
