@@ -64,7 +64,7 @@ void BaseMotorController::Set(ControlMode Mode, double value) {
 /**
  * @param mode Sets the appropriate output on the talon, depending on the mode.
  * @param demand0 The output value to apply.
- * 	such as advanced feed forward and/or cascaded close-looping in firmware.
+ * 	such as advanced feed forward and/or auxiliary close-looping in firmware.
  * In PercentOutput, the output is between -1.0 and 1.0, with 0.0 as stopped.
  * In Current mode, output value is in amperes.
  * In Velocity mode, output value is in position change / 100ms.
@@ -147,7 +147,7 @@ void BaseMotorController::EnableHeadingHold(bool enable) {
 }
 /**
  * For now this simply updates the CAN signal to the motor controller.
- * Future firmware updates will use this to control advanced cascaded loop behavior.
+ * Future firmware updates will use this to control advanced auxiliary loop behavior.
  *
  *	@param value
  */
@@ -423,7 +423,7 @@ double BaseMotorController::GetTemperature() {
  * @param feedbackDevice
  *            Remote Feedback Device to select.
  * @param pidIdx
- *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+ *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
  * @param timeoutMs
  *            Timeout value in ms. If nonzero, function will wait for
  *            config success and report an error if it times out.
@@ -441,7 +441,7 @@ ErrorCode BaseMotorController::ConfigSelectedFeedbackSensor(
  * @param feedbackDevice
  *            Feedback Device to select.
  * @param pidIdx
- *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+ *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
  * @param timeoutMs
  *            Timeout value in ms. If nonzero, function will wait for
  *            config success and report an error if it times out.
@@ -501,7 +501,7 @@ ErrorCode BaseMotorController::ConfigSensorTerm(SensorTerm sensorTerm,
 /**
  * Get the selected sensor position (in raw sensor units).
  * @param pidIdx
- *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+ *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
  * See Phoenix-Documentation for how to interpret.
  *
  * @return Position of selected sensor (in raw sensor units).
@@ -515,7 +515,7 @@ int BaseMotorController::GetSelectedSensorPosition(int pidIdx) {
  * Get the selected sensor velocity.
  *
  * @param pidIdx
- *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+ *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
  * @return selected sensor (in raw sensor units) per 100ms.
  * See Phoenix-Documentation for how to interpret.
  */
@@ -530,7 +530,7 @@ int BaseMotorController::GetSelectedSensorVelocity(int pidIdx) {
  * @param sensorPos
  *            Position to set for the selected sensor (in raw sensor units).
  * @param pidIdx
- *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+ *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
  * @param timeoutMs
  *            Timeout value in ms. If nonzero, function will wait for
  *            config success and report an error if it times out.
@@ -1037,7 +1037,7 @@ ErrorCode BaseMotorController::ConfigMaxIntegralAccumulator(int slotIdx,
  * @param iaccum
  *            Value to set for the integral accumulator (closed loop error units X 1ms).
  * @param pidIdx
- *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+ *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
  * @param timeoutMs
  *            Timeout value in ms. If nonzero, function will wait for
  *            config success and report an error if it times out.
@@ -1056,7 +1056,7 @@ ErrorCode BaseMotorController::SetIntegralAccumulator(double iaccum, int pidIdx,
  * See Phoenix-Documentation information on units.
  *
  * @param pidIdx
- *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+ *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
  * @return Closed-loop error value.
  */
 int BaseMotorController::GetClosedLoopError(int pidIdx) {
@@ -1068,7 +1068,7 @@ int BaseMotorController::GetClosedLoopError(int pidIdx) {
 /**
  * Gets the iaccum value.
  * @param pidIdx
- *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+ *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
  * @return Integral accumulator value (Closed-loop error X 1ms).
  */
 double BaseMotorController::GetIntegralAccumulator(int pidIdx) {
@@ -1082,7 +1082,7 @@ double BaseMotorController::GetIntegralAccumulator(int pidIdx) {
  * Gets the derivative of the closed-loop error.
  *
  * @param pidIdx
- *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+ *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
  * @return The error derivative value.
  */
 double BaseMotorController::GetErrorDerivative(int pidIdx) {
@@ -1097,7 +1097,7 @@ double BaseMotorController::GetErrorDerivative(int pidIdx) {
  * @param slotIdx
  *            Profile slot to select.
  * @param pidIdx
- *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+ *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
  **/
 ErrorCode BaseMotorController::SelectProfileSlot(int slotIdx, int pidIdx) {
 	return c_MotController_SelectProfileSlot(m_handle, slotIdx, pidIdx);
@@ -1106,7 +1106,7 @@ ErrorCode BaseMotorController::SelectProfileSlot(int slotIdx, int pidIdx) {
  * Gets the current target of a given closed loop.
  *
  * @param pidIdx
- *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+ *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
  * @return The closed loop target.
  */
 int BaseMotorController::GetClosedLoopTarget(int pidIdx) {
@@ -1219,7 +1219,7 @@ int BaseMotorController::GetMotionProfileTopLevelBufferCount() {
  *						   as the Kv constant for velocity feed-forward. Typically this is hardcoded
  *						   to the a particular slot, but you are free gain schedule if need be.
  *						   Choose from [0,3]
- *		profileSlotSelect1 Which slot to get PIDF gains for cascaded PId.
+ *		profileSlotSelect1 Which slot to get PIDF gains for auxiliary PId.
  *						   This only has impact during MotionProfileArc Control mode.
  *						   Choose from [0,1].
  * 	   isLastPoint  set to nonzero to signal motor controller to keep processing this
@@ -1309,7 +1309,7 @@ void BaseMotorController::ProcessMotionProfileBuffer() {
  *       				 for Position and Velocity servo modes.   Must be within  [0,3].
 *
  *	profileSlotSelect1: The currently processed trajectory point's
- *      			  selected slot for cascaded PID.  This can differ in the currently selected slot used
+ *      			  selected slot for auxiliary PID.  This can differ in the currently selected slot used
  *       				 for Position and Velocity servo modes.  Must be within  [0,1].
  *
  *	outputEnable:		The current output mode of the motion profile
