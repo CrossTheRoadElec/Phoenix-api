@@ -5,7 +5,9 @@
 #include "ctre/phoenix/core/GadgeteerUartClient.h"
 #include "ctre/phoenix/MotorControl/IMotorController.h"
 #include "ctre/phoenix/MotorControl/ControlMode.h"
+#include "ctre/phoenix/MotorControl/DemandType.h"
 #include "ctre/phoenix/MotorControl/Faults.h"
+#include "ctre/phoenix/MotorControl/FollowerType.h"
 #include "ctre/phoenix/MotorControl/StickyFaults.h"
 #include "ctre/phoenix/MotorControl/VelocityMeasPeriod.h"
 #include "ctre/phoenix/Motion/TrajectoryPoint.h"
@@ -62,6 +64,7 @@ public:
 	int GetDeviceID();
 	virtual void Set(ControlMode Mode, double value);
 	virtual void Set(ControlMode mode, double demand0, double demand1);
+	virtual void Set(ControlMode mode, double demand0, DemandType demand1Type, double demand1);
 	virtual void NeutralOutput();
 	virtual void SetNeutralMode(NeutralMode neutralMode);
 	void EnableHeadingHold(bool enable);
@@ -99,6 +102,8 @@ public:
 			RemoteFeedbackDevice feedbackDevice, int pidIdx, int timeoutMs);
 	virtual ctre::phoenix::ErrorCode ConfigSelectedFeedbackSensor(
 			FeedbackDevice feedbackDevice, int pidIdx, int timeoutMs);
+	virtual ctre::phoenix::ErrorCode ConfigSelectedFeedbackCoefficient(
+			double coefficient, int pidIdx, int timeoutMs);
 	virtual ctre::phoenix::ErrorCode ConfigRemoteFeedbackFilter(int deviceID,
 			RemoteSensorSource remoteSensorSource, int remoteOrdinal,
 			int timeoutMs);
@@ -158,6 +163,9 @@ public:
 			int allowableCloseLoopError, int timeoutMs);
 	virtual ctre::phoenix::ErrorCode ConfigMaxIntegralAccumulator(int slotIdx, double iaccum,
 			int timeoutMs);
+	virtual ctre::phoenix::ErrorCode ConfigClosedLoopPeakOutput(int slotIdx, double percentOut, int timeoutMs);
+	virtual ctre::phoenix::ErrorCode ConfigClosedLoopPeriod(int slotIdx, int loopTimeMs, int timeoutMs);
+
 	//------ Close loop State ----------//
 	virtual ctre::phoenix::ErrorCode SetIntegralAccumulator(double iaccum, int pidIdx,int timeoutMs);
 	virtual int GetClosedLoopError(int pidIdx);
@@ -210,6 +218,7 @@ public:
 	virtual int GetBaseID();
 	ControlMode GetControlMode();
 	// ----- Follower ------//
+	void Follow(IMotorController & masterToFollow, ctre::phoenix::motorcontrol::FollowerType followerType);
 	virtual void Follow(IMotorController & masterToFollow);
 	virtual void ValueUpdated();
 
