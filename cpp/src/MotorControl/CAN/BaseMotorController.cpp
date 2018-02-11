@@ -59,7 +59,7 @@ int BaseMotorController::GetDeviceID() {
  *
  */
 void BaseMotorController::Set(ControlMode Mode, double value) {
-	Set(Mode, value, 0);
+	Set(Mode, value, DemandType_Neutral, 0);
 }
 /**
  * @param mode Sets the appropriate output on the talon, depending on the mode.
@@ -75,8 +75,11 @@ void BaseMotorController::Set(ControlMode Mode, double value) {
  *
  * @param demand1 Supplemental value.  This will also be control mode specific for future features.
  */
-void BaseMotorController::Set(ControlMode mode, double demand0,
-		double demand1) {
+
+void BaseMotorController::Set(ControlMode mode, double demand0, double demand1) {
+	Set(mode, demand0, DemandType_Neutral, demand1);
+}
+void BaseMotorController::Set(ControlMode mode, double demand0, DemandType demand1Type, double demand1) {
 	m_controlMode = mode;
 	m_sendMode = mode;
 	m_setPoint = demand0;
@@ -85,8 +88,7 @@ void BaseMotorController::Set(ControlMode mode, double demand0,
 	switch (m_controlMode) {
 	case ControlMode::PercentOutput:
 		//case ControlMode::TimedPercentOutput:
-		c_MotController_SetDemand(m_handle, (int) m_sendMode,
-				(int) (1023 * demand0), 1023 * demand1);
+		c_MotController_Set_4(m_handle, (int) m_sendMode, demand0, demand1, demand1Type);
 		break;
 	case ControlMode::Follower:
 		/* did caller specify device ID */
@@ -98,15 +100,17 @@ void BaseMotorController::Set(ControlMode mode, double demand0,
 		} else {
 			work = (uint32_t) demand0;
 		}
-		c_MotController_SetDemand(m_handle, (int) m_sendMode, work, 0);
+		/* single precision guarantees 16bits of integral precision,
+		 *  so float/double cast on work is safe */
+		c_MotController_Set_4(m_handle, (int) m_sendMode, (double)work, demand1, demand1Type);
 		break;
 	case ControlMode::Velocity:
 	case ControlMode::Position:
 	case ControlMode::MotionMagic:
-	case ControlMode::MotionMagicArc:
+	//case ControlMode::MotionMagicArc:
 	case ControlMode::MotionProfile:
-		c_MotController_SetDemand(m_handle, (int) m_sendMode, (int) (demand0),
-				1023 * demand1);
+	case ControlMode::MotionProfileArc:
+		c_MotController_Set_4(m_handle, (int) m_sendMode, demand0, demand1, demand1Type);
 		break;
 	case ControlMode::Current:
 		c_MotController_SetDemand(m_handle, (int) m_sendMode,
@@ -143,7 +147,8 @@ void BaseMotorController::SetNeutralMode(NeutralMode neutralMode) {
  *	@param enable true/false enable
  */
 void BaseMotorController::EnableHeadingHold(bool enable) {
-	c_MotController_EnableHeadingHold(m_handle, enable);
+	/* this routine is moot as the Set() call updates the signal on each call */
+	//c_MotController_EnableHeadingHold(m_handle, enable);
 }
 /**
  * For now this simply updates the CAN signal to the motor controller.
@@ -152,7 +157,8 @@ void BaseMotorController::EnableHeadingHold(bool enable) {
  *	@param value
  */
 void BaseMotorController::SelectDemandType(bool value) {
-	c_MotController_SelectDemandType(m_handle, value);
+	/* this routine is moot as the Set() call updates the signal on each call */
+	//c_MotController_SelectDemandType(m_handle, value);
 }
 
 //------ Invert behavior ----------//
@@ -453,6 +459,13 @@ ErrorCode BaseMotorController::ConfigSelectedFeedbackSensor(
 	return c_MotController_ConfigSelectedFeedbackSensor(m_handle,
 			feedbackDevice, pidIdx, timeoutMs);
 }
+
+ErrorCode BaseMotorController::ConfigSelectedFeedbackCoefficient(
+		double coefficient, int pidIdx, int timeoutMs) {
+	return c_MotController_ConfigSelectedFeedbackCoefficient(m_handle,
+			coefficient, pidIdx, timeoutMs);
+}
+
 /**
  * Select what remote device and signal to assign to Remote Sensor 0 or Remote Sensor 1.
  * After binding a remote device and signal to Remote Sensor X, you may select Remote Sensor X
@@ -497,6 +510,7 @@ ErrorCode BaseMotorController::ConfigSensorTerm(SensorTerm sensorTerm,
 	return c_MotController_ConfigSensorTerm(m_handle, (int) sensorTerm,
 			(int) feedbackDevice, timeoutMs);
 }
+
 //------- sensor status --------- //
 /**
  * Get the selected sensor position (in raw sensor units).
@@ -1029,6 +1043,14 @@ ErrorCode BaseMotorController::ConfigMaxIntegralAccumulator(int slotIdx,
 			iaccum, timeoutMs);
 }
 
+ErrorCode BaseMotorController::ConfigClosedLoopPeakOutput(int slotIdx, double percentOut, int timeoutMs) {
+	return c_MotController_ConfigClosedLoopPeakOutput(m_handle, slotIdx, percentOut, timeoutMs);
+}
+
+ErrorCode BaseMotorController::ConfigClosedLoopPeriod(int slotIdx, int loopTimeMs, int timeoutMs) {
+	return c_MotController_ConfigClosedLoopPeriod(m_handle, slotIdx, loopTimeMs, timeoutMs);
+}
+
 /**
  * Sets the integral accumulator. Typically this is used to clear/zero
  * the integral accumulator, however some use cases may require seeding
@@ -1243,7 +1265,7 @@ int BaseMotorController::GetMotionProfileTopLevelBufferCount() {
 ErrorCode BaseMotorController::PushMotionProfileTrajectory(
 		const ctre::phoenix::motion::TrajectoryPoint & trajPt) {
 	ErrorCode retval = c_MotController_PushMotionProfileTrajectory_2(m_handle,
-			trajPt.position, trajPt.velocity, trajPt.headingDeg,
+			trajPt.position, trajPt.velocity, trajPt.auxiliaryPos,
 			trajPt.profileSlotSelect0, trajPt.profileSlotSelect1, trajPt.isLastPoint, trajPt.zeroPos,
 			(int)trajPt.timeDur);
 	return retval;
@@ -1552,12 +1574,33 @@ ControlMode BaseMotorController::GetControlMode() {
  * follow another motor controller.
  * Currently supports following Victor SPX and Talon SRX.
  */
-void BaseMotorController::Follow(IMotorController & masterToFollow) {
+void BaseMotorController::Follow(IMotorController & masterToFollow, FollowerType followerType) {
 	uint32_t baseId = masterToFollow.GetBaseID();
 	uint32_t id24 = (uint16_t) (baseId >> 0x10);
 	id24 <<= 8;
 	id24 |= (uint8_t) (baseId);
-	Set(ControlMode::Follower, (double) id24);
+
+	switch (followerType) {
+		case FollowerType_PercentOutput:
+			Set(ControlMode::Follower, (double) id24);
+			break;
+		case FollowerType_AuxOutput1:
+			/* follow the motor controller, but set the aux flag
+			 * to ensure we follow the processed output */
+			Set(ControlMode::Follower, (double) id24, DemandType_AuxPID, 0);
+			break;
+		default:
+			NeutralOutput();
+			break;
+	}
+}
+/**
+ * Set the control mode and output value so that this motor controller will
+ * follow another motor controller.
+ * Currently supports following Victor SPX and Talon SRX.
+ */
+void BaseMotorController::Follow(IMotorController & masterToFollow) {
+	Follow(masterToFollow, FollowerType_PercentOutput);
 }
 /** When master makes a device, this routine is called to signal the update. */
 void BaseMotorController::ValueUpdated() {
