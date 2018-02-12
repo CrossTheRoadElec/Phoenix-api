@@ -58,7 +58,9 @@ enum ErrorCode
 	//Higher Level
 	IncompatibleMode = -600,
 	InvalidHandle = -601,		//!< Handle does not match stored map of handles
-
+	
+	//CANifier
+	FeatureRequiresHigherFirm = -700,
 
 	//CAN Related
 	PulseWidthSensorNotPresent = 10,	//!< Special Code for "isSensorPresent"

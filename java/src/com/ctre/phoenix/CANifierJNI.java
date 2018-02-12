@@ -67,6 +67,16 @@
 	public static native int JNI_GetLastError(long handle);
 
 	public static native double JNI_GetBatteryVoltage(long handle);
+	
+	public static native int JNI_GetQuadraturePosition(long handle);
+	
+	public static native int JNI_SetQuadraturePosition(long handle, int newPosition, int timeoutMs);
+	
+	public static native int JNI_GetQuadratureVelocity(long handle);
+	
+	public static native int JNI_ConfigVelocityMeasurementPeriod(long handle, int period, int timeoutMs);
+	
+	public static native int JNI_ConfigVelocityMeasurementWindow(long handle, int windowSize, int timeoutMs);
 
 	public static native int JNI_ConfigSetCustomParam(long handle, int newValue, int paramIndex, int timeoutMs);
 

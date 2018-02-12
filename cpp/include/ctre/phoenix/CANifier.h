@@ -10,6 +10,7 @@
 #include "ctre/phoenix/CANifierStatusFrame.h"
 #include "ctre/phoenix/CANifierStickyFaults.h"
 #include "ctre/phoenix/CANifierFaults.h"
+#include "ctre/phoenix/CANifierVelocityMeasPeriod.h"
 
 namespace ctre {namespace phoenix {
 	/**
@@ -73,7 +74,14 @@ public:
 	ErrorCode SetGeneralOutput(GeneralPin outputPin, bool outputValue, bool outputEnable);
 	ErrorCode SetGeneralOutputs(int outputBits, int isOutputBits);
 	ErrorCode GetGeneralInputs(PinValues &allPins);
+	
 	bool GetGeneralInput(GeneralPin inputPin);
+	int GetQuadraturePosition();
+	int GetQuadratureVelocity();
+	ErrorCode SetQuadraturePosition(int newPosition, int timeoutMs);
+	ErrorCode ConfigVelocityMeasurementPeriod(
+			CANifierVelocityMeasPeriod period, int timeoutMs);
+	ErrorCode ConfigVelocityMeasurementWindow(int windowSize, int timeoutMs);
 	/**
 	 * Gets the bus voltage seen by the motor controller.
 	 *
