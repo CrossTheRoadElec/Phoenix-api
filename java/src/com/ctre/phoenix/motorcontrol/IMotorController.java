@@ -186,7 +186,7 @@ public interface IMotorController
 	//------ Misc. ----------//
 	public int getBaseID();
 	public int getDeviceID();
-
+	public ControlMode getControlMode();
 	// ----- Follower ------//
 	/* in parent interface */
 }
