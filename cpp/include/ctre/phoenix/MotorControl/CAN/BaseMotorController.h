@@ -216,7 +216,7 @@ public:
 	virtual double ConfigGetParameter(ctre::phoenix::ParamEnum param, int ordinal, int timeoutMs);
 	//------ Misc. ----------//
 	virtual int GetBaseID();
-	ControlMode GetControlMode();
+	virtual ControlMode GetControlMode();
 	// ----- Follower ------//
 	void Follow(IMotorController & masterToFollow, ctre::phoenix::motorcontrol::FollowerType followerType);
 	virtual void Follow(IMotorController & masterToFollow);

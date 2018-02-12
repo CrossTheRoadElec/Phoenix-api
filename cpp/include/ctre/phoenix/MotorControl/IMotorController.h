@@ -192,6 +192,7 @@ public:
 
 	//------ Misc. ----------//
 	virtual int GetBaseID() = 0;
+	virtual ControlMode GetControlMode() = 0;
 
 	// ----- Follower ------//
 	/* in parent interface */
