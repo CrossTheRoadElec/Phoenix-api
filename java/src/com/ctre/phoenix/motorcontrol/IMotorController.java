@@ -12,6 +12,8 @@ public interface IMotorController
 
 	public void set(ControlMode Mode, double demand0, double demand1);
 
+	public void set(ControlMode Mode, double demand0, DemandType demand1Type, double demand1);
+
 	public void neutralOutput();
 
 	public void setNeutralMode(NeutralMode neutralMode);
@@ -59,6 +61,8 @@ public interface IMotorController
 	// ------ sensor selection ----------//
 	public ErrorCode configSelectedFeedbackSensor(RemoteFeedbackDevice feedbackDevice, int pidIdx, int timeoutMs);
 
+	public ErrorCode configSelectedFeedbackCoefficient(double coefficient, int pidIdx, int timeoutMs);
+
 	public ErrorCode configRemoteFeedbackFilter(int deviceID, RemoteSensorSource remoteSensorSource, int remoteOrdinal,
 			int timeoutMs);
 
@@ -97,7 +101,7 @@ public interface IMotorController
 	public ErrorCode configForwardSoftLimitThreshold(int forwardSensorLimit, int timeoutMs);
 
 	public ErrorCode configReverseSoftLimitThreshold(int reverseSensorLimit, int timeoutMs);
-	
+
 	public ErrorCode configForwardSoftLimitEnable(boolean enable, int timeoutMs);
 
 	public ErrorCode configReverseSoftLimitEnable(boolean enable, int timeoutMs);
@@ -121,6 +125,10 @@ public interface IMotorController
 	public ErrorCode configAllowableClosedloopError(int slotIdx, int allowableCloseLoopError, int timeoutMs);
 
 	public ErrorCode configMaxIntegralAccumulator(int slotIdx, double iaccum, int timeoutMs);
+
+	public ErrorCode configClosedLoopPeakOutput(int slotIdx, double percentOut, int timeoutMs);
+
+	public ErrorCode configClosedLoopPeriod(int slotIdx, int loopTimeMs, int timeoutMs);
 
 	//------ Close loop State ----------//
 	public ErrorCode setIntegralAccumulator(double iaccum, int pidIdx, int timeoutMs);

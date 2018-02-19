@@ -147,6 +147,7 @@ void BaseMotorController::SetNeutralMode(NeutralMode neutralMode) {
  *	@param enable true/false enable
  */
 void BaseMotorController::EnableHeadingHold(bool enable) {
+	(void)enable;
 	/* this routine is moot as the Set() call updates the signal on each call */
 	//c_MotController_EnableHeadingHold(m_handle, enable);
 }
@@ -157,6 +158,7 @@ void BaseMotorController::EnableHeadingHold(bool enable) {
  *	@param value
  */
 void BaseMotorController::SelectDemandType(bool value) {
+	(void)value;
 	/* this routine is moot as the Set() call updates the signal on each call */
 	//c_MotController_SelectDemandType(m_handle, value);
 }

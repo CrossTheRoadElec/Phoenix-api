@@ -76,6 +76,7 @@ public:
 	MotController_LowLevel(int baseArbId);
 
 	ErrorCode SetDemand(ctre::phoenix::motorcontrol::ControlMode mode, int demand0, int demand1);
+	ErrorCode Set(ctre::phoenix::motorcontrol::ControlMode mode, double demand0, double demand1, int demand1Type);
 	void SelectDemandType(bool enable);
 	void SetMPEOutput(int MpeOutput);
 	void EnableHeadingHold(bool enable);
@@ -102,6 +103,7 @@ public:
 	ErrorCode GetTemperature(double & param);
 	ErrorCode ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice feedbackDevice,
 			int pidIdx, int timeoutMs);
+	ErrorCode ConfigSelectedFeedbackCoefficient(double coefficient, int pidIdx, int timeoutMs);
 	ErrorCode ConfigRemoteFeedbackFilter(int deviceID,
 			RemoteSensorSource remoteSensorSource, int remoteOrdinal, int timeoutMs);
 	ErrorCode ConfigSensorTerm(SensorTerm sensorTerm, FeedbackDevice feedbackDevice, int timeoutMs);
@@ -153,6 +155,8 @@ public:
 			int allowableCloseLoopError, int timeoutMs);
 	ErrorCode ConfigMaxIntegralAccumulator(int slotIdx, double iaccum,
 			int timeoutMs);
+	ErrorCode ConfigClosedLoopPeakOutput(int slotIdx, double percentOut, int timeoutMs);
+	ErrorCode ConfigClosedLoopPeriod(int slotIdx, int loopTimeMs, int timeoutMs);
 	ErrorCode SetIntegralAccumulator(double iaccum, int pidIdx, int timeoutMs);
 	ErrorCode GetClosedLoopError(int & error, int pidIdx);
 	ErrorCode GetIntegralAccumulator(double & iaccum, int pidIdx);
@@ -189,7 +193,7 @@ public:
 	ErrorCode GetClosedLoopTarget(int & value, int pidIdx);
 	ErrorCode GetActiveTrajectoryPosition(int & sensorUnits);
 	ErrorCode GetActiveTrajectoryVelocity(int & sensorUnitsPer100ms);
-	ErrorCode GetActiveTrajectoryHeading(double & headingDeg);
+	ErrorCode GetActiveTrajectoryHeading(double & turnUnits);
 	ErrorCode GetActiveTrajectoryAll(int & vel, int & pos, double & heading);
 
 	ErrorCode SetAnalogPosition(int newPosition, int timeoutMs);

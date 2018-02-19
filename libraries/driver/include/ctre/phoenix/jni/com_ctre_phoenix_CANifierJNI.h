@@ -97,6 +97,46 @@ JNIEXPORT jdouble JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1GetBatteryVolta
 
 /*
  * Class:     com_ctre_phoenix_CANifierJNI
+ * Method:    JNI_GetQuadraturePosition
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1GetQuadraturePosition
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_ctre_phoenix_CANifierJNI
+ * Method:    JNI_SetQuadraturePosition
+ * Signature: (JII)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1SetQuadraturePosition
+  (JNIEnv *, jclass, jlong, jint, jint);
+
+/*
+ * Class:     com_ctre_phoenix_CANifierJNI
+ * Method:    JNI_GetQuadratureVelocity
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1GetQuadratureVelocity
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_ctre_phoenix_CANifierJNI
+ * Method:    JNI_ConfigVelocityMeasurementPeriod
+ * Signature: (JII)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigVelocityMeasurementPeriod
+  (JNIEnv *, jclass, jlong, jint, jint);
+
+/*
+ * Class:     com_ctre_phoenix_CANifierJNI
+ * Method:    JNI_ConfigVelocityMeasurementWindow
+ * Signature: (JII)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigVelocityMeasurementWindow
+  (JNIEnv *, jclass, jlong, jint, jint);
+
+/*
+ * Class:     com_ctre_phoenix_CANifierJNI
  * Method:    JNI_ConfigSetCustomParam
  * Signature: (JIII)I
  */

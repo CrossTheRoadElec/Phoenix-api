@@ -27,7 +27,9 @@ enum TrajectoryDuration {
 struct TrajectoryPoint {
 	double position; //!< The position to servo to.
 	double velocity; //!< The velocity to feed-forward.
-	double headingDeg;
+	double headingDeg; //!< Not used.  Use auxiliaryPos instead. @see auxiliaryPos
+
+	double auxiliaryPos;  //!< The position for auxiliary PID to target.
 
 	/**
 	 * Which slot to get PIDF gains.

@@ -58,7 +58,9 @@ enum ErrorCode
 	//Higher Level
 	IncompatibleMode = -600,
 	InvalidHandle = -601,		//!< Handle does not match stored map of handles
-
+	
+	//CANifier
+	FeatureRequiresHigherFirm = -700,
 
 	//CAN Related
 	PulseWidthSensorNotPresent = 10,	//!< Special Code for "isSensorPresent"
@@ -75,6 +77,7 @@ enum ErrorCode
 	CascadedPIDNotSupporteYet= 107,
 	RemoteSensorsNotSupportedYet= 108,
 	MotProfFirmThreshold= 109,
+	MotProfFirmThreshold2 = 110,
 };
 
 } // namespace phoenix
