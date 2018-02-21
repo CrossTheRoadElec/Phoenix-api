@@ -130,6 +130,8 @@ public interface IMotorController
 
 	public ErrorCode configClosedLoopPeriod(int slotIdx, int loopTimeMs, int timeoutMs);
 
+	public ErrorCode configAuxPIDPolarity(boolean invert, int timeoutMs);
+
 	//------ Close loop State ----------//
 	public ErrorCode setIntegralAccumulator(double iaccum, int pidIdx, int timeoutMs);
 

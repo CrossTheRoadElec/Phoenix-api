@@ -127,12 +127,14 @@ public class CANifier {
 
 	private boolean[] _tempPins = new boolean[11];
 
+	private int m_deviceNumber;
 	/**
 	 * Constructor.
 	 * @param deviceId	The CAN Device ID of the CANifier.
 	 */
 	public CANifier(int deviceId) {
 		m_handle = CANifierJNI.JNI_new_CANifier(deviceId);
+		m_deviceNumber = deviceId;
 		HAL.report(63, deviceId + 1);
 	}
 
@@ -509,5 +511,12 @@ public class CANifier {
 	 */
 	public double getBusVoltage() {
 		return CANifierJNI.JNI_GetBusVoltage(m_handle);
+	}
+
+	/**
+	 * @return The Device Number
+	 */
+	public int getDeviceID(){
+		return m_deviceNumber;
 	}
 }

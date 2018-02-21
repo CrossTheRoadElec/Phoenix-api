@@ -1082,6 +1082,29 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	  int retval = MotControllerJNI.ConfigClosedLoopPeriod(m_handle, slotIdx, loopTimeMs, timeoutMs);
 		return ErrorCode.valueOf(retval);
   }
+  /**
+	 * Configures the Polarity of the Auxiliary PID (PID1).
+	 *
+	 * Standard Polarity:
+	 *    Primary Output = PID0 + PID1
+	 *    Auxiliary Output = PID0 - PID1
+	 *
+	 * Inverted Polarity:
+	 *    Primary Output = PID0 - PID1
+	 *    Auxiliary Output = PID0 + PID1
+	 *
+	 * @param invert
+	 *            If true, use inverted PID1 output polarity.
+	 * @param timeoutMs
+	 *            Timeout value in ms. If nonzero, function will wait for config
+	 *            success and report an error if it times out. If zero, no
+	 *            blocking or checking is performed.
+	 * @return Error Code
+	 */
+	public ErrorCode configAuxPIDPolarity(boolean invert, int timeoutMs){
+		return configSetParameter(ParamEnum.ePIDLoopPolarity, invert ? 1:0, 0, 1, timeoutMs);
+	}
+
 	/**
 	 * Sets the integral accumulator. Typically this is used to clear/zero the
 	 * integral accumulator, however some use cases may require seeding the
