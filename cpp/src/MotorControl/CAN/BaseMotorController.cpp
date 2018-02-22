@@ -57,6 +57,12 @@ int BaseMotorController::GetDeviceID() {
  * In Follower mode, the output value is the integer device ID of the talon to
  * duplicate.
  *
+ * @param value The setpoint value, as described above.
+ *
+ *
+ *	Standard Driving Example:
+ *	_talonLeft.set(ControlMode.PercentOutput, leftJoy);
+ *	_talonRght.set(ControlMode.PercentOutput, rghtJoy);
  */
 void BaseMotorController::Set(ControlMode Mode, double value) {
 	Set(Mode, value, DemandType_Neutral, 0);
@@ -79,6 +85,41 @@ void BaseMotorController::Set(ControlMode Mode, double value) {
 void BaseMotorController::Set(ControlMode mode, double demand0, double demand1) {
 	Set(mode, demand0, DemandType_Neutral, demand1);
 }
+/**
+ * @param mode Sets the appropriate output on the talon, depending on the mode.
+ * @param demand0 The output value to apply.
+ * 	such as advanced feed forward and/or auxiliary close-looping in firmware.
+ * In PercentOutput, the output is between -1.0 and 1.0, with 0.0 as stopped.
+ * In Current mode, output value is in amperes.
+ * In Velocity mode, output value is in position change / 100ms.
+ * In Position mode, output value is in encoder ticks or an analog value,
+ *   depending on the sensor. See
+ * In Follower mode, the output value is the integer device ID of the talon to
+ * duplicate.
+ *
+ * @param demand1Type The demand type for demand1.
+ * Neutral: Ignore demand1 and apply no change to the demand0 output.
+ * AuxPID: Use demand1 to set the target for the auxiliary PID 1.
+ * ArbitraryFeedForward: Use demand1 as an arbitrary additive value to the
+ *	 demand0 output.  In PercentOutput the demand0 output is the motor output,
+ *   and in closed-loop modes the demand0 output is the output of PID0.
+ * @param demand1 Supplmental output value.  Units match the set mode.
+ *
+ *
+ *  Arcade Drive Example:
+ *		_talonLeft.set(ControlMode::PercentOutput, joyForward, DemandType_ArbitraryFeedForward, +joyTurn);
+ *		_talonRght.set(ControlMode::PercentOutput, joyForward, DemandType_ArbitraryFeedForward, -joyTurn);
+ *
+ *	Drive Straight Example:
+ *	Note: Selected Sensor Configuration is necessary for both PID0 and PID1.
+ *		_talonLeft.follow(_talonRght, FollwerType_AuxOutput1);
+ *		_talonRght.set(ControlMode::PercentOutput, joyForward, DemandType_AuxPID, desiredRobotHeading);
+ *
+ *	Drive Straight to a Distance Example:
+ *	Note: Other configurations (sensor selection, PID gains, etc.) need to be set.
+ *		_talonLeft.follow(_talonRght, FollwerType_AuxOutput1);
+ *		_talonRght.set(ControlMode::MotionMagic, targetDistance, DemandType_AuxPID, desiredRobotHeading);
+ */
 void BaseMotorController::Set(ControlMode mode, double demand0, DemandType demand1Type, double demand1) {
 	m_controlMode = mode;
 	m_sendMode = mode;
@@ -1646,8 +1687,15 @@ ControlMode BaseMotorController::GetControlMode() {
 // ----- Follower ------//
 /**
  * Set the control mode and output value so that this motor controller will
- * follow another motor controller.
- * Currently supports following Victor SPX and Talon SRX.
+ * follow another motor controller. Currently supports following Victor SPX
+ * and Talon SRX.
+ *
+ * @param masterToFollow
+ *						Motor Controller object to follow.
+ * @param followerType
+ *						Type of following control.  Use AuxOutput1 to follow the master
+ *						device's auxiliary output 1.
+ *						Use PercentOutput for standard follower mode.
  */
 void BaseMotorController::Follow(IMotorController & masterToFollow, FollowerType followerType) {
 	uint32_t baseId = masterToFollow.GetBaseID();

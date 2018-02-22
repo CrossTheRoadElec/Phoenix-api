@@ -84,6 +84,11 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 * duplicate.
 	 *
 	 * @param outputValue The setpoint value, as described above.
+	 *
+	 *
+	 *	Standard Driving Example:
+	 *	_talonLeft.set(ControlMode.PercentOutput, leftJoy);
+	 *	_talonRght.set(ControlMode.PercentOutput, rghtJoy);
 	 */
 	public void set(ControlMode mode, double outputValue) {
 		set(mode, outputValue, DemandType.DemandType_Neutral, 0);
@@ -117,8 +122,28 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 * In Follower mode, the output value is the integer device ID of the talon to
 	 * duplicate.
 	 *
-	 * @param demand1Type TODO: Comment this
-	 * @param demand1 Supplemental value.  This will also be control mode specific for future features.
+	 * @param demand1Type The demand type for demand1.
+	 * Neutral: Ignore demand1 and apply no change to the demand0 output.
+	 * AuxPID: Use demand1 to set the target for the auxiliary PID 1.
+	 * ArbitraryFeedForward: Use demand1 as an arbitrary additive value to the
+	 *	 demand0 output.  In PercentOutput the demand0 output is the motor output,
+	 *   and in closed-loop modes the demand0 output is the output of PID0.
+	 * @param demand1 Supplmental output value.  Units match the set mode.
+	 *
+	 *
+	 *  Arcade Drive Example:
+	 *		_talonLeft.set(ControlMode.PercentOutput, joyForward, DemandType.ArbitraryFeedForward, +joyTurn);
+	 *		_talonRght.set(ControlMode.PercentOutput, joyForward, DemandType.ArbitraryFeedForward, -joyTurn);
+	 *
+	 *	Drive Straight Example:
+	 *	Note: Selected Sensor Configuration is necessary for both PID0 and PID1.
+	 *		_talonLeft.follow(_talonRght, FollwerType.AuxOutput1);
+	 *		_talonRght.set(ControlMode.PercentOutput, joyForward, DemandType.AuxPID, desiredRobotHeading);
+	 *
+	 *	Drive Straight to a Distance Example:
+	 *	Note: Other configurations (sensor selection, PID gains, etc.) need to be set.
+	 *		_talonLeft.follow(_talonRght, FollwerType.AuxOutput1);
+	 *		_talonRght.set(ControlMode.MotionMagic, targetDistance, DemandType.AuxPID, desiredRobotHeading);
 	 */
 	public void set(ControlMode mode, double demand0, DemandType demand1Type, double demand1){
 		m_controlMode = mode;
@@ -1707,6 +1732,13 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 * Set the control mode and output value so that this motor controller will
 	 * follow another motor controller. Currently supports following Victor SPX
 	 * and Talon SRX.
+	 *
+	 * @param masterToFollow
+	 *						Motor Controller object to follow.
+	 * @param followerType
+	 *						Type of following control.  Use AuxOutput1 to follow the master
+	 *						device's auxiliary output 1.
+	 *						Use PercentOutput for standard follower mode.
 	 */
 	public void follow(IMotorController masterToFollow, FollowerType followerType) {
 		int id32 = masterToFollow.getBaseID();
