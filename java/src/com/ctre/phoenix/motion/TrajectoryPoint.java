@@ -1,12 +1,12 @@
 package com.ctre.phoenix.motion;
 
 /**
- * Motion Profile Trajectory Point This is simply a data transer object.
+ * Motion Profile Trajectory Point This is simply a data transfer object.
  */
 public class TrajectoryPoint {
 	/**
 	 * Duration to apply to a particular trajectory pt.
-	 * This time unit is ADDED to the exising base time set by
+	 * This time unit is ADDED to the existing base time set by
 	 * configMotionProfileTrajectoryPeriod().
 	 */
 	public enum TrajectoryDuration
@@ -39,13 +39,13 @@ public class TrajectoryPoint {
 
 	public double position; // !< The position to servo to.
 	public double velocity; // !< The velocity to feed-forward.
-	public double headingDeg; // !< Not used.  Use auxiliaryPos isntead.  @see auxiliaryPos
+	public double headingDeg; // !< Not used.  Use auxiliaryPos instead.  @see auxiliaryPos
 	public double auxiliaryPos; // !< The position for auxiliary PID to target.
 
 	/**
 	 * Which slot to get PIDF gains. PID is used for position servo. F is used
-	 * as the Kv constant for velocity feed-forward. Typically this is hardcoded
-	 * to the a particular slot, but you are free gain schedule if need be.
+	 * as the Kv constant for velocity feed-forward. Typically this is hard-coded
+	 * to a particular slot, but you are free to gain schedule if need be.
 	 * Choose from [0,3]
 	 */
 	public int profileSlotSelect0;
@@ -78,7 +78,7 @@ public class TrajectoryPoint {
 
 	/**
 	 * Duration to apply this trajectory pt.
-	 * This time unit is ADDED to the exising base time set by
+	 * This time unit is ADDED to the existing base time set by
 	 * configMotionProfileTrajectoryPeriod().
 	 */
 	public TrajectoryDuration timeDur;
