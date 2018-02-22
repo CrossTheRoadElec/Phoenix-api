@@ -26,7 +26,7 @@ public enum ParamEnum
 	eProfileParamSlot_F(313),
 	eProfileParamSlot_IZone(314),
 	eProfileParamSlot_AllowableErr(315),
-  eProfileParamSlot_MaxIAccum(316),
+	eProfileParamSlot_MaxIAccum(316),
 	eProfileParamSlot_PeakOutput(317),
 
 	eClearPositionOnLimitF(320),
