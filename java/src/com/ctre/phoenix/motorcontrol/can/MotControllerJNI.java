@@ -24,10 +24,12 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	 *            Secondary Demand value
 	 **/
 	public static native void SetDemand(long handle, int mode, int demand0, int demand1);
-  /**
+
+	/**
 	 * Sets the demand (output) of the motor controller.
 	 **/
 	public static native void Set_4(long handle, int mode, double demand0, double demand1, int demand1Type);
+
 	/**
 	 * Sets the mode of operation during neutral throttle output.
 	 *
@@ -226,6 +228,7 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	public static native int ConfigSelectedFeedbackSensor(long handle, int feedbackDevice, int pidIdx, int timeoutMs);
 
 	public static native int ConfigSensorTerm(long handle, int sensorTerm, int feedbackDevice, int timeoutMs);
+
 	/**
 	 * Get the selected sensor position.
 	 *
@@ -374,8 +377,8 @@ public class MotControllerJNI extends CTREJNIWrapper {
 	public static native int ConfigReverseSoftLimitThreshold(long handle, int reverseSensorLimit, int timeoutMs);
 
 	public static native int ConfigForwardSoftLimitEnable(long handle, boolean enable, int timeoutMs);
-	public static native int ConfigReverseSoftLimitEnable(long handle, boolean enable, int timeoutMs);
 
+	public static native int ConfigReverseSoftLimitEnable(long handle, boolean enable, int timeoutMs);
 
 	/**
 	 * Sets the enable state for soft limit switches.

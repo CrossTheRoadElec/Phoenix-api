@@ -67,6 +67,7 @@ public enum ErrorCode {
 
 	ControlModeNotSupportedYet(106),
 	CascadedPIDNotSupportedYet(107),
+	AuxiliaryPIDNotSupportedYet(107),
 	RemoteSensorsNotSupportedYet(108),
 	MotProfFirmThreshold(109),
 	MotProfFirmThreshold2(110);
