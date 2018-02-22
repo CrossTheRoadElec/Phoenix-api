@@ -134,6 +134,7 @@ public:
 			int timeoutMs) = 0;
 	virtual ErrorCode ConfigClosedLoopPeakOutput(int slotIdx, double percentOut, int timeoutMs) = 0;
 	virtual ErrorCode ConfigClosedLoopPeriod(int slotIdx, int loopTimeMs, int timeoutMs) = 0;
+  virtual ErrorCode ConfigAuxPIDPolarity(bool invert, int timeoutMs) = 0;
 
 	//------ Close loop State ----------//
 	virtual ErrorCode SetIntegralAccumulator(double iaccum, int pidIdx,
