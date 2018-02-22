@@ -210,7 +210,9 @@ private:
 	ErrorCode _lastError = (ErrorCode)0;
 	int32_t _setPoint = 0;
 	ControlMode _appliedMode = ControlMode::Disabled;
-	void CheckFirmVers(int minMajor = kMinFirmwareVersionMajor, int minMinor = kMinFirmwareVersionMinor);
+	void CheckFirmVers(int minMajor = kMinFirmwareVersionMajor, int minMinor = kMinFirmwareVersionMinor, 
+			ErrorCode code = ErrorCode::FirmwareTooOld);
+	int _usingAdvancedFeatures = 0;
 
 };
 

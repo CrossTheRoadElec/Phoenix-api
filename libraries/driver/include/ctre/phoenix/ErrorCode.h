@@ -59,8 +59,9 @@ enum ErrorCode
 	IncompatibleMode = -600,
 	InvalidHandle = -601,		//!< Handle does not match stored map of handles
 	
-	//CANifier
+	//Firmware Versions
 	FeatureRequiresHigherFirm = -700,
+	TalonFeatureRequiresHigherFirm = -701,
 
 	//CAN Related
 	PulseWidthSensorNotPresent = 10,	//!< Special Code for "isSensorPresent"
@@ -75,6 +76,7 @@ enum ErrorCode
 
 	ControlModeNotSupportedYet = 106,
 	CascadedPIDNotSupporteYet= 107,
+	AuxiliaryPIDNotSupportedYet= 107,
 	RemoteSensorsNotSupportedYet= 108,
 	MotProfFirmThreshold= 109,
 	MotProfFirmThreshold2 = 110,

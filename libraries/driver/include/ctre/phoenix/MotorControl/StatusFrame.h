@@ -11,7 +11,15 @@ enum StatusFrameEnhanced {
 	Status_6_Misc = 0x1540,
 	Status_7_CommStatus = 0x1580,
 	Status_9_MotProfBuffer = 0x1600,
+	/**
+	 * Old name for Status 10 Frame.
+	 * Use Status_10_Targets instead.
+	 */
 	Status_10_MotionMagic = 0x1640,
+	/**
+	 * Correct name for Status 10 Frame.
+	 * Functionally equivalent to Status_10_MotionMagic
+	 */
 	Status_10_Targets = 0x1640,
 	Status_12_Feedback1 = 0x16C0,
 	Status_13_Base_PIDF0 = 0x1700,
@@ -30,7 +38,15 @@ enum StatusFrame {
 	Status_6_Misc_ = 0x1540,
 	Status_7_CommStatus_ = 0x1580,
 	Status_9_MotProfBuffer_ = 0x1600,
+	/**
+	 * Old name for Status 10 Frame.
+	 * Use Status_10_Targets instead.
+	 */
 	Status_10_MotionMagic_ = 0x1640,
+	/**
+	 * Correct name for Status 10 Frame.
+	 * Functionally equivalent to Status_10_MotionMagic
+	 */
 	Status_10_Targets_ = 0x1640,
 	Status_12_Feedback1_ = 0x16C0,
 	Status_13_Base_PIDF0_ = 0x1700,
