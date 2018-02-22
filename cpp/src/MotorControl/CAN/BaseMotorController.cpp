@@ -1054,6 +1054,29 @@ ErrorCode BaseMotorController::ConfigClosedLoopPeriod(int slotIdx, int loopTimeM
 }
 
 /**
+	 * Configures the Polarity of the Auxiliary PID (PID1).
+	 *
+	 * Standard Polarity:
+	 *    Primary Output = PID0 + PID1
+	 *    Auxiliary Output = PID0 - PID1
+	 *
+	 * Inverted Polarity:
+	 *    Primary Output = PID0 - PID1
+	 *    Auxiliary Output = PID0 + PID1
+	 *
+	 * @param invert
+	 *            If true, use inverted PID1 output polarity.
+	 * @param timeoutMs
+	 *            Timeout value in ms. If nonzero, function will wait for config
+	 *            success and report an error if it times out. If zero, no
+	 *            blocking or checking is performed.
+	 * @return Error Code
+	 */
+	ErrorCode BaseMotorController::ConfigAuxPIDPolarity(bool invert, int timeoutMs){
+		return ConfigSetParameter(ParamEnum::ePIDLoopPolarity, invert, 0, 1, timeoutMs);
+	}
+
+/**
  * Sets the integral accumulator. Typically this is used to clear/zero
  * the integral accumulator, however some use cases may require seeding
  * the accumulator for a faster response.
@@ -1614,4 +1637,3 @@ void BaseMotorController::ValueUpdated() {
 ctre::phoenix::motorcontrol::SensorCollection & BaseMotorController::GetSensorCollection() {
 	return *_sensorColl;
 }
-

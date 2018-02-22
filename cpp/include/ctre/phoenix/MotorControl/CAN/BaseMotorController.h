@@ -165,6 +165,7 @@ public:
 			int timeoutMs);
 	virtual ctre::phoenix::ErrorCode ConfigClosedLoopPeakOutput(int slotIdx, double percentOut, int timeoutMs);
 	virtual ctre::phoenix::ErrorCode ConfigClosedLoopPeriod(int slotIdx, int loopTimeMs, int timeoutMs);
+	virtual ctre::phoenix::ErrorCode ConfigAuxPIDPolarity(bool invert, int timeoutMs);
 
 	//------ Close loop State ----------//
 	virtual ctre::phoenix::ErrorCode SetIntegralAccumulator(double iaccum, int pidIdx,int timeoutMs);
@@ -233,4 +234,3 @@ public:
 } // namespace motorcontrol
 } // namespace phoenix
 } // namespace ctre
-
