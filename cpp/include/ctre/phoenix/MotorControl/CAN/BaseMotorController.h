@@ -186,7 +186,7 @@ public:
 	virtual ctre::phoenix::ErrorCode ConfigMotionAcceleration(int sensorUnitsPer100msPerSec,
 			int timeoutMs);
 	//------ Motion Profile Buffer ----------//
-	virtual void ClearMotionProfileTrajectories();
+	virtual ErrorCode ClearMotionProfileTrajectories();
 	virtual int GetMotionProfileTopLevelBufferCount();
 	virtual ctre::phoenix::ErrorCode PushMotionProfileTrajectory(
 			const ctre::phoenix::motion::TrajectoryPoint & trajPt);

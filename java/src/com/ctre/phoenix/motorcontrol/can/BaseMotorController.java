@@ -91,7 +91,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 *	_talonRght.set(ControlMode.PercentOutput, rghtJoy);
 	 */
 	public void set(ControlMode mode, double outputValue) {
-		set(mode, outputValue, DemandType.DemandType_Neutral, 0);
+		set(mode, outputValue, DemandType.Neutral, 0);
 	}
 	/**
 	 * @param mode Sets the appropriate output on the talon, depending on the mode.
@@ -108,7 +108,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 * @param demand1 Supplemental value.  This will also be control mode specific for future features.
 	 */
 	public void set(ControlMode mode, double demand0, double demand1) {
-		set(mode, demand0, DemandType.DemandType_Neutral, demand1);
+		set(mode, demand0, DemandType.Neutral, demand1);
 	}
 	/**
 	 * @param mode Sets the appropriate output on the talon, depending on the mode.
@@ -1750,13 +1750,13 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 		set(ControlMode.Follower, id24);
 
 		switch (followerType){
-			case FollowerType_PercentOutput:
+			case PercentOutput:
 				set(ControlMode.Follower, (double)id24);
 				break;
-			case FollowerType_AuxOutput1:
+			case AuxOutput1:
 			  /* follow the motor controller, but set the aux flag
 		     * to ensure we follow the processed output */
-			  set(ControlMode.Follower, (double)id24, DemandType.DemandType_AuxPID, 0);
+			  set(ControlMode.Follower, (double)id24, DemandType.AuxPID, 0);
 				break;
 			default:
 			  neutralOutput();
@@ -1769,7 +1769,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 * and Talon SRX.
 	 */
 	public void follow(IMotorController masterToFollow) {
-    follow(masterToFollow, FollowerType.FollowerType_PercentOutput);
+    follow(masterToFollow, FollowerType.PercentOutput);
 	}
 	/**
 	 * When master makes a device, this routine is called to signal the update.

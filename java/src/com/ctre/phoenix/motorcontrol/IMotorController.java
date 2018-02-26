@@ -143,7 +143,7 @@ public interface IMotorController
 
 	public void selectProfileSlot(int slotIdx, int pidIdx);
 
-	//public int getClosedLoopTarget(int pidIdx); // will be added to JNI
+	public int getClosedLoopTarget(int pidIdx); // will be added to JNI
 
 	public int getActiveTrajectoryPosition();
 
@@ -155,6 +155,8 @@ public interface IMotorController
 	public ErrorCode configMotionCruiseVelocity(int sensorUnitsPer100ms, int timeoutMs);
 
 	public ErrorCode configMotionAcceleration(int sensorUnitsPer100msPerSec, int timeoutMs);
+	
+	public ErrorCode configMotionProfileTrajectoryPeriod(int baseTrajDurationMs, int timeoutMs);
 
 	// ------ Motion Profile Buffer ----------//
 	public ErrorCode clearMotionProfileTrajectories();
