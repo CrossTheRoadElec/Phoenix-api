@@ -157,7 +157,7 @@ public:
 			int timeoutMs) = 0;
 
 	//------ Motion Profile Buffer ----------//
-	virtual void ClearMotionProfileTrajectories()= 0;
+	virtual ErrorCode ClearMotionProfileTrajectories()= 0;
 	virtual int GetMotionProfileTopLevelBufferCount()= 0;
 	virtual ErrorCode PushMotionProfileTrajectory(
 			const ctre::phoenix::motion::TrajectoryPoint & trajPt)= 0;
@@ -193,6 +193,7 @@ public:
 
 	//------ Misc. ----------//
 	virtual int GetBaseID() = 0;
+	virtual int GetDeviceID() = 0;
 	virtual ControlMode GetControlMode() = 0;
 
 	// ----- Follower ------//
