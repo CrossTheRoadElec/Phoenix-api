@@ -27,7 +27,7 @@ public class TrajectoryPoint {
 			this.value = value;
 		}
 
-		public TrajectoryDuration valueOf(int val)
+		public static TrajectoryDuration valueOf(int val)
 		{
 			for(TrajectoryDuration td: TrajectoryDuration.values())
 			{
