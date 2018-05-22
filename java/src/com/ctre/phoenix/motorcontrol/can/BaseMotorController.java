@@ -232,7 +232,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 * Sets the phase of the sensor. Use when controller forward/reverse output
 	 * doesn't correlate to appropriate forward/reverse reading of sensor.
 	 * Pick a value so that positive PercentOutput yields a positive change in sensor.
-	 * After setting this, user can freely call SetInvert() with any value.
+	 * After setting this, user can freely call SetInverted() with any value.
 	 *
 	 * @param PhaseSensor
 	 *            Indicates whether to invert the phase of the sensor.
