@@ -1,24 +1,24 @@
 /*
- *  Software License Agreement
+ * ï¿½Software License Agreement
  *
- * Copyright (C) Cross The Road Electronics.  All rights
- * reserved.
- * 
- * Cross The Road Electronics (CTRE) licenses to you the right to 
- * use, publish, and distribute copies of CRF (Cross The Road) firmware files (*.crf) and Software
+ *ï¿½Copyright (C) Cross The Road Electronics.ï¿½ All rights
+ *ï¿½reserved.
+ *ï¿½
+ *ï¿½Cross The Road Electronics (CTRE) licenses to you the right toï¿½
+ *ï¿½use, publish, and distribute copies of CRF (Cross The Road) firmware files (*.crf) and Software
  * API Libraries ONLY when in use with Cross The Road Electronics hardware products.
- * 
- * THE SOFTWARE AND DOCUMENTATION ARE PROVIDED "AS IS" WITHOUT
- * WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT
- * LIMITATION, ANY WARRANTY OF MERCHANTABILITY, FITNESS FOR A
- * PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. IN NO EVENT SHALL
- * CROSS THE ROAD ELECTRONICS BE LIABLE FOR ANY INCIDENTAL, SPECIAL, 
- * INDIRECT OR CONSEQUENTIAL DAMAGES, LOST PROFITS OR LOST DATA, COST OF
- * PROCUREMENT OF SUBSTITUTE GOODS, TECHNOLOGY OR SERVICES, ANY CLAIMS
- * BY THIRD PARTIES (INCLUDING BUT NOT LIMITED TO ANY DEFENSE
- * THEREOF), ANY CLAIMS FOR INDEMNITY OR CONTRIBUTION, OR OTHER
- * SIMILAR COSTS, WHETHER ASSERTED ON THE BASIS OF CONTRACT, TORT
- * (INCLUDING NEGLIGENCE), BREACH OF WARRANTY, OR OTHERWISE
+ *ï¿½
+ *ï¿½THE SOFTWARE AND DOCUMENTATION ARE PROVIDED "AS IS" WITHOUT
+ *ï¿½WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT
+ *ï¿½LIMITATION, ANY WARRANTY OF MERCHANTABILITY, FITNESS FOR A
+ *ï¿½PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. IN NO EVENT SHALL
+ *ï¿½CROSS THE ROAD ELECTRONICS BE LIABLE FOR ANY INCIDENTAL, SPECIAL,ï¿½
+ *ï¿½INDIRECT OR CONSEQUENTIAL DAMAGES, LOST PROFITS OR LOST DATA, COST OF
+ *ï¿½PROCUREMENT OF SUBSTITUTE GOODS, TECHNOLOGY OR SERVICES, ANY CLAIMS
+ *ï¿½BY THIRD PARTIES (INCLUDING BUT NOT LIMITED TO ANY DEFENSE
+ *ï¿½THEREOF), ANY CLAIMS FOR INDEMNITY OR CONTRIBUTION, OR OTHER
+ *ï¿½SIMILAR COSTS, WHETHER ASSERTED ON THE BASIS OF CONTRACT, TORT
+ *ï¿½(INCLUDING NEGLIGENCE), BREACH OF WARRANTY, OR OTHERWISE
  */
  
  #pragma once
@@ -33,7 +33,7 @@
 	void *c_PigeonIMU_Create1(int deviceNumber);
 	// void c_PigeonIMU_Destroy(void *handle);
 	ctre::phoenix::ErrorCode c_PigeonIMU_GetDescription(void *handle, char * toFill, int toFillByteSz, int * numBytesFilled);
-	ctre::phoenix::ErrorCode c_PigeonIMU_ConfigSetParameter(void *handle, int param, double paramValue, int subValue, int ordinal, int timeoutMs);
+	ctre::phoenix::ErrorCode c_PigeonIMU_ConfigSetParameter(void *handle, int param, double value, int subValue, int ordinal, int timeoutMs);
 	ctre::phoenix::ErrorCode c_PigeonIMU_ConfigGetParameter(void *handle, int param, double *value, int ordinal, int timeoutMs);
 	ctre::phoenix::ErrorCode c_PigeonIMU_ConfigSetCustomParam(void *handle, int newValue, int paramIndex, int timeoutMs);
 	ctre::phoenix::ErrorCode c_PigeonIMU_ConfigGetCustomParam(void *handle, int *readValue, int paramIndex, int timoutMs);
@@ -71,10 +71,6 @@
 	ctre::phoenix::ErrorCode c_PigeonIMU_GetFirmwareVersion(void *handle, int * firmwareVers);
 	ctre::phoenix::ErrorCode c_PigeonIMU_HasResetOccurred(void *handle, bool * hasReset);
 	ctre::phoenix::ErrorCode c_PigeonIMU_SetLastError(void *handle, int value);
-	ctre::phoenix::ErrorCode c_PigeonIMU_ConfigSetCustomParam(void *handle, int newValue, int paramIndex, int timeoutMs);
-	ctre::phoenix::ErrorCode c_PigeonIMU_ConfigGetCustomParam(void *handle, int *readValue, int paramIndex, int timoutMs);
-	ctre::phoenix::ErrorCode c_PigeonIMU_ConfigSetParameter(void *handle, int param, double value, int subValue, int ordinal, int timeoutMs);
-	ctre::phoenix::ErrorCode c_PigeonIMU_ConfigGetParameter(void *handle, int param, double *value, int ordinal, int timeoutMs);
 	ctre::phoenix::ErrorCode c_PigeonIMU_GetFaults(void *handle, int * param);
 	ctre::phoenix::ErrorCode c_PigeonIMU_GetStickyFaults(void *handle, int * param);
 	ctre::phoenix::ErrorCode c_PigeonIMU_ClearStickyFaults(void *handle, int timeoutMs);
