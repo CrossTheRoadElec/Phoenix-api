@@ -296,7 +296,18 @@ private:
 
 	PigeonIMU::PigeonState GetState(int errCode, const uint64_t & statusFrame);
 	double GetTemp(const uint64_t & statusFrame);
-};
+};// class PidgeonIMU
+
+struct PidgeonIMUConfiguration
+{
+	bool TemperatureCompensationEnable;
+	//TODO: custom params
+	PidgeonIMUConfiguration() :
+		TemperatureCompensationEnable(false) //check
+	{
+	}
+};// struct PidgeoIMU
+
 } // namespace signals
 } // namespace phoenix
 } // namespace ctre
