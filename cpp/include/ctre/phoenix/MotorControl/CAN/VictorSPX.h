@@ -20,9 +20,9 @@ public:
 	}
 	VictorSPX(VictorSPX const&) = delete;
 	VictorSPX& operator=(VictorSPX const&) = delete;
-}; //class VictorSPX
-
-} //namespace can
-} //namespace motorcontrol
-} //namespace phoenix
-} //namespace ctre
+};// class VictorSPX
+struct VictorSPXConfiguration : BaseMotorControllerConfiguration{};
+} // namespace can
+} // namespace motorcontrol
+} // namespace phoenix
+} // namespace ctre

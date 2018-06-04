@@ -57,8 +57,21 @@ public:
 	virtual ctre::phoenix::ErrorCode ConfigContinuousCurrentLimit(int amps, int timeoutMs);
 	virtual void EnableCurrentLimit(bool enable);
 
-};
-// class TalonSRX
+};// class TalonSRX
+
+struct TalonSRXConfiguration : BaseMotorControllerConfiguration{
+	int PeakCurrentLimit; 
+    int PeakCurrentDuration;
+    int ContinuousCurrentLimit; 
+	TalonSRXConfiguration() :
+		PeakCurrentLimit(0),
+		PeakCurrentDuration(0), 
+		ContinuousCurrentLimit(0)
+	{
+	}
+};// struct TalonSRXConfiguration
+
+
 } // namespace can
 } // namespace motorcontrol
 } // namespace phoenix

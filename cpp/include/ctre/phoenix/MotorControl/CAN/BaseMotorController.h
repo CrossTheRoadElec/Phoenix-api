@@ -228,8 +228,101 @@ public:
 	 * @retrieve object that can get/set individual RAW sensor values.
 	 */
 	ctre::phoenix::motorcontrol::SensorCollection & GetSensorCollection();
-};
+};// class BaseMotorController
 
+struct SlotConfiguration{
+	double config_kP; 
+	double config_kI; 
+	double config_kD; 
+	double config_kF; 
+	double config_IntegralZone; 
+	double configAllowableClosedloopError; 
+	double configMaxIntegralAccumulator; 
+	double configClosedLoopPeakOutput;
+	int configClosedLoopPeriod;
+	SlotConfiguration() : 
+			kP(0.0), 
+			kI(0.0),
+			kD(0.0),
+			kF(0.0),
+			IntegralZone(0.0), 
+			AllowableClosedloopError(0.0), 
+			MaxIntegralAccumulator(0.0),
+			ClosedLoopPeakOutput(1.0),
+			ClosedLoopPeriod(1)
+	{
+	}
+};// struct SlotConfiguration
+
+struct BaseMotorControllerConfiguration{
+	double OpenloopRamp;
+	double ClosedloopRamp; 
+	double PeakOutputForward;
+	double PeakOutputReverse;
+	double NominalOutputForward; 
+	double NominalOutputReverse; 
+	double NeutralDeadband;
+	double VoltageCompSaturation; 
+	int VoltageMeasurementFilter;
+	RemoteFeedbackDevice SelectedFeedbackSensorRemote;
+	FeedbackDevice SelectedFeedbackSensor;
+	double SelectedFeedbackCoefficient; //Doesn't this ure a gear ratio type conversion?
+	int RemoteFeedbackFilter;
+	SensorTerm SensorTerm;
+	VelocityMeasPeriod VelocityMeasurementPeriod; 
+	int VelocityMeasurementWindow; 
+	//Deal with remote vs local thorny issue 
+	LimitSwitchSource ForwardLimitSwitchSource;
+	LimitSwitchNormal ForwardLimitSwitchNormal;
+	LimitSwitchSource ReverseLimitSwitchSource;
+	LimitSwitchNormal ReverseLimitSwitchNormal;
+	//Can a remote encoder be used for soft limits if there is a local encoder? etc? 
+	int ForwardSoftLimitThreshold; 
+	int ReverseSoftLimitThreshold; 
+	bool ForwardSoftLimitEnable; 
+	bool ReverseSoftLimitEnable; 
+	SlotConfiguration slot_0
+	SlotConfiguration slot_1
+	SlotConfiguration slot_2
+	SlotConfiguration slot_3
+	bool AuxPIDPolarity; 
+	int MotionCruiseVelocity; 
+	int MotionAcceleration; 
+	int MotionProfileTrajectoryPeriod; 
+	double SetCustomParam;
+	BaseMotorControllerConfiguration() :
+			OpenloopRamp(0.0),
+			ClosedloopRamp(0.0),
+			PeakOutputForward(1.0),
+			PeakOutputReverse(-1.0),
+			NominalOutputForward(0.0),
+			NominalOutputReverse(0.0),
+			NeutralDeadband(0.04),
+			VoltageCompSaturation(0.0),
+			VoltageMeasurementFilter(32),
+			SelectedFeedbackSensorRemote(-1),//None
+			SelectedFeedbackSensor(0), //Quad
+			SelectedFeedbackCoefficient(1.0), //Doesn't this configure a gear ratio type conversion?
+			RemoteFeedbackFilter(0),
+			SensorTerm(0), //Sum0
+			VelocityMeasurementPeriod(100),
+			VelocityMeasurementWindow(64),
+			ForwardLimitSwitchSource(3), //Deactivated
+			ForwardLimitSwitchNormal(2), //Disabled
+			ReverseLimitSwitchSource(3), //Deactivated
+			ReverseLimitSwitchNormal(2), //Disabled
+			//Can a remote encoder be used for soft limits if there is a local encoder? etc? 
+			ForwardSoftLimitThreshold(0.0),
+			ReverseSoftLimitThreshold(0.0), 
+			ForwardSoftLimitEnable(false),
+			ReverseSoftLimitEnable(false),
+			AuxPIDPolarity(false), 
+			MotionCruiseVelocity(0),
+			MotionAcceleration(0),
+			MotionProfileTrajectoryPeriod(0), 
+			SetCustomParam(0)
+		
+};// struct BaseMotorControllerConfiguration
 } // namespace can
 } // namespace motorcontrol
 } // namespace phoenix
