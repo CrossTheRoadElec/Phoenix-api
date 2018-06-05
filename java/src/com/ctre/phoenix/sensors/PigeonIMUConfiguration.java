@@ -3,8 +3,8 @@ package com.ctre.phoenix.sensors;
 import com.ctre.phoenix.CANBusAddressableConfiguration;
 
 public class PidgeonIMUConfiguration extends CANBusAddressableConfiguration {
-	boolean TemperatureCompensationEnable;
-	PidgeonIMUConfiguration() {
+	public boolean TemperatureCompensationEnable;
+	public PidgeonIMUConfiguration() {
 		TemperatureCompensationEnable = false; //Check
 	}
 }
