@@ -7,9 +7,9 @@ import com.ctre.phoenix.motorcontrol.SensorTerm;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
-import com.ctre.phoenix.motorcontrol.SlotConfiguration;
+//import com.ctre.phoenix.motorcontrol.can.SlotConfiguration;
 
-public abstract class BaseMotorControllerConfiguration implements CANBusAddressableConfiguration{
+public abstract class BaseMotorControllerConfiguration extends CANBusAddressableConfiguration{
 	public double OpenloopRamp;
 	public double ClosedloopRamp; 
 	public double PeakOutputForward;
@@ -34,45 +34,46 @@ public abstract class BaseMotorControllerConfiguration implements CANBusAddressa
 	//Can a remote encoder be used for soft limits if there is a local encoder? etc? 
 	public int ForwardSoftLimitThreshold; 
 	public int ReverseSoftLimitThreshold; 
-	public bool ForwardSoftLimitEnable; 
-	public bool ReverseSoftLimitEnable; 
+	public boolean ForwardSoftLimitEnable; 
+	public boolean ReverseSoftLimitEnable; 
 	public SlotConfiguration Slot_0;
 	public SlotConfiguration Slot_1;
 	public SlotConfiguration Slot_2;
 	public SlotConfiguration Slot_3;
-	public bool AuxPIDPolarity; 
+	public boolean AuxPIDPolarity; 
 	public int MotionCruiseVelocity; 
 	public int MotionAcceleration; 
 	public int MotionProfileTrajectoryPeriod; 
-	public BaseMotorControllerConfiguration(){
-		OpenloopRamp = 0.0;
-		ClosedloopRamp = 0.0;
-		PeakOutputForward = 1.0;
-		PeakOutputReverse= -1.0;
-		NominalOutputForward = 0.0;
-		NominalOutputReverse = 0.0;
-		NeutralDeadband = 0.04;
-		VoltageCompSaturation = 0.0;
-		VoltageMeasurementFilter = 32;
-		SelectedFeedbackSensorRemote= -1;//None
-		SelectedFeedbackSensor = 0; //Quad
-		SelectedFeedbackCoefficient = 1.0; //Doesn't this configure a gear ratio type conversion?
-		RemoteFeedbackFilter = 0;
-		SensorTerm = 0; //Sum0
-		VelocityMeasurementPeriod = 100;
-		VelocityMeasurementWindow = 64;
-		ForwardLimitSwitchSource = 3; //Deactivated
-		ForwardLimitSwitchNormal = 2; //Disabled
-		ReverseLimitSwitchSource = 3; //Deactivated
-		ReverseLimitSwitchNormal = 2; //Disabled
+	public BaseMotorControllerConfiguration(){ /*
+		this.OpenloopRamp = 0.0;
+		this.ClosedloopRamp = 0.0;
+		this.PeakOutputForward = 1.0;
+		this.PeakOutputReverse= -1.0;
+		this.NominalOutputForward = 0.0;
+		this.NominalOutputReverse = 0.0;
+		this.NeutralDeadband = 0.04;
+		this.VoltageCompSaturation = 0.0;
+		this.VoltageMeasurementFilter = 32;
+		this.SelectedFeedbackSensorRemote= -1;//None
+		this.SelectedFeedbackSensor = 0; //Quad
+		this.SelectedFeedbackCoefficient = 1.0; //Doesn't this configure a gear ratio type conversion?
+		this.RemoteFeedbackFilter = 0;
+		this.SensorTerm = 0; //Sum0
+		this.VelocityMeasurementPeriod = 100;
+		this.VelocityMeasurementWindow = 64;
+		this.ForwardLimitSwitchSource = 3; //Deactivated
+		this.ForwardLimitSwitchNormal = 2; //Disabled
+		this.ReverseLimitSwitchSource = 3; //Deactivated
+		this.ReverseLimitSwitchNormal = 2; //Disabled
 		//Can a remote encoder be used for soft limits if there is a local encoder? etc? 
-		ForwardSoftLimitThreshold = 0.0;
-		ReverseSoftLimitThreshold = 0.0; 
-		ForwardSoftLimitEnable = false;
-		ReverseSoftLimitEnable = false;
-		AuxPIDPolarity = false; 
-		MotionCruiseVelocity = 0;
-		MotionAcceleration = 0;
-		MotionProfileTrajectoryPeriod = 0; 
+		this.ForwardSoftLimitThreshold = 0.0;
+		this.ReverseSoftLimitThreshold = 0.0; 
+		this.ForwardSoftLimitEnable = false;
+		this.ReverseSoftLimitEnable = false;
+		this.AuxPIDPolarity = false; 
+		this.MotionCruiseVelocity = 0;
+		this.MotionAcceleration = 0;
+		this.MotionProfileTrajectoryPeriod = 0; 
+		*/
 	}		
 }

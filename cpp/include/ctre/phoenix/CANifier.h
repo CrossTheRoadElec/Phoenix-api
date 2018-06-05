@@ -24,8 +24,10 @@ struct CANifierConfiguration : CANBusAddressableConfiguration{
 	CANifierVelocityMeasPeriod VelocityMeasurementPeriod;
 	int VelocityMeasurementWindow;
 	CANifierConfiguration() : 
-		VelocityMeasurementPeriod(1), //TODO: Check this 
+		VelocityMeasurementPeriod(Period_1Ms), //TODO: Check this 
 		VelocityMeasurementWindow(0) //TODO: Check this
+	{
+	}
 };// struct CANifierConfiguration
 
 
@@ -144,7 +146,7 @@ public:
 	ErrorCode ClearStickyFaults(int timeoutMs);
 	
 	//------ All Configs ----------//
-    ErrorCode ConfigAllSettings(CANifierConfiguration allConfigs, int timeoutMs);
+    ErrorCode ConfigAllSettings(CANifierConfiguration &allConfigs, int timeoutMs);
     ErrorCode ConfigFactoryDefault(int timeoutMs);
 
 private:

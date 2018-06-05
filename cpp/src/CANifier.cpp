@@ -449,7 +449,7 @@ ErrorCode CANifier::ClearStickyFaults(int timeoutMs) {
 	return c_CANifier_ClearStickyFaults(m_handle, timeoutMs);
 }
 
-ErrorCode CANifier::ConfigAllSettings(CANifierConfiguration allConfigs, int timeoutMs) {
+ErrorCode CANifier::ConfigAllSettings(CANifierConfiguration &allConfigs, int timeoutMs) {
 	
 	ConfigVelocityMeasurementPeriod(allConfigs.VelocityMeasurementPeriod, timeoutMs);
 	ConfigVelocityMeasurementWindow(allConfigs.VelocityMeasurementWindow, timeoutMs);
@@ -460,7 +460,7 @@ ErrorCode CANifier::ConfigAllSettings(CANifierConfiguration allConfigs, int time
 }
 
 ErrorCode CANifier::ConfigFactoryDefault(int timeoutMs) {
-	CANifierConfiguration defaults();
+	CANifierConfiguration defaults;
 	ConfigAllSettings(defaults, timeoutMs);	
 
 	return FeatureNotSupported;	

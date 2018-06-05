@@ -12,6 +12,8 @@
 #include "ctre/phoenix/MotorControl/VelocityMeasPeriod.h"
 #include "ctre/phoenix/Motion/TrajectoryPoint.h"
 #include "ctre/phoenix/Motion/MotionProfileStatus.h"
+#include "ctre/phoenix/Motion/MotionProfileStatus.h"
+#include "ctre/phoenix/LowLevel/CANBusAddressable.h"
 /* WPILIB */
 #include "SpeedController.h"
 
@@ -252,7 +254,7 @@ struct BaseSlotConfiguration{
 		
 	BaseSlotConfiguration() : 
 		SelectedFeedbackCoefficient(1.0),
-		sensorTerm(SensorTerm_Sum0), 
+		sensorTerm(SensorTerm::SensorTerm_Sum0), 
 		RemoteFeedbackFilter(0),
         DeviceID(0), 
         remoteSensorSource(),
@@ -270,7 +272,7 @@ struct BaseSlotConfiguration{
 };// struct BaseSlotConfiguration
 
 
-struct BaseMotorControllerConfiguration : CANBusAddressableConfiguration{
+struct BaseMotorControllerConfiguration : CANBusAddressableConfiguration {
 	double OpenloopRamp;
 	double ClosedloopRamp; 
 	double PeakOutputForward;
@@ -302,10 +304,10 @@ struct BaseMotorControllerConfiguration : CANBusAddressableConfiguration{
 			NeutralDeadband(0.04),
 			VoltageCompSaturation(0.0),
 			VoltageMeasurementFilter(32),
-			VelocityMeasurementPeriod(100),
+			VelocityMeasurementPeriod(Period_100Ms),
 			VelocityMeasurementWindow(64),
-			ForwardLimitSwitchNormal(2), //Disabled
-			ReverseLimitSwitchNormal(2), //Disabled
+			ForwardLimitSwitchNormal(LimitSwitchNormal_Disabled), 
+			ReverseLimitSwitchNormal(LimitSwitchNormal_Disabled), 
 			//Can a remote encoder be used for soft limits if there is a local encoder? etc? 
 			ForwardSoftLimitThreshold(0.0),
 			ReverseSoftLimitThreshold(0.0), 

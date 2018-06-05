@@ -1,7 +1,7 @@
 #pragma once
 
-//#include "ctre/phoenix/MotorControl/CAN/BaseMotorController.h"
-#include "ctre/phoenix/MotorControl/IMotorController.h"
+#include "ctre/phoenix/MotorControl/CAN/BaseMotorController.h"
+//#include "ctre/phoenix/MotorControl/IMotorController.h"
 
 namespace ctre {
 namespace phoenix {
@@ -11,7 +11,7 @@ namespace can {
 /**
  * VEX Victor SPX Motor Configuration settings.
  */
-struct VictorSPXSlotConfiguration : BaseSlotConfiguration{
+struct VictorSPXSlotConfiguration : BaseSlotConfiguration {
 	RemoteFeedbackDevice SelectedFeedbackSensor;
 
 	VictorSPXSlotConfiguration() :
@@ -21,17 +21,19 @@ struct VictorSPXSlotConfiguration : BaseSlotConfiguration{
 
 };
 
-struct VictorSPXConfiguration : BaseMotorControllerConfiguration{
+struct VictorSPXConfiguration : BaseMotorControllerConfiguration {
 	VictorSPXSlotConfiguration Slot_0;
 	VictorSPXSlotConfiguration Slot_1;
 	VictorSPXSlotConfiguration Slot_2;
 	VictorSPXSlotConfiguration Slot_3;
 	RemoteLimitSwitchSource ForwardLimitSwitchSource;
 	RemoteLimitSwitchSource ReverseLimitSwitchSource;
+	int ForwardLimitSwitchDeviceID;
+	int ReverseLimitSwitchDeviceID;
 
 	VictorSPXConfiguration() :
-		ForwardLimitSwitchSource(3), 
-		ReverseLimitSwitchSource(3)
+		ForwardLimitSwitchSource(RemoteLimitSwitchSource_Deactivated), 
+		ReverseLimitSwitchSource(RemoteLimitSwitchSource_Deactivated)
 	{
 	}	
 };
@@ -50,7 +52,7 @@ public:
 	VictorSPX& operator=(VictorSPX const&) = delete;
 	
 	//------ All Configs ----------//
-	virtual ctre::phoenix::ErrorCode ConfigAllSettings(VictorSPXConfiguration allConfigs, int timeoutMs);
+	virtual ctre::phoenix::ErrorCode ConfigAllSettings(VictorSPXConfiguration &allConfigs, int timeoutMs);
 	virtual ctre::phoenix::ErrorCode ConfigFactoryDefault(int timeoutMs);
 
 };// class VictorSPX

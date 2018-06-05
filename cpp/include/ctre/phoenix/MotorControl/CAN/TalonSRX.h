@@ -12,10 +12,10 @@ namespace can {
  * CTRE Talon SRX Motor Configuration settings.
  */
 
-struct TalonSRXSlotConfiguration : BaseSlotConfiguration{
+struct TalonSRXSlotConfiguration : BaseSlotConfiguration {
     FeedbackDevice SelectedFeedbackSensor;
 
-    VictorSPXSlotConfiguration() :
+    TalonSRXSlotConfiguration() :
         SelectedFeedbackSensor(QuadEncoder)
     {
     }
@@ -34,8 +34,8 @@ struct TalonSRXConfiguration : BaseMotorControllerConfiguration{
     int PeakCurrentDuration;
     int ContinuousCurrentLimit; 
 	TalonSRXConfiguration() :
-		ForwardLimitSwitchSource(3),
-		ReverseLimitSwitchSource(3),
+		ForwardLimitSwitchSource(LimitSwitchSource_Deactivated),
+		ReverseLimitSwitchSource(LimitSwitchSource_Deactivated),
 		PeakCurrentLimit(0),
 		PeakCurrentDuration(0), 
 		ContinuousCurrentLimit(0)
@@ -96,11 +96,11 @@ public:
 
 
 	//------ All Configs ----------//
-	ctre::phoenix::ErrorCode IfRemoteUseRemoteFeedbackFilter(int deviceID,
-            RemoteSensorSource remoteSensorSource, int remoteOrdinal,
+	ctre::phoenix::ErrorCode IfRemoteUseRemoteFeedbackFilter(FeedbackDevice feedbackDevice,
+			int deviceID, RemoteSensorSource remoteSensorSource, int remoteOrdinal,
             int timeoutMs);
-	ctre::phoenix::ErrorCode ConfigAllSettings(TalonSRXConfiguration allConfigs);
-	ctre::phoenix::ErrorCode ConfigFactoryDefault();
+	ctre::phoenix::ErrorCode ConfigAllSettings(TalonSRXConfiguration &allConfigs, int timeoutMs);
+	ctre::phoenix::ErrorCode ConfigFactoryDefault(int timeoutMs);
 
 };// class TalonSRX
 

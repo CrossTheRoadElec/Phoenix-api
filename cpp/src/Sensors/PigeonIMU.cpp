@@ -773,8 +773,8 @@ ErrorCode PigeonIMU::ClearStickyFaults(int timeoutMs) {
 	return c_PigeonIMU_ClearStickyFaults(_handle, timeoutMs);
 }
 
-ErrorCode PigeonIMU::ConfigAllSettings(PigeonIMUConfiguration allConfigs, int timeoutMs) {
-	ConfigTemperatureCompensationEnable(allConfigs.TemperatureCompensationEnable, int timeoutMs);
+ErrorCode PigeonIMU::ConfigAllSettings(PigeonIMUConfiguration &allConfigs, int timeoutMs) {
+	ConfigTemperatureCompensationEnable(allConfigs.TemperatureCompensationEnable, timeoutMs);
     ConfigSetCustomParam(allConfigs.CustomParam_0, 0, timeoutMs);
     ConfigSetCustomParam(allConfigs.CustomParam_0, 1, timeoutMs);
 
@@ -782,7 +782,7 @@ ErrorCode PigeonIMU::ConfigAllSettings(PigeonIMUConfiguration allConfigs, int ti
 }
 
 ErrorCode PigeonIMU::ConfigFactoryDefault(int timeoutMs) {
-    PigeonIMUConfiguration defaults();
+    PigeonIMUConfiguration defaults;
     ConfigAllSettings(defaults, timeoutMs);
 
     return FeatureNotSupported;

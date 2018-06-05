@@ -307,7 +307,7 @@ private:
 	double GetTemp(const uint64_t & statusFrame);
 	
 	//------ All Configs ----------//
-    virtual ErrorCode ConfigAllSettings(PigeonIMUConfiguration allConfigs, int timeoutMs);
+    virtual ErrorCode ConfigAllSettings(PigeonIMUConfiguration &allConfigs, int timeoutMs);
     virtual ErrorCode ConfigFactoryDefault(int timeoutMs);
 
 };// class PigeonIMU
