@@ -773,6 +773,22 @@ ErrorCode PigeonIMU::ClearStickyFaults(int timeoutMs) {
 	return c_PigeonIMU_ClearStickyFaults(_handle, timeoutMs);
 }
 
+ErrorCode PigeonIMU::ConfigAllSettings(PigeonIMUConfiguration allConfigs, int timeoutMs) {
+	ConfigTemperatureCompensationEnable(allConfigs.TemperatureCompensationEnable, int timeoutMs);
+    ConfigSetCustomParam(allConfigs.CustomParam_0, 0, timeoutMs);
+    ConfigSetCustomParam(allConfigs.CustomParam_0, 1, timeoutMs);
+
+    return FeatureNotSupported; 
+}
+
+ErrorCode PigeonIMU::ConfigFactoryDefault(int timeoutMs) {
+    PigeonIMUConfiguration defaults();
+    ConfigAllSettings(defaults, timeoutMs);
+
+    return FeatureNotSupported;
+}
+
+
 } // namespace signals
 } // namespace phoenix
 } // namespace ctre

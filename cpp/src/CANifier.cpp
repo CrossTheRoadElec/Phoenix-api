@@ -449,6 +449,23 @@ ErrorCode CANifier::ClearStickyFaults(int timeoutMs) {
 	return c_CANifier_ClearStickyFaults(m_handle, timeoutMs);
 }
 
+ErrorCode CANifier::ConfigAllSettings(CANifierConfiguration allConfigs, int timeoutMs) {
+	
+	ConfigVelocityMeasurementPeriod(allConfigs.VelocityMeasurementPeriod, timeoutMs);
+	ConfigVelocityMeasurementWindow(allConfigs.VelocityMeasurementWindow, timeoutMs);
+	ConfigSetCustomParam(allConfigs.CustomParam_0, 0, timeoutMs);
+	ConfigSetCustomParam(allConfigs.CustomParam_0, 1, timeoutMs);
+
+	return FeatureNotSupported;	
+}
+
+ErrorCode CANifier::ConfigFactoryDefault(int timeoutMs) {
+	CANifierConfiguration defaults();
+	ConfigAllSettings(defaults, timeoutMs);	
+
+	return FeatureNotSupported;	
+}
+
 } // phoenix
 } // ctre
 #endif // CTR_EXCLUDE_WPILIB_CLASSES

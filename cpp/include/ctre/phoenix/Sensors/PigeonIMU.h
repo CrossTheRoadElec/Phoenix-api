@@ -47,6 +47,15 @@ class TalonSRX;
 namespace ctre {
 namespace phoenix {
 namespace sensors {
+
+struct PigeonIMUConfiguration : CANBusAddressableConfiguration{
+	bool TemperatureCompensationEnable;
+	PigeonIMUConfiguration() :
+		TemperatureCompensationEnable(false) //check
+	{
+	}
+};// struct PigeonIMU
+
 /**
  * Pigeon IMU Class.
  * Class supports communicating over CANbus and over ribbon-cable (CAN Talon SRX).
@@ -296,16 +305,12 @@ private:
 
 	PigeonIMU::PigeonState GetState(int errCode, const uint64_t & statusFrame);
 	double GetTemp(const uint64_t & statusFrame);
-};// class PidgeonIMU
+	
+	//------ All Configs ----------//
+    virtual ErrorCode ConfigAllSettings(PigeonIMUConfiguration allConfigs, int timeoutMs);
+    virtual ErrorCode ConfigFactoryDefault(int timeoutMs);
 
-struct PidgeonIMUConfiguration : CANBusAddressableConfiguration{
-	bool TemperatureCompensationEnable;
-	PidgeonIMUConfiguration() :
-		TemperatureCompensationEnable(false) //check
-	{
-	}
-};// struct PidgeoIMU
-
+};// class PigeonIMU
 } // namespace signals
 } // namespace phoenix
 } // namespace ctre

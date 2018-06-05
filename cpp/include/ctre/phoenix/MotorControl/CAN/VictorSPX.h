@@ -1,12 +1,40 @@
 #pragma once
 
-#include "ctre/phoenix/MotorControl/CAN/BaseMotorController.h"
+//#include "ctre/phoenix/MotorControl/CAN/BaseMotorController.h"
 #include "ctre/phoenix/MotorControl/IMotorController.h"
 
 namespace ctre {
 namespace phoenix {
 namespace motorcontrol{
 namespace can {
+
+/**
+ * VEX Victor SPX Motor Configuration settings.
+ */
+struct VictorSPXSlotConfiguration : BaseSlotConfiguration{
+	RemoteFeedbackDevice SelectedFeedbackSensor;
+
+	VictorSPXSlotConfiguration() :
+		SelectedFeedbackSensor(RemoteFeedbackDevice_None)
+	{
+	}
+
+};
+
+struct VictorSPXConfiguration : BaseMotorControllerConfiguration{
+	VictorSPXSlotConfiguration Slot_0;
+	VictorSPXSlotConfiguration Slot_1;
+	VictorSPXSlotConfiguration Slot_2;
+	VictorSPXSlotConfiguration Slot_3;
+	RemoteLimitSwitchSource ForwardLimitSwitchSource;
+	RemoteLimitSwitchSource ReverseLimitSwitchSource;
+
+	VictorSPXConfiguration() :
+		ForwardLimitSwitchSource(3), 
+		ReverseLimitSwitchSource(3)
+	{
+	}	
+};
 
 /**
  * VEX Victor SPX Motor Controller when used on CAN Bus.
@@ -20,8 +48,12 @@ public:
 	}
 	VictorSPX(VictorSPX const&) = delete;
 	VictorSPX& operator=(VictorSPX const&) = delete;
+	
+	//------ All Configs ----------//
+	virtual ctre::phoenix::ErrorCode ConfigAllSettings(VictorSPXConfiguration allConfigs, int timeoutMs);
+	virtual ctre::phoenix::ErrorCode ConfigFactoryDefault(int timeoutMs);
+
 };// class VictorSPX
-struct VictorSPXConfiguration : BaseMotorControllerConfiguration{};
 } // namespace can
 } // namespace motorcontrol
 } // namespace phoenix

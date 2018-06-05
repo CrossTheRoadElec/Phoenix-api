@@ -13,11 +13,22 @@
 #include "ctre/phoenix/CANifierVelocityMeasPeriod.h"
 
 namespace ctre {namespace phoenix {
+	
 	/**
 	 * CTRE CANifier
 	 *
 	 * Device for interfacing common devices to the CAN bus.
 	 */
+
+struct CANifierConfiguration : CANBusAddressableConfiguration{
+	CANifierVelocityMeasPeriod VelocityMeasurementPeriod;
+	int VelocityMeasurementWindow;
+	CANifierConfiguration() : 
+		VelocityMeasurementPeriod(1), //TODO: Check this 
+		VelocityMeasurementWindow(0) //TODO: Check this
+};// struct CANifierConfiguration
+
+
 class CANifier: public CANBusAddressable {
 public:
 	/**
@@ -131,18 +142,16 @@ public:
 	ErrorCode GetFaults(CANifierFaults & toFill);
 	ErrorCode GetStickyFaults(CANifierStickyFaults & toFill);
 	ErrorCode ClearStickyFaults(int timeoutMs);
+	
+	//------ All Configs ----------//
+    ErrorCode ConfigAllSettings(CANifierConfiguration allConfigs, int timeoutMs);
+    ErrorCode ConfigFactoryDefault(int timeoutMs);
 
 private:
 	void* m_handle;
 	bool _tempPins[11];
 };// class CANifier 
-struct CANifierConfiguration : CANBusAddressableConfiguration{
-	CANifierVelocityMeasPeriod VelocityMeasurementPeriod;
-	int VelocityMeasurementWindow;
-	CANifierConfiguration() : 
-		VelocityMeasurementPeriod(1), //TODO: Check this 
-		VelocityMeasurementWindow(0) //TODO: Check this
-};
+
 } // namespace phoenix
 } // namespace ctre
 #endif // CTR_EXCLUDE_WPILIB_CLASSES
