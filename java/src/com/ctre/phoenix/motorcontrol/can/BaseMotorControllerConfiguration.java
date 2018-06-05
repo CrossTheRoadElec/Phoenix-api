@@ -36,10 +36,10 @@ public abstract class BaseMotorControllerConfiguration implements CANBusAddressa
 	public int ReverseSoftLimitThreshold; 
 	public bool ForwardSoftLimitEnable; 
 	public bool ReverseSoftLimitEnable; 
-	public SlotConfiguration Slot_0
-	public SlotConfiguration Slot_1
-	public SlotConfiguration Slot_2
-	public SlotConfiguration Slot_3
+	public SlotConfiguration Slot_0;
+	public SlotConfiguration Slot_1;
+	public SlotConfiguration Slot_2;
+	public SlotConfiguration Slot_3;
 	public bool AuxPIDPolarity; 
 	public int MotionCruiseVelocity; 
 	public int MotionAcceleration; 
