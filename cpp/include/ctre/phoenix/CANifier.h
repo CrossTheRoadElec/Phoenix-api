@@ -136,12 +136,11 @@ private:
 	void* m_handle;
 	bool _tempPins[11];
 };// class CANifier 
-struct CANifierConfiguration{
+struct CANifierConfiguration : CANBusAddressableConfiguration{
 	CANifierVelocityMeasPeriod VelocityMeasurementPeriod;
 	int VelocityMeasurementWindow;
-	//TODO: some way to deal with param index etc.	
 	CANifierConfiguration() : 
-		VelocityMeasurementPeriod(1) //TODO: Check this 
+		VelocityMeasurementPeriod(1), //TODO: Check this 
 		VelocityMeasurementWindow(0) //TODO: Check this
 };
 } // namespace phoenix

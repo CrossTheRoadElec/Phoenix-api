@@ -254,7 +254,7 @@ struct SlotConfiguration{
 	}
 };// struct SlotConfiguration
 
-struct BaseMotorControllerConfiguration{
+struct BaseMotorControllerConfiguration : CANBusAddressableConfiguration{
 	double OpenloopRamp;
 	double ClosedloopRamp; 
 	double PeakOutputForward;
@@ -281,15 +281,14 @@ struct BaseMotorControllerConfiguration{
 	int ReverseSoftLimitThreshold; 
 	bool ForwardSoftLimitEnable; 
 	bool ReverseSoftLimitEnable; 
-	SlotConfiguration slot_0
-	SlotConfiguration slot_1
-	SlotConfiguration slot_2
-	SlotConfiguration slot_3
+	SlotConfiguration Slot_0
+	SlotConfiguration Slot_1
+	SlotConfiguration Slot_2
+	SlotConfiguration Slot_3
 	bool AuxPIDPolarity; 
 	int MotionCruiseVelocity; 
 	int MotionAcceleration; 
 	int MotionProfileTrajectoryPeriod; 
-	double SetCustomParam;
 	BaseMotorControllerConfiguration() :
 			OpenloopRamp(0.0),
 			ClosedloopRamp(0.0),
@@ -320,8 +319,8 @@ struct BaseMotorControllerConfiguration{
 			MotionCruiseVelocity(0),
 			MotionAcceleration(0),
 			MotionProfileTrajectoryPeriod(0), 
-			SetCustomParam(0)
-		
+	{
+	}	
 };// struct BaseMotorControllerConfiguration
 } // namespace can
 } // namespace motorcontrol

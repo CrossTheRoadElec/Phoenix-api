@@ -298,10 +298,8 @@ private:
 	double GetTemp(const uint64_t & statusFrame);
 };// class PidgeonIMU
 
-struct PidgeonIMUConfiguration
-{
+struct PidgeonIMUConfiguration : CANBusAddressableConfiguration{
 	bool TemperatureCompensationEnable;
-	//TODO: custom params
 	PidgeonIMUConfiguration() :
 		TemperatureCompensationEnable(false) //check
 	{
