@@ -14,6 +14,7 @@
 #include "ctre/phoenix/Motion/MotionProfileStatus.h"
 #include "ctre/phoenix/Motion/MotionProfileStatus.h"
 #include "ctre/phoenix/LowLevel/CANBusAddressable.h"
+#include "ctre/phoenix/CustomParamConfiguration.h"
 /* WPILIB */
 #include "SpeedController.h"
 
@@ -272,7 +273,7 @@ struct BaseSlotConfiguration{
 };// struct BaseSlotConfiguration
 
 
-struct BaseMotorControllerConfiguration : CANBusAddressableConfiguration {
+struct BaseMotorControllerConfiguration : ctre::phoenix::CustomParamConfiguration {
 	double OpenloopRamp;
 	double ClosedloopRamp; 
 	double PeakOutputForward;

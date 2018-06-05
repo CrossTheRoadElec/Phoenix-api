@@ -4,6 +4,7 @@
 
 #include <cstdint>
 #include "ctre/phoenix/LowLevel/CANBusAddressable.h"
+#include "ctre/phoenix/CustomParamConfiguration.h"
 #include "ctre/phoenix/ErrorCode.h"
 #include "ctre/phoenix/paramEnum.h"
 #include "ctre/phoenix/CANifierControlFrame.h"
@@ -20,7 +21,7 @@ namespace ctre {namespace phoenix {
 	 * Device for interfacing common devices to the CAN bus.
 	 */
 
-struct CANifierConfiguration : CANBusAddressableConfiguration{
+struct CANifierConfiguration : CustomParamConfiguration{
 	CANifierVelocityMeasPeriod VelocityMeasurementPeriod;
 	int VelocityMeasurementWindow;
 	CANifierConfiguration() : 

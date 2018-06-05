@@ -17,12 +17,4 @@ protected:
 private:
 	uint32_t _deviceNum;
 };
-struct CANBusAddressableConfiguration{
-	double CustomParam_0;	
-	double CustomParam_1;	
-	CANBusAddressableConfiguration() :
-		CustomParam_0(0),
-		CustomParam_1(0)
-	{
-	}	
-};
+

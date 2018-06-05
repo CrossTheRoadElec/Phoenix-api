@@ -26,6 +26,7 @@
 #ifndef CTR_EXCLUDE_WPILIB_CLASSES
 #include <string>
 #include "ctre/phoenix/LowLevel/CANBusAddressable.h"
+#include "ctre/phoenix/CustomParamConfiguration.h"
 #include "ctre/phoenix/paramEnum.h"
 #include "ctre/phoenix/ErrorCode.h"
 #include "ctre/phoenix/Sensors/PigeonIMU_ControlFrame.h"
@@ -48,7 +49,7 @@ namespace ctre {
 namespace phoenix {
 namespace sensors {
 
-struct PigeonIMUConfiguration : CANBusAddressableConfiguration{
+struct PigeonIMUConfiguration : CustomParamConfiguration{
 	bool TemperatureCompensationEnable;
 	PigeonIMUConfiguration() :
 		TemperatureCompensationEnable(false) //check

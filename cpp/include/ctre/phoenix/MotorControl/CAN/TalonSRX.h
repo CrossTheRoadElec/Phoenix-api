@@ -2,6 +2,7 @@
 
 #include "ctre/phoenix/MotorControl/CAN/BaseMotorController.h"
 #include "ctre/phoenix/MotorControl/IMotorControllerEnhanced.h"
+#include "ctre/phoenix/CustomParamConfiguration.h"
 
 namespace ctre {
 namespace phoenix {

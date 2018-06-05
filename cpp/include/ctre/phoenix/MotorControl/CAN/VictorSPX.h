@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ctre/phoenix/MotorControl/CAN/BaseMotorController.h"
+#include "ctre/phoenix/CustomParamConfiguration.h"
 //#include "ctre/phoenix/MotorControl/IMotorController.h"
 
 namespace ctre {
