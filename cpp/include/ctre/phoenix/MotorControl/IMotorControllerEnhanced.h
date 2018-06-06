@@ -41,9 +41,9 @@ public:
 	//------ sensor selection ----------//
 	/* expand the options */
 	virtual ErrorCode ConfigSelectedFeedbackSensor(
-			FeedbackDevice feedbackDevice, int pidIdx, int timeoutMs = 0) = 0;
+			FeedbackDevice feedbackDevice, int pidIdx = 0, int timeoutMs = 0) = 0;
 	virtual ErrorCode ConfigSelectedFeedbackSensor(
-			RemoteFeedbackDevice feedbackDevice, int pidIdx, int timeoutMs = 0) = 0;
+			RemoteFeedbackDevice feedbackDevice, int pidIdx = 0, int timeoutMs = 0) = 0;
 
 	//------- sensor status --------- //
 	/* in parent */

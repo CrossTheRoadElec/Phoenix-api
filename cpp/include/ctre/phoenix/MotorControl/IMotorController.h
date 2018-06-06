@@ -71,18 +71,18 @@ public:
 
 	//------ sensor selection ----------//
 	virtual ErrorCode ConfigSelectedFeedbackSensor(
-			RemoteFeedbackDevice feedbackDevice, int pidIdx, int timeoutMs = 0) = 0;
+			RemoteFeedbackDevice feedbackDevice, int pidIdx = 0, int timeoutMs = 0) = 0;
 	virtual ErrorCode ConfigSelectedFeedbackCoefficient(
-			double coefficient, int pidIdx, int timeoutMs = 0) = 0;
+			double coefficient, int pidIdx = 0, int timeoutMs = 0) = 0;
 	virtual ErrorCode ConfigRemoteFeedbackFilter(int deviceID,
 			RemoteSensorSource remoteSensorSource, int remoteOrdinal,
 			int timeoutMs = 0)= 0;
 	virtual ErrorCode ConfigSensorTerm(SensorTerm sensorTerm, FeedbackDevice feedbackDevice, int timeoutMs = 0)= 0;
 
 	//------- sensor status --------- //
-	virtual int GetSelectedSensorPosition(int pidIdx) = 0;
-	virtual int GetSelectedSensorVelocity(int pidIdx) = 0;
-	virtual ErrorCode SetSelectedSensorPosition(int sensorPos, int pidIdx,
+	virtual int GetSelectedSensorPosition(int pidIdx = 0) = 0;
+	virtual int GetSelectedSensorVelocity(int pidIdx = 0) = 0;
+	virtual ErrorCode SetSelectedSensorPosition(int sensorPos, int pidIdx = 0,
 			int timeoutMs = 0) = 0;
 
 	//------ status frame period changes ----------//
@@ -137,15 +137,15 @@ public:
   virtual ErrorCode ConfigAuxPIDPolarity(bool invert, int timeoutMs = 0) = 0;
 
 	//------ Close loop State ----------//
-	virtual ErrorCode SetIntegralAccumulator(double iaccum, int pidIdx,
+	virtual ErrorCode SetIntegralAccumulator(double iaccum, int pidIdx = 0,
 			int timeoutMs = 0) = 0;
-	virtual int GetClosedLoopError(int pidIdx) = 0;
-	virtual double GetIntegralAccumulator(int pidIdx) = 0;
-	virtual double GetErrorDerivative(int pidIdx) = 0;
+	virtual int GetClosedLoopError(int pidIdx = 0) = 0;
+	virtual double GetIntegralAccumulator(int pidIdx = 0) = 0;
+	virtual double GetErrorDerivative(int pidIdx = 0) = 0;
 
 	virtual ErrorCode SelectProfileSlot(int slotIdx, int pidIdx) = 0;
 
-	virtual int GetClosedLoopTarget(int pidIdx) = 0;
+	virtual int GetClosedLoopTarget(int pidIdx = 0) = 0;
 	virtual int GetActiveTrajectoryPosition() = 0;
 	virtual int GetActiveTrajectoryVelocity() = 0;
 	virtual double GetActiveTrajectoryHeading() = 0;
