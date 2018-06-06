@@ -108,6 +108,8 @@ protected:
 			int deviceID, RemoteSensorSource remoteSensorSource, int remoteOrdinal,
             int timeoutMs);
 
+	ctre::phoenix::ErrorCode IfRemoteUseRemoteLimitSwitch( bool isForward, 
+            LimitSwitchSource type, LimitSwitchNormal normalOpenOrClose, int deviceID, int timeoutMs);
 };// class TalonSRX
 
 

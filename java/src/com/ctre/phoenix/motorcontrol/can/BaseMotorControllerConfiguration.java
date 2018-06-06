@@ -18,6 +18,8 @@ public abstract class BaseMotorControllerConfiguration extends CustomParamConfig
 	public int VoltageMeasurementFilter;
 	public VelocityMeasPeriod VelocityMeasurementPeriod;
 	public int VelocityMeasurementWindow;
+    int ForwardLimitSwitchDeviceID;
+    int ReverseLimitSwitchDeviceID;
 	public LimitSwitchNormal ForwardLimitSwitchNormal;
 	public LimitSwitchNormal ReverseLimitSwitchNormal;
 	public int ForwardSoftLimitThreshold;
@@ -40,8 +42,10 @@ public abstract class BaseMotorControllerConfiguration extends CustomParamConfig
 		VoltageMeasurementFilter = 32;
 		VelocityMeasurementPeriod = VelocityMeasPeriod.Period_100Ms;
 		VelocityMeasurementWindow = 64;
-		ForwardLimitSwitchNormal = LimitSwitchNormal.Disabled;
-		ReverseLimitSwitchNormal = LimitSwitchNormal.Disabled;
+    	ForwardLimitSwitchDeviceID = 0;
+    	ReverseLimitSwitchDeviceID = 0;
+		ForwardLimitSwitchNormal = LimitSwitchNormal.NormallyOpen;
+		ReverseLimitSwitchNormal = LimitSwitchNormal.NormallyOpen;
 		//Can a remote encoder be used for soft limits if there is a local encoder? etc? 
 		ForwardSoftLimitThreshold = 0;
 		ReverseSoftLimitThreshold = 0;

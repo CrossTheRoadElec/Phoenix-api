@@ -32,7 +32,7 @@ public class VictorSPX extends com.ctre.phoenix.motorcontrol.can.BaseMotorContro
 	
 		configRemoteFeedbackFilter( slot.DeviceID,
 		slot.remoteSensorSource, slot.RemoteFeedbackFilter,  timeoutMs);
-		//configSensorTerm(slot.sensorTerm, CastedFeedbackDevice, timeoutMs); //TODO: FIX
+		configSensorTerm(slot.sensorTerm, slot.SelectedFeedbackSensor.getFeedbackDevice(), timeoutMs); 
 		
 		
 		//------ General Close loop ----------//    

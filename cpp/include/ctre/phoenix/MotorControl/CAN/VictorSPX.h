@@ -29,8 +29,6 @@ struct VictorSPXConfiguration : BaseMotorControllerConfiguration {
 	VictorSPXSlotConfiguration Slot_3;
 	RemoteLimitSwitchSource ForwardLimitSwitchSource;
 	RemoteLimitSwitchSource ReverseLimitSwitchSource;
-	int ForwardLimitSwitchDeviceID;
-	int ReverseLimitSwitchDeviceID;
 
 	VictorSPXConfiguration() :
 		ForwardLimitSwitchSource(RemoteLimitSwitchSource_Deactivated), 

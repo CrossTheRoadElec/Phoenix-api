@@ -285,6 +285,8 @@ struct BaseMotorControllerConfiguration : ctre::phoenix::CustomParamConfiguratio
 	int VoltageMeasurementFilter;
 	VelocityMeasPeriod VelocityMeasurementPeriod; 
 	int VelocityMeasurementWindow; 
+	int ForwardLimitSwitchDeviceID; //Limit Switch device id isn't used unless device is a remote
+	int ReverseLimitSwitchDeviceID;
 	LimitSwitchNormal ForwardLimitSwitchNormal;
 	LimitSwitchNormal ReverseLimitSwitchNormal;
 	int ForwardSoftLimitThreshold; 
@@ -307,8 +309,10 @@ struct BaseMotorControllerConfiguration : ctre::phoenix::CustomParamConfiguratio
 			VoltageMeasurementFilter(32),
 			VelocityMeasurementPeriod(Period_100Ms),
 			VelocityMeasurementWindow(64),
-			ForwardLimitSwitchNormal(LimitSwitchNormal_Disabled), 
-			ReverseLimitSwitchNormal(LimitSwitchNormal_Disabled), 
+			ForwardLimitSwitchDeviceID(0),
+			ReverseLimitSwitchDeviceID(0),
+			ForwardLimitSwitchNormal(LimitSwitchNormal_NormallyOpen), 
+			ReverseLimitSwitchNormal(LimitSwitchNormal_NormallyOpen), 
 			//Can a remote encoder be used for soft limits if there is a local encoder? etc? 
 			ForwardSoftLimitThreshold(0),
 			ReverseSoftLimitThreshold(0), 

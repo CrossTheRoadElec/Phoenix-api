@@ -353,6 +353,30 @@ ctre::phoenix::ErrorCode TalonSRX::IfRemoteUseRemoteFeedbackFilter(
 	}
 }
 
+
+ctre::phoenix::ErrorCode TalonSRX::IfRemoteUseRemoteLimitSwitch( bool isForward, 
+			LimitSwitchSource type, LimitSwitchNormal normalOpenOrClose, int deviceID, int timeoutMs) {
+	if(type > 0 && type < 3) {
+		if(isForward) { 
+			return ConfigForwardLimitSwitchSource( static_cast<RemoteLimitSwitchSource>(type), 
+			normalOpenOrClose, deviceID, timeoutMs);
+		}
+		else {
+			return ConfigReverseLimitSwitchSource(static_cast<RemoteLimitSwitchSource>(type), 
+			normalOpenOrClose, deviceID, timeoutMs);
+		}
+	}
+	else {
+		if(isForward) { 
+			return ConfigForwardLimitSwitchSource(type, normalOpenOrClose, timeoutMs);
+		}
+		else {
+			return ConfigReverseLimitSwitchSource(type, normalOpenOrClose, timeoutMs);
+		}
+	}
+}
+
+
 //Fix this return data type at some point
 ErrorCode TalonSRX::ConfigureSlot(TalonSRXSlotConfiguration &slot, int pidIdx, int timeoutMs) {
 
@@ -398,9 +422,9 @@ ErrorCode TalonSRX::ConfigAllSettings(TalonSRXConfiguration &allConfigs, int tim
     ConfigVelocityMeasurementPeriod(allConfigs.VelocityMeasurementPeriod, timeoutMs);
     ConfigVelocityMeasurementWindow(allConfigs.VelocityMeasurementWindow, timeoutMs);
 
-    //------ remote limit switch ----------//   
-    ConfigForwardLimitSwitchSource(allConfigs.ForwardLimitSwitchSource, allConfigs.ForwardLimitSwitchNormal, timeoutMs);
-    ConfigReverseLimitSwitchSource(allConfigs.ReverseLimitSwitchSource, allConfigs.ReverseLimitSwitchNormal, timeoutMs);
+    //------ limit switch ----------//   
+    IfRemoteUseRemoteLimitSwitch(true, allConfigs.ForwardLimitSwitchSource, allConfigs.ForwardLimitSwitchNormal, allConfigs.ForwardLimitSwitchDeviceID, timeoutMs);
+    IfRemoteUseRemoteLimitSwitch(false, allConfigs.ReverseLimitSwitchSource, allConfigs.ReverseLimitSwitchNormal, allConfigs.ForwardLimitSwitchDeviceID, timeoutMs);
 
     //------ soft limit ----------//
     ConfigForwardSoftLimitThreshold(allConfigs.ForwardSoftLimitThreshold, timeoutMs);

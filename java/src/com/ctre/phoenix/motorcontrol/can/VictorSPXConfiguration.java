@@ -11,8 +11,6 @@ public class VictorSPXConfiguration extends com.ctre.phoenix.motorcontrol.can.Ba
     VictorSPXSlotConfiguration Slot_3;
     RemoteLimitSwitchSource ForwardLimitSwitchSource;
     RemoteLimitSwitchSource ReverseLimitSwitchSource;
-    int ForwardLimitSwitchDeviceID;
-    int ReverseLimitSwitchDeviceID;
 	
 	VictorSPXConfiguration() {
         ForwardLimitSwitchSource = RemoteLimitSwitchSource.Deactivated;

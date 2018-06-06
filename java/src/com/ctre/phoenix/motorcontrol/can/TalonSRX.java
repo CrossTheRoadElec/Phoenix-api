@@ -232,6 +232,29 @@ public class TalonSRX extends com.ctre.phoenix.motorcontrol.can.BaseMotorControl
 		MotControllerJNI.EnableCurrentLimit(m_handle, enable);
 	}
 
+	protected ErrorCode IfRemoteUseRemoteLimitSwitch(boolean isForward,
+	LimitSwitchSource type, LimitSwitchNormal normalOpenOrClose, int deviceID, int timeoutMs) {
+		if(type.value > 0 && type.value < 3) {
+			if(isForward) {
+				return configForwardLimitSwitchSource(type.getRemote(),
+				normalOpenOrClose, deviceID, timeoutMs);
+			}
+			else {
+				return configReverseLimitSwitchSource(type.getRemote(),
+				normalOpenOrClose, deviceID, timeoutMs);
+			}
+		}
+		else {
+			if(isForward) {
+				return configForwardLimitSwitchSource(type, normalOpenOrClose, timeoutMs);
+			}
+			else {
+				return configReverseLimitSwitchSource(type, normalOpenOrClose, timeoutMs);
+			}
+		}
+	}
+
+
 	protected ErrorCode IfRemoteUseRemoteFeedbackFilter(
 		FeedbackDevice feedbackDevice, int deviceID,
 		RemoteSensorSource remoteSensorSource, int remoteOrdinal, int timeoutMs) {

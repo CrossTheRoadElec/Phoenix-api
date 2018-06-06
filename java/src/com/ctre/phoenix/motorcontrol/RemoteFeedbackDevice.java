@@ -14,4 +14,14 @@ public enum RemoteFeedbackDevice {
 	{
 		this.value = initValue;
 	}
+	public FeedbackDevice getFeedbackDevice() {
+		switch (value) {
+			case 9:  return FeedbackDevice.SensorSum;
+			case 10: return FeedbackDevice.SensorDifference;
+			case 11: return FeedbackDevice.RemoteSensor0;
+			case 12: return FeedbackDevice.RemoteSensor1;
+			case 15: return FeedbackDevice.SoftwareEmulatedSensor;
+			default: return FeedbackDevice.None;
+		}
+	}
 };
