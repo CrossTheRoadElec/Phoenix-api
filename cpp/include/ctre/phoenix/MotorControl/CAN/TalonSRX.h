@@ -58,58 +58,58 @@ public:
 	TalonSRX(TalonSRX const&) = delete;
 	TalonSRX& operator=(TalonSRX const&) = delete;
 
-	virtual ctre::phoenix::ErrorCode ConfigSelectedFeedbackSensor(FeedbackDevice feedbackDevice, int pidIdx, int timeoutMs);
-	virtual ctre::phoenix::ErrorCode ConfigSelectedFeedbackSensor(RemoteFeedbackDevice feedbackDevice, int pidIdx, int timeoutMs);
+	virtual ctre::phoenix::ErrorCode ConfigSelectedFeedbackSensor(FeedbackDevice feedbackDevice, int pidIdx, int timeoutMs = 0);
+	virtual ctre::phoenix::ErrorCode ConfigSelectedFeedbackSensor(RemoteFeedbackDevice feedbackDevice, int pidIdx, int timeoutMs = 0);
 
-	virtual ctre::phoenix::ErrorCode SetStatusFramePeriod(StatusFrameEnhanced frame,int periodMs, int timeoutMs);
-	virtual ctre::phoenix::ErrorCode SetStatusFramePeriod(StatusFrame frame,int periodMs, int timeoutMs);
+	virtual ctre::phoenix::ErrorCode SetStatusFramePeriod(StatusFrameEnhanced frame,int periodMs, int timeoutMs = 0);
+	virtual ctre::phoenix::ErrorCode SetStatusFramePeriod(StatusFrame frame,int periodMs, int timeoutMs = 0);
 
-	virtual int GetStatusFramePeriod(StatusFrameEnhanced frame, int timeoutMs);
-	virtual int GetStatusFramePeriod(StatusFrame frame, int timeoutMs);
+	virtual int GetStatusFramePeriod(StatusFrameEnhanced frame, int timeoutMs = 0);
+	virtual int GetStatusFramePeriod(StatusFrame frame, int timeoutMs = 0);
 
 	//------ Velocity measurement ----------//
 	virtual ctre::phoenix::ErrorCode ConfigVelocityMeasurementPeriod(VelocityMeasPeriod period,
-			int timeoutMs);
+			int timeoutMs = 0);
 	virtual ctre::phoenix::ErrorCode ConfigVelocityMeasurementWindow(int windowSize,
-			int timeoutMs);
+			int timeoutMs = 0);
 
 	//------ limit switch ----------//
 	virtual ctre::phoenix::ErrorCode ConfigForwardLimitSwitchSource(
 			LimitSwitchSource limitSwitchSource,
-			LimitSwitchNormal normalOpenOrClose, int timeoutMs);
+			LimitSwitchNormal normalOpenOrClose, int timeoutMs = 0);
 	virtual ctre::phoenix::ErrorCode ConfigReverseLimitSwitchSource(
 			LimitSwitchSource limitSwitchSource,
-			LimitSwitchNormal normalOpenOrClose, int timeoutMs);
+			LimitSwitchNormal normalOpenOrClose, int timeoutMs = 0);
 	virtual ctre::phoenix::ErrorCode ConfigForwardLimitSwitchSource(
 			RemoteLimitSwitchSource limitSwitchSource,
-			LimitSwitchNormal normalOpenOrClose, int deviceID, int timeoutMs);
+			LimitSwitchNormal normalOpenOrClose, int deviceID, int timeoutMs = 0);
 	virtual ctre::phoenix::ErrorCode ConfigReverseLimitSwitchSource(
 			RemoteLimitSwitchSource limitSwitchSource,
-			LimitSwitchNormal normalOpenOrClose, int deviceID, int timeoutMs);
+			LimitSwitchNormal normalOpenOrClose, int deviceID, int timeoutMs = 0);
 
 	//------ Current Limit ----------//
-	virtual ctre::phoenix::ErrorCode ConfigPeakCurrentLimit(int amps, int timeoutMs);
+	virtual ctre::phoenix::ErrorCode ConfigPeakCurrentLimit(int amps, int timeoutMs = 0);
 	virtual ctre::phoenix::ErrorCode ConfigPeakCurrentDuration(int milliseconds,
-			int timeoutMs);
-	virtual ctre::phoenix::ErrorCode ConfigContinuousCurrentLimit(int amps, int timeoutMs);
+			int timeoutMs = 0);
+	virtual ctre::phoenix::ErrorCode ConfigContinuousCurrentLimit(int amps, int timeoutMs = 0);
 	virtual void EnableCurrentLimit(bool enable);
 	
 
 
 	//------ All Configs ----------//
 
-	ctre::phoenix::ErrorCode ConfigureSlot(TalonSRXSlotConfiguration &slot, int pidIdx, int timeoutMs);
-	ctre::phoenix::ErrorCode ConfigAllSettings(TalonSRXConfiguration &allConfigs, int timeoutMs);
-	ctre::phoenix::ErrorCode ConfigFactoryDefault(int timeoutMs);
+	ctre::phoenix::ErrorCode ConfigureSlot(TalonSRXSlotConfiguration &slot, int pidIdx, int timeoutMs = 0);
+	ctre::phoenix::ErrorCode ConfigAllSettings(TalonSRXConfiguration &allConfigs, int timeoutMs = 0);
+	ctre::phoenix::ErrorCode ConfigFactoryDefault(int timeoutMs = 50);
 
 protected:
 	
 	ctre::phoenix::ErrorCode IfRemoteUseRemoteFeedbackFilter(FeedbackDevice feedbackDevice,
 			int deviceID, RemoteSensorSource remoteSensorSource, int remoteOrdinal,
-            int timeoutMs);
+            int timeoutMs = 0);
 
 	ctre::phoenix::ErrorCode IfRemoteUseRemoteLimitSwitch( bool isForward, 
-            LimitSwitchSource type, LimitSwitchNormal normalOpenOrClose, int deviceID, int timeoutMs);
+            LimitSwitchSource type, LimitSwitchNormal normalOpenOrClose, int deviceID, int timeoutMs = 0);
 };// class TalonSRX
 
 

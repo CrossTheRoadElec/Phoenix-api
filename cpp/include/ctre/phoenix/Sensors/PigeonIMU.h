@@ -172,22 +172,22 @@ public:
 	PigeonIMU(int deviceNumber);
 	PigeonIMU(ctre::phoenix::motorcontrol::can::TalonSRX * talonSrx);
 
-	int SetYaw(double angleDeg, int timeoutMs);
-	int AddYaw(double angleDeg, int timeoutMs);
-	int SetYawToCompass(int timeoutMs);
+	int SetYaw(double angleDeg, int timeoutMs = 0);
+	int AddYaw(double angleDeg, int timeoutMs = 0);
+	int SetYawToCompass(int timeoutMs = 0);
 
-	int SetFusedHeading(double angleDeg, int timeoutMs);
-	int AddFusedHeading(double angleDeg, int timeoutMs);
-	int SetFusedHeadingToCompass(int timeoutMs);
-	int SetAccumZAngle(double angleDeg, int timeoutMs);
+	int SetFusedHeading(double angleDeg, int timeoutMs = 0);
+	int AddFusedHeading(double angleDeg, int timeoutMs = 0);
+	int SetFusedHeadingToCompass(int timeoutMs = 0);
+	int SetAccumZAngle(double angleDeg, int timeoutMs = 0);
 
 	int ConfigTemperatureCompensationEnable(bool bTempCompEnable,
-			int timeoutMs);
+			int timeoutMs = 0);
 
-	int SetCompassDeclination(double angleDegOffset, int timeoutMs);
-	int SetCompassAngle(double angleDeg, int timeoutMs);
+	int SetCompassDeclination(double angleDegOffset, int timeoutMs = 0);
+	int SetCompassAngle(double angleDeg, int timeoutMs = 0);
 
-	int EnterCalibrationMode(CalibrationMode calMode, int timeoutMs);
+	int EnterCalibrationMode(CalibrationMode calMode, int timeoutMs = 0);
 	int GetGeneralStatus(PigeonIMU::GeneralStatus & genStatusToFill);
 	int GetLastError();
 	int Get6dQuaternion(double wxyz[4]);
@@ -223,14 +223,14 @@ public:
 	static std::string ToString(PigeonIMU::PigeonState state);
 	static std::string ToString(CalibrationMode cm);
 
-	ErrorCode ConfigSetCustomParam(int newValue, int paramIndex, int timeoutMs);
-	int ConfigGetCustomParam(int paramIndex, int timeoutMs);
+	ErrorCode ConfigSetCustomParam(int newValue, int paramIndex, int timeoutMs = 0);
+	int ConfigGetCustomParam(int paramIndex, int timeoutMs = 0);
 	ErrorCode ConfigSetParameter(ParamEnum param, double value,
-			uint8_t subValue, int ordinal, int timeoutMs);
-	double ConfigGetParameter(ctre::phoenix::ParamEnum param, int ordinal, int timeoutMs);
+			uint8_t subValue, int ordinal, int timeoutMs = 0);
+	double ConfigGetParameter(ctre::phoenix::ParamEnum param, int ordinal, int timeoutMs = 0);
 
 	ErrorCode SetStatusFramePeriod(PigeonIMU_StatusFrame statusFrame, int periodMs,
-			int timeoutMs);
+			int timeoutMs = 0);
 
 	/**
 	 * Gets the period of the given status frame.
@@ -242,13 +242,13 @@ public:
 	 * @return Period of the given status frame.
 	 */
 	int GetStatusFramePeriod(PigeonIMU_StatusFrame frame,
-			int timeoutMs) ;
+			int timeoutMs = 0) ;
 	ErrorCode SetControlFramePeriod(PigeonIMU_ControlFrame frame,
 			int periodMs);
 	int GetFirmwareVersion() ;
 	ErrorCode GetFaults(PigeonIMU_Faults & toFill) ;
 	ErrorCode GetStickyFaults(PigeonIMU_StickyFaults & toFill);
-	ErrorCode ClearStickyFaults(int timeoutMs);
+	ErrorCode ClearStickyFaults(int timeoutMs = 0);
 
 
 
@@ -302,14 +302,14 @@ private:
 	const uint32_t EXPECTED_RESPONSE_TIMEOUT_MS = (200);
 
 	int PrivateSetParameter(ParamEnum paramEnum, TareType tareType,
-			double angleDeg, int timeoutMs);
+			double angleDeg, int timeoutMs = 0);
 
 	PigeonIMU::PigeonState GetState(int errCode, const uint64_t & statusFrame);
 	double GetTemp(const uint64_t & statusFrame);
 	
 	//------ All Configs ----------//
-    virtual ErrorCode ConfigAllSettings(PigeonIMUConfiguration &allConfigs, int timeoutMs);
-    virtual ErrorCode ConfigFactoryDefault(int timeoutMs);
+    virtual ErrorCode ConfigAllSettings(PigeonIMUConfiguration &allConfigs, int timeoutMs = 0);
+    virtual ErrorCode ConfigFactoryDefault(int timeoutMs = 50);
 
 };// class PigeonIMU
 } // namespace signals

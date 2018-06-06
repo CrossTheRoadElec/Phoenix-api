@@ -42,7 +42,7 @@ public:
 	 * @return  an ErrorCode.
 	 */
 
-	ErrorCode SetAnalogPosition(int newPosition, int timeoutMs);
+	ErrorCode SetAnalogPosition(int newPosition, int timeoutMs = 0);
 
 	/**
 	 * Get the position of whatever is in the analog pin of the Talon, regardless of whether
@@ -85,7 +85,7 @@ public:
 	 * @return  error code.
 	 */
 
-	ErrorCode SetQuadraturePosition(int newPosition, int timeoutMs);
+	ErrorCode SetQuadraturePosition(int newPosition, int timeoutMs = 0);
 
 	/**
 	 * Get the quadrature velocity, regardless of whether
@@ -116,7 +116,7 @@ public:
 	 *
 	 * @return  an ErrErrorCode
 	 */
-	ErrorCode SetPulseWidthPosition(int newPosition, int timeoutMs);
+	ErrorCode SetPulseWidthPosition(int newPosition, int timeoutMs = 0);
 
 	/**
 	 * Gets pulse width velocity, regardless of whether

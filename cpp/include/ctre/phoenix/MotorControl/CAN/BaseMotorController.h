@@ -78,21 +78,21 @@ public:
 	virtual bool GetInverted() const;
 	//----- general output shaping ------------------//
 	virtual ctre::phoenix::ErrorCode ConfigOpenloopRamp(double secondsFromNeutralToFull,
-			int timeoutMs);
+			int timeoutMs = 0);
 	virtual ctre::phoenix::ErrorCode ConfigClosedloopRamp(double secondsFromNeutralToFull,
-			int timeoutMs);
-	virtual ctre::phoenix::ErrorCode ConfigPeakOutputForward(double percentOut, int timeoutMs);
-	virtual ctre::phoenix::ErrorCode ConfigPeakOutputReverse(double percentOut, int timeoutMs);
+			int timeoutMs = 0);
+	virtual ctre::phoenix::ErrorCode ConfigPeakOutputForward(double percentOut, int timeoutMs = 0);
+	virtual ctre::phoenix::ErrorCode ConfigPeakOutputReverse(double percentOut, int timeoutMs = 0);
 	virtual ctre::phoenix::ErrorCode ConfigNominalOutputForward(double percentOut,
-			int timeoutMs);
+			int timeoutMs = 0);
 	virtual ctre::phoenix::ErrorCode ConfigNominalOutputReverse(double percentOut,
-			int timeoutMs);
+			int timeoutMs = 0);
 	virtual ctre::phoenix::ErrorCode ConfigNeutralDeadband(double percentDeadband,
-			int timeoutMs);
+			int timeoutMs = 0);
 	//------ Voltage Compensation ----------//
-	virtual ctre::phoenix::ErrorCode ConfigVoltageCompSaturation(double voltage, int timeoutMs);
+	virtual ctre::phoenix::ErrorCode ConfigVoltageCompSaturation(double voltage, int timeoutMs = 0);
 	virtual ctre::phoenix::ErrorCode ConfigVoltageMeasurementFilter(int filterWindowSamples,
-			int timeoutMs);
+			int timeoutMs = 0);
 	virtual void EnableVoltageCompensation(bool enable);
 	//------ General Status ----------//
 	virtual double GetBusVoltage();
@@ -102,76 +102,76 @@ public:
 	virtual double GetTemperature();
 	//------ sensor selection ----------//
 	virtual ctre::phoenix::ErrorCode ConfigSelectedFeedbackSensor(
-			RemoteFeedbackDevice feedbackDevice, int pidIdx, int timeoutMs);
+			RemoteFeedbackDevice feedbackDevice, int pidIdx, int timeoutMs = 0);
 	virtual ctre::phoenix::ErrorCode ConfigSelectedFeedbackSensor(
-			FeedbackDevice feedbackDevice, int pidIdx, int timeoutMs);
+			FeedbackDevice feedbackDevice, int pidIdx, int timeoutMs = 0);
 	virtual ctre::phoenix::ErrorCode ConfigSelectedFeedbackCoefficient(
-			double coefficient, int pidIdx, int timeoutMs);
+			double coefficient, int pidIdx, int timeoutMs = 0);
 	virtual ctre::phoenix::ErrorCode ConfigRemoteFeedbackFilter(int deviceID,
 			RemoteSensorSource remoteSensorSource, int remoteOrdinal,
-			int timeoutMs);
+			int timeoutMs = 0);
 	virtual ctre::phoenix::ErrorCode ConfigSensorTerm(SensorTerm sensorTerm,
-			FeedbackDevice feedbackDevice, int timeoutMs);
+			FeedbackDevice feedbackDevice, int timeoutMs = 0);
 
 	//------- sensor status --------- //
 	virtual int GetSelectedSensorPosition(int pidIdx);
 	virtual int GetSelectedSensorVelocity(int pidIdx);
-	virtual ctre::phoenix::ErrorCode SetSelectedSensorPosition(int sensorPos, int pidIdx, int timeoutMs);
+	virtual ctre::phoenix::ErrorCode SetSelectedSensorPosition(int sensorPos, int pidIdx, int timeoutMs = 0);
 	//------ status frame period changes ----------//
 	virtual ctre::phoenix::ErrorCode SetControlFramePeriod(ControlFrame frame, int periodMs);
 	virtual ctre::phoenix::ErrorCode SetStatusFramePeriod(StatusFrame frame, int periodMs,
-			int timeoutMs);
+			int timeoutMs = 0);
 	virtual ctre::phoenix::ErrorCode SetStatusFramePeriod(StatusFrameEnhanced frame,
-			int periodMs, int timeoutMs);
-	virtual int GetStatusFramePeriod(StatusFrame frame, int timeoutMs);
-	virtual int GetStatusFramePeriod(StatusFrameEnhanced frame, int timeoutMs);
+			int periodMs, int timeoutMs = 0);
+	virtual int GetStatusFramePeriod(StatusFrame frame, int timeoutMs = 0);
+	virtual int GetStatusFramePeriod(StatusFrameEnhanced frame, int timeoutMs = 0);
 	//----- velocity signal conditionaing ------//
 	virtual ctre::phoenix::ErrorCode ConfigVelocityMeasurementPeriod(VelocityMeasPeriod period,
-			int timeoutMs);
+			int timeoutMs = 0);
 	virtual ctre::phoenix::ErrorCode ConfigVelocityMeasurementWindow(int windowSize,
-			int timeoutMs);
+			int timeoutMs = 0);
 	//------ remote limit switch ----------//
 	virtual ctre::phoenix::ErrorCode ConfigForwardLimitSwitchSource(
 			RemoteLimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
-			int deviceID, int timeoutMs);
+			int deviceID, int timeoutMs = 0);
 	virtual ctre::phoenix::ErrorCode ConfigReverseLimitSwitchSource(
 			RemoteLimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
-			int deviceID, int timeoutMs);
+			int deviceID, int timeoutMs = 0);
 	void OverrideLimitSwitchesEnable(bool enable);
 	//------ local limit switch ----------//
 	virtual ctre::phoenix::ErrorCode ConfigForwardLimitSwitchSource(LimitSwitchSource type,
-			LimitSwitchNormal normalOpenOrClose, int timeoutMs);
+			LimitSwitchNormal normalOpenOrClose, int timeoutMs = 0);
 	virtual ctre::phoenix::ErrorCode ConfigReverseLimitSwitchSource(LimitSwitchSource type,
-			LimitSwitchNormal normalOpenOrClose, int timeoutMs);
+			LimitSwitchNormal normalOpenOrClose, int timeoutMs = 0);
 	//------ soft limit ----------//
 	virtual ctre::phoenix::ErrorCode ConfigForwardSoftLimitThreshold(int forwardSensorLimit,
-			int timeoutMs);
+			int timeoutMs = 0);
 	virtual ctre::phoenix::ErrorCode ConfigReverseSoftLimitThreshold(int reverseSensorLimit,
-			int timeoutMs);
+			int timeoutMs = 0);
 	virtual ctre::phoenix::ErrorCode ConfigForwardSoftLimitEnable(bool enable,
-			int timeoutMs);
+			int timeoutMs = 0);
 	virtual ctre::phoenix::ErrorCode ConfigReverseSoftLimitEnable(bool enable,
-			int timeoutMs);		
+			int timeoutMs = 0);		
 	virtual void OverrideSoftLimitsEnable(bool enable);
 	//------ Current Lim ----------//
 	/* not available in base */
 	//------ General Close loop ----------//
-	virtual ctre::phoenix::ErrorCode Config_kP(int slotIdx, double value, int timeoutMs);
-	virtual ctre::phoenix::ErrorCode Config_kI(int slotIdx, double value, int timeoutMs);
-	virtual ctre::phoenix::ErrorCode Config_kD(int slotIdx, double value, int timeoutMs);
-	virtual ctre::phoenix::ErrorCode Config_kF(int slotIdx, double value, int timeoutMs);
+	virtual ctre::phoenix::ErrorCode Config_kP(int slotIdx, double value, int timeoutMs = 0);
+	virtual ctre::phoenix::ErrorCode Config_kI(int slotIdx, double value, int timeoutMs = 0);
+	virtual ctre::phoenix::ErrorCode Config_kD(int slotIdx, double value, int timeoutMs = 0);
+	virtual ctre::phoenix::ErrorCode Config_kF(int slotIdx, double value, int timeoutMs = 0);
 	virtual ctre::phoenix::ErrorCode Config_IntegralZone(int slotIdx, int izone,
-			int timeoutMs);
+			int timeoutMs = 0);
 	virtual ctre::phoenix::ErrorCode ConfigAllowableClosedloopError(int slotIdx,
-			int allowableCloseLoopError, int timeoutMs);
+			int allowableCloseLoopError, int timeoutMs = 0);
 	virtual ctre::phoenix::ErrorCode ConfigMaxIntegralAccumulator(int slotIdx, double iaccum,
-			int timeoutMs);
-	virtual ctre::phoenix::ErrorCode ConfigClosedLoopPeakOutput(int slotIdx, double percentOut, int timeoutMs);
-	virtual ctre::phoenix::ErrorCode ConfigClosedLoopPeriod(int slotIdx, int loopTimeMs, int timeoutMs);
-	virtual ctre::phoenix::ErrorCode ConfigAuxPIDPolarity(bool invert, int timeoutMs);
+			int timeoutMs = 0);
+	virtual ctre::phoenix::ErrorCode ConfigClosedLoopPeakOutput(int slotIdx, double percentOut, int timeoutMs = 0);
+	virtual ctre::phoenix::ErrorCode ConfigClosedLoopPeriod(int slotIdx, int loopTimeMs, int timeoutMs = 0);
+	virtual ctre::phoenix::ErrorCode ConfigAuxPIDPolarity(bool invert, int timeoutMs = 0);
 
 	//------ Close loop State ----------//
-	virtual ctre::phoenix::ErrorCode SetIntegralAccumulator(double iaccum, int pidIdx,int timeoutMs);
+	virtual ctre::phoenix::ErrorCode SetIntegralAccumulator(double iaccum, int pidIdx,int timeoutMs = 0);
 	virtual int GetClosedLoopError(int pidIdx);
 	virtual double GetIntegralAccumulator(int pidIdx);
 	virtual double GetErrorDerivative(int pidIdx);
@@ -185,9 +185,9 @@ public:
 
 	//------ Motion Profile Settings used in Motion Magic  ----------//
 	virtual ctre::phoenix::ErrorCode ConfigMotionCruiseVelocity(int sensorUnitsPer100ms,
-			int timeoutMs);
+			int timeoutMs = 0);
 	virtual ctre::phoenix::ErrorCode ConfigMotionAcceleration(int sensorUnitsPer100msPerSec,
-			int timeoutMs);
+			int timeoutMs = 0);
 	//------ Motion Profile Buffer ----------//
 	virtual ErrorCode ClearMotionProfileTrajectories();
 	virtual int GetMotionProfileTopLevelBufferCount();
@@ -197,27 +197,27 @@ public:
 	virtual void ProcessMotionProfileBuffer();
 	virtual ctre::phoenix::ErrorCode GetMotionProfileStatus(
 			ctre::phoenix::motion::MotionProfileStatus & statusToFill);
-	virtual ctre::phoenix::ErrorCode ClearMotionProfileHasUnderrun(int timeoutMs);
+	virtual ctre::phoenix::ErrorCode ClearMotionProfileHasUnderrun(int timeoutMs = 0);
 	virtual ctre::phoenix::ErrorCode ChangeMotionControlFramePeriod(int periodMs);
-	virtual ctre::phoenix::ErrorCode ConfigMotionProfileTrajectoryPeriod(int baseTrajDurationMs, int timeoutMs);
+	virtual ctre::phoenix::ErrorCode ConfigMotionProfileTrajectoryPeriod(int baseTrajDurationMs, int timeoutMs = 0);
 	//------ error ----------//
 	virtual ctre::phoenix::ErrorCode GetLastError();
 	//------ Faults ----------//
 	virtual ctre::phoenix::ErrorCode GetFaults(Faults & toFill);
 	virtual ctre::phoenix::ErrorCode GetStickyFaults(StickyFaults & toFill);
-	virtual ctre::phoenix::ErrorCode ClearStickyFaults(int timeoutMs);
+	virtual ctre::phoenix::ErrorCode ClearStickyFaults(int timeoutMs = 0);
 	//------ Firmware ----------//
 	virtual int GetFirmwareVersion();
 	virtual bool HasResetOccurred();
 	//------ Custom Persistent Params ----------//
 	virtual ctre::phoenix::ErrorCode ConfigSetCustomParam(int newValue, int paramIndex,
-			int timeoutMs);
+			int timeoutMs = 0);
 	virtual int ConfigGetCustomParam(int paramIndex,
-			int timeoutMs);
+			int timeoutMs = 0);
 	//------ Generic Param API, typically not used ----------//
 	virtual ctre::phoenix::ErrorCode ConfigSetParameter(ctre::phoenix::ParamEnum param, double value,
-			uint8_t subValue, int ordinal, int timeoutMs);
-	virtual double ConfigGetParameter(ctre::phoenix::ParamEnum param, int ordinal, int timeoutMs);
+			uint8_t subValue, int ordinal, int timeoutMs = 0);
+	virtual double ConfigGetParameter(ctre::phoenix::ParamEnum param, int ordinal, int timeoutMs = 0);
 	//------ Misc. ----------//
 	virtual int GetBaseID();
 	virtual ControlMode GetControlMode();

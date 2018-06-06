@@ -91,10 +91,10 @@ public:
 	bool GetGeneralInput(GeneralPin inputPin);
 	int GetQuadraturePosition();
 	int GetQuadratureVelocity();
-	ErrorCode SetQuadraturePosition(int newPosition, int timeoutMs);
+	ErrorCode SetQuadraturePosition(int newPosition, int timeoutMs = 0);
 	ErrorCode ConfigVelocityMeasurementPeriod(
-			CANifierVelocityMeasPeriod period, int timeoutMs);
-	ErrorCode ConfigVelocityMeasurementWindow(int windowSize, int timeoutMs);
+			CANifierVelocityMeasPeriod period, int timeoutMs = 0);
+	ErrorCode ConfigVelocityMeasurementWindow(int windowSize, int timeoutMs = 0);
 	/**
 	 * Gets the bus voltage seen by the motor controller.
 	 *
@@ -108,17 +108,17 @@ public:
 
 	//------ Custom Persistent Params ----------//
 	ErrorCode ConfigSetCustomParam(int newValue, int paramIndex,
-			int timeoutMs);
+			int timeoutMs = 0);
 	int ConfigGetCustomParam(int paramIndex,
-			int timeoutMs);
+			int timeoutMs = 0);
 	//------ Generic Param API, typically not used ----------//
 	ErrorCode ConfigSetParameter(ParamEnum param, double value,
-			uint8_t subValue, int ordinal, int timeoutMs);
-	double ConfigGetParameter(ParamEnum param, int ordinal, int timeoutMs);
+			uint8_t subValue, int ordinal, int timeoutMs = 0);
+	double ConfigGetParameter(ParamEnum param, int ordinal, int timeoutMs = 0);
 
 
 	ErrorCode SetStatusFramePeriod(CANifierStatusFrame statusFrame,
-			int periodMs, int timeoutMs);
+			int periodMs, int timeoutMs = 0);
 	/**
 	 * Gets the period of the given status frame.
 	 *
@@ -128,7 +128,7 @@ public:
 	 *            Timeout value in ms. @see #ConfigOpenLoopRamp
 	 * @return Period of the given status frame.
 	 */
-	int GetStatusFramePeriod(CANifierStatusFrame frame, int timeoutMs);
+	int GetStatusFramePeriod(CANifierStatusFrame frame, int timeoutMs = 0);
 	ErrorCode SetControlFramePeriod(CANifierControlFrame frame, int periodMs);
 	/**
 	 * Gets the firmware version of the device.
@@ -144,11 +144,11 @@ public:
 	bool HasResetOccurred();
 	ErrorCode GetFaults(CANifierFaults & toFill);
 	ErrorCode GetStickyFaults(CANifierStickyFaults & toFill);
-	ErrorCode ClearStickyFaults(int timeoutMs);
+	ErrorCode ClearStickyFaults(int timeoutMs = 0);
 	
 	//------ All Configs ----------//
-    ErrorCode ConfigAllSettings(CANifierConfiguration &allConfigs, int timeoutMs);
-    ErrorCode ConfigFactoryDefault(int timeoutMs);
+    ErrorCode ConfigAllSettings(CANifierConfiguration &allConfigs, int timeoutMs = 0);
+    ErrorCode ConfigFactoryDefault(int timeoutMs = 50);
 
 private:
 	void* m_handle;
