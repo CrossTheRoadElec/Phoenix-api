@@ -100,6 +100,7 @@ public:
 	ctre::phoenix::ErrorCode IfRemoteUseRemoteFeedbackFilter(FeedbackDevice feedbackDevice,
 			int deviceID, RemoteSensorSource remoteSensorSource, int remoteOrdinal,
             int timeoutMs);
+	ctre::phoenix::ErrorCode ConfigureSlot(TalonSRXSlotConfiguration &slot, int pidIdx, int timeoutMs);
 	ctre::phoenix::ErrorCode ConfigAllSettings(TalonSRXConfiguration &allConfigs, int timeoutMs);
 	ctre::phoenix::ErrorCode ConfigFactoryDefault(int timeoutMs);
 

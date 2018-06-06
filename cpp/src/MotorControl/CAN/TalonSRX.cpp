@@ -353,7 +353,31 @@ ctre::phoenix::ErrorCode TalonSRX::IfRemoteUseRemoteFeedbackFilter(
 	}
 }
 
+//Fix this return data type at some point
+ErrorCode TalonSRX::ConfigureSlot(TalonSRXSlotConfiguration &slot, int pidIdx, int timeoutMs) {
 
+    //------ sensor selection ----------//		
+    
+	ConfigSelectedFeedbackSensor(slot.SelectedFeedbackSensor, pidIdx, timeoutMs);
+    ConfigSelectedFeedbackCoefficient(slot.SelectedFeedbackCoefficient, pidIdx, timeoutMs);
+	IfRemoteUseRemoteFeedbackFilter(slot.SelectedFeedbackSensor, slot.DeviceID, 
+	slot.remoteSensorSource, slot.RemoteFeedbackFilter,  timeoutMs);
+    ConfigSensorTerm(slot.sensorTerm, (FeedbackDevice) slot.SelectedFeedbackSensor, timeoutMs);
+
+	
+    //------ General Close loop ----------//    
+	Config_kP(pidIdx, slot.kP, timeoutMs);
+    Config_kI(pidIdx, slot.kI, timeoutMs);
+    Config_kD(pidIdx, slot.kD, timeoutMs);
+    Config_kF(pidIdx, slot.kF, timeoutMs);
+    Config_IntegralZone(pidIdx, slot.IntegralZone, timeoutMs);
+    ConfigAllowableClosedloopError(pidIdx, slot.AllowableClosedloopError, timeoutMs);
+    ConfigMaxIntegralAccumulator(pidIdx, slot.MaxIntegralAccumulator, timeoutMs);
+    ConfigClosedLoopPeakOutput(pidIdx, slot.ClosedLoopPeakOutput, timeoutMs);
+    ConfigClosedLoopPeriod(pidIdx, slot.ClosedLoopPeriod, timeoutMs);
+
+    return FeatureNotSupported;
+}
 
 ErrorCode TalonSRX::ConfigAllSettings(TalonSRXConfiguration &allConfigs, int timeoutMs) {
 
@@ -370,36 +394,6 @@ ErrorCode TalonSRX::ConfigAllSettings(TalonSRXConfiguration &allConfigs, int tim
     ConfigVoltageCompSaturation(allConfigs.VoltageCompSaturation, timeoutMs);
     ConfigVoltageMeasurementFilter(allConfigs.VoltageMeasurementFilter, timeoutMs);
 
-    //------ sensor selection ----------//
-		
-		//-------Slot_0-----------//
-    ConfigSelectedFeedbackSensor(allConfigs.Slot_0.SelectedFeedbackSensor, 0, timeoutMs);
-    ConfigSelectedFeedbackCoefficient(allConfigs.Slot_0.SelectedFeedbackCoefficient, 0, timeoutMs);
-	IfRemoteUseRemoteFeedbackFilter(allConfigs.Slot_0.SelectedFeedbackSensor, allConfigs.Slot_0.DeviceID, 
-	allConfigs.Slot_0.remoteSensorSource, allConfigs.Slot_0.RemoteFeedbackFilter,  timeoutMs);
-    ConfigSensorTerm(allConfigs.Slot_0.sensorTerm, (FeedbackDevice) allConfigs.Slot_0.SelectedFeedbackSensor, timeoutMs);
-		
-		//-------Slot_1-----------//
-    ConfigSelectedFeedbackSensor(allConfigs.Slot_1.SelectedFeedbackSensor, 1, timeoutMs);
-    ConfigSelectedFeedbackCoefficient(allConfigs.Slot_1.SelectedFeedbackCoefficient, 1, timeoutMs);
-	IfRemoteUseRemoteFeedbackFilter(allConfigs.Slot_1.SelectedFeedbackSensor, allConfigs.Slot_1.DeviceID,
-	allConfigs.Slot_1.remoteSensorSource, allConfigs.Slot_1.RemoteFeedbackFilter,  timeoutMs);
-    ConfigSensorTerm(allConfigs.Slot_1.sensorTerm, (FeedbackDevice) allConfigs.Slot_1.SelectedFeedbackSensor, timeoutMs);
-		
-		//-------Slot_2-----------//
-    ConfigSelectedFeedbackSensor(allConfigs.Slot_2.SelectedFeedbackSensor, 2, timeoutMs);
-    ConfigSelectedFeedbackCoefficient(allConfigs.Slot_2.SelectedFeedbackCoefficient, 2, timeoutMs);
-	IfRemoteUseRemoteFeedbackFilter(allConfigs.Slot_2.SelectedFeedbackSensor, allConfigs.Slot_2.DeviceID, 
-	allConfigs.Slot_2.remoteSensorSource, allConfigs.Slot_2.RemoteFeedbackFilter,  timeoutMs);
-    ConfigSensorTerm(allConfigs.Slot_2.sensorTerm, (FeedbackDevice) allConfigs.Slot_2.SelectedFeedbackSensor, timeoutMs);
-		
-		//-------Slot_3-----------//
-    ConfigSelectedFeedbackSensor(allConfigs.Slot_3.SelectedFeedbackSensor, 3, timeoutMs);
-    ConfigSelectedFeedbackCoefficient(allConfigs.Slot_3.SelectedFeedbackCoefficient, 3, timeoutMs);
-	IfRemoteUseRemoteFeedbackFilter(allConfigs.Slot_3.SelectedFeedbackSensor, allConfigs.Slot_3.DeviceID, 
-	allConfigs.Slot_3.remoteSensorSource, allConfigs.Slot_3.RemoteFeedbackFilter,  timeoutMs);
-    ConfigSensorTerm(allConfigs.Slot_3.sensorTerm, (FeedbackDevice) allConfigs.Slot_3.SelectedFeedbackSensor, timeoutMs);
-
     //----- velocity signal conditionaing ------//
     ConfigVelocityMeasurementPeriod(allConfigs.VelocityMeasurementPeriod, timeoutMs);
     ConfigVelocityMeasurementWindow(allConfigs.VelocityMeasurementWindow, timeoutMs);
@@ -414,55 +408,18 @@ ErrorCode TalonSRX::ConfigAllSettings(TalonSRXConfiguration &allConfigs, int tim
     ConfigForwardSoftLimitEnable(allConfigs.ForwardSoftLimitEnable, timeoutMs);
     ConfigReverseSoftLimitEnable(allConfigs.ReverseSoftLimitEnable, timeoutMs);
 
-    //------ General Close loop ----------//    
-		
-		//-------Slot_0-----------//
-	Config_kP(0, allConfigs.Slot_0.kP, timeoutMs);
-    Config_kI(0, allConfigs.Slot_0.kI, timeoutMs);
-    Config_kD(0, allConfigs.Slot_0.kD, timeoutMs);
-    Config_kF(0, allConfigs.Slot_0.kF, timeoutMs);
-    Config_IntegralZone(0, allConfigs.Slot_0.IntegralZone, timeoutMs);
-    ConfigAllowableClosedloopError(0, allConfigs.Slot_0.AllowableClosedloopError, timeoutMs);
-    ConfigMaxIntegralAccumulator(0, allConfigs.Slot_0.MaxIntegralAccumulator, timeoutMs);
-    ConfigClosedLoopPeakOutput(0, allConfigs.Slot_0.ClosedLoopPeakOutput, timeoutMs);
-    ConfigClosedLoopPeriod(0, allConfigs.Slot_0.ClosedLoopPeriod, timeoutMs);
+	//--------Slots---------------//
+	
+	ConfigureSlot(allConfigs.Slot_0, 0, timeoutMs);	
+	ConfigureSlot(allConfigs.Slot_1, 1, timeoutMs);		
+	ConfigureSlot(allConfigs.Slot_2, 2, timeoutMs);		
+	ConfigureSlot(allConfigs.Slot_3, 3, timeoutMs);		
 
-		//-------Slot_1-----------//
-	Config_kP(1, allConfigs.Slot_1.kP, timeoutMs);
-    Config_kI(1, allConfigs.Slot_1.kI, timeoutMs);
-    Config_kD(1, allConfigs.Slot_1.kD, timeoutMs);
-    Config_kF(1, allConfigs.Slot_1.kF, timeoutMs);
-    Config_IntegralZone(1, allConfigs.Slot_1.IntegralZone, timeoutMs);
-    ConfigAllowableClosedloopError(1, allConfigs.Slot_1.AllowableClosedloopError, timeoutMs);
-    ConfigMaxIntegralAccumulator(1, allConfigs.Slot_1.MaxIntegralAccumulator, timeoutMs);
-    ConfigClosedLoopPeakOutput(1, allConfigs.Slot_1.ClosedLoopPeakOutput, timeoutMs);
-    ConfigClosedLoopPeriod(1, allConfigs.Slot_1.ClosedLoopPeriod, timeoutMs);
-		
-		//-------Slot_2-----------//
-	Config_kP(2, allConfigs.Slot_2.kP, timeoutMs);
-    Config_kI(2, allConfigs.Slot_2.kI, timeoutMs);
-    Config_kD(2, allConfigs.Slot_2.kD, timeoutMs);
-    Config_kF(2, allConfigs.Slot_2.kF, timeoutMs);
-    Config_IntegralZone(2, allConfigs.Slot_2.IntegralZone, timeoutMs);
-    ConfigAllowableClosedloopError(2, allConfigs.Slot_2.AllowableClosedloopError, timeoutMs);
-    ConfigMaxIntegralAccumulator(2, allConfigs.Slot_2.MaxIntegralAccumulator, timeoutMs);
-    ConfigClosedLoopPeakOutput(2, allConfigs.Slot_2.ClosedLoopPeakOutput, timeoutMs);
-    ConfigClosedLoopPeriod(2, allConfigs.Slot_2.ClosedLoopPeriod, timeoutMs);
-
-		//-------Slot_3-----------//
-	Config_kP(3, allConfigs.Slot_3.kP, timeoutMs);
-    Config_kI(3, allConfigs.Slot_3.kI, timeoutMs);
-    Config_kD(3, allConfigs.Slot_3.kD, timeoutMs);
-    Config_kF(3, allConfigs.Slot_3.kF, timeoutMs);
-    Config_IntegralZone(3, allConfigs.Slot_3.IntegralZone, timeoutMs);
-    ConfigAllowableClosedloopError(3, allConfigs.Slot_3.AllowableClosedloopError, timeoutMs);
-    ConfigMaxIntegralAccumulator(3, allConfigs.Slot_3.MaxIntegralAccumulator, timeoutMs);
-    ConfigClosedLoopPeakOutput(3, allConfigs.Slot_3.ClosedLoopPeakOutput, timeoutMs);
-    ConfigClosedLoopPeriod(3, allConfigs.Slot_3.ClosedLoopPeriod, timeoutMs);
+	//---------Auxilary Closed Loop Polarity-------------//
 
 	ConfigAuxPIDPolarity(allConfigs.AuxPIDPolarity, timeoutMs);
-
-    //------ Motion Profile Settings used in Motion Magic  ----------//
+    
+	//------ Motion Profile Settings used in Motion Magic  ----------//
     ConfigMotionCruiseVelocity(allConfigs.MotionCruiseVelocity, timeoutMs);
     ConfigMotionAcceleration(allConfigs.MotionAcceleration, timeoutMs);
 
