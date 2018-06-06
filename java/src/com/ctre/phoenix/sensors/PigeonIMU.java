@@ -905,4 +905,19 @@ public class PigeonIMU {
 	public int getDeviceID(){
 		return m_deviceNumber;
 	}
+	ErrorCode configAllSettings(PigeonIMUConfiguration allConfigs, int timeoutMs) {
+		configTemperatureCompensationEnable(allConfigs.TemperatureCompensationEnable, timeoutMs);
+		configSetCustomParam(allConfigs.CustomParam_0, 0, timeoutMs);
+		configSetCustomParam(allConfigs.CustomParam_0, 1, timeoutMs);
+	
+		return ErrorCode.FeatureNotSupported;
+	}
+	
+	ErrorCode configFactoryDefault(int timeoutMs) {
+		PigeonIMUConfiguration defaults = new PigeonIMUConfiguration();
+		configAllSettings(defaults, timeoutMs);
+		
+		return ErrorCode.FeatureNotSupported;
+	}
+
 }

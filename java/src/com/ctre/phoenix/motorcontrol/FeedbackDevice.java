@@ -17,6 +17,7 @@ public enum FeedbackDevice {
 	CTRE_MagEncoder_Absolute(8),
 	CTRE_MagEncoder_Relative(0);
 	
+	
 	public final int value;
 	FeedbackDevice(int initValue)
 	{

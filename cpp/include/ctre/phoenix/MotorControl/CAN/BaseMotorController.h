@@ -247,8 +247,8 @@ struct BaseSlotConfiguration{
 	double kI; 
 	double kD; 
 	double kF; 
-	double IntegralZone; 
-	double AllowableClosedloopError; 
+	int IntegralZone; 
+	int AllowableClosedloopError; 
 	double MaxIntegralAccumulator; 
 	double ClosedLoopPeakOutput;
 	int ClosedLoopPeriod;
@@ -310,8 +310,8 @@ struct BaseMotorControllerConfiguration : ctre::phoenix::CustomParamConfiguratio
 			ForwardLimitSwitchNormal(LimitSwitchNormal_Disabled), 
 			ReverseLimitSwitchNormal(LimitSwitchNormal_Disabled), 
 			//Can a remote encoder be used for soft limits if there is a local encoder? etc? 
-			ForwardSoftLimitThreshold(0.0),
-			ReverseSoftLimitThreshold(0.0), 
+			ForwardSoftLimitThreshold(0),
+			ReverseSoftLimitThreshold(0), 
 			ForwardSoftLimitEnable(false),
 			ReverseSoftLimitEnable(false),
 			AuxPIDPolarity(false), 

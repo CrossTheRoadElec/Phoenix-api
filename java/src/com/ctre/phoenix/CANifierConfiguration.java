@@ -1,12 +1,12 @@
 package com.ctre.phoenix;
 
-import com.ctre.phoenix.CANBusAddressableConfiguration;
+import com.ctre.phoenix.CustomParamConfiguration;
 import com.ctre.phoenix.VelocityPeriod;
 
 
 
 
-public class CANifierConfiguration extends CANBusAddressableConfiguration{
+public class CANifierConfiguration extends CustomParamConfiguration{
 	public VelocityPeriod VelocityMeasurementPeriod;
 	public int VelocityMeasurementWindow;
 	public CANifierConfiguration() {

@@ -591,4 +591,23 @@ public class CANifier {
 	public int getDeviceID(){
 		return m_deviceNumber;
 	}
+
+	//------ All Configs ----------//
+	ErrorCode configAllSettings(CANifierConfiguration allConfigs, int timeoutMs) {
+	    configVelocityMeasurementPeriod(allConfigs.VelocityMeasurementPeriod, timeoutMs);
+	    configVelocityMeasurementWindow(allConfigs.VelocityMeasurementWindow, timeoutMs);
+	    configSetCustomParam(allConfigs.CustomParam_0, 0, timeoutMs);
+	    configSetCustomParam(allConfigs.CustomParam_0, 1, timeoutMs);
+
+	    return ErrorCode.FeatureNotSupported;
+	}
+
+	ErrorCode configFactoryDefault(int timeoutMs) {
+	    CANifierConfiguration defaults = new CANifierConfiguration();
+	    configAllSettings(defaults, timeoutMs);
+
+	    return ErrorCode.FeatureNotSupported;
+	}
+
+
 }

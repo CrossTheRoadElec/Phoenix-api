@@ -362,7 +362,7 @@ ErrorCode TalonSRX::ConfigureSlot(TalonSRXSlotConfiguration &slot, int pidIdx, i
     ConfigSelectedFeedbackCoefficient(slot.SelectedFeedbackCoefficient, pidIdx, timeoutMs);
 	IfRemoteUseRemoteFeedbackFilter(slot.SelectedFeedbackSensor, slot.DeviceID, 
 	slot.remoteSensorSource, slot.RemoteFeedbackFilter,  timeoutMs);
-    ConfigSensorTerm(slot.sensorTerm, (FeedbackDevice) slot.SelectedFeedbackSensor, timeoutMs);
+    ConfigSensorTerm(slot.sensorTerm, slot.SelectedFeedbackSensor, timeoutMs);
 
 	
     //------ General Close loop ----------//    

@@ -1,8 +1,8 @@
 package com.ctre.phoenix.sensors;
 
-import com.ctre.phoenix.CANBusAddressableConfiguration;
+import com.ctre.phoenix.CustomParamConfiguration;
 
-public class PigeonIMUConfiguration extends CANBusAddressableConfiguration {
+public class PigeonIMUConfiguration extends CustomParamConfiguration {
 	public boolean TemperatureCompensationEnable;
 	public PigeonIMUConfiguration() {
 		this.TemperatureCompensationEnable = false; //Check
