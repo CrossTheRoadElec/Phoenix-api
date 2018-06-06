@@ -52,7 +52,7 @@ public:
 	
 	//------ All Configs ----------//
 	ctre::phoenix::ErrorCode ConfigureSlot(VictorSPXSlotConfiguration &slot, int pidIdx, int timeoutMs = 0);
-	virtual ctre::phoenix::ErrorCode ConfigAllSettings(VictorSPXConfiguration &allConfigs, int timeoutMs = 0);
+	virtual ctre::phoenix::ErrorCode ConfigAllSettings(VictorSPXConfiguration &allConfigs, int timeoutMs = 50);
 	virtual ctre::phoenix::ErrorCode ConfigFactoryDefault(int timeoutMs = 50);
 
 };// class VictorSPX

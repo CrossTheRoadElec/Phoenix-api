@@ -99,7 +99,7 @@ public:
 	//------ All Configs ----------//
 
 	ctre::phoenix::ErrorCode ConfigureSlot(TalonSRXSlotConfiguration &slot, int pidIdx, int timeoutMs = 0);
-	ctre::phoenix::ErrorCode ConfigAllSettings(TalonSRXConfiguration &allConfigs, int timeoutMs = 0);
+	ctre::phoenix::ErrorCode ConfigAllSettings(TalonSRXConfiguration &allConfigs, int timeoutMs = 50);
 	ctre::phoenix::ErrorCode ConfigFactoryDefault(int timeoutMs = 50);
 
 protected:

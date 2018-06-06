@@ -147,7 +147,7 @@ public:
 	ErrorCode ClearStickyFaults(int timeoutMs = 0);
 	
 	//------ All Configs ----------//
-    ErrorCode ConfigAllSettings(CANifierConfiguration &allConfigs, int timeoutMs = 0);
+    ErrorCode ConfigAllSettings(CANifierConfiguration &allConfigs, int timeoutMs = 50);
     ErrorCode ConfigFactoryDefault(int timeoutMs = 50);
 
 private:
