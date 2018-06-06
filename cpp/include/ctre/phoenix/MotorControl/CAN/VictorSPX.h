@@ -51,7 +51,7 @@ public:
 	VictorSPX& operator=(VictorSPX const&) = delete;
 	
 	//------ All Configs ----------//
-	ctre::phoenix::ErrorCode ConfigureSlot(VictorSPXSlotConfiguration &slot, int pidIdx, int timeoutMs = 0);
+	ctre::phoenix::ErrorCode ConfigureSlot(VictorSPXSlotConfiguration &slot, int pidIdx = 0, int timeoutMs = 50);
 	virtual ctre::phoenix::ErrorCode ConfigAllSettings(VictorSPXConfiguration &allConfigs, int timeoutMs = 50);
 	virtual ctre::phoenix::ErrorCode ConfigFactoryDefault(int timeoutMs = 50);
 
