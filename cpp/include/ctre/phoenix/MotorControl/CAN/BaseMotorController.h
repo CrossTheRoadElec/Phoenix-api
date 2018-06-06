@@ -116,7 +116,7 @@ public:
 	//------- sensor status --------- //
 	virtual int GetSelectedSensorPosition(int pidIdx = 0);
 	virtual int GetSelectedSensorVelocity(int pidIdx = 0);
-	virtual ctre::phoenix::ErrorCode SetSelectedSensorPosition(int sensorPos, int pidIdx = 0, int timeoutMs = 0);
+	virtual ctre::phoenix::ErrorCode SetSelectedSensorPosition(int sensorPos, int pidIdx = 0, int timeoutMs = 50);
 	//------ status frame period changes ----------//
 	virtual ctre::phoenix::ErrorCode SetControlFramePeriod(ControlFrame frame, int periodMs);
 	virtual ctre::phoenix::ErrorCode SetStatusFramePeriod(StatusFrame frame, int periodMs,

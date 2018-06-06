@@ -83,7 +83,7 @@ public:
 	virtual int GetSelectedSensorPosition(int pidIdx = 0) = 0;
 	virtual int GetSelectedSensorVelocity(int pidIdx = 0) = 0;
 	virtual ErrorCode SetSelectedSensorPosition(int sensorPos, int pidIdx = 0,
-			int timeoutMs = 0) = 0;
+			int timeoutMs = 50) = 0;
 
 	//------ status frame period changes ----------//
 	virtual ErrorCode SetControlFramePeriod(ControlFrame frame,
