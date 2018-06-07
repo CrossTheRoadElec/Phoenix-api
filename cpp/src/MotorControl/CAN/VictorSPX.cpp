@@ -13,32 +13,34 @@ VictorSPX::VictorSPX(int deviceNumber) :
 	}
 
 //Fix this return data type at some point
-ctre::phoenix::ErrorCode VictorSPX::ConfigureSlot(VictorSPXSlotConfiguration &slot, int pidIdx, int timeoutMs) {
-
-    //------ sensor selection ----------//      
-
-    ConfigSelectedFeedbackSensor(slot.SelectedFeedbackSensor, pidIdx, timeoutMs);
-    ConfigSelectedFeedbackCoefficient(slot.SelectedFeedbackCoefficient, pidIdx, timeoutMs);
-	ConfigRemoteFeedbackFilter( slot.DeviceID,
-	slot.remoteSensorSource, slot.RemoteFeedbackFilter,  timeoutMs);
-    ConfigSensorTerm(slot.sensorTerm, (FeedbackDevice) slot.SelectedFeedbackSensor, timeoutMs);
-
+ctre::phoenix::ErrorCode VictorSPX::ConfigureSlot(SlotConfiguration &slot, int slotIdx, int timeoutMs) {
 
     //------ General Close loop ----------//    
-    Config_kP(pidIdx, slot.kP, timeoutMs);
-    Config_kI(pidIdx, slot.kI, timeoutMs);
-    Config_kD(pidIdx, slot.kD, timeoutMs);
-    Config_kF(pidIdx, slot.kF, timeoutMs);
-    Config_IntegralZone(pidIdx, slot.IntegralZone, timeoutMs);
-    ConfigAllowableClosedloopError(pidIdx, slot.AllowableClosedloopError, timeoutMs);
-    ConfigMaxIntegralAccumulator(pidIdx, slot.MaxIntegralAccumulator, timeoutMs);
-    ConfigClosedLoopPeakOutput(pidIdx, slot.ClosedLoopPeakOutput, timeoutMs);
-    ConfigClosedLoopPeriod(pidIdx, slot.ClosedLoopPeriod, timeoutMs);
+    Config_kP(slotIdx, slot.kP, timeoutMs);
+    Config_kI(slotIdx, slot.kI, timeoutMs);
+    Config_kD(slotIdx, slot.kD, timeoutMs);
+    Config_kF(slotIdx, slot.kF, timeoutMs);
+    Config_IntegralZone(slotIdx, slot.IntegralZone, timeoutMs);
+    ConfigAllowableClosedloopError(slotIdx, slot.AllowableClosedloopError, timeoutMs);
+    ConfigMaxIntegralAccumulator(slotIdx, slot.MaxIntegralAccumulator, timeoutMs);
+    ConfigClosedLoopPeakOutput(slotIdx, slot.ClosedLoopPeakOutput, timeoutMs);
+    ConfigClosedLoopPeriod(slotIdx, slot.ClosedLoopPeriod, timeoutMs);
 
     return FeatureNotSupported;
 
 }
 
+ctre::phoenix::ErrorCode VictorSPX::ConfigurePID(VictorSPXPIDSetConfiguration &pid, int pidIdx, int timeoutMs) {
+    //------ sensor selection ----------//      
+
+    ConfigSelectedFeedbackSensor(pid.SelectedFeedbackSensor, pidIdx, timeoutMs);
+    ConfigSelectedFeedbackCoefficient(pid.SelectedFeedbackCoefficient, pidIdx, timeoutMs);
+	ConfigRemoteFeedbackFilter( pid.DeviceID,
+	pid.remoteSensorSource, pid.RemoteFeedbackFilter,  timeoutMs);
+    ConfigSensorTerm(pid.sensorTerm, (FeedbackDevice) pid.SelectedFeedbackSensor, timeoutMs);
+    
+	return FeatureNotSupported;
+}
 
 ErrorCode VictorSPX::ConfigAllSettings(VictorSPXConfiguration &allConfigs, int timeoutMs) {
 	
@@ -75,6 +77,11 @@ ErrorCode VictorSPX::ConfigAllSettings(VictorSPXConfiguration &allConfigs, int t
     ConfigureSlot(allConfigs.Slot_1, 1, timeoutMs);
     ConfigureSlot(allConfigs.Slot_2, 2, timeoutMs);
     ConfigureSlot(allConfigs.Slot_3, 3, timeoutMs);
+
+	//--------PIDs---------------//
+	
+    ConfigurePID(allConfigs.PrimaryPID, 0, timeoutMs);
+    ConfigurePID(allConfigs.AuxilaryPID, 1, timeoutMs);
 	
 	//---------Auxilary Closed Loop Polarity-------------//
 	

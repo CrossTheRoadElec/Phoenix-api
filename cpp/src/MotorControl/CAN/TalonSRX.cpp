@@ -378,29 +378,33 @@ ctre::phoenix::ErrorCode TalonSRX::IfRemoteUseRemoteLimitSwitch( bool isForward,
 
 
 //Fix this return data type at some point
-ErrorCode TalonSRX::ConfigureSlot(TalonSRXSlotConfiguration &slot, int pidIdx, int timeoutMs) {
+ErrorCode TalonSRX::ConfigureSlot(SlotConfiguration &slot, int slotIdx, int timeoutMs) {
+
+    //------ General Close loop ----------//    
+	Config_kP(slotIdx, slot.kP, timeoutMs);
+    Config_kI(slotIdx, slot.kI, timeoutMs);
+    Config_kD(slotIdx, slot.kD, timeoutMs);
+    Config_kF(slotIdx, slot.kF, timeoutMs);
+    Config_IntegralZone(slotIdx, slot.IntegralZone, timeoutMs);
+    ConfigAllowableClosedloopError(slotIdx, slot.AllowableClosedloopError, timeoutMs);
+    ConfigMaxIntegralAccumulator(slotIdx, slot.MaxIntegralAccumulator, timeoutMs);
+    ConfigClosedLoopPeakOutput(slotIdx, slot.ClosedLoopPeakOutput, timeoutMs);
+    ConfigClosedLoopPeriod(slotIdx, slot.ClosedLoopPeriod, timeoutMs);
+
+    return FeatureNotSupported;
+}
+
+ErrorCode TalonSRX::ConfigurePID(TalonSRXPIDSetConfiguration &pid, int pidIdx, int timeoutMs) {
 
     //------ sensor selection ----------//		
     
-	ConfigSelectedFeedbackSensor(slot.SelectedFeedbackSensor, pidIdx, timeoutMs);
-    ConfigSelectedFeedbackCoefficient(slot.SelectedFeedbackCoefficient, pidIdx, timeoutMs);
-	IfRemoteUseRemoteFeedbackFilter(slot.SelectedFeedbackSensor, slot.DeviceID, 
-	slot.remoteSensorSource, slot.RemoteFeedbackFilter,  timeoutMs);
-    ConfigSensorTerm(slot.sensorTerm, slot.SelectedFeedbackSensor, timeoutMs);
-
-	
-    //------ General Close loop ----------//    
-	Config_kP(pidIdx, slot.kP, timeoutMs);
-    Config_kI(pidIdx, slot.kI, timeoutMs);
-    Config_kD(pidIdx, slot.kD, timeoutMs);
-    Config_kF(pidIdx, slot.kF, timeoutMs);
-    Config_IntegralZone(pidIdx, slot.IntegralZone, timeoutMs);
-    ConfigAllowableClosedloopError(pidIdx, slot.AllowableClosedloopError, timeoutMs);
-    ConfigMaxIntegralAccumulator(pidIdx, slot.MaxIntegralAccumulator, timeoutMs);
-    ConfigClosedLoopPeakOutput(pidIdx, slot.ClosedLoopPeakOutput, timeoutMs);
-    ConfigClosedLoopPeriod(pidIdx, slot.ClosedLoopPeriod, timeoutMs);
-
-    return FeatureNotSupported;
+	ConfigSelectedFeedbackSensor(pid.SelectedFeedbackSensor, pidIdx, timeoutMs);
+    ConfigSelectedFeedbackCoefficient(pid.SelectedFeedbackCoefficient, pidIdx, timeoutMs);
+	IfRemoteUseRemoteFeedbackFilter(pid.SelectedFeedbackSensor, pid.DeviceID, 
+	pid.remoteSensorSource, pid.RemoteFeedbackFilter,  timeoutMs);
+    ConfigSensorTerm(pid.sensorTerm, pid.SelectedFeedbackSensor, timeoutMs);
+    
+	return FeatureNotSupported;
 }
 
 ErrorCode TalonSRX::ConfigAllSettings(TalonSRXConfiguration &allConfigs, int timeoutMs) {
@@ -438,6 +442,11 @@ ErrorCode TalonSRX::ConfigAllSettings(TalonSRXConfiguration &allConfigs, int tim
 	ConfigureSlot(allConfigs.Slot_1, 1, timeoutMs);		
 	ConfigureSlot(allConfigs.Slot_2, 2, timeoutMs);		
 	ConfigureSlot(allConfigs.Slot_3, 3, timeoutMs);		
+
+	//--------PIDs---------------//
+	
+	ConfigurePID(allConfigs.PrimaryPID, 0, timeoutMs);
+	ConfigurePID(allConfigs.AuxilaryPID, 1, timeoutMs);
 
 	//---------Auxilary Closed Loop Polarity-------------//
 

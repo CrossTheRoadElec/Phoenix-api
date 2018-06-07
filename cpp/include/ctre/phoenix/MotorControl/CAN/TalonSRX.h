@@ -13,10 +13,10 @@ namespace can {
  * CTRE Talon SRX Motor Configuration settings.
  */
 
-struct TalonSRXSlotConfiguration : BaseSlotConfiguration {
+struct TalonSRXPIDSetConfiguration : BasePIDSetConfiguration {
     FeedbackDevice SelectedFeedbackSensor;
 
-    TalonSRXSlotConfiguration() :
+    TalonSRXPIDSetConfiguration() :
         SelectedFeedbackSensor(QuadEncoder)
     {
     }
@@ -24,10 +24,8 @@ struct TalonSRXSlotConfiguration : BaseSlotConfiguration {
 
 
 struct TalonSRXConfiguration : BaseMotorControllerConfiguration{
-	TalonSRXSlotConfiguration Slot_0;
-	TalonSRXSlotConfiguration Slot_1;
-	TalonSRXSlotConfiguration Slot_2;
-	TalonSRXSlotConfiguration Slot_3;
+	TalonSRXPIDSetConfiguration PrimaryPID;
+	TalonSRXPIDSetConfiguration AuxilaryPID;
 	LimitSwitchSource ForwardLimitSwitchSource;
 	LimitSwitchSource ReverseLimitSwitchSource;
 
@@ -98,7 +96,8 @@ public:
 
 	//------ All Configs ----------//
 
-	ctre::phoenix::ErrorCode ConfigureSlot(TalonSRXSlotConfiguration &slot, int pidIdx = 0, int timeoutMs = 50);
+	ctre::phoenix::ErrorCode ConfigureSlot(SlotConfiguration &slot, int slotIdx = 0, int timeoutMs = 50);
+	ctre::phoenix::ErrorCode ConfigurePID(TalonSRXPIDSetConfiguration &pid, int pidIdx = 0, int timeoutMs = 50);
 	ctre::phoenix::ErrorCode ConfigAllSettings(TalonSRXConfiguration &allConfigs, int timeoutMs = 50);
 	ctre::phoenix::ErrorCode ConfigFactoryDefault(int timeoutMs = 50);
 

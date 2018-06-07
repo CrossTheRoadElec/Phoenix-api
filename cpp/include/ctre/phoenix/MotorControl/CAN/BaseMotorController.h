@@ -252,9 +252,8 @@ public:
 	 */
 	ctre::phoenix::motorcontrol::SensorCollection & GetSensorCollection();
 };// class BaseMotorController
+struct BasePIDSetConfiguration {
 
-
-struct BaseSlotConfiguration{
 	double SelectedFeedbackCoefficient;
 	SensorTerm sensorTerm;
 
@@ -263,6 +262,18 @@ struct BaseSlotConfiguration{
 	int DeviceID; 
 	RemoteSensorSource remoteSensorSource;  
 	 
+	BasePIDSetConfiguration() :
+		SelectedFeedbackCoefficient(1.0),
+		sensorTerm(SensorTerm::SensorTerm_Sum0), 
+		RemoteFeedbackFilter(0),
+        DeviceID(0), 
+        remoteSensorSource() //TODO: fix
+	{
+	}
+};// struct BasePIDSetConfiguration
+
+struct SlotConfiguration{
+
 	double kP; 
 	double kI; 
 	double kD; 
@@ -273,12 +284,7 @@ struct BaseSlotConfiguration{
 	double ClosedLoopPeakOutput;
 	int ClosedLoopPeriod;
 		
-	BaseSlotConfiguration() : 
-		SelectedFeedbackCoefficient(1.0),
-		sensorTerm(SensorTerm::SensorTerm_Sum0), 
-		RemoteFeedbackFilter(0),
-        DeviceID(0), 
-        remoteSensorSource(),
+	SlotConfiguration() : 
 		kP(0.0), 
 		kI(0.0),
 		kD(0.0),
@@ -313,6 +319,10 @@ struct BaseMotorControllerConfiguration : ctre::phoenix::CustomParamConfiguratio
 	int ReverseSoftLimitThreshold; 
 	bool ForwardSoftLimitEnable; 
 	bool ReverseSoftLimitEnable; 
+	SlotConfiguration Slot_0;
+	SlotConfiguration Slot_1;
+	SlotConfiguration Slot_2;
+	SlotConfiguration Slot_3;
 	bool AuxPIDPolarity; 
 	int MotionCruiseVelocity; 
 	int MotionAcceleration; 
