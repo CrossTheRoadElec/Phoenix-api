@@ -313,6 +313,10 @@ public class CANifier {
 		int retval = CANifierJNI.JNI_ConfigVelocityMeasurementPeriod(m_handle, period.value, timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode configVelocityMeasurementPeriod(VelocityPeriod period) {
+		int timeoutMs = 0;
+		return configVelocityMeasurementPeriod(period, timeoutMs);	
+	}
 	
 	/**
 	 * Sets the number of velocity samples used in the rolling average velocity
@@ -331,6 +335,10 @@ public class CANifier {
 	public ErrorCode configVelocityMeasurementWindow(int windowSize, int timeoutMs) {
 		int retval = CANifierJNI.JNI_ConfigVelocityMeasurementWindow(m_handle, windowSize, timeoutMs);
 		return ErrorCode.valueOf(retval);
+	}
+	public ErrorCode configVelocityMeasurementWindow(int windowSize) {
+		int timeoutMs = 0;
+		return configVelocityMeasurementWindow( windowSize,  timeoutMs);
 	}
 
 	/**
@@ -354,6 +362,11 @@ public class CANifier {
 		int retval = CANifierJNI.JNI_ConfigSetCustomParam(m_handle, newValue, paramIndex, timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode configSetCustomParam(int newValue, int paramIndex) {
+
+		int timeoutMs = 0;
+		return configSetCustomParam( newValue,  paramIndex,  timeoutMs);
+	}
 
 	/**
 	 * Gets the value of a custom parameter. This is for arbitrary use.
@@ -364,15 +377,19 @@ public class CANifier {
 	 *
 	 * @param paramIndex
 	 *            Index of custom parameter. [0-1]
-	 * @param timoutMs
+	 * @param timeoutMs
 	 *            Timeout value in ms. If nonzero, function will wait for
    *            config success and report an error if it times out.
    *            If zero, no blocking or checking is performed.
 	 * @return Value of the custom param.
 	 */
-	public int configGetCustomParam(int paramIndex, int timoutMs) {
-		int retval = CANifierJNI.JNI_ConfigGetCustomParam(m_handle, paramIndex, timoutMs);
+	public int configGetCustomParam(int paramIndex, int timeoutMs) {
+		int retval = CANifierJNI.JNI_ConfigGetCustomParam(m_handle, paramIndex, timeoutMs);
 		return retval;
+	}
+	public int configGetCustomParam(int paramIndex) {
+		int timeoutMs = 0;
+		return configGetCustomParam( paramIndex,  timeoutMs);
 	}
 
 	/**
@@ -398,6 +415,10 @@ public class CANifier {
 	 */
 	public ErrorCode configSetParameter(ParamEnum param, double value, int subValue, int ordinal, int timeoutMs) {
 		return configSetParameter(param.value, value, subValue, ordinal, timeoutMs);
+	}
+	public ErrorCode configSetParameter(ParamEnum param, double value, int subValue, int ordinal) {
+		int timeoutMs = 0;
+		return configSetParameter(param, value, subValue, ordinal, timeoutMs);
 	}
 
 	/**
@@ -426,6 +447,10 @@ public class CANifier {
 				timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode configSetParameter(int param, double value, int subValue, int ordinal) {
+		int timeoutMs = 0;
+		return configSetParameter( param,  value,  subValue,  ordinal,  timeoutMs);
+	}
 	/**
 	 * Gets a parameter. Generally this is not used.
    * This can be utilized in
@@ -446,6 +471,10 @@ public class CANifier {
 	public double configGetParameter(ParamEnum param, int ordinal, int timeoutMs) {
 		return CANifierJNI.JNI_ConfigGetParameter(m_handle, param.value, ordinal, timeoutMs);
 	}
+	public double configGetParameter(ParamEnum param, int ordinal) {
+		int timeoutMs = 0;
+		return configGetParameter(param,  ordinal,  timeoutMs);
+	}
 	/**
 	 * Sets the period of the given status frame.
 	 *
@@ -462,6 +491,10 @@ public class CANifier {
 	public ErrorCode setStatusFramePeriod(CANifierStatusFrame statusFrame, int periodMs, int timeoutMs) {
 		int retval = CANifierJNI.JNI_SetStatusFramePeriod(m_handle, statusFrame.value, periodMs, timeoutMs);
 		return ErrorCode.valueOf(retval);
+	}
+	public ErrorCode setStatusFramePeriod(CANifierStatusFrame statusFrame, int periodMs) {
+		int timeoutMs = 0;
+		return setStatusFramePeriod(statusFrame,  periodMs,  timeoutMs);
 	}
 	/**
 	 * Sets the period of the given status frame.
@@ -481,6 +514,11 @@ public class CANifier {
 		return ErrorCode.valueOf(retval);
 	}
 
+	public ErrorCode setStatusFramePeriod(int statusFrame, int periodMs) {
+		int timeoutMs = 0;
+		return setStatusFramePeriod( statusFrame,  periodMs,  timeoutMs);
+	}
+
 	/**
 	 * Gets the period of the given status frame.
 	 *
@@ -494,6 +532,10 @@ public class CANifier {
 	 */
 	public int getStatusFramePeriod(CANifierStatusFrame frame, int timeoutMs) {
 		return CANifierJNI.JNI_GetStatusFramePeriod(m_handle, frame.value, timeoutMs);
+	}
+	public int getStatusFramePeriod(CANifierStatusFrame frame) {
+		int timeoutMs = 0;
+		return getStatusFramePeriod(frame, timeoutMs);	
 	}
 
 	/**
@@ -593,7 +635,7 @@ public class CANifier {
 	}
 
 	//------ All Configs ----------//
-	ErrorCode configAllSettings(CANifierConfiguration allConfigs, int timeoutMs) {
+	public ErrorCode configAllSettings(CANifierConfiguration allConfigs, int timeoutMs) {
 	    configVelocityMeasurementPeriod(allConfigs.VelocityMeasurementPeriod, timeoutMs);
 	    configVelocityMeasurementWindow(allConfigs.VelocityMeasurementWindow, timeoutMs);
 	    configSetCustomParam(allConfigs.CustomParam_0, 0, timeoutMs);
@@ -601,12 +643,19 @@ public class CANifier {
 
 	    return ErrorCode.FeatureNotSupported;
 	}
-
-	ErrorCode configFactoryDefault(int timeoutMs) {
+	public ErrorCode configAllSettings(CANifierConfiguration allConfigs) {
+		int timeoutMs = 50;
+		return configAllSettings(allConfigs, timeoutMs);
+	}
+	public ErrorCode configFactoryDefault(int timeoutMs) {
 	    CANifierConfiguration defaults = new CANifierConfiguration();
 	    configAllSettings(defaults, timeoutMs);
 
 	    return ErrorCode.FeatureNotSupported;
+	}
+	public ErrorCode configFactoryDefault() {
+		int timeoutMs = 50;	
+		return configFactoryDefault( timeoutMs);
 	}
 
 

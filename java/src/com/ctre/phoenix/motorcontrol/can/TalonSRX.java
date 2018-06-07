@@ -43,6 +43,10 @@ public class TalonSRX extends com.ctre.phoenix.motorcontrol.can.BaseMotorControl
 	public ErrorCode setStatusFramePeriod(StatusFrameEnhanced frame, int periodMs, int timeoutMs) {
 		return super.setStatusFramePeriod(frame.value, periodMs, timeoutMs);
 	}
+	public ErrorCode setStatusFramePeriod(StatusFrameEnhanced frame, int periodMs) {
+		int timeoutMs = 0;
+		return setStatusFramePeriod(frame, periodMs, timeoutMs);
+	}
 	/**
 	 * Gets the period of the given status frame.
 	 *
@@ -57,6 +61,10 @@ public class TalonSRX extends com.ctre.phoenix.motorcontrol.can.BaseMotorControl
 	public int getStatusFramePeriod(StatusFrameEnhanced frame, int timeoutMs) {
 
 		return super.getStatusFramePeriod(frame, timeoutMs);
+	}
+	public int getStatusFramePeriod(StatusFrameEnhanced frame) {
+		int timeoutMs = 0;
+		return getStatusFramePeriod(frame, timeoutMs);
 	}
 	/**
 	 * Configures the period of each velocity sample.
@@ -76,6 +84,10 @@ public class TalonSRX extends com.ctre.phoenix.motorcontrol.can.BaseMotorControl
 	public ErrorCode configVelocityMeasurementPeriod(VelocityMeasPeriod period, int timeoutMs) {
 		return super.configVelocityMeasurementPeriod(period, timeoutMs);
 	}
+	public ErrorCode configVelocityMeasurementPeriod(VelocityMeasPeriod period) {
+		int timeoutMs = 0;	
+		return configVelocityMeasurementPeriod(period, timeoutMs);
+	}
 	/**
 	 * Sets the number of velocity samples used in the rolling average velocity
 	 * measurement.
@@ -92,6 +104,10 @@ public class TalonSRX extends com.ctre.phoenix.motorcontrol.can.BaseMotorControl
 	 */
 	public ErrorCode configVelocityMeasurementWindow(int windowSize, int timeoutMs) {
 		return super.configVelocityMeasurementWindow(windowSize, timeoutMs);
+	}
+	public ErrorCode configVelocityMeasurementWindow(int windowSize) {
+		int timeoutMs = 0;
+		return configVelocityMeasurementWindow(windowSize, timeoutMs);
 	}
 	/**
 	 * Configures a limit switch for a local/remote source.
@@ -119,6 +135,10 @@ public class TalonSRX extends com.ctre.phoenix.motorcontrol.can.BaseMotorControl
 
 		return super.configForwardLimitSwitchSource(type.value, normalOpenOrClose.value, 0x00000000, timeoutMs);
 	}
+	public ErrorCode configForwardLimitSwitchSource(LimitSwitchSource type, LimitSwitchNormal normalOpenOrClose) {
+		int timeoutMs = 0;
+		return configForwardLimitSwitchSource(type, normalOpenOrClose, timeoutMs);
+	}
 	/**
 	 * Configures a limit switch for a local/remote source.
 	 *
@@ -145,6 +165,11 @@ public class TalonSRX extends com.ctre.phoenix.motorcontrol.can.BaseMotorControl
 			int timeoutMs) {
 		return super.configReverseLimitSwitchSource(type.value, normalOpenOrClose.value, 0x00000000, timeoutMs);
 	}
+	public ErrorCode configReverseLimitSwitchSource(LimitSwitchSource type, LimitSwitchNormal normalOpenOrClose) {
+		int timeoutMs = 0;
+		return configReverseLimitSwitchSource(type, normalOpenOrClose, timeoutMs);
+
+	}
 
 	// ------ Current Lim ----------//
 	/**
@@ -170,6 +195,10 @@ public class TalonSRX extends com.ctre.phoenix.motorcontrol.can.BaseMotorControl
 		int retval =  MotControllerJNI.ConfigPeakCurrentLimit(m_handle, amps, timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode configPeakCurrentLimit(int amps) {
+		int timeoutMs = 0;
+		return configPeakCurrentLimit( amps,  timeoutMs);
+	}
 
 	/**
 	 * Configure the peak allowable duration (when current limit is enabled).
@@ -193,6 +222,10 @@ public class TalonSRX extends com.ctre.phoenix.motorcontrol.can.BaseMotorControl
 	public ErrorCode configPeakCurrentDuration(int milliseconds, int timeoutMs) {
 		int retval = MotControllerJNI.ConfigPeakCurrentDuration(m_handle, milliseconds, timeoutMs);
 		return ErrorCode.valueOf(retval);
+	}
+	public ErrorCode configPeakCurrentDuration(int milliseconds) {
+		int timeoutMs = 0;
+		return configPeakCurrentDuration( milliseconds,  timeoutMs);
 	}
 
 	/**
@@ -218,6 +251,10 @@ public class TalonSRX extends com.ctre.phoenix.motorcontrol.can.BaseMotorControl
 	public ErrorCode configContinuousCurrentLimit(int amps, int timeoutMs) {
 		int retval =  MotControllerJNI.ConfigContinuousCurrentLimit(m_handle, amps, timeoutMs);
 		return ErrorCode.valueOf(retval);
+	}
+	public ErrorCode configContinuousCurrentLimit(int amps) {
+		int timeoutMs = 0;
+		return configContinuousCurrentLimit( amps,  timeoutMs); 	
 	}
 
 	/**
@@ -293,7 +330,10 @@ public class TalonSRX extends com.ctre.phoenix.motorcontrol.can.BaseMotorControl
 		
 		return ErrorCode.FeatureNotSupported;
 	}
-	
+	public ErrorCode configureSlot(TalonSRXSlotConfiguration slot, int pidIdx) {
+		int timeoutMs = 50;
+		return configureSlot(slot,  pidIdx,  timeoutMs);
+	}
 	public ErrorCode configAllSettings(TalonSRXConfiguration allConfigs, int timeoutMs) {
 	
 		//----- general output shaping ------------------//
@@ -348,11 +388,20 @@ public class TalonSRX extends com.ctre.phoenix.motorcontrol.can.BaseMotorControl
 		return ErrorCode.FeatureNotSupported;
 	}
 	
+	public ErrorCode configAllSettings(TalonSRXConfiguration allConfigs) {
+		int timeoutMs = 50;
+		return configAllSettings(allConfigs, timeoutMs);
+	}
 	public ErrorCode configFactoryDefault(int timeoutMs) {
 		TalonSRXConfiguration defaults = new TalonSRXConfiguration();
 		configAllSettings(defaults, timeoutMs);
 		
 		return ErrorCode.FeatureNotSupported;
+	}
+	public ErrorCode configFactoryDefault() {
+		int timeoutMs = 50;
+		return configFactoryDefault(timeoutMs);
+	
 	}
 
 

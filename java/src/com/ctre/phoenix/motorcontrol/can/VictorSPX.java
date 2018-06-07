@@ -49,8 +49,11 @@ public class VictorSPX extends com.ctre.phoenix.motorcontrol.can.BaseMotorContro
 		return ErrorCode.FeatureNotSupported;
 	
 	}
-	
-	
+	public ErrorCode configureSlot(VictorSPXSlotConfiguration slot) {
+		int pidIdx = 0;
+		int timeoutMs = 50;
+		return configureSlot(slot, pidIdx, timeoutMs);
+	}	
 	public ErrorCode configAllSettings(VictorSPXConfiguration allConfigs, int timeoutMs) {
 	
 		//----- general output shaping ------------------//
@@ -104,13 +107,18 @@ public class VictorSPX extends com.ctre.phoenix.motorcontrol.can.BaseMotorContro
 		
 		return ErrorCode.FeatureNotSupported;
 	}
-	
+	public ErrorCode configAllSettings(VictorSPXConfiguration allConfigs) {
+		int timeoutMs = 50;
+		return configAllSettings(allConfigs, timeoutMs);
+	}	
 	public ErrorCode configFactoryDefault(int timeoutMs) {
 		VictorSPXConfiguration defaults = new VictorSPXConfiguration();
 		configAllSettings(defaults, timeoutMs);
 		
 		return ErrorCode.FeatureNotSupported;
 	}
-
-
+	public ErrorCode configFactoryDefault() {
+		int timeoutMs = 50;
+		return configFactoryDefault(timeoutMs);
+	}
 }

@@ -284,7 +284,10 @@ public class PigeonIMU {
 		int retval = PigeonImuJNI.JNI_SetYaw(m_handle, angleDeg, timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
-
+	public ErrorCode setYaw(double angleDeg) {
+		int timeoutMs = 0;
+		return setYaw( angleDeg,  timeoutMs);
+	}
 	/**
 	 * Atomically add to the Yaw register.
 	 *
@@ -299,6 +302,10 @@ public class PigeonIMU {
 		int retval = PigeonImuJNI.JNI_AddYaw(m_handle, angleDeg, timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode addYaw(double angleDeg) {
+		int timeoutMs = 0;
+		return addYaw( angleDeg,  timeoutMs);	
+	}
 	/**
 	 * Sets the Yaw register to match the current compass value.
 	 *
@@ -311,6 +318,10 @@ public class PigeonIMU {
 	public ErrorCode setYawToCompass(int timeoutMs) {
 		int retval = PigeonImuJNI.JNI_SetYawToCompass(m_handle, timeoutMs);
 		return ErrorCode.valueOf(retval);
+	}
+	public ErrorCode setYawToCompass() {
+		int timeoutMs = 0;
+		return setYawToCompass(timeoutMs);
 	}
 	/**
 	 * Sets the Fused Heading to the specified value.
@@ -326,6 +337,10 @@ public class PigeonIMU {
 		int retval = PigeonImuJNI.JNI_SetFusedHeading(m_handle, angleDeg, timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode setFusedHeading(double angleDeg) {
+		int timeoutMs = 0;
+		return setFusedHeading( angleDeg,  timeoutMs);
+	}
 	/**
 	 * Atomically add to the Fused Heading register.
 	 *
@@ -340,6 +355,10 @@ public class PigeonIMU {
 		int retval = PigeonImuJNI.JNI_AddFusedHeading(m_handle, angleDeg, timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode addFusedHeading(double angleDeg) {
+		int timeoutMs = 0;
+		return addFusedHeading(angleDeg, timeoutMs);
+	}
 	/**
 	 * Sets the Fused Heading register to match the current compass value.
 	 *
@@ -352,6 +371,10 @@ public class PigeonIMU {
 	public ErrorCode setFusedHeadingToCompass(int timeoutMs) {
 		int retval = PigeonImuJNI.JNI_SetFusedHeadingToCompass(m_handle, timeoutMs);
 		return ErrorCode.valueOf(retval);
+	}
+	public ErrorCode setFusedHeadingToCompass() {
+		int timeoutMs = 0;
+		return setFusedHeadingToCompass(timeoutMs);
 	}
 	/**
 	 * Sets the AccumZAngle.
@@ -367,6 +390,10 @@ public class PigeonIMU {
 		int retval = PigeonImuJNI.JNI_SetAccumZAngle(m_handle, angleDeg, timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode setAccumZAngle(double angleDeg) {
+		int timeoutMs = 0;
+		return setAccumZAngle(angleDeg, timeoutMs);
+	}
 
 	/**
 	 * Enable/Disable Temp compensation. Pigeon defaults with this on at boot.
@@ -381,6 +408,10 @@ public class PigeonIMU {
 	public ErrorCode configTemperatureCompensationEnable(boolean bTempCompEnable, int timeoutMs) {
 		int retval = PigeonImuJNI.JNI_ConfigTemperatureCompensationEnable(m_handle, bTempCompEnable ? 1 : 0, timeoutMs);
 		return ErrorCode.valueOf(retval);
+	}
+	public ErrorCode configTemperatureCompensationEnable(boolean bTempCompEnable) {
+		int timeoutMs = 0;
+		return configTemperatureCompensationEnable(bTempCompEnable, timeoutMs);
 	}
 
 	/**
@@ -398,6 +429,10 @@ public class PigeonIMU {
 		int retval = PigeonImuJNI.JNI_SetCompassDeclination(m_handle, angleDegOffset, timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode setCompassDeclination(double angleDegOffset) {
+		int timeoutMs = 0;
+		return setCompassDeclination( angleDegOffset, timeoutMs);
+	}
 
 	/**
 	 * Sets the compass angle. Although compass is absolute [0,360) degrees, the
@@ -413,6 +448,10 @@ public class PigeonIMU {
 	public ErrorCode setCompassAngle(double angleDeg, int timeoutMs) {
 		int retval = PigeonImuJNI.JNI_SetCompassAngle(m_handle, angleDeg, timeoutMs);
 		return ErrorCode.valueOf(retval);
+	}
+	public ErrorCode setCompassAngle(double angleDeg) {
+		int timeoutMs = 0;
+		return setCompassAngle(angleDeg, timeoutMs);
 	}
 
 	// ----------------------- Calibration routines -----------------------//
@@ -430,6 +469,10 @@ public class PigeonIMU {
 	public ErrorCode enterCalibrationMode(CalibrationMode calMode, int timeoutMs) {
 		int retval = PigeonImuJNI.JNI_EnterCalibrationMode(m_handle, calMode.value, timeoutMs);
 		return ErrorCode.valueOf(retval);
+	}
+	public ErrorCode enterCalibrationMode(CalibrationMode calMode) {
+		int timeoutMs = 0;
+		return enterCalibrationMode(calMode, timeoutMs);
 	}
 
 	/**
@@ -681,6 +724,10 @@ public class PigeonIMU {
 		int retval = PigeonImuJNI.JNI_ConfigSetCustomParam(m_handle, newValue, paramIndex, timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode configSetCustomParam(int newValue, int paramIndex ) {
+		int timeoutMs = 0;
+		return configSetCustomParam( newValue,  paramIndex, timeoutMs);
+	}
 
 	/**
 	 * Gets the value of a custom parameter. This is for arbitrary use.
@@ -700,6 +747,10 @@ public class PigeonIMU {
 	public int configGetCustomParam(int paramIndex, int timoutMs) {
 		int retval = PigeonImuJNI.JNI_ConfigGetCustomParam(m_handle, paramIndex, timoutMs);
 		return retval;
+	}
+	public int configGetCustomParam(int paramIndex) {
+		int timeoutMs = 0;
+		return configGetCustomParam(paramIndex,timeoutMs);
 	}
 
 	/**
@@ -725,6 +776,10 @@ public class PigeonIMU {
 	 */
 	public ErrorCode configSetParameter(ParamEnum param, double value, int subValue, int ordinal, int timeoutMs) {
 		return configSetParameter(param.value, value, subValue, ordinal, timeoutMs);
+	}
+	public ErrorCode configSetParameter(ParamEnum param, double value, int subValue, int ordinal) {
+		int timeoutMs = 0;
+		return configSetParameter(param,  value,  subValue,  ordinal, timeoutMs);
 	}
 	/**
 	 * Sets a parameter. Generally this is not used.
@@ -752,6 +807,10 @@ public class PigeonIMU {
 				timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode configSetParameter(int param, double value, int subValue, int ordinal) {
+		int timeoutMs = 0;
+		return 	configSetParameter( param,  value,  subValue,  ordinal, timeoutMs);
+	}
 	/**
 	 * Gets a parameter. Generally this is not used.
    * This can be utilized in
@@ -772,6 +831,10 @@ public class PigeonIMU {
 	public double configGetParameter(ParamEnum param, int ordinal, int timeoutMs) {
 		return configGetParameter(param.value, ordinal, timeoutMs);
 	}
+	public double configGetParameter(ParamEnum param, int ordinal ) {
+		int timeoutMs = 0;
+		return configGetParameter(param,  ordinal, timeoutMs);
+	}
 	/**
 	 * Gets a parameter.
 	 *
@@ -787,6 +850,10 @@ public class PigeonIMU {
 	 */
 	public double configGetParameter(int param, int ordinal, int timeoutMs) {
 		return PigeonImuJNI.JNI_ConfigGetParameter(m_handle, param, ordinal, timeoutMs);
+	}
+	public double configGetParameter(int param, int ordinal) {
+		int timeoutMs = 0;
+		return configGetParameter( param,  ordinal, timeoutMs);
 	}
 	/**
 	 * Sets the period of the given status frame.
@@ -805,6 +872,10 @@ public class PigeonIMU {
 		int retval = PigeonImuJNI.JNI_SetStatusFramePeriod(m_handle, statusFrame.value, periodMs, timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode setStatusFramePeriod(PigeonIMU_StatusFrame statusFrame, int periodMs) {
+		int timeoutMs = 0;
+		return setStatusFramePeriod( statusFrame,  periodMs, timeoutMs);
+	}
 	/**
 	 * Sets the period of the given status frame.
 	 *
@@ -822,6 +893,10 @@ public class PigeonIMU {
 		int retval = PigeonImuJNI.JNI_SetStatusFramePeriod(m_handle, statusFrame, periodMs, timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode setStatusFramePeriod(int statusFrame, int periodMs) {
+		int timeoutMs = 0;
+		return setStatusFramePeriod( statusFrame,  periodMs, timeoutMs);
+	}
 
 	/**
 	 * Gets the period of the given status frame.
@@ -836,6 +911,10 @@ public class PigeonIMU {
 	 */
 	public int getStatusFramePeriod(PigeonIMU_StatusFrame frame, int timeoutMs) {
 		return PigeonImuJNI.JNI_GetStatusFramePeriod(m_handle, frame.value, timeoutMs);
+	}
+	public int getStatusFramePeriod(PigeonIMU_StatusFrame frame) {
+		int timeoutMs = 0;
+		return getStatusFramePeriod(frame, timeoutMs);
 	}
 	/**
 	 * Sets the period of the given control frame.
@@ -898,6 +977,10 @@ public class PigeonIMU {
 		int retval = PigeonImuJNI.JNI_ClearStickyFaults(m_handle, timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode clearStickyFaults() {
+		int timeoutMs = 0;
+		return clearStickyFaults(timeoutMs);
+	}
 
 	/**
 	 * @return The Device Number
@@ -905,19 +988,28 @@ public class PigeonIMU {
 	public int getDeviceID(){
 		return m_deviceNumber;
 	}
-	ErrorCode configAllSettings(PigeonIMUConfiguration allConfigs, int timeoutMs) {
+	public ErrorCode configAllSettings(PigeonIMUConfiguration allConfigs, int timeoutMs) {
 		configTemperatureCompensationEnable(allConfigs.TemperatureCompensationEnable, timeoutMs);
 		configSetCustomParam(allConfigs.CustomParam_0, 0, timeoutMs);
 		configSetCustomParam(allConfigs.CustomParam_0, 1, timeoutMs);
 	
 		return ErrorCode.FeatureNotSupported;
 	}
+	public ErrorCode configAllSettings(PigeonIMUConfiguration allConfigs) {
+		int timeoutMs = 0;
+		return 	configAllSettings(allConfigs, timeoutMs);
+	}
 	
-	ErrorCode configFactoryDefault(int timeoutMs) {
+	public ErrorCode configFactoryDefault(int timeoutMs) {
 		PigeonIMUConfiguration defaults = new PigeonIMUConfiguration();
 		configAllSettings(defaults, timeoutMs);
 		
 		return ErrorCode.FeatureNotSupported;
+	}
+	public ErrorCode configFactoryDefault() {
+		int timeoutMs = 0;
+		return configFactoryDefault(timeoutMs);
+		
 	}
 
 }

@@ -283,6 +283,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 		int retval = MotControllerJNI.ConfigOpenLoopRamp(m_handle, secondsFromNeutralToFull, timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode configOpenloopRamp(double secondsFromNeutralToFull) {
+		int timeoutMs = 0;
+		return configOpenloopRamp(secondsFromNeutralToFull, timeoutMs);
+	}
 
 	/**
 	 * Configures the closed-loop ramp rate of throttle output.
@@ -300,6 +304,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 		int retval = MotControllerJNI.ConfigClosedLoopRamp(m_handle, secondsFromNeutralToFull, timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode configClosedloopRamp(double secondsFromNeutralToFull) {
+		int timeoutMs = 0;
+		return configClosedloopRamp(secondsFromNeutralToFull, timeoutMs);	
+	}
 
 	/**
 	 * Configures the forward peak output percentage.
@@ -315,6 +323,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	public ErrorCode configPeakOutputForward(double percentOut, int timeoutMs) {
 		int retval = MotControllerJNI.ConfigPeakOutputForward(m_handle, percentOut, timeoutMs);
 		return ErrorCode.valueOf(retval);
+	}
+	public ErrorCode configPeakOutputForward(double percentOut) {
+		int timeoutMs = 0;
+		return configPeakOutputForward(percentOut, timeoutMs);	
 	}
 
 	/**
@@ -332,6 +344,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 		int retval = MotControllerJNI.ConfigPeakOutputReverse(m_handle, percentOut, timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode configPeakOutputReverse(double percentOut) {
+		int timeoutMs = 0;
+		return configPeakOutputReverse(percentOut, timeoutMs);	
+	}
 	/**
 	 * Configures the forward nominal output percentage.
 	 *
@@ -346,6 +362,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	public ErrorCode configNominalOutputForward(double percentOut, int timeoutMs) {
 		int retval = MotControllerJNI.ConfigNominalOutputForward(m_handle, percentOut, timeoutMs);
 		return ErrorCode.valueOf(retval);
+	}
+	public ErrorCode configNominalOutputForward(double percentOut) {
+		int timeoutMs = 0;
+		return configNominalOutputForward(percentOut, timeoutMs);
 	}
 
 	/**
@@ -363,6 +383,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 		int retval = MotControllerJNI.ConfigNominalOutputReverse(m_handle, percentOut, timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode configNominalOutputReverse(double percentOut) {
+		int timeoutMs = 0;
+		return configNominalOutputReverse(percentOut, timeoutMs);
+	}
 
 	/**
 	 * Configures the output deadband percentage.
@@ -379,6 +403,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	public ErrorCode configNeutralDeadband(double percentDeadband, int timeoutMs) {
 		int retval = MotControllerJNI.ConfigNeutralDeadband(m_handle, percentDeadband, timeoutMs);
 		return ErrorCode.valueOf(retval);
+	}
+	public ErrorCode configNeutralDeadband(double percentDeadband) {
+		int timeoutMs = 0;
+		return configNeutralDeadband(percentDeadband, timeoutMs);	
 	}
 
 	// ------ Voltage Compensation ----------//
@@ -400,6 +428,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 		int retval = MotControllerJNI.ConfigVoltageCompSaturation(m_handle, voltage, timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode configVoltageCompSaturation(double voltage) {
+		int timeoutMs = 0;
+		return configVoltageCompSaturation(voltage, timeoutMs);
+	}
 
 	/**
 	 * Configures the voltage measurement filter.
@@ -416,6 +448,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	public ErrorCode configVoltageMeasurementFilter(int filterWindowSamples, int timeoutMs) {
 		int retval = MotControllerJNI.ConfigVoltageMeasurementFilter(m_handle, filterWindowSamples, timeoutMs);
 		return ErrorCode.valueOf(retval);
+	}
+	public ErrorCode configVoltageMeasurementFilter(int filterWindowSamples) {
+		int timeoutMs = 0;
+		return configVoltageMeasurementFilter(filterWindowSamples, timeoutMs);
 	}
 
 	/**
@@ -492,6 +528,11 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 		int retval = MotControllerJNI.ConfigSelectedFeedbackSensor(m_handle, feedbackDevice.value, pidIdx, timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode configSelectedFeedbackSensor(RemoteFeedbackDevice feedbackDevice) {
+		int pidIdx = 0;
+		int timeoutMs = 0;	
+		return configSelectedFeedbackSensor(feedbackDevice, pidIdx, timeoutMs);	
+	}
 
 	/**
 	 * Select the feedback device for the motor controller.
@@ -509,6 +550,11 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	public ErrorCode configSelectedFeedbackSensor(FeedbackDevice feedbackDevice, int pidIdx, int timeoutMs) {
 		int retval = MotControllerJNI.ConfigSelectedFeedbackSensor(m_handle, feedbackDevice.value, pidIdx, timeoutMs);
 		return ErrorCode.valueOf(retval);
+	}
+	public ErrorCode configSelectedFeedbackSensor(FeedbackDevice feedbackDevice) {
+		int pidIdx = 0;
+		int timeoutMs = 0;
+		return configSelectedFeedbackSensor(feedbackDevice, pidIdx, timeoutMs);	
 	}
 
 	/**
@@ -534,6 +580,11 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	  int retval = MotControllerJNI.ConfigSelectedFeedbackCoefficient(m_handle, coefficient, pidIdx, timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode configSelectedFeedbackCoefficient(double coefficient) {
+		int pidIdx = 0;
+        int timeoutMs = 0;
+		return configSelectedFeedbackCoefficient(coefficient, pidIdx, timeoutMs);	
+	}
 	/**
 	 * Select what remote device and signal to assign to Remote Sensor 0 or Remote Sensor 1.
 	 * After binding a remote device and signal to Remote Sensor X, you may select Remote Sensor X
@@ -558,6 +609,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 				timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode configRemoteFeedbackFilter(int deviceID, RemoteSensorSource remoteSensorSource, int remoteOrdinal) {
+        int timeoutMs = 0;
+		return configRemoteFeedbackFilter(deviceID, remoteSensorSource, remoteOrdinal, timeoutMs);	
+	}
 	/**
 	 * Select what sensor term should be bound to switch feedback device.
 	 * Sensor Sum = Sensor Sum Term 0 - Sensor Sum Term 1
@@ -577,6 +632,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 		int retval = MotControllerJNI.ConfigSensorTerm(m_handle, sensorTerm.value, feedbackDevice.value, timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode configSensorTerm(SensorTerm sensorTerm, FeedbackDevice feedbackDevice) {
+		int timeoutMs = 0;	
+		return configSensorTerm(sensorTerm, feedbackDevice, timeoutMs);
+	}
 
 	// ------- sensor status --------- //
 	/**
@@ -591,6 +650,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	public int getSelectedSensorPosition(int pidIdx) {
 		return MotControllerJNI.GetSelectedSensorPosition(m_handle, pidIdx);
 	}
+	public int getSelectedSensorPosition() {
+		int pidIdx = 0;
+		return getSelectedSensorPosition(pidIdx);
+	}
 
 	/**
 	 * Get the selected sensor velocity.
@@ -602,6 +665,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 */
 	public int getSelectedSensorVelocity(int pidIdx) {
 		return MotControllerJNI.GetSelectedSensorVelocity(m_handle, pidIdx);
+	}
+	public int getSelectedSensorVelocity() {
+		int pidIdx = 0;
+		return getSelectedSensorVelocity(pidIdx);
 	}
 
 	/**
@@ -620,6 +687,11 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	public ErrorCode setSelectedSensorPosition(int sensorPos, int pidIdx, int timeoutMs) {
 		int retval = MotControllerJNI.SetSelectedSensorPosition(m_handle, sensorPos, pidIdx, timeoutMs);
 		return ErrorCode.valueOf(retval);
+	}
+	public ErrorCode setSelectedSensorPosition(int sensorPos) {
+		int pidIdx = 0;
+		int timeoutMs = 0;
+		return setSelectedSensorPosition(sensorPos, pidIdx, timeoutMs);
 	}
 
 	// ------ status frame period changes ----------//
@@ -680,6 +752,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 		int retval = MotControllerJNI.SetStatusFramePeriod(m_handle, frameValue, periodMs, timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode setStatusFramePeriod(int frameValue, int periodMs) {
+		int timeoutMs = 0;
+		return 	setStatusFramePeriod(frameValue, periodMs,timeoutMs);
+	}
 
 	/**
 	 * Sets the period of the given status frame.
@@ -697,6 +773,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	public ErrorCode setStatusFramePeriod(StatusFrame frame, int periodMs, int timeoutMs) {
 		return setStatusFramePeriod(frame.value, periodMs, timeoutMs);
 	}
+	public ErrorCode setStatusFramePeriod(StatusFrame frame, int periodMs) {
+		int timeoutMs = 0;
+		return setStatusFramePeriod(frame,periodMs, timeoutMs);
+	}
 
 	/**
 	 * Gets the period of the given status frame.
@@ -711,6 +791,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 */
 	public int getStatusFramePeriod(int frame, int timeoutMs) {
 		return MotControllerJNI.GetStatusFramePeriod(m_handle, frame, timeoutMs);
+	}
+	public int getStatusFramePeriod(int frame) {
+		int timeoutMs = 0;
+		return getStatusFramePeriod(frame, timeoutMs);
 	}
 
 	/**
@@ -727,6 +811,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	public int getStatusFramePeriod(StatusFrame frame, int timeoutMs) {
 		return MotControllerJNI.GetStatusFramePeriod(m_handle, frame.value, timeoutMs);
 	}
+	public int getStatusFramePeriod(StatusFrame frame) {
+		int timeoutMs = 0;
+		return getStatusFramePeriod(frame, timeoutMs);
+	}
 
 	/**
 	 * Gets the period of the given status frame.
@@ -741,6 +829,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 */
 	public int getStatusFramePeriod(StatusFrameEnhanced frame, int timeoutMs) {
 		return MotControllerJNI.GetStatusFramePeriod(m_handle, frame.value, timeoutMs);
+	}
+	public int getStatusFramePeriod(StatusFrameEnhanced frame) {
+		int timeoutMs = 0;
+		return  getStatusFramePeriod(frame, timeoutMs);
 	}
 
 	// ----- velocity signal conditionaing ------//
@@ -761,6 +853,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 		int retval = MotControllerJNI.ConfigVelocityMeasurementPeriod(m_handle, period.value, timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode configVelocityMeasurementPeriod(VelocityMeasPeriod period) {
+		int timeoutMs = 0;
+		return configVelocityMeasurementPeriod(period, timeoutMs);		
+	}
 
 	/**
 	 * Sets the number of velocity samples used in the rolling average velocity
@@ -779,6 +875,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	public ErrorCode configVelocityMeasurementWindow(int windowSize, int timeoutMs) {
 		int retval = MotControllerJNI.ConfigVelocityMeasurementWindow(m_handle, windowSize, timeoutMs);
 		return ErrorCode.valueOf(retval);
+	}
+	public ErrorCode configVelocityMeasurementWindow(int windowSize) {
+		int timeoutMs = 0;
+		return configVelocityMeasurementWindow(windowSize, timeoutMs);
 	}
 
 	// ------ remote limit switch ----------//
@@ -804,6 +904,11 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	public ErrorCode configForwardLimitSwitchSource(RemoteLimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
 			int deviceID, int timeoutMs) {
 		return configForwardLimitSwitchSource(type.value, normalOpenOrClose.value, deviceID, timeoutMs);
+	}
+	public ErrorCode configForwardLimitSwitchSource(RemoteLimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
+			int deviceID) {
+		int timeoutMs = 0;
+		return configForwardLimitSwitchSource(type, normalOpenOrClose, deviceID, timeoutMs);	
 	}
 
 	/**
@@ -831,6 +936,11 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 				deviceID, timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode configReverseLimitSwitchSource(RemoteLimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
+			int deviceID) {
+		int timeoutMs = 0;
+		return configReverseLimitSwitchSource(type, normalOpenOrClose, deviceID, timeoutMs);	
+	}
 
 	/**
 	 * Configures a limit switch for a local/remote source.
@@ -857,6 +967,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	public ErrorCode configForwardLimitSwitchSource(LimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
 			int timeoutMs) {
 		return configForwardLimitSwitchSource(type.value, normalOpenOrClose.value, 0x00000000, timeoutMs);
+	}
+	public ErrorCode configForwardLimitSwitchSource(LimitSwitchSource type, LimitSwitchNormal normalOpenOrClose) {
+		int timeoutMs = 0;
+		return configForwardLimitSwitchSource(type, normalOpenOrClose, timeoutMs);
 	}
 
 	protected ErrorCode configForwardLimitSwitchSource(int typeValue, int normalOpenOrCloseValue, int deviceID,
@@ -921,6 +1035,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 		int retval = MotControllerJNI.ConfigForwardSoftLimitThreshold(m_handle, forwardSensorLimit, timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode configForwardSoftLimitThreshold(int forwardSensorLimit) {
+		int timeoutMs = 0;
+		return configForwardSoftLimitThreshold(forwardSensorLimit, timeoutMs);	
+	}
 
 	/**
 	 * Configures the reverse soft limit threshold.
@@ -936,6 +1054,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	public ErrorCode configReverseSoftLimitThreshold(int reverseSensorLimit, int timeoutMs) {
 		int retval = MotControllerJNI.ConfigReverseSoftLimitThreshold(m_handle, reverseSensorLimit, timeoutMs);
 		return ErrorCode.valueOf(retval);
+	}
+	public ErrorCode configReverseSoftLimitThreshold(int reverseSensorLimit) {
+		int timeoutMs = 0;
+		return configReverseSoftLimitThreshold(reverseSensorLimit, timeoutMs);	
 	}
 
 	/**
@@ -953,6 +1075,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 		int retval = MotControllerJNI.ConfigForwardSoftLimitEnable(m_handle, enable, timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode configForwardSoftLimitEnable(boolean enable) {
+		int timeoutMs = 0;
+		return configForwardSoftLimitEnable(enable, timeoutMs);	
+	}
 
 	/**
 	 * Configures the reverse soft limit enable.
@@ -968,6 +1094,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	public ErrorCode configReverseSoftLimitEnable(boolean enable, int timeoutMs) {
 		int retval = MotControllerJNI.ConfigReverseSoftLimitEnable(m_handle, enable, timeoutMs);
 		return ErrorCode.valueOf(retval);
+	}
+	public ErrorCode configReverseSoftLimitEnable(boolean enable) {
+		int timeoutMs = 0;
+		return configReverseSoftLimitEnable(enable, timeoutMs);
 	}
 
 	/**
@@ -1003,6 +1133,11 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 		int retval = MotControllerJNI.Config_kP(m_handle, slotIdx,  value, timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode config_kP(double value) {
+		int slotIdx = 0;
+		int timeoutMs = 0;
+		return config_kP( slotIdx,  value,  timeoutMs);	
+	}
 
 	/**
 	 * Sets the 'I' constant in the given parameter slot.
@@ -1020,6 +1155,12 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	public ErrorCode config_kI(int slotIdx, double value, int timeoutMs) {
 		int retval = MotControllerJNI.Config_kI(m_handle, slotIdx,  value, timeoutMs);
 		return ErrorCode.valueOf(retval);
+	}
+	public ErrorCode config_kI(double value) {
+		int slotIdx = 0;
+        int timeoutMs = 0;
+
+		return config_kI( slotIdx,  value,  timeoutMs);
 	}
 
 	/**
@@ -1039,6 +1180,11 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 		int retval = MotControllerJNI.Config_kD(m_handle, slotIdx,  value, timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode config_kD(double value) {
+		int slotIdx = 0;
+        int timeoutMs = 0;
+		return config_kD( slotIdx,  value,  timeoutMs);
+	}
 
 	/**
 	 * Sets the 'F' constant in the given parameter slot.
@@ -1056,6 +1202,11 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	public ErrorCode config_kF(int slotIdx, double value, int timeoutMs) {
 		int retval = MotControllerJNI.Config_kF(m_handle, slotIdx,  value, timeoutMs);
 		return ErrorCode.valueOf(retval);
+	}
+	public ErrorCode config_kF( double value) {
+		int slotIdx = 0;
+        int timeoutMs = 0;
+		return config_kF( slotIdx,  value,  timeoutMs);	
 	}
 
 	/**
@@ -1079,6 +1230,11 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 		int retval = MotControllerJNI.Config_IntegralZone(m_handle, slotIdx,  izone, timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode config_IntegralZone(int izone) {
+		int slotIdx = 0;
+        int timeoutMs = 0;
+		return config_IntegralZone( slotIdx,  izone,  timeoutMs);
+	}
 
 	/**
 	 * Sets the allowable closed-loop error in the given parameter slot.
@@ -1098,6 +1254,12 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 				timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode configAllowableClosedloopError(int allowableClosedLoopError) {
+		int slotIdx = 0;
+        int timeoutMs = 0;
+	
+		return configAllowableClosedloopError( slotIdx,  allowableClosedLoopError,  timeoutMs);
+	}
 
 	/**
 	 * Sets the maximum integral accumulator in the given parameter slot.
@@ -1116,6 +1278,11 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	public ErrorCode configMaxIntegralAccumulator(int slotIdx, double iaccum, int timeoutMs) {
 		int retval = MotControllerJNI.ConfigMaxIntegralAccumulator(m_handle, slotIdx, iaccum, timeoutMs);
 		return ErrorCode.valueOf(retval);
+	}
+	public ErrorCode configMaxIntegralAccumulator(double iaccum) {
+		int slotIdx = 0;
+        int timeoutMs = 0;
+		return configMaxIntegralAccumulator( slotIdx,  iaccum,  timeoutMs);	
 	}
 
 	/**
@@ -1138,6 +1305,12 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 		int retval = MotControllerJNI.ConfigClosedLoopPeakOutput(m_handle, slotIdx, percentOut, timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode configClosedLoopPeakOutput(double percentOut) {
+		int slotIdx = 0;
+        int timeoutMs = 0;
+
+		return configClosedLoopPeakOutput( slotIdx,  percentOut,  timeoutMs);
+	}
 
 	/**
 	 * Sets the loop time (in milliseconds) of the PID closed-loop calculations.
@@ -1154,9 +1327,14 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 *            If zero, no blocking or checking is performed.
 	 * @return Error Code generated by function. 0 indicates no error.
 	 */
-  public ErrorCode configClosedLoopPeriod(int slotIdx, int loopTimeMs, int timeoutMs) {
-	  int retval = MotControllerJNI.ConfigClosedLoopPeriod(m_handle, slotIdx, loopTimeMs, timeoutMs);
+  	public ErrorCode configClosedLoopPeriod(int slotIdx, int loopTimeMs, int timeoutMs) {
+		int retval = MotControllerJNI.ConfigClosedLoopPeriod(m_handle, slotIdx, loopTimeMs, timeoutMs);
 		return ErrorCode.valueOf(retval);
+	}
+  	public ErrorCode configClosedLoopPeriod(int loopTimeMs) {
+		int slotIdx = 0;
+        int timeoutMs = 0;
+		return configClosedLoopPeriod( slotIdx,  loopTimeMs,  timeoutMs);
 	}
 
 	/**
@@ -1181,6 +1359,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	public ErrorCode configAuxPIDPolarity(boolean invert, int timeoutMs){
 		return configSetParameter(ParamEnum.ePIDLoopPolarity, invert ? 1:0, 0, 1, timeoutMs);
 	}
+	public ErrorCode configAuxPIDPolarity(boolean invert){
+		int timeoutMs = 0;
+		return configAuxPIDPolarity(invert,  timeoutMs);
+	}
 
 	/**
 	 * Sets the integral accumulator. Typically this is used to clear/zero the
@@ -1202,6 +1384,11 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 		int retval = MotControllerJNI.SetIntegralAccumulator(m_handle,  iaccum, pidIdx, timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode setIntegralAccumulator(double iaccum) {
+		int pidIdx = 0;
+		int timeoutMs = 0;
+		return setIntegralAccumulator( iaccum,  pidIdx,  timeoutMs);
+	}
 
 	/**
 	 * Gets the closed-loop error. The units depend on which control mode is in
@@ -1214,6 +1401,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	public int getClosedLoopError(int pidIdx) {
 		return MotControllerJNI.GetClosedLoopError(m_handle, pidIdx);
 	}
+	public int getClosedLoopError() {
+		int pidIdx = 0;
+		return getClosedLoopError( pidIdx);
+	}
 
 	/**
 	 * Gets the iaccum value.
@@ -1224,6 +1415,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 */
 	public double getIntegralAccumulator(int pidIdx) {
 		return MotControllerJNI.GetIntegralAccumulator(m_handle, pidIdx);
+	}
+	public double getIntegralAccumulator() {
+		int pidIdx = 0;
+		return getIntegralAccumulator(pidIdx);
 	}
 
 
@@ -1237,6 +1432,11 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	public double getErrorDerivative(int pidIdx) {
 		return MotControllerJNI.GetErrorDerivative(m_handle, pidIdx);
 	}
+	public double getErrorDerivative() {
+		int pidIdx = 0;
+
+		return getErrorDerivative(pidIdx);
+	}	
 
 	/**
 	 * Selects which profile slot to use for closed-loop control.
@@ -1259,6 +1459,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 */
 	public int getClosedLoopTarget(int pidIdx) {
 		return MotControllerJNI.GetClosedLoopTarget(m_handle, pidIdx);
+	}
+	public int getClosedLoopTarget() {
+		int pidIdx = 0;
+		return getClosedLoopTarget(pidIdx);
 	}
 
 	/**
@@ -1309,6 +1513,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 		int retval = MotControllerJNI.ConfigMotionCruiseVelocity(m_handle, sensorUnitsPer100ms, timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode configMotionCruiseVelocity(int sensorUnitsPer100ms) {
+		int timeoutMs = 0;
+		return configMotionCruiseVelocity( sensorUnitsPer100ms,  timeoutMs);	
+	}
 
 	/**
 	 * Sets the Motion Magic Acceleration. This is the target acceleration that
@@ -1326,6 +1534,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	public ErrorCode configMotionAcceleration(int sensorUnitsPer100msPerSec, int timeoutMs) {
 		int retval = MotControllerJNI.ConfigMotionAcceleration(m_handle, sensorUnitsPer100msPerSec, timeoutMs);
 		return ErrorCode.valueOf(retval);
+	}
+	public ErrorCode configMotionAcceleration(int sensorUnitsPer100msPerSec) {
+		int timeoutMs = 0;
+		return configMotionAcceleration( sensorUnitsPer100msPerSec,  timeoutMs);
 	}
 
 	//------ Motion Profile Buffer ----------//
@@ -1488,6 +1700,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 		int retval = MotControllerJNI.ClearMotionProfileHasUnderrun(m_handle, timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode clearMotionProfileHasUnderrun() {
+		int timeoutMs = 0;
+		return clearMotionProfileHasUnderrun(timeoutMs);
+	}
 
 	/**
 	 * Calling application can opt to speed up the handshaking between the robot
@@ -1522,6 +1738,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	public ErrorCode configMotionProfileTrajectoryPeriod(int baseTrajDurationMs, int timeoutMs) {
 		int retval = MotControllerJNI.ConfigMotionProfileTrajectoryPeriod(m_handle, baseTrajDurationMs, timeoutMs);
 		return ErrorCode.valueOf(retval);
+	}
+	public ErrorCode configMotionProfileTrajectoryPeriod(int baseTrajDurationMs) {
+		int timeoutMs = 0;
+		return configMotionProfileTrajectoryPeriod( baseTrajDurationMs,  timeoutMs);
 	}
 	// ------ error ----------//
 	/**
@@ -1576,6 +1796,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 		int retval = MotControllerJNI.ClearStickyFaults(m_handle, timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode clearStickyFaults() {
+		int timeoutMs = 0;
+		return clearStickyFaults(timeoutMs);
+	}
 
 	// ------ Firmware ----------//
 	/**
@@ -1619,21 +1843,29 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 		int retval = MotControllerJNI.ConfigSetCustomParam(m_handle, newValue, paramIndex, timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode configSetCustomParam(int newValue, int paramIndex) {
+		int timeoutMs = 0;
+		return configSetCustomParam( newValue,  paramIndex,  timeoutMs);
+	}
 
 	/**
 	 * Gets the value of a custom parameter.
 	 *
 	 * @param paramIndex
 	 *            Index of custom parameter [0,1].
-	 * @param timoutMs
+	 * @param timeoutMs
 	 *            Timeout value in ms. If nonzero, function will wait for config
 	 *            success and report an error if it times out. If zero, no
 	 *            blocking or checking is performed.
 	 * @return Value of the custom param.
 	 */
-	public int configGetCustomParam(int paramIndex, int timoutMs) {
-		int retval = MotControllerJNI.ConfigGetCustomParam(m_handle, paramIndex, timoutMs);
+	public int configGetCustomParam(int paramIndex, int timeoutMs) {
+		int retval = MotControllerJNI.ConfigGetCustomParam(m_handle, paramIndex, timeoutMs);
 		return retval;
+	}
+	public int configGetCustomParam(int paramIndex) {
+		int timeoutMs = 0;
+		return configGetCustomParam( paramIndex,  timeoutMs);
 	}
 
 	// ------ Generic Param API ----------//
@@ -1660,6 +1892,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	public ErrorCode configSetParameter(ParamEnum param, double value, int subValue, int ordinal, int timeoutMs) {
 		return configSetParameter(param.value, value, subValue, ordinal, timeoutMs);
 	}
+	public ErrorCode configSetParameter(ParamEnum param, double value, int subValue, int ordinal) {
+		int timeoutMs = 0;
+		return configSetParameter(param, value,  subValue,  ordinal,  timeoutMs);
+	}
 	/**
 	 * Sets a parameter.
 	 *
@@ -1682,6 +1918,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 				timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+	public ErrorCode configSetParameter(int param, double value, int subValue, int ordinal) {
+		int timeoutMs = 0;
+		return configSetParameter( param,  value,  subValue,  ordinal,  timeoutMs);
+	}
 	/**
 	 * Gets a parameter.
 	 *
@@ -1698,6 +1938,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	public double configGetParameter(ParamEnum param, int ordinal, int timeoutMs) {
 		return configGetParameter(param.value, ordinal, timeoutMs);
 	}
+	public double configGetParameter(ParamEnum param, int ordinal) {
+		int timeoutMs = 0;
+		return configGetParameter(param, ordinal, timeoutMs);
+	}
 	/**
 	 * Gets a parameter.
 	 *
@@ -1713,6 +1957,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 */
 	public double configGetParameter(int param, int ordinal, int timeoutMs) {
 		return MotControllerJNI.ConfigGetParameter(m_handle, param, ordinal, timeoutMs);
+	}
+	public double configGetParameter(int param, int ordinal) {
+		int timeoutMs = 0;
+		return configGetParameter( param,  ordinal,  timeoutMs);	
 	}
 
 	// ------ Misc. ----------//
