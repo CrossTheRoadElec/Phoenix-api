@@ -34,6 +34,10 @@ BaseMotorController::~BaseMotorController() {
 void* BaseMotorController::GetHandle() {
 	return m_handle;
 }
+
+
+
+
 /**
  * Returns the Device ID
  *
@@ -1789,4 +1793,90 @@ void BaseMotorController::ValueUpdated() {
  */
 ctre::phoenix::motorcontrol::SensorCollection & BaseMotorController::GetSensorCollection() {
 	return *_sensorColl;
+}
+
+//------Config All------//
+
+//Fix this return data type at some point
+
+ctre::phoenix::ErrorCode BaseMotorController::ConfigureSlot(SlotConfiguration &slot, int slotIdx, int timeoutMs) {
+
+    //------ General Close loop ----------//    
+    Config_kP(slotIdx, slot.kP, timeoutMs);
+    Config_kI(slotIdx, slot.kI, timeoutMs);
+    Config_kD(slotIdx, slot.kD, timeoutMs);
+    Config_kF(slotIdx, slot.kF, timeoutMs);
+    Config_IntegralZone(slotIdx, slot.integralZone, timeoutMs);
+    ConfigAllowableClosedloopError(slotIdx, slot.allowableClosedloopError, timeoutMs);
+    ConfigMaxIntegralAccumulator(slotIdx, slot.maxIntegralAccumulator, timeoutMs);
+    ConfigClosedLoopPeakOutput(slotIdx, slot.closedLoopPeakOutput, timeoutMs);
+    ConfigClosedLoopPeriod(slotIdx, slot.closedLoopPeriod, timeoutMs);
+
+    return FeatureNotSupported;
+
+}
+
+
+ctre::phoenix::ErrorCode BaseMotorController::BaseConfigurePID(BasePIDSetConfiguration &pid, int pidIdx, int timeoutMs) {
+
+	ConfigSelectedFeedbackCoefficient(pid.selectedFeedbackCoefficient, pidIdx, timeoutMs);
+
+    return FeatureNotSupported;
+
+}
+
+ctre::phoenix::ErrorCode BaseMotorController::BaseConfigAllSettings(BaseMotorControllerConfiguration &allConfigs, int timeoutMs) {
+	//----- general output shaping ------------------//
+    ConfigOpenloopRamp(allConfigs.openloopRamp, timeoutMs);
+    ConfigClosedloopRamp(allConfigs.closedloopRamp, timeoutMs);
+    ConfigPeakOutputForward(allConfigs.peakOutputForward, timeoutMs);
+    ConfigPeakOutputReverse(allConfigs.peakOutputReverse, timeoutMs);
+    ConfigNominalOutputForward(allConfigs.nominalOutputForward, timeoutMs);
+    ConfigNominalOutputReverse(allConfigs.nominalOutputReverse, timeoutMs);
+    ConfigNeutralDeadband(allConfigs.neutralDeadband, timeoutMs);
+
+    //------ Voltage Compensation ----------//
+    ConfigVoltageCompSaturation(allConfigs.voltageCompSaturation, timeoutMs);
+    ConfigVoltageMeasurementFilter(allConfigs.voltageMeasurementFilter, timeoutMs);
+
+    //----- velocity signal conditionaing ------//
+    ConfigVelocityMeasurementPeriod(allConfigs.velocityMeasurementPeriod, timeoutMs);
+    ConfigVelocityMeasurementWindow(allConfigs.velocityMeasurementWindow, timeoutMs);
+
+    //------ soft limit ----------//
+    ConfigForwardSoftLimitThreshold(allConfigs.forwardSoftLimitThreshold, timeoutMs);
+    ConfigReverseSoftLimitThreshold(allConfigs.reverseSoftLimitThreshold, timeoutMs);
+    ConfigForwardSoftLimitEnable(allConfigs.forwardSoftLimitEnable, timeoutMs);
+    ConfigReverseSoftLimitEnable(allConfigs.reverseSoftLimitEnable, timeoutMs);
+
+
+    //------ limit switch ----------//   
+    /* not in base */
+	
+	//------ Current Lim ----------//
+    /* not in base */
+
+    //--------Slots---------------//
+
+    ConfigureSlot(allConfigs.slot_0, 0, timeoutMs);
+    ConfigureSlot(allConfigs.slot_1, 1, timeoutMs);
+    ConfigureSlot(allConfigs.slot_2, 2, timeoutMs);
+    ConfigureSlot(allConfigs.slot_3, 3, timeoutMs);
+
+    //---------Auxilary Closed Loop Polarity-------------//
+
+    ConfigAuxPIDPolarity(allConfigs.auxPIDPolarity, timeoutMs);
+
+    //------ Motion Profile Settings used in Motion Magic  ----------//
+    ConfigMotionCruiseVelocity(allConfigs.motionCruiseVelocity, timeoutMs);
+    ConfigMotionAcceleration(allConfigs.motionAcceleration, timeoutMs);
+
+    //------ Motion Profile Buffer ----------//
+    ConfigMotionProfileTrajectoryPeriod(allConfigs.motionProfileTrajectoryPeriod, timeoutMs);
+
+    //------ Custom Persistent Params ----------//
+    ConfigSetCustomParam(allConfigs.customParam_0, 0, timeoutMs);
+    ConfigSetCustomParam(allConfigs.customParam_0, 1, timeoutMs);
+
+    return FeatureNotSupported;
 }

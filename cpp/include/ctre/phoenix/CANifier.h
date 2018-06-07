@@ -22,11 +22,11 @@ namespace ctre {namespace phoenix {
 	 */
 
 struct CANifierConfiguration : CustomParamConfiguration{
-	CANifierVelocityMeasPeriod VelocityMeasurementPeriod;
-	int VelocityMeasurementWindow;
+	CANifierVelocityMeasPeriod velocityMeasurementPeriod;
+	int velocityMeasurementWindow;
 	CANifierConfiguration() : 
-		VelocityMeasurementPeriod(Period_1Ms), //TODO: Check this 
-		VelocityMeasurementWindow(0) //TODO: Check this
+		velocityMeasurementPeriod(Period_1Ms), //TODO: Check this 
+		velocityMeasurementWindow(0) //TODO: Check this
 	{
 	}
 };// struct CANifierConfiguration

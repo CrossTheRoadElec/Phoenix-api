@@ -451,10 +451,10 @@ ErrorCode CANifier::ClearStickyFaults(int timeoutMs) {
 
 ErrorCode CANifier::ConfigAllSettings(CANifierConfiguration &allConfigs, int timeoutMs) {
 	
-	ConfigVelocityMeasurementPeriod(allConfigs.VelocityMeasurementPeriod, timeoutMs);
-	ConfigVelocityMeasurementWindow(allConfigs.VelocityMeasurementWindow, timeoutMs);
-	ConfigSetCustomParam(allConfigs.CustomParam_0, 0, timeoutMs);
-	ConfigSetCustomParam(allConfigs.CustomParam_0, 1, timeoutMs);
+	ConfigVelocityMeasurementPeriod(allConfigs.velocityMeasurementPeriod, timeoutMs);
+	ConfigVelocityMeasurementWindow(allConfigs.velocityMeasurementWindow, timeoutMs);
+	ConfigSetCustomParam(allConfigs.customParam_0, 0, timeoutMs);
+	ConfigSetCustomParam(allConfigs.customParam_0, 1, timeoutMs);
 
 	return FeatureNotSupported;	
 }

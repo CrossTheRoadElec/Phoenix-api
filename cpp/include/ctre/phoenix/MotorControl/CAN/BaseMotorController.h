@@ -42,6 +42,110 @@ namespace ctre {
 namespace phoenix {
 namespace motorcontrol {
 namespace can {
+struct BasePIDSetConfiguration {
+
+	double selectedFeedbackCoefficient;
+	SensorTerm sensorTerm;
+
+	//Remote feedback filter information isn't used unless the device is a remote
+	int remoteFeedbackFilter; 
+	int remoteSensorDeviceID; 
+	RemoteSensorSource remoteSensorSource;  
+	 
+	BasePIDSetConfiguration() :
+		selectedFeedbackCoefficient(1.0),
+		sensorTerm(SensorTerm::SensorTerm_Sum0), 
+		remoteFeedbackFilter(0),
+        remoteSensorDeviceID(0), 
+        remoteSensorSource() //TODO: fix
+	{
+	}
+};// struct BasePIDSetConfiguration
+
+struct SlotConfiguration{
+
+	double kP; 
+	double kI; 
+	double kD; 
+	double kF; 
+	int integralZone; 
+	int allowableClosedloopError; 
+	double maxIntegralAccumulator; 
+	double closedLoopPeakOutput;
+	int closedLoopPeriod;
+		
+	SlotConfiguration() : 
+		kP(0.0), 
+		kI(0.0),
+		kD(0.0),
+		kF(0.0),
+		integralZone(0.0), 
+		allowableClosedloopError(0.0), 
+		maxIntegralAccumulator(0.0),
+		closedLoopPeakOutput(1.0),
+		closedLoopPeriod(1)
+	{
+	}
+};// struct BaseSlotConfiguration
+
+
+struct BaseMotorControllerConfiguration : ctre::phoenix::CustomParamConfiguration {
+	double openloopRamp;
+	double closedloopRamp; 
+	double peakOutputForward;
+	double peakOutputReverse;
+	double nominalOutputForward; 
+	double nominalOutputReverse; 
+	double neutralDeadband;
+	double voltageCompSaturation; 
+	int voltageMeasurementFilter;
+	VelocityMeasPeriod velocityMeasurementPeriod; 
+	int velocityMeasurementWindow; 
+	int forwardLimitSwitchDeviceID; //Limit Switch device id isn't used unless device is a remote
+	int reverseLimitSwitchDeviceID;
+	LimitSwitchNormal forwardLimitSwitchNormal;
+	LimitSwitchNormal reverseLimitSwitchNormal;
+	int forwardSoftLimitThreshold; 
+	int reverseSoftLimitThreshold; 
+	bool forwardSoftLimitEnable; 
+	bool reverseSoftLimitEnable; 
+	SlotConfiguration slot_0;
+	SlotConfiguration slot_1;
+	SlotConfiguration slot_2;
+	SlotConfiguration slot_3;
+	bool auxPIDPolarity; 
+	int motionCruiseVelocity; 
+	int motionAcceleration; 
+	int motionProfileTrajectoryPeriod; 
+	BaseMotorControllerConfiguration() :
+			openloopRamp(0.0),
+			closedloopRamp(0.0),
+			peakOutputForward(1.0),
+			peakOutputReverse(-1.0),
+			nominalOutputForward(0.0),
+			nominalOutputReverse(0.0),
+			neutralDeadband(0.04),
+			voltageCompSaturation(0.0),
+			voltageMeasurementFilter(32),
+			velocityMeasurementPeriod(Period_100Ms),
+			velocityMeasurementWindow(64),
+			forwardLimitSwitchDeviceID(0),
+			reverseLimitSwitchDeviceID(0),
+			forwardLimitSwitchNormal(LimitSwitchNormal_NormallyOpen), 
+			reverseLimitSwitchNormal(LimitSwitchNormal_NormallyOpen), 
+			//Can a remote encoder be used for soft limits if there is a local encoder? etc? 
+			forwardSoftLimitThreshold(0),
+			reverseSoftLimitThreshold(0), 
+			forwardSoftLimitEnable(false),
+			reverseSoftLimitEnable(false),
+			auxPIDPolarity(false), 
+			motionCruiseVelocity(0),
+			motionAcceleration(0),
+			motionProfileTrajectoryPeriod(0) 
+	{
+	}	
+};// struct BaseMotorControllerConfiguration
+
 /**
  * Base motor controller features for all CTRE CAN motor controllers.
  */
@@ -58,6 +162,8 @@ private:
 protected:
 	void* m_handle;
 	void* GetHandle();
+	virtual ctre::phoenix::ErrorCode BaseConfigAllSettings(BaseMotorControllerConfiguration &allConfigs, int timeoutMs);
+	virtual ctre::phoenix::ErrorCode BaseConfigurePID(BasePIDSetConfiguration &pid, int pidIdx, int timeoutMs);
 public:
 	BaseMotorController(int arbId);
 	~BaseMotorController();
@@ -251,110 +357,10 @@ public:
 	 * @retrieve object that can get/set individual RAW sensor values.
 	 */
 	ctre::phoenix::motorcontrol::SensorCollection & GetSensorCollection();
+	//-------Config All----------//
+	ctre::phoenix::ErrorCode ConfigureSlot(SlotConfiguration &slot, int slotIdx = 0, int timeoutMs = 50);	
+	
 };// class BaseMotorController
-struct BasePIDSetConfiguration {
-
-	double SelectedFeedbackCoefficient;
-	SensorTerm sensorTerm;
-
-	//Remote feedback filter information isn't used unless the device is a remote
-	int RemoteFeedbackFilter; 
-	int DeviceID; 
-	RemoteSensorSource remoteSensorSource;  
-	 
-	BasePIDSetConfiguration() :
-		SelectedFeedbackCoefficient(1.0),
-		sensorTerm(SensorTerm::SensorTerm_Sum0), 
-		RemoteFeedbackFilter(0),
-        DeviceID(0), 
-        remoteSensorSource() //TODO: fix
-	{
-	}
-};// struct BasePIDSetConfiguration
-
-struct SlotConfiguration{
-
-	double kP; 
-	double kI; 
-	double kD; 
-	double kF; 
-	int IntegralZone; 
-	int AllowableClosedloopError; 
-	double MaxIntegralAccumulator; 
-	double ClosedLoopPeakOutput;
-	int ClosedLoopPeriod;
-		
-	SlotConfiguration() : 
-		kP(0.0), 
-		kI(0.0),
-		kD(0.0),
-		kF(0.0),
-		IntegralZone(0.0), 
-		AllowableClosedloopError(0.0), 
-		MaxIntegralAccumulator(0.0),
-		ClosedLoopPeakOutput(1.0),
-		ClosedLoopPeriod(1)
-	{
-	}
-};// struct BaseSlotConfiguration
-
-
-struct BaseMotorControllerConfiguration : ctre::phoenix::CustomParamConfiguration {
-	double OpenloopRamp;
-	double ClosedloopRamp; 
-	double PeakOutputForward;
-	double PeakOutputReverse;
-	double NominalOutputForward; 
-	double NominalOutputReverse; 
-	double NeutralDeadband;
-	double VoltageCompSaturation; 
-	int VoltageMeasurementFilter;
-	VelocityMeasPeriod VelocityMeasurementPeriod; 
-	int VelocityMeasurementWindow; 
-	int ForwardLimitSwitchDeviceID; //Limit Switch device id isn't used unless device is a remote
-	int ReverseLimitSwitchDeviceID;
-	LimitSwitchNormal ForwardLimitSwitchNormal;
-	LimitSwitchNormal ReverseLimitSwitchNormal;
-	int ForwardSoftLimitThreshold; 
-	int ReverseSoftLimitThreshold; 
-	bool ForwardSoftLimitEnable; 
-	bool ReverseSoftLimitEnable; 
-	SlotConfiguration Slot_0;
-	SlotConfiguration Slot_1;
-	SlotConfiguration Slot_2;
-	SlotConfiguration Slot_3;
-	bool AuxPIDPolarity; 
-	int MotionCruiseVelocity; 
-	int MotionAcceleration; 
-	int MotionProfileTrajectoryPeriod; 
-	BaseMotorControllerConfiguration() :
-			OpenloopRamp(0.0),
-			ClosedloopRamp(0.0),
-			PeakOutputForward(1.0),
-			PeakOutputReverse(-1.0),
-			NominalOutputForward(0.0),
-			NominalOutputReverse(0.0),
-			NeutralDeadband(0.04),
-			VoltageCompSaturation(0.0),
-			VoltageMeasurementFilter(32),
-			VelocityMeasurementPeriod(Period_100Ms),
-			VelocityMeasurementWindow(64),
-			ForwardLimitSwitchDeviceID(0),
-			ReverseLimitSwitchDeviceID(0),
-			ForwardLimitSwitchNormal(LimitSwitchNormal_NormallyOpen), 
-			ReverseLimitSwitchNormal(LimitSwitchNormal_NormallyOpen), 
-			//Can a remote encoder be used for soft limits if there is a local encoder? etc? 
-			ForwardSoftLimitThreshold(0),
-			ReverseSoftLimitThreshold(0), 
-			ForwardSoftLimitEnable(false),
-			ReverseSoftLimitEnable(false),
-			AuxPIDPolarity(false), 
-			MotionCruiseVelocity(0),
-			MotionAcceleration(0),
-			MotionProfileTrajectoryPeriod(0) 
-	{
-	}	
-};// struct BaseMotorControllerConfiguration
 } // namespace can
 } // namespace motorcontrol
 } // namespace phoenix

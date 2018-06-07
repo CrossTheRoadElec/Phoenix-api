@@ -4,11 +4,11 @@
 namespace ctre {
 namespace phoenix {
 struct CustomParamConfiguration {
-	int CustomParam_0;	
-	int CustomParam_1;	
+	int customParam_0;	
+	int customParam_1;	
 	CustomParamConfiguration() :
-		CustomParam_0(0),
-		CustomParam_1(0)
+		customParam_0(0),
+		customParam_1(0)
 	{
 	}	
 };

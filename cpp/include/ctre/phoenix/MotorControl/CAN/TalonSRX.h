@@ -14,30 +14,30 @@ namespace can {
  */
 
 struct TalonSRXPIDSetConfiguration : BasePIDSetConfiguration {
-    FeedbackDevice SelectedFeedbackSensor;
+    FeedbackDevice selectedFeedbackSensor;
 
     TalonSRXPIDSetConfiguration() :
-        SelectedFeedbackSensor(QuadEncoder)
+        selectedFeedbackSensor(QuadEncoder)
     {
     }
 };
 
 
 struct TalonSRXConfiguration : BaseMotorControllerConfiguration{
-	TalonSRXPIDSetConfiguration PrimaryPID;
-	TalonSRXPIDSetConfiguration AuxilaryPID;
-	LimitSwitchSource ForwardLimitSwitchSource;
-	LimitSwitchSource ReverseLimitSwitchSource;
+	TalonSRXPIDSetConfiguration primaryPID;
+	TalonSRXPIDSetConfiguration auxilaryPID;
+	LimitSwitchSource forwardLimitSwitchSource;
+	LimitSwitchSource reverseLimitSwitchSource;
 
-	int PeakCurrentLimit; 
-    int PeakCurrentDuration;
-    int ContinuousCurrentLimit; 
+	int peakCurrentLimit; 
+    int peakCurrentDuration;
+    int continuousCurrentLimit; 
 	TalonSRXConfiguration() :
-		ForwardLimitSwitchSource(LimitSwitchSource_Deactivated),
-		ReverseLimitSwitchSource(LimitSwitchSource_Deactivated),
-		PeakCurrentLimit(0),
-		PeakCurrentDuration(0), 
-		ContinuousCurrentLimit(0)
+		forwardLimitSwitchSource(LimitSwitchSource_Deactivated),
+		reverseLimitSwitchSource(LimitSwitchSource_Deactivated),
+		peakCurrentLimit(0),
+		peakCurrentDuration(0), 
+		continuousCurrentLimit(0)
 	{
 	}
 };// struct TalonSRXConfiguration
@@ -96,17 +96,12 @@ public:
 
 	//------ All Configs ----------//
 
-	ctre::phoenix::ErrorCode ConfigureSlot(SlotConfiguration &slot, int slotIdx = 0, int timeoutMs = 50);
 	ctre::phoenix::ErrorCode ConfigurePID(TalonSRXPIDSetConfiguration &pid, int pidIdx = 0, int timeoutMs = 50);
 	ctre::phoenix::ErrorCode ConfigAllSettings(TalonSRXConfiguration &allConfigs, int timeoutMs = 50);
 	ctre::phoenix::ErrorCode ConfigFactoryDefault(int timeoutMs = 50);
 
 protected:
-	
-	ctre::phoenix::ErrorCode IfRemoteUseRemoteFeedbackFilter(FeedbackDevice feedbackDevice,
-			int deviceID, RemoteSensorSource remoteSensorSource, int remoteOrdinal,
-            int timeoutMs = 0);
-
+	LimitSwitchRoutines limitSwitchRoutines;	
 	ctre::phoenix::ErrorCode IfRemoteUseRemoteLimitSwitch( bool isForward, 
             LimitSwitchSource type, LimitSwitchNormal normalOpenOrClose, int deviceID, int timeoutMs = 0);
 };// class TalonSRX

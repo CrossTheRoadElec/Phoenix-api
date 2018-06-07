@@ -774,9 +774,9 @@ ErrorCode PigeonIMU::ClearStickyFaults(int timeoutMs) {
 }
 
 ErrorCode PigeonIMU::ConfigAllSettings(PigeonIMUConfiguration &allConfigs, int timeoutMs) {
-	ConfigTemperatureCompensationEnable(allConfigs.TemperatureCompensationEnable, timeoutMs);
-    ConfigSetCustomParam(allConfigs.CustomParam_0, 0, timeoutMs);
-    ConfigSetCustomParam(allConfigs.CustomParam_0, 1, timeoutMs);
+	ConfigTemperatureCompensationEnable(allConfigs.temperatureCompensationEnable, timeoutMs);
+    ConfigSetCustomParam(allConfigs.customParam_0, 0, timeoutMs);
+    ConfigSetCustomParam(allConfigs.customParam_0, 1, timeoutMs);
 
     return FeatureNotSupported; 
 }

@@ -13,24 +13,24 @@ namespace can {
  * VEX Victor SPX Motor Configuration settings.
  */
 struct VictorSPXPIDSetConfiguration : BasePIDSetConfiguration {
-	RemoteFeedbackDevice SelectedFeedbackSensor;
+	RemoteFeedbackDevice selectedFeedbackSensor;
 
 	VictorSPXPIDSetConfiguration() :
-		SelectedFeedbackSensor(RemoteFeedbackDevice_None)
+		selectedFeedbackSensor(RemoteFeedbackDevice_None)
 	{
 	}
 
 };
 
 struct VictorSPXConfiguration : BaseMotorControllerConfiguration {
-	VictorSPXPIDSetConfiguration PrimaryPID;	
-	VictorSPXPIDSetConfiguration AuxilaryPID;	
-	RemoteLimitSwitchSource ForwardLimitSwitchSource;
-	RemoteLimitSwitchSource ReverseLimitSwitchSource;
+	VictorSPXPIDSetConfiguration primaryPID;	
+	VictorSPXPIDSetConfiguration auxilaryPID;	
+	RemoteLimitSwitchSource forwardLimitSwitchSource;
+	RemoteLimitSwitchSource reverseLimitSwitchSource;
 
 	VictorSPXConfiguration() :
-		ForwardLimitSwitchSource(RemoteLimitSwitchSource_Deactivated), 
-		ReverseLimitSwitchSource(RemoteLimitSwitchSource_Deactivated)
+		forwardLimitSwitchSource(RemoteLimitSwitchSource_Deactivated), 
+		reverseLimitSwitchSource(RemoteLimitSwitchSource_Deactivated)
 	{
 	}	
 };
@@ -49,7 +49,6 @@ public:
 	VictorSPX& operator=(VictorSPX const&) = delete;
 	
 	//------ All Configs ----------//
-	ctre::phoenix::ErrorCode ConfigureSlot(SlotConfiguration &slot, int slotIdx = 0, int timeoutMs = 50);
 	ctre::phoenix::ErrorCode ConfigurePID(VictorSPXPIDSetConfiguration &pid, int pidIdx = 0, int timeoutMs = 50);
 	virtual ctre::phoenix::ErrorCode ConfigAllSettings(VictorSPXConfiguration &allConfigs, int timeoutMs = 50);
 	virtual ctre::phoenix::ErrorCode ConfigFactoryDefault(int timeoutMs = 50);

@@ -29,6 +29,12 @@ public:
 			RemoteLimitSwitchSource limitSwitchSource) {
 		return (LimitSwitchSource) limitSwitchSource;
 	}
+	//Checks if a limit switch is a one of the remote values 
+	//(i.e. RemoteTalonSRX or RemoteCANifier)
+	static bool IsRemote(LimitSwitchSource limitSwitchSource)
+	{
+		return limitSwitchSource > 0 && limitSwitchSource < 3;
+	}
 };
 } // namespace motorcontrol
 } // namespace phoenix
