@@ -4,7 +4,7 @@ import com.ctre.phoenix.CustomParamConfiguration;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
-//import com.ctre.phoenix.motorcontrol.can.SlotConfiguration;
+import com.ctre.phoenix.motorcontrol.can.SlotConfiguration;
 
 public abstract class BaseMotorControllerConfiguration extends CustomParamConfiguration{
 	public double OpenloopRamp;
@@ -18,14 +18,18 @@ public abstract class BaseMotorControllerConfiguration extends CustomParamConfig
 	public int VoltageMeasurementFilter;
 	public VelocityMeasPeriod VelocityMeasurementPeriod;
 	public int VelocityMeasurementWindow;
-    int ForwardLimitSwitchDeviceID;
-    int ReverseLimitSwitchDeviceID;
+    public int ForwardLimitSwitchDeviceID;
+    public int ReverseLimitSwitchDeviceID;
 	public LimitSwitchNormal ForwardLimitSwitchNormal;
 	public LimitSwitchNormal ReverseLimitSwitchNormal;
 	public int ForwardSoftLimitThreshold;
 	public int ReverseSoftLimitThreshold;
 	public boolean ForwardSoftLimitEnable;
 	public boolean ReverseSoftLimitEnable;
+	public SlotConfiguration Slot_0;
+	public SlotConfiguration Slot_1;
+	public SlotConfiguration Slot_2;
+	public SlotConfiguration Slot_3;
 	public boolean AuxPIDPolarity;
 	public int MotionCruiseVelocity;
 	public int MotionAcceleration;

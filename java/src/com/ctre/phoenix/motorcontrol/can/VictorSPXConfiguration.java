@@ -1,14 +1,12 @@
 package com.ctre.phoenix.motorcontrol.can;
 
 import com.ctre.phoenix.CustomParamConfiguration;
-import com.ctre.phoenix.motorcontrol.can.VictorSPXSlotConfiguration;
+import com.ctre.phoenix.motorcontrol.can.VictorSPXPIDSetConfiguration;
 import com.ctre.phoenix.motorcontrol.RemoteLimitSwitchSource;
 
 public class VictorSPXConfiguration extends com.ctre.phoenix.motorcontrol.can.BaseMotorControllerConfiguration {
-	VictorSPXSlotConfiguration Slot_0;
-    VictorSPXSlotConfiguration Slot_1;
-    VictorSPXSlotConfiguration Slot_2;
-    VictorSPXSlotConfiguration Slot_3;
+	VictorSPXPIDSetConfiguration PrimaryPID;
+    VictorSPXPIDSetConfiguration AuxilaryPID;
     RemoteLimitSwitchSource ForwardLimitSwitchSource;
     RemoteLimitSwitchSource ReverseLimitSwitchSource;
 	

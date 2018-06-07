@@ -1,12 +1,12 @@
 package com.ctre.phoenix.motorcontrol.can;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.can.BaseSlotConfiguration;
+import com.ctre.phoenix.motorcontrol.can.BasePIDSetConfiguration;
 
-public class TalonSRXSlotConfiguration extends BaseSlotConfiguration {
+public class TalonSRXPIDSetConfiguration extends BasePIDSetConfiguration {
     public FeedbackDevice SelectedFeedbackSensor;
 
-    public TalonSRXSlotConfiguration() {
+    public TalonSRXPIDSetConfiguration() {
         SelectedFeedbackSensor = FeedbackDevice.QuadEncoder;
     }
 }

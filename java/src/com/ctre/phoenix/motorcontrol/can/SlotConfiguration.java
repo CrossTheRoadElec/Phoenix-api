@@ -1,25 +1,31 @@
 package com.ctre.phoenix.motorcontrol.can;
 
+import com.ctre.phoenix.motorcontrol.SensorTerm;
+import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
+
 public class SlotConfiguration{
+
     public double kP;
     public double kI;
     public double kD;
     public double kF;
-    public double IntegralZone;
-    public double AllowableClosedloopError;
+    public int IntegralZone;
+    public int AllowableClosedloopError;
     public double MaxIntegralAccumulator;
     public double ClosedLoopPeakOutput;
     public int ClosedLoopPeriod;
-    SlotConfiguration(){
-		this.kP = 0.0;
-		this.kI = 0.0;
-		this.kD = 0.0;
-		this.kF = 0.0;
-		this.IntegralZone = 0.0;
-		this.AllowableClosedloopError = 0.0;
-		this.MaxIntegralAccumulator = 0.0;
-		this.ClosedLoopPeakOutput = 1.0;
-		this.ClosedLoopPeriod = 1;
+
+    public SlotConfiguration() {
+
+        kP = 0.0;
+        kI = 0.0;
+        kD = 0.0;
+        kF = 0.0;
+        IntegralZone = 0;
+        AllowableClosedloopError = 0;
+        MaxIntegralAccumulator = 0.0;
+        ClosedLoopPeakOutput = 1.0;
+        ClosedLoopPeriod = 1;
     }
-}
+} // class SlotConfiguration
 

@@ -20,36 +20,39 @@ public class VictorSPX extends com.ctre.phoenix.motorcontrol.can.BaseMotorContro
 		super(deviceNumber | 0x01040000);
 		HAL.report(65, deviceNumber + 1);
 	}
-
+	
 	//Fix this return data type at some point
-	public ErrorCode configureSlot(VictorSPXSlotConfiguration slot, int pidIdx, int timeoutMs) {
+	ErrorCode configureSlot(SlotConfiguration slot, int slotIdx, int timeoutMs) {
 	
-		//------ sensor selection ----------//      
-		
-		configSelectedFeedbackSensor(slot.SelectedFeedbackSensor, pidIdx, timeoutMs);
-		configSelectedFeedbackCoefficient(slot.SelectedFeedbackCoefficient, pidIdx, timeoutMs);
+	    //------ General Close loop ----------//    
+	    config_kP(slotIdx, slot.kP, timeoutMs);
+	    config_kI(slotIdx, slot.kI, timeoutMs);
+	    config_kD(slotIdx, slot.kD, timeoutMs);
+	    config_kF(slotIdx, slot.kF, timeoutMs);
+	    config_IntegralZone(slotIdx, slot.IntegralZone, timeoutMs);
+	    configAllowableClosedloopError(slotIdx, slot.AllowableClosedloopError, timeoutMs);
+	    configMaxIntegralAccumulator(slotIdx, slot.MaxIntegralAccumulator, timeoutMs);
+	    configClosedLoopPeakOutput(slotIdx, slot.ClosedLoopPeakOutput, timeoutMs);
+	    configClosedLoopPeriod(slotIdx, slot.ClosedLoopPeriod, timeoutMs);
 	
-	
-		configRemoteFeedbackFilter( slot.DeviceID,
-		slot.remoteSensorSource, slot.RemoteFeedbackFilter,  timeoutMs);
-		configSensorTerm(slot.sensorTerm, slot.SelectedFeedbackSensor.getFeedbackDevice(), timeoutMs); 
-		
-		
-		//------ General Close loop ----------//    
-		config_kP(pidIdx, slot.kP, timeoutMs);
-		config_kI(pidIdx, slot.kI, timeoutMs);
-		config_kD(pidIdx, slot.kD, timeoutMs);
-		config_kF(pidIdx, slot.kF, timeoutMs);
-		config_IntegralZone(pidIdx, slot.IntegralZone, timeoutMs);
-		configAllowableClosedloopError(pidIdx, slot.AllowableClosedloopError, timeoutMs);
-		configMaxIntegralAccumulator(pidIdx, slot.MaxIntegralAccumulator, timeoutMs);
-		configClosedLoopPeakOutput(pidIdx, slot.ClosedLoopPeakOutput, timeoutMs);
-		configClosedLoopPeriod(pidIdx, slot.ClosedLoopPeriod, timeoutMs);
-		
 		return ErrorCode.FeatureNotSupported;
-	
 	}
-	public ErrorCode configureSlot(VictorSPXSlotConfiguration slot) {
+	
+	ErrorCode configurePID(VictorSPXPIDSetConfiguration pid, int pidIdx, int timeoutMs) {
+	    //------ sensor selection ----------//      
+	
+	    configSelectedFeedbackSensor(pid.SelectedFeedbackSensor, pidIdx, timeoutMs);
+	    configSelectedFeedbackCoefficient(pid.SelectedFeedbackCoefficient, pidIdx, timeoutMs);
+	    configRemoteFeedbackFilter( pid.DeviceID,
+	    pid.remoteSensorSource, pid.RemoteFeedbackFilter,  timeoutMs);
+	    configSensorTerm(pid.sensorTerm, pid.SelectedFeedbackSensor.getFeedbackDevice(), timeoutMs);
+	
+		return ErrorCode.FeatureNotSupported;
+	}
+
+
+
+	public ErrorCode configureSlot(SlotConfiguration slot) {
 		int pidIdx = 0;
 		int timeoutMs = 50;
 		return configureSlot(slot, pidIdx, timeoutMs);
@@ -89,7 +92,12 @@ public class VictorSPX extends com.ctre.phoenix.motorcontrol.can.BaseMotorContro
 		configureSlot(allConfigs.Slot_1, 1, timeoutMs);
 		configureSlot(allConfigs.Slot_2, 2, timeoutMs);
 		configureSlot(allConfigs.Slot_3, 3, timeoutMs);
-		
+	
+		//--------PIDs---------------//
+
+	    configurePID(allConfigs.PrimaryPID, 0, timeoutMs);
+	    configurePID(allConfigs.AuxilaryPID, 1, timeoutMs);
+	
 		//---------Auxilary Closed Loop Polarity-------------//
 		
 		configAuxPIDPolarity(allConfigs.AuxPIDPolarity, timeoutMs);
