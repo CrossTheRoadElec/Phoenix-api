@@ -990,6 +990,13 @@ ErrorCode BaseMotorController::Config_kP(int slotIdx, double value,
 	return c_MotController_Config_kP(m_handle, slotIdx, value, timeoutMs);
 }
 
+
+ErrorCode BaseMotorController::Config_kP(double value,
+		int timeoutMs) {
+	int slotIdx = 0;
+	return Config_kP(slotIdx, value, timeoutMs);
+}
+
 /**
  * Sets the 'I' constant in the given parameter slot.
  *
@@ -1006,6 +1013,14 @@ ErrorCode BaseMotorController::Config_kP(int slotIdx, double value,
 ErrorCode BaseMotorController::Config_kI(int slotIdx, double value,
 		int timeoutMs) {
 	return c_MotController_Config_kI(m_handle, slotIdx, value, timeoutMs);
+}
+
+
+ErrorCode BaseMotorController::Config_kI( double value,
+		int timeoutMs) {
+	int slotIdx = 0;
+	return Config_kI( slotIdx,  value,
+		 timeoutMs);
 }
 
 /**
@@ -1026,6 +1041,11 @@ ErrorCode BaseMotorController::Config_kD(int slotIdx, double value,
 	return c_MotController_Config_kD(m_handle, slotIdx, value, timeoutMs);
 }
 
+ErrorCode BaseMotorController::Config_kD(double value,
+		int timeoutMs) {
+	int slotIdx = 0;
+	return Config_kD(slotIdx, value, timeoutMs);
+}
 /**
  * Sets the 'F' constant in the given parameter slot.
  *
@@ -1044,6 +1064,11 @@ ErrorCode BaseMotorController::Config_kF(int slotIdx, double value,
 	return c_MotController_Config_kF(m_handle, slotIdx, value, timeoutMs);
 }
 
+ErrorCode BaseMotorController::Config_kF(double value,
+		int timeoutMs) {
+	int slotIdx = 0;
+	return Config_kF(slotIdx, value, timeoutMs);
+}
 /**
  * Sets the Integral Zone constant in the given parameter slot.
  * If the (absolute) closed-loop error is outside of this zone, integral accumulator
@@ -1066,6 +1091,13 @@ ErrorCode BaseMotorController::Config_IntegralZone(int slotIdx, int izone,
 			timeoutMs);
 }
 
+ErrorCode BaseMotorController::Config_IntegralZone(int izone,
+		int timeoutMs) {
+	int slotIdx = 0;
+	return Config_IntegralZone(slotIdx, izone,
+        timeoutMs);
+
+}
 /**
  * Sets the allowable closed-loop error in the given parameter slot.
  * If (absolute) closed-loop error is within this value, the motor output is neutral.
@@ -1086,6 +1118,12 @@ ErrorCode BaseMotorController::ConfigAllowableClosedloopError(int slotIdx,
 			allowableCloseLoopError, timeoutMs);
 }
 
+ErrorCode BaseMotorController::ConfigAllowableClosedloopError(int allowableCloseLoopError, 
+	int timeoutMs) {
+	int slotIdx = 0;
+	return ConfigAllowableClosedloopError(slotIdx, allowableCloseLoopError,
+        timeoutMs);
+}
 /**
  * Sets the maximum integral accumulator in the given parameter slot.
  *
@@ -1105,6 +1143,12 @@ ErrorCode BaseMotorController::ConfigMaxIntegralAccumulator(int slotIdx,
 			iaccum, timeoutMs);
 }
 
+ErrorCode BaseMotorController::ConfigMaxIntegralAccumulator(double iaccum, 
+	int timeoutMs) {
+	int slotIdx = 0;
+	return ConfigMaxIntegralAccumulator(slotIdx, iaccum,
+        timeoutMs);
+}
 /**
  * Sets the peak closed-loop output.  This peak output is slot-specific and
  *   is applied to the output of the associated PID loop.
@@ -1125,6 +1169,11 @@ ErrorCode BaseMotorController::ConfigClosedLoopPeakOutput(int slotIdx, double pe
 	return c_MotController_ConfigClosedLoopPeakOutput(m_handle, slotIdx, percentOut, timeoutMs);
 }
 
+ErrorCode BaseMotorController::ConfigClosedLoopPeakOutput(double percentOut, int timeoutMs) {
+	int slotIdx = 0;
+	return ConfigClosedLoopPeakOutput(slotIdx, percentOut,
+        timeoutMs);
+}
 /**
  * Sets the loop time (in milliseconds) of the PID closed-loop calculations.
  * Default value is 1 ms.
@@ -1144,6 +1193,11 @@ ErrorCode BaseMotorController::ConfigClosedLoopPeriod(int slotIdx, int loopTimeM
 	return c_MotController_ConfigClosedLoopPeriod(m_handle, slotIdx, loopTimeMs, timeoutMs);
 }
 
+ErrorCode BaseMotorController::ConfigClosedLoopPeriod(int loopTimeMs, int timeoutMs) {
+	int slotIdx = 0;
+	return ConfigClosedLoopPeriod(slotIdx, loopTimeMs,
+        timeoutMs);
+}
 /**
 	 * Configures the Polarity of the Auxiliary PID (PID1).
 	 *
