@@ -249,13 +249,15 @@ public:
 	ErrorCode GetFaults(PigeonIMU_Faults & toFill) ;
 	ErrorCode GetStickyFaults(PigeonIMU_StickyFaults & toFill);
 	ErrorCode ClearStickyFaults(int timeoutMs = 0);
-
-
-
-
+	
 	void* GetLowLevelHandle() {
 		return _handle;
 	}
+	
+	//------ All Configs ----------//
+    virtual ctre::phoenix::ErrorCode ConfigAllSettings(const PigeonIMUConfiguration &allConfigs, int timeoutMs = 50);
+    virtual void GetAllConfigs(PigeonIMUConfiguration &allConfigs, int timeoutMs = 50);
+    virtual ErrorCode ConfigFactoryDefault(int timeoutMs = 50);
 private:
 	/** firmware state reported over CAN */
 	enum MotionDriverState {
@@ -307,10 +309,7 @@ private:
 	PigeonIMU::PigeonState GetState(int errCode, const uint64_t & statusFrame);
 	double GetTemp(const uint64_t & statusFrame);
 	
-	//------ All Configs ----------//
-    virtual ctre::phoenix::ErrorCode ConfigAllSettings(const PigeonIMUConfiguration &allConfigs, int timeoutMs = 50);
-    virtual void GetAllConfigs(PigeonIMUConfiguration &allConfigs, int timeoutMs = 50);
-    virtual ErrorCode ConfigFactoryDefault(int timeoutMs = 50);
+
 
 
 };// class PigeonIMU
