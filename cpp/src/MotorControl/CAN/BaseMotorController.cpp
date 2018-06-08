@@ -1799,7 +1799,7 @@ ctre::phoenix::motorcontrol::SensorCollection & BaseMotorController::GetSensorCo
 
 //Fix this return data type at some point
 
-ctre::phoenix::ErrorCode BaseMotorController::ConfigureSlot(SlotConfiguration &slot, int slotIdx, int timeoutMs) {
+ctre::phoenix::ErrorCode BaseMotorController::ConfigureSlot(const SlotConfiguration &slot, int slotIdx, int timeoutMs) {
 
     //------ General Close loop ----------//    
     Config_kP(slotIdx, slot.kP, timeoutMs);
@@ -1816,16 +1816,36 @@ ctre::phoenix::ErrorCode BaseMotorController::ConfigureSlot(SlotConfiguration &s
 
 }
 
+void BaseMotorController::GetSlotConfigs(SlotConfiguration &slot, int slotIdx, int timeoutMs) {
+	slot.kP = (double) ConfigGetParameter(eProfileParamSlot_P, slotIdx, timeoutMs);
+	slot.kI = (double) ConfigGetParameter(eProfileParamSlot_I, slotIdx, timeoutMs);
+	slot.kD = (double) ConfigGetParameter(eProfileParamSlot_D, slotIdx, timeoutMs);
+	slot.kF = (double) ConfigGetParameter(eProfileParamSlot_F, slotIdx, timeoutMs);
+	slot.integralZone = (int) ConfigGetParameter(eProfileParamSlot_IZone, slotIdx, timeoutMs);
+	slot.allowableClosedloopError = (int) ConfigGetParameter(eProfileParamSlot_AllowableErr, slotIdx, timeoutMs);
+	slot.maxIntegralAccumulator = (double) ConfigGetParameter(eProfileParamSlot_MaxIAccum, slotIdx, timeoutMs);
+	slot.closedLoopPeakOutput = (double) ConfigGetParameter(eProfileParamSlot_PeakOutput, slotIdx, timeoutMs);
+	slot.closedLoopPeriod = (int) ConfigGetParameter(ePIDLoopPeriod, slotIdx, timeoutMs);
+}
 
-ctre::phoenix::ErrorCode BaseMotorController::BaseConfigurePID(BasePIDSetConfiguration &pid, int pidIdx, int timeoutMs) {
+ctre::phoenix::ErrorCode BaseMotorController::BaseConfigurePID(const BasePIDSetConfiguration &pid, int pidIdx, int timeoutMs) {
 
 	ConfigSelectedFeedbackCoefficient(pid.selectedFeedbackCoefficient, pidIdx, timeoutMs);
 
     return FeatureNotSupported;
 
 }
+void BaseMotorController::BaseGetPIDConfigs(BasePIDSetConfiguration &pid, int pidIdx, int timeoutMs) {
 
-ctre::phoenix::ErrorCode BaseMotorController::BaseConfigAllSettings(BaseMotorControllerConfiguration &allConfigs, int timeoutMs) {
+	pid.selectedFeedbackCoefficient = (double) ConfigGetParameter(eSelectedSensorCoefficient, pidIdx, timeoutMs);
+    pid.sensorTerm = (SensorTerm) ConfigGetParameter(eSensorTerm, pidIdx, timeoutMs);
+	
+	//Remote feedback filter information isn't used unless the device is a remote
+    pid.remoteSensorDeviceID = (int) ConfigGetParameter(eRemoteSensorDeviceID, pidIdx, timeoutMs);
+    pid.remoteSensorSource = (RemoteSensorSource) ConfigGetParameter(eRemoteSensorSource, pidIdx, timeoutMs);
+}
+
+ctre::phoenix::ErrorCode BaseMotorController::BaseConfigAllSettings(const BaseMotorControllerConfiguration &allConfigs, int timeoutMs) {
 	//----- general output shaping ------------------//
     ConfigOpenloopRamp(allConfigs.openloopRamp, timeoutMs);
     ConfigClosedloopRamp(allConfigs.closedloopRamp, timeoutMs);
@@ -1879,4 +1899,40 @@ ctre::phoenix::ErrorCode BaseMotorController::BaseConfigAllSettings(BaseMotorCon
     ConfigSetCustomParam(allConfigs.customParam_0, 1, timeoutMs);
 
     return FeatureNotSupported;
+}
+
+void BaseMotorController::BaseGetAllConfigs(BaseMotorControllerConfiguration &allConfigs, int timeoutMs) {
+
+	allConfigs.openloopRamp = (double) ConfigGetParameter(eOpenloopRamp, 0, timeoutMs);
+	allConfigs.closedloopRamp = (double) ConfigGetParameter(eClosedloopRamp, 0, timeoutMs);
+	allConfigs.peakOutputForward = (double) ConfigGetParameter(ePeakPosOutput, 0, timeoutMs);
+	allConfigs.peakOutputReverse = (double) ConfigGetParameter(ePeakNegOutput, 0, timeoutMs);
+	allConfigs.nominalOutputForward = (double) ConfigGetParameter(eNominalPosOutput, 0, timeoutMs);
+	allConfigs.nominalOutputReverse = (double) ConfigGetParameter(eNominalNegOutput, 0, timeoutMs);
+	allConfigs.neutralDeadband = (double) ConfigGetParameter(eNeutralDeadband, 0, timeoutMs);
+	allConfigs.voltageCompSaturation = (double) ConfigGetParameter(eNominalBatteryVoltage, 0, timeoutMs);
+	allConfigs.voltageMeasurementFilter = (int) ConfigGetParameter(eBatteryVoltageFilterSize, 0, timeoutMs);
+	allConfigs.velocityMeasurementPeriod = (VelocityMeasPeriod) ConfigGetParameter(eSampleVelocityPeriod, 0, timeoutMs);
+	allConfigs.velocityMeasurementWindow = (int) ConfigGetParameter(eSampleVelocityWindow, 0, timeoutMs);
+	allConfigs.forwardLimitSwitchDeviceID = (int) ConfigGetParameter(eLimitSwitchRemoteDevID, 0, timeoutMs);
+	allConfigs.reverseLimitSwitchDeviceID = (int) ConfigGetParameter(eLimitSwitchRemoteDevID, 1, timeoutMs);
+	allConfigs.forwardLimitSwitchNormal = (LimitSwitchNormal) ConfigGetParameter(eLimitSwitchNormClosedAndDis, 0, timeoutMs);
+	allConfigs.reverseLimitSwitchNormal = (LimitSwitchNormal) ConfigGetParameter(eLimitSwitchNormClosedAndDis, 1, timeoutMs);
+	allConfigs.forwardSoftLimitThreshold = (int) ConfigGetParameter(eForwardSoftLimitThreshold, 0, timeoutMs);
+	allConfigs.reverseSoftLimitThreshold = (int) ConfigGetParameter(eReverseSoftLimitThreshold, 0, timeoutMs);
+	allConfigs.forwardSoftLimitEnable = (bool) ConfigGetParameter(eForwardSoftLimitEnable, 0, timeoutMs);
+	allConfigs.reverseSoftLimitEnable = (bool) ConfigGetParameter(eReverseSoftLimitEnable, 0, timeoutMs);
+	
+	GetSlotConfigs(allConfigs.slot_0, 0, timeoutMs);	
+	GetSlotConfigs(allConfigs.slot_1, 1, timeoutMs);	
+	GetSlotConfigs(allConfigs.slot_2, 2, timeoutMs);	
+	GetSlotConfigs(allConfigs.slot_3, 3, timeoutMs);	
+
+	allConfigs.auxPIDPolarity = (bool) ConfigGetParameter(ePIDLoopPolarity, 0, timeoutMs);
+	allConfigs.motionCruiseVelocity = (int) ConfigGetParameter(eMotMag_VelCruise, 0, timeoutMs);
+	allConfigs.motionAcceleration = (int) ConfigGetParameter(eMotMag_Accel, 0, timeoutMs);
+	allConfigs.motionProfileTrajectoryPeriod = (int) ConfigGetParameter(eMotionProfileTrajectoryPointDurationMs, 0, timeoutMs);
+	allConfigs.customParam_0 = (int) ConfigGetParameter(eCustomParam, 0,  timeoutMs); 
+	allConfigs.customParam_0 = (int) ConfigGetParameter(eCustomParam, 1,  timeoutMs); 
+
 }

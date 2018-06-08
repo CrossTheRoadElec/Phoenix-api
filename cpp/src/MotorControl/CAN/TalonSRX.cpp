@@ -369,20 +369,25 @@ ctre::phoenix::ErrorCode TalonSRX::IfRemoteUseRemoteLimitSwitch( bool isForward,
 
 //Fix this return data type at some point
 
-ErrorCode TalonSRX::ConfigurePID(TalonSRXPIDSetConfiguration &pid, int pidIdx, int timeoutMs) {
+ErrorCode TalonSRX::ConfigurePID(const TalonSRXPIDSetConfiguration &pid, int pidIdx, int timeoutMs) {
 
     //------ sensor selection ----------//		
    
 	BaseConfigurePID(pid, pidIdx, timeoutMs);
  
 	ConfigSelectedFeedbackSensor(pid.selectedFeedbackSensor, pidIdx, timeoutMs);
-	ConfigRemoteFeedbackFilter(pid.remoteSensorDeviceID, pid.remoteSensorSource, pid.remoteFeedbackFilter, timeoutMs);
+	ConfigRemoteFeedbackFilter(pid.remoteSensorDeviceID, pid.remoteSensorSource, pidIdx, timeoutMs);
     ConfigSensorTerm(pid.sensorTerm, pid.selectedFeedbackSensor, timeoutMs);
     
 	return FeatureNotSupported;
 }
+void TalonSRX::GetPIDConfigs(TalonSRXPIDSetConfiguration &pid, int pidIdx, int timeoutMs)
+{
+	BaseGetPIDConfigs(pid, pidIdx, timeoutMs);
+	pid.selectedFeedbackSensor = (FeedbackDevice) ConfigGetParameter(eFeedbackSensorType, pidIdx, timeoutMs);
 
-ErrorCode TalonSRX::ConfigAllSettings(TalonSRXConfiguration &allConfigs, int timeoutMs) {
+}
+ErrorCode TalonSRX::ConfigAllSettings(const TalonSRXConfiguration &allConfigs, int timeoutMs) {
 
 	BaseConfigAllSettings(allConfigs, timeoutMs);	
 
@@ -396,6 +401,20 @@ ErrorCode TalonSRX::ConfigAllSettings(TalonSRXConfiguration &allConfigs, int tim
 	ConfigurePID(allConfigs.auxilaryPID, 1, timeoutMs);
 
     return FeatureNotSupported;
+}
+void TalonSRX::GetAllConfigs(TalonSRXConfiguration &allConfigs, int timeoutMs) {
+	
+	BaseGetAllConfigs(allConfigs, timeoutMs);
+	
+	GetPIDConfigs(allConfigs.primaryPID, 0, timeoutMs);
+	GetPIDConfigs(allConfigs.auxilaryPID, 1, timeoutMs);
+
+	allConfigs.forwardLimitSwitchSource = (LimitSwitchSource) ConfigGetParameter(eLimitSwitchSource, 0, timeoutMs);
+	allConfigs.reverseLimitSwitchSource = (LimitSwitchSource) ConfigGetParameter(eLimitSwitchSource, 1, timeoutMs);
+	allConfigs.peakCurrentLimit        = (int) ConfigGetParameter(ePeakCurrentLimitAmps, 0, timeoutMs);
+	allConfigs.peakCurrentDuration     = (int) ConfigGetParameter(ePeakCurrentLimitMs, 0, timeoutMs);
+	allConfigs.continuousCurrentLimit  = (int) ConfigGetParameter(eContinuousCurrentLimitAmps, 0, timeoutMs); 
+
 }
 
 ErrorCode TalonSRX::ConfigFactoryDefault(int timeoutMs) {

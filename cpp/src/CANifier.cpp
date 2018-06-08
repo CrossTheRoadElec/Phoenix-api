@@ -449,7 +449,7 @@ ErrorCode CANifier::ClearStickyFaults(int timeoutMs) {
 	return c_CANifier_ClearStickyFaults(m_handle, timeoutMs);
 }
 
-ErrorCode CANifier::ConfigAllSettings(CANifierConfiguration &allConfigs, int timeoutMs) {
+ErrorCode CANifier::ConfigAllSettings(const CANifierConfiguration &allConfigs, int timeoutMs) {
 	
 	ConfigVelocityMeasurementPeriod(allConfigs.velocityMeasurementPeriod, timeoutMs);
 	ConfigVelocityMeasurementWindow(allConfigs.velocityMeasurementWindow, timeoutMs);
@@ -457,6 +457,15 @@ ErrorCode CANifier::ConfigAllSettings(CANifierConfiguration &allConfigs, int tim
 	ConfigSetCustomParam(allConfigs.customParam_0, 1, timeoutMs);
 
 	return FeatureNotSupported;	
+}
+
+void CANifier::GetAllConfigs(CANifierConfiguration &allConfigs, int timeoutMs) {
+	
+	allConfigs.velocityMeasurementPeriod = (CANifierVelocityMeasPeriod) ConfigGetParameter(eSampleVelocityPeriod, 0,  timeoutMs); 
+	allConfigs.velocityMeasurementWindow = (int) ConfigGetParameter(eSampleVelocityWindow, 0,  timeoutMs); 
+	allConfigs.customParam_0 = (int) ConfigGetParameter(eCustomParam, 0,  timeoutMs); 
+	allConfigs.customParam_0 = (int) ConfigGetParameter(eCustomParam, 1,  timeoutMs); 
+
 }
 
 ErrorCode CANifier::ConfigFactoryDefault(int timeoutMs) {

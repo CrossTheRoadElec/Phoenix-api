@@ -33,8 +33,8 @@ struct TalonSRXConfiguration : BaseMotorControllerConfiguration{
     int peakCurrentDuration;
     int continuousCurrentLimit; 
 	TalonSRXConfiguration() :
-		forwardLimitSwitchSource(LimitSwitchSource_Deactivated),
-		reverseLimitSwitchSource(LimitSwitchSource_Deactivated),
+		forwardLimitSwitchSource(LimitSwitchSource_FeedbackConnector),
+		reverseLimitSwitchSource(LimitSwitchSource_FeedbackConnector),
 		peakCurrentLimit(0),
 		peakCurrentDuration(0), 
 		continuousCurrentLimit(0)
@@ -96,8 +96,10 @@ public:
 
 	//------ All Configs ----------//
 
-	ctre::phoenix::ErrorCode ConfigurePID(TalonSRXPIDSetConfiguration &pid, int pidIdx = 0, int timeoutMs = 50);
-	ctre::phoenix::ErrorCode ConfigAllSettings(TalonSRXConfiguration &allConfigs, int timeoutMs = 50);
+	ctre::phoenix::ErrorCode ConfigurePID(const TalonSRXPIDSetConfiguration &pid, int pidIdx = 0, int timeoutMs = 50);
+	void GetPIDConfigs(TalonSRXPIDSetConfiguration &pid, int pidIdx = 0, int timeoutMs = 50);
+	ctre::phoenix::ErrorCode ConfigAllSettings(const TalonSRXConfiguration &allConfigs, int timeoutMs = 50);
+	void GetAllConfigs(TalonSRXConfiguration &allConfigs, int timeoutMs = 50);
 	ctre::phoenix::ErrorCode ConfigFactoryDefault(int timeoutMs = 50);
 
 protected:

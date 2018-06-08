@@ -14,19 +14,25 @@ VictorSPX::VictorSPX(int deviceNumber) :
 
 //Fix this return data type at some point
 
-ctre::phoenix::ErrorCode VictorSPX::ConfigurePID(VictorSPXPIDSetConfiguration &pid, int pidIdx, int timeoutMs) {
+ctre::phoenix::ErrorCode VictorSPX::ConfigurePID(const VictorSPXPIDSetConfiguration &pid, int pidIdx, int timeoutMs) {
     //------ sensor selection ----------//      
 
 	BaseConfigurePID(pid, pidIdx, timeoutMs);
     ConfigSelectedFeedbackSensor(pid.selectedFeedbackSensor, pidIdx, timeoutMs);
 	ConfigRemoteFeedbackFilter( pid.remoteSensorDeviceID,
-	pid.remoteSensorSource, pid.remoteFeedbackFilter,  timeoutMs);
+	pid.remoteSensorSource, pidIdx,  timeoutMs);
     ConfigSensorTerm(pid.sensorTerm, (FeedbackDevice) pid.selectedFeedbackSensor, timeoutMs);
     
 	return FeatureNotSupported;
 }
+void VictorSPX::GetPIDConfigs(VictorSPXPIDSetConfiguration &pid, int pidIdx, int timeoutMs)
+{
+	BaseGetPIDConfigs(pid, pidIdx, timeoutMs);
+	pid.selectedFeedbackSensor = (RemoteFeedbackDevice) ConfigGetParameter(eFeedbackSensorType, pidIdx, timeoutMs);
 
-ErrorCode VictorSPX::ConfigAllSettings(VictorSPXConfiguration &allConfigs, int timeoutMs) {
+}
+
+ErrorCode VictorSPX::ConfigAllSettings(const VictorSPXConfiguration &allConfigs, int timeoutMs) {
 	
 	BaseConfigAllSettings(allConfigs, timeoutMs);	
 	
@@ -40,6 +46,17 @@ ErrorCode VictorSPX::ConfigAllSettings(VictorSPXConfiguration &allConfigs, int t
     ConfigurePID(allConfigs.auxilaryPID, 1, timeoutMs);
 	
     return FeatureNotSupported;
+}
+void VictorSPX::GetAllConfigs(VictorSPXConfiguration &allConfigs, int timeoutMs) {
+	
+	BaseGetAllConfigs(allConfigs, timeoutMs);
+	
+	GetPIDConfigs(allConfigs.primaryPID, 0, timeoutMs);
+	GetPIDConfigs(allConfigs.auxilaryPID, 1, timeoutMs);
+
+	allConfigs.forwardLimitSwitchSource = (RemoteLimitSwitchSource) ConfigGetParameter(eLimitSwitchSource, 0, timeoutMs);
+	allConfigs.reverseLimitSwitchSource = (RemoteLimitSwitchSource) ConfigGetParameter(eLimitSwitchSource, 1, timeoutMs);
+
 }
 
 ErrorCode VictorSPX::ConfigFactoryDefault(int timeoutMs) {

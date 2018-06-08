@@ -25,8 +25,8 @@ struct CANifierConfiguration : CustomParamConfiguration{
 	CANifierVelocityMeasPeriod velocityMeasurementPeriod;
 	int velocityMeasurementWindow;
 	CANifierConfiguration() : 
-		velocityMeasurementPeriod(Period_1Ms), //TODO: Check this 
-		velocityMeasurementWindow(0) //TODO: Check this
+		velocityMeasurementPeriod(Period_100Ms), 
+		velocityMeasurementWindow(64) 	
 	{
 	}
 };// struct CANifierConfiguration
@@ -147,8 +147,10 @@ public:
 	ErrorCode ClearStickyFaults(int timeoutMs = 0);
 	
 	//------ All Configs ----------//
-    ErrorCode ConfigAllSettings(CANifierConfiguration &allConfigs, int timeoutMs = 50);
+    ctre::phoenix::ErrorCode ConfigAllSettings(const CANifierConfiguration &allConfigs, int timeoutMs = 50);
+    void GetAllConfigs(CANifierConfiguration &allConfigs, int timeoutMs = 50);
     ErrorCode ConfigFactoryDefault(int timeoutMs = 50);
+
 
 private:
 	void* m_handle;

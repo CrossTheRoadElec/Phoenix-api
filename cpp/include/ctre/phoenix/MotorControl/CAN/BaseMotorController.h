@@ -48,16 +48,14 @@ struct BasePIDSetConfiguration {
 	SensorTerm sensorTerm;
 
 	//Remote feedback filter information isn't used unless the device is a remote
-	int remoteFeedbackFilter; 
 	int remoteSensorDeviceID; 
 	RemoteSensorSource remoteSensorSource;  
 	 
 	BasePIDSetConfiguration() :
 		selectedFeedbackCoefficient(1.0),
 		sensorTerm(SensorTerm::SensorTerm_Sum0), 
-		remoteFeedbackFilter(0),
         remoteSensorDeviceID(0), 
-        remoteSensorSource() //TODO: fix
+        remoteSensorSource(RemoteSensorSource::RemoteSensorSource_Off) 	
 	{
 	}
 };// struct BasePIDSetConfiguration
@@ -162,8 +160,10 @@ private:
 protected:
 	void* m_handle;
 	void* GetHandle();
-	virtual ctre::phoenix::ErrorCode BaseConfigAllSettings(BaseMotorControllerConfiguration &allConfigs, int timeoutMs);
-	virtual ctre::phoenix::ErrorCode BaseConfigurePID(BasePIDSetConfiguration &pid, int pidIdx, int timeoutMs);
+	virtual ctre::phoenix::ErrorCode BaseConfigAllSettings(const BaseMotorControllerConfiguration &allConfigs, int timeoutMs);
+	virtual void BaseGetAllConfigs(BaseMotorControllerConfiguration &allConfigs, int timeoutMs);
+	virtual ctre::phoenix::ErrorCode BaseConfigurePID(const BasePIDSetConfiguration &pid, int pidIdx, int timeoutMs);
+	virtual void BaseGetPIDConfigs(BasePIDSetConfiguration &pid, int pidIdx, int timeoutMs);
 public:
 	BaseMotorController(int arbId);
 	~BaseMotorController();
@@ -358,7 +358,8 @@ public:
 	 */
 	ctre::phoenix::motorcontrol::SensorCollection & GetSensorCollection();
 	//-------Config All----------//
-	ctre::phoenix::ErrorCode ConfigureSlot(SlotConfiguration &slot, int slotIdx = 0, int timeoutMs = 50);	
+	ctre::phoenix::ErrorCode ConfigureSlot(const SlotConfiguration &slot, int slotIdx = 0, int timeoutMs = 50);	
+	void GetSlotConfigs(SlotConfiguration &slot, int slotIdx = 0, int timeoutMs = 50);	
 	
 };// class BaseMotorController
 } // namespace can

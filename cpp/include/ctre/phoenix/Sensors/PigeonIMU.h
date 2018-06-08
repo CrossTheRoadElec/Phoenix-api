@@ -52,7 +52,7 @@ namespace sensors {
 struct PigeonIMUConfiguration : CustomParamConfiguration{
 	bool temperatureCompensationEnable;
 	PigeonIMUConfiguration() :
-		temperatureCompensationEnable(false) //check
+		temperatureCompensationEnable(true) //check
 	{
 	}
 };// struct PigeonIMU
@@ -308,8 +308,10 @@ private:
 	double GetTemp(const uint64_t & statusFrame);
 	
 	//------ All Configs ----------//
-    virtual ErrorCode ConfigAllSettings(PigeonIMUConfiguration &allConfigs, int timeoutMs = 50);
+    virtual ctre::phoenix::ErrorCode ConfigAllSettings(const PigeonIMUConfiguration &allConfigs, int timeoutMs = 50);
+    virtual void GetAllConfigs(PigeonIMUConfiguration &allConfigs, int timeoutMs = 50);
     virtual ErrorCode ConfigFactoryDefault(int timeoutMs = 50);
+
 
 };// class PigeonIMU
 } // namespace signals
