@@ -109,6 +109,8 @@ enum ParamEnum
 	eMotionMeas_shake_reject_thresh = 178,
 	eMotionMeas_shake_reject_time = 179,
 	eMotionMeas_shake_reject_timeout = 180,
+
+	eDefaultConfig = 500,
 };
 
 }

@@ -10,6 +10,7 @@ extern "C"{
 	void c_MotController_SetNeutralMode(void *handle, int neutralMode);
 	void c_MotController_SetSensorPhase(void *handle, bool PhaseSensor);
 	void c_MotController_SetInverted(void *handle, bool invert);
+	ctre::phoenix::ErrorCode c_MotController_ConfigFactoryDefault(void *handle, int timeoutMs);
 	ctre::phoenix::ErrorCode c_MotController_ConfigOpenLoopRamp(void *handle, double secondsFromNeutralToFull, int timeoutMs);
 	ctre::phoenix::ErrorCode c_MotController_ConfigClosedLoopRamp(void *handle, double secondsFromNeutralToFull, int timeoutMs);
 	ctre::phoenix::ErrorCode c_MotController_ConfigPeakOutputForward(void *handle, double percentOut, int timeoutMs);

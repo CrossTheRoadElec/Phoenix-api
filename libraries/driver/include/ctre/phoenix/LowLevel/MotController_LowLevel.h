@@ -83,7 +83,7 @@ public:
 	void SetNeutralMode(ctre::phoenix::motorcontrol::NeutralMode neutralMode);
 	void SetSensorPhase(bool PhaseSensor);
 	void SetInverted(bool invert);
-
+	ErrorCode ConfigFactoryDefault(int timeoutMs);
 	ErrorCode ConfigOpenLoopRamp(double secondsFromNeutralToFull, int timeoutMs);
 	ErrorCode ConfigClosedLoopRamp(double secondsFromNeutralToFull,
 			int timeoutMs);
