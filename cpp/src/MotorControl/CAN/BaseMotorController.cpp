@@ -1928,7 +1928,7 @@ void BaseMotorController::BaseGetAllConfigs(BaseMotorControllerConfiguration &al
 	GetSlotConfigs(allConfigs.slot_2, 2, timeoutMs);	
 	GetSlotConfigs(allConfigs.slot_3, 3, timeoutMs);	
 
-	allConfigs.auxPIDPolarity = (bool) ConfigGetParameter(ePIDLoopPolarity, 0, timeoutMs);
+	allConfigs.auxPIDPolarity = (bool) ConfigGetParameter(ePIDLoopPolarity, 1, timeoutMs);
 	allConfigs.motionCruiseVelocity = (int) ConfigGetParameter(eMotMag_VelCruise, 0, timeoutMs);
 	allConfigs.motionAcceleration = (int) ConfigGetParameter(eMotMag_Accel, 0, timeoutMs);
 	allConfigs.motionProfileTrajectoryPeriod = (int) ConfigGetParameter(eMotionProfileTrajectoryPointDurationMs, 0, timeoutMs);

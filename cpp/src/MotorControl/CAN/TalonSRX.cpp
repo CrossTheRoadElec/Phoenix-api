@@ -341,32 +341,6 @@ void TalonSRX::EnableCurrentLimit(bool enable) {
 	c_MotController_EnableCurrentLimit(m_handle, enable);
 }
 
-
-
-
-ctre::phoenix::ErrorCode TalonSRX::IfRemoteUseRemoteLimitSwitch( bool isForward, 
-			LimitSwitchSource type, LimitSwitchNormal normalOpenOrClose, int deviceID, int timeoutMs) {
-	if(limitSwitchRoutines.IsRemote(type)) {
-		if(isForward) { 
-			return ConfigForwardLimitSwitchSource( static_cast<RemoteLimitSwitchSource>(type), 
-			normalOpenOrClose, deviceID, timeoutMs);
-		}
-		else {
-			return ConfigReverseLimitSwitchSource(static_cast<RemoteLimitSwitchSource>(type), 
-			normalOpenOrClose, deviceID, timeoutMs);
-		}
-	}
-	else {
-		if(isForward) { 
-			return ConfigForwardLimitSwitchSource(type, normalOpenOrClose, timeoutMs);
-		}
-		else {
-			return ConfigReverseLimitSwitchSource(type, normalOpenOrClose, timeoutMs);
-		}
-	}
-}
-
-
 //Fix this return data type at some point
 
 ErrorCode TalonSRX::ConfigurePID(const TalonSRXPIDSetConfiguration &pid, int pidIdx, int timeoutMs) {
@@ -392,13 +366,22 @@ ErrorCode TalonSRX::ConfigAllSettings(const TalonSRXConfiguration &allConfigs, i
 	BaseConfigAllSettings(allConfigs, timeoutMs);	
 
     //------ limit switch ----------//   
-    IfRemoteUseRemoteLimitSwitch(true, allConfigs.forwardLimitSwitchSource, allConfigs.forwardLimitSwitchNormal, allConfigs.forwardLimitSwitchDeviceID, timeoutMs);
-    IfRemoteUseRemoteLimitSwitch(false, allConfigs.reverseLimitSwitchSource, allConfigs.reverseLimitSwitchNormal, allConfigs.reverseLimitSwitchDeviceID, timeoutMs);
+    c_MotController_ConfigForwardLimitSwitchSource(m_handle, allConfigs.forwardLimitSwitchSource,
+			allConfigs.forwardLimitSwitchNormal, allConfigs.forwardLimitSwitchDeviceID, timeoutMs);
+    c_MotController_ConfigReverseLimitSwitchSource(m_handle, allConfigs.reverseLimitSwitchSource,
+			allConfigs.reverseLimitSwitchNormal, allConfigs.reverseLimitSwitchDeviceID, timeoutMs);
+
 
 	//--------PIDs---------------//
 	
 	ConfigurePID(allConfigs.primaryPID, 0, timeoutMs);
 	ConfigurePID(allConfigs.auxilaryPID, 1, timeoutMs);
+
+    //--------Current Limiting-----//
+	ConfigPeakCurrentLimit(allConfigs.peakCurrentLimit, timeoutMs);
+	ConfigPeakCurrentDuration(allConfigs.peakCurrentDuration, timeoutMs);
+	ConfigContinuousCurrentLimit(allConfigs.continuousCurrentLimit, timeoutMs); 
+
 
     return FeatureNotSupported;
 }
