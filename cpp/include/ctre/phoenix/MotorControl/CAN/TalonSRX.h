@@ -98,9 +98,9 @@ public:
 
 	ctre::phoenix::ErrorCode ConfigurePID(const TalonSRXPIDSetConfiguration &pid, int pidIdx = 0, int timeoutMs = 50);
 	void GetPIDConfigs(TalonSRXPIDSetConfiguration &pid, int pidIdx = 0, int timeoutMs = 50);
-	ctre::phoenix::ErrorCode ConfigAllSettings(const TalonSRXConfiguration &allConfigs, int timeoutMs = 50);
-	void GetAllConfigs(TalonSRXConfiguration &allConfigs, int timeoutMs = 50);
-	ctre::phoenix::ErrorCode ConfigFactoryDefault(int timeoutMs = 50);
+	ctre::phoenix::ErrorCode ConfigAllSettings(const TalonSRXConfiguration &allConfigs, int timeoutMs = 100);
+	void GetAllConfigs(TalonSRXConfiguration &allConfigs, int timeoutMs = 100);
+	ctre::phoenix::ErrorCode ConfigFactoryDefault(int timeoutMs = 100);
 
 protected:
 	LimitSwitchRoutines limitSwitchRoutines;	

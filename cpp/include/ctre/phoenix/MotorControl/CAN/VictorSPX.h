@@ -51,9 +51,9 @@ public:
 	//------ All Configs ----------//
 	ctre::phoenix::ErrorCode ConfigurePID(const VictorSPXPIDSetConfiguration &pid, int pidIdx = 0, int timeoutMs = 50);
 	void GetPIDConfigs(VictorSPXPIDSetConfiguration &pid, int pidIdx = 0, int timeoutMs = 50);
-	virtual ctre::phoenix::ErrorCode ConfigAllSettings(const VictorSPXConfiguration &allConfigs, int timeoutMs = 50);
-	virtual void GetAllConfigs(VictorSPXConfiguration &allConfigs, int timeoutMs = 50);
-	virtual ctre::phoenix::ErrorCode ConfigFactoryDefault(int timeoutMs = 50);
+	virtual ctre::phoenix::ErrorCode ConfigAllSettings(const VictorSPXConfiguration &allConfigs, int timeoutMs = 100);
+	virtual void GetAllConfigs(VictorSPXConfiguration &allConfigs, int timeoutMs = 100);
+	virtual ctre::phoenix::ErrorCode ConfigFactoryDefault(int timeoutMs = 100);
 
 
 };// class VictorSPX
