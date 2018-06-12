@@ -19,9 +19,6 @@ ctre::phoenix::ErrorCode VictorSPX::ConfigurePID(const VictorSPXPIDSetConfigurat
 
 	BaseConfigurePID(pid, pidIdx, timeoutMs);
     ConfigSelectedFeedbackSensor(pid.selectedFeedbackSensor, pidIdx, timeoutMs);
-	ConfigRemoteFeedbackFilter( pid.remoteSensorDeviceID,
-	pid.remoteSensorSource, pidIdx,  timeoutMs);
-    ConfigSensorTerm(pid.sensorTerm, (FeedbackDevice) pid.selectedFeedbackSensor, timeoutMs);
     
 	return FeatureNotSupported;
 }
@@ -44,6 +41,10 @@ ErrorCode VictorSPX::ConfigAllSettings(const VictorSPXConfiguration &allConfigs,
 	
     ConfigurePID(allConfigs.primaryPID, 0, timeoutMs);
     ConfigurePID(allConfigs.auxilaryPID, 1, timeoutMs);
+    ConfigSensorTerm(SensorTerm::SensorTerm_Sum0, allConfigs.sum_0, timeoutMs);
+    ConfigSensorTerm(SensorTerm::SensorTerm_Sum1, allConfigs.sum_1, timeoutMs);
+    ConfigSensorTerm(SensorTerm::SensorTerm_Diff0, allConfigs.diff_0, timeoutMs);
+    ConfigSensorTerm(SensorTerm::SensorTerm_Diff1, allConfigs.diff_1, timeoutMs);
 	
     return FeatureNotSupported;
 }
@@ -53,6 +54,10 @@ void VictorSPX::GetAllConfigs(VictorSPXConfiguration &allConfigs, int timeoutMs)
 	
 	GetPIDConfigs(allConfigs.primaryPID, 0, timeoutMs);
 	GetPIDConfigs(allConfigs.auxilaryPID, 1, timeoutMs);
+    allConfigs.sum_0 = (RemoteFeedbackDevice) ConfigGetParameter(eSensorTerm, 0, timeoutMs);
+    allConfigs.sum_1 = (RemoteFeedbackDevice) ConfigGetParameter(eSensorTerm, 1, timeoutMs);
+    allConfigs.diff_0 = (RemoteFeedbackDevice) ConfigGetParameter(eSensorTerm, 2, timeoutMs);
+    allConfigs.diff_1 = (RemoteFeedbackDevice) ConfigGetParameter(eSensorTerm, 3, timeoutMs);
 
 	allConfigs.forwardLimitSwitchSource = (RemoteLimitSwitchSource) ConfigGetParameter(eLimitSwitchSource, 0, timeoutMs);
 	allConfigs.reverseLimitSwitchSource = (RemoteLimitSwitchSource) ConfigGetParameter(eLimitSwitchSource, 1, timeoutMs);

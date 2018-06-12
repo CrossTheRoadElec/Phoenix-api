@@ -27,10 +27,19 @@ struct VictorSPXConfiguration : BaseMotorControllerConfiguration {
 	VictorSPXPIDSetConfiguration auxilaryPID;	
 	RemoteLimitSwitchSource forwardLimitSwitchSource;
 	RemoteLimitSwitchSource reverseLimitSwitchSource;
+	RemoteFeedbackDevice sum_0;
+	RemoteFeedbackDevice sum_1;
+	RemoteFeedbackDevice diff_0;
+	RemoteFeedbackDevice diff_1;
 
 	VictorSPXConfiguration() :
 		forwardLimitSwitchSource(RemoteLimitSwitchSource_Deactivated), //Check with victor
-		reverseLimitSwitchSource(RemoteLimitSwitchSource_Deactivated)
+		reverseLimitSwitchSource(RemoteLimitSwitchSource_Deactivated),
+		sum_0 (RemoteFeedbackDevice_None),
+		sum_1 (RemoteFeedbackDevice_None),
+		diff_0(RemoteFeedbackDevice_None),
+		diff_1(RemoteFeedbackDevice_None)
+
 	{
 	}	
 };

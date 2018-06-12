@@ -577,6 +577,11 @@ ErrorCode BaseMotorController::ConfigSensorTerm(SensorTerm sensorTerm,
 			(int) feedbackDevice, timeoutMs);
 }
 
+ErrorCode BaseMotorController::ConfigSensorTerm(SensorTerm sensorTerm,
+		RemoteFeedbackDevice feedbackDevice, int timeoutMs) {
+	return ConfigSensorTerm(sensorTerm, (FeedbackDevice) feedbackDevice, timeoutMs);
+}
+
 //------- sensor status --------- //
 /**
  * Get the selected sensor position (in raw sensor units).
@@ -1828,6 +1833,21 @@ void BaseMotorController::GetSlotConfigs(SlotConfiguration &slot, int slotIdx, i
 	slot.closedLoopPeriod = (int) ConfigGetParameter(ePIDLoopPeriod, slotIdx, timeoutMs);
 }
 
+
+ctre::phoenix::ErrorCode BaseMotorController::ConfigureFilter(const FilterConfiguration &filter, int ordinal, int timeoutMs) {
+
+	ConfigRemoteFeedbackFilter(filter.remoteSensorDeviceID, filter.remoteSensorSource, ordinal, timeoutMs);
+
+    return FeatureNotSupported;
+
+}
+
+void BaseMotorController::GetFilterConfigs(FilterConfiguration &filter, int ordinal, int timeoutMs) {
+
+    filter.remoteSensorDeviceID = (int) ConfigGetParameter(eRemoteSensorDeviceID, ordinal, timeoutMs);
+    filter.remoteSensorSource = (RemoteSensorSource) ConfigGetParameter(eRemoteSensorSource, ordinal, timeoutMs);
+
+}
 ctre::phoenix::ErrorCode BaseMotorController::BaseConfigurePID(const BasePIDSetConfiguration &pid, int pidIdx, int timeoutMs) {
 
 	ConfigSelectedFeedbackCoefficient(pid.selectedFeedbackCoefficient, pidIdx, timeoutMs);
@@ -1838,11 +1858,7 @@ ctre::phoenix::ErrorCode BaseMotorController::BaseConfigurePID(const BasePIDSetC
 void BaseMotorController::BaseGetPIDConfigs(BasePIDSetConfiguration &pid, int pidIdx, int timeoutMs) {
 
 	pid.selectedFeedbackCoefficient = (double) ConfigGetParameter(eSelectedSensorCoefficient, pidIdx, timeoutMs);
-    pid.sensorTerm = (SensorTerm) ConfigGetParameter(eSensorTerm, pidIdx, timeoutMs);
-	
-	//Remote feedback filter information isn't used unless the device is a remote
-    pid.remoteSensorDeviceID = (int) ConfigGetParameter(eRemoteSensorDeviceID, pidIdx, timeoutMs);
-    pid.remoteSensorSource = (RemoteSensorSource) ConfigGetParameter(eRemoteSensorSource, pidIdx, timeoutMs);
+
 }
 
 ctre::phoenix::ErrorCode BaseMotorController::BaseConfigAllSettings(const BaseMotorControllerConfiguration &allConfigs, int timeoutMs) {
@@ -1887,6 +1903,10 @@ ctre::phoenix::ErrorCode BaseMotorController::BaseConfigAllSettings(const BaseMo
 
     ConfigAuxPIDPolarity(allConfigs.auxPIDPolarity, timeoutMs);
 
+    //----------Remote Feedback Filters----------//
+    ConfigureFilter(allConfigs.filter_0, 0, timeoutMs);
+    ConfigureFilter(allConfigs.filter_1, 1, timeoutMs);
+    
     //------ Motion Profile Settings used in Motion Magic  ----------//
     ConfigMotionCruiseVelocity(allConfigs.motionCruiseVelocity, timeoutMs);
     ConfigMotionAcceleration(allConfigs.motionAcceleration, timeoutMs);
@@ -1929,7 +1949,11 @@ void BaseMotorController::BaseGetAllConfigs(BaseMotorControllerConfiguration &al
 	GetSlotConfigs(allConfigs.slot_3, 3, timeoutMs);	
 
 	allConfigs.auxPIDPolarity = (bool) ConfigGetParameter(ePIDLoopPolarity, 1, timeoutMs);
-	allConfigs.motionCruiseVelocity = (int) ConfigGetParameter(eMotMag_VelCruise, 0, timeoutMs);
+
+    GetFilterConfigs(allConfigs.filter_0, 0, timeoutMs);
+    GetFilterConfigs(allConfigs.filter_1, 1, timeoutMs);
+
+    allConfigs.motionCruiseVelocity = (int) ConfigGetParameter(eMotMag_VelCruise, 0, timeoutMs);
 	allConfigs.motionAcceleration = (int) ConfigGetParameter(eMotMag_Accel, 0, timeoutMs);
 	allConfigs.motionProfileTrajectoryPeriod = (int) ConfigGetParameter(eMotionProfileTrajectoryPointDurationMs, 0, timeoutMs);
 	allConfigs.customParam_0 = (int) ConfigGetParameter(eCustomParam, 0,  timeoutMs); 

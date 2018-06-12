@@ -350,9 +350,7 @@ ErrorCode TalonSRX::ConfigurePID(const TalonSRXPIDSetConfiguration &pid, int pid
 	BaseConfigurePID(pid, pidIdx, timeoutMs);
  
 	ConfigSelectedFeedbackSensor(pid.selectedFeedbackSensor, pidIdx, timeoutMs);
-	ConfigRemoteFeedbackFilter(pid.remoteSensorDeviceID, pid.remoteSensorSource, pidIdx, timeoutMs);
-    ConfigSensorTerm(pid.sensorTerm, pid.selectedFeedbackSensor, timeoutMs);
-    
+
 	return FeatureNotSupported;
 }
 void TalonSRX::GetPIDConfigs(TalonSRXPIDSetConfiguration &pid, int pidIdx, int timeoutMs)
@@ -376,6 +374,10 @@ ErrorCode TalonSRX::ConfigAllSettings(const TalonSRXConfiguration &allConfigs, i
 	
 	ConfigurePID(allConfigs.primaryPID, 0, timeoutMs);
 	ConfigurePID(allConfigs.auxilaryPID, 1, timeoutMs);
+    ConfigSensorTerm(SensorTerm::SensorTerm_Sum0, allConfigs.sum_0, timeoutMs);
+    ConfigSensorTerm(SensorTerm::SensorTerm_Sum1, allConfigs.sum_1, timeoutMs);
+    ConfigSensorTerm(SensorTerm::SensorTerm_Diff0, allConfigs.diff_0, timeoutMs);
+    ConfigSensorTerm(SensorTerm::SensorTerm_Diff1, allConfigs.diff_1, timeoutMs);
 
     //--------Current Limiting-----//
 	ConfigPeakCurrentLimit(allConfigs.peakCurrentLimit, timeoutMs);
@@ -391,6 +393,11 @@ void TalonSRX::GetAllConfigs(TalonSRXConfiguration &allConfigs, int timeoutMs) {
 	
 	GetPIDConfigs(allConfigs.primaryPID, 0, timeoutMs);
 	GetPIDConfigs(allConfigs.auxilaryPID, 1, timeoutMs);
+    allConfigs.sum_0 = (FeedbackDevice) ConfigGetParameter(eSensorTerm, 0, timeoutMs);
+    allConfigs.sum_1 = (FeedbackDevice) ConfigGetParameter(eSensorTerm, 1, timeoutMs);
+    allConfigs.diff_0 = (FeedbackDevice) ConfigGetParameter(eSensorTerm, 2, timeoutMs);
+    allConfigs.diff_1 = (FeedbackDevice) ConfigGetParameter(eSensorTerm, 3, timeoutMs);
+
 
 	allConfigs.forwardLimitSwitchSource = (LimitSwitchSource) ConfigGetParameter(eLimitSwitchSource, 0, timeoutMs);
 	allConfigs.reverseLimitSwitchSource = (LimitSwitchSource) ConfigGetParameter(eLimitSwitchSource, 1, timeoutMs);

@@ -45,21 +45,23 @@ namespace can {
 struct BasePIDSetConfiguration {
 
 	double selectedFeedbackCoefficient;
-	SensorTerm sensorTerm;
 
-	//Remote feedback filter information isn't used unless the device is a remote
-	int remoteSensorDeviceID; 
-	RemoteSensorSource remoteSensorSource;  
-	 
 	BasePIDSetConfiguration() :
-		selectedFeedbackCoefficient(1.0),
-		sensorTerm(SensorTerm::SensorTerm_Sum0), 
-        remoteSensorDeviceID(0), 
-        remoteSensorSource(RemoteSensorSource::RemoteSensorSource_Off) 	
+		selectedFeedbackCoefficient(1.0)
 	{
 	}
 };// struct BasePIDSetConfiguration
+struct FilterConfiguration {
 
+	int remoteSensorDeviceID; 
+	RemoteSensorSource remoteSensorSource;  
+
+    FilterConfiguration() :
+        remoteSensorDeviceID(0), 
+        remoteSensorSource(RemoteSensorSource::RemoteSensorSource_Off) 	
+    {
+    }
+}; // struct FilterConfiguration
 struct SlotConfiguration{
 
 	double kP; 
@@ -112,7 +114,9 @@ struct BaseMotorControllerConfiguration : ctre::phoenix::CustomParamConfiguratio
 	SlotConfiguration slot_2;
 	SlotConfiguration slot_3;
 	bool auxPIDPolarity; 
-	int motionCruiseVelocity; 
+	FilterConfiguration filter_0;
+	FilterConfiguration filter_1;
+    int motionCruiseVelocity; 
 	int motionAcceleration; 
 	int motionProfileTrajectoryPeriod; 
 	BaseMotorControllerConfiguration() :
@@ -218,6 +222,8 @@ public:
 			int timeoutMs = 0);
 	virtual ctre::phoenix::ErrorCode ConfigSensorTerm(SensorTerm sensorTerm,
 			FeedbackDevice feedbackDevice, int timeoutMs = 0);
+	virtual ctre::phoenix::ErrorCode ConfigSensorTerm(SensorTerm sensorTerm,
+			RemoteFeedbackDevice feedbackDevice, int timeoutMs = 0);
 
 	//------- sensor status --------- //
 	virtual int GetSelectedSensorPosition(int pidIdx = 0);
@@ -360,6 +366,8 @@ public:
 	//-------Config All----------//
 	ctre::phoenix::ErrorCode ConfigureSlot(const SlotConfiguration &slot, int slotIdx = 0, int timeoutMs = 50);	
 	void GetSlotConfigs(SlotConfiguration &slot, int slotIdx = 0, int timeoutMs = 50);	
+	ctre::phoenix::ErrorCode ConfigureFilter(const FilterConfiguration &filter, int ordinal = 0, int timeoutMs = 50);	
+	void GetFilterConfigs(FilterConfiguration &Filter, int ordinal = 0, int timeoutMs = 50);
 	
 };// class BaseMotorController
 } // namespace can

@@ -28,16 +28,23 @@ struct TalonSRXConfiguration : BaseMotorControllerConfiguration{
 	TalonSRXPIDSetConfiguration auxilaryPID;
 	LimitSwitchSource forwardLimitSwitchSource;
 	LimitSwitchSource reverseLimitSwitchSource;
-
+	FeedbackDevice sum_0;
+	FeedbackDevice sum_1;
+	FeedbackDevice diff_0;
+	FeedbackDevice diff_1;
 	int peakCurrentLimit; 
     int peakCurrentDuration;
     int continuousCurrentLimit; 
-	TalonSRXConfiguration() :
+    TalonSRXConfiguration() :
 		forwardLimitSwitchSource(LimitSwitchSource_FeedbackConnector),
 		reverseLimitSwitchSource(LimitSwitchSource_FeedbackConnector),
-		peakCurrentLimit(0),
-		peakCurrentDuration(0), 
-		continuousCurrentLimit(0)
+		sum_0 (QuadEncoder),
+		sum_1 (QuadEncoder),
+		diff_0(QuadEncoder),
+		diff_1(QuadEncoder),
+        peakCurrentLimit(1),
+		peakCurrentDuration(1), 
+		continuousCurrentLimit(1)
 	{
 	}
 };// struct TalonSRXConfiguration
