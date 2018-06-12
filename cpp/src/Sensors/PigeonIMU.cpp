@@ -149,12 +149,12 @@ int PigeonIMU::SetAccumZAngle(double angleDeg, int timeoutMs) {
  */
 int PigeonIMU::ConfigTemperatureCompensationEnable(bool bTempCompEnable,
 		int timeoutMs) {
-	int errCode = c_PigeonIMU_ConfigTemperatureCompensationEnable(_handle,
-			bTempCompEnable, timeoutMs);
+	int errCode = c_PigeonIMU_ConfigTemperatureCompensationDisable(_handle,
+			!bTempCompEnable, timeoutMs); //bool inverted
 	return errCode;
 }
 
-/*
+/**
  * Disable/Enable Temp compensation. Pigeon defaults with this on/False at boot.
  *
  * @param bTempCompDisable Set to "False" to enable temperature compensation.

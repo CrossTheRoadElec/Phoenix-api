@@ -55,7 +55,7 @@ public class PigeonImuJNI extends CTREJNIWrapper {
 	
 	public static native int JNI_SetAccumZAngle(long handle, double angleDeg, int timeoutMs);
 	
-	public static native int JNI_ConfigTemperatureCompensationEnable(long handle, int bTempCompEnable, int timeoutMs);
+	public static native int JNI_ConfigTemperatureCompensationDisable(long handle, int bTempCompDisable, int timeoutMs);
 	
 	public static native int JNI_SetCompassDeclination(long handle, double angleDegOffset, int timeoutMs);
 	

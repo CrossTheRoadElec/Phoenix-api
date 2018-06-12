@@ -44,7 +44,7 @@
 	ctre::phoenix::ErrorCode c_PigeonIMU_AddFusedHeading(void *handle, double angleDeg, int timeoutMs);
 	ctre::phoenix::ErrorCode c_PigeonIMU_SetFusedHeadingToCompass(void *handle, int timeoutMs);
 	ctre::phoenix::ErrorCode c_PigeonIMU_SetAccumZAngle(void *handle, double angleDeg, int timeoutMs);
-	ctre::phoenix::ErrorCode c_PigeonIMU_ConfigTemperatureCompensationEnable(void *handle, int bTempCompEnable, int timeoutMs);
+	ctre::phoenix::ErrorCode c_PigeonIMU_ConfigTemperatureCompensationDisable(void *handle, int bTempCompDisable, int timeoutMs);
 	ctre::phoenix::ErrorCode c_PigeonIMU_SetCompassDeclination(void *handle, double angleDegOffset, int timeoutMs);
 	ctre::phoenix::ErrorCode c_PigeonIMU_SetCompassAngle(void *handle, double angleDeg, int timeoutMs);
 	ctre::phoenix::ErrorCode c_PigeonIMU_EnterCalibrationMode(void *handle, int calMode, int timeoutMs);
