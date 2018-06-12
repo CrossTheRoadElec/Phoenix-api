@@ -454,7 +454,7 @@ ErrorCode CANifier::ConfigAllSettings(const CANifierConfiguration &allConfigs, i
 	ConfigVelocityMeasurementPeriod(allConfigs.velocityMeasurementPeriod, timeoutMs);
 	ConfigVelocityMeasurementWindow(allConfigs.velocityMeasurementWindow, timeoutMs);
 	ConfigSetCustomParam(allConfigs.customParam_0, 0, timeoutMs);
-	ConfigSetCustomParam(allConfigs.customParam_0, 1, timeoutMs);
+	ConfigSetCustomParam(allConfigs.customParam_1, 1, timeoutMs);
 
 	return FeatureNotSupported;	
 }
@@ -464,7 +464,7 @@ void CANifier::GetAllConfigs(CANifierConfiguration &allConfigs, int timeoutMs) {
 	allConfigs.velocityMeasurementPeriod = (CANifierVelocityMeasPeriod) ConfigGetParameter(eSampleVelocityPeriod, 0,  timeoutMs); 
 	allConfigs.velocityMeasurementWindow = (int) ConfigGetParameter(eSampleVelocityWindow, 0,  timeoutMs); 
 	allConfigs.customParam_0 = (int) ConfigGetParameter(eCustomParam, 0,  timeoutMs); 
-	allConfigs.customParam_0 = (int) ConfigGetParameter(eCustomParam, 1,  timeoutMs); 
+	allConfigs.customParam_1 = (int) ConfigGetParameter(eCustomParam, 1,  timeoutMs); 
 
 }
 

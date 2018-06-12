@@ -1916,7 +1916,17 @@ ctre::phoenix::ErrorCode BaseMotorController::BaseConfigAllSettings(const BaseMo
 
     //------ Custom Persistent Params ----------//
     ConfigSetCustomParam(allConfigs.customParam_0, 0, timeoutMs);
-    ConfigSetCustomParam(allConfigs.customParam_0, 1, timeoutMs);
+    ConfigSetCustomParam(allConfigs.customParam_1, 1, timeoutMs);
+
+    c_MotController_ConfigSetParameter(m_handle, 332, allConfigs.feedbackNotContinuous, 0, 0, timeoutMs); 
+    c_MotController_ConfigSetParameter(m_handle, 336, allConfigs.remoteSensorClosedLoopDisableNeutralOnLOS, 0, 0, timeoutMs); 
+    c_MotController_ConfigSetParameter(m_handle, 320, allConfigs.clearPositionOnLimitF, 0, 0, timeoutMs); 
+    c_MotController_ConfigSetParameter(m_handle, 321, allConfigs.clearPositionOnLimitR, 0, 0, timeoutMs); 
+    c_MotController_ConfigSetParameter(m_handle, 322, allConfigs.clearPositionOnQuadIdx, 0, 0, timeoutMs); 
+    c_MotController_ConfigSetParameter(m_handle, 423, allConfigs.limitSwitchDisableNeutralOnLOS, 0, 0, timeoutMs); 
+    c_MotController_ConfigSetParameter(m_handle, 425, allConfigs.softLimitDisableNeutralOnLOS, 0, 0, timeoutMs); 
+    c_MotController_ConfigSetParameter(m_handle, 430, allConfigs.pulseWidthPeriod_EdgesPerRot, 0, 0, timeoutMs); 
+    c_MotController_ConfigSetParameter(m_handle, 431, allConfigs.pulseWidthPeriod_FilterWindowSz, 0, 0, timeoutMs); 
 
     return FeatureNotSupported;
 }
@@ -1957,6 +1967,18 @@ void BaseMotorController::BaseGetAllConfigs(BaseMotorControllerConfiguration &al
 	allConfigs.motionAcceleration = (int) ConfigGetParameter(eMotMag_Accel, 0, timeoutMs);
 	allConfigs.motionProfileTrajectoryPeriod = (int) ConfigGetParameter(eMotionProfileTrajectoryPointDurationMs, 0, timeoutMs);
 	allConfigs.customParam_0 = (int) ConfigGetParameter(eCustomParam, 0,  timeoutMs); 
-	allConfigs.customParam_0 = (int) ConfigGetParameter(eCustomParam, 1,  timeoutMs); 
+	allConfigs.customParam_1 = (int) ConfigGetParameter(eCustomParam, 1,  timeoutMs); 
+
+
+    allConfigs.feedbackNotContinuous = (bool) ConfigGetParameter(eFeedbackNotContinuous, 0, timeoutMs);
+    allConfigs.remoteSensorClosedLoopDisableNeutralOnLOS = (bool) ConfigGetParameter(eRemoteSensorClosedLoopDisableNeutralOnLOS, 0, timeoutMs);
+    allConfigs.clearPositionOnLimitF = (bool) ConfigGetParameter(eClearPositionOnLimitF, 0, timeoutMs);
+    allConfigs.clearPositionOnLimitR = (bool) ConfigGetParameter(eClearPositionOnLimitR, 0, timeoutMs);
+    allConfigs.clearPositionOnQuadIdx = (bool) ConfigGetParameter(eClearPositionOnQuadIdx, 0, timeoutMs);
+    allConfigs.limitSwitchDisableNeutralOnLOS = (bool) ConfigGetParameter(eLimitSwitchDisableNeutralOnLOS, 0, timeoutMs);
+    allConfigs.softLimitDisableNeutralOnLOS = (bool) ConfigGetParameter(eSoftLimitDisableNeutralOnLOS, 0, timeoutMs);
+    allConfigs.pulseWidthPeriod_EdgesPerRot = (int) ConfigGetParameter(ePulseWidthPeriod_EdgesPerRot, 0, timeoutMs);
+    allConfigs.pulseWidthPeriod_FilterWindowSz = (int) ConfigGetParameter(ePulseWidthPeriod_FilterWindowSz, 0, timeoutMs);
+
 
 }

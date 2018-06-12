@@ -50,9 +50,9 @@ namespace phoenix {
 namespace sensors {
 
 struct PigeonIMUConfiguration : CustomParamConfiguration{
-	bool temperatureCompensationEnable;
+	bool temperatureCompensationDisable;
 	PigeonIMUConfiguration() :
-		temperatureCompensationEnable(true) //check
+		temperatureCompensationDisable(false)
 	{
 	}
 };// struct PigeonIMU

@@ -119,7 +119,17 @@ struct BaseMotorControllerConfiguration : ctre::phoenix::CustomParamConfiguratio
     int motionCruiseVelocity; 
 	int motionAcceleration; 
 	int motionProfileTrajectoryPeriod; 
-	BaseMotorControllerConfiguration() :
+    bool feedbackNotContinuous;
+    bool remoteSensorClosedLoopDisableNeutralOnLOS;
+    bool clearPositionOnLimitF;
+    bool clearPositionOnLimitR;
+    bool clearPositionOnQuadIdx;
+    bool limitSwitchDisableNeutralOnLOS;
+    bool softLimitDisableNeutralOnLOS;
+    int pulseWidthPeriod_EdgesPerRot;
+    int pulseWidthPeriod_FilterWindowSz;
+
+    BaseMotorControllerConfiguration() :
 			openloopRamp(0.0),
 			closedloopRamp(0.0),
 			peakOutputForward(1.0),
@@ -143,7 +153,17 @@ struct BaseMotorControllerConfiguration : ctre::phoenix::CustomParamConfiguratio
 			auxPIDPolarity(false), 
 			motionCruiseVelocity(0),
 			motionAcceleration(0),
-			motionProfileTrajectoryPeriod(0) 
+			motionProfileTrajectoryPeriod(0),
+            feedbackNotContinuous(false),
+            remoteSensorClosedLoopDisableNeutralOnLOS(false),
+            clearPositionOnLimitF(false),
+            clearPositionOnLimitR(false),
+            clearPositionOnQuadIdx(false),
+            limitSwitchDisableNeutralOnLOS(false),
+            softLimitDisableNeutralOnLOS(false),
+            pulseWidthPeriod_EdgesPerRot(1),
+            pulseWidthPeriod_FilterWindowSz(1)
+
 	{
 	}	
 };// struct BaseMotorControllerConfiguration
