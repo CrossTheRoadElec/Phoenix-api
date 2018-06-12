@@ -181,9 +181,12 @@ public:
 	int SetFusedHeadingToCompass(int timeoutMs = 0);
 	int SetAccumZAngle(double angleDeg, int timeoutMs = 0);
 
-	int ConfigTemperatureCompensationEnable(bool bTempCompEnable,
+	//----Function Deprecated-----//
+    int ConfigTemperatureCompensationEnable(bool bTempCompEnable,
 			int timeoutMs = 0);
 
+	int ConfigTemperatureCompensationDisable(bool bTempCompEnable,
+			int timeoutMs = 0);
 	int SetCompassDeclination(double angleDegOffset, int timeoutMs = 0);
 	int SetCompassAngle(double angleDeg, int timeoutMs = 0);
 
