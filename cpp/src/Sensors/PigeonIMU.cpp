@@ -793,11 +793,15 @@ ErrorCode PigeonIMU::ClearStickyFaults(int timeoutMs) {
 }
 
 ErrorCode PigeonIMU::ConfigAllSettings(const PigeonIMUConfiguration &allConfigs, int timeoutMs) {
-	ConfigTemperatureCompensationDisable(allConfigs.temperatureCompensationDisable, timeoutMs);
-    ConfigSetCustomParam(allConfigs.customParam_0, 0, timeoutMs);
-    ConfigSetCustomParam(allConfigs.customParam_1, 1, timeoutMs);
+	ErrorCode firstError;
+	ErrorCode nextError;
+    firstError = (ErrorCode) ConfigTemperatureCompensationDisable(allConfigs.temperatureCompensationDisable, timeoutMs);
+    nextError = ConfigSetCustomParam(allConfigs.customParam_0, 0, timeoutMs);
+    firstError = firstError ? firstError : nextError;
+    nextError = ConfigSetCustomParam(allConfigs.customParam_1, 1, timeoutMs);
+    firstError = firstError ? firstError : nextError;
 
-    return FeatureNotSupported; 
+    return firstError; 
 }
 
 void PigeonIMU::GetAllConfigs(PigeonIMUConfiguration &allConfigs, int timeoutMs) {
@@ -809,9 +813,7 @@ void PigeonIMU::GetAllConfigs(PigeonIMUConfiguration &allConfigs, int timeoutMs)
 
 ErrorCode PigeonIMU::ConfigFactoryDefault(int timeoutMs) {
     PigeonIMUConfiguration defaults;
-    ConfigAllSettings(defaults, timeoutMs);
-
-    return FeatureNotSupported;
+    return ConfigAllSettings(defaults, timeoutMs);
 }
 
 

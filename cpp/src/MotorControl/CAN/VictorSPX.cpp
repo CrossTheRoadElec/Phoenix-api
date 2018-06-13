@@ -15,12 +15,16 @@ VictorSPX::VictorSPX(int deviceNumber) :
 //Fix this return data type at some point
 
 ctre::phoenix::ErrorCode VictorSPX::ConfigurePID(const VictorSPXPIDSetConfiguration &pid, int pidIdx, int timeoutMs) {
+    ErrorCode firstError;
+    ErrorCode nextError;
+
     //------ sensor selection ----------//      
 
-	BaseConfigurePID(pid, pidIdx, timeoutMs);
-    ConfigSelectedFeedbackSensor(pid.selectedFeedbackSensor, pidIdx, timeoutMs);
-    
-	return FeatureNotSupported;
+	firstError = BaseConfigurePID(pid, pidIdx, timeoutMs);
+    nextError = ConfigSelectedFeedbackSensor(pid.selectedFeedbackSensor, pidIdx, timeoutMs);
+    firstError = firstError ? firstError : nextError;    
+
+	return firstError;
 }
 void VictorSPX::GetPIDConfigs(VictorSPXPIDSetConfiguration &pid, int pidIdx, int timeoutMs)
 {
@@ -30,23 +34,33 @@ void VictorSPX::GetPIDConfigs(VictorSPXPIDSetConfiguration &pid, int pidIdx, int
 }
 
 ErrorCode VictorSPX::ConfigAllSettings(const VictorSPXConfiguration &allConfigs, int timeoutMs) {
+    ErrorCode firstError;
+    ErrorCode nextError;
 	
-	BaseConfigAllSettings(allConfigs, timeoutMs);	
+	firstError = BaseConfigAllSettings(allConfigs, timeoutMs);	
 	
 	//------ remote limit switch ----------//	
-	ConfigForwardLimitSwitchSource(allConfigs.forwardLimitSwitchSource, allConfigs.forwardLimitSwitchNormal, allConfigs.forwardLimitSwitchDeviceID, timeoutMs);
-	ConfigReverseLimitSwitchSource(allConfigs.reverseLimitSwitchSource, allConfigs.reverseLimitSwitchNormal, allConfigs.reverseLimitSwitchDeviceID, timeoutMs);
+	nextError = ConfigForwardLimitSwitchSource(allConfigs.forwardLimitSwitchSource, allConfigs.forwardLimitSwitchNormal, allConfigs.forwardLimitSwitchDeviceID, timeoutMs);
+    firstError = firstError ? firstError : nextError;    
+	nextError = ConfigReverseLimitSwitchSource(allConfigs.reverseLimitSwitchSource, allConfigs.reverseLimitSwitchNormal, allConfigs.reverseLimitSwitchDeviceID, timeoutMs);
+    firstError = firstError ? firstError : nextError;    
 		
 	//--------PIDs---------------//
 	
-    ConfigurePID(allConfigs.primaryPID, 0, timeoutMs);
-    ConfigurePID(allConfigs.auxilaryPID, 1, timeoutMs);
-    ConfigSensorTerm(SensorTerm::SensorTerm_Sum0, allConfigs.sum_0, timeoutMs);
-    ConfigSensorTerm(SensorTerm::SensorTerm_Sum1, allConfigs.sum_1, timeoutMs);
-    ConfigSensorTerm(SensorTerm::SensorTerm_Diff0, allConfigs.diff_0, timeoutMs);
-    ConfigSensorTerm(SensorTerm::SensorTerm_Diff1, allConfigs.diff_1, timeoutMs);
+    nextError = ConfigurePID(allConfigs.primaryPID, 0, timeoutMs);
+    firstError = firstError ? firstError : nextError;    
+    nextError = ConfigurePID(allConfigs.auxilaryPID, 1, timeoutMs);
+    firstError = firstError ? firstError : nextError;    
+    nextError = ConfigSensorTerm(SensorTerm::SensorTerm_Sum0, allConfigs.sum_0, timeoutMs);
+    firstError = firstError ? firstError : nextError;    
+    nextError = ConfigSensorTerm(SensorTerm::SensorTerm_Sum1, allConfigs.sum_1, timeoutMs);
+    firstError = firstError ? firstError : nextError;    
+    nextError = ConfigSensorTerm(SensorTerm::SensorTerm_Diff0, allConfigs.diff_0, timeoutMs);
+    firstError = firstError ? firstError : nextError;    
+    nextError = ConfigSensorTerm(SensorTerm::SensorTerm_Diff1, allConfigs.diff_1, timeoutMs);
+    firstError = firstError ? firstError : nextError;    
 	
-    return FeatureNotSupported;
+    return firstError;
 }
 void VictorSPX::GetAllConfigs(VictorSPXConfiguration &allConfigs, int timeoutMs) {
 	
@@ -66,8 +80,6 @@ void VictorSPX::GetAllConfigs(VictorSPXConfiguration &allConfigs, int timeoutMs)
 
 ErrorCode VictorSPX::ConfigFactoryDefault(int timeoutMs) {
     VictorSPXConfiguration defaults;
-    ConfigAllSettings(defaults, timeoutMs);
-
-    return FeatureNotSupported;
+    return ConfigAllSettings(defaults, timeoutMs);
 }
 

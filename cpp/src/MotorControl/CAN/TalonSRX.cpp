@@ -345,13 +345,16 @@ void TalonSRX::EnableCurrentLimit(bool enable) {
 
 ErrorCode TalonSRX::ConfigurePID(const TalonSRXPIDSetConfiguration &pid, int pidIdx, int timeoutMs) {
 
+    ErrorCode firstError;
+    ErrorCode nextError;
+
     //------ sensor selection ----------//		
    
-	BaseConfigurePID(pid, pidIdx, timeoutMs);
- 
-	ConfigSelectedFeedbackSensor(pid.selectedFeedbackSensor, pidIdx, timeoutMs);
-
-	return FeatureNotSupported;
+	firstError = BaseConfigurePID(pid, pidIdx, timeoutMs);
+	nextError = ConfigSelectedFeedbackSensor(pid.selectedFeedbackSensor, pidIdx, timeoutMs);
+    firstError = firstError ? firstError : nextError;
+	
+    return firstError;
 }
 void TalonSRX::GetPIDConfigs(TalonSRXPIDSetConfiguration &pid, int pidIdx, int timeoutMs)
 {
@@ -360,32 +363,46 @@ void TalonSRX::GetPIDConfigs(TalonSRXPIDSetConfiguration &pid, int pidIdx, int t
 
 }
 ErrorCode TalonSRX::ConfigAllSettings(const TalonSRXConfiguration &allConfigs, int timeoutMs) {
+    
+    ErrorCode firstError;
+    ErrorCode nextError;
 
-	BaseConfigAllSettings(allConfigs, timeoutMs);	
+	firstError = BaseConfigAllSettings(allConfigs, timeoutMs);	
 
     //------ limit switch ----------//   
-    c_MotController_ConfigForwardLimitSwitchSource(m_handle, allConfigs.forwardLimitSwitchSource,
+    nextError = c_MotController_ConfigForwardLimitSwitchSource(m_handle, allConfigs.forwardLimitSwitchSource,
 			allConfigs.forwardLimitSwitchNormal, allConfigs.forwardLimitSwitchDeviceID, timeoutMs);
-    c_MotController_ConfigReverseLimitSwitchSource(m_handle, allConfigs.reverseLimitSwitchSource,
+    firstError = firstError ? firstError : nextError;
+    nextError = c_MotController_ConfigReverseLimitSwitchSource(m_handle, allConfigs.reverseLimitSwitchSource,
 			allConfigs.reverseLimitSwitchNormal, allConfigs.reverseLimitSwitchDeviceID, timeoutMs);
+    firstError = firstError ? firstError : nextError;
 
 
 	//--------PIDs---------------//
 	
-	ConfigurePID(allConfigs.primaryPID, 0, timeoutMs);
-	ConfigurePID(allConfigs.auxilaryPID, 1, timeoutMs);
-    ConfigSensorTerm(SensorTerm::SensorTerm_Sum0, allConfigs.sum_0, timeoutMs);
-    ConfigSensorTerm(SensorTerm::SensorTerm_Sum1, allConfigs.sum_1, timeoutMs);
-    ConfigSensorTerm(SensorTerm::SensorTerm_Diff0, allConfigs.diff_0, timeoutMs);
-    ConfigSensorTerm(SensorTerm::SensorTerm_Diff1, allConfigs.diff_1, timeoutMs);
+	nextError = ConfigurePID(allConfigs.primaryPID, 0, timeoutMs);
+    firstError = firstError ? firstError : nextError;
+	nextError = ConfigurePID(allConfigs.auxilaryPID, 1, timeoutMs);
+    firstError = firstError ? firstError : nextError;
+    nextError = ConfigSensorTerm(SensorTerm::SensorTerm_Sum0, allConfigs.sum_0, timeoutMs);
+    firstError = firstError ? firstError : nextError;
+    nextError = ConfigSensorTerm(SensorTerm::SensorTerm_Sum1, allConfigs.sum_1, timeoutMs);
+    firstError = firstError ? firstError : nextError;
+    nextError = ConfigSensorTerm(SensorTerm::SensorTerm_Diff0, allConfigs.diff_0, timeoutMs);
+    firstError = firstError ? firstError : nextError;
+    nextError = ConfigSensorTerm(SensorTerm::SensorTerm_Diff1, allConfigs.diff_1, timeoutMs);
+    firstError = firstError ? firstError : nextError;
 
     //--------Current Limiting-----//
-	ConfigPeakCurrentLimit(allConfigs.peakCurrentLimit, timeoutMs);
-	ConfigPeakCurrentDuration(allConfigs.peakCurrentDuration, timeoutMs);
-	ConfigContinuousCurrentLimit(allConfigs.continuousCurrentLimit, timeoutMs); 
+	nextError = ConfigPeakCurrentLimit(allConfigs.peakCurrentLimit, timeoutMs);
+    firstError = firstError ? firstError : nextError;
+	nextError = ConfigPeakCurrentDuration(allConfigs.peakCurrentDuration, timeoutMs);
+    firstError = firstError ? firstError : nextError;
+	nextError = ConfigContinuousCurrentLimit(allConfigs.continuousCurrentLimit, timeoutMs); 
+    firstError = firstError ? firstError : nextError;
 
 
-    return FeatureNotSupported;
+    return firstError;
 }
 void TalonSRX::GetAllConfigs(TalonSRXConfiguration &allConfigs, int timeoutMs) {
 	
@@ -409,9 +426,7 @@ void TalonSRX::GetAllConfigs(TalonSRXConfiguration &allConfigs, int timeoutMs) {
 
 ErrorCode TalonSRX::ConfigFactoryDefault(int timeoutMs) {
     TalonSRXConfiguration defaults;
-    ConfigAllSettings(defaults, timeoutMs);
-
-    return FeatureNotSupported;
+    return ConfigAllSettings(defaults, timeoutMs);
 }
 
 

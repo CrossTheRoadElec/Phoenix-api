@@ -451,12 +451,17 @@ ErrorCode CANifier::ClearStickyFaults(int timeoutMs) {
 
 ErrorCode CANifier::ConfigAllSettings(const CANifierConfiguration &allConfigs, int timeoutMs) {
 	
-	ConfigVelocityMeasurementPeriod(allConfigs.velocityMeasurementPeriod, timeoutMs);
-	ConfigVelocityMeasurementWindow(allConfigs.velocityMeasurementWindow, timeoutMs);
-	ConfigSetCustomParam(allConfigs.customParam_0, 0, timeoutMs);
-	ConfigSetCustomParam(allConfigs.customParam_1, 1, timeoutMs);
+	ErrorCode firstError;
+	ErrorCode nextError;
+	firstError = ConfigVelocityMeasurementPeriod(allConfigs.velocityMeasurementPeriod, timeoutMs);
+	nextError = ConfigVelocityMeasurementWindow(allConfigs.velocityMeasurementWindow, timeoutMs);
+    firstError = firstError ? firstError : nextError;
+	nextError = ConfigSetCustomParam(allConfigs.customParam_0, 0, timeoutMs);
+    firstError = firstError ? firstError : nextError;
+	nextError = ConfigSetCustomParam(allConfigs.customParam_1, 1, timeoutMs);
+    firstError = firstError ? firstError : nextError;
 
-	return FeatureNotSupported;	
+	return firstError;	
 }
 
 void CANifier::GetAllConfigs(CANifierConfiguration &allConfigs, int timeoutMs) {
@@ -470,9 +475,7 @@ void CANifier::GetAllConfigs(CANifierConfiguration &allConfigs, int timeoutMs) {
 
 ErrorCode CANifier::ConfigFactoryDefault(int timeoutMs) {
 	CANifierConfiguration defaults;
-	ConfigAllSettings(defaults, timeoutMs);	
-
-	return FeatureNotSupported;	
+    return ConfigAllSettings(defaults, timeoutMs);	
 }
 
 } // phoenix

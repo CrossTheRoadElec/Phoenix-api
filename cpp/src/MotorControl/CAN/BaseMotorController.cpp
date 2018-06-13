@@ -1806,18 +1806,29 @@ ctre::phoenix::motorcontrol::SensorCollection & BaseMotorController::GetSensorCo
 
 ctre::phoenix::ErrorCode BaseMotorController::ConfigureSlot(const SlotConfiguration &slot, int slotIdx, int timeoutMs) {
 
+	ErrorCode firstError;
+	ErrorCode nextError;
     //------ General Close loop ----------//    
-    Config_kP(slotIdx, slot.kP, timeoutMs);
-    Config_kI(slotIdx, slot.kI, timeoutMs);
-    Config_kD(slotIdx, slot.kD, timeoutMs);
-    Config_kF(slotIdx, slot.kF, timeoutMs);
-    Config_IntegralZone(slotIdx, slot.integralZone, timeoutMs);
-    ConfigAllowableClosedloopError(slotIdx, slot.allowableClosedloopError, timeoutMs);
-    ConfigMaxIntegralAccumulator(slotIdx, slot.maxIntegralAccumulator, timeoutMs);
-    ConfigClosedLoopPeakOutput(slotIdx, slot.closedLoopPeakOutput, timeoutMs);
-    ConfigClosedLoopPeriod(slotIdx, slot.closedLoopPeriod, timeoutMs);
 
-    return FeatureNotSupported;
+    firstError = Config_kP(slotIdx, slot.kP, timeoutMs);
+    nextError = Config_kI(slotIdx, slot.kI, timeoutMs);
+    firstError = firstError ? firstError : nextError;
+    nextError = Config_kD(slotIdx, slot.kD, timeoutMs);
+    firstError = firstError ? firstError : nextError;
+    nextError = Config_kF(slotIdx, slot.kF, timeoutMs);
+    firstError = firstError ? firstError : nextError;
+    nextError = Config_IntegralZone(slotIdx, slot.integralZone, timeoutMs);
+    firstError = firstError ? firstError : nextError;
+    nextError = ConfigAllowableClosedloopError(slotIdx, slot.allowableClosedloopError, timeoutMs);
+    firstError = firstError ? firstError : nextError;
+    nextError = ConfigMaxIntegralAccumulator(slotIdx, slot.maxIntegralAccumulator, timeoutMs);
+    firstError = firstError ? firstError : nextError;
+    nextError = ConfigClosedLoopPeakOutput(slotIdx, slot.closedLoopPeakOutput, timeoutMs);
+    firstError = firstError ? firstError : nextError;
+    nextError = ConfigClosedLoopPeriod(slotIdx, slot.closedLoopPeriod, timeoutMs);
+    firstError = firstError ? firstError : nextError;
+
+    return firstError;
 
 }
 
@@ -1836,9 +1847,7 @@ void BaseMotorController::GetSlotConfigs(SlotConfiguration &slot, int slotIdx, i
 
 ctre::phoenix::ErrorCode BaseMotorController::ConfigureFilter(const FilterConfiguration &filter, int ordinal, int timeoutMs) {
 
-	ConfigRemoteFeedbackFilter(filter.remoteSensorDeviceID, filter.remoteSensorSource, ordinal, timeoutMs);
-
-    return FeatureNotSupported;
+	return ConfigRemoteFeedbackFilter(filter.remoteSensorDeviceID, filter.remoteSensorSource, ordinal, timeoutMs);
 
 }
 
@@ -1850,9 +1859,7 @@ void BaseMotorController::GetFilterConfigs(FilterConfiguration &filter, int ordi
 }
 ctre::phoenix::ErrorCode BaseMotorController::BaseConfigurePID(const BasePIDSetConfiguration &pid, int pidIdx, int timeoutMs) {
 
-	ConfigSelectedFeedbackCoefficient(pid.selectedFeedbackCoefficient, pidIdx, timeoutMs);
-
-    return FeatureNotSupported;
+	return ConfigSelectedFeedbackCoefficient(pid.selectedFeedbackCoefficient, pidIdx, timeoutMs);
 
 }
 void BaseMotorController::BaseGetPIDConfigs(BasePIDSetConfiguration &pid, int pidIdx, int timeoutMs) {
@@ -1862,28 +1869,46 @@ void BaseMotorController::BaseGetPIDConfigs(BasePIDSetConfiguration &pid, int pi
 }
 
 ctre::phoenix::ErrorCode BaseMotorController::BaseConfigAllSettings(const BaseMotorControllerConfiguration &allConfigs, int timeoutMs) {
-	//----- general output shaping ------------------//
-    ConfigOpenloopRamp(allConfigs.openloopRamp, timeoutMs);
-    ConfigClosedloopRamp(allConfigs.closedloopRamp, timeoutMs);
-    ConfigPeakOutputForward(allConfigs.peakOutputForward, timeoutMs);
-    ConfigPeakOutputReverse(allConfigs.peakOutputReverse, timeoutMs);
-    ConfigNominalOutputForward(allConfigs.nominalOutputForward, timeoutMs);
-    ConfigNominalOutputReverse(allConfigs.nominalOutputReverse, timeoutMs);
-    ConfigNeutralDeadband(allConfigs.neutralDeadband, timeoutMs);
+	
+    ErrorCode firstError;
+	ErrorCode nextError;
+	
+    //----- general output shaping ------------------//
+    firstError = ConfigOpenloopRamp(allConfigs.openloopRamp, timeoutMs);
+    nextError = ConfigClosedloopRamp(allConfigs.closedloopRamp, timeoutMs);
+    firstError = firstError ? firstError : nextError;
+    nextError = ConfigPeakOutputForward(allConfigs.peakOutputForward, timeoutMs);
+    firstError = firstError ? firstError : nextError;
+    nextError = ConfigPeakOutputReverse(allConfigs.peakOutputReverse, timeoutMs);
+    firstError = firstError ? firstError : nextError;
+    nextError = ConfigNominalOutputForward(allConfigs.nominalOutputForward, timeoutMs);
+    firstError = firstError ? firstError : nextError;
+    nextError = ConfigNominalOutputReverse(allConfigs.nominalOutputReverse, timeoutMs);
+    firstError = firstError ? firstError : nextError;
+    nextError = ConfigNeutralDeadband(allConfigs.neutralDeadband, timeoutMs);
+    firstError = firstError ? firstError : nextError;
 
     //------ Voltage Compensation ----------//
-    ConfigVoltageCompSaturation(allConfigs.voltageCompSaturation, timeoutMs);
-    ConfigVoltageMeasurementFilter(allConfigs.voltageMeasurementFilter, timeoutMs);
+    nextError = ConfigVoltageCompSaturation(allConfigs.voltageCompSaturation, timeoutMs);
+    firstError = firstError ? firstError : nextError;
+    nextError = ConfigVoltageMeasurementFilter(allConfigs.voltageMeasurementFilter, timeoutMs);
+    firstError = firstError ? firstError : nextError;
 
     //----- velocity signal conditionaing ------//
-    ConfigVelocityMeasurementPeriod(allConfigs.velocityMeasurementPeriod, timeoutMs);
-    ConfigVelocityMeasurementWindow(allConfigs.velocityMeasurementWindow, timeoutMs);
+    nextError = ConfigVelocityMeasurementPeriod(allConfigs.velocityMeasurementPeriod, timeoutMs);
+    firstError = firstError ? firstError : nextError;
+    nextError = ConfigVelocityMeasurementWindow(allConfigs.velocityMeasurementWindow, timeoutMs);
+    firstError = firstError ? firstError : nextError;
 
     //------ soft limit ----------//
-    ConfigForwardSoftLimitThreshold(allConfigs.forwardSoftLimitThreshold, timeoutMs);
-    ConfigReverseSoftLimitThreshold(allConfigs.reverseSoftLimitThreshold, timeoutMs);
-    ConfigForwardSoftLimitEnable(allConfigs.forwardSoftLimitEnable, timeoutMs);
-    ConfigReverseSoftLimitEnable(allConfigs.reverseSoftLimitEnable, timeoutMs);
+    nextError = ConfigForwardSoftLimitThreshold(allConfigs.forwardSoftLimitThreshold, timeoutMs);
+    firstError = firstError ? firstError : nextError;
+    nextError = ConfigReverseSoftLimitThreshold(allConfigs.reverseSoftLimitThreshold, timeoutMs);
+    firstError = firstError ? firstError : nextError;
+    nextError = ConfigForwardSoftLimitEnable(allConfigs.forwardSoftLimitEnable, timeoutMs);
+    firstError = firstError ? firstError : nextError;
+    nextError = ConfigReverseSoftLimitEnable(allConfigs.reverseSoftLimitEnable, timeoutMs);
+    firstError = firstError ? firstError : nextError;
 
 
     //------ limit switch ----------//   
@@ -1894,41 +1919,62 @@ ctre::phoenix::ErrorCode BaseMotorController::BaseConfigAllSettings(const BaseMo
 
     //--------Slots---------------//
 
-    ConfigureSlot(allConfigs.slot_0, 0, timeoutMs);
-    ConfigureSlot(allConfigs.slot_1, 1, timeoutMs);
-    ConfigureSlot(allConfigs.slot_2, 2, timeoutMs);
-    ConfigureSlot(allConfigs.slot_3, 3, timeoutMs);
+    nextError = ConfigureSlot(allConfigs.slot_0, 0, timeoutMs);
+    firstError = firstError ? firstError : nextError;
+    nextError = ConfigureSlot(allConfigs.slot_1, 1, timeoutMs);
+    firstError = firstError ? firstError : nextError;
+    nextError = ConfigureSlot(allConfigs.slot_2, 2, timeoutMs);
+    firstError = firstError ? firstError : nextError;
+    nextError = ConfigureSlot(allConfigs.slot_3, 3, timeoutMs);
+    firstError = firstError ? firstError : nextError;
 
     //---------Auxilary Closed Loop Polarity-------------//
 
-    ConfigAuxPIDPolarity(allConfigs.auxPIDPolarity, timeoutMs);
+    nextError = ConfigAuxPIDPolarity(allConfigs.auxPIDPolarity, timeoutMs);
+    firstError = firstError ? firstError : nextError;
 
     //----------Remote Feedback Filters----------//
-    ConfigureFilter(allConfigs.filter_0, 0, timeoutMs);
-    ConfigureFilter(allConfigs.filter_1, 1, timeoutMs);
+    nextError = ConfigureFilter(allConfigs.filter_0, 0, timeoutMs);
+    firstError = firstError ? firstError : nextError;
+    nextError = ConfigureFilter(allConfigs.filter_1, 1, timeoutMs);
+    firstError = firstError ? firstError : nextError;
     
     //------ Motion Profile Settings used in Motion Magic  ----------//
-    ConfigMotionCruiseVelocity(allConfigs.motionCruiseVelocity, timeoutMs);
-    ConfigMotionAcceleration(allConfigs.motionAcceleration, timeoutMs);
+    nextError = ConfigMotionCruiseVelocity(allConfigs.motionCruiseVelocity, timeoutMs);
+    firstError = firstError ? firstError : nextError;
+    nextError = ConfigMotionAcceleration(allConfigs.motionAcceleration, timeoutMs);
+    firstError = firstError ? firstError : nextError;
 
     //------ Motion Profile Buffer ----------//
-    ConfigMotionProfileTrajectoryPeriod(allConfigs.motionProfileTrajectoryPeriod, timeoutMs);
+    nextError = ConfigMotionProfileTrajectoryPeriod(allConfigs.motionProfileTrajectoryPeriod, timeoutMs);
+    firstError = firstError ? firstError : nextError;
 
     //------ Custom Persistent Params ----------//
-    ConfigSetCustomParam(allConfigs.customParam_0, 0, timeoutMs);
-    ConfigSetCustomParam(allConfigs.customParam_1, 1, timeoutMs);
+    nextError = ConfigSetCustomParam(allConfigs.customParam_0, 0, timeoutMs);
+    firstError = firstError ? firstError : nextError;
+    nextError = ConfigSetCustomParam(allConfigs.customParam_1, 1, timeoutMs);
+    firstError = firstError ? firstError : nextError;
 
-    c_MotController_ConfigSetParameter(m_handle, 332, allConfigs.feedbackNotContinuous, 0, 0, timeoutMs); 
-    c_MotController_ConfigSetParameter(m_handle, 336, allConfigs.remoteSensorClosedLoopDisableNeutralOnLOS, 0, 0, timeoutMs); 
-    c_MotController_ConfigSetParameter(m_handle, 320, allConfigs.clearPositionOnLimitF, 0, 0, timeoutMs); 
-    c_MotController_ConfigSetParameter(m_handle, 321, allConfigs.clearPositionOnLimitR, 0, 0, timeoutMs); 
-    c_MotController_ConfigSetParameter(m_handle, 322, allConfigs.clearPositionOnQuadIdx, 0, 0, timeoutMs); 
-    c_MotController_ConfigSetParameter(m_handle, 423, allConfigs.limitSwitchDisableNeutralOnLOS, 0, 0, timeoutMs); 
-    c_MotController_ConfigSetParameter(m_handle, 425, allConfigs.softLimitDisableNeutralOnLOS, 0, 0, timeoutMs); 
-    c_MotController_ConfigSetParameter(m_handle, 430, allConfigs.pulseWidthPeriod_EdgesPerRot, 0, 0, timeoutMs); 
-    c_MotController_ConfigSetParameter(m_handle, 431, allConfigs.pulseWidthPeriod_FilterWindowSz, 0, 0, timeoutMs); 
+    nextError = c_MotController_ConfigSetParameter(m_handle, 332, allConfigs.feedbackNotContinuous, 0, 0, timeoutMs); 
+    firstError = firstError ? firstError : nextError;
+    nextError = c_MotController_ConfigSetParameter(m_handle, 336, allConfigs.remoteSensorClosedLoopDisableNeutralOnLOS, 0, 0, timeoutMs); 
+    firstError = firstError ? firstError : nextError;
+    nextError = c_MotController_ConfigSetParameter(m_handle, 320, allConfigs.clearPositionOnLimitF, 0, 0, timeoutMs); 
+    firstError = firstError ? firstError : nextError;
+    nextError = c_MotController_ConfigSetParameter(m_handle, 321, allConfigs.clearPositionOnLimitR, 0, 0, timeoutMs); 
+    firstError = firstError ? firstError : nextError;
+    nextError = c_MotController_ConfigSetParameter(m_handle, 322, allConfigs.clearPositionOnQuadIdx, 0, 0, timeoutMs); 
+    firstError = firstError ? firstError : nextError;
+    nextError = c_MotController_ConfigSetParameter(m_handle, 423, allConfigs.limitSwitchDisableNeutralOnLOS, 0, 0, timeoutMs); 
+    firstError = firstError ? firstError : nextError;
+    nextError = c_MotController_ConfigSetParameter(m_handle, 425, allConfigs.softLimitDisableNeutralOnLOS, 0, 0, timeoutMs); 
+    firstError = firstError ? firstError : nextError;
+    nextError = c_MotController_ConfigSetParameter(m_handle, 430, allConfigs.pulseWidthPeriod_EdgesPerRot, 0, 0, timeoutMs); 
+    firstError = firstError ? firstError : nextError;
+    nextError = c_MotController_ConfigSetParameter(m_handle, 431, allConfigs.pulseWidthPeriod_FilterWindowSz, 0, 0, timeoutMs); 
+    firstError = firstError ? firstError : nextError;
 
-    return FeatureNotSupported;
+    return firstError;
 }
 
 void BaseMotorController::BaseGetAllConfigs(BaseMotorControllerConfiguration &allConfigs, int timeoutMs) {
