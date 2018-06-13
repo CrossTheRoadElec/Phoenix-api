@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ctre/phoenix/ErrorCode.h"
+#include <string>
 
 namespace ctre {
 namespace phoenix {
@@ -40,7 +41,39 @@ enum RemoteFeedbackDevice  {
 	//14
 	RemoteFeedbackDevice_SoftwareEmulatedSensor = 15,
 };
+class FeedbackDeviceRoutines {
+public:
+    static std::string toString(FeedbackDevice value) {
+        switch(value) {
+            case None : return "None";
+            case QuadEncoder : return "QuadEncoder";
+            case Analog : return "Analog";
+            case Tachometer : return "Tachometer";
+            case PulseWidthEncodedPosition : return "PulseWidthEncodedPosition";
+            case SensorSum : return "SensorSum";
+            case SensorDifference : return "SensorDifference";
+            case RemoteSensor0 : return "RemoteSensor0";
+            case RemoteSensor1 : return "RemoteSensor1";
+            case SoftwareEmulatedSensor : return "SoftwareEmulatedSensor";
+            default : return "InvalidValue";
 
+        }
+
+    }
+
+    static std::string toString(RemoteFeedbackDevice value) {
+        switch(value) {
+            case RemoteFeedbackDevice_None : return "RemoteFeedbackDevice_None";
+            case SensorSum : return "SensorSum";
+            case SensorDifference : return "SensorDifference";
+            case RemoteSensor0 : return "RemoteSensor0";
+            case RemoteSensor1 : return "RemoteSensor1";
+            case SoftwareEmulatedSensor : return "SoftwareEmulatedSensor";
+            default : return "InvalidValue";
+        }
+
+    }
+};
 } // namespace motorcontrol
 } // namespace phoenix
 } // namespace ctre

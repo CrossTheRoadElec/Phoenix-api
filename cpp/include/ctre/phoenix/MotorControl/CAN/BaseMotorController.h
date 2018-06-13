@@ -18,6 +18,8 @@
 /* WPILIB */
 #include "SpeedController.h"
 
+#include <string>
+
 /* forward proto's */
 namespace ctre {
 namespace phoenix {
@@ -42,6 +44,9 @@ namespace ctre {
 namespace phoenix {
 namespace motorcontrol {
 namespace can {
+
+#define BASEMOTORCONTROLLERCONFIGURATIONSTRUCTNAME "allConfigs"
+
 struct BasePIDSetConfiguration {
 
 	double selectedFeedbackCoefficient;
@@ -50,10 +55,15 @@ struct BasePIDSetConfiguration {
 		selectedFeedbackCoefficient(1.0)
 	{
 	}
+    std::string toString(std::string &prependString) {
+        return prependString + ".selectedFeedbackCoefficient = " + std::to_string(selectedFeedbackCoefficient) + ";\n";
+    
+    }
 };// struct BasePIDSetConfiguration
 struct FilterConfiguration {
 
 	int remoteSensorDeviceID; 
+    RemoteSensorSourceRoutines remoteSensorSourceRoutines;
 	RemoteSensorSource remoteSensorSource;  
 
     FilterConfiguration() :
@@ -61,6 +71,12 @@ struct FilterConfiguration {
         remoteSensorSource(RemoteSensorSource::RemoteSensorSource_Off) 	
     {
     }
+    std::string toString(std::string prependString) {
+        std::string retstr = prependString + ".remoteSensorDeviceID = " + std::to_string(remoteSensorDeviceID) + ";\n";
+        retstr += prependString + ".remoteSensorSource = " + remoteSensorSourceRoutines.toString(remoteSensorSource) + ";\n";
+        return retstr;
+    }
+
 }; // struct FilterConfiguration
 struct SlotConfiguration{
 
@@ -86,6 +102,21 @@ struct SlotConfiguration{
 		closedLoopPeriod(1)
 	{
 	}
+    std::string toString(std::string prependString) {
+
+        std::string retstr = prependString + ".kP = " + std::to_string(kP) + ";\n"; 
+        retstr += prependString + ".kI = " + std::to_string(kI) + ";\n"; 
+        retstr += prependString + ".kD = " + std::to_string(kD) + ";\n"; 
+        retstr += prependString + ".kF = " + std::to_string(kF) + ";\n"; 
+        retstr += prependString + ".integralZone = " + std::to_string(integralZone) + ";\n"; 
+        retstr += prependString + ".allowableClosedloopError = " + std::to_string(allowableClosedloopError) + ";\n"; 
+        retstr += prependString + ".maxIntegralAccumulator = " + std::to_string(maxIntegralAccumulator) + ";\n"; 
+        retstr += prependString + ".closedLoopPeakOutput = " + std::to_string(closedLoopPeakOutput) + ";\n";
+        retstr += prependString + ".closedLoopPeriod = " + std::to_string(closedLoopPeriod) + ";\n";
+
+        return retstr;
+
+    }
 };// struct BaseSlotConfiguration
 
 
@@ -99,10 +130,12 @@ struct BaseMotorControllerConfiguration : ctre::phoenix::CustomParamConfiguratio
 	double neutralDeadband;
 	double voltageCompSaturation; 
 	int voltageMeasurementFilter;
-	VelocityMeasPeriod velocityMeasurementPeriod; 
+	VelocityMeasPeriodRoutines velocityMeasPeriodRoutines;
+    VelocityMeasPeriod velocityMeasurementPeriod; 
 	int velocityMeasurementWindow; 
 	int forwardLimitSwitchDeviceID; //Limit Switch device id isn't used unless device is a remote
 	int reverseLimitSwitchDeviceID;
+    LimitSwitchRoutines limitSwitchRoutines;
 	LimitSwitchNormal forwardLimitSwitchNormal;
 	LimitSwitchNormal reverseLimitSwitchNormal;
 	int forwardSoftLimitThreshold; 
@@ -165,7 +198,52 @@ struct BaseMotorControllerConfiguration : ctre::phoenix::CustomParamConfiguratio
             pulseWidthPeriod_FilterWindowSz(1)
 
 	{
-	}	
+	}
+    std::string toString(std::string prependString) {
+
+        std::string retstr = prependString + ".openloopRamp = " + std::to_string(openloopRamp) + ";\n";
+        retstr += prependString + ".closedloopRamp = " + std::to_string(closedloopRamp) + ";\n"; 
+        retstr += prependString + ".peakOutputForward = " + std::to_string(peakOutputForward) + ";\n";
+        retstr += prependString + ".peakOutputReverse = " + std::to_string(peakOutputReverse) + ";\n";
+        retstr += prependString + ".nominalOutputForward = " + std::to_string(nominalOutputForward) + ";\n"; 
+        retstr += prependString + ".nominalOutputReverse = " + std::to_string(nominalOutputReverse) + ";\n"; 
+        retstr += prependString + ".neutralDeadband = " + std::to_string(neutralDeadband) + ";\n";
+        retstr += prependString + ".voltageCompSaturation = " + std::to_string(voltageCompSaturation) + ";\n"; 
+        retstr += prependString + ".voltageMeasurementFilter = " + std::to_string(voltageMeasurementFilter) + ";\n";
+        retstr += prependString + ".velocityMeasurementPeriod = " + velocityMeasPeriodRoutines.toString(velocityMeasurementPeriod) + ";\n"; 
+        retstr += prependString + ".velocityMeasurementWindow = " + std::to_string(velocityMeasurementWindow) + ";\n"; 
+        retstr += prependString + ".forwardLimitSwitchDeviceID = " + std::to_string(forwardLimitSwitchDeviceID) + ";\n";
+        retstr += prependString + ".reverseLimitSwitchDeviceID = " + std::to_string(reverseLimitSwitchDeviceID) + ";\n";
+        retstr += prependString + ".forwardLimitSwitchNormal = " + limitSwitchRoutines.toString(forwardLimitSwitchNormal) + ";\n";
+        retstr += prependString + ".reverseLimitSwitchNormal = " + limitSwitchRoutines.toString(reverseLimitSwitchNormal) + ";\n";
+        retstr += prependString + ".forwardSoftLimitThreshold = " + std::to_string(forwardSoftLimitThreshold) + ";\n"; 
+        retstr += prependString + ".reverseSoftLimitThreshold = " + std::to_string(reverseSoftLimitThreshold) + ";\n"; 
+        retstr += prependString + ".forwardSoftLimitEnable = " + std::to_string(forwardSoftLimitEnable) + ";\n"; 
+        retstr += prependString + ".reverseSoftLimitEnable = " + std::to_string(reverseSoftLimitEnable) + ";\n"; 
+        retstr += slot_0.toString(prependString + "slot_0");
+        retstr += slot_1.toString(prependString + "slot_1");
+        retstr += slot_2.toString(prependString + "slot_2");
+        retstr += slot_3.toString(prependString + "slot_3");
+        retstr += prependString + ".auxPIDPolarity = " + std::to_string(auxPIDPolarity) + ";\n"; 
+        retstr += filter_0.toString(prependString + "filter_0");
+        retstr += filter_1.toString(prependString + "filter_1");
+        retstr += prependString + ".motionCruiseVelocity = " + std::to_string(motionCruiseVelocity) + ";\n"; 
+        retstr += prependString + ".motionAcceleration = " + std::to_string(motionAcceleration) + ";\n"; 
+        retstr += prependString + ".motionProfileTrajectoryPeriod = " + std::to_string(motionProfileTrajectoryPeriod) + ";\n"; 
+        retstr += prependString + ".feedbackNotContinuous = " + std::to_string(feedbackNotContinuous) + ";\n";
+        retstr += prependString + ".remoteSensorClosedLoopDisableNeutralOnLOS = " + std::to_string(remoteSensorClosedLoopDisableNeutralOnLOS) + ";\n";
+        retstr += prependString + ".clearPositionOnLimitF = " + std::to_string(clearPositionOnLimitF) + ";\n";
+        retstr += prependString + ".clearPositionOnLimitR = " + std::to_string(clearPositionOnLimitR) + ";\n";
+        retstr += prependString + ".clearPositionOnQuadIdx = " + std::to_string(clearPositionOnQuadIdx) + ";\n";
+        retstr += prependString + ".limitSwitchDisableNeutralOnLOS = " + std::to_string(limitSwitchDisableNeutralOnLOS) + ";\n";
+        retstr += prependString + ".softLimitDisableNeutralOnLOS = " + std::to_string(softLimitDisableNeutralOnLOS) + ";\n";
+        retstr += prependString + ".pulseWidthPeriod_EdgesPerRot = " + std::to_string(pulseWidthPeriod_EdgesPerRot) + ";\n";
+        retstr += prependString + ".pulseWidthPeriod_FilterWindowSz = " + std::to_string(pulseWidthPeriod_FilterWindowSz) + ";\n";
+
+        retstr += CustomParamConfiguration::toString(prependString);
+
+        return retstr;
+    }
 };// struct BaseMotorControllerConfiguration
 
 /**

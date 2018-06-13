@@ -29,6 +29,16 @@ struct CANifierConfiguration : CustomParamConfiguration{
 		velocityMeasurementWindow(64) 	
 	{
 	}
+    std::string toString(std::string prependString) {
+
+        std::string retstr = prependString + ".velocityMeasurementPeriod = " + std::to_string(velocityMeasurementPeriod) + ";\n";
+        retstr += prependString + ".velocityMeasurementWindow = " + std::to_string(velocityMeasurementWindow) + ";\n";
+        
+        retstr += CustomParamConfiguration::toString(prependString);
+
+        return retstr;
+    }
+
 };// struct CANifierConfiguration
 
 

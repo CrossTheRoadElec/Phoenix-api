@@ -55,6 +55,12 @@ struct PigeonIMUConfiguration : CustomParamConfiguration{
 		temperatureCompensationDisable(false)
 	{
 	}
+    std::string toString(std::string prependString) {
+        std::string retstr = prependString + ".temperatureCompensationDisable = " + std::to_string(temperatureCompensationDisable) + ";\n";
+        retstr += CustomParamConfiguration::toString(prependString);
+
+        return retstr;
+    }
 };// struct PigeonIMU
 
 /**

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 namespace ctre {
 namespace phoenix {
 namespace motorcontrol {
@@ -35,6 +37,35 @@ public:
 	{
 		return limitSwitchSource > 0 && limitSwitchSource < 3;
 	}
+    static std::string toString(LimitSwitchSource value) {
+        switch(value) {
+            case LimitSwitchSource_FeedbackConnector : return "LimitSwitchSource_FeedbackConnector";
+            case LimitSwitchSource_RemoteTalonSRX : return "LimitSwitchSource_RemoteTalonSRX";
+            case LimitSwitchSource_RemoteCANifier : return "LimitSwitchSource_RemoteCANifier";
+            case LimitSwitchSource_Deactivated : return "LimitSwitchSource_Deactivated";
+            default : return "InvalidValue";
+        }
+
+    }
+    static std::string toString(RemoteLimitSwitchSource value) {
+        switch(value) {
+            case RemoteLimitSwitchSource_RemoteTalonSRX : return "RemoteLimitSwitchSource_RemoteTalonSRX";
+            case RemoteLimitSwitchSource_RemoteCANifier : return "RemoteLimitSwitchSource_RemoteCANifier";
+            case RemoteLimitSwitchSource_Deactivated : return "RemoteLimitSwitchSource_Deactivated";
+            default : return "InvalidValue";
+        }
+
+    }
+    static std::string toString(LimitSwitchNormal value) {
+        switch(value) {
+            case LimitSwitchNormal_NormallyOpen : return "LimitSwitchNormal_NormallyOpen";
+            case LimitSwitchNormal_NormallyClosed : return "LimitSwitchNormal_NormallyClosed";
+            case LimitSwitchNormal_Disabled : return "LimitSwitchNormal_Disabled";
+            default : return "InvalidValue";
+        }
+
+    }
+
 };
 } // namespace motorcontrol
 } // namespace phoenix

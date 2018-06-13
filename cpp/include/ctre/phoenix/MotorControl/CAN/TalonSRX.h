@@ -15,11 +15,19 @@ namespace can {
 
 struct TalonSRXPIDSetConfiguration : BasePIDSetConfiguration {
     FeedbackDevice selectedFeedbackSensor;
+    FeedbackDeviceRoutines feedbackDeviceRoutines;
 
     TalonSRXPIDSetConfiguration() :
         selectedFeedbackSensor(QuadEncoder)
     {
     }
+    std::string toString(std::string prependString) {
+
+        std::string retstr = prependString + ".selectedFeedbackSensor = " + feedbackDeviceRoutines.toString(selectedFeedbackSensor) + ";\n";
+        retstr += BasePIDSetConfiguration::toString(prependString);
+        return retstr;
+    }
+
 };
 
 
@@ -28,7 +36,8 @@ struct TalonSRXConfiguration : BaseMotorControllerConfiguration{
 	TalonSRXPIDSetConfiguration auxilaryPID;
 	LimitSwitchSource forwardLimitSwitchSource;
 	LimitSwitchSource reverseLimitSwitchSource;
-	FeedbackDevice sum_0;
+	FeedbackDeviceRoutines feedbackDeviceRoutines;
+    FeedbackDevice sum_0;
 	FeedbackDevice sum_1;
 	FeedbackDevice diff_0;
 	FeedbackDevice diff_1;
@@ -47,6 +56,24 @@ struct TalonSRXConfiguration : BaseMotorControllerConfiguration{
 		continuousCurrentLimit(1)
 	{
 	}
+    std::string toString(std::string prependString) {
+
+
+        std::string retstr = primaryPID.toString(prependString + ".primaryPID");
+	    retstr += auxilaryPID.toString(prependString + ".auxilaryPID");
+	    retstr += prependString + ".forwardLimitSwitchSource = " + limitSwitchRoutines.toString(forwardLimitSwitchSource) + ";\n";
+	    retstr += prependString + ".reverseLimitSwitchSource = " + limitSwitchRoutines.toString(reverseLimitSwitchSource) + ";\n";
+	    retstr += prependString + ".sum_0 = " + feedbackDeviceRoutines.toString(sum_0) + ";\n";
+	    retstr += prependString + ".sum_1 = " + feedbackDeviceRoutines.toString(sum_1) + ";\n";
+	    retstr += prependString + ".diff_0 = " + feedbackDeviceRoutines.toString(diff_0) + ";\n";
+	    retstr += prependString + ".diff_1 = " + feedbackDeviceRoutines.toString(diff_1) + ";\n";
+	    retstr += prependString + ".peakCurrentLimit = " + std::to_string(peakCurrentLimit) + ";\n"; 
+        retstr += prependString + ".peakCurrentDuration = " + std::to_string(peakCurrentDuration) + ";\n";
+        retstr += prependString + ".continuousCurrentLimit = " + std::to_string(continuousCurrentLimit) + ";\n"; 
+         retstr += BaseMotorControllerConfiguration::toString(prependString);
+
+       return retstr; 
+    }
 };// struct TalonSRXConfiguration
 
 /**

@@ -14,11 +14,18 @@ namespace can {
  */
 struct VictorSPXPIDSetConfiguration : BasePIDSetConfiguration {
 	RemoteFeedbackDevice selectedFeedbackSensor;
+    FeedbackDeviceRoutines feedbackDeviceRoutines;
 
 	VictorSPXPIDSetConfiguration() :
 		selectedFeedbackSensor(RemoteFeedbackDevice_None) //Check with victor
 	{
 	}
+    std::string toString(std::string prependString) {
+
+        std::string retstr = prependString + ".selectedFeedbackSensor = " + feedbackDeviceRoutines.toString(selectedFeedbackSensor) + ";\n";
+        retstr += BasePIDSetConfiguration::toString(prependString);
+        return retstr;
+    }
 
 };
 
@@ -27,6 +34,7 @@ struct VictorSPXConfiguration : BaseMotorControllerConfiguration {
 	VictorSPXPIDSetConfiguration auxilaryPID;	
 	RemoteLimitSwitchSource forwardLimitSwitchSource;
 	RemoteLimitSwitchSource reverseLimitSwitchSource;
+    FeedbackDeviceRoutines feedbackDeviceRoutines;
 	RemoteFeedbackDevice sum_0;
 	RemoteFeedbackDevice sum_1;
 	RemoteFeedbackDevice diff_0;
@@ -42,6 +50,19 @@ struct VictorSPXConfiguration : BaseMotorControllerConfiguration {
 
 	{
 	}	
+    std::string toString(std::string prependString) {
+        std::string retstr = BaseMotorControllerConfiguration::toString(prependString);
+        retstr += primaryPID.toString(prependString + ".primaryPID");	
+	    retstr += auxilaryPID.toString(prependString + ".auxilaryPID");	
+	    retstr += prependString + ".forwardLimitSwitchSource = " + limitSwitchRoutines.toString(forwardLimitSwitchSource) + ";\n";
+	    retstr += prependString + ".reverseLimitSwitchSource = " + limitSwitchRoutines.toString(reverseLimitSwitchSource) + ";\n";
+	    retstr += prependString + ".sum_0 = " + feedbackDeviceRoutines.toString(sum_0) + ";\n";
+	    retstr += prependString + ".sum_1 = " + feedbackDeviceRoutines.toString(sum_1) + ";\n";
+	    retstr += prependString + ".diff_0 = " + feedbackDeviceRoutines.toString(diff_0) + ";\n";
+	    retstr += prependString + ".diff_1 = " + feedbackDeviceRoutines.toString(diff_1) + ";\n";
+        
+        return retstr;
+    }
 };
 
 /**
