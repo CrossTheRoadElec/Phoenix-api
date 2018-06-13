@@ -51,8 +51,7 @@ struct VictorSPXConfiguration : BaseMotorControllerConfiguration {
 	{
 	}	
     std::string toString(std::string prependString) {
-        std::string retstr = BaseMotorControllerConfiguration::toString(prependString);
-        retstr += primaryPID.toString(prependString + ".primaryPID");	
+        std::string retstr = primaryPID.toString(prependString + ".primaryPID");	
 	    retstr += auxilaryPID.toString(prependString + ".auxilaryPID");	
 	    retstr += prependString + ".forwardLimitSwitchSource = " + limitSwitchRoutines.toString(forwardLimitSwitchSource) + ";\n";
 	    retstr += prependString + ".reverseLimitSwitchSource = " + limitSwitchRoutines.toString(reverseLimitSwitchSource) + ";\n";
@@ -60,6 +59,7 @@ struct VictorSPXConfiguration : BaseMotorControllerConfiguration {
 	    retstr += prependString + ".sum_1 = " + feedbackDeviceRoutines.toString(sum_1) + ";\n";
 	    retstr += prependString + ".diff_0 = " + feedbackDeviceRoutines.toString(diff_0) + ";\n";
 	    retstr += prependString + ".diff_1 = " + feedbackDeviceRoutines.toString(diff_1) + ";\n";
+        retstr += BaseMotorControllerConfiguration::toString(prependString);
         
         return retstr;
     }

@@ -16,7 +16,7 @@ enum CANifierVelocityMeasPeriod {
 	Period_100Ms = 100,
 };
 
-class LimitSwitchRoutines {
+class CANifierVelocityMeasPeriodRoutines {
 public:
     static std::string toString(CANifierVelocityMeasPeriod value) {
         switch(value) {

@@ -38,6 +38,7 @@ public:
             case RemoteSensorSource::RemoteSensorSource_GadgeteerPigeon_Yaw     : return "RemoteSensorSource::RemoteSensorSource_GadgeteerPigeon_Yaw";
             case RemoteSensorSource::RemoteSensorSource_GadgeteerPigeon_Pitch   : return "RemoteSensorSource::RemoteSensorSource_GadgeteerPigeon_Pitch";
             case RemoteSensorSource::RemoteSensorSource_GadgeteerPigeon_Roll    : return "RemoteSensorSource::RemoteSensorSource_GadgeteerPigeon_Roll";
+            default : return "InvalidValue"; 
         }
     }
 };

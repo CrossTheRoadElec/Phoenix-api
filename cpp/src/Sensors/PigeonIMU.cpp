@@ -149,9 +149,7 @@ int PigeonIMU::SetAccumZAngle(double angleDeg, int timeoutMs) {
  */
 int PigeonIMU::ConfigTemperatureCompensationEnable(bool bTempCompEnable,
 		int timeoutMs) {
-	int errCode = c_PigeonIMU_ConfigTemperatureCompensationDisable(_handle,
-			!bTempCompEnable, timeoutMs); //bool inverted
-	return errCode;
+    return ConfigTemperatureCompensationDisable(!bTempCompEnable, timeoutMs); //bool inverted
 }
 
 /**

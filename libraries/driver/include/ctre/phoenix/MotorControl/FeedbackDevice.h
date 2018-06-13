@@ -64,11 +64,11 @@ public:
     static std::string toString(RemoteFeedbackDevice value) {
         switch(value) {
             case RemoteFeedbackDevice_None : return "RemoteFeedbackDevice_None";
-            case SensorSum : return "SensorSum";
-            case SensorDifference : return "SensorDifference";
-            case RemoteSensor0 : return "RemoteSensor0";
-            case RemoteSensor1 : return "RemoteSensor1";
-            case SoftwareEmulatedSensor : return "SoftwareEmulatedSensor";
+            case RemoteFeedbackDevice_SensorSum : return "RemoteFeedbackDevice_SensorSum";
+            case RemoteFeedbackDevice_SensorDifference : return "RemoteFeedbackDevice_SensorDifference";
+            case RemoteFeedbackDevice_RemoteSensor0 : return "RemoteFeedbackDevice_RemoteSensor0";
+            case RemoteFeedbackDevice_RemoteSensor1 : return "RemoteFeedbackDevice_RemoteSensor1";
+            case RemoteFeedbackDevice_SoftwareEmulatedSensor : return "RemoteFeedbackDevice_SoftwareEmulatedSensor";
             default : return "InvalidValue";
         }
 

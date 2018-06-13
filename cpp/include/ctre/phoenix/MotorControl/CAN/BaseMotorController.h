@@ -55,7 +55,7 @@ struct BasePIDSetConfiguration {
 		selectedFeedbackCoefficient(1.0)
 	{
 	}
-    std::string toString(std::string &prependString) {
+    std::string toString(const std::string &prependString) {
         return prependString + ".selectedFeedbackCoefficient = " + std::to_string(selectedFeedbackCoefficient) + ";\n";
     
     }
@@ -220,13 +220,13 @@ struct BaseMotorControllerConfiguration : ctre::phoenix::CustomParamConfiguratio
         retstr += prependString + ".reverseSoftLimitThreshold = " + std::to_string(reverseSoftLimitThreshold) + ";\n"; 
         retstr += prependString + ".forwardSoftLimitEnable = " + std::to_string(forwardSoftLimitEnable) + ";\n"; 
         retstr += prependString + ".reverseSoftLimitEnable = " + std::to_string(reverseSoftLimitEnable) + ";\n"; 
-        retstr += slot_0.toString(prependString + "slot_0");
-        retstr += slot_1.toString(prependString + "slot_1");
-        retstr += slot_2.toString(prependString + "slot_2");
-        retstr += slot_3.toString(prependString + "slot_3");
+        retstr += slot_0.toString(prependString + ".slot_0");
+        retstr += slot_1.toString(prependString + ".slot_1");
+        retstr += slot_2.toString(prependString + ".slot_2");
+        retstr += slot_3.toString(prependString + ".slot_3");
         retstr += prependString + ".auxPIDPolarity = " + std::to_string(auxPIDPolarity) + ";\n"; 
-        retstr += filter_0.toString(prependString + "filter_0");
-        retstr += filter_1.toString(prependString + "filter_1");
+        retstr += filter_0.toString(prependString + ".filter_0");
+        retstr += filter_1.toString(prependString + ".filter_1");
         retstr += prependString + ".motionCruiseVelocity = " + std::to_string(motionCruiseVelocity) + ";\n"; 
         retstr += prependString + ".motionAcceleration = " + std::to_string(motionAcceleration) + ";\n"; 
         retstr += prependString + ".motionProfileTrajectoryPeriod = " + std::to_string(motionProfileTrajectoryPeriod) + ";\n"; 
