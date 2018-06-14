@@ -1802,33 +1802,22 @@ ctre::phoenix::motorcontrol::SensorCollection & BaseMotorController::GetSensorCo
 
 //------Config All------//
 
-//Fix this return data type at some point
-
 ctre::phoenix::ErrorCode BaseMotorController::ConfigureSlot(const SlotConfiguration &slot, int slotIdx, int timeoutMs) {
 
-	ErrorCode firstError;
-	ErrorCode nextError;
-    //------ General Close loop ----------//    
+	ErrorCollection errorCollection;
+	//------ General Close loop ----------//    
 
-    firstError = Config_kP(slotIdx, slot.kP, timeoutMs);
-    nextError = Config_kI(slotIdx, slot.kI, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-    nextError = Config_kD(slotIdx, slot.kD, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-    nextError = Config_kF(slotIdx, slot.kF, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-    nextError = Config_IntegralZone(slotIdx, slot.integralZone, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-    nextError = ConfigAllowableClosedloopError(slotIdx, slot.allowableClosedloopError, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-    nextError = ConfigMaxIntegralAccumulator(slotIdx, slot.maxIntegralAccumulator, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-    nextError = ConfigClosedLoopPeakOutput(slotIdx, slot.closedLoopPeakOutput, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-    nextError = ConfigClosedLoopPeriod(slotIdx, slot.closedLoopPeriod, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-
-    return firstError;
+    errorCollection.NewError(Config_kP(slotIdx, slot.kP, timeoutMs));
+    errorCollection.NewError(Config_kI(slotIdx, slot.kI, timeoutMs));
+    errorCollection.NewError(Config_kD(slotIdx, slot.kD, timeoutMs));
+    errorCollection.NewError(Config_kF(slotIdx, slot.kF, timeoutMs));
+    errorCollection.NewError(Config_IntegralZone(slotIdx, slot.integralZone, timeoutMs));
+    errorCollection.NewError(ConfigAllowableClosedloopError(slotIdx, slot.allowableClosedloopError, timeoutMs));
+    errorCollection.NewError(ConfigMaxIntegralAccumulator(slotIdx, slot.maxIntegralAccumulator, timeoutMs));
+    errorCollection.NewError(ConfigClosedLoopPeakOutput(slotIdx, slot.closedLoopPeakOutput, timeoutMs));
+    errorCollection.NewError(ConfigClosedLoopPeriod(slotIdx, slot.closedLoopPeriod, timeoutMs));
+    
+    return errorCollection._worstError;
 
 }
 
@@ -1870,46 +1859,31 @@ void BaseMotorController::BaseGetPIDConfigs(BasePIDSetConfiguration &pid, int pi
 
 ctre::phoenix::ErrorCode BaseMotorController::BaseConfigAllSettings(const BaseMotorControllerConfiguration &allConfigs, int timeoutMs) {
 	
-    ErrorCode firstError;
-	ErrorCode nextError;
-	
+    ErrorCollection errorCollection;
+		
     //----- general output shaping ------------------//
-    firstError = ConfigOpenloopRamp(allConfigs.openloopRamp, timeoutMs);
-    nextError = ConfigClosedloopRamp(allConfigs.closedloopRamp, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-    nextError = ConfigPeakOutputForward(allConfigs.peakOutputForward, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-    nextError = ConfigPeakOutputReverse(allConfigs.peakOutputReverse, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-    nextError = ConfigNominalOutputForward(allConfigs.nominalOutputForward, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-    nextError = ConfigNominalOutputReverse(allConfigs.nominalOutputReverse, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-    nextError = ConfigNeutralDeadband(allConfigs.neutralDeadband, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-
+    errorCollection.NewError(ConfigOpenloopRamp(allConfigs.openloopRamp, timeoutMs));
+    errorCollection.NewError(ConfigClosedloopRamp(allConfigs.closedloopRamp, timeoutMs));
+    errorCollection.NewError(ConfigPeakOutputForward(allConfigs.peakOutputForward, timeoutMs));
+    errorCollection.NewError(ConfigPeakOutputReverse(allConfigs.peakOutputReverse, timeoutMs));
+    errorCollection.NewError(ConfigNominalOutputForward(allConfigs.nominalOutputForward, timeoutMs));
+    errorCollection.NewError(ConfigNominalOutputReverse(allConfigs.nominalOutputReverse, timeoutMs));
+    errorCollection.NewError(ConfigNeutralDeadband(allConfigs.neutralDeadband, timeoutMs));
+    
     //------ Voltage Compensation ----------//
-    nextError = ConfigVoltageCompSaturation(allConfigs.voltageCompSaturation, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-    nextError = ConfigVoltageMeasurementFilter(allConfigs.voltageMeasurementFilter, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-
+    errorCollection.NewError(ConfigVoltageCompSaturation(allConfigs.voltageCompSaturation, timeoutMs));
+    errorCollection.NewError(ConfigVoltageMeasurementFilter(allConfigs.voltageMeasurementFilter, timeoutMs));
+    
     //----- velocity signal conditionaing ------//
-    nextError = ConfigVelocityMeasurementPeriod(allConfigs.velocityMeasurementPeriod, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-    nextError = ConfigVelocityMeasurementWindow(allConfigs.velocityMeasurementWindow, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-
+    errorCollection.NewError(ConfigVelocityMeasurementPeriod(allConfigs.velocityMeasurementPeriod, timeoutMs));
+    errorCollection.NewError(ConfigVelocityMeasurementWindow(allConfigs.velocityMeasurementWindow, timeoutMs));
+    
     //------ soft limit ----------//
-    nextError = ConfigForwardSoftLimitThreshold(allConfigs.forwardSoftLimitThreshold, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-    nextError = ConfigReverseSoftLimitThreshold(allConfigs.reverseSoftLimitThreshold, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-    nextError = ConfigForwardSoftLimitEnable(allConfigs.forwardSoftLimitEnable, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-    nextError = ConfigReverseSoftLimitEnable(allConfigs.reverseSoftLimitEnable, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-
+    errorCollection.NewError(ConfigForwardSoftLimitThreshold(allConfigs.forwardSoftLimitThreshold, timeoutMs));
+    errorCollection.NewError(ConfigReverseSoftLimitThreshold(allConfigs.reverseSoftLimitThreshold, timeoutMs));
+    errorCollection.NewError(ConfigForwardSoftLimitEnable(allConfigs.forwardSoftLimitEnable, timeoutMs));
+    errorCollection.NewError(ConfigReverseSoftLimitEnable(allConfigs.reverseSoftLimitEnable, timeoutMs));
+    
 
     //------ limit switch ----------//   
     /* not in base */
@@ -1919,62 +1893,41 @@ ctre::phoenix::ErrorCode BaseMotorController::BaseConfigAllSettings(const BaseMo
 
     //--------Slots---------------//
 
-    nextError = ConfigureSlot(allConfigs.slot_0, 0, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-    nextError = ConfigureSlot(allConfigs.slot_1, 1, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-    nextError = ConfigureSlot(allConfigs.slot_2, 2, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-    nextError = ConfigureSlot(allConfigs.slot_3, 3, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-
+    errorCollection.NewError(ConfigureSlot(allConfigs.slot_0, 0, timeoutMs));
+    errorCollection.NewError(ConfigureSlot(allConfigs.slot_1, 1, timeoutMs));
+    errorCollection.NewError(ConfigureSlot(allConfigs.slot_2, 2, timeoutMs));
+    errorCollection.NewError(ConfigureSlot(allConfigs.slot_3, 3, timeoutMs));
+    
     //---------Auxilary Closed Loop Polarity-------------//
 
-    nextError = ConfigAuxPIDPolarity(allConfigs.auxPIDPolarity, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-
+    errorCollection.NewError(ConfigAuxPIDPolarity(allConfigs.auxPIDPolarity, timeoutMs));
+    
     //----------Remote Feedback Filters----------//
-    nextError = ConfigureFilter(allConfigs.filter_0, 0, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-    nextError = ConfigureFilter(allConfigs.filter_1, 1, timeoutMs);
-    firstError = firstError ? firstError : nextError;
+    errorCollection.NewError(ConfigureFilter(allConfigs.filter_0, 0, timeoutMs));
+    errorCollection.NewError(ConfigureFilter(allConfigs.filter_1, 1, timeoutMs));
     
     //------ Motion Profile Settings used in Motion Magic  ----------//
-    nextError = ConfigMotionCruiseVelocity(allConfigs.motionCruiseVelocity, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-    nextError = ConfigMotionAcceleration(allConfigs.motionAcceleration, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-
+    errorCollection.NewError(ConfigMotionCruiseVelocity(allConfigs.motionCruiseVelocity, timeoutMs));
+    errorCollection.NewError(ConfigMotionAcceleration(allConfigs.motionAcceleration, timeoutMs));
+    
     //------ Motion Profile Buffer ----------//
-    nextError = ConfigMotionProfileTrajectoryPeriod(allConfigs.motionProfileTrajectoryPeriod, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-
+    errorCollection.NewError(ConfigMotionProfileTrajectoryPeriod(allConfigs.motionProfileTrajectoryPeriod, timeoutMs));
+    
     //------ Custom Persistent Params ----------//
-    nextError = ConfigSetCustomParam(allConfigs.customParam_0, 0, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-    nextError = ConfigSetCustomParam(allConfigs.customParam_1, 1, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-
-    nextError = c_MotController_ConfigSetParameter(m_handle, 332, allConfigs.feedbackNotContinuous, 0, 0, timeoutMs); 
-    firstError = firstError ? firstError : nextError;
-    nextError = c_MotController_ConfigSetParameter(m_handle, 336, allConfigs.remoteSensorClosedLoopDisableNeutralOnLOS, 0, 0, timeoutMs); 
-    firstError = firstError ? firstError : nextError;
-    nextError = c_MotController_ConfigSetParameter(m_handle, 320, allConfigs.clearPositionOnLimitF, 0, 0, timeoutMs); 
-    firstError = firstError ? firstError : nextError;
-    nextError = c_MotController_ConfigSetParameter(m_handle, 321, allConfigs.clearPositionOnLimitR, 0, 0, timeoutMs); 
-    firstError = firstError ? firstError : nextError;
-    nextError = c_MotController_ConfigSetParameter(m_handle, 322, allConfigs.clearPositionOnQuadIdx, 0, 0, timeoutMs); 
-    firstError = firstError ? firstError : nextError;
-    nextError = c_MotController_ConfigSetParameter(m_handle, 423, allConfigs.limitSwitchDisableNeutralOnLOS, 0, 0, timeoutMs); 
-    firstError = firstError ? firstError : nextError;
-    nextError = c_MotController_ConfigSetParameter(m_handle, 425, allConfigs.softLimitDisableNeutralOnLOS, 0, 0, timeoutMs); 
-    firstError = firstError ? firstError : nextError;
-    nextError = c_MotController_ConfigSetParameter(m_handle, 430, allConfigs.pulseWidthPeriod_EdgesPerRot, 0, 0, timeoutMs); 
-    firstError = firstError ? firstError : nextError;
-    nextError = c_MotController_ConfigSetParameter(m_handle, 431, allConfigs.pulseWidthPeriod_FilterWindowSz, 0, 0, timeoutMs); 
-    firstError = firstError ? firstError : nextError;
-
-    return firstError;
+    errorCollection.NewError(ConfigSetCustomParam(allConfigs.customParam_0, 0, timeoutMs));
+    errorCollection.NewError(ConfigSetCustomParam(allConfigs.customParam_1, 1, timeoutMs));
+    
+    errorCollection.NewError(c_MotController_ConfigSetParameter(m_handle, 332, allConfigs.feedbackNotContinuous, 0, 0, timeoutMs)); 
+    errorCollection.NewError(c_MotController_ConfigSetParameter(m_handle, 336, allConfigs.remoteSensorClosedLoopDisableNeutralOnLOS, 0, 0, timeoutMs)); 
+    errorCollection.NewError(c_MotController_ConfigSetParameter(m_handle, 320, allConfigs.clearPositionOnLimitF, 0, 0, timeoutMs)); 
+    errorCollection.NewError(c_MotController_ConfigSetParameter(m_handle, 321, allConfigs.clearPositionOnLimitR, 0, 0, timeoutMs)); 
+    errorCollection.NewError(c_MotController_ConfigSetParameter(m_handle, 322, allConfigs.clearPositionOnQuadIdx, 0, 0, timeoutMs)); 
+    errorCollection.NewError(c_MotController_ConfigSetParameter(m_handle, 423, allConfigs.limitSwitchDisableNeutralOnLOS, 0, 0, timeoutMs)); 
+    errorCollection.NewError(c_MotController_ConfigSetParameter(m_handle, 425, allConfigs.softLimitDisableNeutralOnLOS, 0, 0, timeoutMs)); 
+    errorCollection.NewError(c_MotController_ConfigSetParameter(m_handle, 430, allConfigs.pulseWidthPeriod_EdgesPerRot, 0, 0, timeoutMs)); 
+    errorCollection.NewError(c_MotController_ConfigSetParameter(m_handle, 431, allConfigs.pulseWidthPeriod_FilterWindowSz, 0, 0, timeoutMs)); 
+    
+    return errorCollection._worstError;
 }
 
 void BaseMotorController::BaseGetAllConfigs(BaseMotorControllerConfiguration &allConfigs, int timeoutMs) {

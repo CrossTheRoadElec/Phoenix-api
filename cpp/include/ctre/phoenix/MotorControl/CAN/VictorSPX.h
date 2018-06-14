@@ -14,7 +14,6 @@ namespace can {
  */
 struct VictorSPXPIDSetConfiguration : BasePIDSetConfiguration {
 	RemoteFeedbackDevice selectedFeedbackSensor;
-    FeedbackDeviceRoutines feedbackDeviceRoutines;
 
 	VictorSPXPIDSetConfiguration() :
 		selectedFeedbackSensor(RemoteFeedbackDevice_None) //Check with victor
@@ -22,7 +21,7 @@ struct VictorSPXPIDSetConfiguration : BasePIDSetConfiguration {
 	}
     std::string toString(std::string prependString) {
 
-        std::string retstr = prependString + ".selectedFeedbackSensor = " + feedbackDeviceRoutines.toString(selectedFeedbackSensor) + ";\n";
+        std::string retstr = prependString + ".selectedFeedbackSensor = " + FeedbackDeviceRoutines::toString(selectedFeedbackSensor) + ";\n";
         retstr += BasePIDSetConfiguration::toString(prependString);
         return retstr;
     }
@@ -34,7 +33,6 @@ struct VictorSPXConfiguration : BaseMotorControllerConfiguration {
 	VictorSPXPIDSetConfiguration auxilaryPID;	
 	RemoteLimitSwitchSource forwardLimitSwitchSource;
 	RemoteLimitSwitchSource reverseLimitSwitchSource;
-    FeedbackDeviceRoutines feedbackDeviceRoutines;
 	RemoteFeedbackDevice sum_0;
 	RemoteFeedbackDevice sum_1;
 	RemoteFeedbackDevice diff_0;
@@ -53,12 +51,12 @@ struct VictorSPXConfiguration : BaseMotorControllerConfiguration {
     std::string toString(std::string prependString) {
         std::string retstr = primaryPID.toString(prependString + ".primaryPID");	
 	    retstr += auxilaryPID.toString(prependString + ".auxilaryPID");	
-	    retstr += prependString + ".forwardLimitSwitchSource = " + limitSwitchRoutines.toString(forwardLimitSwitchSource) + ";\n";
-	    retstr += prependString + ".reverseLimitSwitchSource = " + limitSwitchRoutines.toString(reverseLimitSwitchSource) + ";\n";
-	    retstr += prependString + ".sum_0 = " + feedbackDeviceRoutines.toString(sum_0) + ";\n";
-	    retstr += prependString + ".sum_1 = " + feedbackDeviceRoutines.toString(sum_1) + ";\n";
-	    retstr += prependString + ".diff_0 = " + feedbackDeviceRoutines.toString(diff_0) + ";\n";
-	    retstr += prependString + ".diff_1 = " + feedbackDeviceRoutines.toString(diff_1) + ";\n";
+	    retstr += prependString + ".forwardLimitSwitchSource = " + LimitSwitchRoutines::toString(forwardLimitSwitchSource) + ";\n";
+	    retstr += prependString + ".reverseLimitSwitchSource = " + LimitSwitchRoutines::toString(reverseLimitSwitchSource) + ";\n";
+	    retstr += prependString + ".sum_0 = " + FeedbackDeviceRoutines::toString(sum_0) + ";\n";
+	    retstr += prependString + ".sum_1 = " + FeedbackDeviceRoutines::toString(sum_1) + ";\n";
+	    retstr += prependString + ".diff_0 = " + FeedbackDeviceRoutines::toString(diff_0) + ";\n";
+	    retstr += prependString + ".diff_1 = " + FeedbackDeviceRoutines::toString(diff_1) + ";\n";
         retstr += BaseMotorControllerConfiguration::toString(prependString);
         
         return retstr;
@@ -81,9 +79,9 @@ public:
 	//------ All Configs ----------//
 	ctre::phoenix::ErrorCode ConfigurePID(const VictorSPXPIDSetConfiguration &pid, int pidIdx = 0, int timeoutMs = 50);
 	void GetPIDConfigs(VictorSPXPIDSetConfiguration &pid, int pidIdx = 0, int timeoutMs = 50);
-	virtual ctre::phoenix::ErrorCode ConfigAllSettings(const VictorSPXConfiguration &allConfigs, int timeoutMs = 100);
-	virtual void GetAllConfigs(VictorSPXConfiguration &allConfigs, int timeoutMs = 100);
-	virtual ctre::phoenix::ErrorCode ConfigFactoryDefault(int timeoutMs = 100);
+	virtual ctre::phoenix::ErrorCode ConfigAllSettings(const VictorSPXConfiguration &allConfigs, int timeoutMs = 50);
+	virtual void GetAllConfigs(VictorSPXConfiguration &allConfigs, int timeoutMs = 50);
+	virtual ctre::phoenix::ErrorCode ConfigFactoryDefault(int timeoutMs = 50);
 
 
 };// class VictorSPX

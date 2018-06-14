@@ -1,19 +1,16 @@
 package com.ctre.phoenix.motorcontrol.can;
 
-import com.ctre.phoenix.motorcontrol.SensorTerm;
-import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
-
 public class SlotConfiguration{
 
     public double kP;
     public double kI;
     public double kD;
     public double kF;
-    public int IntegralZone;
-    public int AllowableClosedloopError;
-    public double MaxIntegralAccumulator;
-    public double ClosedLoopPeakOutput;
-    public int ClosedLoopPeriod;
+    public int integralZone;
+    public int allowableClosedloopError;
+    public double maxIntegralAccumulator;
+    public double closedLoopPeakOutput;
+    public int closedLoopPeriod;
 
     public SlotConfiguration() {
 
@@ -21,11 +18,27 @@ public class SlotConfiguration{
         kI = 0.0;
         kD = 0.0;
         kF = 0.0;
-        IntegralZone = 0;
-        AllowableClosedloopError = 0;
-        MaxIntegralAccumulator = 0.0;
-        ClosedLoopPeakOutput = 1.0;
-        ClosedLoopPeriod = 1;
+        integralZone = 0;
+        allowableClosedloopError = 0;
+        maxIntegralAccumulator = 0.0;
+        closedLoopPeakOutput = 1.0;
+        closedLoopPeriod = 1;
     }
+    public String toString(String prependString) {
+
+        String retstr = prependString + ".kP = " + String.valueOf(kP) + ";\n";
+        retstr += prependString + ".kI = " + String.valueOf(kI) + ";\n";
+        retstr += prependString + ".kD = " + String.valueOf(kD) + ";\n";
+        retstr += prependString + ".kF = " + String.valueOf(kF) + ";\n";
+        retstr += prependString + ".integralZone = " + String.valueOf(integralZone) + ";\n";
+        retstr += prependString + ".allowableClosedloopError = " + String.valueOf(allowableClosedloopError) + ";\n";
+        retstr += prependString + ".maxIntegralAccumulator = " + String.valueOf(maxIntegralAccumulator) + ";\n";
+        retstr += prependString + ".closedLoopPeakOutput = " + String.valueOf(closedLoopPeakOutput) + ";\n";
+        retstr += prependString + ".closedLoopPeriod = " + String.valueOf(closedLoopPeriod) + ";\n";
+
+        return retstr;
+
+    }
+
 } // class SlotConfiguration
 

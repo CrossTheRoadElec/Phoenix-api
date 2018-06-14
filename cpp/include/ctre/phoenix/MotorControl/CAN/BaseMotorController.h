@@ -63,7 +63,6 @@ struct BasePIDSetConfiguration {
 struct FilterConfiguration {
 
 	int remoteSensorDeviceID; 
-    RemoteSensorSourceRoutines remoteSensorSourceRoutines;
 	RemoteSensorSource remoteSensorSource;  
 
     FilterConfiguration() :
@@ -73,7 +72,7 @@ struct FilterConfiguration {
     }
     std::string toString(std::string prependString) {
         std::string retstr = prependString + ".remoteSensorDeviceID = " + std::to_string(remoteSensorDeviceID) + ";\n";
-        retstr += prependString + ".remoteSensorSource = " + remoteSensorSourceRoutines.toString(remoteSensorSource) + ";\n";
+        retstr += prependString + ".remoteSensorSource = " + RemoteSensorSourceRoutines::toString(remoteSensorSource) + ";\n";
         return retstr;
     }
 
@@ -130,12 +129,10 @@ struct BaseMotorControllerConfiguration : ctre::phoenix::CustomParamConfiguratio
 	double neutralDeadband;
 	double voltageCompSaturation; 
 	int voltageMeasurementFilter;
-	VelocityMeasPeriodRoutines velocityMeasPeriodRoutines;
     VelocityMeasPeriod velocityMeasurementPeriod; 
 	int velocityMeasurementWindow; 
 	int forwardLimitSwitchDeviceID; //Limit Switch device id isn't used unless device is a remote
 	int reverseLimitSwitchDeviceID;
-    LimitSwitchRoutines limitSwitchRoutines;
 	LimitSwitchNormal forwardLimitSwitchNormal;
 	LimitSwitchNormal reverseLimitSwitchNormal;
 	int forwardSoftLimitThreshold; 
@@ -163,39 +160,38 @@ struct BaseMotorControllerConfiguration : ctre::phoenix::CustomParamConfiguratio
     int pulseWidthPeriod_FilterWindowSz;
 
     BaseMotorControllerConfiguration() :
-			openloopRamp(0.0),
-			closedloopRamp(0.0),
-			peakOutputForward(1.0),
-			peakOutputReverse(-1.0),
-			nominalOutputForward(0.0),
-			nominalOutputReverse(0.0),
-			neutralDeadband(0.04),
-			voltageCompSaturation(0.0),
-			voltageMeasurementFilter(32),
-			velocityMeasurementPeriod(Period_100Ms),
-			velocityMeasurementWindow(64),
-			forwardLimitSwitchDeviceID(0),
-			reverseLimitSwitchDeviceID(0),
-			forwardLimitSwitchNormal(LimitSwitchNormal_NormallyOpen), 
-			reverseLimitSwitchNormal(LimitSwitchNormal_NormallyOpen), 
-			//Can a remote encoder be used for soft limits if there is a local encoder? etc? 
-			forwardSoftLimitThreshold(0),
-			reverseSoftLimitThreshold(0), 
-			forwardSoftLimitEnable(false),
-			reverseSoftLimitEnable(false),
-			auxPIDPolarity(false), 
-			motionCruiseVelocity(0),
-			motionAcceleration(0),
-			motionProfileTrajectoryPeriod(0),
-            feedbackNotContinuous(false),
-            remoteSensorClosedLoopDisableNeutralOnLOS(false),
-            clearPositionOnLimitF(false),
-            clearPositionOnLimitR(false),
-            clearPositionOnQuadIdx(false),
-            limitSwitchDisableNeutralOnLOS(false),
-            softLimitDisableNeutralOnLOS(false),
-            pulseWidthPeriod_EdgesPerRot(1),
-            pulseWidthPeriod_FilterWindowSz(1)
+        openloopRamp(0.0),
+        closedloopRamp(0.0),
+        peakOutputForward(1.0),
+        peakOutputReverse(-1.0),
+        nominalOutputForward(0.0),
+        nominalOutputReverse(0.0),
+        neutralDeadband(0.04),
+        voltageCompSaturation(0.0),
+        voltageMeasurementFilter(32),
+        velocityMeasurementPeriod(Period_100Ms),
+        velocityMeasurementWindow(64),
+        forwardLimitSwitchDeviceID(0),
+        reverseLimitSwitchDeviceID(0),
+        forwardLimitSwitchNormal(LimitSwitchNormal_NormallyOpen), 
+        reverseLimitSwitchNormal(LimitSwitchNormal_NormallyOpen), 
+        forwardSoftLimitThreshold(0),
+        reverseSoftLimitThreshold(0), 
+        forwardSoftLimitEnable(false),
+        reverseSoftLimitEnable(false),
+        auxPIDPolarity(false), 
+        motionCruiseVelocity(0),
+        motionAcceleration(0),
+        motionProfileTrajectoryPeriod(0),
+        feedbackNotContinuous(false),
+        remoteSensorClosedLoopDisableNeutralOnLOS(false),
+        clearPositionOnLimitF(false),
+        clearPositionOnLimitR(false),
+        clearPositionOnQuadIdx(false),
+        limitSwitchDisableNeutralOnLOS(false),
+        softLimitDisableNeutralOnLOS(false),
+        pulseWidthPeriod_EdgesPerRot(1),
+        pulseWidthPeriod_FilterWindowSz(1)
 
 	{
 	}
@@ -210,12 +206,12 @@ struct BaseMotorControllerConfiguration : ctre::phoenix::CustomParamConfiguratio
         retstr += prependString + ".neutralDeadband = " + std::to_string(neutralDeadband) + ";\n";
         retstr += prependString + ".voltageCompSaturation = " + std::to_string(voltageCompSaturation) + ";\n"; 
         retstr += prependString + ".voltageMeasurementFilter = " + std::to_string(voltageMeasurementFilter) + ";\n";
-        retstr += prependString + ".velocityMeasurementPeriod = " + velocityMeasPeriodRoutines.toString(velocityMeasurementPeriod) + ";\n"; 
+        retstr += prependString + ".velocityMeasurementPeriod = " + VelocityMeasPeriodRoutines::toString(velocityMeasurementPeriod) + ";\n"; 
         retstr += prependString + ".velocityMeasurementWindow = " + std::to_string(velocityMeasurementWindow) + ";\n"; 
         retstr += prependString + ".forwardLimitSwitchDeviceID = " + std::to_string(forwardLimitSwitchDeviceID) + ";\n";
         retstr += prependString + ".reverseLimitSwitchDeviceID = " + std::to_string(reverseLimitSwitchDeviceID) + ";\n";
-        retstr += prependString + ".forwardLimitSwitchNormal = " + limitSwitchRoutines.toString(forwardLimitSwitchNormal) + ";\n";
-        retstr += prependString + ".reverseLimitSwitchNormal = " + limitSwitchRoutines.toString(reverseLimitSwitchNormal) + ";\n";
+        retstr += prependString + ".forwardLimitSwitchNormal = " + LimitSwitchRoutines::toString(forwardLimitSwitchNormal) + ";\n";
+        retstr += prependString + ".reverseLimitSwitchNormal = " + LimitSwitchRoutines::toString(reverseLimitSwitchNormal) + ";\n";
         retstr += prependString + ".forwardSoftLimitThreshold = " + std::to_string(forwardSoftLimitThreshold) + ";\n"; 
         retstr += prependString + ".reverseSoftLimitThreshold = " + std::to_string(reverseSoftLimitThreshold) + ";\n"; 
         retstr += prependString + ".forwardSoftLimitEnable = " + std::to_string(forwardSoftLimitEnable) + ";\n"; 

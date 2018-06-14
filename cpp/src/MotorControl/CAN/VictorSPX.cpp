@@ -15,16 +15,15 @@ VictorSPX::VictorSPX(int deviceNumber) :
 //Fix this return data type at some point
 
 ctre::phoenix::ErrorCode VictorSPX::ConfigurePID(const VictorSPXPIDSetConfiguration &pid, int pidIdx, int timeoutMs) {
-    ErrorCode firstError;
-    ErrorCode nextError;
-
+    ErrorCollection errorCollection;
+    
     //------ sensor selection ----------//      
 
-	firstError = BaseConfigurePID(pid, pidIdx, timeoutMs);
-    nextError = ConfigSelectedFeedbackSensor(pid.selectedFeedbackSensor, pidIdx, timeoutMs);
-    firstError = firstError ? firstError : nextError;    
+	errorCollection.NewError(BaseConfigurePID(pid, pidIdx, timeoutMs));
+    errorCollection.NewError(ConfigSelectedFeedbackSensor(pid.selectedFeedbackSensor, pidIdx, timeoutMs));
+        
 
-	return firstError;
+	return errorCollection._worstError;
 }
 void VictorSPX::GetPIDConfigs(VictorSPXPIDSetConfiguration &pid, int pidIdx, int timeoutMs)
 {
@@ -34,33 +33,32 @@ void VictorSPX::GetPIDConfigs(VictorSPXPIDSetConfiguration &pid, int pidIdx, int
 }
 
 ErrorCode VictorSPX::ConfigAllSettings(const VictorSPXConfiguration &allConfigs, int timeoutMs) {
-    ErrorCode firstError;
-    ErrorCode nextError;
-	
-	firstError = BaseConfigAllSettings(allConfigs, timeoutMs);	
+    ErrorCollection errorCollection;
+    	
+	errorCollection.NewError(BaseConfigAllSettings(allConfigs, timeoutMs));	
 	
 	//------ remote limit switch ----------//	
-	nextError = ConfigForwardLimitSwitchSource(allConfigs.forwardLimitSwitchSource, allConfigs.forwardLimitSwitchNormal, allConfigs.forwardLimitSwitchDeviceID, timeoutMs);
-    firstError = firstError ? firstError : nextError;    
-	nextError = ConfigReverseLimitSwitchSource(allConfigs.reverseLimitSwitchSource, allConfigs.reverseLimitSwitchNormal, allConfigs.reverseLimitSwitchDeviceID, timeoutMs);
-    firstError = firstError ? firstError : nextError;    
+	errorCollection.NewError(ConfigForwardLimitSwitchSource(allConfigs.forwardLimitSwitchSource, allConfigs.forwardLimitSwitchNormal, allConfigs.forwardLimitSwitchDeviceID, timeoutMs));
+        
+	errorCollection.NewError(ConfigReverseLimitSwitchSource(allConfigs.reverseLimitSwitchSource, allConfigs.reverseLimitSwitchNormal, allConfigs.reverseLimitSwitchDeviceID, timeoutMs));
+        
 		
 	//--------PIDs---------------//
 	
-    nextError = ConfigurePID(allConfigs.primaryPID, 0, timeoutMs);
-    firstError = firstError ? firstError : nextError;    
-    nextError = ConfigurePID(allConfigs.auxilaryPID, 1, timeoutMs);
-    firstError = firstError ? firstError : nextError;    
-    nextError = ConfigSensorTerm(SensorTerm::SensorTerm_Sum0, allConfigs.sum_0, timeoutMs);
-    firstError = firstError ? firstError : nextError;    
-    nextError = ConfigSensorTerm(SensorTerm::SensorTerm_Sum1, allConfigs.sum_1, timeoutMs);
-    firstError = firstError ? firstError : nextError;    
-    nextError = ConfigSensorTerm(SensorTerm::SensorTerm_Diff0, allConfigs.diff_0, timeoutMs);
-    firstError = firstError ? firstError : nextError;    
-    nextError = ConfigSensorTerm(SensorTerm::SensorTerm_Diff1, allConfigs.diff_1, timeoutMs);
-    firstError = firstError ? firstError : nextError;    
+    errorCollection.NewError(ConfigurePID(allConfigs.primaryPID, 0, timeoutMs));
+        
+    errorCollection.NewError(ConfigurePID(allConfigs.auxilaryPID, 1, timeoutMs));
+        
+    errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Sum0, allConfigs.sum_0, timeoutMs));
+        
+    errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Sum1, allConfigs.sum_1, timeoutMs));
+        
+    errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Diff0, allConfigs.diff_0, timeoutMs));
+        
+    errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Diff1, allConfigs.diff_1, timeoutMs));
+        
 	
-    return firstError;
+    return errorCollection._worstError;
 }
 void VictorSPX::GetAllConfigs(VictorSPXConfiguration &allConfigs, int timeoutMs) {
 	

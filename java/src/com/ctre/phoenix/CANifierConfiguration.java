@@ -7,10 +7,20 @@ import com.ctre.phoenix.VelocityPeriod;
 
 
 public class CANifierConfiguration extends CustomParamConfiguration{
-	public VelocityPeriod VelocityMeasurementPeriod;
-	public int VelocityMeasurementWindow;
+	public VelocityPeriod velocityMeasurementPeriod;
+	public int velocityMeasurementWindow;
 	public CANifierConfiguration() {
-		//this.VelocityMeasurementPeriod = 1; //TODO: fix this 
-		this.VelocityMeasurementWindow = 0; //TODO: Check this
+		velocityMeasurementPeriod = VelocityPeriod.Period_100Ms; 
+		velocityMeasurementWindow = 64;
 	}
+    public String toString(String prependString) {
+
+        String retstr = prependString + ".velocityMeasurementPeriod = " + velocityMeasurementPeriod.toString() + ";\n";
+        retstr += prependString + ".velocityMeasurementWindow = " + String.valueOf(velocityMeasurementWindow) + ";\n";
+
+        retstr += super.toString(prependString);
+
+        return retstr;
+    }
+
 }

@@ -3,18 +3,42 @@ package com.ctre.phoenix.motorcontrol.can;
 import com.ctre.phoenix.CustomParamConfiguration;
 import com.ctre.phoenix.motorcontrol.can.VictorSPXPIDSetConfiguration;
 import com.ctre.phoenix.motorcontrol.RemoteLimitSwitchSource;
+import com.ctre.phoenix.motorcontrol.RemoteFeedbackDevice;
 
 public class VictorSPXConfiguration extends com.ctre.phoenix.motorcontrol.can.BaseMotorControllerConfiguration {
-	VictorSPXPIDSetConfiguration PrimaryPID;
-    VictorSPXPIDSetConfiguration AuxilaryPID;
-    RemoteLimitSwitchSource ForwardLimitSwitchSource;
-    RemoteLimitSwitchSource ReverseLimitSwitchSource;
+	public VictorSPXPIDSetConfiguration primaryPID;
+    public VictorSPXPIDSetConfiguration auxilaryPID;
+    public RemoteLimitSwitchSource forwardLimitSwitchSource;
+    public RemoteLimitSwitchSource reverseLimitSwitchSource;
+    public RemoteFeedbackDevice sum_0;
+    public RemoteFeedbackDevice sum_1;
+    public RemoteFeedbackDevice diff_0;
+    public RemoteFeedbackDevice diff_1;
+
 	
-	VictorSPXConfiguration() {
-        ForwardLimitSwitchSource = RemoteLimitSwitchSource.Deactivated;
-        ReverseLimitSwitchSource = RemoteLimitSwitchSource.Deactivated;
+	public VictorSPXConfiguration() {
+        forwardLimitSwitchSource = RemoteLimitSwitchSource.Deactivated;
+        reverseLimitSwitchSource = RemoteLimitSwitchSource.Deactivated;
+        sum_0 = RemoteFeedbackDevice.None;
+        sum_1 = RemoteFeedbackDevice.None;
+        diff_0 = RemoteFeedbackDevice.None;
+        diff_1 = RemoteFeedbackDevice.None;
 
 	}
+    public String toString(String prependString) {
+        String retstr = primaryPID.toString(prependString + ".primaryPID");
+        retstr += auxilaryPID.toString(prependString + ".auxilaryPID");
+        retstr += prependString + ".forwardLimitSwitchSource = " + forwardLimitSwitchSource.toString() + ";\n";
+        retstr += prependString + ".reverseLimitSwitchSource = " + reverseLimitSwitchSource.toString() + ";\n";
+        retstr += prependString + ".sum_0 = " + sum_0.toString() + ";\n";
+        retstr += prependString + ".sum_1 = " + sum_1.toString() + ";\n";
+        retstr += prependString + ".diff_0 = " + diff_0.toString() + ";\n";
+        retstr += prependString + ".diff_1 = " + diff_1.toString() + ";\n";
+        retstr += super.toString(prependString);
+
+        return retstr;
+    }
+
 
 }
 

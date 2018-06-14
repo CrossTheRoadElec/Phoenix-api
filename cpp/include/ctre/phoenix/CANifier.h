@@ -22,7 +22,6 @@ namespace ctre {namespace phoenix {
 	 */
 
 struct CANifierConfiguration : CustomParamConfiguration{
-	CANifierVelocityMeasPeriodRoutines canifierVelocityMeasPeriodRoutines;
     CANifierVelocityMeasPeriod velocityMeasurementPeriod;
 	int velocityMeasurementWindow;
 	CANifierConfiguration() : 
@@ -32,7 +31,7 @@ struct CANifierConfiguration : CustomParamConfiguration{
 	}
     std::string toString(std::string prependString) {
 
-        std::string retstr = prependString + ".velocityMeasurementPeriod = " + canifierVelocityMeasPeriodRoutines.toString(velocityMeasurementPeriod) + ";\n";
+        std::string retstr = prependString + ".velocityMeasurementPeriod = " + CANifierVelocityMeasPeriodRoutines::toString(velocityMeasurementPeriod) + ";\n";
         retstr += prependString + ".velocityMeasurementWindow = " + std::to_string(velocityMeasurementWindow) + ";\n";
         
         retstr += CustomParamConfiguration::toString(prependString);

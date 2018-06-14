@@ -8,6 +8,9 @@ import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 import com.ctre.phoenix.motorcontrol.can.MotControllerJNI;
+import com.ctre.phoenix.ErrorCollection;
+import com.ctre.phoenix.ParamEnum;
+import com.ctre.phoenix.motorcontrol.SensorTerm;
 
 import edu.wpi.first.wpilibj.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.wpilibj.hal.HAL;
@@ -268,134 +271,72 @@ public class TalonSRX extends com.ctre.phoenix.motorcontrol.can.BaseMotorControl
 	public void enableCurrentLimit(boolean enable) {
 		MotControllerJNI.EnableCurrentLimit(m_handle, enable);
 	}
+	
+	public ErrorCode configurePID(TalonSRXPIDSetConfiguration pid, int pidIdx, int timeoutMs) {
+        ErrorCollection errorCollection = new ErrorCollection();
 
-	protected ErrorCode IfRemoteUseRemoteLimitSwitch(boolean isForward,
-	LimitSwitchSource type, LimitSwitchNormal normalOpenOrClose, int deviceID, int timeoutMs) {
-		if(type.value > 0 && type.value < 3) {
-			if(isForward) {
-				return configForwardLimitSwitchSource(type.getRemote(),
-				normalOpenOrClose, deviceID, timeoutMs);
-			}
-			else {
-				return configReverseLimitSwitchSource(type.getRemote(),
-				normalOpenOrClose, deviceID, timeoutMs);
-			}
-		}
-		else {
-			if(isForward) {
-				return configForwardLimitSwitchSource(type, normalOpenOrClose, timeoutMs);
-			}
-			else {
-				return configReverseLimitSwitchSource(type, normalOpenOrClose, timeoutMs);
-			}
-		}
+        //------ sensor selection ----------//      
+
+        errorCollection.NewError(baseConfigurePID(pid, pidIdx, timeoutMs));
+        errorCollection.NewError(configSelectedFeedbackSensor(pid.selectedFeedbackSensor, pidIdx, timeoutMs));
+        
+
+        return errorCollection._worstError;
+	
+
 	}
+	public ErrorCode configurePID(TalonSRXPIDSetConfiguration pid) {
+        int pidIdx = 0;
+        int timeoutMs = 50;
+        return configurePID(pid, pidIdx, timeoutMs);
+    }
+
+    public void getPIDConfigs(TalonSRXPIDSetConfiguration pid, int pidIdx, int timeoutMs)
+    {
+        baseGetPIDConfigs(pid, pidIdx, timeoutMs);
+        pid.selectedFeedbackSensor = FeedbackDevice.valueOf(configGetParameter(ParamEnum.eFeedbackSensorType, pidIdx, timeoutMs));
+    
+    }
+	public void getPIDConfigs(TalonSRXPIDSetConfiguration pid) {
+        int pidIdx = 0;
+        int timeoutMs = 50;
+        getPIDConfigs(pid, pidIdx, timeoutMs);
+    }
+	
 
 
-	protected ErrorCode IfRemoteUseRemoteFeedbackFilter(
-		FeedbackDevice feedbackDevice, int deviceID,
-		RemoteSensorSource remoteSensorSource, int remoteOrdinal, int timeoutMs) {
-		if(feedbackDevice.value > 8) {
-			return configRemoteFeedbackFilter(deviceID, remoteSensorSource, remoteOrdinal, timeoutMs);
-		}
-		else
-		{
-			return ErrorCode.OK;
-		}
-	}
-
-	//Fix this return data type at some point
-	ErrorCode configureSlot(SlotConfiguration slot, int slotIdx, int timeoutMs) {
-	
-		//------ General Close loop ----------//    
-		config_kP(slotIdx, slot.kP, timeoutMs);
-		config_kI(slotIdx, slot.kI, timeoutMs);
-		config_kD(slotIdx, slot.kD, timeoutMs);
-		config_kF(slotIdx, slot.kF, timeoutMs);
-		config_IntegralZone(slotIdx, slot.IntegralZone, timeoutMs);
-		configAllowableClosedloopError(slotIdx, slot.AllowableClosedloopError, timeoutMs);
-		configMaxIntegralAccumulator(slotIdx, slot.MaxIntegralAccumulator, timeoutMs);
-		configClosedLoopPeakOutput(slotIdx, slot.ClosedLoopPeakOutput, timeoutMs);
-		configClosedLoopPeriod(slotIdx, slot.ClosedLoopPeriod, timeoutMs);
-	
-		return ErrorCode.FeatureNotSupported;
-	}
-	
-	ErrorCode configurePID(TalonSRXPIDSetConfiguration pid, int pidIdx, int timeoutMs) {
-	
-		//------ sensor selection ----------//      
-	
-		configSelectedFeedbackSensor(pid.SelectedFeedbackSensor, pidIdx, timeoutMs);
-		configSelectedFeedbackCoefficient(pid.SelectedFeedbackCoefficient, pidIdx, timeoutMs);
-		IfRemoteUseRemoteFeedbackFilter(pid.SelectedFeedbackSensor, pid.DeviceID,
-		pid.remoteSensorSource, pid.RemoteFeedbackFilter,  timeoutMs);
-		configSensorTerm(pid.sensorTerm, pid.SelectedFeedbackSensor, timeoutMs);
-	
-		return ErrorCode.FeatureNotSupported;
-	}
-
-	
-	public ErrorCode configureSlot(SlotConfiguration slot, int pidIdx) {
-		int timeoutMs = 50;
-		return configureSlot(slot,  pidIdx,  timeoutMs);
-	}
 	public ErrorCode configAllSettings(TalonSRXConfiguration allConfigs, int timeoutMs) {
-	
-		//----- general output shaping ------------------//
-		configOpenloopRamp(allConfigs.OpenloopRamp, timeoutMs);
-		configClosedloopRamp(allConfigs.ClosedloopRamp, timeoutMs);
-		configPeakOutputForward(allConfigs.PeakOutputForward, timeoutMs);
-		configPeakOutputReverse(allConfigs.PeakOutputReverse, timeoutMs);
-		configNominalOutputForward(allConfigs.NominalOutputForward, timeoutMs);
-		configNominalOutputReverse(allConfigs.NominalOutputReverse, timeoutMs);
-		configNeutralDeadband(allConfigs.NeutralDeadband, timeoutMs);
-		
-		//------ Voltage Compensation ----------//
-		configVoltageCompSaturation(allConfigs.VoltageCompSaturation, timeoutMs);
-		configVoltageMeasurementFilter(allConfigs.VoltageMeasurementFilter, timeoutMs);
-		
-		//----- velocity signal conditionaing ------//
-		configVelocityMeasurementPeriod(allConfigs.VelocityMeasurementPeriod, timeoutMs);
-		configVelocityMeasurementWindow(allConfigs.VelocityMeasurementWindow, timeoutMs);
-		
-		//------ remote limit switch ----------//   
-		configForwardLimitSwitchSource(allConfigs.ForwardLimitSwitchSource, allConfigs.ForwardLimitSwitchNormal, timeoutMs);
-		configReverseLimitSwitchSource(allConfigs.ReverseLimitSwitchSource, allConfigs.ReverseLimitSwitchNormal, timeoutMs);
-		
-		//------ soft limit ----------//
-		configForwardSoftLimitThreshold(allConfigs.ForwardSoftLimitThreshold, timeoutMs);
-		configReverseSoftLimitThreshold(allConfigs.ReverseSoftLimitThreshold, timeoutMs);
-		configForwardSoftLimitEnable(allConfigs.ForwardSoftLimitEnable, timeoutMs);
-		configReverseSoftLimitEnable(allConfigs.ReverseSoftLimitEnable, timeoutMs);
-		
-		//--------Slots---------------//
-		
-		configureSlot(allConfigs.Slot_0, 0, timeoutMs);
-		configureSlot(allConfigs.Slot_1, 1, timeoutMs);
-		configureSlot(allConfigs.Slot_2, 2, timeoutMs);
-		configureSlot(allConfigs.Slot_3, 3, timeoutMs);
-		
-		//--------PIDs---------------//
+        ErrorCollection errorCollection = new ErrorCollection();
 
-	    configurePID(allConfigs.PrimaryPID, 0, timeoutMs);
-	    configurePID(allConfigs.AuxilaryPID, 1, timeoutMs);
-		
-		//---------Auxilary Closed Loop Polarity-------------//
-		
-		configAuxPIDPolarity(allConfigs.AuxPIDPolarity, timeoutMs);
-		
-		//------ Motion Profile Settings used in Motion Magic  ----------//
-		configMotionCruiseVelocity(allConfigs.MotionCruiseVelocity, timeoutMs);
-		configMotionAcceleration(allConfigs.MotionAcceleration, timeoutMs);
-		
-		//------ Motion Profile Buffer ----------//
-		configMotionProfileTrajectoryPeriod(allConfigs.MotionProfileTrajectoryPeriod, timeoutMs);
-		
-		//------ Custom Persistent Params ----------//
-		configSetCustomParam(allConfigs.CustomParam_0, 0, timeoutMs);
-		configSetCustomParam(allConfigs.CustomParam_0, 1, timeoutMs);
-		
-		return ErrorCode.FeatureNotSupported;
+        errorCollection.NewError(baseConfigAllSettings(allConfigs, timeoutMs));
+
+        //------ limit switch ----------//   
+        errorCollection.NewError(MotControllerJNI.ConfigForwardLimitSwitchSource(m_handle, allConfigs.forwardLimitSwitchSource.value,
+                allConfigs.forwardLimitSwitchNormal.value, allConfigs.forwardLimitSwitchDeviceID, timeoutMs));
+        errorCollection.NewError(MotControllerJNI.ConfigReverseLimitSwitchSource(m_handle, allConfigs.reverseLimitSwitchSource.value,
+                allConfigs.reverseLimitSwitchNormal.value, allConfigs.reverseLimitSwitchDeviceID, timeoutMs));
+        
+
+
+        //--------PIDs---------------//
+
+        errorCollection.NewError(configurePID(allConfigs.primaryPID, 0, timeoutMs));
+        errorCollection.NewError(configurePID(allConfigs.auxilaryPID, 1, timeoutMs));
+        errorCollection.NewError(configSensorTerm(SensorTerm.Sum0, allConfigs.sum_0, timeoutMs));
+        errorCollection.NewError(configSensorTerm(SensorTerm.Sum1, allConfigs.sum_1, timeoutMs));
+        errorCollection.NewError(configSensorTerm(SensorTerm.Diff0, allConfigs.diff_0, timeoutMs));
+        errorCollection.NewError(configSensorTerm(SensorTerm.Diff1, allConfigs.diff_1, timeoutMs));
+        
+
+        //--------Current Limiting-----//
+        errorCollection.NewError(configPeakCurrentLimit(allConfigs.peakCurrentLimit, timeoutMs));
+        errorCollection.NewError(configPeakCurrentDuration(allConfigs.peakCurrentDuration, timeoutMs));
+        errorCollection.NewError(configContinuousCurrentLimit(allConfigs.continuousCurrentLimit, timeoutMs));
+        
+
+
+        return errorCollection._worstError; 	
+
 	}
 	
 	public ErrorCode configAllSettings(TalonSRXConfiguration allConfigs) {
@@ -404,15 +345,37 @@ public class TalonSRX extends com.ctre.phoenix.motorcontrol.can.BaseMotorControl
 	}
 	public ErrorCode configFactoryDefault(int timeoutMs) {
 		TalonSRXConfiguration defaults = new TalonSRXConfiguration();
-		configAllSettings(defaults, timeoutMs);
-		
-		return ErrorCode.FeatureNotSupported;
+		return configAllSettings(defaults, timeoutMs);
 	}
 	public ErrorCode configFactoryDefault() {
 		int timeoutMs = 50;
 		return configFactoryDefault(timeoutMs);
 	
 	}
+    public void GetAllConfigs(TalonSRXConfiguration allConfigs, int timeoutMs) {
+    
+        baseGetAllConfigs(allConfigs, timeoutMs);
+    
+        getPIDConfigs(allConfigs.primaryPID, 0, timeoutMs);
+        getPIDConfigs(allConfigs.auxilaryPID, 1, timeoutMs);
+        allConfigs.sum_0 =  FeedbackDevice.valueOf(configGetParameter(ParamEnum.eSensorTerm, 0, timeoutMs));
+        allConfigs.sum_1 =  FeedbackDevice.valueOf(configGetParameter(ParamEnum.eSensorTerm, 1, timeoutMs));
+        allConfigs.diff_0 = FeedbackDevice.valueOf(configGetParameter(ParamEnum.eSensorTerm, 2, timeoutMs));
+        allConfigs.diff_1 = FeedbackDevice.valueOf(configGetParameter(ParamEnum.eSensorTerm, 3, timeoutMs));
+    
+    
+        allConfigs.forwardLimitSwitchSource = LimitSwitchSource.valueOf(configGetParameter(ParamEnum.eLimitSwitchSource, 0, timeoutMs));
+        allConfigs.reverseLimitSwitchSource = LimitSwitchSource.valueOf(configGetParameter(ParamEnum.eLimitSwitchSource, 1, timeoutMs));
+        allConfigs.peakCurrentLimit        = (int) configGetParameter(ParamEnum.ePeakCurrentLimitAmps, 0, timeoutMs);
+        allConfigs.peakCurrentDuration     = (int) configGetParameter(ParamEnum.ePeakCurrentLimitMs, 0, timeoutMs);
+        allConfigs.continuousCurrentLimit  = (int) configGetParameter(ParamEnum.eContinuousCurrentLimitAmps, 0, timeoutMs);
+    
+    }
+    public void GetAllConfigs(TalonSRXConfiguration allConfigs) {
+        int timeoutMs = 50;
+        GetAllConfigs(allConfigs, timeoutMs);
+    }
+
 
 
 }

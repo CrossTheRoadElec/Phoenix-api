@@ -345,16 +345,14 @@ void TalonSRX::EnableCurrentLimit(bool enable) {
 
 ErrorCode TalonSRX::ConfigurePID(const TalonSRXPIDSetConfiguration &pid, int pidIdx, int timeoutMs) {
 
-    ErrorCode firstError;
-    ErrorCode nextError;
-
+    ErrorCollection errorCollection;
+    
     //------ sensor selection ----------//		
    
-	firstError = BaseConfigurePID(pid, pidIdx, timeoutMs);
-	nextError = ConfigSelectedFeedbackSensor(pid.selectedFeedbackSensor, pidIdx, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-	
-    return firstError;
+	errorCollection.NewError(BaseConfigurePID(pid, pidIdx, timeoutMs));
+	errorCollection.NewError(ConfigSelectedFeedbackSensor(pid.selectedFeedbackSensor, pidIdx, timeoutMs));
+    	
+    return errorCollection._worstError;
 }
 void TalonSRX::GetPIDConfigs(TalonSRXPIDSetConfiguration &pid, int pidIdx, int timeoutMs)
 {
@@ -364,45 +362,33 @@ void TalonSRX::GetPIDConfigs(TalonSRXPIDSetConfiguration &pid, int pidIdx, int t
 }
 ErrorCode TalonSRX::ConfigAllSettings(const TalonSRXConfiguration &allConfigs, int timeoutMs) {
     
-    ErrorCode firstError;
-    ErrorCode nextError;
-
-	firstError = BaseConfigAllSettings(allConfigs, timeoutMs);	
+    ErrorCollection errorCollection;
+    
+	errorCollection.NewError(BaseConfigAllSettings(allConfigs, timeoutMs));	
 
     //------ limit switch ----------//   
-    nextError = c_MotController_ConfigForwardLimitSwitchSource(m_handle, allConfigs.forwardLimitSwitchSource,
-			allConfigs.forwardLimitSwitchNormal, allConfigs.forwardLimitSwitchDeviceID, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-    nextError = c_MotController_ConfigReverseLimitSwitchSource(m_handle, allConfigs.reverseLimitSwitchSource,
-			allConfigs.reverseLimitSwitchNormal, allConfigs.reverseLimitSwitchDeviceID, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-
+    errorCollection.NewError(c_MotController_ConfigForwardLimitSwitchSource(m_handle, allConfigs.forwardLimitSwitchSource,
+			allConfigs.forwardLimitSwitchNormal, allConfigs.forwardLimitSwitchDeviceID, timeoutMs));
+    errorCollection.NewError(c_MotController_ConfigReverseLimitSwitchSource(m_handle, allConfigs.reverseLimitSwitchSource,
+			allConfigs.reverseLimitSwitchNormal, allConfigs.reverseLimitSwitchDeviceID, timeoutMs));
+    
 
 	//--------PIDs---------------//
 	
-	nextError = ConfigurePID(allConfigs.primaryPID, 0, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-	nextError = ConfigurePID(allConfigs.auxilaryPID, 1, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-    nextError = ConfigSensorTerm(SensorTerm::SensorTerm_Sum0, allConfigs.sum_0, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-    nextError = ConfigSensorTerm(SensorTerm::SensorTerm_Sum1, allConfigs.sum_1, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-    nextError = ConfigSensorTerm(SensorTerm::SensorTerm_Diff0, allConfigs.diff_0, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-    nextError = ConfigSensorTerm(SensorTerm::SensorTerm_Diff1, allConfigs.diff_1, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-
+	errorCollection.NewError(ConfigurePID(allConfigs.primaryPID, 0, timeoutMs));
+    errorCollection.NewError(ConfigurePID(allConfigs.auxilaryPID, 1, timeoutMs));
+    errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Sum0, allConfigs.sum_0, timeoutMs));
+    errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Sum1, allConfigs.sum_1, timeoutMs));
+    errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Diff0, allConfigs.diff_0, timeoutMs));
+    errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Diff1, allConfigs.diff_1, timeoutMs));
+    
     //--------Current Limiting-----//
-	nextError = ConfigPeakCurrentLimit(allConfigs.peakCurrentLimit, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-	nextError = ConfigPeakCurrentDuration(allConfigs.peakCurrentDuration, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-	nextError = ConfigContinuousCurrentLimit(allConfigs.continuousCurrentLimit, timeoutMs); 
-    firstError = firstError ? firstError : nextError;
+	errorCollection.NewError(ConfigPeakCurrentLimit(allConfigs.peakCurrentLimit, timeoutMs));
+    	errorCollection.NewError(ConfigPeakCurrentDuration(allConfigs.peakCurrentDuration, timeoutMs));
+    	errorCollection.NewError(ConfigContinuousCurrentLimit(allConfigs.continuousCurrentLimit, timeoutMs)); 
+    
 
-
-    return firstError;
+    return errorCollection._worstError;
 }
 void TalonSRX::GetAllConfigs(TalonSRXConfiguration &allConfigs, int timeoutMs) {
 	

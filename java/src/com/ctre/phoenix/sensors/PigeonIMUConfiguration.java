@@ -3,8 +3,15 @@ package com.ctre.phoenix.sensors;
 import com.ctre.phoenix.CustomParamConfiguration;
 
 public class PigeonIMUConfiguration extends CustomParamConfiguration {
-	public boolean TemperatureCompensationEnable;
+	public boolean temperatureCompensationDisable;
 	public PigeonIMUConfiguration() {
-		this.TemperatureCompensationEnable = false; //Check
+		temperatureCompensationDisable = false;
 	}
+    public String toString(String prependString) {
+        String retstr = prependString + ".temperatureCompensationDisable = " + String.valueOf(temperatureCompensationDisable) + ";\n";
+        retstr += super.toString(prependString);
+
+        return retstr;
+    }
+
 }

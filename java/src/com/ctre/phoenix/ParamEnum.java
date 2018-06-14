@@ -5,10 +5,8 @@ public enum ParamEnum
 	eOnBoot_BrakeMode ( 31),
 	eQuadFilterEn ( 91),
 	eQuadIdxPolarity(108),
-	eClearPositionOnIdx (100),
     eMotionProfileHasUnderrunErr (119),
-	eClearPosOnLimitF (144),
-	eClearPosOnLimitR (145),
+    eMotionProfileTrajectoryPointDurationMs (120), //motionProfileTrajectoryPeriod
 
 	eStatusFramePeriod(300),
 	eOpenloopRamp(301),
@@ -32,6 +30,21 @@ public enum ParamEnum
 	eClearPositionOnLimitF(320),
 	eClearPositionOnLimitR(321),
 	eClearPositionOnQuadIdx(322),
+	/*
+     *@deprecated use eClearPositionOnLimitF instead 
+     */
+    @Deprecated
+    eClearPosOnLimitF (320),
+	/*
+     *@deprecated use eClearPositionOnLimitR instead 
+     */
+    @Deprecated
+	eClearPosOnLimitR (321),
+	/*
+     *@deprecated use eClearPositionOnQuadIdx instead 
+     */
+    @Deprecated
+	eClearPositionOnIdx (322),
 
 	eSampleVelocityPeriod(325),
 	eSampleVelocityWindow(326),

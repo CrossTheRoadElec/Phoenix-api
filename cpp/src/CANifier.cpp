@@ -451,17 +451,14 @@ ErrorCode CANifier::ClearStickyFaults(int timeoutMs) {
 
 ErrorCode CANifier::ConfigAllSettings(const CANifierConfiguration &allConfigs, int timeoutMs) {
 	
-	ErrorCode firstError;
-	ErrorCode nextError;
-	firstError = ConfigVelocityMeasurementPeriod(allConfigs.velocityMeasurementPeriod, timeoutMs);
-	nextError = ConfigVelocityMeasurementWindow(allConfigs.velocityMeasurementWindow, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-	nextError = ConfigSetCustomParam(allConfigs.customParam_0, 0, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-	nextError = ConfigSetCustomParam(allConfigs.customParam_1, 1, timeoutMs);
-    firstError = firstError ? firstError : nextError;
-
-	return firstError;	
+	ErrorCollection errorCollection;
+	
+	errorCollection.NewError(ConfigVelocityMeasurementPeriod(allConfigs.velocityMeasurementPeriod, timeoutMs));
+	errorCollection.NewError(ConfigVelocityMeasurementWindow(allConfigs.velocityMeasurementWindow, timeoutMs));
+    errorCollection.NewError(ConfigSetCustomParam(allConfigs.customParam_0, 0, timeoutMs));
+    errorCollection.NewError(ConfigSetCustomParam(allConfigs.customParam_1, 1, timeoutMs));
+    
+	return errorCollection._worstError;	
 }
 
 void CANifier::GetAllConfigs(CANifierConfiguration &allConfigs, int timeoutMs) {

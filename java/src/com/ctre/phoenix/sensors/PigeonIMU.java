@@ -24,6 +24,8 @@ package com.ctre.phoenix.sensors;
 import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.ErrorCollection;
+import com.ctre.phoenix.ParamEnum;
 
 import edu.wpi.first.wpilibj.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.wpilibj.hal.HAL;
@@ -1011,17 +1013,29 @@ public class PigeonIMU {
 		return m_deviceNumber;
 	}
 	public ErrorCode configAllSettings(PigeonIMUConfiguration allConfigs, int timeoutMs) {
-		configTemperatureCompensationEnable(allConfigs.TemperatureCompensationEnable, timeoutMs);
-		configSetCustomParam(allConfigs.CustomParam_0, 0, timeoutMs);
-		configSetCustomParam(allConfigs.CustomParam_0, 1, timeoutMs);
-	
-		return ErrorCode.FeatureNotSupported;
+        ErrorCollection errorCollection = new ErrorCollection();
+        errorCollection.NewError(configTemperatureCompensationDisable(allConfigs.temperatureCompensationDisable, timeoutMs));
+        errorCollection.NewError(configSetCustomParam(allConfigs.customParam_0, 0, timeoutMs));
+        errorCollection.NewError(configSetCustomParam(allConfigs.customParam_1, 1, timeoutMs));
+        
+
+        return errorCollection._worstError;
+
 	}
 	public ErrorCode configAllSettings(PigeonIMUConfiguration allConfigs) {
 		int timeoutMs = 0;
 		return 	configAllSettings(allConfigs, timeoutMs);
 	}
-	
+    public void GetAllConfigs(PigeonIMUConfiguration allConfigs, int timeoutMs) {
+
+        allConfigs.temperatureCompensationDisable = configGetParameter(ParamEnum.eTempCompDisable, 0,  timeoutMs) == 1.0;
+        allConfigs.customParam_0 = (int) configGetParameter(ParamEnum.eCustomParam, 0,  timeoutMs);
+        allConfigs.customParam_1 = (int) configGetParameter(ParamEnum.eCustomParam, 1,  timeoutMs);
+    }
+    public void GetAllConfigs(PigeonIMUConfiguration allConfigs) {
+        int timeoutMs = 50;
+        GetAllConfigs(allConfigs, timeoutMs);
+    }	
 	public ErrorCode configFactoryDefault(int timeoutMs) {
 		PigeonIMUConfiguration defaults = new PigeonIMUConfiguration();
 		configAllSettings(defaults, timeoutMs);
