@@ -45,8 +45,6 @@ namespace phoenix {
 namespace motorcontrol {
 namespace can {
 
-#define BASEMOTORCONTROLLERCONFIGURATIONSTRUCTNAME "allConfigs"
-
 struct BasePIDSetConfiguration {
 
 	double selectedFeedbackCoefficient;
