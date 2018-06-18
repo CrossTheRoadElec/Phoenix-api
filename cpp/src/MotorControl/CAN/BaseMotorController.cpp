@@ -1000,12 +1000,6 @@ ErrorCode BaseMotorController::Config_kP(int slotIdx, double value,
 }
 
 
-ErrorCode BaseMotorController::Config_kP(double value,
-		int timeoutMs) {
-	int slotIdx = 0;
-	return Config_kP(slotIdx, value, timeoutMs);
-}
-
 /**
  * Sets the 'I' constant in the given parameter slot.
  *
@@ -1025,13 +1019,6 @@ ErrorCode BaseMotorController::Config_kI(int slotIdx, double value,
 }
 
 
-ErrorCode BaseMotorController::Config_kI( double value,
-		int timeoutMs) {
-	int slotIdx = 0;
-	return Config_kI( slotIdx,  value,
-		 timeoutMs);
-}
-
 /**
  * Sets the 'D' constant in the given parameter slot.
  *
@@ -1050,11 +1037,6 @@ ErrorCode BaseMotorController::Config_kD(int slotIdx, double value,
 	return c_MotController_Config_kD(m_handle, slotIdx, value, timeoutMs);
 }
 
-ErrorCode BaseMotorController::Config_kD(double value,
-		int timeoutMs) {
-	int slotIdx = 0;
-	return Config_kD(slotIdx, value, timeoutMs);
-}
 /**
  * Sets the 'F' constant in the given parameter slot.
  *
@@ -1073,11 +1055,6 @@ ErrorCode BaseMotorController::Config_kF(int slotIdx, double value,
 	return c_MotController_Config_kF(m_handle, slotIdx, value, timeoutMs);
 }
 
-ErrorCode BaseMotorController::Config_kF(double value,
-		int timeoutMs) {
-	int slotIdx = 0;
-	return Config_kF(slotIdx, value, timeoutMs);
-}
 /**
  * Sets the Integral Zone constant in the given parameter slot.
  * If the (absolute) closed-loop error is outside of this zone, integral accumulator
@@ -1100,13 +1077,6 @@ ErrorCode BaseMotorController::Config_IntegralZone(int slotIdx, int izone,
 			timeoutMs);
 }
 
-ErrorCode BaseMotorController::Config_IntegralZone(int izone,
-		int timeoutMs) {
-	int slotIdx = 0;
-	return Config_IntegralZone(slotIdx, izone,
-        timeoutMs);
-
-}
 /**
  * Sets the allowable closed-loop error in the given parameter slot.
  * If (absolute) closed-loop error is within this value, the motor output is neutral.
@@ -1127,12 +1097,6 @@ ErrorCode BaseMotorController::ConfigAllowableClosedloopError(int slotIdx,
 			allowableCloseLoopError, timeoutMs);
 }
 
-ErrorCode BaseMotorController::ConfigAllowableClosedloopError(int allowableCloseLoopError, 
-	int timeoutMs) {
-	int slotIdx = 0;
-	return ConfigAllowableClosedloopError(slotIdx, allowableCloseLoopError,
-        timeoutMs);
-}
 /**
  * Sets the maximum integral accumulator in the given parameter slot.
  *
@@ -1152,12 +1116,6 @@ ErrorCode BaseMotorController::ConfigMaxIntegralAccumulator(int slotIdx,
 			iaccum, timeoutMs);
 }
 
-ErrorCode BaseMotorController::ConfigMaxIntegralAccumulator(double iaccum, 
-	int timeoutMs) {
-	int slotIdx = 0;
-	return ConfigMaxIntegralAccumulator(slotIdx, iaccum,
-        timeoutMs);
-}
 /**
  * Sets the peak closed-loop output.  This peak output is slot-specific and
  *   is applied to the output of the associated PID loop.
@@ -1178,11 +1136,6 @@ ErrorCode BaseMotorController::ConfigClosedLoopPeakOutput(int slotIdx, double pe
 	return c_MotController_ConfigClosedLoopPeakOutput(m_handle, slotIdx, percentOut, timeoutMs);
 }
 
-ErrorCode BaseMotorController::ConfigClosedLoopPeakOutput(double percentOut, int timeoutMs) {
-	int slotIdx = 0;
-	return ConfigClosedLoopPeakOutput(slotIdx, percentOut,
-        timeoutMs);
-}
 /**
  * Sets the loop time (in milliseconds) of the PID closed-loop calculations.
  * Default value is 1 ms.
@@ -1202,33 +1155,28 @@ ErrorCode BaseMotorController::ConfigClosedLoopPeriod(int slotIdx, int loopTimeM
 	return c_MotController_ConfigClosedLoopPeriod(m_handle, slotIdx, loopTimeMs, timeoutMs);
 }
 
-ErrorCode BaseMotorController::ConfigClosedLoopPeriod(int loopTimeMs, int timeoutMs) {
-	int slotIdx = 0;
-	return ConfigClosedLoopPeriod(slotIdx, loopTimeMs,
-        timeoutMs);
-}
 /**
-	 * Configures the Polarity of the Auxiliary PID (PID1).
-	 *
-	 * Standard Polarity:
-	 *    Primary Output = PID0 + PID1
-	 *    Auxiliary Output = PID0 - PID1
-	 *
-	 * Inverted Polarity:
-	 *    Primary Output = PID0 - PID1
-	 *    Auxiliary Output = PID0 + PID1
-	 *
-	 * @param invert
-	 *            If true, use inverted PID1 output polarity.
-	 * @param timeoutMs
-	 *            Timeout value in ms. If nonzero, function will wait for config
-	 *            success and report an error if it times out. If zero, no
-	 *            blocking or checking is performed.
-	 * @return Error Code
-	 */
-	ErrorCode BaseMotorController::ConfigAuxPIDPolarity(bool invert, int timeoutMs){
-		return ConfigSetParameter(ParamEnum::ePIDLoopPolarity, invert, 0, 1, timeoutMs);
-	}
+ * Configures the Polarity of the Auxiliary PID (PID1).
+ *
+ * Standard Polarity:
+ *    Primary Output = PID0 + PID1
+ *    Auxiliary Output = PID0 - PID1
+ *
+ * Inverted Polarity:
+ *    Primary Output = PID0 - PID1
+ *    Auxiliary Output = PID0 + PID1
+ *
+ * @param invert
+ *            If true, use inverted PID1 output polarity.
+ * @param timeoutMs
+ *            Timeout value in ms. If nonzero, function will wait for config
+ *            success and report an error if it times out. If zero, no
+ *            blocking or checking is performed.
+ * @return Error Code
+ */
+ErrorCode BaseMotorController::ConfigAuxPIDPolarity(bool invert, int timeoutMs){
+	return ConfigSetParameter(ParamEnum::ePIDLoopPolarity, invert, 0, 1, timeoutMs);
+}
 
 /**
  * Sets the integral accumulator. Typically this is used to clear/zero
@@ -1802,6 +1750,18 @@ ctre::phoenix::motorcontrol::SensorCollection & BaseMotorController::GetSensorCo
 
 //------Config All------//
 
+/**
+ * Configures all slot persistant settings.
+ *
+ * @param slot        Object with all of the slot persistant settings
+ * @param slotIdx     Parameter slot for the constant.
+ * @param timeoutMs
+ *              Timeout value in ms. If nonzero, function will wait for
+ *              config success and report an error if it times out.
+ *              If zero, no blocking or checking is performed.
+ *
+ * @return Error Code generated by function. 0 indicates no error. 
+ */
 ctre::phoenix::ErrorCode BaseMotorController::ConfigureSlot(const SlotConfiguration &slot, int slotIdx, int timeoutMs) {
 
 	ErrorCollection errorCollection;
@@ -1821,6 +1781,16 @@ ctre::phoenix::ErrorCode BaseMotorController::ConfigureSlot(const SlotConfigurat
 
 }
 
+/**
+ * Gets all slot persistant settings.
+ *
+ * @param slot        Object with all of the slot persistant settings
+ * @param slotIdx     Parameter slot for the constant.
+ * @param timeoutMs
+ *              Timeout value in ms. If nonzero, function will wait for
+ *              config success and report an error if it times out.
+ *              If zero, no blocking or checking is performed.
+ */
 void BaseMotorController::GetSlotConfigs(SlotConfiguration &slot, int slotIdx, int timeoutMs) {
 	slot.kP = (double) ConfigGetParameter(eProfileParamSlot_P, slotIdx, timeoutMs);
 	slot.kI = (double) ConfigGetParameter(eProfileParamSlot_I, slotIdx, timeoutMs);
@@ -1834,29 +1804,84 @@ void BaseMotorController::GetSlotConfigs(SlotConfiguration &slot, int slotIdx, i
 }
 
 
+/**
+ * Configures all filter persistant settings.
+ *
+ * @param filter        Object with all of the filter persistant settings
+ * @param ordinal       0 for remote sensor 0 and 1 for remote sensor 1.
+ * @param timeoutMs
+ *              Timeout value in ms. If nonzero, function will wait for
+ *              config success and report an error if it times out.
+ *              If zero, no blocking or checking is performed.
+ *
+ * @return Error Code generated by function. 0 indicates no error. 
+ */
 ctre::phoenix::ErrorCode BaseMotorController::ConfigureFilter(const FilterConfiguration &filter, int ordinal, int timeoutMs) {
 
 	return ConfigRemoteFeedbackFilter(filter.remoteSensorDeviceID, filter.remoteSensorSource, ordinal, timeoutMs);
 
 }
 
+/**
+ * Gets all filter persistant settings.
+ *
+ * @param filter        Object with all of the filter persistant settings
+ * @param ordinal       0 for remote sensor 0 and 1 for remote sensor 1.
+ * @param timeoutMs
+ *              Timeout value in ms. If nonzero, function will wait for
+ *              config success and report an error if it times out.
+ *              If zero, no blocking or checking is performed.
+ */
 void BaseMotorController::GetFilterConfigs(FilterConfiguration &filter, int ordinal, int timeoutMs) {
 
     filter.remoteSensorDeviceID = (int) ConfigGetParameter(eRemoteSensorDeviceID, ordinal, timeoutMs);
     filter.remoteSensorSource = (RemoteSensorSource) ConfigGetParameter(eRemoteSensorSource, ordinal, timeoutMs);
 
 }
+/**
+ * Configures all base PID set persistant settings.
+ *
+ * @param pid           Object with all of the base PID set persistant settings
+ * @param pidIdx        0 for Primary closed-loop. 1 for auxiliary closed-loop.       
+ * @param timeoutMs
+ *              Timeout value in ms. If nonzero, function will wait for
+ *              config success and report an error if it times out.
+ *              If zero, no blocking or checking is performed.
+ *
+ * @return Error Code generated by function. 0 indicates no error. 
+ */
 ctre::phoenix::ErrorCode BaseMotorController::BaseConfigurePID(const BasePIDSetConfiguration &pid, int pidIdx, int timeoutMs) {
 
 	return ConfigSelectedFeedbackCoefficient(pid.selectedFeedbackCoefficient, pidIdx, timeoutMs);
 
 }
+/**
+ * Gets all base PID set persistant settings.
+ *
+ * @param pid           Object with all of the base PID set persistant settings
+ * @param pidIdx        0 for Primary closed-loop. 1 for auxiliary closed-loop.       
+ * @param timeoutMs
+ *              Timeout value in ms. If nonzero, function will wait for
+ *              config success and report an error if it times out.
+ *              If zero, no blocking or checking is performed.
+ */
 void BaseMotorController::BaseGetPIDConfigs(BasePIDSetConfiguration &pid, int pidIdx, int timeoutMs) {
 
 	pid.selectedFeedbackCoefficient = (double) ConfigGetParameter(eSelectedSensorCoefficient, pidIdx, timeoutMs);
 
 }
 
+/**
+ * Configures all base persistant settings.
+ *
+ * @param allConfigs        Object with all of the base persistant settings
+ * @param timeoutMs
+ *              Timeout value in ms. If nonzero, function will wait for
+ *              config success and report an error if it times out.
+ *              If zero, no blocking or checking is performed.
+ *
+ * @return Error Code generated by function. 0 indicates no error. 
+ */
 ctre::phoenix::ErrorCode BaseMotorController::BaseConfigAllSettings(const BaseMotorControllerConfiguration &allConfigs, int timeoutMs) {
 	
     ErrorCollection errorCollection;
@@ -1930,6 +1955,15 @@ ctre::phoenix::ErrorCode BaseMotorController::BaseConfigAllSettings(const BaseMo
     return errorCollection._worstError;
 }
 
+/**
+ * Gets all base persistant settings.
+ *
+ * @param allConfigs        Object with all of the base persistant settings
+ * @param timeoutMs
+ *              Timeout value in ms. If nonzero, function will wait for
+ *              config success and report an error if it times out.
+ *              If zero, no blocking or checking is performed.
+ */
 void BaseMotorController::BaseGetAllConfigs(BaseMotorControllerConfiguration &allConfigs, int timeoutMs) {
 
 	allConfigs.openloopRamp = (double) ConfigGetParameter(eOpenloopRamp, 0, timeoutMs);

@@ -372,25 +372,6 @@ public:
 			int timeoutMs = 0);
 	virtual ctre::phoenix::ErrorCode ConfigClosedLoopPeakOutput(int slotIdx, double percentOut, int timeoutMs = 0);
 	virtual ctre::phoenix::ErrorCode ConfigClosedLoopPeriod(int slotIdx, int loopTimeMs, int timeoutMs = 0);
-	
-	//Overloads for defaults:
-	
-	virtual ctre::phoenix::ErrorCode Config_kP(double value, int timeoutMs = 0);
-	virtual ctre::phoenix::ErrorCode Config_kI(double value, int timeoutMs = 0);
-	virtual ctre::phoenix::ErrorCode Config_kD(double value, int timeoutMs = 0);
-	virtual ctre::phoenix::ErrorCode Config_kF(double value, int timeoutMs = 0);
-	virtual ctre::phoenix::ErrorCode Config_IntegralZone(int izone,
-			int timeoutMs = 0);
-	virtual ctre::phoenix::ErrorCode ConfigAllowableClosedloopError(int allowableCloseLoopError, int timeoutMs = 0);
-	virtual ctre::phoenix::ErrorCode ConfigMaxIntegralAccumulator(double iaccum,
-			int timeoutMs = 0);
-	virtual ctre::phoenix::ErrorCode ConfigClosedLoopPeakOutput(double percentOut, int timeoutMs = 0);
-	virtual ctre::phoenix::ErrorCode ConfigClosedLoopPeriod(int loopTimeMs, int timeoutMs = 0);
-
-
-
-
-
 
 	virtual ctre::phoenix::ErrorCode ConfigAuxPIDPolarity(bool invert, int timeoutMs = 0);
 
