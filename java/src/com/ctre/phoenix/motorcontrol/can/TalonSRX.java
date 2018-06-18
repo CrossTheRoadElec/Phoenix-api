@@ -352,7 +352,7 @@ public class TalonSRX extends com.ctre.phoenix.motorcontrol.can.BaseMotorControl
 		return configFactoryDefault(timeoutMs);
 	
 	}
-    public void GetAllConfigs(TalonSRXConfiguration allConfigs, int timeoutMs) {
+    public void getAllConfigs(TalonSRXConfiguration allConfigs, int timeoutMs) {
     
         baseGetAllConfigs(allConfigs, timeoutMs);
     
@@ -371,9 +371,9 @@ public class TalonSRX extends com.ctre.phoenix.motorcontrol.can.BaseMotorControl
         allConfigs.continuousCurrentLimit  = (int) configGetParameter(ParamEnum.eContinuousCurrentLimitAmps, 0, timeoutMs);
     
     }
-    public void GetAllConfigs(TalonSRXConfiguration allConfigs) {
+    public void getAllConfigs(TalonSRXConfiguration allConfigs) {
         int timeoutMs = 50;
-        GetAllConfigs(allConfigs, timeoutMs);
+        getAllConfigs(allConfigs, timeoutMs);
     }
 
 

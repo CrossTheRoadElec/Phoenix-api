@@ -17,6 +17,9 @@ public class VictorSPXConfiguration extends com.ctre.phoenix.motorcontrol.can.Ba
 
 	
 	public VictorSPXConfiguration() {
+        primaryPID = new  VictorSPXPIDSetConfiguration(); 
+        auxilaryPID = new VictorSPXPIDSetConfiguration(); 
+        
         forwardLimitSwitchSource = RemoteLimitSwitchSource.Deactivated;
         reverseLimitSwitchSource = RemoteLimitSwitchSource.Deactivated;
         sum_0 = RemoteFeedbackDevice.None;

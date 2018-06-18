@@ -1026,15 +1026,15 @@ public class PigeonIMU {
 		int timeoutMs = 0;
 		return 	configAllSettings(allConfigs, timeoutMs);
 	}
-    public void GetAllConfigs(PigeonIMUConfiguration allConfigs, int timeoutMs) {
+    public void getAllConfigs(PigeonIMUConfiguration allConfigs, int timeoutMs) {
 
-        allConfigs.temperatureCompensationDisable = configGetParameter(ParamEnum.eTempCompDisable, 0,  timeoutMs) == 1.0;
+        allConfigs.temperatureCompensationDisable = configGetParameter(ParamEnum.eTempCompDisable, 0,  timeoutMs) != 0.0;
         allConfigs.customParam_0 = (int) configGetParameter(ParamEnum.eCustomParam, 0,  timeoutMs);
         allConfigs.customParam_1 = (int) configGetParameter(ParamEnum.eCustomParam, 1,  timeoutMs);
     }
-    public void GetAllConfigs(PigeonIMUConfiguration allConfigs) {
+    public void getAllConfigs(PigeonIMUConfiguration allConfigs) {
         int timeoutMs = 50;
-        GetAllConfigs(allConfigs, timeoutMs);
+        getAllConfigs(allConfigs, timeoutMs);
     }	
 	public ErrorCode configFactoryDefault(int timeoutMs) {
 		PigeonIMUConfiguration defaults = new PigeonIMUConfiguration();

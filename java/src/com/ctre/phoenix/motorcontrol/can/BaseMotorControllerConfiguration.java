@@ -49,6 +49,14 @@ public abstract class BaseMotorControllerConfiguration extends CustomParamConfig
 
 
 	public BaseMotorControllerConfiguration() { 
+        slot_0 = new SlotConfiguration();
+        slot_1 = new SlotConfiguration();
+        slot_2 = new SlotConfiguration();
+        slot_3 = new SlotConfiguration();
+
+        filter_0 = new FilterConfiguration();
+        filter_1 = new FilterConfiguration();
+
         openloopRamp = 0.0;
         closedloopRamp = 0.0;
         peakOutputForward = 1.0;

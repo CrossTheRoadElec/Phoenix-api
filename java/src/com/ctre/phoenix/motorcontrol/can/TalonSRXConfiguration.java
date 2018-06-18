@@ -20,6 +20,9 @@ public class TalonSRXConfiguration extends com.ctre.phoenix.motorcontrol.can.Bas
     public int continuousCurrentLimit;
 
 	public TalonSRXConfiguration() {
+        primaryPID = new TalonSRXPIDSetConfiguration(); 
+        auxilaryPID = new TalonSRXPIDSetConfiguration(); 
+
         forwardLimitSwitchSource = LimitSwitchSource.FeedbackConnector;
         reverseLimitSwitchSource = LimitSwitchSource.FeedbackConnector;
         sum_0 = FeedbackDevice.QuadEncoder;
