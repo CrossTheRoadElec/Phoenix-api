@@ -279,7 +279,7 @@ public:
 	virtual void SetInverted(bool invert);
 	virtual bool GetInverted() const;
 	//----- Factory Default Configuration -----//
-	virtual ctre::phoenix::ErrorCode ConfigFactoryDefault(int timeoutMs);
+	virtual ctre::phoenix::ErrorCode ConfigFactoryDefault(int timeoutMs = 50);
 	//----- general output shaping ------------------//
 	virtual ctre::phoenix::ErrorCode ConfigOpenloopRamp(double secondsFromNeutralToFull,
 			int timeoutMs = 0);

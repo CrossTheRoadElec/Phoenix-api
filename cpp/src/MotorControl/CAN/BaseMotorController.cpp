@@ -1899,6 +1899,8 @@ ctre::phoenix::ErrorCode BaseMotorController::BaseConfigAllSettings(const BaseMo
 	
     ErrorCollection errorCollection;
 		
+    errorCollection.NewError(ConfigFactoryDefault(timeoutMs));
+    
     //----- general output shaping ------------------//
     errorCollection.NewError(ConfigOpenloopRamp(allConfigs.openloopRamp, timeoutMs));
     errorCollection.NewError(ConfigClosedloopRamp(allConfigs.closedloopRamp, timeoutMs));

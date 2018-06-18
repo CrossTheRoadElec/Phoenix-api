@@ -132,7 +132,6 @@ public:
 	void GetPIDConfigs(TalonSRXPIDSetConfiguration &pid, int pidIdx = 0, int timeoutMs = 50);
 	ctre::phoenix::ErrorCode ConfigAllSettings(const TalonSRXConfiguration &allConfigs, int timeoutMs = 50);
 	void GetAllConfigs(TalonSRXConfiguration &allConfigs, int timeoutMs = 50);
-	ctre::phoenix::ErrorCode ConfigFactoryDefault(int timeoutMs = 50);
 
 protected:
 	ctre::phoenix::ErrorCode IfRemoteUseRemoteLimitSwitch( bool isForward, 
