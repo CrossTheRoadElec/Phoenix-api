@@ -29,6 +29,9 @@ public:
 	//------ Invert behavior ----------//
 	/* in parent */
 
+	//----- Factory Default Configuration -----//
+	/* in parent */
+
 	//----- general output shaping ------------------//
 	/* in parent */
 

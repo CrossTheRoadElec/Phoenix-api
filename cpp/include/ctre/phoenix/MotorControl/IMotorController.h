@@ -39,6 +39,9 @@ public:
 	virtual void SetInverted(bool invert) = 0;
 	virtual bool GetInverted() const = 0;
 
+	//----- Factory Default Configuration -----//
+	virtual ErrorCode ConfigFactoryDefault(int timeout) = 0;
+
 	//----- general output shaping ------------------//
 	virtual ErrorCode ConfigOpenloopRamp(double secondsFromNeutralToFull,
 			int timeoutMs = 0) = 0;
