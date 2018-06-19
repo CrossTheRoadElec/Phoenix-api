@@ -2,6 +2,7 @@
 
 #include "ctre/phoenix/MotorControl/ControlMode.h"
 #include "ctre/phoenix/MotorControl/ControlFrame.h"
+#include "ctre/phoenix/MotorControl/DemandType.h"
 #include "ctre/phoenix/MotorControl/NeutralMode.h"
 #include "ctre/phoenix/MotorControl/FeedbackDevice.h"
 #include "ctre/phoenix/MotorControl/RemoteSensorSource.h"
@@ -29,6 +30,7 @@ public:
 	//------ Set output routines. ----------//
 	virtual void Set(ControlMode Mode, double demand) = 0;
 	virtual void Set(ControlMode Mode, double demand0, double demand1) = 0;
+	virtual void Set(ControlMode mode, double demand0, DemandType demand1Type, double demand1) = 0;
 	virtual void NeutralOutput() = 0;
 	virtual void SetNeutralMode(NeutralMode neutralMode) = 0;
 
@@ -70,6 +72,8 @@ public:
 	//------ sensor selection ----------//
 	virtual ErrorCode ConfigSelectedFeedbackSensor(
 			RemoteFeedbackDevice feedbackDevice, int pidIdx, int timeoutMs) = 0;
+	virtual ErrorCode ConfigSelectedFeedbackCoefficient(
+			double coefficient, int pidIdx, int timeoutMs) = 0;
 	virtual ErrorCode ConfigRemoteFeedbackFilter(int deviceID,
 			RemoteSensorSource remoteSensorSource, int remoteOrdinal,
 			int timeoutMs)= 0;
@@ -128,6 +132,9 @@ public:
 			int allowableCloseLoopError, int timeoutMs) = 0;
 	virtual ErrorCode ConfigMaxIntegralAccumulator(int slotIdx, double iaccum,
 			int timeoutMs) = 0;
+	virtual ErrorCode ConfigClosedLoopPeakOutput(int slotIdx, double percentOut, int timeoutMs) = 0;
+	virtual ErrorCode ConfigClosedLoopPeriod(int slotIdx, int loopTimeMs, int timeoutMs) = 0;
+  virtual ErrorCode ConfigAuxPIDPolarity(bool invert, int timeoutMs) = 0;
 
 	//------ Close loop State ----------//
 	virtual ErrorCode SetIntegralAccumulator(double iaccum, int pidIdx,
@@ -150,7 +157,7 @@ public:
 			int timeoutMs) = 0;
 
 	//------ Motion Profile Buffer ----------//
-	virtual void ClearMotionProfileTrajectories()= 0;
+	virtual ErrorCode ClearMotionProfileTrajectories()= 0;
 	virtual int GetMotionProfileTopLevelBufferCount()= 0;
 	virtual ErrorCode PushMotionProfileTrajectory(
 			const ctre::phoenix::motion::TrajectoryPoint & trajPt)= 0;
@@ -186,6 +193,8 @@ public:
 
 	//------ Misc. ----------//
 	virtual int GetBaseID() = 0;
+	virtual int GetDeviceID() = 0;
+	virtual ControlMode GetControlMode() = 0;
 
 	// ----- Follower ------//
 	/* in parent interface */

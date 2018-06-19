@@ -6,6 +6,7 @@ extern "C"{
 	ctre::phoenix::ErrorCode c_MotController_GetDeviceNumber(void *handle, int *deviceNumber);
 	ctre::phoenix::ErrorCode c_MotController_GetDescription(void *handle, char * toFill, int toFillByteSz, int * numBytesFilled);
 	ctre::phoenix::ErrorCode c_MotController_SetDemand(void *handle, int mode, int demand0, int demand1);
+	ctre::phoenix::ErrorCode c_MotController_Set_4(void *handle, int mode, double demand0, double demand1, int demand1Type);
 	void c_MotController_SetNeutralMode(void *handle, int neutralMode);
 	void c_MotController_SetSensorPhase(void *handle, bool PhaseSensor);
 	void c_MotController_SetInverted(void *handle, bool invert);
@@ -24,6 +25,7 @@ extern "C"{
 	ctre::phoenix::ErrorCode c_MotController_GetOutputCurrent(void *handle, double *current);
 	ctre::phoenix::ErrorCode c_MotController_GetTemperature(void *handle, double *temperature);
 	ctre::phoenix::ErrorCode c_MotController_ConfigSelectedFeedbackSensor(void *handle, int feedbackDevice, int pidIdx, int timeoutMs);
+	ctre::phoenix::ErrorCode c_MotController_ConfigSelectedFeedbackCoefficient(void *handle, double coefficient, int pidIdx, int timeoutMs);
 	ctre::phoenix::ErrorCode c_MotController_ConfigRemoteFeedbackFilter(void *handle, int deviceID, int remoteSensorSource, int remoteOrdinal, int timeoutMs);
 	ctre::phoenix::ErrorCode c_MotController_ConfigSensorTerm(void *handle, int sensorTerm, int feedbackDevice, int timeoutMs);
 	ctre::phoenix::ErrorCode c_MotController_GetSelectedSensorPosition(void *handle, int *param, int pidIdx);
@@ -49,6 +51,8 @@ extern "C"{
 	ctre::phoenix::ErrorCode c_MotController_Config_IntegralZone(void *handle, int slotIdx, double izone, int timeoutMs);
 	ctre::phoenix::ErrorCode c_MotController_ConfigAllowableClosedloopError(void *handle, int slotIdx, int allowableClosedLoopError, int timeoutMs);
 	ctre::phoenix::ErrorCode c_MotController_ConfigMaxIntegralAccumulator(void *handle, int slotIdx, double iaccum, int timeoutMs);
+	ctre::phoenix::ErrorCode c_MotController_ConfigClosedLoopPeakOutput(void *handle, int slotIdx, double percentOut, int timeoutMs);
+	ctre::phoenix::ErrorCode c_MotController_ConfigClosedLoopPeriod(void *handle, int slotIdx, int loopTimeMs, int timeoutMs);
 	ctre::phoenix::ErrorCode c_MotController_SetIntegralAccumulator(void *handle, double iaccum, int pidIdx, int timeoutMs);
 	ctre::phoenix::ErrorCode c_MotController_GetClosedLoopError(void *handle, int *closedLoopError, int pidIdx);
 	ctre::phoenix::ErrorCode c_MotController_GetIntegralAccumulator(void *handle, double *iaccum, int pidIdx);

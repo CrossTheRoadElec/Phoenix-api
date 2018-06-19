@@ -61,8 +61,17 @@ public enum ErrorCode {
 	GeneralWarning(100),
 	FeatureNotSupported(101),
 	NotImplemented(102),
-	FirmVersionCouldNotBeRetrieved (103);
-	
+	FirmVersionCouldNotBeRetrieved (103),
+	FeaturesNotAvailableYet(104),
+	ControlModeNotValid(105),
+
+	ControlModeNotSupportedYet(106),
+	CascadedPIDNotSupportedYet(107),
+	AuxiliaryPIDNotSupportedYet(107),
+	RemoteSensorsNotSupportedYet(108),
+	MotProfFirmThreshold(109),
+	MotProfFirmThreshold2(110);
+
 	//---------------------- Integral To Enum operators -----------//
     public final int value; //!< Hold the integral value of an enum instance.
     /** Keep singleton map to quickly lookup enum via int */

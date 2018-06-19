@@ -898,4 +898,11 @@ public class PigeonIMU {
 		int retval = PigeonImuJNI.JNI_ClearStickyFaults(m_handle, timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
+
+	/**
+	 * @return The Device Number
+	 */
+	public int getDeviceID(){
+		return m_deviceNumber;
+	}
 }

@@ -10,8 +10,11 @@ public enum RemoteSensorSource {
 	CANifier_PWMInput0(6),
 	CANifier_PWMInput1(7),
 	CANifier_PWMInput2(8),
-	CANifier_PWMInput3(9);
-	
+	CANifier_PWMInput3(9),
+	GadgeteerPigeon_Yaw(10),
+	GadgeteerPigeon_Pitch(11),
+	GadgeteerPigeon_Roll(12);
+
 	public int value;
 	RemoteSensorSource(int value)
 	{

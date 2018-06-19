@@ -6,7 +6,7 @@ namespace motion {
 
 /**
  * Duration to apply to a particular trajectory pt.
- * This time unit is ADDED to the exising base time set by
+ * This time unit is ADDED to the existing base time set by
  * ConfigMotionProfileTrajectoryPeriod().
  */
 enum TrajectoryDuration {
@@ -22,25 +22,28 @@ enum TrajectoryDuration {
 
 /**
  * Motion Profile Trajectory Point
- * This is simply a data transer object.
+ * This is simply a data transfer object.
  */
 struct TrajectoryPoint {
 	double position; //!< The position to servo to.
 	double velocity; //!< The velocity to feed-forward.
-	double headingDeg;
+	double headingDeg; //!< Not used.  Use auxiliaryPos instead. @see auxiliaryPos
+
+	double auxiliaryPos;  //!< The position for auxiliary PID to target.
 
 	/**
 	 * Which slot to get PIDF gains.
 	 * PID is used for position servo.
 	 * F is used as the Kv constant for velocity feed-forward.
-	 * Typically this is hardcoded to the a particular slot, but you are free
+	 * Typically this is hard-coded
+	 * to a particular slot, but you are free to gain schedule if need be.
 	 * gain schedule if need be.
 	 * Choose from [0,3].
 	 */
 	uint32_t profileSlotSelect0;
 
 	/**
-	 * Which slot to get PIDF gains for cascaded PID.
+	 * Which slot to get PIDF gains for auxiliary PID.
 	 * This only has impact during MotionProfileArc Control mode.
 	 * Choose from [0,1].
 	 */
@@ -66,7 +69,7 @@ struct TrajectoryPoint {
 
 	/**
 	 * Duration to apply this trajectory pt.
-	 * This time unit is ADDED to the exising base time set by
+	 * This time unit is ADDED to the existing base time set by
 	 * ConfigMotionProfileTrajectoryPeriod().
 	 */
 	TrajectoryDuration timeDur;

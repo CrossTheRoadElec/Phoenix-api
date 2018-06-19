@@ -2,8 +2,10 @@ package com.ctre.phoenix.motorcontrol.can;
 
 import com.ctre.phoenix.motorcontrol.ControlFrame;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.Faults;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.FollowerType;
 import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
@@ -40,17 +42,17 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	private int [] _motionProfStats = new int[11];
 
 	private SensorCollection _sensorColl;
-	
+
 	// --------------------- Constructors -----------------------------//
 	/**
 	 * Constructor for motor controllers.
-	 * 
+	 *
 	 * @param arbId
 	 */
 	public BaseMotorController(int arbId) {
 		m_handle = MotControllerJNI.Create(arbId);
 		_arbId = arbId;
-		
+
 		_sensorColl = new SensorCollection(this);
 	}
 	/**
@@ -77,19 +79,24 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 * In Current mode, output value is in amperes.
 	 * In Velocity mode, output value is in position change / 100ms.
 	 * In Position mode, output value is in encoder ticks or an analog value,
-	 *   depending on the sensor. 
+	 *   depending on the sensor.
 	 * In Follower mode, the output value is the integer device ID of the talon to
 	 * duplicate.
 	 *
 	 * @param outputValue The setpoint value, as described above.
+	 *
+	 *
+	 *	Standard Driving Example:
+	 *	_talonLeft.set(ControlMode.PercentOutput, leftJoy);
+	 *	_talonRght.set(ControlMode.PercentOutput, rghtJoy);
 	 */
 	public void set(ControlMode mode, double outputValue) {
-		set(mode, outputValue, 0);
+		set(mode, outputValue, DemandType.Neutral, 0);
 	}
 	/**
 	 * @param mode Sets the appropriate output on the talon, depending on the mode.
 	 * @param demand0 The output value to apply.
-	 * 	such as advanced feed forward and/or cascaded close-looping in firmware.
+	 * 	such as advanced feed forward and/or auxiliary close-looping in firmware.
 	 * In PercentOutput, the output is between -1.0 and 1.0, with 0.0 as stopped.
 	 * In Current mode, output value is in amperes.
 	 * In Velocity mode, output value is in position change / 100ms.
@@ -101,6 +108,44 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 * @param demand1 Supplemental value.  This will also be control mode specific for future features.
 	 */
 	public void set(ControlMode mode, double demand0, double demand1) {
+		set(mode, demand0, DemandType.Neutral, demand1);
+	}
+	/**
+	 * @param mode Sets the appropriate output on the talon, depending on the mode.
+	 * @param demand0 The output value to apply.
+	 * 	such as advanced feed forward and/or auxiliary close-looping in firmware.
+	 * In PercentOutput, the output is between -1.0 and 1.0, with 0.0 as stopped.
+	 * In Current mode, output value is in amperes.
+	 * In Velocity mode, output value is in position change / 100ms.
+	 * In Position mode, output value is in encoder ticks or an analog value,
+	 *   depending on the sensor. See
+	 * In Follower mode, the output value is the integer device ID of the talon to
+	 * duplicate.
+	 *
+	 * @param demand1Type The demand type for demand1.
+	 * Neutral: Ignore demand1 and apply no change to the demand0 output.
+	 * AuxPID: Use demand1 to set the target for the auxiliary PID 1.
+	 * ArbitraryFeedForward: Use demand1 as an arbitrary additive value to the
+	 *	 demand0 output.  In PercentOutput the demand0 output is the motor output,
+	 *   and in closed-loop modes the demand0 output is the output of PID0.
+	 * @param demand1 Supplmental output value.  Units match the set mode.
+	 *
+	 *
+	 *  Arcade Drive Example:
+	 *		_talonLeft.set(ControlMode.PercentOutput, joyForward, DemandType.ArbitraryFeedForward, +joyTurn);
+	 *		_talonRght.set(ControlMode.PercentOutput, joyForward, DemandType.ArbitraryFeedForward, -joyTurn);
+	 *
+	 *	Drive Straight Example:
+	 *	Note: Selected Sensor Configuration is necessary for both PID0 and PID1.
+	 *		_talonLeft.follow(_talonRght, FollwerType.AuxOutput1);
+	 *		_talonRght.set(ControlMode.PercentOutput, joyForward, DemandType.AuxPID, desiredRobotHeading);
+	 *
+	 *	Drive Straight to a Distance Example:
+	 *	Note: Other configurations (sensor selection, PID gains, etc.) need to be set.
+	 *		_talonLeft.follow(_talonRght, FollwerType.AuxOutput1);
+	 *		_talonRght.set(ControlMode.MotionMagic, targetDistance, DemandType.AuxPID, desiredRobotHeading);
+	 */
+	public void set(ControlMode mode, double demand0, DemandType demand1Type, double demand1){
 		m_controlMode = mode;
 		m_sendMode = mode;
 		int work;
@@ -108,7 +153,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 		switch (m_controlMode) {
 		case PercentOutput:
 			// case TimedPercentOutput:
-			MotControllerJNI.SetDemand(m_handle, m_sendMode.value, (int) (1023 * demand0), 0);
+			MotControllerJNI.Set_4(m_handle, m_sendMode.value, demand0, demand1, demand1Type.value);
 			break;
 		case Follower:
 			/* did caller specify device ID */
@@ -120,14 +165,16 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 			} else {
 				work = (int) demand0;
 			}
-			MotControllerJNI.SetDemand(m_handle, m_sendMode.value, work, 0);
+			/* single precision guarantees 16bits of integral precision,
+		   * so float/double cast on work is safe */
+			MotControllerJNI.Set_4(m_handle, m_sendMode.value, (double)work, demand1, demand1Type.value);
 			break;
 		case Velocity:
 		case Position:
 		case MotionMagic:
-		case MotionMagicArc:
 		case MotionProfile:
-			MotControllerJNI.SetDemand(m_handle, m_sendMode.value, (int) demand0, 0);
+		case MotionProfileArc:
+			MotControllerJNI.Set_4(m_handle, m_sendMode.value, demand0, demand1, demand1Type.value);
 			break;
 		case Current:
 			MotControllerJNI.SetDemand(m_handle, m_sendMode.value, (int) (1000. * demand0), 0); /* milliamps */
@@ -166,16 +213,18 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 *	@param enable true/false enable
 	 */
 	public void enableHeadingHold(boolean enable) {
-		MotControllerJNI.EnableHeadingHold(m_handle, enable ? 1 : 0);
+		/* this routine is moot as the Set() call updates the signal on each call */
+		//MotControllerJNI.EnableHeadingHold(m_handle, enable ? 1 : 0);
 	}
 	/**
 	 * For now this simply updates the CAN signal to the motor controller.
-	 * Future firmware updates will use this to control advanced cascaded loop behavior.
+	 * Future firmware updates will use this to control advanced auxiliary loop behavior.
 	 *
 	 *	@param value
 	 */
 	public void selectDemandType(boolean value) {
-		MotControllerJNI.SelectDemandType(m_handle, value ? 1 : 0);
+		/* this routine is moot as the Set() call updates the signal on each call */
+		//MotControllerJNI.SelectDemandType(m_handle, value ? 1 : 0);
 	}
 
 	// ------ Invert behavior ----------//
@@ -183,7 +232,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 * Sets the phase of the sensor. Use when controller forward/reverse output
 	 * doesn't correlate to appropriate forward/reverse reading of sensor.
 	 * Pick a value so that positive PercentOutput yields a positive change in sensor.
-	 * After setting this, user can freely call SetInvert() with any value.
+	 * After setting this, user can freely call SetInverted() with any value.
 	 *
 	 * @param PhaseSensor
 	 *            Indicates whether to invert the phase of the sensor.
@@ -432,7 +481,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 * @param feedbackDevice
 	 *            Remote Feedback Device to select.
 	 * @param pidIdx
-	 *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+	 *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
 	 * @param timeoutMs
 	 *            Timeout value in ms. If nonzero, function will wait for
 	 *            config success and report an error if it times out.
@@ -450,7 +499,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 * @param feedbackDevice
 	 *            Feedback Device to select.
 	 * @param pidIdx
-	 *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+	 *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
 	 * @param timeoutMs
 	 *            Timeout value in ms. If nonzero, function will wait for
 	 *            config success and report an error if it times out.
@@ -459,6 +508,30 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 */
 	public ErrorCode configSelectedFeedbackSensor(FeedbackDevice feedbackDevice, int pidIdx, int timeoutMs) {
 		int retval = MotControllerJNI.ConfigSelectedFeedbackSensor(m_handle, feedbackDevice.value, pidIdx, timeoutMs);
+		return ErrorCode.valueOf(retval);
+	}
+
+	/**
+	 * The Feedback Coefficient is a scalar applied to the value of the
+	 * feedback sensor.  Useful when you need to scale your sensor values
+	 * within the closed-loop calculations.  Default value is 1.
+	 *
+	 * Selected Feedback Sensor register in firmware is the decoded sensor value
+	 * multiplied by the Feedback Coefficient.
+	 *
+	 * @param coefficient
+	 *            Feedback Coefficient value.  Maximum value of 1.
+	 *						Resolution is 1/(2^16).  Cannot be 0.
+	 * @param pidIdx
+	 *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
+	 * @param timeoutMs
+	 *            Timeout value in ms. If nonzero, function will wait for
+	 *            config success and report an error if it times out.
+	 *            If zero, no blocking or checking is performed.
+	 * @return Error Code generated by function. 0 indicates no error.
+	 */
+	public ErrorCode configSelectedFeedbackCoefficient(double coefficient, int pidIdx, int timeoutMs) {
+	  int retval = MotControllerJNI.ConfigSelectedFeedbackCoefficient(m_handle, coefficient, pidIdx, timeoutMs);
 		return ErrorCode.valueOf(retval);
 	}
 	/**
@@ -508,9 +581,9 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	// ------- sensor status --------- //
 	/**
 	 * Get the selected sensor position (in raw sensor units).
-	 * 
+	 *
 	 * @param pidIdx
-	 *            0 for Primary closed-loop. 1 for cascaded closed-loop. See
+	 *            0 for Primary closed-loop. 1 for auxiliary closed-loop. See
 	 *            Phoenix-Documentation for how to interpret.
 	 *
 	 * @return Position of selected sensor (in raw sensor units).
@@ -518,12 +591,12 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	public int getSelectedSensorPosition(int pidIdx) {
 		return MotControllerJNI.GetSelectedSensorPosition(m_handle, pidIdx);
 	}
-	
+
 	/**
 	 * Get the selected sensor velocity.
 	 *
 	 * @param pidIdx
-	 *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+	 *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
 	 * @return selected sensor (in raw sensor units) per 100ms.
 	 * See Phoenix-Documentation for how to interpret.
 	 */
@@ -537,7 +610,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 * @param sensorPos
 	 *            Position to set for the selected sensor (in raw sensor units).
 	 * @param pidIdx
-	 *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+	 *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
 	 * @param timeoutMs
 	 *            Timeout value in ms. If nonzero, function will wait for
 	 *            config success and report an error if it times out.
@@ -563,7 +636,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 		int retval = MotControllerJNI.SetControlFramePeriod(m_handle, frame.value, periodMs);
 		return ErrorCode.valueOf(retval);
 	}
-	
+
 	/**
 	 * Sets the period of the given status frame.
 	 *
@@ -592,7 +665,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 * This setting is not persistent and is lost when device is reset. If this
 	 * is a concern, calling application can use HasReset() to determine if the
 	 * status frame needs to be reconfigured.
-	 * 
+	 *
 	 * @param frameValue
 	 *            Frame whose period is to be changed.
 	 * @param periodMs
@@ -639,7 +712,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	public int getStatusFramePeriod(int frame, int timeoutMs) {
 		return MotControllerJNI.GetStatusFramePeriod(m_handle, frame, timeoutMs);
 	}
-	
+
 	/**
 	 * Gets the period of the given status frame.
 	 *
@@ -863,8 +936,8 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	public ErrorCode configReverseSoftLimitThreshold(int reverseSensorLimit, int timeoutMs) {
 		int retval = MotControllerJNI.ConfigReverseSoftLimitThreshold(m_handle, reverseSensorLimit, timeoutMs);
 		return ErrorCode.valueOf(retval);
-	}	
-	
+	}
+
 	/**
 	 * Configures the forward soft limit enable.
 	 *
@@ -1041,8 +1114,72 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 * @return Error Code generated by function. 0 indicates no error.
 	 */
 	public ErrorCode configMaxIntegralAccumulator(int slotIdx, double iaccum, int timeoutMs) {
-		int retval = MotControllerJNI.ConfigMaxIntegralAccumulator(m_handle, slotIdx,  iaccum, timeoutMs);
+		int retval = MotControllerJNI.ConfigMaxIntegralAccumulator(m_handle, slotIdx, iaccum, timeoutMs);
 		return ErrorCode.valueOf(retval);
+	}
+
+	/**
+	 * Sets the peak closed-loop output.  This peak output is slot-specific and
+	 *   is applied to the output of the associated PID loop.
+	 * This setting is seperate from the generic Peak Output setting.
+	 *
+	 * @param slotIdx
+	 *            Parameter slot for the constant.
+	 * @param percentOut
+	 *            Peak Percent Output from 0 to 1.  This value is absolute and
+	 *						the magnitude will apply in both forward and reverse directions.
+	 * @param timeoutMs
+	 *            Timeout value in ms. If nonzero, function will wait for
+	 *            config success and report an error if it times out.
+	 *            If zero, no blocking or checking is performed.
+	 * @return Error Code generated by function. 0 indicates no error.
+	 */
+	public ErrorCode configClosedLoopPeakOutput(int slotIdx, double percentOut, int timeoutMs) {
+		int retval = MotControllerJNI.ConfigClosedLoopPeakOutput(m_handle, slotIdx, percentOut, timeoutMs);
+		return ErrorCode.valueOf(retval);
+	}
+
+	/**
+	 * Sets the loop time (in milliseconds) of the PID closed-loop calculations.
+	 * Default value is 1 ms.
+	 *
+	 * @param slotIdx
+	 *            Parameter slot for the constant.
+	 * @param loopTimeMs
+	 *            Loop timing of the closed-loop calculations.  Minimum value of
+	 *						1 ms, maximum of 64 ms.
+	 * @param timeoutMs
+	 *            Timeout value in ms. If nonzero, function will wait for
+	 *            config success and report an error if it times out.
+	 *            If zero, no blocking or checking is performed.
+	 * @return Error Code generated by function. 0 indicates no error.
+	 */
+  public ErrorCode configClosedLoopPeriod(int slotIdx, int loopTimeMs, int timeoutMs) {
+	  int retval = MotControllerJNI.ConfigClosedLoopPeriod(m_handle, slotIdx, loopTimeMs, timeoutMs);
+		return ErrorCode.valueOf(retval);
+	}
+
+	/**
+	 * Configures the Polarity of the Auxiliary PID (PID1).
+	 *
+	 * Standard Polarity:
+	 *    Primary Output = PID0 + PID1
+	 *    Auxiliary Output = PID0 - PID1
+	 *
+	 * Inverted Polarity:
+	 *    Primary Output = PID0 - PID1
+	 *    Auxiliary Output = PID0 + PID1
+	 *
+	 * @param invert
+	 *            If true, use inverted PID1 output polarity.
+	 * @param timeoutMs
+	 *            Timeout value in ms. If nonzero, function will wait for config
+	 *            success and report an error if it times out. If zero, no
+	 *            blocking or checking is performed.
+	 * @return Error Code
+	 */
+	public ErrorCode configAuxPIDPolarity(boolean invert, int timeoutMs){
+		return configSetParameter(ParamEnum.ePIDLoopPolarity, invert ? 1:0, 0, 1, timeoutMs);
 	}
 
 	/**
@@ -1054,7 +1191,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 *            Value to set for the integral accumulator (closed loop error
 	 *            units X 1ms).
 	 * @param pidIdx
-	 *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+	 *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
 	 * @param timeoutMs
 	 *            Timeout value in ms. If nonzero, function will wait for config
 	 *            success and report an error if it times out. If zero, no
@@ -1071,7 +1208,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 * use. See Phoenix-Documentation information on units.
 	 *
 	 * @param pidIdx
-	 *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+	 *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
 	 * @return Closed-loop error value.
 	 */
 	public int getClosedLoopError(int pidIdx) {
@@ -1080,9 +1217,9 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 
 	/**
 	 * Gets the iaccum value.
-	 * 
+	 *
 	 * @param pidIdx
-	 *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+	 *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
 	 * @return Integral accumulator value (Closed-loop error X 1ms).
 	 */
 	public double getIntegralAccumulator(int pidIdx) {
@@ -1094,7 +1231,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 * Gets the derivative of the closed-loop error.
 	 *
 	 * @param pidIdx
-	 *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+	 *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
 	 * @return The error derivative value.
 	 */
 	public double getErrorDerivative(int pidIdx) {
@@ -1107,7 +1244,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 * @param slotIdx
 	 *            Profile slot to select.
 	 * @param pidIdx
-	 *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+	 *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
 	 **/
 	public void selectProfileSlot(int slotIdx, int pidIdx) {
 		MotControllerJNI.SelectProfileSlot(m_handle, slotIdx, pidIdx);
@@ -1117,7 +1254,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 * Gets the current target of a given closed loop.
 	 *
 	 * @param pidIdx
-	 *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+	 *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
 	 * @return The closed loop target.
 	 */
 	public int getClosedLoopTarget(int pidIdx) {
@@ -1206,7 +1343,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 * routine performs no CAN or data structure lookups, so its fast and ideal
 	 * if caller needs to quickly poll the progress of trajectory points being
 	 * emptied into controller's RAM. Otherwise just use GetMotionProfileStatus.
-	 * 
+	 *
 	 * @return number of trajectory points in the top buffer.
 	 */
 	public int getMotionProfileTopLevelBufferCount() {
@@ -1225,7 +1362,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 *						   as the Kv constant for velocity feed-forward. Typically this is hardcoded
 	 *						   to the a particular slot, but you are free gain schedule if need be.
 	 *						   Choose from [0,3]
-	 *		profileSlotSelect1 Which slot to get PIDF gains for cascaded PId.
+	 *		profileSlotSelect1 Which slot to get PIDF gains for auxiliary PId.
 	 *						   This only has impact during MotionProfileArc Control mode.
 	 *						   Choose from [0,1].
 	 * 	   isLastPoint  set to nonzero to signal motor controller to keep processing this
@@ -1248,8 +1385,8 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 */
 	public ErrorCode pushMotionProfileTrajectory(TrajectoryPoint trajPt) {
 		int retval = MotControllerJNI.PushMotionProfileTrajectory2(m_handle,
-				trajPt.position, trajPt.velocity, trajPt.headingDeg,
-				trajPt.profileSlotSelect0, trajPt.profileSlotSelect1, 
+				trajPt.position, trajPt.velocity, trajPt.auxiliaryPos,
+				trajPt.profileSlotSelect0, trajPt.profileSlotSelect1,
 				trajPt.isLastPoint, trajPt.zeroPos, trajPt.timeDur.value);
 		return ErrorCode.valueOf(retval);
 	}
@@ -1259,7 +1396,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 * routine performs no CAN or data structure lookups, so its fast and ideal
 	 * if caller needs to quickly poll. Otherwise just use
 	 * GetMotionProfileStatus.
-	 * 
+	 *
 	 * @return number of trajectory points in the top buffer.
 	 */
 	public boolean isMotionProfileTopLevelBufferFull() {
@@ -1340,7 +1477,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	/**
 	 * Clear the "Has Underrun" flag. Typically this is called after application
 	 * has confirmed an underrun had occured.
-	 * 
+	 *
 	 * @param timeoutMs
 	 *            Timeout value in ms. If nonzero, function will wait for config
 	 *            success and report an error if it times out. If zero, no
@@ -1357,7 +1494,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 * API and the controller to increase the download rate of the controller's Motion
 	 * Profile. Ideally the period should be no more than half the period of a
 	 * trajectory point.
-	 * 
+	 *
 	 * @param periodMs
 	 *            The transmit period in ms.
 	 * @return Error Code generated by function. 0 indicates no error.
@@ -1366,7 +1503,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 		int retval = MotControllerJNI.ChangeMotionControlFramePeriod(m_handle, periodMs);
 		return ErrorCode.valueOf(retval);
 	}
-	
+
 	/**
 	 * When trajectory points are processed in the motion profile executer, the MPE determines
 	 * how long to apply the active trajectory point by summing baseTrajDurationMs with the
@@ -1402,7 +1539,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	// ------ Faults ----------//
 	/**
 	 * Polls the various fault flags.
-	 * 
+	 *
 	 * @param toFill
 	 *            Caller's object to fill with latest fault flags.
 	 * @return Last Error Code generated by a function.
@@ -1415,7 +1552,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 
 	/**
 	 * Polls the various sticky fault flags.
-	 * 
+	 *
 	 * @param toFill
 	 *            Caller's object to fill with latest sticky fault flags.
 	 * @return Last Error Code generated by a function.
@@ -1428,7 +1565,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 
 	/**
 	 * Clears all sticky faults.
-	 * 
+	 *
 	 * @param timeoutMs
 	 *            Timeout value in ms. If nonzero, function will wait for config
 	 *            success and report an error if it times out. If zero, no
@@ -1595,8 +1732,15 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 * Set the control mode and output value so that this motor controller will
 	 * follow another motor controller. Currently supports following Victor SPX
 	 * and Talon SRX.
+	 *
+	 * @param masterToFollow
+	 *						Motor Controller object to follow.
+	 * @param followerType
+	 *						Type of following control.  Use AuxOutput1 to follow the master
+	 *						device's auxiliary output 1.
+	 *						Use PercentOutput for standard follower mode.
 	 */
-	public void follow(IMotorController masterToFollow) {
+	public void follow(IMotorController masterToFollow, FollowerType followerType) {
 		int id32 = masterToFollow.getBaseID();
 		int id24 = id32;
 		id24 >>= 16;
@@ -1604,15 +1748,36 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 		id24 <<= 8;
 		id24 |= (id32 & 0xFF);
 		set(ControlMode.Follower, id24);
-	}
 
+		switch (followerType){
+			case PercentOutput:
+				set(ControlMode.Follower, (double)id24);
+				break;
+			case AuxOutput1:
+			  /* follow the motor controller, but set the aux flag
+		     * to ensure we follow the processed output */
+			  set(ControlMode.Follower, (double)id24, DemandType.AuxPID, 0);
+				break;
+			default:
+			  neutralOutput();
+				break;
+		}
+	}
+	/**
+	 * Set the control mode and output value so that this motor controller will
+	 * follow another motor controller. Currently supports following Victor SPX
+	 * and Talon SRX.
+	 */
+	public void follow(IMotorController masterToFollow) {
+    follow(masterToFollow, FollowerType.PercentOutput);
+	}
 	/**
 	 * When master makes a device, this routine is called to signal the update.
 	 */
 	public void valueUpdated() {
 		// MT
 	}
-	
+
 	/**
 	 * @return object that can get/set individual raw sensor values.
 	 */

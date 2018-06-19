@@ -12,8 +12,6 @@ enum class ControlMode {
 	Follower = 5,
 	MotionProfile = 6,
 	MotionMagic = 7,
-	MotionMagicArc = 8,
-	//TimedPercentOutput = 9,
 	MotionProfileArc = 10,
 
 	Disabled = 15,

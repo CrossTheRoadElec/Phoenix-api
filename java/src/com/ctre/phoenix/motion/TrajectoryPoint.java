@@ -1,12 +1,12 @@
 package com.ctre.phoenix.motion;
 
 /**
- * Motion Profile Trajectory Point This is simply a data transer object.
+ * Motion Profile Trajectory Point This is simply a data transfer object.
  */
 public class TrajectoryPoint {
 	/**
 	 * Duration to apply to a particular trajectory pt.
-	 * This time unit is ADDED to the exising base time set by
+	 * This time unit is ADDED to the existing base time set by
 	 * configMotionProfileTrajectoryPeriod().
 	 */
 	public enum TrajectoryDuration
@@ -19,15 +19,15 @@ public class TrajectoryPoint {
 		Trajectory_Duration_40ms(40),
 		Trajectory_Duration_50ms(50),
 		Trajectory_Duration_100ms(100);
-		
+
 		public int value = 5;
-		
+
 		private TrajectoryDuration(int value)
 		{
 			this.value = value;
 		}
-		
-		public TrajectoryDuration valueOf(int val)
+
+		public static TrajectoryDuration valueOf(int val)
 		{
 			for(TrajectoryDuration td: TrajectoryDuration.values())
 			{
@@ -36,21 +36,22 @@ public class TrajectoryPoint {
 			return Trajectory_Duration_100ms;
 		}
 	}
-	
+
 	public double position; // !< The position to servo to.
 	public double velocity; // !< The velocity to feed-forward.
-	public double headingDeg;
+	public double headingDeg; // !< Not used.  Use auxiliaryPos instead.  @see auxiliaryPos
+	public double auxiliaryPos; // !< The position for auxiliary PID to target.
 
 	/**
 	 * Which slot to get PIDF gains. PID is used for position servo. F is used
-	 * as the Kv constant for velocity feed-forward. Typically this is hardcoded
-	 * to the a particular slot, but you are free gain schedule if need be.
+	 * as the Kv constant for velocity feed-forward. Typically this is hard-coded
+	 * to a particular slot, but you are free to gain schedule if need be.
 	 * Choose from [0,3]
 	 */
 	public int profileSlotSelect0;
-	
+
 	/**
-	 * Which slot to get PIDF gains for cascaded PId.
+	 * Which slot to get PIDF gains for auxiliary PId.
 	 * This only has impact during MotionProfileArc Control mode.
 	 * Choose from [0,1].
 	 */
@@ -74,10 +75,10 @@ public class TrajectoryPoint {
 	 * positions of all trajectory points so they are correct.
 	 */
 	public boolean zeroPos;
-	
+
 	/**
 	 * Duration to apply this trajectory pt.
-	 * This time unit is ADDED to the exising base time set by
+	 * This time unit is ADDED to the existing base time set by
 	 * configMotionProfileTrajectoryPeriod().
 	 */
 	public TrajectoryDuration timeDur;

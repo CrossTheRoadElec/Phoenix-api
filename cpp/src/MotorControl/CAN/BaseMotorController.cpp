@@ -57,14 +57,20 @@ int BaseMotorController::GetDeviceID() {
  * In Follower mode, the output value is the integer device ID of the talon to
  * duplicate.
  *
+ * @param value The setpoint value, as described above.
+ *
+ *
+ *	Standard Driving Example:
+ *	_talonLeft.set(ControlMode.PercentOutput, leftJoy);
+ *	_talonRght.set(ControlMode.PercentOutput, rghtJoy);
  */
 void BaseMotorController::Set(ControlMode Mode, double value) {
-	Set(Mode, value, 0);
+	Set(Mode, value, DemandType_Neutral, 0);
 }
 /**
  * @param mode Sets the appropriate output on the talon, depending on the mode.
  * @param demand0 The output value to apply.
- * 	such as advanced feed forward and/or cascaded close-looping in firmware.
+ * 	such as advanced feed forward and/or auxiliary close-looping in firmware.
  * In PercentOutput, the output is between -1.0 and 1.0, with 0.0 as stopped.
  * In Current mode, output value is in amperes.
  * In Velocity mode, output value is in position change / 100ms.
@@ -75,8 +81,46 @@ void BaseMotorController::Set(ControlMode Mode, double value) {
  *
  * @param demand1 Supplemental value.  This will also be control mode specific for future features.
  */
-void BaseMotorController::Set(ControlMode mode, double demand0,
-		double demand1) {
+
+void BaseMotorController::Set(ControlMode mode, double demand0, double demand1) {
+	Set(mode, demand0, DemandType_Neutral, demand1);
+}
+/**
+ * @param mode Sets the appropriate output on the talon, depending on the mode.
+ * @param demand0 The output value to apply.
+ * 	such as advanced feed forward and/or auxiliary close-looping in firmware.
+ * In PercentOutput, the output is between -1.0 and 1.0, with 0.0 as stopped.
+ * In Current mode, output value is in amperes.
+ * In Velocity mode, output value is in position change / 100ms.
+ * In Position mode, output value is in encoder ticks or an analog value,
+ *   depending on the sensor. See
+ * In Follower mode, the output value is the integer device ID of the talon to
+ * duplicate.
+ *
+ * @param demand1Type The demand type for demand1.
+ * Neutral: Ignore demand1 and apply no change to the demand0 output.
+ * AuxPID: Use demand1 to set the target for the auxiliary PID 1.
+ * ArbitraryFeedForward: Use demand1 as an arbitrary additive value to the
+ *	 demand0 output.  In PercentOutput the demand0 output is the motor output,
+ *   and in closed-loop modes the demand0 output is the output of PID0.
+ * @param demand1 Supplmental output value.  Units match the set mode.
+ *
+ *
+ *  Arcade Drive Example:
+ *		_talonLeft.set(ControlMode::PercentOutput, joyForward, DemandType_ArbitraryFeedForward, +joyTurn);
+ *		_talonRght.set(ControlMode::PercentOutput, joyForward, DemandType_ArbitraryFeedForward, -joyTurn);
+ *
+ *	Drive Straight Example:
+ *	Note: Selected Sensor Configuration is necessary for both PID0 and PID1.
+ *		_talonLeft.follow(_talonRght, FollwerType_AuxOutput1);
+ *		_talonRght.set(ControlMode::PercentOutput, joyForward, DemandType_AuxPID, desiredRobotHeading);
+ *
+ *	Drive Straight to a Distance Example:
+ *	Note: Other configurations (sensor selection, PID gains, etc.) need to be set.
+ *		_talonLeft.follow(_talonRght, FollwerType_AuxOutput1);
+ *		_talonRght.set(ControlMode::MotionMagic, targetDistance, DemandType_AuxPID, desiredRobotHeading);
+ */
+void BaseMotorController::Set(ControlMode mode, double demand0, DemandType demand1Type, double demand1) {
 	m_controlMode = mode;
 	m_sendMode = mode;
 	m_setPoint = demand0;
@@ -85,8 +129,7 @@ void BaseMotorController::Set(ControlMode mode, double demand0,
 	switch (m_controlMode) {
 	case ControlMode::PercentOutput:
 		//case ControlMode::TimedPercentOutput:
-		c_MotController_SetDemand(m_handle, (int) m_sendMode,
-				(int) (1023 * demand0), 1023 * demand1);
+		c_MotController_Set_4(m_handle, (int) m_sendMode, demand0, demand1, demand1Type);
 		break;
 	case ControlMode::Follower:
 		/* did caller specify device ID */
@@ -98,15 +141,17 @@ void BaseMotorController::Set(ControlMode mode, double demand0,
 		} else {
 			work = (uint32_t) demand0;
 		}
-		c_MotController_SetDemand(m_handle, (int) m_sendMode, work, 0);
+		/* single precision guarantees 16bits of integral precision,
+		 *  so float/double cast on work is safe */
+		c_MotController_Set_4(m_handle, (int) m_sendMode, (double)work, demand1, demand1Type);
 		break;
 	case ControlMode::Velocity:
 	case ControlMode::Position:
 	case ControlMode::MotionMagic:
-	case ControlMode::MotionMagicArc:
+	//case ControlMode::MotionMagicArc:
 	case ControlMode::MotionProfile:
-		c_MotController_SetDemand(m_handle, (int) m_sendMode, (int) (demand0),
-				1023 * demand1);
+	case ControlMode::MotionProfileArc:
+		c_MotController_Set_4(m_handle, (int) m_sendMode, demand0, demand1, demand1Type);
 		break;
 	case ControlMode::Current:
 		c_MotController_SetDemand(m_handle, (int) m_sendMode,
@@ -143,16 +188,20 @@ void BaseMotorController::SetNeutralMode(NeutralMode neutralMode) {
  *	@param enable true/false enable
  */
 void BaseMotorController::EnableHeadingHold(bool enable) {
-	c_MotController_EnableHeadingHold(m_handle, enable);
+	(void)enable;
+	/* this routine is moot as the Set() call updates the signal on each call */
+	//c_MotController_EnableHeadingHold(m_handle, enable);
 }
 /**
  * For now this simply updates the CAN signal to the motor controller.
- * Future firmware updates will use this to control advanced cascaded loop behavior.
+ * Future firmware updates will use this to control advanced auxiliary loop behavior.
  *
  *	@param value
  */
 void BaseMotorController::SelectDemandType(bool value) {
-	c_MotController_SelectDemandType(m_handle, value);
+	(void)value;
+	/* this routine is moot as the Set() call updates the signal on each call */
+	//c_MotController_SelectDemandType(m_handle, value);
 }
 
 //------ Invert behavior ----------//
@@ -160,7 +209,7 @@ void BaseMotorController::SelectDemandType(bool value) {
  * Sets the phase of the sensor. Use when controller forward/reverse output
  * doesn't correlate to appropriate forward/reverse reading of sensor.
  * Pick a value so that positive PercentOutput yields a positive change in sensor.
- * After setting this, user can freely call SetInvert() with any value.
+ * After setting this, user can freely call SetInverted() with any value.
  *
  * @param PhaseSensor
  *            Indicates whether to invert the phase of the sensor.
@@ -423,7 +472,7 @@ double BaseMotorController::GetTemperature() {
  * @param feedbackDevice
  *            Remote Feedback Device to select.
  * @param pidIdx
- *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+ *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
  * @param timeoutMs
  *            Timeout value in ms. If nonzero, function will wait for
  *            config success and report an error if it times out.
@@ -441,7 +490,7 @@ ErrorCode BaseMotorController::ConfigSelectedFeedbackSensor(
  * @param feedbackDevice
  *            Feedback Device to select.
  * @param pidIdx
- *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+ *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
  * @param timeoutMs
  *            Timeout value in ms. If nonzero, function will wait for
  *            config success and report an error if it times out.
@@ -453,6 +502,32 @@ ErrorCode BaseMotorController::ConfigSelectedFeedbackSensor(
 	return c_MotController_ConfigSelectedFeedbackSensor(m_handle,
 			feedbackDevice, pidIdx, timeoutMs);
 }
+
+/**
+ * The Feedback Coefficient is a scalar applied to the value of the
+ * feedback sensor.  Useful when you need to scale your sensor values
+ * within the closed-loop calculations.  Default value is 1.
+ *
+ * Selected Feedback Sensor register in firmware is the decoded sensor value
+ * multiplied by the Feedback Coefficient.
+ *
+ * @param coefficient
+ *            Feedback Coefficient value.  Maximum value of 1.
+ *						Resolution is 1/(2^16).  Cannot be 0.
+ * @param pidIdx
+ *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
+ * @param timeoutMs
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
+ * @return Error Code generated by function. 0 indicates no error.
+ */
+ErrorCode BaseMotorController::ConfigSelectedFeedbackCoefficient(
+		double coefficient, int pidIdx, int timeoutMs) {
+	return c_MotController_ConfigSelectedFeedbackCoefficient(m_handle,
+			coefficient, pidIdx, timeoutMs);
+}
+
 /**
  * Select what remote device and signal to assign to Remote Sensor 0 or Remote Sensor 1.
  * After binding a remote device and signal to Remote Sensor X, you may select Remote Sensor X
@@ -497,11 +572,12 @@ ErrorCode BaseMotorController::ConfigSensorTerm(SensorTerm sensorTerm,
 	return c_MotController_ConfigSensorTerm(m_handle, (int) sensorTerm,
 			(int) feedbackDevice, timeoutMs);
 }
+
 //------- sensor status --------- //
 /**
  * Get the selected sensor position (in raw sensor units).
  * @param pidIdx
- *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+ *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
  * See Phoenix-Documentation for how to interpret.
  *
  * @return Position of selected sensor (in raw sensor units).
@@ -515,7 +591,7 @@ int BaseMotorController::GetSelectedSensorPosition(int pidIdx) {
  * Get the selected sensor velocity.
  *
  * @param pidIdx
- *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+ *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
  * @return selected sensor (in raw sensor units) per 100ms.
  * See Phoenix-Documentation for how to interpret.
  */
@@ -530,7 +606,7 @@ int BaseMotorController::GetSelectedSensorVelocity(int pidIdx) {
  * @param sensorPos
  *            Position to set for the selected sensor (in raw sensor units).
  * @param pidIdx
- *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+ *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
  * @param timeoutMs
  *            Timeout value in ms. If nonzero, function will wait for
  *            config success and report an error if it times out.
@@ -1030,6 +1106,68 @@ ErrorCode BaseMotorController::ConfigMaxIntegralAccumulator(int slotIdx,
 }
 
 /**
+ * Sets the peak closed-loop output.  This peak output is slot-specific and
+ *   is applied to the output of the associated PID loop.
+ * This setting is seperate from the generic Peak Output setting.
+ *
+ * @param slotIdx
+ *            Parameter slot for the constant.
+ * @param percentOut
+ *            Peak Percent Output from 0 to 1.  This value is absolute and
+ *						the magnitude will apply in both forward and reverse directions.
+ * @param timeoutMs
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
+ * @return Error Code generated by function. 0 indicates no error.
+ */
+ErrorCode BaseMotorController::ConfigClosedLoopPeakOutput(int slotIdx, double percentOut, int timeoutMs) {
+	return c_MotController_ConfigClosedLoopPeakOutput(m_handle, slotIdx, percentOut, timeoutMs);
+}
+
+/**
+ * Sets the loop time (in milliseconds) of the PID closed-loop calculations.
+ * Default value is 1 ms.
+ *
+ * @param slotIdx
+ *            Parameter slot for the constant.
+ * @param loopTimeMs
+ *            Loop timing of the closed-loop calculations.  Minimum value of
+ *						1 ms, maximum of 64 ms.
+ * @param timeoutMs
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
+ * @return Error Code generated by function. 0 indicates no error.
+ */
+ErrorCode BaseMotorController::ConfigClosedLoopPeriod(int slotIdx, int loopTimeMs, int timeoutMs) {
+	return c_MotController_ConfigClosedLoopPeriod(m_handle, slotIdx, loopTimeMs, timeoutMs);
+}
+
+/**
+	 * Configures the Polarity of the Auxiliary PID (PID1).
+	 *
+	 * Standard Polarity:
+	 *    Primary Output = PID0 + PID1
+	 *    Auxiliary Output = PID0 - PID1
+	 *
+	 * Inverted Polarity:
+	 *    Primary Output = PID0 - PID1
+	 *    Auxiliary Output = PID0 + PID1
+	 *
+	 * @param invert
+	 *            If true, use inverted PID1 output polarity.
+	 * @param timeoutMs
+	 *            Timeout value in ms. If nonzero, function will wait for config
+	 *            success and report an error if it times out. If zero, no
+	 *            blocking or checking is performed.
+	 * @return Error Code
+	 */
+	ErrorCode BaseMotorController::ConfigAuxPIDPolarity(bool invert, int timeoutMs){
+		return ConfigSetParameter(ParamEnum::ePIDLoopPolarity, invert, 0, 1, timeoutMs);
+	}
+
+/**
  * Sets the integral accumulator. Typically this is used to clear/zero
  * the integral accumulator, however some use cases may require seeding
  * the accumulator for a faster response.
@@ -1037,7 +1175,7 @@ ErrorCode BaseMotorController::ConfigMaxIntegralAccumulator(int slotIdx,
  * @param iaccum
  *            Value to set for the integral accumulator (closed loop error units X 1ms).
  * @param pidIdx
- *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+ *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
  * @param timeoutMs
  *            Timeout value in ms. If nonzero, function will wait for
  *            config success and report an error if it times out.
@@ -1056,7 +1194,7 @@ ErrorCode BaseMotorController::SetIntegralAccumulator(double iaccum, int pidIdx,
  * See Phoenix-Documentation information on units.
  *
  * @param pidIdx
- *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+ *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
  * @return Closed-loop error value.
  */
 int BaseMotorController::GetClosedLoopError(int pidIdx) {
@@ -1068,7 +1206,7 @@ int BaseMotorController::GetClosedLoopError(int pidIdx) {
 /**
  * Gets the iaccum value.
  * @param pidIdx
- *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+ *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
  * @return Integral accumulator value (Closed-loop error X 1ms).
  */
 double BaseMotorController::GetIntegralAccumulator(int pidIdx) {
@@ -1082,7 +1220,7 @@ double BaseMotorController::GetIntegralAccumulator(int pidIdx) {
  * Gets the derivative of the closed-loop error.
  *
  * @param pidIdx
- *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+ *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
  * @return The error derivative value.
  */
 double BaseMotorController::GetErrorDerivative(int pidIdx) {
@@ -1097,7 +1235,7 @@ double BaseMotorController::GetErrorDerivative(int pidIdx) {
  * @param slotIdx
  *            Profile slot to select.
  * @param pidIdx
- *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+ *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
  **/
 ErrorCode BaseMotorController::SelectProfileSlot(int slotIdx, int pidIdx) {
 	return c_MotController_SelectProfileSlot(m_handle, slotIdx, pidIdx);
@@ -1106,7 +1244,7 @@ ErrorCode BaseMotorController::SelectProfileSlot(int slotIdx, int pidIdx) {
  * Gets the current target of a given closed loop.
  *
  * @param pidIdx
- *            0 for Primary closed-loop. 1 for cascaded closed-loop.
+ *            0 for Primary closed-loop. 1 for auxiliary closed-loop.
  * @return The closed loop target.
  */
 int BaseMotorController::GetClosedLoopTarget(int pidIdx) {
@@ -1190,9 +1328,10 @@ ErrorCode BaseMotorController::ConfigMotionAcceleration(
 /**
  * Clear the buffered motion profile in both motor controller's RAM (bottom), and in the API
  * (top).
+ * @return Error Code generated by function. 0 indicates no error.
  */
-void BaseMotorController::ClearMotionProfileTrajectories() {
-	c_MotController_ClearMotionProfileTrajectories(m_handle);
+ErrorCode BaseMotorController::ClearMotionProfileTrajectories() {
+	return c_MotController_ClearMotionProfileTrajectories(m_handle);
 }
 /**
  * Retrieve just the buffer count for the api-level (top) buffer.
@@ -1219,7 +1358,7 @@ int BaseMotorController::GetMotionProfileTopLevelBufferCount() {
  *						   as the Kv constant for velocity feed-forward. Typically this is hardcoded
  *						   to the a particular slot, but you are free gain schedule if need be.
  *						   Choose from [0,3]
- *		profileSlotSelect1 Which slot to get PIDF gains for cascaded PId.
+ *		profileSlotSelect1 Which slot to get PIDF gains for auxiliary PId.
  *						   This only has impact during MotionProfileArc Control mode.
  *						   Choose from [0,1].
  * 	   isLastPoint  set to nonzero to signal motor controller to keep processing this
@@ -1243,7 +1382,7 @@ int BaseMotorController::GetMotionProfileTopLevelBufferCount() {
 ErrorCode BaseMotorController::PushMotionProfileTrajectory(
 		const ctre::phoenix::motion::TrajectoryPoint & trajPt) {
 	ErrorCode retval = c_MotController_PushMotionProfileTrajectory_2(m_handle,
-			trajPt.position, trajPt.velocity, trajPt.headingDeg,
+			trajPt.position, trajPt.velocity, trajPt.auxiliaryPos,
 			trajPt.profileSlotSelect0, trajPt.profileSlotSelect1, trajPt.isLastPoint, trajPt.zeroPos,
 			(int)trajPt.timeDur);
 	return retval;
@@ -1309,7 +1448,7 @@ void BaseMotorController::ProcessMotionProfileBuffer() {
  *       				 for Position and Velocity servo modes.   Must be within  [0,3].
 *
  *	profileSlotSelect1: The currently processed trajectory point's
- *      			  selected slot for cascaded PID.  This can differ in the currently selected slot used
+ *      			  selected slot for auxiliary PID.  This can differ in the currently selected slot used
  *       				 for Position and Velocity servo modes.  Must be within  [0,1].
  *
  *	outputEnable:		The current output mode of the motion profile
@@ -1549,15 +1688,43 @@ ControlMode BaseMotorController::GetControlMode() {
 // ----- Follower ------//
 /**
  * Set the control mode and output value so that this motor controller will
- * follow another motor controller.
- * Currently supports following Victor SPX and Talon SRX.
+ * follow another motor controller. Currently supports following Victor SPX
+ * and Talon SRX.
+ *
+ * @param masterToFollow
+ *						Motor Controller object to follow.
+ * @param followerType
+ *						Type of following control.  Use AuxOutput1 to follow the master
+ *						device's auxiliary output 1.
+ *						Use PercentOutput for standard follower mode.
  */
-void BaseMotorController::Follow(IMotorController & masterToFollow) {
+void BaseMotorController::Follow(IMotorController & masterToFollow, FollowerType followerType) {
 	uint32_t baseId = masterToFollow.GetBaseID();
 	uint32_t id24 = (uint16_t) (baseId >> 0x10);
 	id24 <<= 8;
 	id24 |= (uint8_t) (baseId);
-	Set(ControlMode::Follower, (double) id24);
+
+	switch (followerType) {
+		case FollowerType_PercentOutput:
+			Set(ControlMode::Follower, (double) id24);
+			break;
+		case FollowerType_AuxOutput1:
+			/* follow the motor controller, but set the aux flag
+			 * to ensure we follow the processed output */
+			Set(ControlMode::Follower, (double) id24, DemandType_AuxPID, 0);
+			break;
+		default:
+			NeutralOutput();
+			break;
+	}
+}
+/**
+ * Set the control mode and output value so that this motor controller will
+ * follow another motor controller.
+ * Currently supports following Victor SPX and Talon SRX.
+ */
+void BaseMotorController::Follow(IMotorController & masterToFollow) {
+	Follow(masterToFollow, FollowerType_PercentOutput);
 }
 /** When master makes a device, this routine is called to signal the update. */
 void BaseMotorController::ValueUpdated() {
@@ -1569,4 +1736,3 @@ void BaseMotorController::ValueUpdated() {
 ctre::phoenix::motorcontrol::SensorCollection & BaseMotorController::GetSensorCollection() {
 	return *_sensorColl;
 }
-
