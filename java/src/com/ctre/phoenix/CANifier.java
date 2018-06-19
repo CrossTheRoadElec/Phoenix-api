@@ -652,6 +652,9 @@ public class CANifier {
         ErrorCollection errorCollection = new ErrorCollection();
         errorCollection.NewError(configVelocityMeasurementPeriod(allConfigs.velocityMeasurementPeriod, timeoutMs));
         errorCollection.NewError(configVelocityMeasurementWindow(allConfigs.velocityMeasurementWindow, timeoutMs));
+        errorCollection.NewError(configSetParameter(ParamEnum.eClearPositionOnLimitF, allConfigs.clearPositionOnLimitF ? 1.0 : 0.0, 0, 0, timeoutMs));
+    errorCollection.NewError(configSetParameter(ParamEnum.eClearPositionOnLimitR, allConfigs.clearPositionOnLimitR ? 1.0 : 0.0, 0, 0, timeoutMs));
+    errorCollection.NewError(configSetParameter(ParamEnum.eClearPositionOnQuadIdx, allConfigs.clearPositionOnQuadIdx ? 1.0 : 0.0, 0, 0, timeoutMs));
         errorCollection.NewError(configSetCustomParam(allConfigs.customParam_0, 0, timeoutMs));
         errorCollection.NewError(configSetCustomParam(allConfigs.customParam_1, 1, timeoutMs));
         
@@ -683,6 +686,9 @@ public class CANifier {
 
         allConfigs.velocityMeasurementPeriod = VelocityPeriod.valueOf( (int) configGetParameter(ParamEnum.eSampleVelocityPeriod, 0,  timeoutMs));
         allConfigs.velocityMeasurementWindow = (int) configGetParameter(ParamEnum.eSampleVelocityWindow, 0,  timeoutMs);
+        allConfigs.clearPositionOnLimitF = configGetParameter(ParamEnum.eClearPositionOnLimitF, 0, timeoutMs) != 0.0;
+        allConfigs.clearPositionOnLimitR = configGetParameter(ParamEnum.eClearPositionOnLimitR, 0, timeoutMs) != 0.0;
+        allConfigs.clearPositionOnQuadIdx = configGetParameter(ParamEnum.eClearPositionOnQuadIdx, 0, timeoutMs) != 0.0;
         allConfigs.customParam_0 = (int) configGetParameter(ParamEnum.eCustomParam, 0,  timeoutMs);
         allConfigs.customParam_1 = (int) configGetParameter(ParamEnum.eCustomParam, 1,  timeoutMs);
     }

@@ -24,15 +24,24 @@ namespace ctre {namespace phoenix {
 struct CANifierConfiguration : CustomParamConfiguration{
     CANifierVelocityMeasPeriod velocityMeasurementPeriod;
 	int velocityMeasurementWindow;
+    bool clearPositionOnLimitF;
+    bool clearPositionOnLimitR;
+    bool clearPositionOnQuadIdx;
 	CANifierConfiguration() : 
 		velocityMeasurementPeriod(Period_100Ms), 
-		velocityMeasurementWindow(64) 	
-	{
+		velocityMeasurementWindow(64), 	
+	    clearPositionOnLimitF(false),
+        clearPositionOnLimitR(false),
+        clearPositionOnQuadIdx(false)
+    {
 	}
     std::string toString(std::string prependString) {
 
         std::string retstr = prependString + ".velocityMeasurementPeriod = " + CANifierVelocityMeasPeriodRoutines::toString(velocityMeasurementPeriod) + ";\n";
         retstr += prependString + ".velocityMeasurementWindow = " + std::to_string(velocityMeasurementWindow) + ";\n";
+        retstr += prependString + ".clearPositionOnLimitF = " + std::to_string(clearPositionOnLimitF) + ";\n";
+        retstr += prependString + ".clearPositionOnLimitR = " + std::to_string(clearPositionOnLimitR) + ";\n";
+        retstr += prependString + ".clearPositionOnQuadIdx = " + std::to_string(clearPositionOnQuadIdx) + ";\n";
         
         retstr += CustomParamConfiguration::toString(prependString);
 

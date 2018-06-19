@@ -466,6 +466,9 @@ ErrorCode CANifier::ConfigAllSettings(const CANifierConfiguration &allConfigs, i
 	
 	errorCollection.NewError(ConfigVelocityMeasurementPeriod(allConfigs.velocityMeasurementPeriod, timeoutMs));
 	errorCollection.NewError(ConfigVelocityMeasurementWindow(allConfigs.velocityMeasurementWindow, timeoutMs));
+    errorCollection.NewError(ConfigSetParameter(eClearPositionOnLimitF, allConfigs.clearPositionOnLimitF, 0, 0, timeoutMs));
+    errorCollection.NewError(ConfigSetParameter(eClearPositionOnLimitR, allConfigs.clearPositionOnLimitR, 0, 0, timeoutMs));
+    errorCollection.NewError(ConfigSetParameter(eClearPositionOnQuadIdx, allConfigs.clearPositionOnQuadIdx, 0, 0, timeoutMs));
     errorCollection.NewError(ConfigSetCustomParam(allConfigs.customParam_0, 0, timeoutMs));
     errorCollection.NewError(ConfigSetCustomParam(allConfigs.customParam_1, 1, timeoutMs));
     
@@ -485,7 +488,10 @@ void CANifier::GetAllConfigs(CANifierConfiguration &allConfigs, int timeoutMs) {
 	
 	allConfigs.velocityMeasurementPeriod = (CANifierVelocityMeasPeriod) ConfigGetParameter(eSampleVelocityPeriod, 0,  timeoutMs); 
 	allConfigs.velocityMeasurementWindow = (int) ConfigGetParameter(eSampleVelocityWindow, 0,  timeoutMs); 
-	allConfigs.customParam_0 = (int) ConfigGetParameter(eCustomParam, 0,  timeoutMs); 
+    allConfigs.clearPositionOnLimitF = (bool) ConfigGetParameter(eClearPositionOnLimitF, 0, timeoutMs);
+    allConfigs.clearPositionOnLimitR = (bool) ConfigGetParameter(eClearPositionOnLimitR, 0, timeoutMs);
+    allConfigs.clearPositionOnQuadIdx = (bool) ConfigGetParameter(eClearPositionOnQuadIdx, 0, timeoutMs);	
+    allConfigs.customParam_0 = (int) ConfigGetParameter(eCustomParam, 0,  timeoutMs); 
 	allConfigs.customParam_1 = (int) ConfigGetParameter(eCustomParam, 1,  timeoutMs); 
 
 }
