@@ -9,8 +9,8 @@ namespace motorcontrol {
 
 /** Motor controller with gadgeteer connector. */
 enum FeedbackDevice {
-	None = -1,
-
+    //NOTE: None was removed as it doesn't exist in firmware
+    //TODO: Add None to firmware and add None back in
 	QuadEncoder = 0,
 	//1
 	Analog = 2,
@@ -31,8 +31,8 @@ enum FeedbackDevice {
 };
 
 enum RemoteFeedbackDevice  {
-	RemoteFeedbackDevice_None = -1,
-
+    //NOTE: RemoteFeedbackDevice_None was removed as it doesn't exist in firmware
+    //TODO: Add RemoteFeedbackDevice_None to firmware and add RemoteFeedbackDevice_None back in
 	RemoteFeedbackDevice_SensorSum = 9,
 	RemoteFeedbackDevice_SensorDifference = 10,
 	RemoteFeedbackDevice_RemoteSensor0 = 11,
@@ -45,7 +45,6 @@ class FeedbackDeviceRoutines {
 public:
     static std::string toString(FeedbackDevice value) {
         switch(value) {
-            case None : return "None";
             case QuadEncoder : return "QuadEncoder";
             case Analog : return "Analog";
             case Tachometer : return "Tachometer";
@@ -63,7 +62,11 @@ public:
 
     static std::string toString(RemoteFeedbackDevice value) {
         switch(value) {
-            case RemoteFeedbackDevice_None : return "RemoteFeedbackDevice_None";
+            
+            #pragma GCC diagnostic push
+            #pragma GCC diagnostic ignored "-Wswitch"
+            case 0 : return "None (factory default value)";
+            #pragma GCC diagnostic pop
             case RemoteFeedbackDevice_SensorSum : return "RemoteFeedbackDevice_SensorSum";
             case RemoteFeedbackDevice_SensorDifference : return "RemoteFeedbackDevice_SensorDifference";
             case RemoteFeedbackDevice_RemoteSensor0 : return "RemoteFeedbackDevice_RemoteSensor0";

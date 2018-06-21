@@ -16,8 +16,10 @@ struct VictorSPXPIDSetConfiguration : BasePIDSetConfiguration {
 	RemoteFeedbackDevice selectedFeedbackSensor;
 
 	VictorSPXPIDSetConfiguration() :
-		selectedFeedbackSensor(RemoteFeedbackDevice_None) //Check with victor
-	{
+		selectedFeedbackSensor(RemoteFeedbackDevice_RemoteSensor0) 
+        //NOTE: while the factory default value is 0, this value can't
+        //be set by the API. Thus, RemoteSensor0 is the default
+	{                                                              
 	}
     std::string toString(std::string prependString) {
 
@@ -39,12 +41,14 @@ struct VictorSPXConfiguration : BaseMotorControllerConfiguration {
 	RemoteFeedbackDevice diff_1;
 
 	VictorSPXConfiguration() :
-		forwardLimitSwitchSource(RemoteLimitSwitchSource_Deactivated), //Check with victor
+		forwardLimitSwitchSource(RemoteLimitSwitchSource_Deactivated), 
 		reverseLimitSwitchSource(RemoteLimitSwitchSource_Deactivated),
-		sum_0 (RemoteFeedbackDevice_None),
-		sum_1 (RemoteFeedbackDevice_None),
-		diff_0(RemoteFeedbackDevice_None),
-		diff_1(RemoteFeedbackDevice_None)
+		sum_0 (RemoteFeedbackDevice_RemoteSensor0), 
+		sum_1 (RemoteFeedbackDevice_RemoteSensor0), 
+		diff_0(RemoteFeedbackDevice_RemoteSensor0),
+		diff_1(RemoteFeedbackDevice_RemoteSensor0)
+        //NOTE: while the factory default value is 0, this value can't
+        //be set by the API. Thus, RemoteSensor0 is the default
 
 	{
 	}	

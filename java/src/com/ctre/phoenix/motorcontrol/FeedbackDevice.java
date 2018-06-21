@@ -3,9 +3,10 @@ package com.ctre.phoenix.motorcontrol;
 import java.util.HashMap;
 
 public enum FeedbackDevice {
-	None(-1),
-
-	QuadEncoder(0),
+    //NOTE: None was removed as it doesn't exist in firmware
+    //TODO: Add None to firmware and add None back in
+	
+    QuadEncoder(0),
 	Analog(2),
 	Tachometer(4),
 	PulseWidthEncodedPosition(8),
@@ -46,7 +47,6 @@ public enum FeedbackDevice {
     }
     public String toString() {
         switch(value) {
-            case -1: return "FeedbackDevice.None";
             case 0 : return "FeedbackDevice.QuadEncoder";
             case 2 : return "FeedbackDevice.Analog";
             case 4 : return "FeedbackDevice.Tachometer";

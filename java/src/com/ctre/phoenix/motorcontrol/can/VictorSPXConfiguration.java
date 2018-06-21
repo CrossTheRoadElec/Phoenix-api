@@ -22,10 +22,12 @@ public class VictorSPXConfiguration extends com.ctre.phoenix.motorcontrol.can.Ba
         
         forwardLimitSwitchSource = RemoteLimitSwitchSource.Deactivated;
         reverseLimitSwitchSource = RemoteLimitSwitchSource.Deactivated;
-        sum_0 = RemoteFeedbackDevice.None;
-        sum_1 = RemoteFeedbackDevice.None;
-        diff_0 = RemoteFeedbackDevice.None;
-        diff_1 = RemoteFeedbackDevice.None;
+        sum_0 =  RemoteFeedbackDevice.RemoteSensor0; 
+        sum_1 =  RemoteFeedbackDevice.RemoteSensor0;
+        diff_0 = RemoteFeedbackDevice.RemoteSensor0;
+        diff_1 = RemoteFeedbackDevice.RemoteSensor0;
+        //NOTE: while the factory default value is 0, this value can't 
+        //be set by the API. Thus, RemoteSensor0 is the default
 
 	}
     public String toString(String prependString) {
