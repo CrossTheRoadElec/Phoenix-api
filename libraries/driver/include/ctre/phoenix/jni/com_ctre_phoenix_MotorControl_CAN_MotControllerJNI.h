@@ -65,6 +65,14 @@ JNIEXPORT void JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_S
 
 /*
  * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
+ * Method:    ConfigFactoryDefault
+ * Signature: (JDI)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_motorcontrol_can_MotControllerJNI_ConfigFactoryDefault
+  (JNIEnv *, jclass, jlong, jint);
+
+/*
+ * Class:     com_ctre_phoenix_motorcontrol_can_MotControllerJNI
  * Method:    ConfigOpenLoopRamp
  * Signature: (JDI)I
  */

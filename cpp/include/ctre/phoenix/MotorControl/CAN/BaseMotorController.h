@@ -73,6 +73,8 @@ public:
 	virtual void SetSensorPhase(bool PhaseSensor);
 	virtual void SetInverted(bool invert);
 	virtual bool GetInverted() const;
+	//----- Factory Default Configuration -----//
+	virtual ctre::phoenix::ErrorCode ConfigFactoryDefault(int timeoutMs);
 	//----- general output shaping ------------------//
 	virtual ctre::phoenix::ErrorCode ConfigOpenloopRamp(double secondsFromNeutralToFull,
 			int timeoutMs);
