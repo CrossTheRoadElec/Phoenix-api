@@ -50,14 +50,9 @@ namespace phoenix {
 namespace sensors {
 
 struct PigeonIMUConfiguration : CustomParamConfiguration{
-	bool temperatureCompensationDisable;
-	PigeonIMUConfiguration() :
-		temperatureCompensationDisable(false)
-	{
-	}
+	PigeonIMUConfiguration() {}
     std::string toString(std::string prependString) {
-        std::string retstr = prependString + ".temperatureCompensationDisable = " + std::to_string(temperatureCompensationDisable) + ";\n";
-        retstr += CustomParamConfiguration::toString(prependString);
+        std::string retstr = CustomParamConfiguration::toString(prependString);
 
         return retstr;
     }
@@ -191,7 +186,7 @@ public:
     int ConfigTemperatureCompensationEnable(bool bTempCompEnable,
 			int timeoutMs = 0);
 
-	int ConfigTemperatureCompensationDisable(bool bTempCompEnable,
+	int SetTemperatureCompensationDisable(bool bTempCompEnable,
 			int timeoutMs = 0);
 	int SetCompassDeclination(double angleDegOffset, int timeoutMs = 0);
 	int SetCompassAngle(double angleDeg, int timeoutMs = 0);
