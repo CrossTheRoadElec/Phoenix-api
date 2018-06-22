@@ -49,6 +49,10 @@ public:
     }
     static std::string toString(RemoteLimitSwitchSource value) {
         switch(value) {
+            #pragma GCC diagnostic push
+            #pragma GCC diagnostic ignored "-Wswitch"
+            case 0 : return "None (factory default value)";
+            #pragma GCC diagnostic pop
             case RemoteLimitSwitchSource_RemoteTalonSRX : return "RemoteLimitSwitchSource_RemoteTalonSRX";
             case RemoteLimitSwitchSource_RemoteCANifier : return "RemoteLimitSwitchSource_RemoteCANifier";
             case RemoteLimitSwitchSource_Deactivated : return "RemoteLimitSwitchSource_Deactivated";
