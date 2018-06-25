@@ -38,6 +38,12 @@ extern "C"{
 	ctre::phoenix::ErrorCode c_CANifier_GetQuadratureSensor(void *handle, int * pos, int * vel);
 	ctre::phoenix::ErrorCode c_CANifier_ConfigVelocityMeasurementPeriod(void *handle, int period, int timeoutMs);
 	ctre::phoenix::ErrorCode c_CANifier_ConfigVelocityMeasurementWindow(void *handle, int window, int timeoutMs);
+    ctre::phoenix::ErrorCode c_CANifier_ConfigClearPositionOnLimitF(void *handle,
+            bool clearPositionOnLimitF, int timeoutMs);
+    ctre::phoenix::ErrorCode c_CANifier_ConfigClearPositionOnLimitR(void *handle,
+            bool clearPositionOnLimitR, int timeoutMs);
+    ctre::phoenix::ErrorCode c_CANifier_ConfigClearPositionOnQuadIdx(void *handle,
+            bool clearPositionOnQuadIdx, int timeoutMs);
 	void c_CANifier_SetLastError(void *handle, int error);
 	ctre::phoenix::ErrorCode c_CANifier_ConfigSetParameter(void *handle, int param, double value, int subValue, int ordinal, int timeoutMs);
 	ctre::phoenix::ErrorCode c_CANifier_ConfigGetParameter(void *handle, int param, double *value, int ordinal, int timeoutMs);

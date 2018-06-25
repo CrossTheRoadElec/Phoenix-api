@@ -114,6 +114,9 @@ public:
 	ErrorCode ConfigVelocityMeasurementPeriod(
 			CANifierVelocityMeasPeriod period, int timeoutMs = 0);
 	ErrorCode ConfigVelocityMeasurementWindow(int windowSize, int timeoutMs = 0);
+	ErrorCode ConfigClearPositionOnLimitF (bool clearPositionOnLimitF, int timeoutMs = 0);
+	ErrorCode ConfigClearPositionOnLimitR (bool clearPositionOnLimitR, int timeoutMs = 0);
+	ErrorCode ConfigClearPositionOnQuadIdx(bool clearPositionOnQuadIdx, int timeoutMs = 0);
 	/**
 	 * Gets the bus voltage seen by the motor controller.
 	 *

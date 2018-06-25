@@ -172,7 +172,19 @@ public:
 	virtual ErrorCode ClearMotionProfileHasUnderrun(int timeoutMs = 0)= 0;
 	virtual ErrorCode ChangeMotionControlFramePeriod(int periodMs)= 0;
 	virtual ErrorCode ConfigMotionProfileTrajectoryPeriod(int baseTrajDurationMs, int timeoutMs = 0)=0;
-	//------ error ----------//
+    
+    //------Feedback Device Interaction Settings---------//
+    virtual ErrorCode ConfigFeedbackNotContinuous(bool feedbackNotContinuous, int timeoutMs = 0) = 0;
+    virtual ErrorCode ConfigRemoteSensorClosedLoopDisableNeutralOnLOS(bool remoteSensorClosedLoopDisableNeutralOnLOS, int timeoutMs = 0) = 0;
+    virtual ErrorCode ConfigClearPositionOnLimitF(bool clearPositionOnLimitF, int timeoutMs = 0) = 0;
+    virtual ErrorCode ConfigClearPositionOnLimitR(bool clearPositionOnLimitR, int timeoutMs = 0) = 0;
+    virtual ErrorCode ConfigClearPositionOnQuadIdx(bool clearPositionOnQuadIdx, int timeoutMs = 0) = 0;
+    virtual ErrorCode ConfigLimitSwitchDisableNeutralOnLOS(bool limitSwitchDisableNeutralOnLOS, int timeoutMs = 0) = 0;
+    virtual ErrorCode ConfigSoftLimitDisableNeutralOnLOS(bool foftLimitDisableNeutralOnLOS, int timeoutMs = 0) = 0;
+    virtual ErrorCode ConfigPulseWidthPeriod_EdgesPerRot(int pulseWidthPeriod_EdgesPerRot, int timeoutMs = 0) = 0;
+    virtual ErrorCode ConfigPulseWidthPeriod_FilterWindowSz(int pulseWidthPeriod_FilterWindowSz, int timeoutMs = 0) = 0;
+	
+    //------ error ----------//
 	virtual ErrorCode GetLastError() = 0;
 
 	//------ Faults ----------//

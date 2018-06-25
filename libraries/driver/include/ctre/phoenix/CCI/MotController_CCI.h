@@ -89,7 +89,25 @@ ctre::phoenix::ErrorCode c_MotController_PushMotionProfileTrajectory_2(
 			int periodMs);
 	ctre::phoenix::ErrorCode c_MotController_ConfigMotionProfileTrajectoryPeriod(
 			void *handle, int durationMs, int timeoutMs);
-	ctre::phoenix::ErrorCode c_MotController_GetLastError(void *handle);
+    ctre::phoenix::ErrorCode c_MotController_ConfigFeedbackNotContinuous(void *handle,
+            bool feedbackNotContinuous, int timeoutMs);
+    ctre::phoenix::ErrorCode c_MotController_ConfigRemoteSensorClosedLoopDisableNeutralOnLOS(void *handle,
+            bool remoteSensorClosedLoopDisableNeutralOnLOS, int timeoutMs);
+    ctre::phoenix::ErrorCode c_MotController_ConfigClearPositionOnLimitF(void *handle,
+            bool clearPositionOnLimitF, int timeoutMs);
+    ctre::phoenix::ErrorCode c_MotController_ConfigClearPositionOnLimitR(void *handle,
+            bool clearPositionOnLimitR, int timeoutMs);
+    ctre::phoenix::ErrorCode c_MotController_ConfigClearPositionOnQuadIdx(void *handle,
+            bool clearPositionOnQuadIdx, int timeoutMs);
+    ctre::phoenix::ErrorCode c_MotController_ConfigLimitSwitchDisableNeutralOnLOS(void *handle,
+            bool limitSwitchDisableNeutralOnLOS, int timeoutMs);
+    ctre::phoenix::ErrorCode c_MotController_ConfigSoftLimitDisableNeutralOnLOS(void *handle,
+            bool softLimitDisableNeutralOnLOS, int timeoutMs);
+    ctre::phoenix::ErrorCode c_MotController_ConfigPulseWidthPeriod_EdgesPerRot(void *handle,
+            int pulseWidthPeriod_EdgesPerRot, int timeoutMs);
+    ctre::phoenix::ErrorCode c_MotController_ConfigPulseWidthPeriod_FilterWindowSz(void *handle,
+            int pulseWidthPeriod_FilterWindowSz, int timeoutMs);
+    ctre::phoenix::ErrorCode c_MotController_GetLastError(void *handle);
 	ctre::phoenix::ErrorCode c_MotController_GetFirmwareVersion(void *handle, int *);
 	ctre::phoenix::ErrorCode c_MotController_HasResetOccurred(void *handle,bool *);
 	ctre::phoenix::ErrorCode c_MotController_ConfigSetCustomParam(void *handle, int newValue, int paramIndex, int timeoutMs);

@@ -190,6 +190,16 @@ public:
 	ErrorCode ConfigMotionCruiseVelocity(int sensorUnitsPer100ms, int timeoutMs);
 	ErrorCode ConfigMotionAcceleration(int sensorUnitsPer100msPerSec, int timeoutMs);
 
+    ErrorCode ConfigFeedbackNotContinuous(bool feedbackNotContinuous, int timeoutMs);
+    ErrorCode ConfigRemoteSensorClosedLoopDisableNeutralOnLOS(bool remoteSensorClosedLoopDisableNeutralOnLOS, int timeoutMs);
+    ErrorCode ConfigClearPositionOnLimitF(bool clearPositionOnLimitF, int timeoutMs);
+    ErrorCode ConfigClearPositionOnLimitR(bool clearPositionOnLimitR, int timeoutMs);
+    ErrorCode ConfigClearPositionOnQuadIdx(bool clearPositionOnQuadIdx, int timeoutMs);
+    ErrorCode ConfigLimitSwitchDisableNeutralOnLOS(bool limitSwitchDisableNeutralOnLOS, int timeoutMs);
+    ErrorCode ConfigSoftLimitDisableNeutralOnLOS(bool softLimitDisableNeutralOnLOS, int timeoutMs);
+    ErrorCode ConfigPulseWidthPeriod_EdgesPerRot(int pulseWidthPeriod_EdgesPerRot, int timeoutMs);
+    ErrorCode ConfigPulseWidthPeriod_FilterWindowSz(int pulseWidthPeriod_FilterWindowSz, int timeoutMs);
+
 	ErrorCode GetClosedLoopTarget(int & value, int pidIdx);
 	ErrorCode GetActiveTrajectoryPosition(int & sensorUnits);
 	ErrorCode GetActiveTrajectoryVelocity(int & sensorUnitsPer100ms);
