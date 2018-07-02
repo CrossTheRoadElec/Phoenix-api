@@ -281,10 +281,10 @@ public class CANifier {
 	/**
 	 * Gets the PWM Input
 	 * @param pwmChannel  PWM channel to get.
-	 * @param dutyCycleAndPeriod	Double array to hold Duty Cycle [0] and Period [1].
+	 * @param pulseWidthAndPeriod	Double array to hold Duty Cycle [0] and Period [1].
 	 */
-	public void getPWMInput(PWMChannel pwmChannel, double[] dutyCycleAndPeriod) {
-		CANifierJNI.JNI_GetPWMInput(m_handle, pwmChannel.value, dutyCycleAndPeriod);
+	public void getPWMInput(PWMChannel pwmChannel, double[] pulseWidthAndPeriod) {
+		CANifierJNI.JNI_GetPWMInput(m_handle, pwmChannel.value, pulseWidthAndPeriod);
 	}
 	
 	/**

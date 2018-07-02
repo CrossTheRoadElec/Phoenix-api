@@ -62,7 +62,7 @@
 
 	public static native boolean JNI_GetGeneralInput(long handl, int inputPin);
 
-	public static native void JNI_GetPWMInput(long handle, int pwmChannel, double dutyCycleAndPeriod[]);
+	public static native void JNI_GetPWMInput(long handle, int pwmChannel, double pulseWidthAndPeriod[]);
 
 	public static native int JNI_GetLastError(long handle);
 

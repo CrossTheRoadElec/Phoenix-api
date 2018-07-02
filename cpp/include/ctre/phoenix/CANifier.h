@@ -90,7 +90,7 @@ public:
 	ErrorCode GetLastError();
 	ErrorCode SetPWMOutput(int pwmChannel, double dutyCycle);
 	ErrorCode EnablePWMOutput(int pwmChannel, bool bEnable);
-	ErrorCode GetPWMInput(PWMChannel pwmChannel, double dutyCycleAndPeriod[]);
+	ErrorCode GetPWMInput(PWMChannel pwmChannel, double pulseWidthAndPeriod[]);
 
 	//------ Custom Persistent Params ----------//
 	ErrorCode ConfigSetCustomParam(int newValue, int paramIndex,
