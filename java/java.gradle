@@ -29,10 +29,10 @@ sourceSets {
 dependencies {
     compile sourceSets.user.output
     runtime sourceSets.user.output
-    compile wpilibjDep
-    runtime wpilibjDep
-    compile javaNetTablesDep
-    runtime javaNetTablesDep
+    //compile wpilibjDep
+    //runtime wpilibjDep
+    //compile javaNetTablesDep
+    //runtime javaNetTablesDep
     compile fileTree(dir: javaLibraryLoc, include: ['*.jar'])
     runtime fileTree(dir: javaLibraryLoc, include: ['*.jar'])
 }
@@ -61,7 +61,7 @@ jar {
  */
 task jniHeaders {
     description = 'Generates JNI headers'
-    group = 'WPILib'
+    //group = 'WPILib'
     def outputFolder = file(generatedJNIHeaderLoc)
     inputs.files sourceSets.main.output
     outputs.file outputFolder

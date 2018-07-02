@@ -61,9 +61,9 @@ ext.debugStripSetup = {
                 def library = task.outputFile.absolutePath
                 def debugLibrary = task.outputFile.absolutePath + ".debug"
                 task.doLast {
-                    exec { commandLine binTools('objcopy'), '--only-keep-debug', library, debugLibrary }
-                    exec { commandLine binTools('strip'), '-g', library }
-                    exec { commandLine binTools('objcopy'), "--add-gnu-debuglink=$debugLibrary", library }
+                    //exec { commandLine binTools('objcopy'), '--only-keep-debug', library, debugLibrary }
+                    //exec { commandLine binTools('strip'), '-g', library }
+                    //exec { commandLine binTools('objcopy'), "--add-gnu-debuglink=$debugLibrary", library }
                 }
             }
         }

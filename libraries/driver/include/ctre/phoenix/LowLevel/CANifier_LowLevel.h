@@ -31,7 +31,7 @@
 #include "ctre/phoenix/CANifierStatusFrame.h"
 #include "ctre/phoenix/CANifierStickyFaults.h"
 #include "ctre/phoenix/CANifierVelocityMeasPeriod.h"
-#include <FRC_NetworkCommunication/CANSessionMux.h>  //CAN Comm
+//#include <FRC_NetworkCommunication/CANSessionMux.h>  //CAN Comm
 #include <map>
 
 /** 

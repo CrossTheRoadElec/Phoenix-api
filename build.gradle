@@ -2,7 +2,6 @@ import org.gradle.internal.os.OperatingSystem
 
 plugins {
     id 'net.ltgt.errorprone' version '0.0.8'
-    id 'edu.wpi.first.wpilib.versioning.WPILibVersioningPlugin' version '2.0'
 }
 
 allprojects {
@@ -11,13 +10,7 @@ allprojects {
     }
 }
 
-if (!hasProperty('releaseType')) {
-    WPILibVersion {
-        releaseType = 'dev'
-    }
-}
-
-ext.compilerPrefixToUse = project.hasProperty('compilerPrefix') ? project.compilerPrefix : 'arm-frc-linux-gnueabi-'
+ext.compilerPrefixToUse = project.hasProperty('compilerPrefix') ? project.compilerPrefix : 'bin/gcc-'
 
 ext.setupDefines = { project, binaries ->
     binaries.all {
@@ -67,16 +60,16 @@ ext.addUserLinks = { linker, targetPlatform, implLib ->
      
     // Add all arguments
     String architecture = targetPlatform.architecture
-    if (architecture.contains('arm')){
-        linker.args << '-L' + libraryPath
-        linker.args.addAll(libraryArgs)
-    }
+    //if (architecture.contains('arm')){
+    //    linker.args << '-L' + libraryPath
+    //    linker.args.addAll(libraryArgs)
+    //}
 }
 
 apply from: "properties.gradle"
 apply from: "options.gradle"
 
-apply from: wpiDeps
+//apply from: wpiDeps
 
 apply from: "cpp.gradle"
 
@@ -97,5 +90,5 @@ clean {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '3.3'
+    gradleVersion = '4.8'
 }

@@ -15,7 +15,7 @@ enum ParamEnum
 	eQuadIdxPolarity=108,
 	eClearPositionOnIdx = 100,
     eMotionProfileHasUnderrunErr = 119,
-    eMotionProfileTrajectoryPointDurationMs = 120,
+    eMotionProfileTrajectoryPointDurationMs = 120, //motionProfileTrajectoryPeriod
 	eClearPosOnLimitF = 144,
 	eClearPosOnLimitR = 145,
 
@@ -52,7 +52,7 @@ enum ParamEnum
 	eRemoteSensorDeviceID = 334, // [0,62] DeviceID
 	eSensorTerm = 335, // feedbackDevice_t (ordinal is the register)
 	eRemoteSensorClosedLoopDisableNeutralOnLOS = 336,
-	ePIDLoopPolarity = 337,
+	ePIDLoopPolarity = 337, //auxPIDPolarity
 	ePIDLoopPeriod = 338,
 	eSelectedSensorCoefficient = 339,
 
@@ -61,8 +61,8 @@ enum ParamEnum
 	eForwardSoftLimitEnable = 342,
 	eReverseSoftLimitEnable = 343,
 
-	eNominalBatteryVoltage = 350,
-	eBatteryVoltageFilterSize = 351,
+	eNominalBatteryVoltage = 350, //voltageCompSaturation
+	eBatteryVoltageFilterSize = 351, //voltageMeasurementFilter
 
 	eContinuousCurrentLimitAmps = 360,
 	ePeakCurrentLimitMs = 361,
@@ -109,6 +109,8 @@ enum ParamEnum
 	eMotionMeas_shake_reject_thresh = 178,
 	eMotionMeas_shake_reject_time = 179,
 	eMotionMeas_shake_reject_timeout = 180,
+
+	eDefaultConfig = 500,
 };
 
 }

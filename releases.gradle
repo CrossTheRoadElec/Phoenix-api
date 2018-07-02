@@ -261,7 +261,11 @@ task doc(type: Exec){
 	doFirst{
 		mkdir "${releaseDir}/cpp/docs"
 	}
-	commandLine 'powershell', 'doxygen ctrlib.doxy'
+	//commandLine "sudo doxygen ctrlib.doxy"
+    
+    executable "doxygen"
+    args "ctrlib.doxy"
+    //Fix?
 }
 
 

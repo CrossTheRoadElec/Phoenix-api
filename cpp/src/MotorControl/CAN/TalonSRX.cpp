@@ -1,6 +1,6 @@
 #include "ctre/phoenix/MotorControl/CAN/TalonSRX.h"
 #include "ctre/phoenix/CCI/MotController_CCI.h"
-#include "HAL/HAL.h"
+//#include "HAL/HAL.h"
 
 using namespace ctre::phoenix;
 using namespace ctre::phoenix::motorcontrol::can;
@@ -12,7 +12,7 @@ using namespace ctre::phoenix::motorcontrol;
  */
 TalonSRX::TalonSRX(int deviceNumber) :
 		BaseMotorController(deviceNumber | 0x02040000) {
-			HAL_Report(HALUsageReporting::kResourceType_CANTalonSRX, deviceNumber + 1);
+			//HAL_Report(HALUsageReporting::kResourceType_CANTalonSRX, deviceNumber + 1);
 }
 /**
  * Select the feedback device for the motor controller.

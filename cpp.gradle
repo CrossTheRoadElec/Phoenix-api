@@ -1,27 +1,27 @@
-defineWpiUtilProperties()
-if (wpiDeps == "wpi-dependencies-2018.gradle"){defineNIProperties()}
-defineHALProperties()
-defineNetworkTablesProperties()
-defineWpiLibProperties()
+//defineWpiUtilProperties()
+//if (wpiDeps == "wpi-dependencies-2018.gradle"){defineNIProperties()}
+//defineHALProperties()
+//defineNetworkTablesProperties()
+//defineWpiLibProperties()
 //defineCsCoreProperties()
 
 def cppSetupModel = { project ->
     project.model {
         components {
             CTRE_Phoenix(NativeLibrarySpec) {
-                targetPlatform 'arm'
+                //targetPlatform 'arm'
                 setupDefines(project, binaries)
 
                 binaries.all {
                     tasks.withType(CppCompile) {
-                        cppCompiler.args << "-DNAMESPACED_WPILIB" << "-Werror" << "-Wall"
+                        cppCompiler.args /*<< "-DNAMESPACED_WPILIB"*/ << "-Werror" << "-Wall" << "-std=c++11"
                         addUserLinks(linker, targetPlatform, false)
-                        addHalLibraryLinks(it, linker, targetPlatform)
-                        addWpiUtilLibraryLinks(it, linker, targetPlatform)
-                        addNetworkTablesLibraryLinks(it, linker, targetPlatform)
-                        addWpilibLibraryLinks(it, linker, targetPlatform)
+                        //addHalLibraryLinks(it, linker, targetPlatform)
+                        //addWpiUtilLibraryLinks(it, linker, targetPlatform)
+                        //addNetworkTablesLibraryLinks(it, linker, targetPlatform)
+                        //addWpilibLibraryLinks(it, linker, targetPlatform)
 //						addCsCoreLibraryLinks(it, linker, targetPlatform)
-						if (wpiDeps == "wpi-dependencies-2018.gradle"){addNILibraryLinks(it, linker, targetPlatform)}
+//						if (wpiDeps == "wpi-dependencies-2018.gradle"){addNILibraryLinks(it, linker, targetPlatform)}
                     }
                 }
 
@@ -32,7 +32,7 @@ def cppSetupModel = { project ->
                             includes = ["**/*.cpp"]
                         }
                         exportedHeaders {
-                            srcDirs = [cppInclude, driverLibraryInclude, cppLibraryInclude, wpilibInclude, halInclude, wpiUtilInclude, netTablesInclude, NIInclude]
+                            srcDirs = [cppInclude, driverLibraryInclude, cppLibraryInclude/*, wpilibInclude, halInclude, wpiUtilInclude, netTablesInclude, NIInclude*/]
                             includes = ['**/*.h']
                         }
                     }

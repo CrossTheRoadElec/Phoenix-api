@@ -4,7 +4,14 @@
 #include "ctre/phoenix/ErrorCode.h"
 #include "ctre/phoenix/paramEnum.h"
 #include "ctre/phoenix/LowLevel/ResetStats.h"
-#include <FRC_NetworkCommunication/CANSessionMux.h>  // tCANStreamMessage
+//#include <FRC_NetworkCommunication/CANSessionMux.h>  // tCANStreamMessage
+
+struct tCANStreamMessage{   //Copied from https://github.com/wpilibsuite/allwpilib/blob/master/ni-libraries/include/FRC_NetworkCommunication/CANSessionMux.h#L31-L36
+    uint32_t messageID;
+    uint32_t timeStamp;
+    uint8_t data[8];
+    uint8_t dataSize;
+};
 
 class Device_LowLevel {
 
