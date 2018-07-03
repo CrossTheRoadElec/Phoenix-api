@@ -87,6 +87,28 @@ public:
 
 	ErrorCode SetQuadraturePosition(int newPosition, int timeoutMs);
 
+    /**
+     * Change the quadrature reported position based on pulse width. This can be used to 
+     * effectively make quadrature absolute. For rotary mechanisms with >360 movement (such
+     * as typical swerve modules) bookend0 and bookend1 can be both set to 0 and 
+     * bCrossZeroOnInterval can be set to true. For mechanisms with less than 360 travel (such
+     * as arms), bookend0 and bookend1 should be set to the pulse width values at the two 
+     * extremes. If the interval crosses over the pulse width value of 0 (or any multiple of
+     * 4096), bCrossZeroOnInterval should be true and otherwise should be false. An offset can
+     * also be set.
+     *
+     * @param   bookend0    value at extreme 0
+     * @param   bookend1    value at extreme 1
+     * @param   bCrossZeroOnInterval    value at extreme 1
+     * @param   offset      (Optional) Value to add to pulse width 
+     * @param   timeoutMs   (Optional) How long to wait for confirmation.  Pass zero so that call
+     *                      does not block.
+     *
+     * @return  error code.
+     */
+    
+    ErrorCode SyncQuadratureWithPulseWidth(int bookend0, int bookend1, bool bCrossZeroOnInterval, int offset = 0, int timeoutMs = 0);
+ 
 	/**
 	 * Get the quadrature velocity, regardless of whether
 	 *   it is actually being used for feedback.
