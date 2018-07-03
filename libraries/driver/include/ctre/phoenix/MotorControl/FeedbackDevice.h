@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ctre/phoenix/ErrorCode.h"
+#include <string>
 
 namespace ctre {
 namespace phoenix {
@@ -8,8 +9,8 @@ namespace motorcontrol {
 
 /** Motor controller with gadgeteer connector. */
 enum FeedbackDevice {
-	None = -1,
-
+    //NOTE: None was removed as it doesn't exist in firmware
+    //TODO: Add None to firmware and add None back in
 	QuadEncoder = 0,
 	//1
 	Analog = 2,
@@ -30,8 +31,8 @@ enum FeedbackDevice {
 };
 
 enum RemoteFeedbackDevice  {
-	RemoteFeedbackDevice_None = -1,
-
+    //NOTE: RemoteFeedbackDevice_None was removed as it doesn't exist in firmware
+    //TODO: Add RemoteFeedbackDevice_None to firmware and add RemoteFeedbackDevice_None back in
 	RemoteFeedbackDevice_SensorSum = 9,
 	RemoteFeedbackDevice_SensorDifference = 10,
 	RemoteFeedbackDevice_RemoteSensor0 = 11,
@@ -40,7 +41,42 @@ enum RemoteFeedbackDevice  {
 	//14
 	RemoteFeedbackDevice_SoftwareEmulatedSensor = 15,
 };
+class FeedbackDeviceRoutines {
+public:
+    static std::string toString(FeedbackDevice value) {
+        switch(value) {
+            case QuadEncoder : return "QuadEncoder";
+            case Analog : return "Analog";
+            case Tachometer : return "Tachometer";
+            case PulseWidthEncodedPosition : return "PulseWidthEncodedPosition";
+            case SensorSum : return "SensorSum";
+            case SensorDifference : return "SensorDifference";
+            case RemoteSensor0 : return "RemoteSensor0";
+            case RemoteSensor1 : return "RemoteSensor1";
+            case SoftwareEmulatedSensor : return "SoftwareEmulatedSensor";
+            default : return "InvalidValue";
 
+        }
+
+    }
+
+    static std::string toString(RemoteFeedbackDevice value) {
+        switch(value) {
+            
+            #pragma GCC diagnostic push
+            #pragma GCC diagnostic ignored "-Wswitch"
+            case 0 : return "None (factory default value)";
+            #pragma GCC diagnostic pop
+            case RemoteFeedbackDevice_SensorSum : return "RemoteFeedbackDevice_SensorSum";
+            case RemoteFeedbackDevice_SensorDifference : return "RemoteFeedbackDevice_SensorDifference";
+            case RemoteFeedbackDevice_RemoteSensor0 : return "RemoteFeedbackDevice_RemoteSensor0";
+            case RemoteFeedbackDevice_RemoteSensor1 : return "RemoteFeedbackDevice_RemoteSensor1";
+            case RemoteFeedbackDevice_SoftwareEmulatedSensor : return "RemoteFeedbackDevice_SoftwareEmulatedSensor";
+            default : return "InvalidValue";
+        }
+
+    }
+};
 } // namespace motorcontrol
 } // namespace phoenix
 } // namespace ctre

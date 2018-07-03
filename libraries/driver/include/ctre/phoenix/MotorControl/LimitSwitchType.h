@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 namespace ctre {
 namespace phoenix {
 namespace motorcontrol {
@@ -29,6 +31,45 @@ public:
 			RemoteLimitSwitchSource limitSwitchSource) {
 		return (LimitSwitchSource) limitSwitchSource;
 	}
+	//Checks if a limit switch is a one of the remote values 
+	//(i.e. RemoteTalonSRX or RemoteCANifier)
+	static bool IsRemote(LimitSwitchSource limitSwitchSource)
+	{
+		return limitSwitchSource > 0 && limitSwitchSource < 3;
+	}
+    static std::string toString(LimitSwitchSource value) {
+        switch(value) {
+            case LimitSwitchSource_FeedbackConnector : return "LimitSwitchSource_FeedbackConnector";
+            case LimitSwitchSource_RemoteTalonSRX : return "LimitSwitchSource_RemoteTalonSRX";
+            case LimitSwitchSource_RemoteCANifier : return "LimitSwitchSource_RemoteCANifier";
+            case LimitSwitchSource_Deactivated : return "LimitSwitchSource_Deactivated";
+            default : return "InvalidValue";
+        }
+
+    }
+    static std::string toString(RemoteLimitSwitchSource value) {
+        switch(value) {
+            #pragma GCC diagnostic push
+            #pragma GCC diagnostic ignored "-Wswitch"
+            case 0 : return "None (factory default value)";
+            #pragma GCC diagnostic pop
+            case RemoteLimitSwitchSource_RemoteTalonSRX : return "RemoteLimitSwitchSource_RemoteTalonSRX";
+            case RemoteLimitSwitchSource_RemoteCANifier : return "RemoteLimitSwitchSource_RemoteCANifier";
+            case RemoteLimitSwitchSource_Deactivated : return "RemoteLimitSwitchSource_Deactivated";
+            default : return "InvalidValue";
+        }
+
+    }
+    static std::string toString(LimitSwitchNormal value) {
+        switch(value) {
+            case LimitSwitchNormal_NormallyOpen : return "LimitSwitchNormal_NormallyOpen";
+            case LimitSwitchNormal_NormallyClosed : return "LimitSwitchNormal_NormallyClosed";
+            case LimitSwitchNormal_Disabled : return "LimitSwitchNormal_Disabled";
+            default : return "InvalidValue";
+        }
+
+    }
+
 };
 } // namespace motorcontrol
 } // namespace phoenix

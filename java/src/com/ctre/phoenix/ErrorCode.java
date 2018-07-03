@@ -74,10 +74,10 @@ public enum ErrorCode {
 
 	//---------------------- Integral To Enum operators -----------//
     public final int value; //!< Hold the integral value of an enum instance.
-    /** Keep singleton map to quickly lookup enum via int */
-    private static HashMap<Integer, ErrorCode> _map = null;
     /** private c'tor for above declarations */
 	private ErrorCode(int initValue) {this.value = initValue;	}
+    /** Keep singleton map to quickly lookup enum via int */
+    private static HashMap<Integer, ErrorCode> _map = null;
 	/** static c'tor, prepare the map */
     static {
     	_map = new HashMap<Integer, ErrorCode>();

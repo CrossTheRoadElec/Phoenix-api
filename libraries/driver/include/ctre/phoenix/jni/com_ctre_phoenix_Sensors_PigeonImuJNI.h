@@ -121,10 +121,10 @@ JNIEXPORT jint JNICALL Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1SetAccumZ
 
 /*
  * Class:     com_ctre_phoenix_sensors_PigeonImuJNI
- * Method:    JNI_ConfigTemperatureCompensationEnable
+ * Method:    JNI_SetTemperatureCompensationEnable
  * Signature: (JII)I
  */
-JNIEXPORT jint JNICALL Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1ConfigTemperatureCompensationEnable
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_sensors_PigeonImuJNI_JNI_1SetTemperatureCompensationEnable
   (JNIEnv *, jclass, jlong, jint, jint);
 
 /*

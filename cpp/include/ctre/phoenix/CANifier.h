@@ -4,6 +4,7 @@
 
 #include <cstdint>
 #include "ctre/phoenix/LowLevel/CANBusAddressable.h"
+#include "ctre/phoenix/CustomParamConfiguration.h"
 #include "ctre/phoenix/ErrorCode.h"
 #include "ctre/phoenix/paramEnum.h"
 #include "ctre/phoenix/CANifierControlFrame.h"
@@ -13,11 +14,43 @@
 #include "ctre/phoenix/CANifierVelocityMeasPeriod.h"
 
 namespace ctre {namespace phoenix {
+	
 	/**
 	 * CTRE CANifier
 	 *
 	 * Device for interfacing common devices to the CAN bus.
 	 */
+
+struct CANifierConfiguration : CustomParamConfiguration{
+    CANifierVelocityMeasPeriod velocityMeasurementPeriod;
+	int velocityMeasurementWindow;
+    bool clearPositionOnLimitF;
+    bool clearPositionOnLimitR;
+    bool clearPositionOnQuadIdx;
+	CANifierConfiguration() : 
+		velocityMeasurementPeriod(Period_100Ms), 
+		velocityMeasurementWindow(64), 	
+	    clearPositionOnLimitF(false),
+        clearPositionOnLimitR(false),
+        clearPositionOnQuadIdx(false)
+    {
+	}
+    std::string toString(std::string prependString) {
+
+        std::string retstr = prependString + ".velocityMeasurementPeriod = " + CANifierVelocityMeasPeriodRoutines::toString(velocityMeasurementPeriod) + ";\n";
+        retstr += prependString + ".velocityMeasurementWindow = " + std::to_string(velocityMeasurementWindow) + ";\n";
+        retstr += prependString + ".clearPositionOnLimitF = " + std::to_string(clearPositionOnLimitF) + ";\n";
+        retstr += prependString + ".clearPositionOnLimitR = " + std::to_string(clearPositionOnLimitR) + ";\n";
+        retstr += prependString + ".clearPositionOnQuadIdx = " + std::to_string(clearPositionOnQuadIdx) + ";\n";
+        
+        retstr += CustomParamConfiguration::toString(prependString);
+
+        return retstr;
+    }
+
+};// struct CANifierConfiguration
+
+
 class CANifier: public CANBusAddressable {
 public:
 	/**
@@ -77,10 +110,13 @@ public:
 	bool GetGeneralInput(GeneralPin inputPin);
 	int GetQuadraturePosition();
 	int GetQuadratureVelocity();
-	ErrorCode SetQuadraturePosition(int newPosition, int timeoutMs);
+	ErrorCode SetQuadraturePosition(int newPosition, int timeoutMs = 0);
 	ErrorCode ConfigVelocityMeasurementPeriod(
-			CANifierVelocityMeasPeriod period, int timeoutMs);
-	ErrorCode ConfigVelocityMeasurementWindow(int windowSize, int timeoutMs);
+			CANifierVelocityMeasPeriod period, int timeoutMs = 0);
+	ErrorCode ConfigVelocityMeasurementWindow(int windowSize, int timeoutMs = 0);
+	ErrorCode ConfigClearPositionOnLimitF (bool clearPositionOnLimitF, int timeoutMs = 0);
+	ErrorCode ConfigClearPositionOnLimitR (bool clearPositionOnLimitR, int timeoutMs = 0);
+	ErrorCode ConfigClearPositionOnQuadIdx(bool clearPositionOnQuadIdx, int timeoutMs = 0);
 	/**
 	 * Gets the bus voltage seen by the motor controller.
 	 *
@@ -94,17 +130,17 @@ public:
 
 	//------ Custom Persistent Params ----------//
 	ErrorCode ConfigSetCustomParam(int newValue, int paramIndex,
-			int timeoutMs);
+			int timeoutMs = 0);
 	int ConfigGetCustomParam(int paramIndex,
-			int timeoutMs);
+			int timeoutMs = 0);
 	//------ Generic Param API, typically not used ----------//
 	ErrorCode ConfigSetParameter(ParamEnum param, double value,
-			uint8_t subValue, int ordinal, int timeoutMs);
-	double ConfigGetParameter(ParamEnum param, int ordinal, int timeoutMs);
+			uint8_t subValue, int ordinal, int timeoutMs = 0);
+	double ConfigGetParameter(ParamEnum param, int ordinal, int timeoutMs = 0);
 
 
 	ErrorCode SetStatusFramePeriod(CANifierStatusFrame statusFrame,
-			int periodMs, int timeoutMs);
+			int periodMs, int timeoutMs = 0);
 	/**
 	 * Gets the period of the given status frame.
 	 *
@@ -114,7 +150,7 @@ public:
 	 *            Timeout value in ms. @see #ConfigOpenLoopRamp
 	 * @return Period of the given status frame.
 	 */
-	int GetStatusFramePeriod(CANifierStatusFrame frame, int timeoutMs);
+	int GetStatusFramePeriod(CANifierStatusFrame frame, int timeoutMs = 0);
 	ErrorCode SetControlFramePeriod(CANifierControlFrame frame, int periodMs);
 	/**
 	 * Gets the firmware version of the device.
@@ -130,11 +166,19 @@ public:
 	bool HasResetOccurred();
 	ErrorCode GetFaults(CANifierFaults & toFill);
 	ErrorCode GetStickyFaults(CANifierStickyFaults & toFill);
-	ErrorCode ClearStickyFaults(int timeoutMs);
+	ErrorCode ClearStickyFaults(int timeoutMs = 0);
+	
+	//------ All Configs ----------//
+    ctre::phoenix::ErrorCode ConfigAllSettings(const CANifierConfiguration &allConfigs, int timeoutMs = 50);
+    void GetAllConfigs(CANifierConfiguration &allConfigs, int timeoutMs = 50);
+    ErrorCode ConfigFactoryDefault(int timeoutMs = 50);
+
 
 private:
 	void* m_handle;
 	bool _tempPins[11];
-};
-}}
+};// class CANifier 
+
+} // namespace phoenix
+} // namespace ctre
 #endif // CTR_EXCLUDE_WPILIB_CLASSES
