@@ -10,7 +10,7 @@ allprojects {
     }
 }
 
-ext.compilerPrefixToUse = project.hasProperty('compilerPrefix') ? project.compilerPrefix : 'bin/gcc-'
+ext.compilerPrefixToUse = project.hasProperty('compilerPrefix') ? project.compilerPrefix : 'arm-linux-gnueabihf-'
 
 ext.setupDefines = { project, binaries ->
     binaries.all {

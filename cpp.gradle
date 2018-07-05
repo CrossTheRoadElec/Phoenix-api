@@ -9,7 +9,7 @@ def cppSetupModel = { project ->
     project.model {
         components {
             CTRE_Phoenix(NativeLibrarySpec) {
-                //targetPlatform 'arm'
+                targetPlatform 'arm'
                 setupDefines(project, binaries)
 
                 binaries.all {
