@@ -7,6 +7,7 @@ import com.ctre.phoenix.ErrorCollection;
 import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motorcontrol.SensorTerm;
 import com.ctre.phoenix.motorcontrol.RemoteFeedbackDevice;
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.RemoteLimitSwitchSource;
 
 import edu.wpi.first.wpilibj.hal.HAL;
@@ -163,6 +164,10 @@ public class VictorSPX extends com.ctre.phoenix.motorcontrol.can.BaseMotorContro
     
         allConfigs.forwardLimitSwitchSource = RemoteLimitSwitchSource.valueOf(configGetParameter(ParamEnum.eLimitSwitchSource, 0, timeoutMs));
         allConfigs.reverseLimitSwitchSource = RemoteLimitSwitchSource.valueOf(configGetParameter(ParamEnum.eLimitSwitchSource, 1, timeoutMs));
+        allConfigs.forwardLimitSwitchDeviceID = (int) configGetParameter(ParamEnum.eLimitSwitchRemoteDevID, 0, timeoutMs);
+        allConfigs.reverseLimitSwitchDeviceID = (int) configGetParameter(ParamEnum.eLimitSwitchRemoteDevID, 1, timeoutMs);
+        allConfigs.forwardLimitSwitchNormal = LimitSwitchNormal.valueOf(configGetParameter(ParamEnum.eLimitSwitchNormClosedAndDis, 0, timeoutMs));
+        allConfigs.reverseLimitSwitchNormal = LimitSwitchNormal.valueOf(configGetParameter(ParamEnum.eLimitSwitchNormClosedAndDis, 1, timeoutMs));
     
     }
     /**

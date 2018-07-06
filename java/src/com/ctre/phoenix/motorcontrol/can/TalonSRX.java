@@ -422,6 +422,10 @@ public class TalonSRX extends com.ctre.phoenix.motorcontrol.can.BaseMotorControl
     
         allConfigs.forwardLimitSwitchSource = LimitSwitchSource.valueOf(configGetParameter(ParamEnum.eLimitSwitchSource, 0, timeoutMs));
         allConfigs.reverseLimitSwitchSource = LimitSwitchSource.valueOf(configGetParameter(ParamEnum.eLimitSwitchSource, 1, timeoutMs));
+        allConfigs.forwardLimitSwitchDeviceID = (int) configGetParameter(ParamEnum.eLimitSwitchRemoteDevID, 0, timeoutMs);
+        allConfigs.reverseLimitSwitchDeviceID = (int) configGetParameter(ParamEnum.eLimitSwitchRemoteDevID, 1, timeoutMs);
+        allConfigs.forwardLimitSwitchNormal = LimitSwitchNormal.valueOf(configGetParameter(ParamEnum.eLimitSwitchNormClosedAndDis, 0, timeoutMs));
+        allConfigs.reverseLimitSwitchNormal = LimitSwitchNormal.valueOf(configGetParameter(ParamEnum.eLimitSwitchNormClosedAndDis, 1, timeoutMs));
         allConfigs.peakCurrentLimit        = (int) configGetParameter(ParamEnum.ePeakCurrentLimitAmps, 0, timeoutMs);
         allConfigs.peakCurrentDuration     = (int) configGetParameter(ParamEnum.ePeakCurrentLimitMs, 0, timeoutMs);
         allConfigs.continuousCurrentLimit  = (int) configGetParameter(ParamEnum.eContinuousCurrentLimitAmps, 0, timeoutMs);

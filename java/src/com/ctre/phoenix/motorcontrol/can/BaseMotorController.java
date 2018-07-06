@@ -2257,10 +2257,10 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
     
         //--------Slots---------------//
     
-        errorCollection.NewError(configureSlot(allConfigs.slot_0, 0, timeoutMs));
-        errorCollection.NewError(configureSlot(allConfigs.slot_1, 1, timeoutMs));
-        errorCollection.NewError(configureSlot(allConfigs.slot_2, 2, timeoutMs));
-        errorCollection.NewError(configureSlot(allConfigs.slot_3, 3, timeoutMs));
+        errorCollection.NewError(configureSlot(allConfigs.slot0, 0, timeoutMs));
+        errorCollection.NewError(configureSlot(allConfigs.slot1, 1, timeoutMs));
+        errorCollection.NewError(configureSlot(allConfigs.slot2, 2, timeoutMs));
+        errorCollection.NewError(configureSlot(allConfigs.slot3, 3, timeoutMs));
         
     
         //---------Auxilary Closed Loop Polarity-------------//
@@ -2269,8 +2269,8 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
         
     
         //----------Remote Feedback Filters----------//
-        errorCollection.NewError(configureFilter(allConfigs.filter_0, 0, timeoutMs));
-        errorCollection.NewError(configureFilter(allConfigs.filter_1, 1, timeoutMs));
+        errorCollection.NewError(configureFilter(allConfigs.filter0, 0, timeoutMs));
+        errorCollection.NewError(configureFilter(allConfigs.filter1, 1, timeoutMs));
         
     
         //------ Motion Profile Settings used in Motion Magic  ----------//
@@ -2497,24 +2497,20 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
         allConfigs.voltageMeasurementFilter = (int) configGetParameter(ParamEnum.eBatteryVoltageFilterSize, 0, timeoutMs);
         allConfigs.velocityMeasurementPeriod = VelocityMeasPeriod.valueOf(configGetParameter(ParamEnum.eSampleVelocityPeriod, 0, timeoutMs));
         allConfigs.velocityMeasurementWindow = (int) configGetParameter(ParamEnum.eSampleVelocityWindow, 0, timeoutMs);
-        allConfigs.forwardLimitSwitchDeviceID = (int) configGetParameter(ParamEnum.eLimitSwitchRemoteDevID, 0, timeoutMs);
-        allConfigs.reverseLimitSwitchDeviceID = (int) configGetParameter(ParamEnum.eLimitSwitchRemoteDevID, 1, timeoutMs);
-        allConfigs.forwardLimitSwitchNormal = LimitSwitchNormal.valueOf(configGetParameter(ParamEnum.eLimitSwitchNormClosedAndDis, 0, timeoutMs));
-        allConfigs.reverseLimitSwitchNormal = LimitSwitchNormal.valueOf(configGetParameter(ParamEnum.eLimitSwitchNormClosedAndDis, 1, timeoutMs));
         allConfigs.forwardSoftLimitThreshold = (int) configGetParameter(ParamEnum.eForwardSoftLimitThreshold, 0, timeoutMs);
         allConfigs.reverseSoftLimitThreshold = (int) configGetParameter(ParamEnum.eReverseSoftLimitThreshold, 0, timeoutMs);
         allConfigs.forwardSoftLimitEnable = configGetParameter(ParamEnum.eForwardSoftLimitEnable, 0, timeoutMs) != 0.0;
         allConfigs.reverseSoftLimitEnable = configGetParameter(ParamEnum.eReverseSoftLimitEnable, 0, timeoutMs) != 0.0; //Note, fix in firmware
     
-        getSlotConfigs(allConfigs.slot_0, 0, timeoutMs);
-        getSlotConfigs(allConfigs.slot_1, 1, timeoutMs);
-        getSlotConfigs(allConfigs.slot_2, 2, timeoutMs);
-        getSlotConfigs(allConfigs.slot_3, 3, timeoutMs);
+        getSlotConfigs(allConfigs.slot0, 0, timeoutMs);
+        getSlotConfigs(allConfigs.slot1, 1, timeoutMs);
+        getSlotConfigs(allConfigs.slot2, 2, timeoutMs);
+        getSlotConfigs(allConfigs.slot3, 3, timeoutMs);
     
         allConfigs.auxPIDPolarity = configGetParameter(ParamEnum.ePIDLoopPolarity, 1, timeoutMs) != 0.0;
     
-        getFilterConfigs(allConfigs.filter_0, 0, timeoutMs);
-        getFilterConfigs(allConfigs.filter_1, 1, timeoutMs);
+        getFilterConfigs(allConfigs.filter0, 0, timeoutMs);
+        getFilterConfigs(allConfigs.filter1, 1, timeoutMs);
     
         allConfigs.motionCruiseVelocity = (int) configGetParameter(ParamEnum.eMotMag_VelCruise, 0, timeoutMs);
         allConfigs.motionAcceleration = (int) configGetParameter(ParamEnum.eMotMag_Accel, 0, timeoutMs);

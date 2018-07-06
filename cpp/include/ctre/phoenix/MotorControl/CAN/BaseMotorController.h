@@ -129,21 +129,17 @@ struct BaseMotorControllerConfiguration : ctre::phoenix::CustomParamConfiguratio
 	int voltageMeasurementFilter;
     VelocityMeasPeriod velocityMeasurementPeriod; 
 	int velocityMeasurementWindow; 
-	int forwardLimitSwitchDeviceID; //Limit Switch device id isn't used unless device is a remote
-	int reverseLimitSwitchDeviceID;
-	LimitSwitchNormal forwardLimitSwitchNormal;
-	LimitSwitchNormal reverseLimitSwitchNormal;
 	int forwardSoftLimitThreshold; 
 	int reverseSoftLimitThreshold; 
 	bool forwardSoftLimitEnable; 
 	bool reverseSoftLimitEnable; 
-	SlotConfiguration slot_0;
-	SlotConfiguration slot_1;
-	SlotConfiguration slot_2;
-	SlotConfiguration slot_3;
+	SlotConfiguration slot0;
+	SlotConfiguration slot1;
+	SlotConfiguration slot2;
+	SlotConfiguration slot3;
 	bool auxPIDPolarity; 
-	FilterConfiguration filter_0;
-	FilterConfiguration filter_1;
+	FilterConfiguration remoteFilter0;
+	FilterConfiguration remoteFilter1;
     int motionCruiseVelocity; 
 	int motionAcceleration; 
 	int motionProfileTrajectoryPeriod; 
@@ -169,10 +165,6 @@ struct BaseMotorControllerConfiguration : ctre::phoenix::CustomParamConfiguratio
         voltageMeasurementFilter(32),
         velocityMeasurementPeriod(Period_100Ms),
         velocityMeasurementWindow(64),
-        forwardLimitSwitchDeviceID(0),
-        reverseLimitSwitchDeviceID(0),
-        forwardLimitSwitchNormal(LimitSwitchNormal_NormallyOpen), 
-        reverseLimitSwitchNormal(LimitSwitchNormal_NormallyOpen), 
         forwardSoftLimitThreshold(0),
         reverseSoftLimitThreshold(0), 
         forwardSoftLimitEnable(false),
@@ -206,21 +198,17 @@ struct BaseMotorControllerConfiguration : ctre::phoenix::CustomParamConfiguratio
         retstr += prependString + ".voltageMeasurementFilter = " + std::to_string(voltageMeasurementFilter) + ";\n";
         retstr += prependString + ".velocityMeasurementPeriod = " + VelocityMeasPeriodRoutines::toString(velocityMeasurementPeriod) + ";\n"; 
         retstr += prependString + ".velocityMeasurementWindow = " + std::to_string(velocityMeasurementWindow) + ";\n"; 
-        retstr += prependString + ".forwardLimitSwitchDeviceID = " + std::to_string(forwardLimitSwitchDeviceID) + ";\n";
-        retstr += prependString + ".reverseLimitSwitchDeviceID = " + std::to_string(reverseLimitSwitchDeviceID) + ";\n";
-        retstr += prependString + ".forwardLimitSwitchNormal = " + LimitSwitchRoutines::toString(forwardLimitSwitchNormal) + ";\n";
-        retstr += prependString + ".reverseLimitSwitchNormal = " + LimitSwitchRoutines::toString(reverseLimitSwitchNormal) + ";\n";
         retstr += prependString + ".forwardSoftLimitThreshold = " + std::to_string(forwardSoftLimitThreshold) + ";\n"; 
         retstr += prependString + ".reverseSoftLimitThreshold = " + std::to_string(reverseSoftLimitThreshold) + ";\n"; 
         retstr += prependString + ".forwardSoftLimitEnable = " + std::to_string(forwardSoftLimitEnable) + ";\n"; 
         retstr += prependString + ".reverseSoftLimitEnable = " + std::to_string(reverseSoftLimitEnable) + ";\n"; 
-        retstr += slot_0.toString(prependString + ".slot_0");
-        retstr += slot_1.toString(prependString + ".slot_1");
-        retstr += slot_2.toString(prependString + ".slot_2");
-        retstr += slot_3.toString(prependString + ".slot_3");
+        retstr += slot0.toString(prependString + ".slot0");
+        retstr += slot1.toString(prependString + ".slot1");
+        retstr += slot2.toString(prependString + ".slot2");
+        retstr += slot3.toString(prependString + ".slot3");
         retstr += prependString + ".auxPIDPolarity = " + std::to_string(auxPIDPolarity) + ";\n"; 
-        retstr += filter_0.toString(prependString + ".filter_0");
-        retstr += filter_1.toString(prependString + ".filter_1");
+        retstr += remoteFilter0.toString(prependString + ".remoteFilter0");
+        retstr += remoteFilter1.toString(prependString + ".remoteFilter1");
         retstr += prependString + ".motionCruiseVelocity = " + std::to_string(motionCruiseVelocity) + ";\n"; 
         retstr += prependString + ".motionAcceleration = " + std::to_string(motionAcceleration) + ";\n"; 
         retstr += prependString + ".motionProfileTrajectoryPeriod = " + std::to_string(motionProfileTrajectoryPeriod) + ";\n"; 

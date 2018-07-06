@@ -35,20 +35,28 @@ struct TalonSRXConfiguration : BaseMotorControllerConfiguration{
 	TalonSRXPIDSetConfiguration auxilaryPID;
 	LimitSwitchSource forwardLimitSwitchSource;
 	LimitSwitchSource reverseLimitSwitchSource;
-    FeedbackDevice sum_0;
-	FeedbackDevice sum_1;
-	FeedbackDevice diff_0;
-	FeedbackDevice diff_1;
+	int forwardLimitSwitchDeviceID; //Limit Switch device id isn't used unless device is a remote
+	int reverseLimitSwitchDeviceID;
+	LimitSwitchNormal forwardLimitSwitchNormal;
+	LimitSwitchNormal reverseLimitSwitchNormal;
+    FeedbackDevice sum0Term;
+	FeedbackDevice sum1Term;
+	FeedbackDevice diff0Term;
+	FeedbackDevice diff1Term;
 	int peakCurrentLimit; 
     int peakCurrentDuration;
     int continuousCurrentLimit; 
     TalonSRXConfiguration() :
 		forwardLimitSwitchSource(LimitSwitchSource_FeedbackConnector),
 		reverseLimitSwitchSource(LimitSwitchSource_FeedbackConnector),
-		sum_0 (QuadEncoder),
-		sum_1 (QuadEncoder),
-		diff_0(QuadEncoder),
-		diff_1(QuadEncoder),
+        forwardLimitSwitchDeviceID(0),
+        reverseLimitSwitchDeviceID(0),
+        forwardLimitSwitchNormal(LimitSwitchNormal_NormallyOpen), 
+        reverseLimitSwitchNormal(LimitSwitchNormal_NormallyOpen), 
+		sum0Term (QuadEncoder),
+		sum1Term (QuadEncoder),
+		diff0Term(QuadEncoder),
+		diff1Term(QuadEncoder),
         peakCurrentLimit(1),
 		peakCurrentDuration(1), 
 		continuousCurrentLimit(1)
@@ -61,10 +69,14 @@ struct TalonSRXConfiguration : BaseMotorControllerConfiguration{
 	    retstr += auxilaryPID.toString(prependString + ".auxilaryPID");
 	    retstr += prependString + ".forwardLimitSwitchSource = " + LimitSwitchRoutines::toString(forwardLimitSwitchSource) + ";\n";
 	    retstr += prependString + ".reverseLimitSwitchSource = " + LimitSwitchRoutines::toString(reverseLimitSwitchSource) + ";\n";
-	    retstr += prependString + ".sum_0 = " + FeedbackDeviceRoutines::toString(sum_0) + ";\n";
-	    retstr += prependString + ".sum_1 = " + FeedbackDeviceRoutines::toString(sum_1) + ";\n";
-	    retstr += prependString + ".diff_0 = " + FeedbackDeviceRoutines::toString(diff_0) + ";\n";
-	    retstr += prependString + ".diff_1 = " + FeedbackDeviceRoutines::toString(diff_1) + ";\n";
+        retstr += prependString + ".forwardLimitSwitchDeviceID = " + std::to_string(forwardLimitSwitchDeviceID) + ";\n";
+        retstr += prependString + ".reverseLimitSwitchDeviceID = " + std::to_string(reverseLimitSwitchDeviceID) + ";\n";
+        retstr += prependString + ".forwardLimitSwitchNormal = " + LimitSwitchRoutines::toString(forwardLimitSwitchNormal) + ";\n";
+        retstr += prependString + ".reverseLimitSwitchNormal = " + LimitSwitchRoutines::toString(reverseLimitSwitchNormal) + ";\n";
+	    retstr += prependString + ".sum0Term = " + FeedbackDeviceRoutines::toString(sum0Term) + ";\n";
+	    retstr += prependString + ".sum1Term = " + FeedbackDeviceRoutines::toString(sum1Term) + ";\n";
+	    retstr += prependString + ".diff0Term = " + FeedbackDeviceRoutines::toString(diff0Term) + ";\n";
+	    retstr += prependString + ".diff1Term = " + FeedbackDeviceRoutines::toString(diff1Term) + ";\n";
 	    retstr += prependString + ".peakCurrentLimit = " + std::to_string(peakCurrentLimit) + ";\n"; 
         retstr += prependString + ".peakCurrentDuration = " + std::to_string(peakCurrentDuration) + ";\n";
         retstr += prependString + ".continuousCurrentLimit = " + std::to_string(continuousCurrentLimit) + ";\n"; 

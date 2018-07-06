@@ -19,21 +19,17 @@ public abstract class BaseMotorControllerConfiguration extends CustomParamConfig
     public int voltageMeasurementFilter;
     public VelocityMeasPeriod velocityMeasurementPeriod;
     public int velocityMeasurementWindow;
-    public int forwardLimitSwitchDeviceID; //Limit Switch device id isn't used unless device is a remote
-    public int reverseLimitSwitchDeviceID;
-    public LimitSwitchNormal forwardLimitSwitchNormal;
-    public LimitSwitchNormal reverseLimitSwitchNormal;
     public int forwardSoftLimitThreshold;
     public int reverseSoftLimitThreshold;
     public boolean forwardSoftLimitEnable;
     public boolean reverseSoftLimitEnable;
-    public SlotConfiguration slot_0;
-    public SlotConfiguration slot_1;
-    public SlotConfiguration slot_2;
-    public SlotConfiguration slot_3;
+    public SlotConfiguration slot0;
+    public SlotConfiguration slot1;
+    public SlotConfiguration slot2;
+    public SlotConfiguration slot3;
     public boolean auxPIDPolarity;
-    public FilterConfiguration filter_0;
-    public FilterConfiguration filter_1;
+    public FilterConfiguration filter0;
+    public FilterConfiguration filter1;
     public int motionCruiseVelocity;
     public int motionAcceleration;
     public int motionProfileTrajectoryPeriod;
@@ -49,13 +45,13 @@ public abstract class BaseMotorControllerConfiguration extends CustomParamConfig
 
 
 	public BaseMotorControllerConfiguration() { 
-        slot_0 = new SlotConfiguration();
-        slot_1 = new SlotConfiguration();
-        slot_2 = new SlotConfiguration();
-        slot_3 = new SlotConfiguration();
+        slot0 = new SlotConfiguration();
+        slot1 = new SlotConfiguration();
+        slot2 = new SlotConfiguration();
+        slot3 = new SlotConfiguration();
 
-        filter_0 = new FilterConfiguration();
-        filter_1 = new FilterConfiguration();
+        filter0 = new FilterConfiguration();
+        filter1 = new FilterConfiguration();
 
         openloopRamp = 0.0;
         closedloopRamp = 0.0;
@@ -68,10 +64,6 @@ public abstract class BaseMotorControllerConfiguration extends CustomParamConfig
         voltageMeasurementFilter = 32;
         velocityMeasurementPeriod = VelocityMeasPeriod.Period_100Ms;
         velocityMeasurementWindow = 64;
-        forwardLimitSwitchDeviceID = 0;
-        reverseLimitSwitchDeviceID = 0;
-        forwardLimitSwitchNormal = LimitSwitchNormal.NormallyOpen;
-        reverseLimitSwitchNormal = LimitSwitchNormal.NormallyOpen;
         forwardSoftLimitThreshold = 0;
         reverseSoftLimitThreshold = 0;
         forwardSoftLimitEnable = false;
@@ -105,21 +97,17 @@ public abstract class BaseMotorControllerConfiguration extends CustomParamConfig
         retstr += prependString + ".voltageMeasurementFilter = " + String.valueOf(voltageMeasurementFilter) + ";\n";
         retstr += prependString + ".velocityMeasurementPeriod = " + velocityMeasurementPeriod.toString() + ";\n";
         retstr += prependString + ".velocityMeasurementWindow = " + String.valueOf(velocityMeasurementWindow) + ";\n";
-        retstr += prependString + ".forwardLimitSwitchDeviceID = " + String.valueOf(forwardLimitSwitchDeviceID) + ";\n";
-        retstr += prependString + ".reverseLimitSwitchDeviceID = " + String.valueOf(reverseLimitSwitchDeviceID) + ";\n";
-        retstr += prependString + ".forwardLimitSwitchNormal = " + forwardLimitSwitchNormal.toString() + ";\n";
-        retstr += prependString + ".reverseLimitSwitchNormal = " + reverseLimitSwitchNormal.toString() + ";\n";
         retstr += prependString + ".forwardSoftLimitThreshold = " + String.valueOf(forwardSoftLimitThreshold) + ";\n";
         retstr += prependString + ".reverseSoftLimitThreshold = " + String.valueOf(reverseSoftLimitThreshold) + ";\n";
         retstr += prependString + ".forwardSoftLimitEnable = " + String.valueOf(forwardSoftLimitEnable) + ";\n";
         retstr += prependString + ".reverseSoftLimitEnable = " + String.valueOf(reverseSoftLimitEnable) + ";\n";
-        retstr += slot_0.toString(prependString + ".slot_0");
-        retstr += slot_1.toString(prependString + ".slot_1");
-        retstr += slot_2.toString(prependString + ".slot_2");
-        retstr += slot_3.toString(prependString + ".slot_3");
+        retstr += slot0.toString(prependString + ".slot0");
+        retstr += slot1.toString(prependString + ".slot1");
+        retstr += slot2.toString(prependString + ".slot2");
+        retstr += slot3.toString(prependString + ".slot3");
         retstr += prependString + ".auxPIDPolarity = " + String.valueOf(auxPIDPolarity) + ";\n";
-        retstr += filter_0.toString(prependString + ".filter_0");
-        retstr += filter_1.toString(prependString + ".filter_1");
+        retstr += filter0.toString(prependString + ".filter0");
+        retstr += filter1.toString(prependString + ".filter1");
         retstr += prependString + ".motionCruiseVelocity = " + String.valueOf(motionCruiseVelocity) + ";\n";
         retstr += prependString + ".motionAcceleration = " + String.valueOf(motionAcceleration) + ";\n";
         retstr += prependString + ".motionProfileTrajectoryPeriod = " + String.valueOf(motionProfileTrajectoryPeriod) + ";\n";

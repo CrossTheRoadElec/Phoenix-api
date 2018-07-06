@@ -206,7 +206,7 @@ ErrorCode CANifier::ConfigClearPositionOnLimitR(bool clearPositionOnLimitR, int 
  * Enables clearing the position of the feedback sensor when the quadrature index signal
  * is detected
  *
- * @param clearPositionOnQuadidx    Whether clearing is enabled, defaults false
+ * @param clearPositionOnQuadIdx    Whether clearing is enabled, defaults false
  * @param timeoutMs
  *            Timeout value in ms. If nonzero, function will wait for
  *            config success and report an error if it times out.

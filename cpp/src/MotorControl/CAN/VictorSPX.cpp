@@ -75,13 +75,13 @@ ErrorCode VictorSPX::ConfigAllSettings(const VictorSPXConfiguration &allConfigs,
         
     errorCollection.NewError(ConfigurePID(allConfigs.auxilaryPID, 1, timeoutMs));
         
-    errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Sum0, allConfigs.sum_0, timeoutMs));
+    errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Sum0, allConfigs.sum0Term, timeoutMs));
         
-    errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Sum1, allConfigs.sum_1, timeoutMs));
+    errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Sum1, allConfigs.sum1Term, timeoutMs));
         
-    errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Diff0, allConfigs.diff_0, timeoutMs));
+    errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Diff0, allConfigs.diff0Term, timeoutMs));
         
-    errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Diff1, allConfigs.diff_1, timeoutMs));
+    errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Diff1, allConfigs.diff1Term, timeoutMs));
         
 	
     return errorCollection._worstError;
@@ -101,13 +101,17 @@ void VictorSPX::GetAllConfigs(VictorSPXConfiguration &allConfigs, int timeoutMs)
 	
 	GetPIDConfigs(allConfigs.primaryPID, 0, timeoutMs);
 	GetPIDConfigs(allConfigs.auxilaryPID, 1, timeoutMs);
-    allConfigs.sum_0 = (RemoteFeedbackDevice) ConfigGetParameter(eSensorTerm, 0, timeoutMs);
-    allConfigs.sum_1 = (RemoteFeedbackDevice) ConfigGetParameter(eSensorTerm, 1, timeoutMs);
-    allConfigs.diff_0 = (RemoteFeedbackDevice) ConfigGetParameter(eSensorTerm, 2, timeoutMs);
-    allConfigs.diff_1 = (RemoteFeedbackDevice) ConfigGetParameter(eSensorTerm, 3, timeoutMs);
+    allConfigs.sum0Term = (RemoteFeedbackDevice) ConfigGetParameter(eSensorTerm, 0, timeoutMs);
+    allConfigs.sum1Term = (RemoteFeedbackDevice) ConfigGetParameter(eSensorTerm, 1, timeoutMs);
+    allConfigs.diff0Term = (RemoteFeedbackDevice) ConfigGetParameter(eSensorTerm, 2, timeoutMs);
+    allConfigs.diff1Term = (RemoteFeedbackDevice) ConfigGetParameter(eSensorTerm, 3, timeoutMs);
 
 	allConfigs.forwardLimitSwitchSource = (RemoteLimitSwitchSource) ConfigGetParameter(eLimitSwitchSource, 0, timeoutMs);
 	allConfigs.reverseLimitSwitchSource = (RemoteLimitSwitchSource) ConfigGetParameter(eLimitSwitchSource, 1, timeoutMs);
+	allConfigs.forwardLimitSwitchDeviceID = (int) ConfigGetParameter(eLimitSwitchRemoteDevID, 0, timeoutMs);
+	allConfigs.reverseLimitSwitchDeviceID = (int) ConfigGetParameter(eLimitSwitchRemoteDevID, 1, timeoutMs);
+	allConfigs.forwardLimitSwitchNormal = (LimitSwitchNormal) ConfigGetParameter(eLimitSwitchNormClosedAndDis, 0, timeoutMs);
+	allConfigs.reverseLimitSwitchNormal = (LimitSwitchNormal) ConfigGetParameter(eLimitSwitchNormClosedAndDis, 1, timeoutMs);
 
 }
 

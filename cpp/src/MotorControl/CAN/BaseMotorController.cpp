@@ -405,7 +405,7 @@ ErrorCode BaseMotorController::ConfigVoltageCompSaturation(double voltage,
  * Configures the voltage measurement filter.
  *
  * @param filterWindowSamples
- *            Number of samples in the rolling average of voltage
+ *            Number of samples in the rolling average of battery voltage
  *            measurement.
  * @param timeoutMs
  *            Timeout value in ms. If nonzero, function will wait for
@@ -2074,18 +2074,18 @@ ctre::phoenix::ErrorCode BaseMotorController::BaseConfigAllSettings(const BaseMo
 
     //--------Slots---------------//
 
-    errorCollection.NewError(ConfigureSlot(allConfigs.slot_0, 0, timeoutMs));
-    errorCollection.NewError(ConfigureSlot(allConfigs.slot_1, 1, timeoutMs));
-    errorCollection.NewError(ConfigureSlot(allConfigs.slot_2, 2, timeoutMs));
-    errorCollection.NewError(ConfigureSlot(allConfigs.slot_3, 3, timeoutMs));
+    errorCollection.NewError(ConfigureSlot(allConfigs.slot0, 0, timeoutMs));
+    errorCollection.NewError(ConfigureSlot(allConfigs.slot1, 1, timeoutMs));
+    errorCollection.NewError(ConfigureSlot(allConfigs.slot2, 2, timeoutMs));
+    errorCollection.NewError(ConfigureSlot(allConfigs.slot3, 3, timeoutMs));
     
     //---------Auxilary Closed Loop Polarity-------------//
 
     errorCollection.NewError(ConfigAuxPIDPolarity(allConfigs.auxPIDPolarity, timeoutMs));
     
     //----------Remote Feedback Filters----------//
-    errorCollection.NewError(ConfigureFilter(allConfigs.filter_0, 0, timeoutMs));
-    errorCollection.NewError(ConfigureFilter(allConfigs.filter_1, 1, timeoutMs));
+    errorCollection.NewError(ConfigureFilter(allConfigs.remoteFilter0, 0, timeoutMs));
+    errorCollection.NewError(ConfigureFilter(allConfigs.remoteFilter1, 1, timeoutMs));
     
     //------ Motion Profile Settings used in Motion Magic  ----------//
     errorCollection.NewError(ConfigMotionCruiseVelocity(allConfigs.motionCruiseVelocity, timeoutMs));
@@ -2133,24 +2133,20 @@ void BaseMotorController::BaseGetAllConfigs(BaseMotorControllerConfiguration &al
 	allConfigs.voltageMeasurementFilter = (int) ConfigGetParameter(eBatteryVoltageFilterSize, 0, timeoutMs);
 	allConfigs.velocityMeasurementPeriod = (VelocityMeasPeriod) ConfigGetParameter(eSampleVelocityPeriod, 0, timeoutMs);
 	allConfigs.velocityMeasurementWindow = (int) ConfigGetParameter(eSampleVelocityWindow, 0, timeoutMs);
-	allConfigs.forwardLimitSwitchDeviceID = (int) ConfigGetParameter(eLimitSwitchRemoteDevID, 0, timeoutMs);
-	allConfigs.reverseLimitSwitchDeviceID = (int) ConfigGetParameter(eLimitSwitchRemoteDevID, 1, timeoutMs);
-	allConfigs.forwardLimitSwitchNormal = (LimitSwitchNormal) ConfigGetParameter(eLimitSwitchNormClosedAndDis, 0, timeoutMs);
-	allConfigs.reverseLimitSwitchNormal = (LimitSwitchNormal) ConfigGetParameter(eLimitSwitchNormClosedAndDis, 1, timeoutMs);
 	allConfigs.forwardSoftLimitThreshold = (int) ConfigGetParameter(eForwardSoftLimitThreshold, 0, timeoutMs);
 	allConfigs.reverseSoftLimitThreshold = (int) ConfigGetParameter(eReverseSoftLimitThreshold, 0, timeoutMs);
 	allConfigs.forwardSoftLimitEnable = (bool) ConfigGetParameter(eForwardSoftLimitEnable, 0, timeoutMs);
 	allConfigs.reverseSoftLimitEnable = (bool) ConfigGetParameter(eReverseSoftLimitEnable, 0, timeoutMs);
 	
-	GetSlotConfigs(allConfigs.slot_0, 0, timeoutMs);	
-	GetSlotConfigs(allConfigs.slot_1, 1, timeoutMs);	
-	GetSlotConfigs(allConfigs.slot_2, 2, timeoutMs);	
-	GetSlotConfigs(allConfigs.slot_3, 3, timeoutMs);	
+	GetSlotConfigs(allConfigs.slot0, 0, timeoutMs);	
+	GetSlotConfigs(allConfigs.slot1, 1, timeoutMs);	
+	GetSlotConfigs(allConfigs.slot2, 2, timeoutMs);	
+	GetSlotConfigs(allConfigs.slot3, 3, timeoutMs);	
 
 	allConfigs.auxPIDPolarity = (bool) ConfigGetParameter(ePIDLoopPolarity, 1, timeoutMs);
 
-    GetFilterConfigs(allConfigs.filter_0, 0, timeoutMs);
-    GetFilterConfigs(allConfigs.filter_1, 1, timeoutMs);
+    GetFilterConfigs(allConfigs.remoteFilter0, 0, timeoutMs);
+    GetFilterConfigs(allConfigs.remoteFilter1, 1, timeoutMs);
 
     allConfigs.motionCruiseVelocity = (int) ConfigGetParameter(eMotMag_VelCruise, 0, timeoutMs);
 	allConfigs.motionAcceleration = (int) ConfigGetParameter(eMotMag_Accel, 0, timeoutMs);
