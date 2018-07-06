@@ -1,7 +1,7 @@
 ext.isArm = true
 ext.buildPlatform = 'arm'
 
-def compilerPrefix = project.hasProperty('compilerPrefix') ? project.compilerPrefix : 'arm-frc-linux-gnueabi-'
+def compilerPrefix = project.hasProperty('compilerPrefix') ? project.compilerPrefix : 'bin/gcc'
 def toolChainPath = project.hasProperty('toolChainPath') ? project.toolChainPath : null
 model {
     platforms {
