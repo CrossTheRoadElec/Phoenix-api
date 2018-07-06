@@ -60,10 +60,10 @@ ext.addUserLinks = { linker, targetPlatform, implLib ->
      
     // Add all arguments
     String architecture = targetPlatform.architecture
-    //if (architecture.contains('arm')){
-    //    linker.args << '-L' + libraryPath
-    //    linker.args.addAll(libraryArgs)
-    //}
+    if (architecture.contains('arm')){
+        linker.args << '-L' + libraryPath
+        linker.args.addAll(libraryArgs)
+    }
 }
 
 apply from: "properties.gradle"

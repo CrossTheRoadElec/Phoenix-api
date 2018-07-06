@@ -14,7 +14,7 @@ def cppSetupModel = { project ->
 
                 binaries.all {
                     tasks.withType(CppCompile) {
-                        cppCompiler.args /*<< "-DNAMESPACED_WPILIB"*/ << "-Werror" << "-Wall" << "-std=c++11"
+                        cppCompiler.args /*<< "-DNAMESPACED_WPILIB"*/ << "-Werror" << "-Wall" << "-std=c++11"<< "-mfloat-abi=hard"
                         addUserLinks(linker, targetPlatform, false)
                         //addHalLibraryLinks(it, linker, targetPlatform)
                         //addWpiUtilLibraryLinks(it, linker, targetPlatform)

@@ -1,7 +1,7 @@
 ext.isArm = true
 ext.buildPlatform = 'arm'
 
-def compilerPrefix = project.hasProperty('compilerPrefix') ? project.compilerPrefix : 'arm-frc-linux-gnueabi-'
+def compilerPrefix = project.hasProperty('compilerPrefix') ? project.compilerPrefix : 'arm-linux-gnueabihf-'
 def toolChainPath = project.hasProperty('toolChainPath') ? project.toolChainPath : null
 model {
     platforms {
@@ -23,7 +23,7 @@ model {
                 // Gradle auto-adds the -m32 argument to the linker and compiler. Our compiler only supports
                 // arm, and doesn't understand this flag, so it is removed from both
                 cppCompiler.withArguments { args ->
-					args << '-std=c++1y' << '-Wformat=2' << '-Wall' << '-Wextra' << '-Werror' << '-pedantic'
+					args << '-std=c++1y' << '-Wformat=2' << '-Wall' << '-Wextra' << '-Werror' << '-pedantic'<< "-mfloat-abi=hard"
                     args << '-fPIC' << '-rdynamic'
                     args << '-pthread'
                     args.remove('-m32')
