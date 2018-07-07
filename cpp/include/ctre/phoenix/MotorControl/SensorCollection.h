@@ -6,7 +6,7 @@ namespace ctre {
 namespace phoenix {
 namespace motorcontrol {
 namespace can {
-class BaseMotorController;
+class TalonSRX;
 }
 }
 }
@@ -209,7 +209,7 @@ public:
 
 private:
 	SensorCollection(void * handle);
-	friend class ctre::phoenix::motorcontrol::can::BaseMotorController;
+	friend class ctre::phoenix::motorcontrol::can::TalonSRX;
 	void* _handle;
 
 };

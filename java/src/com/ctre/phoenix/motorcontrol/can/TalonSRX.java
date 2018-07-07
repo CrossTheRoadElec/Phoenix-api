@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
+import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 import com.ctre.phoenix.motorcontrol.can.MotControllerJNI;
@@ -20,10 +21,21 @@ import edu.wpi.first.wpilibj.hal.HAL;
 public class TalonSRX extends com.ctre.phoenix.motorcontrol.can.BaseMotorController
 		implements IMotorControllerEnhanced {
 
+	private SensorCollection _sensorColl;
+
 	public TalonSRX(int deviceNumber) {
 		super(deviceNumber | 0x02040000);
+		_sensorColl = new SensorCollection(this);
 		HAL.report(tResourceType.kResourceType_CANTalonSRX, deviceNumber + 1);
 	}
+
+	/**
+	 * @return object that can get/set individual raw sensor values.
+	 */
+	public SensorCollection getSensorCollection() {
+		return _sensorColl;
+	}
+
 	/**
 	 * Sets the period of the given status frame.
 	 *

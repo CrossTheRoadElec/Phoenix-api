@@ -4,6 +4,7 @@
 #include "ctre/phoenix/MotorControl/ControlFrame.h"
 #include "ctre/phoenix/MotorControl/NeutralMode.h"
 #include "ctre/phoenix/MotorControl/FeedbackDevice.h"
+#include "ctre/phoenix/MotorControl/SensorCollection.h"
 #include "ctre/phoenix/MotorControl/StatusFrame.h"
 #include "ctre/phoenix/MotorControl/LimitSwitchType.h"
 #include "ctre/phoenix/MotorControl/Faults.h"
@@ -81,6 +82,12 @@ public:
 
 	//------ soft limit ----------//
 	/* in parent */
+
+	//------ RAW Sensor API ----------//
+	/**
+	 * @retrieve object that can get/set individual RAW sensor values.
+	 */
+	ctre::phoenix::motorcontrol::SensorCollection & GetSensorCollection();
 
 	//------ Current Lim ----------//
 	virtual ErrorCode ConfigPeakCurrentLimit(int amps, int timeoutMs = 0)= 0;

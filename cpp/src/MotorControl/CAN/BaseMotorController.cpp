@@ -1,5 +1,4 @@
 ﻿#include "ctre/phoenix/MotorControl/CAN/BaseMotorController.h"
-#include "ctre/phoenix/MotorControl/SensorCollection.h"
 #include "ctre/phoenix/CCI/MotController_CCI.h"
 #include "ctre/phoenix/LowLevel/MotControllerWithBuffer_LowLevel.h"
 
@@ -17,17 +16,8 @@ using namespace ctre::phoenix::motorcontrol::lowlevel;
 BaseMotorController::BaseMotorController(int arbId) {
 	m_handle = c_MotController_Create1(arbId);
 	_arbId = arbId;
+}
 
-	_sensorColl = new motorcontrol::SensorCollection((void*) m_handle);
-}
-/**
- *
- * Destructor
- */
-BaseMotorController::~BaseMotorController() {
-	delete _sensorColl;
-	_sensorColl = 0;
-}
 /**
  * @return CCI handle for child classes.
  */
@@ -1895,12 +1885,7 @@ void BaseMotorController::Follow(IMotorController & masterToFollow) {
 void BaseMotorController::ValueUpdated() {
 	//do nothing
 }
-/**
- * @return object that can get/set individual raw sensor values.
- */
-ctre::phoenix::motorcontrol::SensorCollection & BaseMotorController::GetSensorCollection() {
-	return *_sensorColl;
-}
+
 
 //------Config All------//
 

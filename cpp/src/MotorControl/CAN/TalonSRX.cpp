@@ -1,4 +1,5 @@
 #include "ctre/phoenix/MotorControl/CAN/TalonSRX.h"
+#include "ctre/phoenix/MotorControl/SensorCollection.h"
 #include "ctre/phoenix/CCI/MotController_CCI.h"
 #include "HAL/HAL.h"
 
@@ -13,6 +14,16 @@ using namespace ctre::phoenix::motorcontrol;
 TalonSRX::TalonSRX(int deviceNumber) :
 		BaseMotorController(deviceNumber | 0x02040000) {
 			HAL_Report(HALUsageReporting::kResourceType_CANTalonSRX, deviceNumber + 1);
+
+	_sensorColl = new motorcontrol::SensorCollection((void*) m_handle);
+}
+/**
+ *
+ * Destructor
+ */
+TalonSRX::~TalonSRX() {
+	delete _sensorColl;
+	_sensorColl = 0;
 }
 /**
  * Select the feedback device for the motor controller.
@@ -339,6 +350,13 @@ ctre::phoenix::ErrorCode TalonSRX::ConfigContinuousCurrentLimit(int amps, int ti
  */
 void TalonSRX::EnableCurrentLimit(bool enable) {
 	c_MotController_EnableCurrentLimit(m_handle, enable);
+}
+
+/**
+ * @return object that can get/set individual raw sensor values.
+ */
+ctre::phoenix::motorcontrol::SensorCollection & TalonSRX::GetSensorCollection() {
+	return *_sensorColl;
 }
 
 //Fix this return data type at some point

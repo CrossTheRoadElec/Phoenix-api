@@ -1,6 +1,7 @@
 package com.ctre.phoenix.motorcontrol;
 
 import com.ctre.phoenix.ErrorCode;
+import com.ctre.phoenix.motorcontrol.SensorCollection;
 
 public interface IMotorControllerEnhanced extends IMotorController {
 	 //------ Set output routines. ----------//
@@ -80,7 +81,7 @@ public interface IMotorControllerEnhanced extends IMotorController {
     /**
      * @retrieve object that can get/set individual RAW sensor values.
      */
-    //SensorCollection SensorCollection { get; }
+    public SensorCollection getSensorCollection();
     
     
 }
