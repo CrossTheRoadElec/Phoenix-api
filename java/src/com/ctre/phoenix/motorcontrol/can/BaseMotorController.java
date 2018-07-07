@@ -13,7 +13,6 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.RemoteFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.RemoteLimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
-import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.SensorTerm;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
@@ -43,8 +42,6 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 
 	private int [] _motionProfStats = new int[11];
 
-	private SensorCollection _sensorColl;
-
 	// --------------------- Constructors -----------------------------//
 	/**
 	 * Constructor for motor controllers.
@@ -54,8 +51,6 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	public BaseMotorController(int arbId) {
 		m_handle = MotControllerJNI.Create(arbId);
 		_arbId = arbId;
-
-		_sensorColl = new SensorCollection(this);
 	}
 	/**
 	 * @return CCI handle for child classes.
@@ -2192,13 +2187,6 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 */
 	public void valueUpdated() {
 		// MT
-	}
-
-	/**
-	 * @return object that can get/set individual raw sensor values.
-	 */
-	public SensorCollection getSensorCollection() {
-		return _sensorColl;
 	}
 
     //------Config All------//

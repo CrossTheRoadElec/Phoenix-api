@@ -4,6 +4,15 @@
 #include "ctre/phoenix/MotorControl/IMotorControllerEnhanced.h"
 #include "ctre/phoenix/CustomParamConfiguration.h"
 
+/* forward proto's */
+namespace ctre {
+namespace phoenix {
+namespace motorcontrol {
+class SensorCollection;
+}
+}
+}
+
 namespace ctre {
 namespace phoenix {
 namespace motorcontrol {
@@ -80,10 +89,12 @@ struct TalonSRXConfiguration : BaseMotorControllerConfiguration{
 
 class TalonSRX: public virtual BaseMotorController,
 		public virtual IMotorControllerEnhanced {
+private:
+	ctre::phoenix::motorcontrol::SensorCollection * _sensorColl;
+
 public:
 	TalonSRX(int deviceNumber);
-	virtual ~TalonSRX() {
-	}
+	~TalonSRX();
 	TalonSRX() = delete;
 	TalonSRX(TalonSRX const&) = delete;
 	TalonSRX& operator=(TalonSRX const&) = delete;
@@ -124,7 +135,11 @@ public:
 	virtual ctre::phoenix::ErrorCode ConfigContinuousCurrentLimit(int amps, int timeoutMs = 0);
 	virtual void EnableCurrentLimit(bool enable);
 	
-
+	//------ RAW Sensor API ----------//
+	/**
+	 * @retrieve object that can get/set individual RAW sensor values.
+	 */
+	ctre::phoenix::motorcontrol::SensorCollection & GetSensorCollection();
 
 	//------ All Configs ----------//
 

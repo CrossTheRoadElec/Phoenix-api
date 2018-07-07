@@ -35,14 +35,6 @@ class MotController_LowLevel;
 namespace ctre {
 namespace phoenix {
 namespace motorcontrol {
-class SensorCollection;
-}
-}
-}
-
-namespace ctre {
-namespace phoenix {
-namespace motorcontrol {
 namespace can {
 
 struct BasePIDSetConfiguration {
@@ -252,7 +244,6 @@ private:
 	double m_setPoint = 0;
 	bool _invert = false;
 
-	ctre::phoenix::motorcontrol::SensorCollection * _sensorColl;
 protected:
 	void* m_handle;
 	void* GetHandle();
@@ -446,11 +437,7 @@ public:
 	virtual void Follow(IMotorController & masterToFollow);
 	virtual void ValueUpdated();
 
-	//------ RAW Sensor API ----------//
-	/**
-	 * @retrieve object that can get/set individual RAW sensor values.
-	 */
-	ctre::phoenix::motorcontrol::SensorCollection & GetSensorCollection();
+	
 	//-------Config All----------//
 	ctre::phoenix::ErrorCode ConfigureSlot(const SlotConfiguration &slot, int slotIdx = 0, int timeoutMs = 50);	
 	void GetSlotConfigs(SlotConfiguration &slot, int slotIdx = 0, int timeoutMs = 50);	
