@@ -38,8 +38,7 @@ struct Stream {
 
 class CANThreadManager {
 public:
-    CANThreadManager(bool &success);
-    CANThreadManager(bool &success, const char* interface);
+    CANThreadManager(bool &success, const char * interfaceIn);
     
 	void SendMessage(uint32_t messageID, const uint8_t *data, uint8_t dataSize,
 			int32_t periodMs, int32_t *status);

@@ -10,9 +10,8 @@ namespace can {
 
 class CANProtocol {
 public:
-	static CANProtocol & GetInstance();
+	static CANProtocol & GetInstance(const char * interface);
 
-    void SetInterface(const char * interface, bool &success);
 	//int GetControlWord(struct ControlWord_t *controlWord);
 	void SendMessage(uint32_t messageID, const uint8_t *data, uint8_t dataSize,
 			int32_t periodMs, int32_t *status);
@@ -31,7 +30,7 @@ public:
 //	void SendError(int isError, int32_t errorCode, int isLVCode,
 //			const char *details, const char *location, const char *callStack);
 private:
-	CANProtocol();
+	CANProtocol(const char * interface);
 	~CANProtocol();
 
     bool _can_device_initialized = false;
