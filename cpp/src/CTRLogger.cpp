@@ -8,16 +8,20 @@ namespace phoenix {
 void CTRLogger::Open(int language) {
 	c_Logger_Open(language, true);
 }
-ErrorCode CTRLogger::Log(ErrorCode code, std::string origin) {
+static void GetStackTrace(std::string & stackTrace)
+{
 	void *buf[100];
 	char **strings;
 	int size = backtrace(buf, 100);
 	strings = backtrace_symbols(buf, size);
-	std::string stackTrace;
 	for (int i = 1; i < size; i++) {
 		stackTrace += strings[i];
 		stackTrace += "\n";
 	}
+}
+ErrorCode CTRLogger::Log(ErrorCode code, std::string origin) {
+	std::string stackTrace;
+	GetStackTrace(stackTrace);
 	return c_Logger_Log(code, origin.c_str(), 3, stackTrace.c_str());
 }
 void CTRLogger::Close() {
