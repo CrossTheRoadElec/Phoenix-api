@@ -20,6 +20,8 @@ import edu.wpi.first.wpilibj.hal.HAL;
 public class TalonSRX extends com.ctre.phoenix.motorcontrol.can.BaseMotorController
 		implements IMotorControllerEnhanced {
 
+	private TalonSRXConfiguration _defaultTalonConfigurations;
+		
 	public TalonSRX(int deviceNumber) {
 		super(deviceNumber | 0x02040000);
 		HAL.report(tResourceType.kResourceType_CANTalonSRX, deviceNumber + 1);
@@ -359,27 +361,46 @@ public class TalonSRX extends com.ctre.phoenix.motorcontrol.can.BaseMotorControl
         errorCollection.NewError(baseConfigAllSettings(allConfigs, timeoutMs));
 
         //------ limit switch ----------//   
-        errorCollection.NewError(MotControllerJNI.ConfigForwardLimitSwitchSource(m_handle, allConfigs.forwardLimitSwitchSource.value,
-                allConfigs.forwardLimitSwitchNormal.value, allConfigs.forwardLimitSwitchDeviceID, timeoutMs));
-        errorCollection.NewError(MotControllerJNI.ConfigReverseLimitSwitchSource(m_handle, allConfigs.reverseLimitSwitchSource.value,
-                allConfigs.reverseLimitSwitchNormal.value, allConfigs.reverseLimitSwitchDeviceID, timeoutMs));
+		if(allConfigs.forwardLimitSwitchSource != _defaultTalonConfigurations.forwardLimitSwitchSource || 
+		   allConfigs.forwardLimitSwitchNormal != _defaultTalonConfigurations.forwardLimitSwitchNormal ||
+		   allConfigs.forwardLimitSwitchDeviceID != _defaultTalonConfigurations.forwardLimitSwitchDeviceID ||
+		   !allConfigs.enableOptimizations)
+				errorCollection.NewError(MotControllerJNI.ConfigForwardLimitSwitchSource(m_handle, allConfigs.forwardLimitSwitchSource.value,
+						allConfigs.forwardLimitSwitchNormal.value, allConfigs.forwardLimitSwitchDeviceID, timeoutMs));
+						
+						
+		if(allConfigs.reverseLimitSwitchSource != _defaultTalonConfigurations.reverseLimitSwitchSource || 
+		   allConfigs.reverseLimitSwitchNormal != _defaultTalonConfigurations.reverseLimitSwitchNormal ||
+		   allConfigs.reverseLimitSwitchDeviceID != _defaultTalonConfigurations.reverseLimitSwitchDeviceID ||
+		   !allConfigs.enableOptimizations)
+				errorCollection.NewError(MotControllerJNI.ConfigReverseLimitSwitchSource(m_handle, allConfigs.reverseLimitSwitchSource.value,
+						allConfigs.reverseLimitSwitchNormal.value, allConfigs.reverseLimitSwitchDeviceID, timeoutMs));
         
 
 
         //--------PIDs---------------//
 
-        errorCollection.NewError(configurePID(allConfigs.primaryPID, 0, timeoutMs));
-        errorCollection.NewError(configurePID(allConfigs.auxilaryPID, 1, timeoutMs));
-        errorCollection.NewError(configSensorTerm(SensorTerm.Sum0, allConfigs.sum_0, timeoutMs));
-        errorCollection.NewError(configSensorTerm(SensorTerm.Sum1, allConfigs.sum_1, timeoutMs));
-        errorCollection.NewError(configSensorTerm(SensorTerm.Diff0, allConfigs.diff_0, timeoutMs));
-        errorCollection.NewError(configSensorTerm(SensorTerm.Diff1, allConfigs.diff_1, timeoutMs));
+		if(allConfigs.primaryPID != _defaultTalonConfigurations.primaryPID || !allConfigs.enableOptimizations)
+			errorCollection.NewError(configurePID(allConfigs.primaryPID, 0, timeoutMs));
+		if(allConfigs.auxilaryPID != _defaultTalonConfigurations.auxilaryPID || !allConfigs.enableOptimizations)
+			errorCollection.NewError(configurePID(allConfigs.auxilaryPID, 1, timeoutMs));
+		if(allConfigs.sum_0 != _defaultTalonConfigurations.sum_0 || !allConfigs.enableOptimizations)
+			errorCollection.NewError(configSensorTerm(SensorTerm.Sum0, allConfigs.sum_0, timeoutMs));
+		if(allConfigs.sum_1 != _defaultTalonConfigurations.sum_1 || !allConfigs.enableOptimizations)
+			errorCollection.NewError(configSensorTerm(SensorTerm.Sum1, allConfigs.sum_1, timeoutMs));
+		if(allConfigs.diff_0 != _defaultTalonConfigurations.diff_0 || !allConfigs.enableOptimizations)
+			errorCollection.NewError(configSensorTerm(SensorTerm.Diff0, allConfigs.diff_0, timeoutMs));
+		if(allConfigs.diff_1 != _defaultTalonConfigurations.diff_1 || !allConfigs.enableOptimizations)
+			errorCollection.NewError(configSensorTerm(SensorTerm.Diff1, allConfigs.diff_1, timeoutMs));
         
 
         //--------Current Limiting-----//
-        errorCollection.NewError(configPeakCurrentLimit(allConfigs.peakCurrentLimit, timeoutMs));
-        errorCollection.NewError(configPeakCurrentDuration(allConfigs.peakCurrentDuration, timeoutMs));
-        errorCollection.NewError(configContinuousCurrentLimit(allConfigs.continuousCurrentLimit, timeoutMs));
+		if(allConfigs.peakCurrentLimit != _defaultTalonConfigurations.peakCurrentLimit || !allConfigs.enableOptimizations)
+			errorCollection.NewError(configPeakCurrentLimit(allConfigs.peakCurrentLimit, timeoutMs));
+		if(allConfigs.peakCurrentDuration != _defaultTalonConfigurations.peakCurrentDuration || !allConfigs.enableOptimizations)
+			errorCollection.NewError(configPeakCurrentDuration(allConfigs.peakCurrentDuration, timeoutMs));
+		if(allConfigs.continuousCurrentLimit != _defaultTalonConfigurations.continuousCurrentLimit || !allConfigs.enableOptimizations)
+			errorCollection.NewError(configContinuousCurrentLimit(allConfigs.continuousCurrentLimit, timeoutMs));
         
 
 

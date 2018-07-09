@@ -63,25 +63,31 @@ ErrorCode VictorSPX::ConfigAllSettings(const VictorSPXConfiguration &allConfigs,
 	
 	errorCollection.NewError(BaseConfigAllSettings(allConfigs, timeoutMs));	
 	
-	//------ remote limit switch ----------//	
-	errorCollection.NewError(ConfigForwardLimitSwitchSource(allConfigs.forwardLimitSwitchSource, allConfigs.forwardLimitSwitchNormal, allConfigs.forwardLimitSwitchDeviceID, timeoutMs));
-        
-	errorCollection.NewError(ConfigReverseLimitSwitchSource(allConfigs.reverseLimitSwitchSource, allConfigs.reverseLimitSwitchNormal, allConfigs.reverseLimitSwitchDeviceID, timeoutMs));
+	//------ remote limit switch ----------//
+	if(allConfigs.forwardLimitSwitchSource != _defaultVictorConfigurations.forwardLimitSwitchSource || allConfigs.forwardLimitSwitchNormal != _defaultVictorConfigurations.forwardLimitSwitchNormal ||
+	   allConfigs.forwardLimitSwitchDeviceID != _defaultVictorConfigurations.forwardLimitSwitchDeviceID || !allConfigs.enableOptimizations)	
+			errorCollection.NewError(ConfigForwardLimitSwitchSource(allConfigs.forwardLimitSwitchSource, allConfigs.forwardLimitSwitchNormal, 
+			allConfigs.forwardLimitSwitchDeviceID, timeoutMs));
+    
+	if(allConfigs.reverseLimitSwitchSource != _defaultVictorConfigurations.reverseLimitSwitchSource || allConfigs.reverseLimitSwitchNormal != _defaultVictorConfigurations.reverseLimitSwitchNormal ||
+	   allConfigs.reverseLimitSwitchDeviceID != _defaultVictorConfigurations.reverseLimitSwitchDeviceID || !allConfigs.enableOptimizations)
+			errorCollection.NewError(ConfigReverseLimitSwitchSource(allConfigs.reverseLimitSwitchSource, allConfigs.reverseLimitSwitchNormal, 
+			allConfigs.reverseLimitSwitchDeviceID, timeoutMs));
         
 		
 	//--------PIDs---------------//
 	
-    errorCollection.NewError(ConfigurePID(allConfigs.primaryPID, 0, timeoutMs));
+    if(allConfigs.primaryPID != _defaultVictorConfigurations.primaryPID || !allConfigs.enableOptimizations) errorCollection.NewError(ConfigurePID(allConfigs.primaryPID, 0, timeoutMs));
         
-    errorCollection.NewError(ConfigurePID(allConfigs.auxilaryPID, 1, timeoutMs));
+    if(allConfigs.auxilaryPID != _defaultVictorConfigurations.auxilaryPID || !allConfigs.enableOptimizations) errorCollection.NewError(ConfigurePID(allConfigs.auxilaryPID, 1, timeoutMs));
         
-    errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Sum0, allConfigs.sum0Term, timeoutMs));
+    if(allConfigs.sum0Term != _defaultVictorConfigurations.sum0Term || !allConfigs.enableOptimizations) errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Sum0, allConfigs.sum0Term, timeoutMs));
         
-    errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Sum1, allConfigs.sum1Term, timeoutMs));
+    if(allConfigs.sum1Term != _defaultVictorConfigurations.sum1Term || !allConfigs.enableOptimizations) errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Sum1, allConfigs.sum1Term, timeoutMs));
         
-    errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Diff0, allConfigs.diff0Term, timeoutMs));
+    if(allConfigs.diff0Term != _defaultVictorConfigurations.diff0Term || !allConfigs.enableOptimizations) errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Diff0, allConfigs.diff0Term, timeoutMs));
         
-    errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Diff1, allConfigs.diff1Term, timeoutMs));
+    if(allConfigs.diff1Term != _defaultVictorConfigurations.diff1Term || !allConfigs.enableOptimizations) errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Diff1, allConfigs.diff1Term, timeoutMs));
         
 	
     return errorCollection._worstError;

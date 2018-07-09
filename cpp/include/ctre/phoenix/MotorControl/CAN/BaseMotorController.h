@@ -73,6 +73,10 @@ struct FilterConfiguration {
         retstr += prependString + ".remoteSensorSource = " + RemoteSensorSourceRoutines::toString(remoteSensorSource) + ";\n";
         return retstr;
     }
+	
+	bool operator!=(const FilterConfiguration& cmp) const {
+		return !(remoteSensorDeviceID == cmp.remoteSensorDeviceID || remoteSensorSource == cmp.remoteSensorSource);
+	}
 
 }; // struct FilterConfiguration
 struct SlotConfiguration{
@@ -114,6 +118,11 @@ struct SlotConfiguration{
         return retstr;
 
     }
+	bool operator!=(const SlotConfiguration& cmp) const {
+		return !(kP == cmp.kP || kI == cmp.kI || kD == cmp.kD || kF == cmp.kF || integralZone == cmp.integralZone ||
+				 allowableClosedloopError == cmp.allowableClosedloopError || maxIntegralAccumulator == cmp.maxIntegralAccumulator ||
+				 closedLoopPeakOutput == cmp.closedLoopPeakOutput || closedLoopPeriod == cmp.closedLoopPeriod);
+	}
 };// struct BaseSlotConfiguration
 
 
@@ -241,6 +250,11 @@ private:
 	bool _invert = false;
 
 	ctre::phoenix::motorcontrol::SensorCollection * _sensorColl;
+	
+	//Default structs
+	const struct BaseMotorControllerConfiguration _defaultConfiguration;
+	const struct BasePIDSetConfiguration _defaultPIDConfiguration;
+	const struct SlotConfiguration _defaultSlotConfiguration;
 protected:
 	void* m_handle;
 	void* GetHandle();

@@ -16,6 +16,9 @@ import edu.wpi.first.wpilibj.hal.HAL;
  */
 public class VictorSPX extends com.ctre.phoenix.motorcontrol.can.BaseMotorController
     implements IMotorController {
+		
+	private VictorSPXConfiguration _defaultVictorConfigurations;
+	
 	/**
 	 * Constructor
 	 * 
@@ -115,18 +118,36 @@ public class VictorSPX extends com.ctre.phoenix.motorcontrol.can.BaseMotorContro
         errorCollection.NewError(baseConfigAllSettings(allConfigs, timeoutMs));
 
         //------ remote limit switch ----------//   
-        errorCollection.NewError(configForwardLimitSwitchSource(allConfigs.forwardLimitSwitchSource, allConfigs.forwardLimitSwitchNormal, allConfigs.forwardLimitSwitchDeviceID, timeoutMs));
-        errorCollection.NewError(configReverseLimitSwitchSource(allConfigs.reverseLimitSwitchSource, allConfigs.reverseLimitSwitchNormal, allConfigs.reverseLimitSwitchDeviceID, timeoutMs));
+		if(allConfigs.forwardLimitSwitchSource != _defaultVictorConfigurations.forwardLimitSwitchSource || 
+		   allConfigs.forwardLimitSwitchNormal != _defaultVictorConfigurations.forwardLimitSwitchNormal ||
+		   allConfigs.forwardLimitSwitchDeviceID != _defaultVictorConfigurations.forwardLimitSwitchDeviceID ||
+		   !allConfigs.enableOptimizations)
+				errorCollection.NewError(configForwardLimitSwitchSource(allConfigs.forwardLimitSwitchSource, allConfigs.forwardLimitSwitchNormal, 
+				allConfigs.forwardLimitSwitchDeviceID, timeoutMs));
+		
+		
+		if(allConfigs.reverseLimitSwitchSource != _defaultVictorConfigurations.reverseLimitSwitchSource || 
+		   allConfigs.reverseLimitSwitchNormal != _defaultVictorConfigurations.reverseLimitSwitchNormal ||
+		   allConfigs.reverseLimitSwitchDeviceID != _defaultVictorConfigurations.reverseLimitSwitchDeviceID ||
+		   !allConfigs.enableOptimizations)
+				errorCollection.NewError(configReverseLimitSwitchSource(allConfigs.reverseLimitSwitchSource, allConfigs.reverseLimitSwitchNormal, 
+				allConfigs.reverseLimitSwitchDeviceID, timeoutMs));
         
 
         //--------PIDs---------------//
 
-        errorCollection.NewError(configurePID(allConfigs.primaryPID, 0, timeoutMs));
-        errorCollection.NewError(configurePID(allConfigs.auxilaryPID, 1, timeoutMs));
-        errorCollection.NewError(configSensorTerm(SensorTerm.Sum0, allConfigs.sum_0, timeoutMs));
-        errorCollection.NewError(configSensorTerm(SensorTerm.Sum1, allConfigs.sum_1, timeoutMs));
-        errorCollection.NewError(configSensorTerm(SensorTerm.Diff0, allConfigs.diff_0, timeoutMs));
-        errorCollection.NewError(configSensorTerm(SensorTerm.Diff1, allConfigs.diff_1, timeoutMs));
+		if(allConfigs.primaryPID != _defaultVictorConfigurations.primaryPID || !allConfigs.enableOptimizations)
+			errorCollection.NewError(configurePID(allConfigs.primaryPID, 0, timeoutMs));
+		if(allConfigs.auxilaryPID != _defaultVictorConfigurations.auxilaryPID || !allConfigs.enableOptimizations)
+			errorCollection.NewError(configurePID(allConfigs.auxilaryPID, 1, timeoutMs));
+		if(allConfigs.sum_0 != _defaultVictorConfigurations.sum_0 || !allConfigs.enableOptimizations)
+			errorCollection.NewError(configSensorTerm(SensorTerm.Sum0, allConfigs.sum_0, timeoutMs));
+		if(allConfigs.sum_1 != _defaultVictorConfigurations.sum_1 || !allConfigs.enableOptimizations)
+			errorCollection.NewError(configSensorTerm(SensorTerm.Sum1, allConfigs.sum_1, timeoutMs));
+		if(allConfigs.diff_0 != _defaultVictorConfigurations.diff_0 || !allConfigs.enableOptimizations)
+			errorCollection.NewError(configSensorTerm(SensorTerm.Diff0, allConfigs.diff_0, timeoutMs));
+		if(allConfigs.diff_1 != _defaultVictorConfigurations.diff_1 || !allConfigs.enableOptimizations)
+			errorCollection.NewError(configSensorTerm(SensorTerm.Diff1, allConfigs.diff_1, timeoutMs));
 
         return errorCollection._worstError;
 

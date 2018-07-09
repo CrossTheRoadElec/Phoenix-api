@@ -394,25 +394,30 @@ ErrorCode TalonSRX::ConfigAllSettings(const TalonSRXConfiguration &allConfigs, i
 	errorCollection.NewError(BaseConfigAllSettings(allConfigs, timeoutMs));	
 
     //------ limit switch ----------//   
-    errorCollection.NewError(c_MotController_ConfigForwardLimitSwitchSource(m_handle, allConfigs.forwardLimitSwitchSource,
+	if(allConfigs.forwardLimitSwitchSource != _defaultTalonConfigurations.forwardLimitSwitchSource || allConfigs.forwardLimitSwitchNormal != _defaultTalonConfigurations.forwardLimitSwitchNormal ||
+	   allConfigs.forwardLimitSwitchDeviceID != _defaultTalonConfigurations.forwardLimitSwitchDeviceID || !allConfigs.enableOptimizations)
+		errorCollection.NewError(c_MotController_ConfigForwardLimitSwitchSource(m_handle, allConfigs.forwardLimitSwitchSource,
 			allConfigs.forwardLimitSwitchNormal, allConfigs.forwardLimitSwitchDeviceID, timeoutMs));
-    errorCollection.NewError(c_MotController_ConfigReverseLimitSwitchSource(m_handle, allConfigs.reverseLimitSwitchSource,
+			
+	if(allConfigs.reverseLimitSwitchSource != _defaultTalonConfigurations.reverseLimitSwitchSource || allConfigs.reverseLimitSwitchNormal != _defaultTalonConfigurations.reverseLimitSwitchNormal ||
+	   allConfigs.reverseLimitSwitchDeviceID != _defaultTalonConfigurations.reverseLimitSwitchDeviceID || !allConfigs.enableOptimizations)
+		errorCollection.NewError(c_MotController_ConfigReverseLimitSwitchSource(m_handle, allConfigs.reverseLimitSwitchSource,
 			allConfigs.reverseLimitSwitchNormal, allConfigs.reverseLimitSwitchDeviceID, timeoutMs));
     
 
 	//--------PIDs---------------//
 	
-	errorCollection.NewError(ConfigurePID(allConfigs.primaryPID, 0, timeoutMs));
-    errorCollection.NewError(ConfigurePID(allConfigs.auxilaryPID, 1, timeoutMs));
-    errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Sum0, allConfigs.sum0Term, timeoutMs));
-    errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Sum1, allConfigs.sum1Term, timeoutMs));
-    errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Diff0, allConfigs.diff0Term, timeoutMs));
-    errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Diff1, allConfigs.diff1Term, timeoutMs));
+	if(allConfigs.primaryPID != _defaultTalonConfigurations.primaryPID || !allConfigs.enableOptimizations) errorCollection.NewError(ConfigurePID(allConfigs.primaryPID, 0, timeoutMs));
+	if(allConfigs.auxilaryPID != _defaultTalonConfigurations.auxilaryPID || !allConfigs.enableOptimizations) errorCollection.NewError(ConfigurePID(allConfigs.auxilaryPID, 1, timeoutMs));
+	if(allConfigs.sum0Term != _defaultTalonConfigurations.sum0Term || !allConfigs.enableOptimizations) errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Sum0, allConfigs.sum0Term, timeoutMs));
+	if(allConfigs.sum1Term != _defaultTalonConfigurations.sum1Term || !allConfigs.enableOptimizations) errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Sum1, allConfigs.sum1Term, timeoutMs));
+	if(allConfigs.diff0Term != _defaultTalonConfigurations.diff0Term || !allConfigs.enableOptimizations) errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Diff0, allConfigs.diff0Term, timeoutMs));
+	if(allConfigs.diff1Term != _defaultTalonConfigurations.diff1Term || !allConfigs.enableOptimizations) errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Diff1, allConfigs.diff1Term, timeoutMs));
     
     //--------Current Limiting-----//
-	errorCollection.NewError(ConfigPeakCurrentLimit(allConfigs.peakCurrentLimit, timeoutMs));
-    	errorCollection.NewError(ConfigPeakCurrentDuration(allConfigs.peakCurrentDuration, timeoutMs));
-    	errorCollection.NewError(ConfigContinuousCurrentLimit(allConfigs.continuousCurrentLimit, timeoutMs)); 
+	if(allConfigs.peakCurrentLimit != _defaultTalonConfigurations.peakCurrentLimit || !allConfigs.enableOptimizations) errorCollection.NewError(ConfigPeakCurrentLimit(allConfigs.peakCurrentLimit, timeoutMs));
+	if(allConfigs.peakCurrentDuration != _defaultTalonConfigurations.peakCurrentDuration || !allConfigs.enableOptimizations) errorCollection.NewError(ConfigPeakCurrentDuration(allConfigs.peakCurrentDuration, timeoutMs));
+	if(allConfigs.continuousCurrentLimit != _defaultTalonConfigurations.continuousCurrentLimit || !allConfigs.enableOptimizations) errorCollection.NewError(ConfigContinuousCurrentLimit(allConfigs.continuousCurrentLimit, timeoutMs)); 
     
 
     return errorCollection._worstError;

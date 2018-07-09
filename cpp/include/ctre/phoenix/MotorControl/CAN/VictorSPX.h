@@ -27,6 +27,11 @@ struct VictorSPXPIDSetConfiguration : BasePIDSetConfiguration {
         retstr += BasePIDSetConfiguration::toString(prependString);
         return retstr;
     }
+	
+	bool operator!=(const VictorSPXPIDSetConfiguration& cmp) const{
+		return !(selectedFeedbackSensor == cmp.selectedFeedbackSensor ||
+				 selectedFeedbackCoefficient == cmp.selectedFeedbackCoefficient);
+	}
 
 };
 
@@ -98,6 +103,8 @@ public:
 	virtual ctre::phoenix::ErrorCode ConfigAllSettings(const VictorSPXConfiguration &allConfigs, int timeoutMs = 50);
 	virtual void GetAllConfigs(VictorSPXConfiguration &allConfigs, int timeoutMs = 50);
 
+private:
+	const struct VictorSPXConfiguration _defaultVictorConfigurations;
 
 };// class VictorSPX
 } // namespace can

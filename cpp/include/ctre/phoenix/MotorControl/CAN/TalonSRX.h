@@ -26,6 +26,11 @@ struct TalonSRXPIDSetConfiguration : BasePIDSetConfiguration {
         retstr += BasePIDSetConfiguration::toString(prependString);
         return retstr;
     }
+	
+	bool operator!=(const TalonSRXPIDSetConfiguration& cmp) const{
+		return !(selectedFeedbackSensor == cmp.selectedFeedbackSensor ||
+				 selectedFeedbackCoefficient == cmp.selectedFeedbackCoefficient);
+	}
 
 };
 
@@ -148,6 +153,8 @@ public:
 protected:
 	ctre::phoenix::ErrorCode IfRemoteUseRemoteLimitSwitch( bool isForward, 
             LimitSwitchSource type, LimitSwitchNormal normalOpenOrClose, int deviceID, int timeoutMs = 0);
+private:
+	const struct TalonSRXConfiguration _defaultTalonConfigurations;
 };// class TalonSRX
 
 
