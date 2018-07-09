@@ -23,17 +23,14 @@
 
 #include <memory>
 
-#ifndef CTR_EXCLUDE_WPILIB_CLASSES
 #include "ctre/phoenix/Sensors/PigeonIMU.h"
 #include "ctre/phoenix/CTRLogger.h"
 #include "ctre/phoenix/CCI/Logger_CCI.h"
 #include "ctre/phoenix/CCI/PigeonIMU_CCI.h"
 #include "ctre/phoenix/MotorControl/CAN/TalonSRX.h"
-
-#include "FRC_NetworkCommunication/CANSessionMux.h"
-
-#include "Utility.h"
+#ifndef CTR_EXCLUDE_WPILIB_CLASSES
 #include "HAL/HAL.h"
+#endif // CTR_EXCLUDE_WPILIB_CLASSES
 
 using namespace ctre::phoenix::motorcontrol::can;
 
@@ -49,7 +46,9 @@ PigeonIMU::PigeonIMU(int deviceNumber) :
 		CANBusAddressable(deviceNumber) {
 	_handle = c_PigeonIMU_Create1(deviceNumber);
 	_deviceNumber = deviceNumber;
+#ifndef CTR_EXCLUDE_WPILIB_CLASSES
 	HAL_Report(HALUsageReporting::kResourceType_PigeonIMU, _deviceNumber + 1);
+#endif // CTR_EXCLUDE_WPILIB_CLASSES
 }
 
 /**
@@ -60,8 +59,10 @@ PigeonIMU::PigeonIMU(ctre::phoenix::motorcontrol::can::TalonSRX * talonSrx) :
 		CANBusAddressable(0) {
 	_handle = c_PigeonIMU_Create2(talonSrx->GetDeviceID());
 	_deviceNumber = talonSrx->GetDeviceID();
+#ifndef CTR_EXCLUDE_WPILIB_CLASSES
 	HAL_Report(HALUsageReporting::kResourceType_PigeonIMU, _deviceNumber + 1);
 	HAL_Report(HALUsageReporting::kResourceType_CTRE_future0, _deviceNumber + 1); //record as Pigeon-via-Uart
+#endif // CTR_EXCLUDE_WPILIB_CLASSES
 }
 
 /**
@@ -145,7 +146,7 @@ int PigeonIMU::SetAccumZAngle(double angleDeg, int timeoutMs) {
  */
 int PigeonIMU::ConfigTemperatureCompensationEnable(bool bTempCompEnable,
 		int timeoutMs) {
-	int errCode = c_PigeonIMU_ConfigTemperatureCompensationEnable(_handle,
+	int errCode = c_PigeonIMU_SetTemperatureCompensationDisable(_handle,
 			bTempCompEnable, timeoutMs);
 	return errCode;
 }
@@ -776,4 +777,4 @@ ErrorCode PigeonIMU::ClearStickyFaults(int timeoutMs) {
 } // namespace signals
 } // namespace phoenix
 } // namespace ctre
-#endif // CTR_EXCLUDE_WPILIB_CLASSES
+
