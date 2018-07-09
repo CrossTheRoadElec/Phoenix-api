@@ -1,7 +1,7 @@
 #include "ctre/phoenix/Tasking/ButtonMonitor.h"
-#include <GenericHID.h> // WPILIB
 
 #ifndef CTR_EXCLUDE_WPILIB_CLASSES
+#include <GenericHID.h> // WPILIB
 
 namespace ctre {
 namespace phoenix {

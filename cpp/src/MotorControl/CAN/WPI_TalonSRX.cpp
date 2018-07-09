@@ -9,6 +9,7 @@
  * - Single Parameter set that assumes a simple motor controller.
  */
 #include "ctre/phoenix/MotorControl/CAN/WPI_TalonSRX.h"
+#ifndef CTR_EXCLUDE_WPILIB_CLASSES
 #include "ctre/phoenix/MotorControl/CAN/BaseMotorController.h"
 #include "HAL/HAL.h"
 #include <sstream>
@@ -155,3 +156,4 @@ void WPI_TalonSRX::InitSendable(frc::SendableBuilder& builder) {
 	builder.AddDoubleProperty("Value", [=]() {return Get();},
 			[=](double value) {Set(value);});
 }
+#endif

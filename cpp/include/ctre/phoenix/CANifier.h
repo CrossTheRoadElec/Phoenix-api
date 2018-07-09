@@ -1,7 +1,5 @@
 #pragma once
 
-#ifndef CTR_EXCLUDE_WPILIB_CLASSES
-
 #include <cstdint>
 #include "ctre/phoenix/LowLevel/CANBusAddressable.h"
 #include "ctre/phoenix/ErrorCode.h"
@@ -137,4 +135,3 @@ private:
 	bool _tempPins[11];
 };
 }}
-#endif // CTR_EXCLUDE_WPILIB_CLASSES

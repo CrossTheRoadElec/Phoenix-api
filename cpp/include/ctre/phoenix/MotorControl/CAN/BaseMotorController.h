@@ -12,8 +12,11 @@
 #include "ctre/phoenix/MotorControl/VelocityMeasPeriod.h"
 #include "ctre/phoenix/Motion/TrajectoryPoint.h"
 #include "ctre/phoenix/Motion/MotionProfileStatus.h"
+#ifndef CTR_EXCLUDE_WPILIB_CLASSES
 /* WPILIB */
 #include "SpeedController.h"
+#endif
+
 
 /* forward proto's */
 namespace ctre {

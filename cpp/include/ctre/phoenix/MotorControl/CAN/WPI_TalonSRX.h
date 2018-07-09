@@ -9,7 +9,7 @@
  * - Single Parameter set that assumes a simple motor controller.
  */
 #pragma once
-
+#ifndef CTR_EXCLUDE_WPILIB_CLASSES
 #include "ctre/phoenix/MotorControl/CAN/TalonSRX.h"
 #include "SmartDashboard/SendableBase.h"
 #include "SmartDashboard/SendableBuilder.h"
@@ -125,3 +125,4 @@ private:
 } // namespace motorcontrol
 } // namespace phoenix
 } // namespace ctre
+#endif

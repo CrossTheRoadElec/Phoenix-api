@@ -23,7 +23,6 @@
 
 #pragma once
 
-#ifndef CTR_EXCLUDE_WPILIB_CLASSES
 #include <string>
 #include "ctre/phoenix/LowLevel/CANBusAddressable.h"
 #include "ctre/phoenix/paramEnum.h"
@@ -300,4 +299,3 @@ private:
 } // namespace signals
 } // namespace phoenix
 } // namespace ctre
-#endif // CTR_EXCLUDE_WPILIB_CLASSES
