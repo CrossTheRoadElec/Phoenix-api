@@ -695,13 +695,16 @@ public class CANifier {
      */
 	public ErrorCode configAllSettings(CANifierConfiguration allConfigs, int timeoutMs) {
         ErrorCollection errorCollection = new ErrorCollection();
-        errorCollection.NewError(configVelocityMeasurementPeriod(allConfigs.velocityMeasurementPeriod, timeoutMs));
-        errorCollection.NewError(configVelocityMeasurementWindow(allConfigs.velocityMeasurementWindow, timeoutMs));
-        errorCollection.NewError(configClearPositionOnLimitF(allConfigs.clearPositionOnLimitF, timeoutMs));
-        errorCollection.NewError(configClearPositionOnLimitR(allConfigs.clearPositionOnLimitR, timeoutMs));
-        errorCollection.NewError(configClearPositionOnQuadIdx(allConfigs.clearPositionOnQuadIdx, timeoutMs));
-        errorCollection.NewError(configSetCustomParam(allConfigs.customParam_0, 0, timeoutMs));
-        errorCollection.NewError(configSetCustomParam(allConfigs.customParam_1, 1, timeoutMs));
+		
+		if(CANifierConfigUtil.velocityMeasurementPeriodDifferent(allConfigs)) errorCollection.NewError(configVelocityMeasurementPeriod(allConfigs.velocityMeasurementPeriod, timeoutMs));
+		if(CANifierConfigUtil.velocityMeasurementWindowDifferent(allConfigs)) errorCollection.NewError(configVelocityMeasurementWindow(allConfigs.velocityMeasurementWindow, timeoutMs));
+		if(CANifierConfigUtil.clearPositionOnLimitFDifferent(allConfigs)) errorCollection.NewError(configClearPositionOnLimitF(allConfigs.clearPositionOnLimitF, timeoutMs));
+		if(CANifierConfigUtil.clearPositionOnLimitRDifferent(allConfigs)) errorCollection.NewError(configClearPositionOnLimitR(allConfigs.clearPositionOnLimitR, timeoutMs));
+		if(CANifierConfigUtil.clearPositionOnQuadIdxDifferent(allConfigs)) errorCollection.NewError(configClearPositionOnQuadIdx(allConfigs.clearPositionOnQuadIdx, timeoutMs));
+
+		//Custom Parameters
+		if(CustomParamConfigUtil.customParam0Different(allConfigs)) errorCollection.NewError(configSetCustomParam(allConfigs.customParam0, 0, timeoutMs));
+		if(CustomParamConfigUtil.customParam1Different(allConfigs)) errorCollection.NewError(configSetCustomParam(allConfigs.customParam1, 1, timeoutMs));
         
     
         return errorCollection._worstError;
@@ -734,8 +737,8 @@ public class CANifier {
         allConfigs.clearPositionOnLimitF  = configGetParameter(ParamEnum.eClearPositionOnLimitF, 0, timeoutMs) != 0.0;
         allConfigs.clearPositionOnLimitR  = configGetParameter(ParamEnum.eClearPositionOnLimitR, 0, timeoutMs) != 0.0;
         allConfigs.clearPositionOnQuadIdx = configGetParameter(ParamEnum.eClearPositionOnQuadIdx, 0, timeoutMs) != 0.0;
-        allConfigs.customParam_0 = (int) configGetParameter(ParamEnum.eCustomParam, 0,  timeoutMs);
-        allConfigs.customParam_1 = (int) configGetParameter(ParamEnum.eCustomParam, 1,  timeoutMs);
+        allConfigs.customParam0 = (int) configGetParameter(ParamEnum.eCustomParam, 0,  timeoutMs);
+        allConfigs.customParam1 = (int) configGetParameter(ParamEnum.eCustomParam, 1,  timeoutMs);
     }
     /**
      * Gets all persistant settings (overloaded so timeoutMs is 50 ms).

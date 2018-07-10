@@ -35,8 +35,6 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 
 	private ControlMode m_controlMode = ControlMode.PercentOutput;
 	private ControlMode m_sendMode = ControlMode.PercentOutput;
-	
-	private static BaseMotorControllerConfiguration _defaultConfigurations;
 
 	private int _arbId = 0;
 	private boolean _invert = false;
@@ -2222,120 +2220,51 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
         ErrorCollection errorCollection = new ErrorCollection();
     
         errorCollection.NewError(configFactoryDefault(timeoutMs));
+		
+		// https://docs.google.com/spreadsheets/d/1mU-WOaCnMYSTGq7mqHnahamwzSpflqNpogikiyQMGl8/edit?usp=sharing
+        if(BaseMotorControllerUtil.openloopRampDifferent(allConfigs)) errorCollection.NewError(configOpenloopRamp(allConfigs.openloopRamp, timeoutMs));
+		if(BaseMotorControllerUtil.closedloopRampDifferent(allConfigs)) errorCollection.NewError(configClosedloopRamp(allConfigs.closedloopRamp, timeoutMs));
+		if(BaseMotorControllerUtil.peakOutputForwardDifferent(allConfigs)) errorCollection.NewError(configPeakOutputForward(allConfigs.peakOutputForward, timeoutMs));
+		if(BaseMotorControllerUtil.peakOutputReverseDifferent(allConfigs)) errorCollection.NewError(configPeakOutputReverse(allConfigs.peakOutputReverse, timeoutMs));
+		if(BaseMotorControllerUtil.nominalOutputForwardDifferent(allConfigs)) errorCollection.NewError(configNominalOutputForward(allConfigs.nominalOutputForward, timeoutMs));
+		if(BaseMotorControllerUtil.nominalOutputReverseDifferent(allConfigs)) errorCollection.NewError(configNominalOutputReverse(allConfigs.nominalOutputReverse, timeoutMs));
+		if(BaseMotorControllerUtil.neutralDeadbandDifferent(allConfigs)) errorCollection.NewError(configNeutralDeadband(allConfigs.neutralDeadband, timeoutMs));
+		if(BaseMotorControllerUtil.voltageCompSaturationDifferent(allConfigs)) errorCollection.NewError(configVoltageCompSaturation(allConfigs.voltageCompSaturation, timeoutMs));
+		if(BaseMotorControllerUtil.voltageMeasurementFilterDifferent(allConfigs)) errorCollection.NewError(configVoltageMeasurementFilter(allConfigs.voltageMeasurementFilter, timeoutMs));
+		if(BaseMotorControllerUtil.velocityMeasurementPeriodDifferent(allConfigs)) errorCollection.NewError(configVelocityMeasurementPeriod(allConfigs.velocityMeasurementPeriod, timeoutMs));
+		if(BaseMotorControllerUtil.velocityMeasurementWindowDifferent(allConfigs)) errorCollection.NewError(configVelocityMeasurementWindow(allConfigs.velocityMeasurementWindow, timeoutMs));
+		if(BaseMotorControllerUtil.forwardSoftLimitThresholdDifferent(allConfigs)) errorCollection.NewError(configForwardSoftLimitThreshold(allConfigs.forwardSoftLimitThreshold, timeoutMs));
+		if(BaseMotorControllerUtil.reverseSoftLimitThresholdDifferent(allConfigs)) errorCollection.NewError(configReverseSoftLimitThreshold(allConfigs.reverseSoftLimitThreshold, timeoutMs));
+		if(BaseMotorControllerUtil.forwardSoftLimitEnableDifferent(allConfigs)) errorCollection.NewError(configForwardSoftLimitEnable(allConfigs.forwardSoftLimitEnable, timeoutMs));
+		if(BaseMotorControllerUtil.reverseSoftLimitEnableDifferent(allConfigs)) errorCollection.NewError(configReverseSoftLimitEnable(allConfigs.reverseSoftLimitEnable, timeoutMs));
+		if(BaseMotorControllerUtil.auxPIDPolarityDifferent(allConfigs)) errorCollection.NewError(configAuxPIDPolarity(allConfigs.auxPIDPolarity, timeoutMs));
+		if(BaseMotorControllerUtil.motionCruiseVelocityDifferent(allConfigs)) errorCollection.NewError(configMotionCruiseVelocity(allConfigs.motionCruiseVelocity, timeoutMs));
+		if(BaseMotorControllerUtil.motionAccelerationDifferent(allConfigs)) errorCollection.NewError(configMotionAcceleration(allConfigs.motionAcceleration, timeoutMs));
+		if(BaseMotorControllerUtil.motionProfileTrajectoryPeriodDifferent(allConfigs)) errorCollection.NewError(configMotionProfileTrajectoryPeriod(allConfigs.motionProfileTrajectoryPeriod, timeoutMs));
+		if(BaseMotorControllerUtil.feedbackNotContinuousDifferent(allConfigs)) errorCollection.NewError(configFeedbackNotContinuous(allConfigs.feedbackNotContinuous, timeoutMs));
+		if(BaseMotorControllerUtil.remoteSensorClosedLoopDisableNeutralOnLOSDifferent(allConfigs)) errorCollection.NewError(configRemoteSensorClosedLoopDisableNeutralOnLOS(allConfigs.remoteSensorClosedLoopDisableNeutralOnLOS, timeoutMs));
+		if(BaseMotorControllerUtil.clearPositionOnLimitFDifferent(allConfigs)) errorCollection.NewError(configClearPositionOnLimitF(allConfigs.clearPositionOnLimitF, timeoutMs));
+		if(BaseMotorControllerUtil.clearPositionOnLimitRDifferent(allConfigs)) errorCollection.NewError(configClearPositionOnLimitR(allConfigs.clearPositionOnLimitR, timeoutMs));
+		if(BaseMotorControllerUtil.clearPositionOnQuadIdxDifferent(allConfigs)) errorCollection.NewError(configClearPositionOnQuadIdx(allConfigs.clearPositionOnQuadIdx, timeoutMs));
+		if(BaseMotorControllerUtil.limitSwitchDisableNeutralOnLOSDifferent(allConfigs)) errorCollection.NewError(configLimitSwitchDisableNeutralOnLOS(allConfigs.limitSwitchDisableNeutralOnLOS, timeoutMs));
+		if(BaseMotorControllerUtil.softLimitDisableNeutralOnLOSDifferent(allConfigs)) errorCollection.NewError(configSoftLimitDisableNeutralOnLOS(allConfigs.softLimitDisableNeutralOnLOS, timeoutMs));
+		if(BaseMotorControllerUtil.pulseWidthPeriod_EdgesPerRotDifferent(allConfigs)) errorCollection.NewError(configPulseWidthPeriod_EdgesPerRot(allConfigs.pulseWidthPeriod_EdgesPerRot, timeoutMs));
+		if(BaseMotorControllerUtil.pulseWidthPeriod_FilterWindowSzDifferent(allConfigs)) errorCollection.NewError(configPulseWidthPeriod_FilterWindowSz(allConfigs.pulseWidthPeriod_FilterWindowSz, timeoutMs));
+		
+		//Custom Parameters
+		if(BaseMotorControllerUtil.customParam0Different(allConfigs)) errorCollection.NewError(configSetCustomParam(allConfigs.customParam0, 0, timeoutMs));
+		if(BaseMotorControllerUtil.customParam1Different(allConfigs)) errorCollection.NewError(configSetCustomParam(allConfigs.customParam1, 1, timeoutMs));
 
-        //----- general output shaping ------------------//
-        if(allConfigs.openloopRamp != _defaultConfigurations.openloopRamp || !allConfigs.enableOptimizations) 
-			errorCollection.NewError(configOpenloopRamp(allConfigs.openloopRamp, timeoutMs));
-        if(allConfigs.closedloopRamp != _defaultConfigurations.closedloopRamp || !allConfigs.enableOptimizations) 
-			errorCollection.NewError(configClosedloopRamp(allConfigs.closedloopRamp, timeoutMs));
-        if(allConfigs.peakOutputForward != _defaultConfigurations.peakOutputForward || !allConfigs.enableOptimizations) 
-			errorCollection.NewError(configPeakOutputForward(allConfigs.peakOutputForward, timeoutMs));
-        if(allConfigs.peakOutputReverse != _defaultConfigurations.peakOutputReverse || !allConfigs.enableOptimizations) 
-			errorCollection.NewError(configPeakOutputReverse(allConfigs.peakOutputReverse, timeoutMs));
-        if(allConfigs.nominalOutputForward != _defaultConfigurations.nominalOutputForward || !allConfigs.enableOptimizations) 
-			errorCollection.NewError(configNominalOutputForward(allConfigs.nominalOutputForward, timeoutMs));
-        if(allConfigs.nominalOutputReverse != _defaultConfigurations.nominalOutputReverse || !allConfigs.enableOptimizations) 
-			errorCollection.NewError(configNominalOutputReverse(allConfigs.nominalOutputReverse, timeoutMs));
-        if(allConfigs.neutralDeadband != _defaultConfigurations.neutralDeadband || !allConfigs.enableOptimizations) 
-			errorCollection.NewError(configNeutralDeadband(allConfigs.neutralDeadband, timeoutMs));
-        
-    
-        //------ Voltage Compensation ----------//
-        if(allConfigs.voltageCompSaturation != _defaultConfigurations.voltageCompSaturation || !allConfigs.enableOptimizations) 
-			errorCollection.NewError(configVoltageCompSaturation(allConfigs.voltageCompSaturation, timeoutMs));
-        if(allConfigs.voltageMeasurementFilter != _defaultConfigurations.voltageMeasurementFilter || !allConfigs.enableOptimizations) 
-			errorCollection.NewError(configVoltageMeasurementFilter(allConfigs.voltageMeasurementFilter, timeoutMs));
-        
-    
-        //----- velocity signal conditioning ------//
-        if(allConfigs.velocityMeasurementPeriod != _defaultConfigurations.velocityMeasurementPeriod || !allConfigs.enableOptimizations) 
-			errorCollection.NewError(configVelocityMeasurementPeriod(allConfigs.velocityMeasurementPeriod, timeoutMs));
-        if(allConfigs.velocityMeasurementWindow != _defaultConfigurations.velocityMeasurementWindow || !allConfigs.enableOptimizations) 
-			errorCollection.NewError(configVelocityMeasurementWindow(allConfigs.velocityMeasurementWindow, timeoutMs));
-        
-    
-        //------ soft limit ----------//
-        if(allConfigs.forwardSoftLimitThreshold != _defaultConfigurations.forwardSoftLimitThreshold || !allConfigs.enableOptimizations) 
-			errorCollection.NewError(configForwardSoftLimitThreshold(allConfigs.forwardSoftLimitThreshold, timeoutMs));
-        if(allConfigs.reverseSoftLimitThreshold != _defaultConfigurations.reverseSoftLimitThreshold || !allConfigs.enableOptimizations) 
-			errorCollection.NewError(configReverseSoftLimitThreshold(allConfigs.reverseSoftLimitThreshold, timeoutMs));
-        if(allConfigs.forwardSoftLimitEnable != _defaultConfigurations.forwardSoftLimitEnable || !allConfigs.enableOptimizations) 
-			errorCollection.NewError(configForwardSoftLimitEnable(allConfigs.forwardSoftLimitEnable, timeoutMs));
-        if(allConfigs.reverseSoftLimitEnable != _defaultConfigurations.reverseSoftLimitEnable || !allConfigs.enableOptimizations) 
-			errorCollection.NewError(configReverseSoftLimitEnable(allConfigs.reverseSoftLimitEnable, timeoutMs));
-        
-    
-    
-        //------ limit switch ----------//   
-        /* not in base */
-    
-        //------ Current Lim ----------//
-        /* not in base */
-    
         //--------Slots---------------//
-    
-        if(allConfigs.slot0 != _defaultConfigurations.slot0 || !allConfigs.enableOptimizations) 
-			errorCollection.NewError(configureSlot(allConfigs.slot0, 0, timeoutMs));
-        if(allConfigs.slot1 != _defaultConfigurations.slot1 || !allConfigs.enableOptimizations) 
-			errorCollection.NewError(configureSlot(allConfigs.slot1, 1, timeoutMs));
-        if(allConfigs.slot2 != _defaultConfigurations.slot2 || !allConfigs.enableOptimizations) 
-			errorCollection.NewError(configureSlot(allConfigs.slot2, 2, timeoutMs));
-        if(allConfigs.slot3 != _defaultConfigurations.slot3 || !allConfigs.enableOptimizations) 
-			errorCollection.NewError(configureSlot(allConfigs.slot3, 3, timeoutMs));
-        
-    
-        //---------Auxiliary Closed Loop Polarity-------------//
-    
-        if(allConfigs.auxPIDPolarity != _defaultConfigurations.auxPIDPolarity || !allConfigs.enableOptimizations) 
-			errorCollection.NewError(configAuxPIDPolarity(allConfigs.auxPIDPolarity, timeoutMs));
-        
-    
+        errorCollection.NewError(configureSlot(allConfigs.slot0, 0, timeoutMs, allConfigs.enableOptimizations));
+        errorCollection.NewError(configureSlot(allConfigs.slot1, 1, timeoutMs, allConfigs.enableOptimizations));
+        errorCollection.NewError(configureSlot(allConfigs.slot2, 2, timeoutMs, allConfigs.enableOptimizations));
+        errorCollection.NewError(configureSlot(allConfigs.slot3, 3, timeoutMs, allConfigs.enableOptimizations));
+		
         //----------Remote Feedback Filters----------//
-		if(allConfigs.filter0 != _defaultConfigurations.filter0 || !allConfigs.enableOptimizations)
-			errorCollection.NewError(configureFilter(allConfigs.filter0, 0, timeoutMs));
-		if(allConfigs.filter1 != _defaultConfigurations.filter1 || !allConfigs.enableOptimizations)
-			errorCollection.NewError(configureFilter(allConfigs.filter1, 1, timeoutMs));
-        
-    
-        //------ Motion Profile Settings used in Motion Magic  ----------//
-		if(allConfigs.motionCruiseVelocity != _defaultConfigurations.motionCruiseVelocity || !allConfigs.enableOptimizations)
-			errorCollection.NewError(configMotionCruiseVelocity(allConfigs.motionCruiseVelocity, timeoutMs));
-		if(allConfigs.motionAcceleration != _defaultConfigurations.motionAcceleration || !allConfigs.enableOptimizations)
-			errorCollection.NewError(configMotionAcceleration(allConfigs.motionAcceleration, timeoutMs));
-        
-    
-        //------ Motion Profile Buffer ----------//
-		if(allConfigs.motionProfileTrajectoryPeriod != _defaultConfigurations.motionProfileTrajectoryPeriod || !allConfigs.enableOptimizations)
-			errorCollection.NewError(configMotionProfileTrajectoryPeriod(allConfigs.motionProfileTrajectoryPeriod, timeoutMs));
-        
-    
-        //------ Custom Persistent Params ----------//
-		if(allConfigs.customParam_0 != _defaultConfigurations.customParam_0 || !allConfigs.enableOptimizations)
-			errorCollection.NewError(configSetCustomParam(allConfigs.customParam_0, 0, timeoutMs));
-		if(allConfigs.customParam_1 != _defaultConfigurations.customParam_1 || !allConfigs.enableOptimizations)
-			errorCollection.NewError(configSetCustomParam(allConfigs.customParam_1, 1, timeoutMs));
-        
-    
-		if(allConfigs.feedbackNotContinuous != _defaultConfigurations.feedbackNotContinuous || !allConfigs.enableOptimizations)
-			errorCollection.NewError(configFeedbackNotContinuous(allConfigs.feedbackNotContinuous, timeoutMs));
-		if(allConfigs.remoteSensorClosedLoopDisableNeutralOnLOS != _defaultConfigurations.remoteSensorClosedLoopDisableNeutralOnLOS || !allConfigs.enableOptimizations)
-			errorCollection.NewError(configRemoteSensorClosedLoopDisableNeutralOnLOS(allConfigs.remoteSensorClosedLoopDisableNeutralOnLOS, timeoutMs));
-		if(allConfigs.clearPositionOnLimitF != _defaultConfigurations.clearPositionOnLimitF || !allConfigs.enableOptimizations)
-			errorCollection.NewError(configClearPositionOnLimitF(allConfigs.clearPositionOnLimitF, timeoutMs));
-		if(allConfigs.clearPositionOnLimitR != _defaultConfigurations.clearPositionOnLimitR || !allConfigs.enableOptimizations)
-			errorCollection.NewError(configClearPositionOnLimitR(allConfigs.clearPositionOnLimitR, timeoutMs));
-		if(allConfigs.clearPositionOnQuadIdx != _defaultConfigurations.clearPositionOnQuadIdx || !allConfigs.enableOptimizations)
-			errorCollection.NewError(configClearPositionOnQuadIdx(allConfigs.clearPositionOnQuadIdx, timeoutMs));
-		if(allConfigs.limitSwitchDisableNeutralOnLOS != _defaultConfigurations.limitSwitchDisableNeutralOnLOS || !allConfigs.enableOptimizations)
-			errorCollection.NewError(configLimitSwitchDisableNeutralOnLOS(allConfigs.limitSwitchDisableNeutralOnLOS, timeoutMs));
-		if(allConfigs.softLimitDisableNeutralOnLOS != _defaultConfigurations.softLimitDisableNeutralOnLOS || !allConfigs.enableOptimizations)
-			errorCollection.NewError(configSoftLimitDisableNeutralOnLOS(allConfigs.softLimitDisableNeutralOnLOS, timeoutMs));
-		if(allConfigs.pulseWidthPeriod_EdgesPerRot != _defaultConfigurations.pulseWidthPeriod_EdgesPerRot || !allConfigs.enableOptimizations)
-			errorCollection.NewError(configPulseWidthPeriod_EdgesPerRot(allConfigs.pulseWidthPeriod_EdgesPerRot, timeoutMs));
-		if(allConfigs.pulseWidthPeriod_FilterWindowSz != _defaultConfigurations.pulseWidthPeriod_FilterWindowSz || !allConfigs.enableOptimizations)
-			errorCollection.NewError(configPulseWidthPeriod_FilterWindowSz(allConfigs.pulseWidthPeriod_FilterWindowSz, timeoutMs));
-        
-    
+		errorCollection.NewError(configureFilter(allConfigs.filter0, 0, timeoutMs, allConfigs.enableOptimizations));
+        errorCollection.NewError(configureFilter(allConfigs.filter1, 1, timeoutMs, allConfigs.enableOptimizations));
+            
         return errorCollection._worstError;
     }
 
@@ -2354,21 +2283,22 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
      *
      * @return Error Code generated by function. 0 indicates no error. 
      */
-    public ErrorCode configureSlot( SlotConfiguration slot, int slotIdx, int timeoutMs) {
+    public ErrorCode configureSlot( SlotConfiguration slot, int slotIdx, int timeoutMs, boolean enableOptimization) {
     
         ErrorCollection errorCollection = new ErrorCollection();
         //------ General Close loop ----------//    
-    
-        errorCollection.NewError(config_kP(slotIdx, slot.kP, timeoutMs));
-        errorCollection.NewError(config_kI(slotIdx, slot.kI, timeoutMs));
-        errorCollection.NewError(config_kD(slotIdx, slot.kD, timeoutMs));
-        errorCollection.NewError(config_kF(slotIdx, slot.kF, timeoutMs));
-        errorCollection.NewError(config_IntegralZone(slotIdx, slot.integralZone, timeoutMs));
-        errorCollection.NewError(configAllowableClosedloopError(slotIdx, slot.allowableClosedloopError, timeoutMs));
-        errorCollection.NewError(configMaxIntegralAccumulator(slotIdx, slot.maxIntegralAccumulator, timeoutMs));
-        errorCollection.NewError(configClosedLoopPeakOutput(slotIdx, slot.closedLoopPeakOutput, timeoutMs));
-        errorCollection.NewError(configClosedLoopPeriod(slotIdx, slot.closedLoopPeriod, timeoutMs));
+		
+		
         
+		if(SlotConfigurationUtil.kPDifferent(slot) || !enableOptimization) errorCollection.NewError(config_kP(slotIdx, slot.kP, timeoutMs));
+		if(SlotConfigurationUtil.kIDifferent(slot) || !enableOptimization) errorCollection.NewError(config_kI(slotIdx, slot.kI, timeoutMs));
+		if(SlotConfigurationUtil.kDDifferent(slot) || !enableOptimization) errorCollection.NewError(config_kD(slotIdx, slot.kD, timeoutMs));
+		if(SlotConfigurationUtil.kFDifferent(slot) || !enableOptimization) errorCollection.NewError(config_kF(slotIdx, slot.kF, timeoutMs));
+		if(SlotConfigurationUtil.integralZoneDifferent(slot) || !enableOptimization) errorCollection.NewError(config_IntegralZone(slotIdx, slot.integralZone, timeoutMs));
+		if(SlotConfigurationUtil.allowableClosedloopErrorDifferent(slot) || !enableOptimization) errorCollection.NewError(configAllowableClosedloopError(slotIdx, slot.allowableClosedloopError, timeoutMs));
+		if(SlotConfigurationUtil.maxIntegralAccumulatorDifferent(slot) || !enableOptimization) errorCollection.NewError(configMaxIntegralAccumulator(slotIdx, slot.maxIntegralAccumulator, timeoutMs));
+		if(SlotConfigurationUtil.closedLoopPeakOutputDifferent(slot) || !enableOptimization) errorCollection.NewError(configClosedLoopPeakOutput(slotIdx, slot.closedLoopPeakOutput, timeoutMs));
+		if(SlotConfigurationUtil.closedLoopPeriodDifferent(slot) || !enableOptimization) errorCollection.NewError(configClosedLoopPeriod(slotIdx, slot.closedLoopPeriod, timeoutMs));
     
         return errorCollection._worstError;
     
@@ -2386,7 +2316,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
     public ErrorCode configureSlot( SlotConfiguration slot) {
         int slotIdx = 0;
         int timeoutMs = 50;
-        return configureSlot(slot, slotIdx, timeoutMs);
+        return configureSlot(slot, slotIdx, timeoutMs, true);
     }
     /**
      * Gets all slot persistant settings.
@@ -2434,10 +2364,11 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
      *
      * @return Error Code generated by function. 0 indicates no error. 
      */
-    public ErrorCode configureFilter( FilterConfiguration filter, int ordinal, int timeoutMs) {
-    
-        return configRemoteFeedbackFilter(filter.remoteSensorDeviceID, filter.remoteSensorSource, ordinal, timeoutMs);
-    
+    public ErrorCode configureFilter( FilterConfiguration filter, int ordinal, int timeoutMs, boolean enableOptimizations) {
+		if(FilterConfigUtil.filterConfigurationDifferent(filter) || !enableOptimizations)
+			return configRemoteFeedbackFilter(filter.remoteSensorDeviceID, filter.remoteSensorSource, ordinal, timeoutMs);
+		
+		return ErrorCode.OK;
     }
     /**
      * Configures all filter persistant settings (overloaded so timeoutMs is 50 ms
@@ -2450,7 +2381,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
     public ErrorCode configureFilter( FilterConfiguration filter) {
         int ordinal = 0;
         int timeoutMs = 50;
-        return configureFilter(filter, ordinal, timeoutMs);
+        return configureFilter(filter, ordinal, timeoutMs, true);
     }
     
     /**
@@ -2553,8 +2484,8 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
         allConfigs.motionCruiseVelocity = (int) configGetParameter(ParamEnum.eMotMag_VelCruise, 0, timeoutMs);
         allConfigs.motionAcceleration = (int) configGetParameter(ParamEnum.eMotMag_Accel, 0, timeoutMs);
         allConfigs.motionProfileTrajectoryPeriod = (int) configGetParameter(ParamEnum.eMotionProfileTrajectoryPointDurationMs, 0, timeoutMs);
-        allConfigs.customParam_0 = (int) configGetParameter(ParamEnum.eCustomParam, 0,  timeoutMs);
-        allConfigs.customParam_1 = (int) configGetParameter(ParamEnum.eCustomParam, 1,  timeoutMs);
+        allConfigs.customParam0 = (int) configGetParameter(ParamEnum.eCustomParam, 0,  timeoutMs);
+        allConfigs.customParam1 = (int) configGetParameter(ParamEnum.eCustomParam, 1,  timeoutMs);
     
     
         allConfigs.feedbackNotContinuous = configGetParameter(ParamEnum.eFeedbackNotContinuous, 0, timeoutMs) != 0.0;

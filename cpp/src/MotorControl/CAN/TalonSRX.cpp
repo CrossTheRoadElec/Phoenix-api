@@ -6,6 +6,10 @@ using namespace ctre::phoenix;
 using namespace ctre::phoenix::motorcontrol::can;
 using namespace ctre::phoenix::motorcontrol;
 
+//Construct defaults for utils
+TalonSRXPIDSetConfiguration  TalonSRXPIDSetConfigUtil::_default;
+TalonSRXConfiguration TalonConfigUtil::_default;
+
 /**
  * Constructor
  * @param deviceNumber [0,62]
@@ -353,14 +357,16 @@ void TalonSRX::EnableCurrentLimit(bool enable) {
  *              config success and report an error if it times out.
  *              If zero, no blocking or checking is performed.
  */
-ErrorCode TalonSRX::ConfigurePID(const TalonSRXPIDSetConfiguration &pid, int pidIdx, int timeoutMs) {
+ErrorCode TalonSRX::ConfigurePID(const TalonSRXPIDSetConfiguration &pid, int pidIdx, int timeoutMs, bool enableOptimizations) {
 
     ErrorCollection errorCollection;
     
     //------ sensor selection ----------//		
    
-	errorCollection.NewError(BaseConfigurePID(pid, pidIdx, timeoutMs));
-	errorCollection.NewError(ConfigSelectedFeedbackSensor(pid.selectedFeedbackSensor, pidIdx, timeoutMs));
+    if(TalonSRXPIDSetConfigUtil::SelectedFeedbackCoefficientDifferent(pid) || !enableOptimizations)
+		errorCollection.NewError(ConfigSelectedFeedbackCoefficient(pid.selectedFeedbackCoefficient, pidIdx, timeoutMs));
+	if(TalonSRXPIDSetConfigUtil::SelectedFeedbackSensorDifferent(pid) || !enableOptimizations)
+		errorCollection.NewError(ConfigSelectedFeedbackSensor(pid.selectedFeedbackSensor, pidIdx, timeoutMs));
     	
     return errorCollection._worstError;
 }
@@ -376,6 +382,7 @@ void TalonSRX::GetPIDConfigs(TalonSRXPIDSetConfiguration &pid, int pidIdx, int t
 	pid.selectedFeedbackSensor = (FeedbackDevice) ConfigGetParameter(eFeedbackSensorType, pidIdx, timeoutMs);
 
 }
+
 /**
  * Configures all peristant settings.
  *
@@ -392,33 +399,29 @@ ErrorCode TalonSRX::ConfigAllSettings(const TalonSRXConfiguration &allConfigs, i
     ErrorCollection errorCollection;
     
 	errorCollection.NewError(BaseConfigAllSettings(allConfigs, timeoutMs));	
-
-    //------ limit switch ----------//   
-	if(allConfigs.forwardLimitSwitchSource != _defaultTalonConfigurations.forwardLimitSwitchSource || allConfigs.forwardLimitSwitchNormal != _defaultTalonConfigurations.forwardLimitSwitchNormal ||
-	   allConfigs.forwardLimitSwitchDeviceID != _defaultTalonConfigurations.forwardLimitSwitchDeviceID || !allConfigs.enableOptimizations)
-		errorCollection.NewError(c_MotController_ConfigForwardLimitSwitchSource(m_handle, allConfigs.forwardLimitSwitchSource,
-			allConfigs.forwardLimitSwitchNormal, allConfigs.forwardLimitSwitchDeviceID, timeoutMs));
-			
-	if(allConfigs.reverseLimitSwitchSource != _defaultTalonConfigurations.reverseLimitSwitchSource || allConfigs.reverseLimitSwitchNormal != _defaultTalonConfigurations.reverseLimitSwitchNormal ||
-	   allConfigs.reverseLimitSwitchDeviceID != _defaultTalonConfigurations.reverseLimitSwitchDeviceID || !allConfigs.enableOptimizations)
-		errorCollection.NewError(c_MotController_ConfigReverseLimitSwitchSource(m_handle, allConfigs.reverseLimitSwitchSource,
-			allConfigs.reverseLimitSwitchNormal, allConfigs.reverseLimitSwitchDeviceID, timeoutMs));
-    
+   
 
 	//--------PIDs---------------//
 	
-	if(allConfigs.primaryPID != _defaultTalonConfigurations.primaryPID || !allConfigs.enableOptimizations) errorCollection.NewError(ConfigurePID(allConfigs.primaryPID, 0, timeoutMs));
-	if(allConfigs.auxilaryPID != _defaultTalonConfigurations.auxilaryPID || !allConfigs.enableOptimizations) errorCollection.NewError(ConfigurePID(allConfigs.auxilaryPID, 1, timeoutMs));
-	if(allConfigs.sum0Term != _defaultTalonConfigurations.sum0Term || !allConfigs.enableOptimizations) errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Sum0, allConfigs.sum0Term, timeoutMs));
-	if(allConfigs.sum1Term != _defaultTalonConfigurations.sum1Term || !allConfigs.enableOptimizations) errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Sum1, allConfigs.sum1Term, timeoutMs));
-	if(allConfigs.diff0Term != _defaultTalonConfigurations.diff0Term || !allConfigs.enableOptimizations) errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Diff0, allConfigs.diff0Term, timeoutMs));
-	if(allConfigs.diff1Term != _defaultTalonConfigurations.diff1Term || !allConfigs.enableOptimizations) errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Diff1, allConfigs.diff1Term, timeoutMs));
-    
-    //--------Current Limiting-----//
-	if(allConfigs.peakCurrentLimit != _defaultTalonConfigurations.peakCurrentLimit || !allConfigs.enableOptimizations) errorCollection.NewError(ConfigPeakCurrentLimit(allConfigs.peakCurrentLimit, timeoutMs));
-	if(allConfigs.peakCurrentDuration != _defaultTalonConfigurations.peakCurrentDuration || !allConfigs.enableOptimizations) errorCollection.NewError(ConfigPeakCurrentDuration(allConfigs.peakCurrentDuration, timeoutMs));
-	if(allConfigs.continuousCurrentLimit != _defaultTalonConfigurations.continuousCurrentLimit || !allConfigs.enableOptimizations) errorCollection.NewError(ConfigContinuousCurrentLimit(allConfigs.continuousCurrentLimit, timeoutMs)); 
-    
+	errorCollection.NewError(ConfigurePID(allConfigs.primaryPID, 0, timeoutMs));
+	errorCollection.NewError(ConfigurePID(allConfigs.auxilaryPID, 1, timeoutMs));
+	
+	// https://docs.google.com/spreadsheets/d/1mU-WOaCnMYSTGq7mqHnahamwzSpflqNpogikiyQMGl8/edit?usp=sharing
+	if(TalonConfigUtil::ForwardLimitSwitchDifferent(allConfigs))
+		errorCollection.NewError(c_MotController_ConfigForwardLimitSwitchSource(m_handle, allConfigs.forwardLimitSwitchSource,
+			allConfigs.forwardLimitSwitchNormal, allConfigs.forwardLimitSwitchDeviceID, timeoutMs));
+	if(TalonConfigUtil::ReverseLimitSwitchDifferent(allConfigs)) 
+		errorCollection.NewError(c_MotController_ConfigReverseLimitSwitchSource(m_handle, allConfigs.reverseLimitSwitchSource,
+			allConfigs.reverseLimitSwitchNormal, allConfigs.reverseLimitSwitchDeviceID, timeoutMs));
+	
+	if(TalonConfigUtil::Sum0TermDifferent(allConfigs)) errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Sum0, allConfigs.sum0Term, timeoutMs));
+	if(TalonConfigUtil::Sum1TermDifferent(allConfigs)) errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Sum1, allConfigs.sum1Term, timeoutMs));
+	if(TalonConfigUtil::Diff0TermDifferent(allConfigs)) errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Diff0, allConfigs.diff0Term, timeoutMs));
+	if(TalonConfigUtil::Diff1TermDifferent(allConfigs)) errorCollection.NewError(ConfigSensorTerm(SensorTerm::SensorTerm_Diff1, allConfigs.diff1Term, timeoutMs));
+	
+	if(TalonConfigUtil::PeakCurrentLimitDifferent(allConfigs)) errorCollection.NewError(ConfigPeakCurrentLimit(allConfigs.peakCurrentLimit, timeoutMs));
+	if(TalonConfigUtil::PeakCurrentDurationDifferent(allConfigs)) errorCollection.NewError(ConfigPeakCurrentDuration(allConfigs.peakCurrentDuration, timeoutMs));
+	if(TalonConfigUtil::ContinuousCurrentLimitDifferent(allConfigs)) errorCollection.NewError(ConfigContinuousCurrentLimit(allConfigs.continuousCurrentLimit, timeoutMs));
 
     return errorCollection._worstError;
 }

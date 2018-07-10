@@ -15,10 +15,10 @@ public class VictorSPXConfiguration extends com.ctre.phoenix.motorcontrol.can.Ba
     public int reverseLimitSwitchDeviceID;
     public LimitSwitchNormal forwardLimitSwitchNormal;
     public LimitSwitchNormal reverseLimitSwitchNormal;
-    public RemoteFeedbackDevice sum_0;
-    public RemoteFeedbackDevice sum_1;
-    public RemoteFeedbackDevice diff_0;
-    public RemoteFeedbackDevice diff_1;
+    public RemoteFeedbackDevice sum0Term;
+    public RemoteFeedbackDevice sum1Term;
+    public RemoteFeedbackDevice diff0Term;
+    public RemoteFeedbackDevice diff1Term;
 
 	
 	public VictorSPXConfiguration() {
@@ -31,10 +31,10 @@ public class VictorSPXConfiguration extends com.ctre.phoenix.motorcontrol.can.Ba
         reverseLimitSwitchDeviceID = 0;
         forwardLimitSwitchNormal = LimitSwitchNormal.NormallyOpen;
         reverseLimitSwitchNormal = LimitSwitchNormal.NormallyOpen;
-        sum_0 =  RemoteFeedbackDevice.RemoteSensor0; 
-        sum_1 =  RemoteFeedbackDevice.RemoteSensor0;
-        diff_0 = RemoteFeedbackDevice.RemoteSensor0;
-        diff_1 = RemoteFeedbackDevice.RemoteSensor0;
+        sum0Term =  RemoteFeedbackDevice.RemoteSensor0; 
+        sum1Term =  RemoteFeedbackDevice.RemoteSensor0;
+        diff0Term = RemoteFeedbackDevice.RemoteSensor0;
+        diff1Term = RemoteFeedbackDevice.RemoteSensor0;
         //NOTE: while the factory default value is 0, this value can't 
         //be set by the API. Thus, RemoteSensor0 is the default
 
@@ -48,15 +48,13 @@ public class VictorSPXConfiguration extends com.ctre.phoenix.motorcontrol.can.Ba
         retstr += prependString + ".reverseLimitSwitchDeviceID = " + String.valueOf(reverseLimitSwitchDeviceID) + ";\n";
         retstr += prependString + ".forwardLimitSwitchNormal = " + forwardLimitSwitchNormal.toString() + ";\n";
         retstr += prependString + ".reverseLimitSwitchNormal = " + reverseLimitSwitchNormal.toString() + ";\n";
-        retstr += prependString + ".sum_0 = " + sum_0.toString() + ";\n";
-        retstr += prependString + ".sum_1 = " + sum_1.toString() + ";\n";
-        retstr += prependString + ".diff_0 = " + diff_0.toString() + ";\n";
-        retstr += prependString + ".diff_1 = " + diff_1.toString() + ";\n";
+        retstr += prependString + ".sum0Term = " + sum0Term.toString() + ";\n";
+        retstr += prependString + ".sum1Term = " + sum1Term.toString() + ";\n";
+        retstr += prependString + ".diff0Term = " + diff0Term.toString() + ";\n";
+        retstr += prependString + ".diff1Term = " + diff1Term.toString() + ";\n";
         retstr += super.toString(prependString);
 
         return retstr;
     }
-
-
 }
 

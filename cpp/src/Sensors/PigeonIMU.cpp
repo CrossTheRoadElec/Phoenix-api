@@ -806,8 +806,8 @@ ErrorCode PigeonIMU::ClearStickyFaults(int timeoutMs) {
  */
 ErrorCode PigeonIMU::ConfigAllSettings(const PigeonIMUConfiguration &allConfigs, int timeoutMs) {
 	ErrorCollection errorCollection;
-    errorCollection.NewError(ConfigSetCustomParam(allConfigs.customParam_0, 0, timeoutMs));
-    errorCollection.NewError(ConfigSetCustomParam(allConfigs.customParam_1, 1, timeoutMs));
+    errorCollection.NewError(ConfigSetCustomParam(allConfigs.customParam0, 0, timeoutMs));
+    errorCollection.NewError(ConfigSetCustomParam(allConfigs.customParam1, 1, timeoutMs));
     
     return errorCollection._worstError; 
 }
@@ -823,8 +823,8 @@ ErrorCode PigeonIMU::ConfigAllSettings(const PigeonIMUConfiguration &allConfigs,
  */
 void PigeonIMU::GetAllConfigs(PigeonIMUConfiguration &allConfigs, int timeoutMs) {
 	
-	allConfigs.customParam_0 = (int) ConfigGetParameter(eCustomParam, 0,  timeoutMs); 
-	allConfigs.customParam_1 = (int) ConfigGetParameter(eCustomParam, 1,  timeoutMs); 
+	allConfigs.customParam0 = (int) ConfigGetParameter(eCustomParam, 0,  timeoutMs); 
+	allConfigs.customParam1 = (int) ConfigGetParameter(eCustomParam, 1,  timeoutMs); 
 }
 
 /**

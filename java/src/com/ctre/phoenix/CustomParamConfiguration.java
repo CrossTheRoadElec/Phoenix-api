@@ -1,17 +1,17 @@
 package com.ctre.phoenix;
 
 public abstract class CustomParamConfiguration{
-	public int customParam_0;
-	public int customParam_1;
+	public int customParam0;
+	public int customParam1;
 	public boolean enableOptimizations;
 	public CustomParamConfiguration() {
-		customParam_0 = 0;
-		customParam_1 = 0;
+		customParam0 = 0;
+		customParam1 = 0;
 		enableOptimizations = true;
 	}
     public String toString(String prependString) {
-        String retstr = prependString + ".customParam_0 = " + String.valueOf(customParam_0) + ";\n";
-        retstr += prependString + ".customParam_1 = " + String.valueOf(customParam_1) + ";\n";
+        String retstr = prependString + ".customParam0 = " + String.valueOf(customParam0) + ";\n";
+        retstr += prependString + ".customParam1 = " + String.valueOf(customParam1) + ";\n";
 
         return retstr;
     }

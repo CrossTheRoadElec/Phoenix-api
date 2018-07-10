@@ -26,6 +26,7 @@ import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.ErrorCollection;
 import com.ctre.phoenix.ParamEnum;
+import com.ctre.phoenix.CustomParamConfigUtil;
 
 import edu.wpi.first.wpilibj.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.wpilibj.hal.HAL;
@@ -1022,8 +1023,10 @@ public class PigeonIMU {
      */
 	public ErrorCode configAllSettings(PigeonIMUConfiguration allConfigs, int timeoutMs) {
         ErrorCollection errorCollection = new ErrorCollection();
-        errorCollection.NewError(configSetCustomParam(allConfigs.customParam_0, 0, timeoutMs));
-        errorCollection.NewError(configSetCustomParam(allConfigs.customParam_1, 1, timeoutMs));
+		if(CustomParamConfigUtil.customParam0Different(allConfigs))
+			errorCollection.NewError(configSetCustomParam(allConfigs.customParam0, 0, timeoutMs));
+		if(CustomParamConfigUtil.customParam1Different(allConfigs))
+			errorCollection.NewError(configSetCustomParam(allConfigs.customParam1, 1, timeoutMs));
         
 
         return errorCollection._worstError;
@@ -1051,8 +1054,8 @@ public class PigeonIMU {
      */
     public void getAllConfigs(PigeonIMUConfiguration allConfigs, int timeoutMs) {
 
-        allConfigs.customParam_0 = (int) configGetParameter(ParamEnum.eCustomParam, 0,  timeoutMs);
-        allConfigs.customParam_1 = (int) configGetParameter(ParamEnum.eCustomParam, 1,  timeoutMs);
+        allConfigs.customParam0 = (int) configGetParameter(ParamEnum.eCustomParam, 0,  timeoutMs);
+        allConfigs.customParam1 = (int) configGetParameter(ParamEnum.eCustomParam, 1,  timeoutMs);
     }
     /**
      * Gets all persistant settings (overloaded so timeoutMs is 50 ms).

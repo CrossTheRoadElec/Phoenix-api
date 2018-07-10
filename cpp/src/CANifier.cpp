@@ -511,8 +511,8 @@ ErrorCode CANifier::ConfigAllSettings(const CANifierConfiguration &allConfigs, i
     errorCollection.NewError(ConfigClearPositionOnLimitF(allConfigs.clearPositionOnLimitF, timeoutMs));
     errorCollection.NewError(ConfigClearPositionOnLimitR(allConfigs.clearPositionOnLimitR, timeoutMs));
     errorCollection.NewError(ConfigClearPositionOnQuadIdx(allConfigs.clearPositionOnQuadIdx, timeoutMs));
-    errorCollection.NewError(ConfigSetCustomParam(allConfigs.customParam_0, 0, timeoutMs));
-    errorCollection.NewError(ConfigSetCustomParam(allConfigs.customParam_1, 1, timeoutMs));
+    errorCollection.NewError(ConfigSetCustomParam(allConfigs.customParam0, 0, timeoutMs));
+    errorCollection.NewError(ConfigSetCustomParam(allConfigs.customParam1, 1, timeoutMs));
     
 	return errorCollection._worstError;	
 }
@@ -533,8 +533,8 @@ void CANifier::GetAllConfigs(CANifierConfiguration &allConfigs, int timeoutMs) {
     allConfigs.clearPositionOnLimitF = (bool) ConfigGetParameter(eClearPositionOnLimitF, 0, timeoutMs);
     allConfigs.clearPositionOnLimitR = (bool) ConfigGetParameter(eClearPositionOnLimitR, 0, timeoutMs);
     allConfigs.clearPositionOnQuadIdx = (bool) ConfigGetParameter(eClearPositionOnQuadIdx, 0, timeoutMs);	
-    allConfigs.customParam_0 = (int) ConfigGetParameter(eCustomParam, 0,  timeoutMs); 
-	allConfigs.customParam_1 = (int) ConfigGetParameter(eCustomParam, 1,  timeoutMs); 
+    allConfigs.customParam0 = (int) ConfigGetParameter(eCustomParam, 0,  timeoutMs); 
+	allConfigs.customParam1 = (int) ConfigGetParameter(eCustomParam, 1,  timeoutMs); 
 
 }
 
