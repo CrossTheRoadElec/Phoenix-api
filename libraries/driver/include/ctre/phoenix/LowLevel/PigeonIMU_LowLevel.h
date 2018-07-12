@@ -161,7 +161,7 @@ public:
 	ctre::phoenix::ErrorCode AddFusedHeading(double angleDeg, int timeoutMs);
 	ctre::phoenix::ErrorCode SetFusedHeadingToCompass(int timeoutMs);
 	ctre::phoenix::ErrorCode SetAccumZAngle(double angleDeg, int timeoutMs);
-	ctre::phoenix::ErrorCode ConfigTemperatureCompensationEnable(bool bTempCompEnable, int timeoutMs);
+	ctre::phoenix::ErrorCode SetTemperatureCompensationDisable(bool bTempCompDisable, int timeoutMs);
 	ctre::phoenix::ErrorCode SetCompassDeclination(double angleDegOffset, int timeoutMs);
 	ctre::phoenix::ErrorCode SetCompassAngle(double angleDeg, int timeoutMs);
 

@@ -1,7 +1,12 @@
 #pragma once
-#include "ctre/Phoenix/Platform/Platform-pack.h"
+#include "ctre/phoenix/Platform/Platform-pack.h"
 #include <stdint.h>
 #include <string>
+
+/* small wrinkle for RIO platform */
+#ifdef SUPPORT_ROBORIO
+	struct tCANStreamMessage;
+#endif
 
 namespace ctre {
 namespace phoenix {
@@ -19,12 +24,12 @@ namespace can {
 		uint8_t dlc; //!< Number of bytes in payload
 	} canframe_t;
 
-	//-------------- Low Level CANBus interface, this is required if using Phoenix-canutil--------------------------//
+	//-------------- Low Level CANBus interface, this is required if using phoenix-canutil--------------------------//
 	void CANbus_GetStatus(float *busUtilPerc, uint32_t *busOffCount, uint32_t *txFullCount, uint32_t *rec, uint32_t *tec, int32_t *status);
 	int32_t CANbus_SendFrame(uint32_t messageID, const uint8_t *data, uint8_t dataSize);
 	int32_t CANbus_ReceiveFrames(canframe_t * toFill, int capacity, int & size);
 
-	//-------------- Mid Level CANBus interface, this is required if NOT using Phoenix-canutil, --------------------------//
+	//-------------- Mid Level CANBus interface, this is required if NOT using phoenix-canutil, --------------------------//
 	void CANComm_SendMessage(uint32_t messageID, const uint8_t *data, uint8_t dataSize, int32_t periodMs, int32_t *status);
 	/**
 	 * @param messageIDMask Completely ignored, TODO remove this.
@@ -32,7 +37,11 @@ namespace can {
 	void CANComm_ReceiveMessage(uint32_t *messageID, uint32_t messageIDMask, uint8_t *data, uint8_t *dataSize, uint32_t *timeStamp, int32_t *status);
 	void CANComm_OpenStreamSession(uint32_t *sessionHandle, uint32_t messageID, uint32_t messageIDMask, uint32_t maxMessages, int32_t *status);
 	void CANComm_CloseStreamSession(uint32_t sessionHandle);
+#ifdef SUPPORT_ROBORIO
+	void CANComm_ReadStreamSession(uint32_t sessionHandle, struct tCANStreamMessage *messages, uint32_t messagesToRead, uint32_t *messagesRead, int32_t *status);
+#else
 	void CANComm_ReadStreamSession(uint32_t sessionHandle, canframe_t *messages, uint32_t messagesToRead, uint32_t *messagesRead, int32_t *status);
+#endif
 	int32_t CANComm_GetTxSchedulerStatus(void *unusedControlWorld); // used to be GetControlWord
 
 } //namespace can

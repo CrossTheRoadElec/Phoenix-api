@@ -31,7 +31,6 @@
 #include "ctre/phoenix/CANifierStatusFrame.h"
 #include "ctre/phoenix/CANifierStickyFaults.h"
 #include "ctre/phoenix/CANifierVelocityMeasPeriod.h"
-#include <FRC_NetworkCommunication/CANSessionMux.h>  //CAN Comm
 #include <map>
 
 /** 
@@ -75,6 +74,12 @@ public:
 	ctre::phoenix::ErrorCode ConfigVelocityMeasurementPeriod(
 			ctre::phoenix::CANifierVelocityMeasPeriod period, int timeoutMs);
 	ctre::phoenix::ErrorCode ConfigVelocityMeasurementWindow(int windowSize, int timeoutMs);
+    ctre::phoenix::ErrorCode ConfigClearPositionOnLimitF(bool clearPositionOnLimitF,
+            int timeoutMs);
+    ctre::phoenix::ErrorCode ConfigClearPositionOnLimitR(bool clearPositionOnLimitR,
+            int timeoutMs);
+    ctre::phoenix::ErrorCode ConfigClearPositionOnQuadIdx(bool clearPositionOnQuadIdx,
+            int timeoutMs);
 
 	ctre::phoenix::ErrorCode GetFaults(ctre::phoenix::CANifierFaults & toFill);
 	ctre::phoenix::ErrorCode GetStickyFaults(ctre::phoenix::CANifierStickyFaults & toFill) ;

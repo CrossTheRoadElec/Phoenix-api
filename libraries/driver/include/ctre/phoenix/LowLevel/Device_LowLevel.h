@@ -4,7 +4,11 @@
 #include "ctre/phoenix/ErrorCode.h"
 #include "ctre/phoenix/paramEnum.h"
 #include "ctre/phoenix/LowLevel/ResetStats.h"
+#include "ctre/phoenix/Platform/Platform.h"
+
+#ifdef SUPPORT_ROBORIO
 #include <FRC_NetworkCommunication/CANSessionMux.h>  // tCANStreamMessage
+#endif
 
 class Device_LowLevel {
 
@@ -58,7 +62,11 @@ private:
 
 	uint32_t _can_h = 0;
 	int32_t _can_stat = 0;
+#ifdef SUPPORT_ROBORIO
 	struct tCANStreamMessage _msgBuff[20];
+#else
+	ctre::phoenix::platform::can::canframe_t _msgBuff[20];
+#endif
 	static const uint32_t kMsgCapacity = 20;
 
 	ResetStats _resetStats;

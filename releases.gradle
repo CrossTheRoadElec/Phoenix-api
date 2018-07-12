@@ -1,3 +1,5 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
 task javaSourceJar(type: Jar) {
     description = 'Generates the source jar for java'
     group = ''
@@ -261,7 +263,13 @@ task doc(type: Exec){
 	doFirst{
 		mkdir "${releaseDir}/cpp/docs"
 	}
-	commandLine 'powershell', 'doxygen ctrlib.doxy'
+	if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+        commandLine 'powershell', 'doxygen ctrlib.doxy'
+    }
+    else {
+        executable "doxygen"
+        args "ctrlib.doxy"
+    }
 }
 
 
