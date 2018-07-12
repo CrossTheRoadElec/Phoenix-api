@@ -25,6 +25,7 @@ void* BaseMotorController::GetHandle() {
 	return m_handle;
 }
 
+BaseMotorController::~BaseMotorController() {}
 
 
 
