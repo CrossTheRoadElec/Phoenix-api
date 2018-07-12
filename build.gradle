@@ -13,7 +13,7 @@ allprojects {
 
 if (!hasProperty('releaseType')) {
     WPILibVersion {
-        releaseType = 'dev'
+        releaseType = 'official'
     }
 }
 
@@ -36,10 +36,10 @@ ext.addUserLinks = { linker, targetPlatform, implLib ->
     def libraryArgs = []
     def libraryPath = file(driverLibraryLib).path
 
-    // adds all libraries found in the driver folder
-    def libraryTree = fileTree(libraryPath)
-    libraryTree.include '*.so'
-    libraryTree.include '*.a'
+    //adds all libraries found in the driver folder
+    def libraryTree = fileTree(libraryPath) //We can't do this anymore because we need to link against the specific platform
+    libraryTree.include '${targetPlatform.name}*.so'
+    libraryTree.include '${targetPlatform.name}*.a'
 
     libraryTree.each { lib ->
         def nameMatcher = (lib.path =~ libPattern)

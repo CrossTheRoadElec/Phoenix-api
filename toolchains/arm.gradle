@@ -1,46 +1,99 @@
-ext.isArm = true
-ext.buildPlatform = 'arm'
+def frcCompilerPrefix = project.hasProperty('frcCompilerPrefix') ? project.frcCompilerPrefix : 'arm-frc-linux-gnueabi-'
+def frcCompilerArgs = project.hasProperty('frcCompilerArgs') ? project.frcCompilerArgs : ['-DSUPPORT_ROBORIO']
+def toolChainPathfrc = project.hasProperty('toolChainPathfrc') ? project.toolChainPathfrc : null
 
-def compilerPrefix = project.hasProperty('compilerPrefix') ? project.compilerPrefix : 'arm-frc-linux-gnueabi-'
-def toolChainPath = project.hasProperty('toolChainPath') ? project.toolChainPath : null
+def linuxDesktopCompilerPrefix = project.hasProperty('linuxDesktopCompilerPrefix') ? project.linuxDesktopCompilerPrefix : 'x86_64-linux-gnu-'
+def linuxDesktopCompilerArgs = project.hasProperty('linuxDesktopCompilerArgs') ? project.linuxDesktopCompilerArgs : []
+def toolChainPathlinuxDesktop = project.hasProperty('toolChainPathlinuxDesktop') ? project.toolChainPathlinuxDesktop : null
 model {
     platforms {
-        arm {
+        frc {
             architecture 'arm'
+            operatingSystem 'linux'
+        }
+        linuxDesktop {
+            architecture 'x86'
             operatingSystem 'linux'
         }
     }
     toolChains {
         armGcc(Gcc) {
-            if (toolChainPath != null) path(toolChainPath)
-            target("arm") {
+            if (toolChainPathfrc != null) path(toolChainPathfrc)
+            target("frc") {
                 // We use a custom-built cross compiler with the prefix arm-frc-linux-gnueabi-<util name>
                 // If this ever changes, the prefix will need to be changed here
-                cCompiler.executable = compilerPrefix + cCompiler.executable
-                cppCompiler.executable = compilerPrefix + cppCompiler.executable
-                linker.executable = compilerPrefix + linker.executable
-                assembler.executable = compilerPrefix + assembler.executable
+                cCompiler.executable = frcCompilerPrefix + cCompiler.executable
+                cppCompiler.executable = frcCompilerPrefix + cppCompiler.executable
+                linker.executable = frcCompilerPrefix + linker.executable
+                assembler.executable = frcCompilerPrefix + assembler.executable
                 // Gradle auto-adds the -m32 argument to the linker and compiler. Our compiler only supports
                 // arm, and doesn't understand this flag, so it is removed from both
                 cppCompiler.withArguments { args ->
 					args << '-std=c++1y' << '-Wformat=2' << '-Wall' << '-Wextra' << '-Werror' << '-pedantic'
-                    args << '-fPIC' << '-rdynamic'
+					args << '-fPIC' << '-rdynamic'
                     args << '-pthread'
                     args.remove('-m32')
+                    frcCompilerArgs.each{
+                        args << "${it}"
+                    }
                 }
                 linker.withArguments { args ->
                     args << '-rdynamic' << '-pthread'
                     args.remove('-m32')
+                    frcCompilerArgs.each{
+                        args << "${it}"
+                    }
                 }
-                staticLibArchiver.executable = compilerPrefix + staticLibArchiver.executable
+                staticLibArchiver.executable = frcCompilerPrefix + staticLibArchiver.executable
+            }
+            if (toolChainPathlinuxDesktop != null) path(toolChainPathlinuxDesktop)
+            target("linuxDesktop") {
+                // We use a custom-built cross compiler with the prefix arm-frc-linux-gnu-gnueabi-<util name>
+                // If this ever changes, the prefix will need to be changed here
+                cCompiler.executable = linuxDesktopCompilerPrefix + cCompiler.executable
+                cppCompiler.executable = linuxDesktopCompilerPrefix + cppCompiler.executable
+                linker.executable = linuxDesktopCompilerPrefix + linker.executable
+                assembler.executable = linuxDesktopCompilerPrefix + assembler.executable
+                // Gradle auto-adds the -m32 argument to the linker and compiler. Our compiler only supports
+                // arm, and doesn't understand this flag, so it is removed from both
+                cppCompiler.withArguments { args ->
+					args << '-std=c++1y' << '-Wformat=2' << '-Wall' << '-Wextra' << '-Werror' << '-pedantic'
+					args << '-fPIC' << '-rdynamic'
+                    args << '-pthread'
+                    args.remove('-m32')
+                    linuxDesktopCompilerArgs.each{
+                        args << "${it}"
+                    }
+                }
+                linker.withArguments { args ->
+                    args << '-rdynamic' << '-pthread'
+                    args.remove('-m32')
+                    linuxDesktopCompilerArgs.each{
+                        args << "${it}"
+                    }
+                }
+                staticLibArchiver.executable = linuxDesktopCompilerPrefix + staticLibArchiver.executable
             }
         }
     }
+	binaries {
+		withType(SharedLibraryBinarySpec) {
+			cppCompiler.define "CCI_BIN_SHARED"
+		}
+		
+		withType(StaticLibraryBinarySpec) {
+			cppCompiler.define "CCI_BIN_STATIC"
+		}
+	}
 }
 
-ext.binTools = { tool ->
-    if (toolChainPath != null) return "${toolChainPath}/${compilerPrefix}${tool}"
-    return "${compilerPrefix}${tool}"
+ext.binToolslinuxDesktop = { tool ->
+    if (toolChainPathlinuxDesktop != null) return "${toolChainPathlinuxDesktop}/${linuxDesktopCompilerPrefix}${tool}"
+    return "${linuxDesktopCompilerPrefix}${tool}"
+}
+ext.binToolsfrc = { tool ->
+    if (toolChainPathfrc != null) return "${toolChainPathfrc}/${frcCompilerPrefix}${tool}"
+    return "${frcCompilerPrefix}${tool}"
 }
 
 ext.setupReleaseDefines = { cppCompiler, linker ->
@@ -55,15 +108,24 @@ ext.setupDebugDefines = { cppCompiler, linker ->
 ext.setupDef = { linker, deffile -> }
 
 ext.debugStripSetup = {
+    println "project.name: "
+    println project.name
     if (!project.hasProperty('debug')) {
         project.tasks.whenObjectAdded { task ->
             if (task.name.contains('link') && task.name.contains('SharedLibrary')) {
                 def library = task.outputFile.absolutePath
                 def debugLibrary = task.outputFile.absolutePath + ".debug"
                 task.doLast {
-                    exec { commandLine binTools('objcopy'), '--only-keep-debug', library, debugLibrary }
-                    exec { commandLine binTools('strip'), '-g', library }
-                    exec { commandLine binTools('objcopy'), "--add-gnu-debuglink=$debugLibrary", library }
+                    if(library.contains("linuxDesktop")) {
+                        exec { commandLine binToolslinuxDesktop('objcopy'), '--only-keep-debug', library, debugLibrary }
+                        exec { commandLine binToolslinuxDesktop('strip'), '-g', library }
+                        exec { commandLine binToolslinuxDesktop('objcopy'), "--add-gnu-debuglink=$debugLibrary", library }
+                    }
+                    else if(library.contains("frc")) {
+                        exec { commandLine binToolsfrc('objcopy'), '--only-keep-debug', library, debugLibrary }
+                        exec { commandLine binToolsfrc('strip'), '-g', library }
+                        exec { commandLine binToolsfrc('objcopy'), "--add-gnu-debuglink=$debugLibrary", library }
+                    }
                 }
             }
         }
@@ -77,8 +139,14 @@ ext.checkNativeSymbols = { getSymbolFunc ->
             task.doLast {
                 def nmOutput = new ByteArrayOutputStream()
                 exec { 
-                    commandLine binTools('nm'), library
-                    standardOutput nmOutput
+                    if(library.contains("linuxDesktop")) {
+                        commandLine binToolslinuxDesktop('nm'), library
+                        standardOutput nmOutput
+                    }
+                    else if(library.contains("frc")) {
+                        commandLine binToolsfrc('nm'), library
+                        standardOutput nmOutput
+                    }
                 }
                 // Remove '\r' so we can check for full string contents
                 String nmSymbols = nmOutput.toString().replace('\r', '')
