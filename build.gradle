@@ -80,21 +80,7 @@ apply from: wpiDeps
 
 apply from: "cpp.gradle"
 
-// Empty task for build so that zips will be
-// built when running ./gradlew build
-task build
-
 apply from: "releases.gradle"
-
-task clean(type: Delete) {
-    description = "Deletes the build directory"
-    group = "Build"
-    delete buildDir
-}
-
-clean {
-    delete releaseDir
-}
 
 task wrapper(type: Wrapper) {
     gradleVersion = '3.3'

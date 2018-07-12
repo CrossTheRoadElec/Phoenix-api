@@ -8,8 +8,8 @@ task javaSourceJar(type: Jar) {
     duplicatesStrategy = 'exclude'
     destinationDir = archiveReleaseDir
     
-	dependsOn project(':arm:cpp').classes
-	from project(':arm:cpp').sourceSets.main.allJava
+	dependsOn project.classes
+	from project.sourceSets.main.allJava
 }
 
 task javaJavadocJar(type: Jar) {
@@ -20,8 +20,8 @@ task javaJavadocJar(type: Jar) {
     duplicatesStrategy = 'exclude'
     destinationDir = archiveReleaseDir
     
-	dependsOn project(':arm:cpp').javadoc
-	from project(':arm:cpp').javadoc.destinationDir
+	dependsOn project.javadoc
+	from project.javadoc.destinationDir
 }
 
 task cppSources(type: Zip) {
@@ -54,7 +54,7 @@ task copyToEclipse(type: Copy) {
     }
 
     // Copy static binaries from cpp project
-    project(':arm:cpp').model {
+    project.model {
         binaries {
             withType(StaticLibraryBinarySpec) { binary ->
                 if(targetPlatform.name == "frc") {
@@ -67,12 +67,6 @@ task copyToEclipse(type: Copy) {
         }
     }
 
-    // copy driver include
-    from (file(driverInclude)) {
-        include '**/*.h'
-        into '/cpp/include'
-    }
-    
     // Copy included driver library headers
     from(file(driverLibraryInclude)) {
         include '**/*.h'
@@ -99,7 +93,7 @@ task copyToEclipse(type: Copy) {
         into '/cpp/lib'
     }
 
-	def javaProject = project(':arm:cpp')
+	def javaProject = project
 	dependsOn javaProject.jar
 	// Copy project java binary
 	from (file(javaProject.jar.archivePath)) {
@@ -166,7 +160,7 @@ task userStaticArtifacts(type: Copy) {
     }
 
     // Copy static binaries from cpp project
-    project(':arm:cpp').model {
+    project.model {
         binaries {
             withType(StaticLibraryBinarySpec) { binary ->
                 from(binary.staticLibraryFile) {
@@ -177,12 +171,6 @@ task userStaticArtifacts(type: Copy) {
         }
     }
 
-    // copy driver include
-    from (file(driverInclude)) {
-        include '**/*.h'
-        into '/cpp/include'
-    }
-    
     // Copy included driver library headers
     from(file(driverLibraryInclude)) {
         include '**/*.h'
@@ -211,7 +199,7 @@ task userStaticArtifacts(type: Copy) {
         into "/cpp/lib"
     }
 
-	def javaProject = project(':arm:cpp')
+	def javaProject = project
 	dependsOn javaProject.jar
 	// Copy project java binary
 	from (file(javaProject.jar.archivePath)) {
@@ -277,7 +265,7 @@ task doc(type: Exec){
 }
 
 
-project(':arm:cpp').tasks.whenTaskAdded { task ->
+project.tasks.whenTaskAdded { task ->
     def name = task.name.toLowerCase()
     if (name.contains("sharedlibrary") || name.contains("staticlibrary")) {
 		userStaticArtifacts.dependsOn task

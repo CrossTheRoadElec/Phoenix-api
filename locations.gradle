@@ -2,10 +2,6 @@
 ext.cppInclude = "${rootDir}/cpp/include"
 ext.cppSrc = "${rootDir}/cpp/src"
 
-// Include and src directories for building the driver library
-ext.driverInclude = "${rootDir}/driver/include"
-ext.driverSrc = "${rootDir}/driver/src"
-
 // Include and lib directories for including in the wpilibc library
 ext.cppLibraryInclude = "${rootDir}/libraries/cpp/include"
 ext.cppLibraryLib = "${rootDir}/libraries/cpp/lib"
@@ -14,7 +10,6 @@ ext.cppLibrarySrc = "${rootDir}/libraries/cpp/src"
 // Include and lib directories for including in the driver library
 ext.driverLibraryInclude = "${rootDir}/libraries/driver/include"
 ext.driverLibraryLib = "${rootDir}/libraries/driver/lib"
-ext.driverLibrarySrc = "${rootDir}/libraries/driver/src"
 
 // Locations for Java and JNI source files
 ext.javaJNISrc = "${rootDir}/java/lib"

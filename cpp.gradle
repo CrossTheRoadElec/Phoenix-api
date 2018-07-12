@@ -85,15 +85,13 @@ ext.mergeStaticSetup = { pjt ->
     }
 }
 
-project(':arm:cpp') {
-    apply plugin: 'cpp'
+apply plugin: 'cpp'
 
-    apply from: "${rootDir}/toolchains/arm.gradle"
-    
-    apply from: "${rootDir}/java/java.gradle"
+apply from: "${rootDir}/toolchains/arm.gradle"
 
-    cppSetupModel(project)
-    
-    project.debugStripSetup()
-    mergeStaticSetup(project)
-}
+apply from: "${rootDir}/java/java.gradle"
+
+cppSetupModel(project)
+
+project.debugStripSetup()
+mergeStaticSetup(project)
