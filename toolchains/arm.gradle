@@ -5,6 +5,11 @@ def toolChainPathfrc = project.hasProperty('toolChainPathfrc') ? project.toolCha
 def linuxDesktopCompilerPrefix = project.hasProperty('linuxDesktopCompilerPrefix') ? project.linuxDesktopCompilerPrefix : 'x86_64-linux-gnu-'
 def linuxDesktopCompilerArgs = project.hasProperty('linuxDesktopCompilerArgs') ? project.linuxDesktopCompilerArgs : ['-DCTR_EXCLUDE_WPILIB_CLASSES']
 def toolChainPathlinuxDesktop = project.hasProperty('toolChainPathlinuxDesktop') ? project.toolChainPathlinuxDesktop : null
+
+def armGnueabihfCompilerPrefix = project.hasProperty('armGnueabihfCompilerPrefix') ? project.armGnueabihfCompilerPrefix : 'arm-linux-gnueabihf-'
+def armGnueabihfCompilerArgs = project.hasProperty('armGnueabihfCompilerArgs') ? project.armGnueabihfCompilerArgs : ['-mfloat-abi=hard', '-DCTR_EXCLUDE_WPILIB_CLASSES']
+def toolChainPatharmGnueabihf = project.hasProperty('toolChainPatharmGnueabihf') ? project.toolChainPatharmGnueabihf : null
+
 model {
     platforms {
         frc {
@@ -13,6 +18,10 @@ model {
         }
         linuxDesktop {
             architecture 'x86'
+            operatingSystem 'linux'
+        }
+        armGnueabihf {
+            architecture 'arm'
             operatingSystem 'linux'
         }
     }
@@ -74,6 +83,34 @@ model {
                 }
                 staticLibArchiver.executable = linuxDesktopCompilerPrefix + staticLibArchiver.executable
             }
+            if (toolChainPatharmGnueabihf != null) path(toolChainPatharmGnueabihf)
+            target("armGnueabihf") {
+                // We use a custom-built cross compiler with the prefix arm-frc-linux-gnu-gnueabi-<util name>
+                // If this ever changes, the prefix will need to be changed here
+                cCompiler.executable = armGnueabihfCompilerPrefix + cCompiler.executable
+                cppCompiler.executable = armGnueabihfCompilerPrefix + cppCompiler.executable
+                linker.executable = armGnueabihfCompilerPrefix + linker.executable
+                assembler.executable = armGnueabihfCompilerPrefix + assembler.executable
+                // Gradle auto-adds the -m32 argument to the linker and compiler. Our compiler only supports
+                // arm, and doesn't understand this flag, so it is removed from both
+                cppCompiler.withArguments { args ->
+					args << '-std=c++1y' << '-Wformat=2' << '-Wall' << '-Wextra' << '-Werror' << '-pedantic'
+					args << '-fPIC' << '-rdynamic'
+                    args << '-pthread'
+                    args.remove('-m32')
+                    armGnueabihfCompilerArgs.each{
+                        args << "${it}"
+                    }
+                }
+                linker.withArguments { args ->
+                    args << '-rdynamic' << '-pthread'
+                    args.remove('-m32')
+                    armGnueabihfCompilerArgs.each{
+                        args << "${it}"
+                    }
+                }
+                staticLibArchiver.executable = armGnueabihfCompilerPrefix + staticLibArchiver.executable
+            }
         }
     }
 	binaries {
@@ -94,6 +131,10 @@ ext.binToolslinuxDesktop = { tool ->
 ext.binToolsfrc = { tool ->
     if (toolChainPathfrc != null) return "${toolChainPathfrc}/${frcCompilerPrefix}${tool}"
     return "${frcCompilerPrefix}${tool}"
+}
+ext.binToolsarmGnueabihf = { tool ->
+    if (toolChainPatharmGnueabihf != null) return "${toolChainPatharmGnueabihf}/${armGnueabihfCompilerPrefix}${tool}"
+    return "${armGnueabihfCompilerPrefix}${tool}"
 }
 
 ext.setupReleaseDefines = { cppCompiler, linker ->
@@ -126,6 +167,12 @@ ext.debugStripSetup = {
                         exec { commandLine binToolsfrc('strip'), '-g', library }
                         exec { commandLine binToolsfrc('objcopy'), "--add-gnu-debuglink=$debugLibrary", library }
                     }
+                    else if(library.contains("armGnueabihf")) {
+                        exec { commandLine binToolsarmGnueabihf('objcopy'), '--only-keep-debug', library, debugLibrary }
+                        exec { commandLine binToolsarmGnueabihf('strip'), '-g', library }
+                        exec { commandLine binToolsarmGnueabihf('objcopy'), "--add-gnu-debuglink=$debugLibrary", library }
+                    }
+                    
                 }
             }
         }
@@ -145,6 +192,10 @@ ext.checkNativeSymbols = { getSymbolFunc ->
                     }
                     else if(library.contains("frc")) {
                         commandLine binToolsfrc('nm'), library
+                        standardOutput nmOutput
+                    }
+                    else if(library.contains("armGnueabihf")) {
+                        commandLine binToolsarmGnueabihf('nm'), library
                         standardOutput nmOutput
                     }
                 }

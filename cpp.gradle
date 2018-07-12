@@ -11,6 +11,7 @@ def cppSetupModel = { project ->
             CTRE_Phoenix(NativeLibrarySpec) {
                 targetPlatform 'frc'
                 targetPlatform 'linuxDesktop'
+                targetPlatform 'armGnueabihf'
                 setupDefines(project, binaries)
 
                 binaries.all {
