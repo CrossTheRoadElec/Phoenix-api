@@ -57,9 +57,11 @@ task copyToEclipse(type: Copy) {
     project(':arm:cpp').model {
         binaries {
             withType(StaticLibraryBinarySpec) { binary ->
-                from(binary.staticLibraryFile) {
-                    include '*.a'
-                    into '/cpp/lib'
+                if(targetPlatform.name == "frc") {
+                    from(binary.staticLibraryFile) {
+                        include '*.a'
+                        into '/cpp/lib'
+                    }
                 }
             }
         }
@@ -79,8 +81,8 @@ task copyToEclipse(type: Copy) {
     
     // Copy included driver library binaries
     from(file(driverLibraryLib)) {
-        include '*.so*'
-        include '*.a*'
+        include 'frc/*.so*'
+        include 'frc/*.a*'
         into '/cpp/lib'
     }
     
@@ -92,8 +94,8 @@ task copyToEclipse(type: Copy) {
     
     // Copy included driver library binaries
     from(file(cppLibraryLib)) {
-        include '*.so*'
-        include '*.a*'
+        include 'frc/*.so*'
+        include 'frc/*.a*'
         into '/cpp/lib'
     }
 
@@ -108,9 +110,9 @@ task copyToEclipse(type: Copy) {
     // If not embedded java, include java libs
     if (!embedJavaLibraries) {
         from(file(javaLibraryLoc)) {
-            include '*.jar'
-            include '*.so'
-            include '*.so.debug'
+            include '/*/*.jar'
+            include '/*/*.so'
+            include '/*/*.so.debug'
             into '/java/lib'
         }
     }
@@ -169,7 +171,7 @@ task userStaticArtifacts(type: Copy) {
             withType(StaticLibraryBinarySpec) { binary ->
                 from(binary.staticLibraryFile) {
                     include '*.a'
-                    into '/cpp/lib'
+                    into "/cpp/lib/${targetPlatform.name}"
                 }
             }
         }
@@ -189,9 +191,9 @@ task userStaticArtifacts(type: Copy) {
     
     // Copy included driver library binaries
     from(file(driverLibraryLib)) {
-        include '*.so*'
-        include '*.a*'
-        into '/cpp/lib'
+        include '/*/*.so*'
+        include '/*/*.a*'
+        into "/cpp/lib"
     }
     
     // Copy included driver library headers
@@ -201,26 +203,28 @@ task userStaticArtifacts(type: Copy) {
     }
     
     // Copy included driver library binaries
+
+    //TODO: DESTROY
     from(file(cppLibraryLib)) {
         include '*.so*'
         include '*.a*'
-        into '/cpp/lib'
+        into "/cpp/lib"
     }
 
 	def javaProject = project(':arm:cpp')
 	dependsOn javaProject.jar
 	// Copy project java binary
 	from (file(javaProject.jar.archivePath)) {
-		into '/java/lib'
+		into "/java/lib" //TODO
 	}
     
     // If not embedded java, include java libs
     if (!embedJavaLibraries) {
         from(file(javaLibraryLoc)) {
-            include '*.jar'
-            include '*.so'
-            include '*.so.debug'
-            into '/java/lib'
+            include '/*/*.jar'
+            include '/*/*.so'
+            include '/*/*.so.debug'
+		    into "/java/lib"
         }
     }
 
@@ -228,7 +232,7 @@ task userStaticArtifacts(type: Copy) {
     if (includeJavaSources) {
       dependsOn javaSourceJar
         from (file(javaSourceJar.archivePath)) {
-            into '/java/lib'
+		    into "/java/lib"
         }
     }
     
