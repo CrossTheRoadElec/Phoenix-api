@@ -137,6 +137,30 @@ JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigVelocityMeas
 
 /*
  * Class:     com_ctre_phoenix_CANifierJNI
+ * Method:    JNI_ConfigClearPositionOnLimitF
+ * Signature: (JBI)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigClearPositionOnLimitF
+  (JNIEnv *, jclass, jlong, jboolean, jint);
+
+/*
+ * Class:     com_ctre_phoenix_CANifierJNI
+ * Method:    JNI_ConfigClearPositionOnLimitR
+ * Signature: (JBI)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigClearPositionOnLimitR
+  (JNIEnv *, jclass, jlong, jboolean, jint);
+
+/*
+ * Class:     com_ctre_phoenix_CANifierJNI
+ * Method:    JNI_ConfigClearPositionOnQuadIdx
+ * Signature: (JBI)I
+ */
+JNIEXPORT jint JNICALL Java_com_ctre_phoenix_CANifierJNI_JNI_1ConfigClearPositionOnQuadIdx
+  (JNIEnv *env, jclass, jlong, jboolean, jint);
+
+/*
+ * Class:     com_ctre_phoenix_CANifierJNI
  * Method:    JNI_ConfigSetCustomParam
  * Signature: (JIII)I
  */
