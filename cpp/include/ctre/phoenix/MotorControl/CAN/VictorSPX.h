@@ -21,6 +21,11 @@ struct VictorSPXPIDSetConfiguration : BasePIDSetConfiguration {
         //be set by the API. Thus, RemoteSensor0 is the default
 	{                                                              
 	}
+
+	std::string toString() {
+		return toString("");
+	}
+
     std::string toString(std::string prependString) {
 
         std::string retstr = prependString + ".selectedFeedbackSensor = " + FeedbackDeviceRoutines::toString(selectedFeedbackSensor) + ";\n";
@@ -67,6 +72,11 @@ struct VictorSPXConfiguration : BaseMotorControllerConfiguration {
 
 	{
 	}	
+
+	std::string toString() {
+		return toString("");
+	}
+
     std::string toString(std::string prependString) {
         std::string retstr = primaryPID.toString(prependString + ".primaryPID");	
 	    retstr += auxilaryPID.toString(prependString + ".auxilaryPID");	

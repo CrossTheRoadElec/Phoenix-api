@@ -51,6 +51,11 @@ namespace sensors {
 
 struct PigeonIMUConfiguration : CustomParamConfiguration{
 	PigeonIMUConfiguration() {}
+
+	std::string toString() {
+		return toString("");
+	}
+
     std::string toString(std::string prependString) {
         std::string retstr = CustomParamConfiguration::toString(prependString);
 

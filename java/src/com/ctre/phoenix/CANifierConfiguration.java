@@ -20,6 +20,11 @@ public class CANifierConfiguration extends CustomParamConfiguration{
         clearPositionOnQuadIdx = false;
 
     }
+
+	public String toString() {
+		return toString("");
+	}
+
     public String toString(String prependString) {
 
         String retstr = prependString + ".velocityMeasurementPeriod = " + velocityMeasurementPeriod.toString() + ";\n";

@@ -39,6 +39,11 @@ public class VictorSPXConfiguration extends com.ctre.phoenix.motorcontrol.can.Ba
         //be set by the API. Thus, RemoteSensor0 is the default
 
 	}
+
+	public String toString() {
+		return toString("");
+	}
+
     public String toString(String prependString) {
         String retstr = primaryPID.toString(prependString + ".primaryPID");
         retstr += auxilaryPID.toString(prependString + ".auxilaryPID");

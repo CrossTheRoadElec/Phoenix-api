@@ -9,6 +9,11 @@ public abstract class CustomParamConfiguration{
 		customParam1 = 0;
 		enableOptimizations = true;
 	}
+
+	public String toString() {
+		return toString("");
+	}
+
     public String toString(String prependString) {
         String retstr = prependString + ".customParam0 = " + String.valueOf(customParam0) + ";\n";
         retstr += prependString + ".customParam1 = " + String.valueOf(customParam1) + ";\n";

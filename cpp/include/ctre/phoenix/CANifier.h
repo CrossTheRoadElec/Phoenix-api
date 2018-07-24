@@ -35,6 +35,11 @@ struct CANifierConfiguration : CustomParamConfiguration{
         clearPositionOnQuadIdx(false)
     {
 	}
+
+	std::string toString() {
+		return toString("");
+	}
+
     std::string toString(std::string prependString) {
 
         std::string retstr = prependString + ".velocityMeasurementPeriod = " + CANifierVelocityMeasPeriodRoutines::toString(velocityMeasurementPeriod) + ";\n";

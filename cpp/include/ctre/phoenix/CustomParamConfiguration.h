@@ -14,7 +14,12 @@ struct CustomParamConfiguration {
 		enableOptimizations(true)
 	{
 	}
-    std::string toString(std::string &prependString) {
+
+	std::string toString() {
+		return toString("");
+	}
+
+    std::string toString(std::string prependString) {
         std::string retstr = prependString + ".customParam0 = " + std::to_string(customParam0) + ";\n";
         retstr += prependString + ".customParam1 = " + std::to_string(customParam1) + ";\n";
         

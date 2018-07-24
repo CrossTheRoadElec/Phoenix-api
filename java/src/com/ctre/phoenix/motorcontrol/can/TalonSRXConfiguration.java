@@ -42,6 +42,11 @@ public class TalonSRXConfiguration extends com.ctre.phoenix.motorcontrol.can.Bas
         peakCurrentDuration = 1;
         continuousCurrentLimit = 1;
 	}
+
+	public String toString() {
+		return toString("");
+	}
+
     public String toString(String prependString) {
 
 

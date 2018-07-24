@@ -9,6 +9,11 @@ public class BasePIDSetConfiguration{
 	public BasePIDSetConfiguration() {
         selectedFeedbackCoefficient = 1.0;
 	}
+
+	public String toString() {
+		return toString("");
+	}
+
     public String toString(String prependString) {
         return prependString + ".selectedFeedbackCoefficient = " + String.valueOf(selectedFeedbackCoefficient) + ";\n";
 

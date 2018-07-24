@@ -24,6 +24,11 @@ public class SlotConfiguration{
         closedLoopPeakOutput = 1.0;
         closedLoopPeriod = 1;
     }
+
+	public String toString() {
+		return toString("");
+	}
+
     public String toString(String prependString) {
 
         String retstr = prependString + ".kP = " + String.valueOf(kP) + ";\n";

@@ -9,6 +9,11 @@ public class TalonSRXPIDSetConfiguration extends BasePIDSetConfiguration {
     public TalonSRXPIDSetConfiguration() {
         selectedFeedbackSensor = FeedbackDevice.QuadEncoder;
     }
+
+	public String toString() {
+		return toString("");
+	}
+
     public String toString(String prependString) {
 
         String retstr = prependString + ".selectedFeedbackSensor = " + selectedFeedbackSensor.toString() + ";\n";

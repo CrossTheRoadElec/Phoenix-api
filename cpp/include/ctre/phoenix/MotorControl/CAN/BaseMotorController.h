@@ -53,6 +53,11 @@ struct BasePIDSetConfiguration {
 		selectedFeedbackCoefficient(1.0)
 	{
 	}
+
+	std::string toString() {
+		return toString("");
+	}
+
     std::string toString(const std::string &prependString) {
         return prependString + ".selectedFeedbackCoefficient = " + std::to_string(selectedFeedbackCoefficient) + ";\n";
     
@@ -68,6 +73,11 @@ struct FilterConfiguration {
         remoteSensorSource(RemoteSensorSource::RemoteSensorSource_Off) 	
     {
     }
+
+	std::string toString() {
+		return toString("");
+	}
+
     std::string toString(std::string prependString) {
         std::string retstr = prependString + ".remoteSensorDeviceID = " + std::to_string(remoteSensorDeviceID) + ";\n";
         retstr += prependString + ".remoteSensorSource = " + RemoteSensorSourceRoutines::toString(remoteSensorSource) + ";\n";
@@ -108,6 +118,11 @@ struct SlotConfiguration{
 		closedLoopPeriod(1)
 	{
 	}
+
+	std::string toString() {
+		return toString("");
+	}
+
     std::string toString(std::string prependString) {
 
         std::string retstr = prependString + ".kP = " + std::to_string(kP) + ";\n"; 
@@ -211,6 +226,11 @@ struct BaseMotorControllerConfiguration : ctre::phoenix::CustomParamConfiguratio
 
 	{
 	}
+
+	std::string toString() {
+		return toString("");
+	}
+
     std::string toString(std::string prependString) {
 
         std::string retstr = prependString + ".openloopRamp = " + std::to_string(openloopRamp) + ";\n";

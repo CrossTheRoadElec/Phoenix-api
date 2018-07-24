@@ -20,6 +20,11 @@ struct TalonSRXPIDSetConfiguration : BasePIDSetConfiguration {
         selectedFeedbackSensor(QuadEncoder)
     {
     }
+
+	std::string toString() {
+		return toString("");
+	}
+
     std::string toString(std::string prependString) {
 
         std::string retstr = prependString + ".selectedFeedbackSensor = " + FeedbackDeviceRoutines::toString(selectedFeedbackSensor) + ";\n";
@@ -69,6 +74,11 @@ struct TalonSRXConfiguration : BaseMotorControllerConfiguration{
 		continuousCurrentLimit(1)
 	{
 	}
+
+	std::string toString() {
+		return toString("");
+	}
+
     std::string toString(std::string prependString) {
 
 
