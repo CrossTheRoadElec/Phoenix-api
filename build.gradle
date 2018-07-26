@@ -11,6 +11,8 @@ allprojects {
     }
 }
 
+def buildLinux = project.hasProperty('buildLinux') ? Boolean.parseBoolean(project.buildLinux) : true
+def buildWind = project.hasProperty('buildWind') ? Boolean.parseBoolean(project.buildWind) : false
 
 if(buildLinux) {
     if (!hasProperty('releaseType')) {
