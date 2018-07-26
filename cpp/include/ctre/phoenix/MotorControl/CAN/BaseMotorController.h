@@ -12,7 +12,7 @@
 #include "ctre/phoenix/MotorControl/VelocityMeasPeriod.h"
 #include "ctre/phoenix/Motion/TrajectoryPoint.h"
 #include "ctre/phoenix/Motion/MotionProfileStatus.h"
-#if defined(CTR_INCLUDE_WPILIB_CLASSES)
+#if defined(CTR_INCLUDE_WPILIB_CLASSES) || defined(__FRC_ROBORIO__)
 /* WPILIB */
 #include "SpeedController.h"
 #endif

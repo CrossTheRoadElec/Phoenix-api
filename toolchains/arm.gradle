@@ -3,7 +3,7 @@ def buildfrc = project.hasProperty('buildfrc') ? Boolean.parseBoolean(project.bu
 def buildarmGnueabihf = project.hasProperty('buildarmGnueabihf') ? Boolean.parseBoolean(project.buildarmGnueabihf) : false
 
 def frcCompilerPrefix = project.hasProperty('frcCompilerPrefix') ? project.frcCompilerPrefix : 'arm-frc-linux-gnueabi-'
-def frcCompilerArgs = project.hasProperty('frcCompilerArgs') ? project.frcCompilerArgs : ['-DSUPPORT_ROBORIO', '-DCTR_INCLUDE_WPILIB_CLASSES']
+def frcCompilerArgs = project.hasProperty('frcCompilerArgs') ? project.frcCompilerArgs : []
 def toolChainPathfrc = project.hasProperty('toolChainPathfrc') ? project.toolChainPathfrc : null
 
 def linuxDesktopCompilerPrefix = project.hasProperty('linuxDesktopCompilerPrefix') ? project.linuxDesktopCompilerPrefix : 'x86_64-linux-gnu-'

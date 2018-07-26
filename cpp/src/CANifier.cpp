@@ -24,9 +24,9 @@
 #include "ctre/phoenix/CANifier.h"
 #include "ctre/phoenix/CCI/CANifier_CCI.h"
 #include "ctre/phoenix/CTRLogger.h"
-#if defined(CTR_INCLUDE_WPILIB_CLASSES)
+#if defined(CTR_INCLUDE_WPILIB_CLASSES) || defined(__FRC_ROBORIO__)
 #include "HAL/HAL.h"
-#endif // CTR_INCLUDE_WPILIB_CLASSES
+#endif // CTR_INCLUDE_WPILIB_CLASSES or __FRC_ROBORIO__
 
 namespace ctre {
 namespace phoenix {
@@ -37,7 +37,7 @@ namespace phoenix {
 CANifier::CANifier(int deviceNumber): CANBusAddressable(deviceNumber)
 {
 	m_handle = c_CANifier_Create1(deviceNumber);
-#if defined(CTR_INCLUDE_WPILIB_CLASSES)
+#if defined(CTR_INCLUDE_WPILIB_CLASSES) || defined(__FRC_ROBORIO__)
 	HAL_Report(HALUsageReporting::kResourceType_CANifier, deviceNumber + 1);
 #endif
 }

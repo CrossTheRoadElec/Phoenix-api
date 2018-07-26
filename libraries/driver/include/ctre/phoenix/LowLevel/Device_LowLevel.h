@@ -6,7 +6,7 @@
 #include "ctre/phoenix/LowLevel/ResetStats.h"
 #include "ctre/phoenix/Platform/Platform.h"
 
-#ifdef SUPPORT_ROBORIO
+#ifdef __FRC_ROBORIO__
 #include <FRC_NetworkCommunication/CANSessionMux.h>  // tCANStreamMessage
 #endif
 
@@ -62,7 +62,7 @@ private:
 
 	uint32_t _can_h = 0;
 	int32_t _can_stat = 0;
-#ifdef SUPPORT_ROBORIO
+#ifdef __FRC_ROBORIO__
 	struct tCANStreamMessage _msgBuff[20];
 #else
 	ctre::phoenix::platform::can::canframe_t _msgBuff[20];

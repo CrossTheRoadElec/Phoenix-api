@@ -1,4 +1,4 @@
-#if defined(CTR_INCLUDE_WPILIB_CLASSES)
+#if defined(CTR_INCLUDE_WPILIB_CLASSES) || defined(__FRC_ROBORIO__)
 
 #include "ctre/phoenix/HsvToRgb.h"
 #include <math.h>

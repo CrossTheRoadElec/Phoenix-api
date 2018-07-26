@@ -4,7 +4,7 @@
 #include <string>
 
 /* small wrinkle for RIO platform */
-#ifdef SUPPORT_ROBORIO
+#ifdef __FRC_ROBORIO__
 	struct tCANStreamMessage;
 #endif
 
@@ -37,7 +37,7 @@ namespace can {
 	void CANComm_ReceiveMessage(uint32_t *messageID, uint32_t messageIDMask, uint8_t *data, uint8_t *dataSize, uint32_t *timeStamp, int32_t *status);
 	void CANComm_OpenStreamSession(uint32_t *sessionHandle, uint32_t messageID, uint32_t messageIDMask, uint32_t maxMessages, int32_t *status);
 	void CANComm_CloseStreamSession(uint32_t sessionHandle);
-#ifdef SUPPORT_ROBORIO
+#ifdef __FRC_ROBORIO__
 	void CANComm_ReadStreamSession(uint32_t sessionHandle, struct tCANStreamMessage *messages, uint32_t messagesToRead, uint32_t *messagesRead, int32_t *status);
 #else
 	void CANComm_ReadStreamSession(uint32_t sessionHandle, canframe_t *messages, uint32_t messagesToRead, uint32_t *messagesRead, int32_t *status);

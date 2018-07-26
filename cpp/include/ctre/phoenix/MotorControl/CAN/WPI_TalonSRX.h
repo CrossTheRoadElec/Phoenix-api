@@ -9,7 +9,7 @@
  * - Single Parameter set that assumes a simple motor controller.
  */
 #pragma once
-#if defined(CTR_INCLUDE_WPILIB_CLASSES)
+#if defined(CTR_INCLUDE_WPILIB_CLASSES) || defined(__FRC_ROBORIO__)
 #include "ctre/phoenix/MotorControl/CAN/TalonSRX.h"
 #include "SmartDashboard/SendableBase.h"
 #include "SmartDashboard/SendableBuilder.h"
