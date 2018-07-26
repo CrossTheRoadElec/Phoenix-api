@@ -99,6 +99,132 @@ ErrorCode SensorCollection::SetQuadraturePosition(int newPosition,
 }
 
 /**
+ * Change the quadrature reported position based on pulse width. This can be used to 
+ * effectively make quadrature absolute. For rotary mechanisms with >360 movement (such
+ * as typical swerve modules) bookend0 and bookend1 can be both set to 0 and 
+ * bCrossZeroOnInterval can be set to true. For mechanisms with less than 360 travel (such
+ * as arms), bookend0 and bookend1 should be set to the pulse width values at the two 
+ * extremes. If the interval crosses over the pulse width value of 0 (or any multiple of
+ * 4096), bCrossZeroOnInterval should be true and otherwise should be false. An offset can
+ * also be set.
+ *
+ * @param   bookend0    value at extreme 0
+ * @param   bookend1    value at extreme 1
+ * @param   bCrossZeroOnInterval    value at extreme 1
+ * @param   offset      (Optional) Value to add to pulse width 
+ * @param   timeoutMs   (Optional) How long to wait for confirmation.  Pass zero so that call
+ *                      does not block.
+ *
+ * @return  error code.
+ */
+
+ErrorCode SensorCollection::SyncQuadratureWithPulseWidth(int bookend0, int bookend1, bool bCrossZeroOnInterval, int offset, int timeoutMs) {   
+    int ticksPerRevolution = 4096;
+    /* Normalize bookends (should be 0 - ticksPerRevolution) */
+    bookend0 &= (ticksPerRevolution - 1);
+    bookend1 &= (ticksPerRevolution - 1);
+  
+    /* Assign greater and lesser bookend */
+    int greaterBookend;
+    int lesserBookend;
+    
+    if(bookend0 > bookend1)
+    {
+        greaterBookend = bookend0;
+        lesserBookend = bookend1;
+    }
+    else
+    {
+        greaterBookend = bookend1;
+        lesserBookend = bookend0;
+    }
+
+    int average = (greaterBookend + lesserBookend) / 2;
+
+    /* Get Fractional Part of Pulse Width Position (0 - ticksPerRevolution) */
+    int pulseWidth = GetPulseWidthPosition();
+    pulseWidth &= (ticksPerRevolution - 1);
+    
+    if(bCrossZeroOnInterval) 
+    {
+        /*
+         * If the desire is to have the *** part be the interval 
+         * (2048 - 3277 and crosses over 0): 
+         *
+         *                            
+         *                        1024
+         *                     *********    
+         *                    ***********   
+         *                   *************  
+         *                  *************** 
+         *                 *****************
+         *                 *****************
+         *                 *****************
+         *            2048 ***************** 0
+         *                         *********
+         *                         *********
+         *                         *********
+         *                         *********
+         *                        **********
+         *                        ********* 
+         *                        ********  
+         *                       ********   
+         *                       *******
+         *                     3277   
+         *
+         * The goal is to center the discontinuoity between 2048 and 3277 in the blank.
+         * So all pulse width values greater than the avg of the two bookends should be 
+         * reduced by ticksPerRevolution.
+         */
+        if(pulseWidth > average)
+        {            
+            pulseWidth -= ticksPerRevolution;
+        }
+    }
+    else
+    {
+        /*
+         * If the desire is to have the blank part be the interval 
+         * (2048 - 3277 and crosses over 0): 
+         *
+         *                            
+         *                        1024
+         *                     *********    
+         *                    ***********   
+         *                   *************  
+         *                  *************** 
+         *                 *****************
+         *                 *****************
+         *                 *****************
+         *            2048 ***************** 0
+         *                         *********
+         *                         *********
+         *                         *********
+         *                         *********
+         *                        **********
+         *                        ********* 
+         *                        ********  
+         *                       ********   
+         *                       *******
+         *                     3277   
+         *
+         * The goal is to center the discontinuoity between 2048 and 3277 in the ***.
+         * So all pulse width values less than the (ticksPerRevolution / 2 - avg of 
+         * the two bookends) & ticksPerRevolution should be increased by 
+         * ticksPerRevolution.
+         */
+        if(pulseWidth < ((ticksPerRevolution / 2 - average) & 0x0FFF))
+        {            
+            pulseWidth += ticksPerRevolution;
+        }
+    }
+   
+    pulseWidth += offset;
+
+    return SetQuadraturePosition(pulseWidth, timeoutMs);
+}
+
+/**
  * Get the quadrature velocity, regardless of whether
  *   it is actually being used for feedback.
  *

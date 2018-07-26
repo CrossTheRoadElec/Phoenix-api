@@ -4,6 +4,7 @@
 #include "ctre/phoenix/MotorControl/ControlFrame.h"
 #include "ctre/phoenix/MotorControl/NeutralMode.h"
 #include "ctre/phoenix/MotorControl/FeedbackDevice.h"
+#include "ctre/phoenix/MotorControl/SensorCollection.h"
 #include "ctre/phoenix/MotorControl/StatusFrame.h"
 #include "ctre/phoenix/MotorControl/LimitSwitchType.h"
 #include "ctre/phoenix/MotorControl/Faults.h"
@@ -29,6 +30,9 @@ public:
 	//------ Invert behavior ----------//
 	/* in parent */
 
+	//----- Factory Default Configuration -----//
+	/* in parent */
+
 	//----- general output shaping ------------------//
 	/* in parent */
 
@@ -41,49 +45,55 @@ public:
 	//------ sensor selection ----------//
 	/* expand the options */
 	virtual ErrorCode ConfigSelectedFeedbackSensor(
-			FeedbackDevice feedbackDevice, int pidIdx, int timeoutMs) = 0;
+			FeedbackDevice feedbackDevice, int pidIdx = 0, int timeoutMs = 0) = 0;
 	virtual ErrorCode ConfigSelectedFeedbackSensor(
-			RemoteFeedbackDevice feedbackDevice, int pidIdx, int timeoutMs) = 0;
+			RemoteFeedbackDevice feedbackDevice, int pidIdx = 0, int timeoutMs = 0) = 0;
 
 	//------- sensor status --------- //
 	/* in parent */
 
 	//------ status frame period changes ----------//
 	virtual ErrorCode SetStatusFramePeriod(StatusFrame frame, int periodMs,
-			int timeoutMs) = 0;
+			int timeoutMs = 0) = 0;
 	virtual ErrorCode SetStatusFramePeriod(StatusFrameEnhanced frame,
-			int periodMs, int timeoutMs) = 0;
-	virtual int GetStatusFramePeriod(StatusFrame frame, int timeoutMs) = 0;
-	virtual int GetStatusFramePeriod(StatusFrameEnhanced frame, int timeoutMs) = 0;
+			int periodMs, int timeoutMs = 0) = 0;
+	virtual int GetStatusFramePeriod(StatusFrame frame, int timeoutMs = 0) = 0;
+	virtual int GetStatusFramePeriod(StatusFrameEnhanced frame, int timeoutMs = 0) = 0;
 
 	//----- velocity signal conditionaing ------//
 	virtual ErrorCode ConfigVelocityMeasurementPeriod(VelocityMeasPeriod period,
-			int timeoutMs)= 0;
+			int timeoutMs = 0)= 0;
 	virtual ErrorCode ConfigVelocityMeasurementWindow(int windowSize,
-			int timeoutMs)= 0;
+			int timeoutMs = 0)= 0;
 
 	//------ remote limit switch ----------//
 	virtual ErrorCode ConfigForwardLimitSwitchSource(
 			RemoteLimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
-			int deviceID, int timeoutMs) = 0;
+			int deviceID, int timeoutMs = 0) = 0;
 	virtual ErrorCode ConfigReverseLimitSwitchSource(
 			RemoteLimitSwitchSource type, LimitSwitchNormal normalOpenOrClose,
-			int deviceID, int timeoutMs) = 0;
+			int deviceID, int timeoutMs = 0) = 0;
 
 	//------ local limit switch ----------//
 	virtual ErrorCode ConfigForwardLimitSwitchSource(LimitSwitchSource type,
-			LimitSwitchNormal normalOpenOrClose, int timeoutMs)= 0;
+			LimitSwitchNormal normalOpenOrClose, int timeoutMs = 0)= 0;
 	virtual ErrorCode ConfigReverseLimitSwitchSource(LimitSwitchSource type,
-			LimitSwitchNormal normalOpenOrClose, int timeoutMs)= 0;
+			LimitSwitchNormal normalOpenOrClose, int timeoutMs = 0)= 0;
 
 	//------ soft limit ----------//
 	/* in parent */
 
+	//------ RAW Sensor API ----------//
+	/**
+	 * @retrieve object that can get/set individual RAW sensor values.
+	 */
+	ctre::phoenix::motorcontrol::SensorCollection & GetSensorCollection();
+
 	//------ Current Lim ----------//
-	virtual ErrorCode ConfigPeakCurrentLimit(int amps, int timeoutMs)= 0;
+	virtual ErrorCode ConfigPeakCurrentLimit(int amps, int timeoutMs = 0)= 0;
 	virtual ErrorCode ConfigPeakCurrentDuration(int milliseconds,
-			int timeoutMs)= 0;
-	virtual ErrorCode ConfigContinuousCurrentLimit(int amps, int timeoutMs)= 0;
+			int timeoutMs = 0)= 0;
+	virtual ErrorCode ConfigContinuousCurrentLimit(int amps, int timeoutMs = 0)= 0;
 	virtual void EnableCurrentLimit(bool enable)= 0;
 
 	//------ General Close loop ----------//

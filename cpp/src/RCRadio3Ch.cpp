@@ -11,7 +11,7 @@ RCRadio3Ch::RCRadio3Ch(ctre::phoenix::CANifier *canifier) {
 }
 
 float RCRadio3Ch::GetDutyCycleUs(Channel channel) {
-	return _dutyCycleAndPeriods[(int) channel][0];
+	return _pulseWidthAndPeriods[(int) channel][0];
 }
 
 float RCRadio3Ch::GetDutyCyclePerc(Channel channel) {
@@ -38,19 +38,19 @@ bool RCRadio3Ch::GetSwitchValue(Channel channel) {
 }
 
 float RCRadio3Ch::GetPeriodUs(Channel channel) {
-	return _dutyCycleAndPeriods[(int) channel][1];
+	return _pulseWidthAndPeriods[(int) channel][1];
 }
 
 void RCRadio3Ch::Process() {
 	//Does some error code stuff, which we don't have...
 	_errorCodes[0] = _canifier->GetPWMInput(
-			ctre::phoenix::CANifier::PWMChannel::PWMChannel0, _dutyCycleAndPeriods[0]);
+			ctre::phoenix::CANifier::PWMChannel::PWMChannel0, _pulseWidthAndPeriods[0]);
 	_errorCodes[1] = _canifier->GetPWMInput(
-			ctre::phoenix::CANifier::PWMChannel::PWMChannel1, _dutyCycleAndPeriods[1]);
+			ctre::phoenix::CANifier::PWMChannel::PWMChannel1, _pulseWidthAndPeriods[1]);
 	_errorCodes[2] = _canifier->GetPWMInput(
-			ctre::phoenix::CANifier::PWMChannel::PWMChannel2, _dutyCycleAndPeriods[2]);
+			ctre::phoenix::CANifier::PWMChannel::PWMChannel2, _pulseWidthAndPeriods[2]);
 	_errorCodes[3] = _canifier->GetPWMInput(
-			ctre::phoenix::CANifier::PWMChannel::PWMChannel3, _dutyCycleAndPeriods[3]);
+			ctre::phoenix::CANifier::PWMChannel::PWMChannel3, _pulseWidthAndPeriods[3]);
 
 	Status health = Status::Okay;
 	if (health == Status::Okay) {

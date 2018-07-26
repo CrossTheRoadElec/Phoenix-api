@@ -62,7 +62,7 @@
 
 	public static native boolean JNI_GetGeneralInput(long handl, int inputPin);
 
-	public static native void JNI_GetPWMInput(long handle, int pwmChannel, double dutyCycleAndPeriod[]);
+	public static native void JNI_GetPWMInput(long handle, int pwmChannel, double pulseWidthAndPeriod[]);
 
 	public static native int JNI_GetLastError(long handle);
 
@@ -78,7 +78,13 @@
 	
 	public static native int JNI_ConfigVelocityMeasurementWindow(long handle, int windowSize, int timeoutMs);
 
-	public static native int JNI_ConfigSetCustomParam(long handle, int newValue, int paramIndex, int timeoutMs);
+    public static native int JNI_ConfigClearPositionOnLimitF(long handle, boolean clearPositionOnLimitF, int timeoutMs);
+ 
+    public static native int JNI_ConfigClearPositionOnLimitR(long handle, boolean clearPositionOnLimitR, int timeoutMs);
+ 
+    public static native int JNI_ConfigClearPositionOnQuadIdx(long handle, boolean clearPositionOnQuadIdx, int timeoutMs);
+ 
+    public static native int JNI_ConfigSetCustomParam(long handle, int newValue, int paramIndex, int timeoutMs);
 
 	public static native int JNI_ConfigGetCustomParam(long handle, int paramIndex, int timoutMs);
 
