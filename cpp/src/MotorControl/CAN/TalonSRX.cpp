@@ -1,6 +1,6 @@
 #include "ctre/phoenix/MotorControl/CAN/TalonSRX.h"
 #include "ctre/phoenix/CCI/MotController_CCI.h"
-#ifndef CTR_EXCLUDE_WPILIB_CLASSES
+#if defined(CTR_INCLUDE_WPILIB_CLASSES)
 #include "HAL/HAL.h"
 #endif
 using namespace ctre::phoenix;
@@ -13,7 +13,7 @@ using namespace ctre::phoenix::motorcontrol;
  */
 TalonSRX::TalonSRX(int deviceNumber) :
 		BaseMotorController(deviceNumber | 0x02040000) {
-#ifndef CTR_EXCLUDE_WPILIB_CLASSES
+#if defined(CTR_INCLUDE_WPILIB_CLASSES)
 			HAL_Report(HALUsageReporting::kResourceType_CANTalonSRX, deviceNumber + 1);
 #endif
 }

@@ -1,6 +1,6 @@
 #include "ctre/phoenix/Tasking/ButtonMonitor.h"
 
-#ifndef CTR_EXCLUDE_WPILIB_CLASSES
+#if defined(CTR_INCLUDE_WPILIB_CLASSES)
 #include <GenericHID.h> // WPILIB
 
 namespace ctre {
@@ -43,4 +43,4 @@ void ButtonMonitor::OnStop() {
 } // namespace phoenix
 } // namespace ctre
 
-#endif // CTR_EXCLUDE_WPILIB_CLASSES
+#endif // CTR_INCLUDE_WPILIB_CLASSES

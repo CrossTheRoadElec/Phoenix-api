@@ -3,15 +3,15 @@ def buildfrc = project.hasProperty('buildfrc') ? Boolean.parseBoolean(project.bu
 def buildarmGnueabihf = project.hasProperty('buildarmGnueabihf') ? Boolean.parseBoolean(project.buildarmGnueabihf) : false
 
 def frcCompilerPrefix = project.hasProperty('frcCompilerPrefix') ? project.frcCompilerPrefix : 'arm-frc-linux-gnueabi-'
-def frcCompilerArgs = project.hasProperty('frcCompilerArgs') ? project.frcCompilerArgs : ['-DSUPPORT_ROBORIO']
+def frcCompilerArgs = project.hasProperty('frcCompilerArgs') ? project.frcCompilerArgs : ['-DSUPPORT_ROBORIO', '-DCTR_INCLUDE_WPILIB_CLASSES']
 def toolChainPathfrc = project.hasProperty('toolChainPathfrc') ? project.toolChainPathfrc : null
 
 def linuxDesktopCompilerPrefix = project.hasProperty('linuxDesktopCompilerPrefix') ? project.linuxDesktopCompilerPrefix : 'x86_64-linux-gnu-'
-def linuxDesktopCompilerArgs = project.hasProperty('linuxDesktopCompilerArgs') ? project.linuxDesktopCompilerArgs : ['-DCTR_EXCLUDE_WPILIB_CLASSES']
+def linuxDesktopCompilerArgs = project.hasProperty('linuxDesktopCompilerArgs') ? project.linuxDesktopCompilerArgs : []
 def toolChainPathlinuxDesktop = project.hasProperty('toolChainPathlinuxDesktop') ? project.toolChainPathlinuxDesktop : null
 
 def armGnueabihfCompilerPrefix = project.hasProperty('armGnueabihfCompilerPrefix') ? project.armGnueabihfCompilerPrefix : 'arm-linux-gnueabihf-'
-def armGnueabihfCompilerArgs = project.hasProperty('armGnueabihfCompilerArgs') ? project.armGnueabihfCompilerArgs : ['-mfloat-abi=hard', '-DCTR_EXCLUDE_WPILIB_CLASSES']
+def armGnueabihfCompilerArgs = project.hasProperty('armGnueabihfCompilerArgs') ? project.armGnueabihfCompilerArgs : ['-mfloat-abi=hard']
 def toolChainPatharmGnueabihf = project.hasProperty('toolChainPatharmGnueabihf') ? project.toolChainPatharmGnueabihf : null
 model {
     platforms {

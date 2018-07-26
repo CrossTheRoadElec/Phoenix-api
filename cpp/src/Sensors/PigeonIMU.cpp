@@ -28,9 +28,9 @@
 #include "ctre/phoenix/CCI/Logger_CCI.h"
 #include "ctre/phoenix/CCI/PigeonIMU_CCI.h"
 #include "ctre/phoenix/MotorControl/CAN/TalonSRX.h"
-#ifndef CTR_EXCLUDE_WPILIB_CLASSES
+#if defined(CTR_INCLUDE_WPILIB_CLASSES)
 #include "HAL/HAL.h"
-#endif // CTR_EXCLUDE_WPILIB_CLASSES
+#endif // CTR_INCLUDE_WPILIB_CLASSES
 
 using namespace ctre::phoenix::motorcontrol::can;
 
@@ -46,9 +46,9 @@ PigeonIMU::PigeonIMU(int deviceNumber) :
 		CANBusAddressable(deviceNumber) {
 	_handle = c_PigeonIMU_Create1(deviceNumber);
 	_deviceNumber = deviceNumber;
-#ifndef CTR_EXCLUDE_WPILIB_CLASSES
+#if defined(CTR_INCLUDE_WPILIB_CLASSES)
 	HAL_Report(HALUsageReporting::kResourceType_PigeonIMU, _deviceNumber + 1);
-#endif // CTR_EXCLUDE_WPILIB_CLASSES
+#endif // CTR_INCLUDE_WPILIB_CLASSES
 }
 
 /**
@@ -59,10 +59,10 @@ PigeonIMU::PigeonIMU(ctre::phoenix::motorcontrol::can::TalonSRX * talonSrx) :
 		CANBusAddressable(0) {
 	_handle = c_PigeonIMU_Create2(talonSrx->GetDeviceID());
 	_deviceNumber = talonSrx->GetDeviceID();
-#ifndef CTR_EXCLUDE_WPILIB_CLASSES
+#if defined(CTR_INCLUDE_WPILIB_CLASSES)
 	HAL_Report(HALUsageReporting::kResourceType_PigeonIMU, _deviceNumber + 1);
 	HAL_Report(HALUsageReporting::kResourceType_CTRE_future0, _deviceNumber + 1); //record as Pigeon-via-Uart
-#endif // CTR_EXCLUDE_WPILIB_CLASSES
+#endif // CTR_INCLUDE_WPILIB_CLASSES
 }
 
 /**

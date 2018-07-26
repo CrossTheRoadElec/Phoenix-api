@@ -1,4 +1,4 @@
-#ifndef CTR_EXCLUDE_WPILIB_CLASSES
+#if defined(CTR_INCLUDE_WPILIB_CLASSES)
 
 #include "ctre/phoenix/RCRadio3Ch.h"
 #include <vector>

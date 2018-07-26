@@ -9,7 +9,7 @@
  * - Single Parameter set that assumes a simple motor controller.
  */
 #include "ctre/phoenix/MotorControl/CAN/WPI_VictorSPX.h"
-#ifndef CTR_EXCLUDE_WPILIB_CLASSES
+#if defined(CTR_INCLUDE_WPILIB_CLASSES)
 #include "ctre/phoenix/MotorControl/CAN/BaseMotorController.h"
 #include "HAL/HAL.h"
 #include <sstream>
