@@ -2,6 +2,9 @@
 // Note will not change native library names
 ext.libraryName = "CTRE_Phoenix"
 
+// Library Version
+ext.libraryVersion = "v5.0.6.0"
+
 // Set to true to embed included java libraries in the output jar
 ext.embedJavaLibraries = false
 
