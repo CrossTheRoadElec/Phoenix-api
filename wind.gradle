@@ -1,5 +1,0 @@
-task compile(type: Exec){
-	commandLine 'powershell', 'msbuild Phoenix-frc-lib.vcxproj /nologo /v:q /t:rebuild /p:Configuration=Debug'
-}
-
-build.dependsOn compile

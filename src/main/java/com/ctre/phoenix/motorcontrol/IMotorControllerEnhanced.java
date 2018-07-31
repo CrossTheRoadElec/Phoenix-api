@@ -79,7 +79,7 @@ public interface IMotorControllerEnhanced extends IMotorController {
 
     //------ RAW Sensor API ----------//
     /**
-     * @retrieve object that can get/set individual RAW sensor values.
+     * @return object that can get/set individual RAW sensor values.
      */
     public SensorCollection getSensorCollection();
     

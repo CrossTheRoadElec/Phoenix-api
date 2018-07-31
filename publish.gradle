@@ -1,0 +1,183 @@
+apply plugin: 'maven-publish'
+
+// Ensure that the WPILibVersioningPlugin is setup by setting the release type, if releaseType wasn't
+// already specified on the command line
+if (!hasProperty('releaseType')) {
+    WPILibVersion {
+        releaseType = 'OFFICIAL'
+    }
+}
+
+ext.licenseFile = files("$rootDir/LICENSE.txt")
+
+def pubVersion = ''
+if(ext.hasProperty("apiVersion")){
+    pubVersion = ext.apiVersion
+}
+else{
+    pubVersion = WPILibVersion.version
+}
+
+def outputsFolder = file("$buildDir/allOutputs")
+
+def versionFile = file("$outputsFolder/version.txt")
+
+task outputVersions() {
+    description = 'Prints the versions of wpilib to a file for use by the downstream packaging project'
+    group = 'Build'
+    outputs.files(versionFile)
+
+    doFirst {
+        buildDir.mkdir()
+        outputsFolder.mkdir()
+    }
+
+    doLast {
+        versionFile.write pubVersion
+    }
+}
+
+task libraryBuild() {}
+
+build.dependsOn outputVersions
+
+task copyAllOutputs(type: Copy) {
+    destinationDir outputsFolder
+}
+
+build.dependsOn copyAllOutputs
+copyAllOutputs.dependsOn outputVersions
+
+ext.addTaskToCopyAllOutputs = { task ->
+    copyAllOutputs.dependsOn task
+    copyAllOutputs.inputs.file task.archivePath
+    copyAllOutputs.from task.archivePath
+}
+
+def artifactGroupId = 'com.ctre.phoenix'
+def baseArtifactId = 'api'
+def zipBaseName = "_GROUP_com_ctre_phoenix_${baseArtifactId}_ID_${baseArtifactId}-cpp_CLS"
+def javaBaseName = "_GROUP_com_ctre_phoenix_${baseArtifactId}_ID_${baseArtifactId}-java_CLS"
+
+task cppHeadersZip(type: Zip) {
+    destinationDir = outputsFolder
+    baseName = zipBaseName
+    classifier = "headers"
+
+    from(licenseFile) {
+        into '/'
+    }
+
+    from('src/main/native/include') {
+        into '/'
+    }
+}
+
+task cppSourceZip(type: Zip) {
+    destinationDir = outputsFolder
+    baseName = zipBaseName
+    classifier = "sources"
+
+    from(licenseFile) {
+        into '/'
+    }
+
+    from('src/main/native/cpp') {
+        into '/'
+    }
+}
+
+build.dependsOn cppHeadersZip
+addTaskToCopyAllOutputs(cppHeadersZip)
+
+if (JavaVersion.current().isJava8Compatible()) {
+    allprojects {
+        tasks.withType(Javadoc) {
+            options.addStringOption('Xdoclint:none', '-quiet')
+        }
+    }
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+task outputJar(type: Jar, dependsOn: classes) {
+    baseName javaBaseName
+    destinationDir outputsFolder
+    from sourceSets.main.output
+}
+
+task outputSourcesJar(type: Jar, dependsOn: classes) {
+    baseName javaBaseName
+    destinationDir outputsFolder
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task outputJavadocJar(type: Jar, dependsOn: javadoc) {
+    baseName javaBaseName
+    destinationDir outputsFolder
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+    archives outputJar
+    archives outputSourcesJar
+    archives outputJavadocJar
+}
+
+addTaskToCopyAllOutputs(outputSourcesJar)
+addTaskToCopyAllOutputs(outputJavadocJar)
+addTaskToCopyAllOutputs(outputJar)
+
+build.dependsOn outputSourcesJar
+build.dependsOn outputJavadocJar
+build.dependsOn outputJar
+
+libraryBuild.dependsOn build
+
+model {
+    publishing {
+        def cciTaskList = createComponentZipTasks($.components, 'CTRE_Phoenix', zipBaseName, Zip, project, includeStandardZipFormat)
+        def allTask
+        if (!project.hasProperty('jenkinsBuild')) {
+            allTask = createAllCombined(cciTaskList, 'CTRE_Phoenix', zipBaseName, Zip, project)
+        }
+
+        publications {
+            cpp(MavenPublication) {
+                cciTaskList.each {
+                    artifact it
+                }
+                if (!project.hasProperty('jenkinsBuild')) {
+                    artifact allTask
+                }
+                artifact cppHeadersZip
+
+                artifactId = "${baseArtifactId}-cpp"
+                groupId artifactGroupId
+                version pubVersion
+            }
+
+            java(MavenPublication) {
+                artifact jar
+                artifact sourcesJar
+                artifact javadocJar
+
+                artifactId = "${baseArtifactId}-java"
+                groupId artifactGroupId
+                version pubVersion
+            }
+        }
+    }
+}
