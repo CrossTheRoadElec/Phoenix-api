@@ -33,6 +33,7 @@ enum FeedbackDevice {
 enum RemoteFeedbackDevice  {
     //NOTE: RemoteFeedbackDevice_None was removed as it doesn't exist in firmware
     //TODO: Add RemoteFeedbackDevice_None to firmware and add RemoteFeedbackDevice_None back in
+	RemoteFeedbackDevice_FactoryDefaultOff = 0,
 	RemoteFeedbackDevice_SensorSum = 9,
 	RemoteFeedbackDevice_SensorDifference = 10,
 	RemoteFeedbackDevice_RemoteSensor0 = 11,
@@ -62,11 +63,7 @@ public:
 
     static std::string toString(RemoteFeedbackDevice value) {
         switch(value) {
-            
-            #pragma GCC diagnostic push
-            #pragma GCC diagnostic ignored "-Wswitch"
-            case 0 : return "None (factory default value)";
-            #pragma GCC diagnostic pop
+            case RemoteFeedbackDevice_FactoryDefaultOff: return "None (factory default value)";
             case RemoteFeedbackDevice_SensorSum : return "RemoteFeedbackDevice_SensorSum";
             case RemoteFeedbackDevice_SensorDifference : return "RemoteFeedbackDevice_SensorDifference";
             case RemoteFeedbackDevice_RemoteSensor0 : return "RemoteFeedbackDevice_RemoteSensor0";

@@ -7,7 +7,7 @@
 #include <map>
 #include <sys/stat.h>
 #include <vector>
-#include <dirent.h>
+//#include <dirent.h>
 #include <mutex>
 #include <thread>
 
@@ -39,8 +39,8 @@ public:
 private:
 	LoggerDriver();
 	~LoggerDriver();
-	static unsigned long GetDirSize(DIR *t);
-	static std::vector<std::string> OrderedFiles(DIR *directory);
+	//static unsigned long GetDirSize(DIR *t);
+	//static std::vector<std::string> OrderedFiles(DIR *directory);
 	
 	ctre::phoenix::logger::TimestampMsgMap * _msgMap;
 

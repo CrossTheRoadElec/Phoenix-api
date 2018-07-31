@@ -1,7 +1,3 @@
-# Exceptions:
-!libraries/driver/lib/*.a
-!libraries/java/lib/*.so
-
 ### C++ ###
 # Compiled Object files
 *.slo
@@ -14,14 +10,14 @@
 *.pch
 
 # Compiled Dynamic libraries
-*.so
+#*.so
 *.dylib
-*.dll
+#*.dll
 
 # Compiled Static libraries
 *.lai
 *.la
-*.a
+#*.a
 *.lib
 
 # Executables
@@ -165,9 +161,9 @@ nbactions.xml
 *.pch
 
 # Compiled Dynamic libraries
-*.so
+#*.so
 *.dylib
-*.dll
+#*.dll
 
 # Fortran module files
 *.mod
@@ -175,7 +171,7 @@ nbactions.xml
 # Compiled Static libraries
 *.lai
 *.la
-*.a
+#*.a
 *.lib
 
 # Executables
