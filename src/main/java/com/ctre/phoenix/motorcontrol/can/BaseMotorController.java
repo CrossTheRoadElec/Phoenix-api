@@ -2250,8 +2250,8 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
         errorCollection.NewError(configureSlot(allConfigs.slot3, 3, timeoutMs, allConfigs.enableOptimizations));
 		
         //----------Remote Feedback Filters----------//
-		errorCollection.NewError(configureFilter(allConfigs.filter0, 0, timeoutMs, allConfigs.enableOptimizations));
-        errorCollection.NewError(configureFilter(allConfigs.filter1, 1, timeoutMs, allConfigs.enableOptimizations));
+		errorCollection.NewError(configureFilter(allConfigs.remoteFilter0, 0, timeoutMs, allConfigs.enableOptimizations));
+        errorCollection.NewError(configureFilter(allConfigs.remoteFilter1, 1, timeoutMs, allConfigs.enableOptimizations));
             
         return errorCollection._worstError;
     }
@@ -2466,8 +2466,8 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
     
         allConfigs.auxPIDPolarity = configGetParameter(ParamEnum.ePIDLoopPolarity, 1, timeoutMs) != 0.0;
     
-        getFilterConfigs(allConfigs.filter0, 0, timeoutMs);
-        getFilterConfigs(allConfigs.filter1, 1, timeoutMs);
+        getFilterConfigs(allConfigs.remoteFilter0, 0, timeoutMs);
+        getFilterConfigs(allConfigs.remoteFilter1, 1, timeoutMs);
     
         allConfigs.motionCruiseVelocity = (int) configGetParameter(ParamEnum.eMotMag_VelCruise, 0, timeoutMs);
         allConfigs.motionAcceleration = (int) configGetParameter(ParamEnum.eMotMag_Accel, 0, timeoutMs);

@@ -28,8 +28,8 @@ public abstract class BaseMotorControllerConfiguration extends CustomParamConfig
     public SlotConfiguration slot2;
     public SlotConfiguration slot3;
     public boolean auxPIDPolarity;
-    public FilterConfiguration filter0;
-    public FilterConfiguration filter1;
+    public FilterConfiguration remoteFilter0;
+    public FilterConfiguration remoteFilter1;
     public int motionCruiseVelocity;
     public int motionAcceleration;
     public int motionProfileTrajectoryPeriod;
@@ -50,8 +50,8 @@ public abstract class BaseMotorControllerConfiguration extends CustomParamConfig
         slot2 = new SlotConfiguration();
         slot3 = new SlotConfiguration();
 
-        filter0 = new FilterConfiguration();
-        filter1 = new FilterConfiguration();
+        remoteFilter0 = new FilterConfiguration();
+        remoteFilter1 = new FilterConfiguration();
 
         openloopRamp = 0.0;
         closedloopRamp = 0.0;
@@ -111,8 +111,8 @@ public abstract class BaseMotorControllerConfiguration extends CustomParamConfig
         retstr += slot2.toString(prependString + ".slot2");
         retstr += slot3.toString(prependString + ".slot3");
         retstr += prependString + ".auxPIDPolarity = " + String.valueOf(auxPIDPolarity) + ";\n";
-        retstr += filter0.toString(prependString + ".filter0");
-        retstr += filter1.toString(prependString + ".filter1");
+        retstr += remoteFilter0.toString(prependString + ".filter0");
+        retstr += remoteFilter1.toString(prependString + ".filter1");
         retstr += prependString + ".motionCruiseVelocity = " + String.valueOf(motionCruiseVelocity) + ";\n";
         retstr += prependString + ".motionAcceleration = " + String.valueOf(motionAcceleration) + ";\n";
         retstr += prependString + ".motionProfileTrajectoryPeriod = " + String.valueOf(motionProfileTrajectoryPeriod) + ";\n";
