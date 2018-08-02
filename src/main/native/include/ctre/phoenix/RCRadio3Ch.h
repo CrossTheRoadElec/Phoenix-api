@@ -2,7 +2,7 @@
 
 #include <vector>
 #include "ctre/phoenix/CANifier.h"
-#include "ctre/phoenix/Tasking/IProcessable.h"
+#include "ctre/phoenix/tasking/IProcessable.h"
 
 namespace ctre{
 namespace phoenix {

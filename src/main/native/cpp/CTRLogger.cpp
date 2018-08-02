@@ -1,6 +1,6 @@
 #include "ctre/phoenix/CTRLogger.h"
-#include "ctre/phoenix/CCI/Logger_CCI.h" // c_Logger_*
-#include "ctre/phoenix/Platform/Platform.h"
+#include "ctre/phoenix/cci/Logger_CCI.h" // c_Logger_*
+#include "ctre/phoenix/platform/Platform.h"
 
 namespace ctre {
 namespace phoenix {

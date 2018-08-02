@@ -22,7 +22,7 @@
  */
 
 #include "ctre/phoenix/CANifier.h"
-#include "ctre/phoenix/CCI/CANifier_CCI.h"
+#include "ctre/phoenix/cci/CANifier_CCI.h"
 #include "ctre/phoenix/CTRLogger.h"
 #if defined(CTR_INCLUDE_WPILIB_CLASSES) || defined(__FRC_ROBORIO__)
 #include "HAL/HAL.h"
