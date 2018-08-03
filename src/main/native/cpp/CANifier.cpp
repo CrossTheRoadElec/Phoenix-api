@@ -30,6 +30,9 @@
 
 namespace ctre {
 namespace phoenix {
+	
+CANifierConfiguration CANifierConfigUtils::_default;
+	
 	/**
 	 * Constructor.
 	 * @param deviceNumber	The CAN Device ID of the CANifier.
@@ -509,13 +512,13 @@ ErrorCode CANifier::ConfigAllSettings(const CANifierConfiguration &allConfigs, i
 	
 	ErrorCollection errorCollection;
 	
-	errorCollection.NewError(ConfigVelocityMeasurementPeriod(allConfigs.velocityMeasurementPeriod, timeoutMs));
-	errorCollection.NewError(ConfigVelocityMeasurementWindow(allConfigs.velocityMeasurementWindow, timeoutMs));
-    errorCollection.NewError(ConfigClearPositionOnLimitF(allConfigs.clearPositionOnLimitF, timeoutMs));
-    errorCollection.NewError(ConfigClearPositionOnLimitR(allConfigs.clearPositionOnLimitR, timeoutMs));
-    errorCollection.NewError(ConfigClearPositionOnQuadIdx(allConfigs.clearPositionOnQuadIdx, timeoutMs));
-    errorCollection.NewError(ConfigSetCustomParam(allConfigs.customParam0, 0, timeoutMs));
-    errorCollection.NewError(ConfigSetCustomParam(allConfigs.customParam1, 1, timeoutMs));
+	if(CANifierConfigUtils::VelocityMeasurementPeriodDifferent(allConfigs)) errorCollection.NewError(ConfigVelocityMeasurementPeriod(allConfigs.velocityMeasurementPeriod, timeoutMs));
+	if(CANifierConfigUtils::VelocityMeasurementWindowDifferent(allConfigs)) errorCollection.NewError(ConfigVelocityMeasurementWindow(allConfigs.velocityMeasurementWindow, timeoutMs));
+	if(CANifierConfigUtils::ClearPositionOnLimitFDifferent(allConfigs)) errorCollection.NewError(ConfigClearPositionOnLimitF(allConfigs.clearPositionOnLimitF, timeoutMs));
+	if(CANifierConfigUtils::ClearPositionOnLimitRDifferent(allConfigs)) errorCollection.NewError(ConfigClearPositionOnLimitR(allConfigs.clearPositionOnLimitR, timeoutMs));
+	if(CANifierConfigUtils::ClearPositionOnQuadIdxDifferent(allConfigs)) errorCollection.NewError(ConfigClearPositionOnQuadIdx(allConfigs.clearPositionOnQuadIdx, timeoutMs));
+	if(CANifierConfigUtils::CustomParam0Different(allConfigs)) errorCollection.NewError(ConfigSetCustomParam(allConfigs.customParam0, 0, timeoutMs));
+	if(CANifierConfigUtils::CustomParam1Different(allConfigs)) errorCollection.NewError(ConfigSetCustomParam(allConfigs.customParam1, 1, timeoutMs));
     
 	return errorCollection._worstError;	
 }
