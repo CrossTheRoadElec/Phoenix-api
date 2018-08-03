@@ -1985,7 +1985,7 @@ ctre::phoenix::ErrorCode BaseMotorController::ConfigureFilter(const FilterConfig
 void BaseMotorController::GetFilterConfigs(FilterConfiguration &filter, int ordinal, int timeoutMs) {
 
     filter.remoteSensorDeviceID = (int) ConfigGetParameter(eRemoteSensorDeviceID, ordinal, timeoutMs);
-    filter.remoteSensorSource = (RemoteSensorSource) ConfigGetParameter(eRemoteSensorSource, ordinal, timeoutMs);
+    filter.remoteSensorSource = (RemoteSensorSource)(int) ConfigGetParameter(eRemoteSensorSource, ordinal, timeoutMs);
 
 }
 /**
@@ -2087,7 +2087,7 @@ void BaseMotorController::BaseGetAllConfigs(BaseMotorControllerConfiguration &al
 	allConfigs.neutralDeadband = (double) ConfigGetParameter(eNeutralDeadband, 0, timeoutMs);
 	allConfigs.voltageCompSaturation = (double) ConfigGetParameter(eNominalBatteryVoltage, 0, timeoutMs);
 	allConfigs.voltageMeasurementFilter = (int) ConfigGetParameter(eBatteryVoltageFilterSize, 0, timeoutMs);
-	allConfigs.velocityMeasurementPeriod = (VelocityMeasPeriod) ConfigGetParameter(eSampleVelocityPeriod, 0, timeoutMs);
+	allConfigs.velocityMeasurementPeriod = (VelocityMeasPeriod)(int) ConfigGetParameter(eSampleVelocityPeriod, 0, timeoutMs);
 	allConfigs.velocityMeasurementWindow = (int) ConfigGetParameter(eSampleVelocityWindow, 0, timeoutMs);
 	allConfigs.forwardSoftLimitThreshold = (int) ConfigGetParameter(eForwardSoftLimitThreshold, 0, timeoutMs);
 	allConfigs.reverseSoftLimitThreshold = (int) ConfigGetParameter(eReverseSoftLimitThreshold, 0, timeoutMs);

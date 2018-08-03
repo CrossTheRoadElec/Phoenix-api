@@ -534,7 +534,7 @@ ErrorCode CANifier::ConfigAllSettings(const CANifierConfiguration &allConfigs, i
  */
 void CANifier::GetAllConfigs(CANifierConfiguration &allConfigs, int timeoutMs) {
 	
-	allConfigs.velocityMeasurementPeriod = (CANifierVelocityMeasPeriod) ConfigGetParameter(eSampleVelocityPeriod, 0,  timeoutMs); 
+	allConfigs.velocityMeasurementPeriod = (CANifierVelocityMeasPeriod)(int) ConfigGetParameter(eSampleVelocityPeriod, 0,  timeoutMs); 
 	allConfigs.velocityMeasurementWindow = (int) ConfigGetParameter(eSampleVelocityWindow, 0,  timeoutMs); 
     allConfigs.clearPositionOnLimitF = (bool) ConfigGetParameter(eClearPositionOnLimitF, 0, timeoutMs);
     allConfigs.clearPositionOnLimitR = (bool) ConfigGetParameter(eClearPositionOnLimitR, 0, timeoutMs);

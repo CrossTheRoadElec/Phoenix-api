@@ -400,7 +400,7 @@ ErrorCode TalonSRX::ConfigurePID(const TalonSRXPIDSetConfiguration &pid, int pid
 void TalonSRX::GetPIDConfigs(TalonSRXPIDSetConfiguration &pid, int pidIdx, int timeoutMs)
 {
 	BaseGetPIDConfigs(pid, pidIdx, timeoutMs);
-	pid.selectedFeedbackSensor = (FeedbackDevice) ConfigGetParameter(eFeedbackSensorType, pidIdx, timeoutMs);
+	pid.selectedFeedbackSensor = (FeedbackDevice)(int) ConfigGetParameter(eFeedbackSensorType, pidIdx, timeoutMs);
 
 }
 
@@ -461,18 +461,18 @@ void TalonSRX::GetAllConfigs(TalonSRXConfiguration &allConfigs, int timeoutMs) {
 	
 	GetPIDConfigs(allConfigs.primaryPID, 0, timeoutMs);
 	GetPIDConfigs(allConfigs.auxilaryPID, 1, timeoutMs);
-    allConfigs.sum0Term = (FeedbackDevice) ConfigGetParameter(eSensorTerm, 0, timeoutMs);
-    allConfigs.sum1Term = (FeedbackDevice) ConfigGetParameter(eSensorTerm, 1, timeoutMs);
-    allConfigs.diff0Term = (FeedbackDevice) ConfigGetParameter(eSensorTerm, 2, timeoutMs);
-    allConfigs.diff1Term = (FeedbackDevice) ConfigGetParameter(eSensorTerm, 3, timeoutMs);
+    allConfigs.sum0Term = (FeedbackDevice)(int) ConfigGetParameter(eSensorTerm, 0, timeoutMs);
+    allConfigs.sum1Term = (FeedbackDevice)(int) ConfigGetParameter(eSensorTerm, 1, timeoutMs);
+    allConfigs.diff0Term = (FeedbackDevice)(int) ConfigGetParameter(eSensorTerm, 2, timeoutMs);
+    allConfigs.diff1Term = (FeedbackDevice)(int) ConfigGetParameter(eSensorTerm, 3, timeoutMs);
 
 
-	allConfigs.forwardLimitSwitchSource = (LimitSwitchSource) ConfigGetParameter(eLimitSwitchSource, 0, timeoutMs);
-	allConfigs.reverseLimitSwitchSource = (LimitSwitchSource) ConfigGetParameter(eLimitSwitchSource, 1, timeoutMs);
+	allConfigs.forwardLimitSwitchSource = (LimitSwitchSource)(int) ConfigGetParameter(eLimitSwitchSource, 0, timeoutMs);
+	allConfigs.reverseLimitSwitchSource = (LimitSwitchSource)(int) ConfigGetParameter(eLimitSwitchSource, 1, timeoutMs);
 	allConfigs.forwardLimitSwitchDeviceID = (int) ConfigGetParameter(eLimitSwitchRemoteDevID, 0, timeoutMs);
 	allConfigs.reverseLimitSwitchDeviceID = (int) ConfigGetParameter(eLimitSwitchRemoteDevID, 1, timeoutMs);
-	allConfigs.forwardLimitSwitchNormal = (LimitSwitchNormal) ConfigGetParameter(eLimitSwitchNormClosedAndDis, 0, timeoutMs);
-	allConfigs.reverseLimitSwitchNormal = (LimitSwitchNormal) ConfigGetParameter(eLimitSwitchNormClosedAndDis, 1, timeoutMs);
+	allConfigs.forwardLimitSwitchNormal = (LimitSwitchNormal)(int) ConfigGetParameter(eLimitSwitchNormClosedAndDis, 0, timeoutMs);
+	allConfigs.reverseLimitSwitchNormal = (LimitSwitchNormal)(int) ConfigGetParameter(eLimitSwitchNormClosedAndDis, 1, timeoutMs);
 	allConfigs.peakCurrentLimit        = (int) ConfigGetParameter(ePeakCurrentLimitAmps, 0, timeoutMs);
 	allConfigs.peakCurrentDuration     = (int) ConfigGetParameter(ePeakCurrentLimitMs, 0, timeoutMs);
 	allConfigs.continuousCurrentLimit  = (int) ConfigGetParameter(eContinuousCurrentLimitAmps, 0, timeoutMs); 

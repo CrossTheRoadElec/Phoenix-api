@@ -53,7 +53,7 @@ ctre::phoenix::ErrorCode VictorSPX::ConfigurePID(const VictorSPXPIDSetConfigurat
 void VictorSPX::GetPIDConfigs(VictorSPXPIDSetConfiguration &pid, int pidIdx, int timeoutMs)
 {
 	BaseGetPIDConfigs(pid, pidIdx, timeoutMs);
-	pid.selectedFeedbackSensor = (RemoteFeedbackDevice) ConfigGetParameter(eFeedbackSensorType, pidIdx, timeoutMs);
+	pid.selectedFeedbackSensor = (RemoteFeedbackDevice) (int)ConfigGetParameter(eFeedbackSensorType, pidIdx, timeoutMs);
 
 }
 
@@ -110,17 +110,17 @@ void VictorSPX::GetAllConfigs(VictorSPXConfiguration &allConfigs, int timeoutMs)
 	
 	GetPIDConfigs(allConfigs.primaryPID, 0, timeoutMs);
 	GetPIDConfigs(allConfigs.auxilaryPID, 1, timeoutMs);
-    allConfigs.sum0Term = (RemoteFeedbackDevice) ConfigGetParameter(eSensorTerm, 0, timeoutMs);
-    allConfigs.sum1Term = (RemoteFeedbackDevice) ConfigGetParameter(eSensorTerm, 1, timeoutMs);
-    allConfigs.diff0Term = (RemoteFeedbackDevice) ConfigGetParameter(eSensorTerm, 2, timeoutMs);
-    allConfigs.diff1Term = (RemoteFeedbackDevice) ConfigGetParameter(eSensorTerm, 3, timeoutMs);
+    allConfigs.sum0Term = (RemoteFeedbackDevice)(int) ConfigGetParameter(eSensorTerm, 0, timeoutMs);
+    allConfigs.sum1Term = (RemoteFeedbackDevice)(int) ConfigGetParameter(eSensorTerm, 1, timeoutMs);
+    allConfigs.diff0Term = (RemoteFeedbackDevice)(int) ConfigGetParameter(eSensorTerm, 2, timeoutMs);
+    allConfigs.diff1Term = (RemoteFeedbackDevice)(int) ConfigGetParameter(eSensorTerm, 3, timeoutMs);
 
-	allConfigs.forwardLimitSwitchSource = (RemoteLimitSwitchSource) ConfigGetParameter(eLimitSwitchSource, 0, timeoutMs);
-	allConfigs.reverseLimitSwitchSource = (RemoteLimitSwitchSource) ConfigGetParameter(eLimitSwitchSource, 1, timeoutMs);
+	allConfigs.forwardLimitSwitchSource = (RemoteLimitSwitchSource)(int) ConfigGetParameter(eLimitSwitchSource, 0, timeoutMs);
+	allConfigs.reverseLimitSwitchSource = (RemoteLimitSwitchSource)(int) ConfigGetParameter(eLimitSwitchSource, 1, timeoutMs);
 	allConfigs.forwardLimitSwitchDeviceID = (int) ConfigGetParameter(eLimitSwitchRemoteDevID, 0, timeoutMs);
 	allConfigs.reverseLimitSwitchDeviceID = (int) ConfigGetParameter(eLimitSwitchRemoteDevID, 1, timeoutMs);
-	allConfigs.forwardLimitSwitchNormal = (LimitSwitchNormal) ConfigGetParameter(eLimitSwitchNormClosedAndDis, 0, timeoutMs);
-	allConfigs.reverseLimitSwitchNormal = (LimitSwitchNormal) ConfigGetParameter(eLimitSwitchNormClosedAndDis, 1, timeoutMs);
+	allConfigs.forwardLimitSwitchNormal = (LimitSwitchNormal)(int) ConfigGetParameter(eLimitSwitchNormClosedAndDis, 0, timeoutMs);
+	allConfigs.reverseLimitSwitchNormal = (LimitSwitchNormal)(int) ConfigGetParameter(eLimitSwitchNormClosedAndDis, 1, timeoutMs);
 
 }
 
