@@ -811,7 +811,7 @@ ErrorCode PigeonIMU::ClearStickyFaults(int timeoutMs) {
 ErrorCode PigeonIMU::ConfigAllSettings(const PigeonIMUConfiguration &allConfigs, int timeoutMs) {
 	ErrorCollection errorCollection;
 	
-	ConfigFactoryDefault(timeoutMs);
+	errorCollection.NewError(ConfigFactoryDefault(timeoutMs));
 	
 	
 	if(PigeonIMUConfigUtils::CustomParam0Different(allConfigs)) errorCollection.NewError(ConfigSetCustomParam(allConfigs.customParam0, 0, timeoutMs));
