@@ -334,7 +334,7 @@ int PigeonIMU::GetGeneralStatus(PigeonIMU::GeneralStatus & statusToFill) {
  *
  * @return The last ErrorCode generated.
  */
-int PigeonIMU::GetLastError() {
+ErrorCode PigeonIMU::GetLastError() {
 	return c_PigeonIMU_GetLastError(_handle);
 }
 
@@ -811,7 +811,7 @@ ErrorCode PigeonIMU::ClearStickyFaults(int timeoutMs) {
 ErrorCode PigeonIMU::ConfigAllSettings(const PigeonIMUConfiguration &allConfigs, int timeoutMs) {
 	ErrorCollection errorCollection;
 	
-	ConfigFactoryDefault(timeoutMs);
+	errorCollection.NewError(ConfigFactoryDefault(timeoutMs));
 	
 	
 	if(PigeonIMUConfigUtils::CustomParam0Different(allConfigs)) errorCollection.NewError(ConfigSetCustomParam(allConfigs.customParam0, 0, timeoutMs));

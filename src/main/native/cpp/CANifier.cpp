@@ -511,7 +511,7 @@ ErrorCode CANifier::ClearStickyFaults(int timeoutMs) {
 ErrorCode CANifier::ConfigAllSettings(const CANifierConfiguration &allConfigs, int timeoutMs) {
 	
 	ErrorCollection errorCollection;
-	ConfigFactoryDefault(timeoutMs);
+	errorCollection.NewError(ConfigFactoryDefault(timeoutMs));
 	
 	if(CANifierConfigUtils::VelocityMeasurementPeriodDifferent(allConfigs)) errorCollection.NewError(ConfigVelocityMeasurementPeriod(allConfigs.velocityMeasurementPeriod, timeoutMs));
 	if(CANifierConfigUtils::VelocityMeasurementWindowDifferent(allConfigs)) errorCollection.NewError(ConfigVelocityMeasurementWindow(allConfigs.velocityMeasurementWindow, timeoutMs));

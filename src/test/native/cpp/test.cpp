@@ -4,25 +4,21 @@
 #include <utility>
 #include <vector>
 
+std::string baseErrString = "Failed due to error from ";
 
-TEST(IDTest, NormalSet) {
+TEST(DeviceID, Get) {
     for(int i = 0; i < 63; i++) {
         ctre::phoenix::motorcontrol::can::TalonSRX testTalon(i);
         ctre::phoenix::motorcontrol::can::VictorSPX testVictor(i);
+        ctre::phoenix::sensors::PigeonIMU testPigeon(i);
+        ctre::phoenix::CANifier testCANifier(i);
 
         ASSERT_EQ(testTalon.GetDeviceID(), i) << "Failed at Talon id " << i;
         ASSERT_EQ(testVictor.GetDeviceID(), i) << "Failed at Victor id " << i;
+        ASSERT_EQ(testPigeon.GetDeviceNumber(), i) << "Failed at Pigeon id " << i;
+        ASSERT_EQ(testCANifier.GetDeviceNumber(), i) << "Failed at CANifier id " << i;
     }
 } 
-TEST(IDTest, InvalidSet) {
-    for(int i = 63; i < 140; i++) {
-        ctre::phoenix::motorcontrol::can::TalonSRX testTalon(i);
-        ctre::phoenix::motorcontrol::can::VictorSPX testVictor(i);
-
-        ASSERT_EQ(testTalon.GetDeviceID(), i & 0x3F) << "Failed at Talon id " << i;
-        ASSERT_EQ(testVictor.GetDeviceID(), i & 0x3F) << "Failed at Victor id " << i;
-    }
-}
 TEST(ErrorTest, ConfigSetTimeoutError) {
   
     std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> errorCodes;
@@ -38,38 +34,6 @@ TEST(ErrorTest, ConfigSetTimeoutError) {
     ctre::phoenix::motorcontrol::can::VictorSPXConfiguration testVictorConfigs;
     ctre::phoenix::sensors::PigeonIMUConfiguration testPigeonConfigs;
     ctre::phoenix::CANifierConfiguration testCANifierConfigs;
-
-    //CANifier
-    errorCodes.push_back(std::make_pair(testCANifier.ConfigFactoryDefault(timeoutMs),
-        "testCANifier.ConfigFactoryDefault(timeoutMs)"));
-    errorCodes.push_back(std::make_pair(testCANifier.ConfigAllSettings(testCANifierConfigs, timeoutMs),
-        "testCANifier.ConfigAllSettings(testCANifierConfigs, timeoutMs)"));
-    
-    errorCodes.push_back(std::make_pair(testCANifier.ConfigVelocityMeasurementPeriod(testCANifierConfigs.velocityMeasurementPeriod, timeoutMs),
-        "testCANifier.ConfigVelocityMeasurementPeriod(testCANifierConfigs.velocityMeasurementPeriod, timeoutMs)"));
-    errorCodes.push_back(std::make_pair(testCANifier.ConfigVelocityMeasurementWindow(testCANifierConfigs.velocityMeasurementWindow, timeoutMs),
-        "testCANifier.ConfigVelocityMeasurementWindow(testCANifierConfigs.velocityMeasurementWindow, timeoutMs)"));
-    errorCodes.push_back(std::make_pair(testCANifier.ConfigClearPositionOnLimitF(testCANifierConfigs.clearPositionOnLimitF, timeoutMs),
-        "testCANifier.ConfigClearPositionOnLimitF(testCANifierConfigs.clearPositionOnLimitF, timeoutMs)"));
-    errorCodes.push_back(std::make_pair(testCANifier.ConfigClearPositionOnLimitR(testCANifierConfigs.clearPositionOnLimitR, timeoutMs),
-        "testCANifier.ConfigClearPositionOnLimitR(testCANifierConfigs.clearPositionOnLimitR, timeoutMs)"));
-    errorCodes.push_back(std::make_pair(testCANifier.ConfigClearPositionOnQuadIdx(testCANifierConfigs.clearPositionOnQuadIdx, timeoutMs),
-        "testCANifier.ConfigClearPositionOnQuadIdx(testCANifierConfigs.clearPositionOnQuadIdx, timeoutMs)"));
-    errorCodes.push_back(std::make_pair(testCANifier.ConfigSetCustomParam(testCANifierConfigs.customParam0, 0, timeoutMs),
-        "testCANifier.ConfigSetCustomParam(testCANifierConfigs.customParam0, 0, timeoutMs)"));
-    errorCodes.push_back(std::make_pair(testCANifier.ConfigSetCustomParam(testCANifierConfigs.customParam1, 1, timeoutMs),
-        "testCANifier.ConfigSetCustomParam(testCANifierConfigs.customParam1, 1, timeoutMs)"));
-
-    //Pigeon
-    errorCodes.push_back(std::make_pair(testPigeon.ConfigFactoryDefault(timeoutMs),
-        "testPigeon.ConfigFactoryDefault(timeoutMs)"));
-    errorCodes.push_back(std::make_pair(testVictor.ConfigAllSettings(testVictorConfigs, timeoutMs),
-        "testVictor.ConfigAllSettings(testVictorConfigs, timeoutMs)"));
-    
-    errorCodes.push_back(std::make_pair(testPigeon.ConfigSetCustomParam(testPigeonConfigs.customParam0, 0, timeoutMs),
-        "testPigeon.ConfigSetCustomParam(testPigeonConfigs.customParam0, 0, timeoutMs)"));
-    errorCodes.push_back(std::make_pair(testPigeon.ConfigSetCustomParam(testPigeonConfigs.customParam1, 1, timeoutMs),
-        "testPigeon.ConfigSetCustomParam(testPigeonConfigs.customParam1, 1, timeoutMs)"));
 
     //TalonSRX
     errorCodes.push_back(std::make_pair(testTalon.ConfigFactoryDefault(timeoutMs),
@@ -412,11 +376,240 @@ TEST(ErrorTest, ConfigSetTimeoutError) {
     errorCodes.push_back(std::make_pair(testVictor.ConfigReverseLimitSwitchSource(testVictorConfigs.reverseLimitSwitchSource, testVictorConfigs.reverseLimitSwitchNormal, testVictorConfigs.reverseLimitSwitchDeviceID, timeoutMs),
         "testVictor.ConfigReverseLimitSwitchSource(testVictorConfigs.reverseLimitSwitchSource, testVictorConfigs.reverseLimitSwitchNormal, testVictorConfigs.reverseLimitSwitchDeviceID, timeoutMs)"));
  
+    //Pigeon
+    errorCodes.push_back(std::make_pair(testPigeon.ConfigFactoryDefault(timeoutMs),
+        "testPigeon.ConfigFactoryDefault(timeoutMs)"));
+    errorCodes.push_back(std::make_pair(testVictor.ConfigAllSettings(testVictorConfigs, timeoutMs),
+        "testVictor.ConfigAllSettings(testVictorConfigs, timeoutMs)"));
+    
+    errorCodes.push_back(std::make_pair(testPigeon.ConfigSetCustomParam(testPigeonConfigs.customParam0, 0, timeoutMs),
+        "testPigeon.ConfigSetCustomParam(testPigeonConfigs.customParam0, 0, timeoutMs)"));
+    errorCodes.push_back(std::make_pair(testPigeon.ConfigSetCustomParam(testPigeonConfigs.customParam1, 1, timeoutMs),
+        "testPigeon.ConfigSetCustomParam(testPigeonConfigs.customParam1, 1, timeoutMs)"));
+
+    //CANifier
+    errorCodes.push_back(std::make_pair(testCANifier.ConfigFactoryDefault(timeoutMs),
+        "testCANifier.ConfigFactoryDefault(timeoutMs)"));
+    errorCodes.push_back(std::make_pair(testCANifier.ConfigAllSettings(testCANifierConfigs, timeoutMs),
+        "testCANifier.ConfigAllSettings(testCANifierConfigs, timeoutMs)"));
+    
+    errorCodes.push_back(std::make_pair(testCANifier.ConfigVelocityMeasurementPeriod(testCANifierConfigs.velocityMeasurementPeriod, timeoutMs),
+        "testCANifier.ConfigVelocityMeasurementPeriod(testCANifierConfigs.velocityMeasurementPeriod, timeoutMs)"));
+    errorCodes.push_back(std::make_pair(testCANifier.ConfigVelocityMeasurementWindow(testCANifierConfigs.velocityMeasurementWindow, timeoutMs),
+        "testCANifier.ConfigVelocityMeasurementWindow(testCANifierConfigs.velocityMeasurementWindow, timeoutMs)"));
+    errorCodes.push_back(std::make_pair(testCANifier.ConfigClearPositionOnLimitF(testCANifierConfigs.clearPositionOnLimitF, timeoutMs),
+        "testCANifier.ConfigClearPositionOnLimitF(testCANifierConfigs.clearPositionOnLimitF, timeoutMs)"));
+    errorCodes.push_back(std::make_pair(testCANifier.ConfigClearPositionOnLimitR(testCANifierConfigs.clearPositionOnLimitR, timeoutMs),
+        "testCANifier.ConfigClearPositionOnLimitR(testCANifierConfigs.clearPositionOnLimitR, timeoutMs)"));
+    errorCodes.push_back(std::make_pair(testCANifier.ConfigClearPositionOnQuadIdx(testCANifierConfigs.clearPositionOnQuadIdx, timeoutMs),
+        "testCANifier.ConfigClearPositionOnQuadIdx(testCANifierConfigs.clearPositionOnQuadIdx, timeoutMs)"));
+    errorCodes.push_back(std::make_pair(testCANifier.ConfigSetCustomParam(testCANifierConfigs.customParam0, 0, timeoutMs),
+        "testCANifier.ConfigSetCustomParam(testCANifierConfigs.customParam0, 0, timeoutMs)"));
+    errorCodes.push_back(std::make_pair(testCANifier.ConfigSetCustomParam(testCANifierConfigs.customParam1, 1, timeoutMs),
+        "testCANifier.ConfigSetCustomParam(testCANifierConfigs.customParam1, 1, timeoutMs)"));
+
     for(const auto &err : errorCodes) { 
-        ASSERT_EQ(ctre::phoenix::ErrorCode::SIG_NOT_UPDATED, err.first) << "Failed due to error from " << err.second;
+        ASSERT_EQ(ctre::phoenix::ErrorCode::SIG_NOT_UPDATED, err.first) << baseErrString << err.second;
     }
 }
+TEST(ErrorTest, GetParamTimeoutError) {
 
+    //While we shouldn't expect different behavior from diff enums, might as well
+    std::vector<ctre::phoenix::ParamEnum> allParamEnums = {
+    ctre::phoenix::ParamEnum::eOnBoot_BrakeMode,
+    ctre::phoenix::ParamEnum::eQuadFilterEn,
+    ctre::phoenix::ParamEnum::eQuadIdxPolarity,
+    ctre::phoenix::ParamEnum::eMotionProfileHasUnderrunErr,
+    ctre::phoenix::ParamEnum::eMotionProfileTrajectoryPointDurationMs,
+    ctre::phoenix::ParamEnum::eStatusFramePeriod,
+    ctre::phoenix::ParamEnum::eOpenloopRamp,
+    ctre::phoenix::ParamEnum::eClosedloopRamp,
+    ctre::phoenix::ParamEnum::eNeutralDeadband,
+    ctre::phoenix::ParamEnum::ePeakPosOutput,
+    ctre::phoenix::ParamEnum::eNominalPosOutput,
+    ctre::phoenix::ParamEnum::ePeakNegOutput,
+    ctre::phoenix::ParamEnum::eNominalNegOutput,
+    ctre::phoenix::ParamEnum::eProfileParamSlot_P,
+    ctre::phoenix::ParamEnum::eProfileParamSlot_I,
+    ctre::phoenix::ParamEnum::eProfileParamSlot_D,
+    ctre::phoenix::ParamEnum::eProfileParamSlot_F,
+    ctre::phoenix::ParamEnum::eProfileParamSlot_IZone,
+    ctre::phoenix::ParamEnum::eProfileParamSlot_AllowableErr,
+    ctre::phoenix::ParamEnum::eProfileParamSlot_MaxIAccum,
+    ctre::phoenix::ParamEnum::eProfileParamSlot_PeakOutput,
+    ctre::phoenix::ParamEnum::eClearPositionOnLimitF,
+    ctre::phoenix::ParamEnum::eClearPositionOnLimitR,
+    ctre::phoenix::ParamEnum::eClearPositionOnQuadIdx,
+    ctre::phoenix::ParamEnum::eSampleVelocityPeriod,
+    ctre::phoenix::ParamEnum::eSampleVelocityWindow,
+    ctre::phoenix::ParamEnum::eFeedbackSensorType,
+    ctre::phoenix::ParamEnum::eSelectedSensorPosition,
+    ctre::phoenix::ParamEnum::eFeedbackNotContinuous,
+    ctre::phoenix::ParamEnum::eRemoteSensorSource,
+    ctre::phoenix::ParamEnum::eRemoteSensorDeviceID,
+    ctre::phoenix::ParamEnum::eSensorTerm,
+    ctre::phoenix::ParamEnum::eRemoteSensorClosedLoopDisableNeutralOnLOS,
+    ctre::phoenix::ParamEnum::ePIDLoopPolarity,
+    ctre::phoenix::ParamEnum::ePIDLoopPeriod,
+    ctre::phoenix::ParamEnum::eSelectedSensorCoefficient,
+    ctre::phoenix::ParamEnum::eForwardSoftLimitThreshold,
+    ctre::phoenix::ParamEnum::eReverseSoftLimitThreshold,
+    ctre::phoenix::ParamEnum::eForwardSoftLimitEnable,
+    ctre::phoenix::ParamEnum::eReverseSoftLimitEnable,
+    ctre::phoenix::ParamEnum::eNominalBatteryVoltage,
+    ctre::phoenix::ParamEnum::eBatteryVoltageFilterSize,
+    ctre::phoenix::ParamEnum::eContinuousCurrentLimitAmps,
+    ctre::phoenix::ParamEnum::ePeakCurrentLimitMs,
+    ctre::phoenix::ParamEnum::ePeakCurrentLimitAmps,
+    ctre::phoenix::ParamEnum::eClosedLoopIAccum,
+    ctre::phoenix::ParamEnum::eCustomParam,
+    ctre::phoenix::ParamEnum::eStickyFaults,
+    ctre::phoenix::ParamEnum::eAnalogPosition,
+    ctre::phoenix::ParamEnum::eQuadraturePosition,
+    ctre::phoenix::ParamEnum::ePulseWidthPosition,
+    ctre::phoenix::ParamEnum::eMotMag_Accel,
+    ctre::phoenix::ParamEnum::eMotMag_VelCruise,
+    ctre::phoenix::ParamEnum::eLimitSwitchSource,
+    ctre::phoenix::ParamEnum::eLimitSwitchNormClosedAndDis,
+    ctre::phoenix::ParamEnum::eLimitSwitchDisableNeutralOnLOS,
+    ctre::phoenix::ParamEnum::eLimitSwitchRemoteDevID,
+    ctre::phoenix::ParamEnum::eSoftLimitDisableNeutralOnLOS,
+    ctre::phoenix::ParamEnum::ePulseWidthPeriod_EdgesPerRot,
+    ctre::phoenix::ParamEnum::ePulseWidthPeriod_FilterWindowSz,
+    ctre::phoenix::ParamEnum::eYawOffset,
+    ctre::phoenix::ParamEnum::eCompassOffset,
+    ctre::phoenix::ParamEnum::eBetaGain,
+    ctre::phoenix::ParamEnum::eEnableCompassFusion,
+    ctre::phoenix::ParamEnum::eGyroNoMotionCal,
+    ctre::phoenix::ParamEnum::eEnterCalibration,
+    ctre::phoenix::ParamEnum::eFusedHeadingOffset,
+    ctre::phoenix::ParamEnum::eStatusFrameRate,
+    ctre::phoenix::ParamEnum::eAccumZ,
+    ctre::phoenix::ParamEnum::eTempCompDisable,
+    ctre::phoenix::ParamEnum::eMotionMeas_tap_threshX,
+    ctre::phoenix::ParamEnum::eMotionMeas_tap_threshY,
+    ctre::phoenix::ParamEnum::eMotionMeas_tap_threshZ,
+    ctre::phoenix::ParamEnum::eMotionMeas_tap_count,
+    ctre::phoenix::ParamEnum::eMotionMeas_tap_time,
+    ctre::phoenix::ParamEnum::eMotionMeas_tap_time_multi,
+    ctre::phoenix::ParamEnum::eMotionMeas_shake_reject_thresh,
+    ctre::phoenix::ParamEnum::eMotionMeas_shake_reject_time,
+    ctre::phoenix::ParamEnum::eMotionMeas_shake_reject_timeout,
+    ctre::phoenix::ParamEnum::eDefaultConfig
+    };
+    
+    std::vector<std::string> allParamEnumStrings = {
+    "ctre::phoenix::ParamEnum::eOnBoot_BrakeMode",
+    "ctre::phoenix::ParamEnum::eQuadFilterEn",
+    "ctre::phoenix::ParamEnum::eQuadIdxPolarity",
+    "ctre::phoenix::ParamEnum::eMotionProfileHasUnderrunErr",
+    "ctre::phoenix::ParamEnum::eMotionProfileTrajectoryPointDurationMs",
+    "ctre::phoenix::ParamEnum::eStatusFramePeriod",
+    "ctre::phoenix::ParamEnum::eOpenloopRamp",
+    "ctre::phoenix::ParamEnum::eClosedloopRamp",
+    "ctre::phoenix::ParamEnum::eNeutralDeadband",
+    "ctre::phoenix::ParamEnum::ePeakPosOutput",
+    "ctre::phoenix::ParamEnum::eNominalPosOutput",
+    "ctre::phoenix::ParamEnum::ePeakNegOutput",
+    "ctre::phoenix::ParamEnum::eNominalNegOutput",
+    "ctre::phoenix::ParamEnum::eProfileParamSlot_P",
+    "ctre::phoenix::ParamEnum::eProfileParamSlot_I",
+    "ctre::phoenix::ParamEnum::eProfileParamSlot_D",
+    "ctre::phoenix::ParamEnum::eProfileParamSlot_F",
+    "ctre::phoenix::ParamEnum::eProfileParamSlot_IZone",
+    "ctre::phoenix::ParamEnum::eProfileParamSlot_AllowableErr",
+    "ctre::phoenix::ParamEnum::eProfileParamSlot_MaxIAccum",
+    "ctre::phoenix::ParamEnum::eProfileParamSlot_PeakOutput",
+    "ctre::phoenix::ParamEnum::eClearPositionOnLimitF",
+    "ctre::phoenix::ParamEnum::eClearPositionOnLimitR",
+    "ctre::phoenix::ParamEnum::eClearPositionOnQuadIdx",
+    "ctre::phoenix::ParamEnum::eSampleVelocityPeriod",
+    "ctre::phoenix::ParamEnum::eSampleVelocityWindow",
+    "ctre::phoenix::ParamEnum::eFeedbackSensorType",
+    "ctre::phoenix::ParamEnum::eSelectedSensorPosition",
+    "ctre::phoenix::ParamEnum::eFeedbackNotContinuous",
+    "ctre::phoenix::ParamEnum::eRemoteSensorSource",
+    "ctre::phoenix::ParamEnum::eRemoteSensorDeviceID",
+    "ctre::phoenix::ParamEnum::eSensorTerm",
+    "ctre::phoenix::ParamEnum::eRemoteSensorClosedLoopDisableNeutralOnLOS",
+    "ctre::phoenix::ParamEnum::ePIDLoopPolarity",
+    "ctre::phoenix::ParamEnum::ePIDLoopPeriod",
+    "ctre::phoenix::ParamEnum::eSelectedSensorCoefficient",
+    "ctre::phoenix::ParamEnum::eForwardSoftLimitThreshold",
+    "ctre::phoenix::ParamEnum::eReverseSoftLimitThreshold",
+    "ctre::phoenix::ParamEnum::eForwardSoftLimitEnable",
+    "ctre::phoenix::ParamEnum::eReverseSoftLimitEnable",
+    "ctre::phoenix::ParamEnum::eNominalBatteryVoltage",
+    "ctre::phoenix::ParamEnum::eBatteryVoltageFilterSize",
+    "ctre::phoenix::ParamEnum::eContinuousCurrentLimitAmps",
+    "ctre::phoenix::ParamEnum::ePeakCurrentLimitMs",
+    "ctre::phoenix::ParamEnum::ePeakCurrentLimitAmps",
+    "ctre::phoenix::ParamEnum::eClosedLoopIAccum",
+    "ctre::phoenix::ParamEnum::eCustomParam",
+    "ctre::phoenix::ParamEnum::eStickyFaults",
+    "ctre::phoenix::ParamEnum::eAnalogPosition",
+    "ctre::phoenix::ParamEnum::eQuadraturePosition",
+    "ctre::phoenix::ParamEnum::ePulseWidthPosition",
+    "ctre::phoenix::ParamEnum::eMotMag_Accel",
+    "ctre::phoenix::ParamEnum::eMotMag_VelCruise",
+    "ctre::phoenix::ParamEnum::eLimitSwitchSource",
+    "ctre::phoenix::ParamEnum::eLimitSwitchNormClosedAndDis",
+    "ctre::phoenix::ParamEnum::eLimitSwitchDisableNeutralOnLOS",
+    "ctre::phoenix::ParamEnum::eLimitSwitchRemoteDevID",
+    "ctre::phoenix::ParamEnum::eSoftLimitDisableNeutralOnLOS",
+    "ctre::phoenix::ParamEnum::ePulseWidthPeriod_EdgesPerRot",
+    "ctre::phoenix::ParamEnum::ePulseWidthPeriod_FilterWindowSz",
+    "ctre::phoenix::ParamEnum::eYawOffset",
+    "ctre::phoenix::ParamEnum::eCompassOffset",
+    "ctre::phoenix::ParamEnum::eBetaGain",
+    "ctre::phoenix::ParamEnum::eEnableCompassFusion",
+    "ctre::phoenix::ParamEnum::eGyroNoMotionCal",
+    "ctre::phoenix::ParamEnum::eEnterCalibration",
+    "ctre::phoenix::ParamEnum::eFusedHeadingOffset",
+    "ctre::phoenix::ParamEnum::eStatusFrameRate",
+    "ctre::phoenix::ParamEnum::eAccumZ",
+    "ctre::phoenix::ParamEnum::eTempCompDisable",
+    "ctre::phoenix::ParamEnum::eMotionMeas_tap_threshX",
+    "ctre::phoenix::ParamEnum::eMotionMeas_tap_threshY",
+    "ctre::phoenix::ParamEnum::eMotionMeas_tap_threshZ",
+    "ctre::phoenix::ParamEnum::eMotionMeas_tap_count",
+    "ctre::phoenix::ParamEnum::eMotionMeas_tap_time",
+    "ctre::phoenix::ParamEnum::eMotionMeas_tap_time_multi",
+    "ctre::phoenix::ParamEnum::eMotionMeas_shake_reject_thresh",
+    "ctre::phoenix::ParamEnum::eMotionMeas_shake_reject_time",
+    "ctre::phoenix::ParamEnum::eMotionMeas_shake_reject_timeout",
+    "ctre::phoenix::ParamEnum::eDefaultConfig"
+    };
+   
+    std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> errorCodes;
+    
+    ctre::phoenix::motorcontrol::can::TalonSRX testTalon(0);
+    ctre::phoenix::motorcontrol::can::VictorSPX testVictor(0);
+    ctre::phoenix::sensors::PigeonIMU testPigeon(0);
+    ctre::phoenix::CANifier testCANifier(0);
+
+    
+
+    for(size_t i = 0; i < allParamEnums.size(); i++) {    
+        testTalon.ConfigGetParameter(allParamEnums[i], 0, 1);    
+        errorCodes.push_back(std::make_pair(testTalon.GetLastError(), "testTalon.ConfigGetParameter(" + allParamEnumStrings[i] + ", 0, 1);"));
+    }
+    for(size_t i = 0; i < allParamEnums.size(); i++) {    
+        testVictor.ConfigGetParameter(allParamEnums[i], 0, 1);    
+        errorCodes.push_back(std::make_pair(testVictor.GetLastError(), "testVictor.ConfigGetParameter(" + allParamEnumStrings[i] + ", 0, 1);"));
+    }
+    for(size_t i = 0; i < allParamEnums.size(); i++) {    
+        testPigeon.ConfigGetParameter(allParamEnums[i], 0, 1);    
+        errorCodes.push_back(std::make_pair(testPigeon.GetLastError(), "testPigeon.ConfigGetParameter(" + allParamEnumStrings[i] + ", 0, 1);"));
+    }
+    for(size_t i = 0; i < allParamEnums.size(); i++) {    
+        testCANifier.ConfigGetParameter(allParamEnums[i], 0, 1);    
+        errorCodes.push_back(std::make_pair(testCANifier.GetLastError(), "testCANifier.ConfigGetParameter(" + allParamEnumStrings[i] + ", 0, 1);"));
+    }
+    for(const auto &err : errorCodes) { 
+        ASSERT_EQ(ctre::phoenix::ErrorCode::SIG_NOT_UPDATED, err.first) << baseErrString << err.second;
+    }
+}
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

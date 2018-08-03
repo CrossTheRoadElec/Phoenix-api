@@ -205,7 +205,7 @@ public:
 
 	int EnterCalibrationMode(CalibrationMode calMode, int timeoutMs = 0);
 	int GetGeneralStatus(PigeonIMU::GeneralStatus & genStatusToFill);
-	int GetLastError();
+	ErrorCode GetLastError();
 	int Get6dQuaternion(double wxyz[4]);
 	int GetYawPitchRoll(double ypr[3]);
 	int GetAccumGyro(double xyz_deg[3]);
