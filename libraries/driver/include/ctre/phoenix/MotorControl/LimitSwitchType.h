@@ -14,6 +14,7 @@ enum LimitSwitchSource {
 };
 
 enum RemoteLimitSwitchSource {
+	RemoteLimitSwitchSource_FactoryDefaultOff = 0,
 	RemoteLimitSwitchSource_RemoteTalonSRX = 1,
 	RemoteLimitSwitchSource_RemoteCANifier = 2,
 	RemoteLimitSwitchSource_Deactivated = 3,
@@ -49,10 +50,7 @@ public:
     }
     static std::string toString(RemoteLimitSwitchSource value) {
         switch(value) {
-            #pragma GCC diagnostic push
-            #pragma GCC diagnostic ignored "-Wswitch"
-            case 0 : return "None (factory default value)";
-            #pragma GCC diagnostic pop
+            case RemoteLimitSwitchSource_FactoryDefaultOff: return "None (factory default value)";
             case RemoteLimitSwitchSource_RemoteTalonSRX : return "RemoteLimitSwitchSource_RemoteTalonSRX";
             case RemoteLimitSwitchSource_RemoteCANifier : return "RemoteLimitSwitchSource_RemoteCANifier";
             case RemoteLimitSwitchSource_Deactivated : return "RemoteLimitSwitchSource_Deactivated";

@@ -86,7 +86,7 @@ private:
 	std::mutex _mutMotProf; // use this std::unique_lock<std::mutex> lck (_mutMotProf);
 
 	/** Frame Period of the motion profile control6 frame. */
-	uint _control6PeriodMs = kDefaultControl6PeriodMs;
+	unsigned int _control6PeriodMs = kDefaultControl6PeriodMs;
 
 	/**
 	 * @return the tx task that transmits Control6 (motion profile control).
@@ -107,6 +107,6 @@ private:
 
 } // LowLevel
 } // MotorControl
-} // Phoenix
+} // phoenix
 } // CTRE
 

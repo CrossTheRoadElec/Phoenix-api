@@ -1,0 +1,74 @@
+model {
+    dependencyConfigs {
+        niLibraries(DependencyConfig) {
+            groupId = 'edu.wpi.first.ni-libraries'
+            artifactId = 'ni-libraries'
+            headerClassifier = 'headers'
+            ext = 'zip'
+            version = '2018.4.1'
+            sharedConfigs = project.sharedFrcConfigs
+            staticConfigs = [:]
+        }
+        phoenixCCI(DependencyConfig) {
+            groupId = 'com.ctre.phoenix'
+            artifactId = 'cci'
+            headerClassifier = 'headers'
+            ext = 'zip'
+            if(ext.hasProperty("cciVersion")){
+                version = ext.cciVersion
+            }
+            else{
+                version = '+'
+            }
+            sharedConfigs = project.sharedConfigs
+            staticConfigs = [:]
+        }
+        hal(DependencyConfig) {
+            groupId = 'edu.wpi.first.hal'
+            artifactId = 'hal'
+            headerClassifier = 'headers'
+            sourceClassifier = 'sources'
+            ext = 'zip'
+            version = '2018.4.1'
+            sharedConfigs = project.sharedFrcConfigs
+            staticConfigs = [:]
+        }
+        wpiutil(DependencyConfig) {
+            groupId = 'edu.wpi.first.wpiutil'
+            artifactId = 'wpiutil-cpp'
+            headerClassifier = 'headers'
+            sourceClassifier = 'sources'
+            ext = 'zip'
+            version = '3.2.0'
+            sharedConfigs = project.sharedFrcConfigs
+            staticConfigs = [:]
+        }
+        ntcore(DependencyConfig) {
+            groupId = 'edu.wpi.first.ntcore'
+            artifactId = 'ntcore-cpp'
+            headerClassifier = 'headers'
+            sourceClassifier = 'sources'
+            ext = 'zip'
+            version = '4.1.0'
+            sharedConfigs = project.sharedFrcConfigs
+            staticConfigs = [:]
+        }
+        wpilibc(DependencyConfig) {
+            groupId = 'edu.wpi.first.wpilibc'
+            artifactId = 'wpilibc'
+            headerClassifier = 'headers'
+            sourceClassifier = 'sources'
+            ext = 'zip'
+            version = '2018.4.1'
+            sharedConfigs = project.sharedFrcConfigs
+            staticConfigs = [:]
+        }
+    }
+}
+
+dependencies {
+    if(!project.hasProperty('skipAthena')) {
+    compile 'edu.wpi.first.ntcore:ntcore-java:4.1.0'
+    compile 'edu.wpi.first.wpilibj:wpilibj-java:2018.4.1'
+    }
+}

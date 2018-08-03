@@ -1,1 +1,7 @@
-include 'arm:cpp'
+pluginManagement {
+    repositories {
+        mavenLocal()
+        gradlePluginPortal()
+    }
+}
+enableFeaturePreview('STABLE_PUBLISHING')
