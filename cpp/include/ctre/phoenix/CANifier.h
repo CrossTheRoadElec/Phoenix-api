@@ -55,6 +55,19 @@ struct CANifierConfiguration : CustomParamConfiguration{
 
 };// struct CANifierConfiguration
 
+struct CANifierConfigUtils {
+private:
+	static CANifierConfiguration _default;
+public:
+	static bool VelocityMeasurementPeriodDifferent (const CANifierConfiguration & settings) { return (!(settings.velocityMeasurementPeriod == _default.velocityMeasurementPeriod)) || !settings.enableOptimizations; }
+	static bool VelocityMeasurementWindowDifferent (const CANifierConfiguration & settings) { return (!(settings.velocityMeasurementWindow == _default.velocityMeasurementWindow)) || !settings.enableOptimizations; }
+	static bool ClearPositionOnLimitFDifferent (const CANifierConfiguration & settings) { return (!(settings.clearPositionOnLimitF == _default.clearPositionOnLimitF)) || !settings.enableOptimizations; }
+	static bool ClearPositionOnLimitRDifferent (const CANifierConfiguration & settings) { return (!(settings.clearPositionOnLimitR == _default.clearPositionOnLimitR)) || !settings.enableOptimizations; }
+	static bool ClearPositionOnQuadIdxDifferent (const CANifierConfiguration & settings) { return (!(settings.clearPositionOnQuadIdx == _default.clearPositionOnQuadIdx)) || !settings.enableOptimizations; }
+	static bool CustomParam0Different (const CANifierConfiguration & settings) { return (!(settings.customParam0 == _default.customParam0)) || !settings.enableOptimizations; }
+	static bool CustomParam1Different (const CANifierConfiguration & settings) { return (!(settings.customParam1 == _default.customParam1)) || !settings.enableOptimizations; }
+};
+
 
 class CANifier: public CANBusAddressable {
 public:

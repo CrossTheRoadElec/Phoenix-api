@@ -329,7 +329,6 @@ protected:
 	void* GetHandle();
 	virtual ctre::phoenix::ErrorCode BaseConfigAllSettings(const BaseMotorControllerConfiguration &allConfigs, int timeoutMs);
 	virtual void BaseGetAllConfigs(BaseMotorControllerConfiguration &allConfigs, int timeoutMs);
-	virtual ctre::phoenix::ErrorCode BaseConfigurePID(const BasePIDSetConfiguration &pid, int pidIdx, int timeoutMs);
 	virtual void BaseGetPIDConfigs(BasePIDSetConfiguration &pid, int pidIdx, int timeoutMs);
 public:
 	BaseMotorController(int arbId);

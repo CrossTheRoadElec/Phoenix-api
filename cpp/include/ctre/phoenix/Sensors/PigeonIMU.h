@@ -63,6 +63,14 @@ struct PigeonIMUConfiguration : CustomParamConfiguration{
     }
 };// struct PigeonIMU
 
+struct PigeonIMUConfigUtils {
+private:
+	static PigeonIMUConfiguration _default;
+public:
+	static bool CustomParam0Different (const PigeonIMUConfiguration & settings) { return (!(settings.customParam0 == _default.customParam0)) || !settings.enableOptimizations; }
+	static bool CustomParam1Different (const PigeonIMUConfiguration & settings) { return (!(settings.customParam1 == _default.customParam1)) || !settings.enableOptimizations; }
+};
+
 /**
  * Pigeon IMU Class.
  * Class supports communicating over CANbus and over ribbon-cable (CAN Talon SRX).
