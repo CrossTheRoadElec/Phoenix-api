@@ -21,7 +21,35 @@ model {
                 version = '+'
             }
             sharedConfigs = project.sharedConfigs
-            staticConfigs = [:]
+            staticConfigs = staticTestConfigs
+        }
+        phoenixCanutils(DependencyConfig) {
+            groupId = 'com.ctre.phoenix'
+            artifactId = 'canutils'
+            ext = 'zip'
+            headerClassifier = 'headers'
+            if(ext.hasProperty("canutilsVersion")){
+                version = ext.cciVersion
+            }
+            else{
+                version = '+'
+            }
+            sharedConfigs = [:]
+            staticConfigs = staticTestConfigs
+        }
+        phoenixPlatform(DependencyConfig) {
+            groupId = 'com.ctre.phoenix'
+            artifactId = 'platformsim'
+            headerClassifier = 'headers'
+            ext = 'zip'
+            if(ext.hasProperty("platformsimVersion")){
+                version = ext.cciVersion
+            }
+            else{
+                version = '+'
+            }
+            sharedConfigs = [:]
+            staticConfigs = staticTestConfigs
         }
         hal(DependencyConfig) {
             groupId = 'edu.wpi.first.hal'
@@ -63,12 +91,22 @@ model {
             sharedConfigs = project.sharedFrcConfigs
             staticConfigs = [:]
         }
+        googletest(DependencyConfig) {
+            groupId = 'edu.wpi.first.thirdparty.frc2018'
+            artifactId = 'googletest'
+            headerClassifier = 'headers'
+            ext = 'zip'
+            version = '1.8.0-1-4e4df22'
+            sharedConfigs = [:]
+            staticConfigs = staticTestConfigs
+        }
     }
+    
 }
 
 dependencies {
     if(!project.hasProperty('skipAthena')) {
-    compile 'edu.wpi.first.ntcore:ntcore-java:4.1.0'
-    compile 'edu.wpi.first.wpilibj:wpilibj-java:2018.4.1'
+      compile 'edu.wpi.first.ntcore:ntcore-java:4.1.0'
+      compile 'edu.wpi.first.wpilibj:wpilibj-java:2018.4.1'
     }
 }

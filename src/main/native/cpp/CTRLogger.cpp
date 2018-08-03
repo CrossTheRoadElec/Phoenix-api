@@ -6,7 +6,8 @@ namespace ctre {
 namespace phoenix {
 
 void CTRLogger::Open(int language) {
-	c_Logger_Open(language, true);
+	language++;
+    //c_Logger_Open(language, true);
 }
 
 static void GetStackTrace(std::string & stackTrace)
@@ -33,7 +34,7 @@ ErrorCode CTRLogger::Log(ErrorCode code, std::string origin) {
 	return c_Logger_Log(code, origin.c_str(), 3, stackTrace.c_str());
 }
 void CTRLogger::Close() {
-	c_Logger_Close();
+	//c_Logger_Close();
 }
 //void CTRLogger::Description(ErrorCode code, const char *&shrt, const char *&lng) {
 //	c_Logger_Description(code, shrt, lng);
