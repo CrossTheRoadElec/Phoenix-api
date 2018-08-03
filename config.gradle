@@ -4,8 +4,8 @@ import org.gradle.internal.os.OperatingSystem
 def windowsCompilerArgs = ['/EHsc', '/DNOMINMAX', '/Zi', '/FS', '/Zc:inline', '/MT']
 def windowsCCompilerArgs = ['/Zi', '/FS', '/Zc:inline', '/MT']
 def windowsReleaseCompilerArgs = ['/O2']
-def windowsLinkerArgs = ['/DEBUG:FULL']
-def windowsReleaseLinkerArgs = ['/OPT:REF', '/OPT:ICF']
+def windowsLinkerArgs = ['/DEBUG:FULL', '/FORCE:UNRESOLVED']
+def windowsReleaseLinkerArgs = ['/OPT:REF', '/OPT:ICF', '/FORCE:UNRESOLVED']
 
 def linuxCompilerArgs = ['-std=c++14', '-Wformat=2', '-Wall', '-Wextra', '-Werror', '-pedantic', '-Wno-psabi', '-Wno-error=deprecated-declarations', '-fPIC', '-rdynamic', '-pthread']
 def linuxCCompilerArgs = ['-Wformat=2', '-Wall', '-Wextra', '-Werror', '-pedantic', '-Wno-psabi', '-Wno-unused-parameter', '-fPIC', '-rdynamic', '-pthread']
