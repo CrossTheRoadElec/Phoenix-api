@@ -29,7 +29,7 @@ model {
             ext = 'zip'
             headerClassifier = 'headers'
             if(ext.hasProperty("canutilsVersion")){
-                version = ext.cciVersion
+                version = ext.canutilsVersion
             }
             else{
                 version = '+'
@@ -43,7 +43,7 @@ model {
             headerClassifier = 'headers'
             ext = 'zip'
             if(ext.hasProperty("platformsimVersion")){
-                version = ext.cciVersion
+                version = ext.platformsimVersion
             }
             else{
                 version = '+'
