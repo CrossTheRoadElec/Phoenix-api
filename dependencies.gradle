@@ -1,0 +1,127 @@
+model {
+    dependencyConfigs {
+        niLibraries(DependencyConfig) {
+            groupId = 'edu.wpi.first.ni-libraries'
+            artifactId = 'ni-libraries'
+            headerClassifier = 'headers'
+            ext = 'zip'
+            version = '2018.4.1'
+            sharedConfigs = project.sharedFrcConfigs
+            staticConfigs = [:]
+        }
+        phoenixCCI(DependencyConfig) {
+            groupId = 'com.ctre.phoenix'
+            artifactId = 'cci'
+            headerClassifier = 'headers'
+            ext = 'zip'
+            if(ext.hasProperty("cciVersion")){
+                version = ext.cciVersion
+            }
+            else{
+                version = '+'
+            }
+            sharedConfigs = project.sharedConfigs
+            staticConfigs = staticTestConfigs
+        }
+        phoenixCanutils(DependencyConfig) {
+            groupId = 'com.ctre.phoenix'
+            artifactId = 'canutils'
+            ext = 'zip'
+            headerClassifier = 'headers'
+            if(ext.hasProperty("canutilsVersion")){
+                version = ext.canutilsVersion
+            }
+            else{
+                version = '+'
+            }
+            sharedConfigs = [:]
+            staticConfigs = staticTestConfigs
+        }
+        phoenixPlatform(DependencyConfig) {
+            groupId = 'com.ctre.phoenix'
+            artifactId = 'platformsim'
+            headerClassifier = 'headers'
+            ext = 'zip'
+            if(ext.hasProperty("platformsimVersion")){
+                version = ext.platformsimVersion
+            }
+            else{
+                version = '+'
+            }
+            sharedConfigs = [:]
+            staticConfigs = staticTestConfigs
+        }
+        hal(DependencyConfig) {
+            groupId = 'edu.wpi.first.hal'
+            artifactId = 'hal'
+            headerClassifier = 'headers'
+            sourceClassifier = 'sources'
+            ext = 'zip'
+            version = '2018.4.1'
+            sharedConfigs = project.sharedFrcConfigs
+            staticConfigs = [:]
+        }
+        wpiutil(DependencyConfig) {
+            groupId = 'edu.wpi.first.wpiutil'
+            artifactId = 'wpiutil-cpp'
+            headerClassifier = 'headers'
+            sourceClassifier = 'sources'
+            ext = 'zip'
+            version = '3.2.0'
+            sharedConfigs = project.sharedFrcConfigs
+            staticConfigs = [:]
+        }
+        ntcore(DependencyConfig) {
+            groupId = 'edu.wpi.first.ntcore'
+            artifactId = 'ntcore-cpp'
+            headerClassifier = 'headers'
+            sourceClassifier = 'sources'
+            ext = 'zip'
+            version = '4.1.0'
+            sharedConfigs = project.sharedFrcConfigs
+            staticConfigs = [:]
+        }
+        wpilibc(DependencyConfig) {
+            groupId = 'edu.wpi.first.wpilibc'
+            artifactId = 'wpilibc'
+            headerClassifier = 'headers'
+            sourceClassifier = 'sources'
+            ext = 'zip'
+            version = '2018.4.1'
+            sharedConfigs = project.sharedFrcConfigs
+            staticConfigs = [:]
+        }
+        googletest(DependencyConfig) {
+            groupId = 'edu.wpi.first.thirdparty.frc2018'
+            artifactId = 'googletest'
+            headerClassifier = 'headers'
+            ext = 'zip'
+            version = '1.8.0-1-4e4df22'
+            sharedConfigs = [:]
+            staticConfigs = staticTestConfigs
+        }
+    }
+    
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    if(!project.hasProperty('skipAthena')) {
+      compile 'edu.wpi.first.ntcore:ntcore-java:4.1.0'
+      compile 'edu.wpi.first.wpilibj:wpilibj-java:2018.4.1'
+    }
+    
+    testCompile('org.junit.jupiter:junit-jupiter-api:5.2.0')
+    testCompile('org.junit.jupiter:junit-jupiter-params:5.2.0')
+    testRuntime('org.junit.jupiter:junit-jupiter-engine:5.2.0')
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
