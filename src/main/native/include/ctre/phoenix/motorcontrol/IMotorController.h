@@ -71,7 +71,6 @@ public:
 	virtual double GetBusVoltage() = 0;
 	virtual double GetMotorOutputPercent() = 0;
 	virtual double GetMotorOutputVoltage() = 0;
-	virtual double GetOutputCurrent() = 0;
 	virtual double GetTemperature() = 0;
 
 	//------ sensor selection ----------//

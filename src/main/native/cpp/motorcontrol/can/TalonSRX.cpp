@@ -144,6 +144,14 @@ int TalonSRX::GetStatusFramePeriod(StatusFrame frame, int timeoutMs) {
 	return BaseMotorController::GetStatusFramePeriod(frame, timeoutMs);
 }
 /**
+ * Gets the output current of the motor controller.
+ *
+ * @return The output current (in amps).
+ */
+double TalonSRX::GetOutputCurrent() {
+	return BaseMotorController::GetOutputCurrent();
+}
+/**
  * Configures the period of each velocity sample.
  * Every 1ms a position value is sampled, and the delta between that sample
  * and the position sampled kPeriod ms ago is inserted into a filter.

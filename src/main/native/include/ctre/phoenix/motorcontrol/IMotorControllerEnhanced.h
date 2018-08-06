@@ -60,6 +60,9 @@ public:
 	virtual int GetStatusFramePeriod(StatusFrame frame, int timeoutMs = 0) = 0;
 	virtual int GetStatusFramePeriod(StatusFrameEnhanced frame, int timeoutMs = 0) = 0;
 
+	//------ General Status ----------//
+	virtual double GetOutputCurrent() = 0;
+
 	//----- velocity signal conditionaing ------//
 	virtual ErrorCode ConfigVelocityMeasurementPeriod(VelocityMeasPeriod period,
 			int timeoutMs = 0)= 0;

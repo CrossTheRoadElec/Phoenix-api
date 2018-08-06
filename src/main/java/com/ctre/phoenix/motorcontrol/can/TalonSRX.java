@@ -81,6 +81,16 @@ public class TalonSRX extends com.ctre.phoenix.motorcontrol.can.BaseMotorControl
 		int timeoutMs = 0;
 		return getStatusFramePeriod(frame, timeoutMs);
 	}
+	
+    /**
+	 * Gets the output current of the motor controller.
+	 *
+	 * @return The output current (in amps).
+	 */
+	public double getOutputCurrent() {
+		return super.getOutputCurrent();
+	}
+
 	/**
 	 * Configures the period of each velocity sample.
 	 * Every 1ms a position value is sampled, and the delta between that sample
