@@ -4,7 +4,7 @@ apply plugin: 'maven-publish'
 // already specified on the command line
 if (!hasProperty('releaseType')) {
     WPILibVersion {
-        releaseType = 'OFFICIAL'
+        releaseType = 'dev'
     }
 }
 
