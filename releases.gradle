@@ -279,7 +279,6 @@ project.tasks.whenTaskAdded { task ->
 //build.dependsOn cppSources
 
 build.dependsOn userStaticArtifacts
-build.dependsOn doc
 
 doc.mustRunAfter userStaticArtifacts
 
