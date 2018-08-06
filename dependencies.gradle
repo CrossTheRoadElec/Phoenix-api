@@ -104,9 +104,24 @@ model {
     
 }
 
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     if(!project.hasProperty('skipAthena')) {
       compile 'edu.wpi.first.ntcore:ntcore-java:4.1.0'
       compile 'edu.wpi.first.wpilibj:wpilibj-java:2018.4.1'
+    }
+    
+    testCompile('org.junit.jupiter:junit-jupiter-api:5.2.0')
+    testCompile('org.junit.jupiter:junit-jupiter-params:5.2.0')
+    testRuntime('org.junit.jupiter:junit-jupiter-engine:5.2.0')
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
     }
 }
