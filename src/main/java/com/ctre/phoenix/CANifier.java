@@ -23,7 +23,7 @@
 
 package com.ctre.phoenix;
 
-import edu.wpi.first.wpilibj.hal.HAL;
+//import edu.wpi.first.wpilibj.hal.HAL;
 import com.ctre.phoenix.CANifierConfiguration;
 import com.ctre.phoenix.VelocityPeriod;
 import com.ctre.phoenix.ErrorCollection;
@@ -141,7 +141,7 @@ public class CANifier {
 	public CANifier(int deviceId) {
 		m_handle = CANifierJNI.JNI_new_CANifier(deviceId);
 		m_deviceNumber = deviceId;
-		HAL.report(63, deviceId + 1);
+		//HAL.report(63, deviceId + 1);
 	}
 
 	/**

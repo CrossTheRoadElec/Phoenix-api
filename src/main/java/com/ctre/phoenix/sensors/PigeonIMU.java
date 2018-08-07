@@ -29,7 +29,7 @@ import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.CustomParamConfigUtil;
 
 import edu.wpi.first.wpilibj.hal.FRCNetComm.tResourceType;
-import edu.wpi.first.wpilibj.hal.HAL;
+//import edu.wpi.first.wpilibj.hal.HAL;
 
 /**
  * Pigeon IMU Class. Class supports communicating over CANbus and over
@@ -256,7 +256,7 @@ public class PigeonIMU {
 	public PigeonIMU(int deviceNumber) {
 		m_handle = PigeonImuJNI.JNI_new_PigeonImu(deviceNumber);
 		m_deviceNumber = deviceNumber;
-		HAL.report(tResourceType.kResourceType_PigeonIMU, m_deviceNumber + 1);
+		//HAL.report(tResourceType.kResourceType_PigeonIMU, m_deviceNumber + 1);
 	}
 
 	/**
@@ -269,8 +269,8 @@ public class PigeonIMU {
 	public PigeonIMU(TalonSRX talonSrx) {
 		m_deviceNumber = talonSrx.getDeviceID();
 		m_handle = PigeonImuJNI.JNI_new_PigeonImu_Talon(m_deviceNumber);
-		HAL.report(tResourceType.kResourceType_PigeonIMU, m_deviceNumber + 1);
-		HAL.report(64, m_deviceNumber + 1);
+		//HAL.report(tResourceType.kResourceType_PigeonIMU, m_deviceNumber + 1);
+		//HAL.report(64, m_deviceNumber + 1);
 	}
 
 	/**

@@ -13,8 +13,8 @@ import com.ctre.phoenix.ErrorCollection;
 import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motorcontrol.SensorTerm;
 
-import edu.wpi.first.wpilibj.hal.FRCNetComm.tResourceType;
-import edu.wpi.first.wpilibj.hal.HAL;
+//import edu.wpi.first.wpilibj.hal.FRCNetComm.tResourceType;
+//import edu.wpi.first.wpilibj.hal.HAL;
 /**
  * CTRE Talon SRX Motor Controller when used on CAN Bus.
  */
@@ -26,7 +26,7 @@ public class TalonSRX extends com.ctre.phoenix.motorcontrol.can.BaseMotorControl
 	public TalonSRX(int deviceNumber) {
 		super(deviceNumber | 0x02040000);
 		_sensorColl = new SensorCollection(this);
-		HAL.report(tResourceType.kResourceType_CANTalonSRX, deviceNumber + 1);
+		//HAL.report(tResourceType.kResourceType_CANTalonSRX, deviceNumber + 1);
 	}
 
 	/**

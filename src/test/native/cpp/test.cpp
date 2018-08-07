@@ -19,7 +19,7 @@ TEST(DeviceID, Get) {
         ASSERT_EQ(testCANifier->GetDeviceNumber(), i) << "Failed at CANifier id " << i;
     }
 } 
-TEST(ErrorTest, ConfigSetTimeoutError) {
+TEST(Error, ConfigSetTimeoutError) {
   
     std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> errorCodes;
 
@@ -412,7 +412,7 @@ TEST(ErrorTest, ConfigSetTimeoutError) {
         ASSERT_EQ(ctre::phoenix::ErrorCode::SIG_NOT_UPDATED, err.first) << baseErrString << err.second;
     }
 }
-TEST(ErrorTest, GetParamTimeoutError) {
+TEST(Error, GetParamTimeoutError) {
 
     //While we shouldn't expect different behavior from diff enums, might as well
     std::vector<ctre::phoenix::ParamEnum> allParamEnums = {

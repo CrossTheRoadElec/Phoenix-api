@@ -71,8 +71,18 @@ model {
     }
   }
   binaries {
+    //Only build a test suite for native execution (for now at least)
     withType(GoogleTestTestSuiteBinarySpec) {
-      if (it.targetPlatform.architecture.name == 'athena' || it.targetPlatform.architecture.name == 'raspberry') {
+      if (it.targetPlatform.architecture.name != 'x86' && it.targetPlatform.architecture.name != 'x86-64') {
+        it.buildable = false
+        return
+      }    
+
+      lib library: 'CTRE_Phoenix', linkage: 'static'
+    }
+    //If we are not building for FRC, don't bother with the shared library
+    withType(SharedLibraryBinarySpec) {
+      if (it.targetPlatform.architecture.name != 'athena') {
         it.buildable = false
         return
       }    
