@@ -1,4 +1,7 @@
 import org.gradle.internal.os.OperatingSystem
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
 
 plugins {
   id 'cpp'
@@ -127,12 +130,31 @@ model {
   }
 }
 
+//task renamePlatformForJavaLink(type: Copy) {
+//    def cpDir = ''
+//    for(dir in javaLibsDir) {
+//        println dir
+//        if(dir.toString().contains('platform')) {
+//        
+//        }
+//    }
+//    from dir
+//    into dir
+//    include 'libCTRE_PhoenixPlatform_sim.so'
+//    rename 'libCTRE_PhoenixPlatform_sim.so', 'libCTRE_PhoenixPlatform.so'
+//}
+
+
 task linkJava {
     doLast {
         for(dir in javaLibsDir) {
-            println dir
             if(dir.toString().contains('cci')) {
                 test.jvmArgs = ['-Djava.library.path=' + dir.toString()]
+            }
+            if(dir.toString().contains('platform')) {
+                Path source = Paths.get(dir.toString() + java.io.File.separator + 'libCTRE_PhoenixPlatform_sim.so')           
+                Path target = Paths.get(dir.toString() + java.io.File.separator + 'libCTRE_PhoenixPlatform.so')
+                Files.copy(source, target)     
             }
         }
         if(OperatingSystem.current().isWindows()) {
