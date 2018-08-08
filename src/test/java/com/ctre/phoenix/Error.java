@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
@@ -31,7 +33,7 @@ import com.ctre.phoenix.VelocityPeriod;
 class Error {
     
     @Test
-    void Get() {
+    void configSetTimeout() {
         List<ErrorCodeString> errorCodes = new ArrayList<ErrorCodeString>();
 
         int timeoutMs = 1; //Minimum value to reduce the time required for this test
@@ -419,6 +421,201 @@ class Error {
         errorCodes.add(new ErrorCodeString(testCANifier.configSetCustomParam(testCANifierConfigs.customParam1, 1, timeoutMs),
             "testCANifier.configSetCustomParam(testCANifierConfigs.customParam1, 1, timeoutMs)"));
 
+        for(ErrorCodeString err : errorCodes) { 
+            assertEquals(ErrorCode.SigNotUpdated, err.code, err.string);
+        }
+    }
+    @Test
+    void getParamTimeout() {    
+        List<ParamEnum> allParamEnums = Stream.of(
+        ParamEnum.eOnBoot_BrakeMode,
+        ParamEnum.eQuadFilterEn,
+        ParamEnum.eQuadIdxPolarity,
+        ParamEnum.eMotionProfileHasUnderrunErr,
+        ParamEnum.eMotionProfileTrajectoryPointDurationMs,
+        ParamEnum.eStatusFramePeriod,
+        ParamEnum.eOpenloopRamp,
+        ParamEnum.eClosedloopRamp,
+        ParamEnum.eNeutralDeadband,
+        ParamEnum.ePeakPosOutput,
+        ParamEnum.eNominalPosOutput,
+        ParamEnum.ePeakNegOutput,
+        ParamEnum.eNominalNegOutput,
+        ParamEnum.eProfileParamSlot_P,
+        ParamEnum.eProfileParamSlot_I,
+        ParamEnum.eProfileParamSlot_D,
+        ParamEnum.eProfileParamSlot_F,
+        ParamEnum.eProfileParamSlot_IZone,
+        ParamEnum.eProfileParamSlot_AllowableErr,
+        ParamEnum.eProfileParamSlot_MaxIAccum,
+        ParamEnum.eProfileParamSlot_PeakOutput,
+        ParamEnum.eClearPositionOnLimitF,
+        ParamEnum.eClearPositionOnLimitR,
+        ParamEnum.eClearPositionOnQuadIdx,
+        ParamEnum.eSampleVelocityPeriod,
+        ParamEnum.eSampleVelocityWindow,
+        ParamEnum.eFeedbackSensorType,
+        ParamEnum.eSelectedSensorPosition,
+        ParamEnum.eFeedbackNotContinuous,
+        ParamEnum.eRemoteSensorSource,
+        ParamEnum.eRemoteSensorDeviceID,
+        ParamEnum.eSensorTerm,
+        ParamEnum.eRemoteSensorClosedLoopDisableNeutralOnLOS,
+        ParamEnum.ePIDLoopPolarity,
+        ParamEnum.ePIDLoopPeriod,
+        ParamEnum.eSelectedSensorCoefficient,
+        ParamEnum.eForwardSoftLimitThreshold,
+        ParamEnum.eReverseSoftLimitThreshold,
+        ParamEnum.eForwardSoftLimitEnable,
+        ParamEnum.eReverseSoftLimitEnable,
+        ParamEnum.eNominalBatteryVoltage,
+        ParamEnum.eBatteryVoltageFilterSize,
+        ParamEnum.eContinuousCurrentLimitAmps,
+        ParamEnum.ePeakCurrentLimitMs,
+        ParamEnum.ePeakCurrentLimitAmps,
+        ParamEnum.eClosedLoopIAccum,
+        ParamEnum.eCustomParam,
+        ParamEnum.eStickyFaults,
+        ParamEnum.eAnalogPosition,
+        ParamEnum.eQuadraturePosition,
+        ParamEnum.ePulseWidthPosition,
+        ParamEnum.eMotMag_Accel,
+        ParamEnum.eMotMag_VelCruise,
+        ParamEnum.eLimitSwitchSource,
+        ParamEnum.eLimitSwitchNormClosedAndDis,
+        ParamEnum.eLimitSwitchDisableNeutralOnLOS,
+        ParamEnum.eLimitSwitchRemoteDevID,
+        ParamEnum.eSoftLimitDisableNeutralOnLOS,
+        ParamEnum.ePulseWidthPeriod_EdgesPerRot,
+        ParamEnum.ePulseWidthPeriod_FilterWindowSz,
+        ParamEnum.eYawOffset,
+        ParamEnum.eCompassOffset,
+        ParamEnum.eBetaGain,
+        ParamEnum.eEnableCompassFusion,
+        ParamEnum.eGyroNoMotionCal,
+        ParamEnum.eEnterCalibration,
+        ParamEnum.eFusedHeadingOffset,
+        ParamEnum.eStatusFrameRate,
+        ParamEnum.eAccumZ,
+        ParamEnum.eTempCompDisable,
+        ParamEnum.eMotionMeas_tap_threshX,
+        ParamEnum.eMotionMeas_tap_threshY,
+        ParamEnum.eMotionMeas_tap_threshZ,
+        ParamEnum.eMotionMeas_tap_count,
+        ParamEnum.eMotionMeas_tap_time,
+        ParamEnum.eMotionMeas_tap_time_multi,
+        ParamEnum.eMotionMeas_shake_reject_thresh,
+        ParamEnum.eMotionMeas_shake_reject_time,
+        ParamEnum.eMotionMeas_shake_reject_timeout,
+        ParamEnum.eDefaultConfig
+        ).collect(Collectors.toList());
+        
+        List<String> allParamEnumStrings = Stream.of(
+        "ParamEnum.eOnBoot_BrakeMode",
+        "ParamEnum.eQuadFilterEn",
+        "ParamEnum.eQuadIdxPolarity",
+        "ParamEnum.eMotionProfileHasUnderrunErr",
+        "ParamEnum.eMotionProfileTrajectoryPointDurationMs",
+        "ParamEnum.eStatusFramePeriod",
+        "ParamEnum.eOpenloopRamp",
+        "ParamEnum.eClosedloopRamp",
+        "ParamEnum.eNeutralDeadband",
+        "ParamEnum.ePeakPosOutput",
+        "ParamEnum.eNominalPosOutput",
+        "ParamEnum.ePeakNegOutput",
+        "ParamEnum.eNominalNegOutput",
+        "ParamEnum.eProfileParamSlot_P",
+        "ParamEnum.eProfileParamSlot_I",
+        "ParamEnum.eProfileParamSlot_D",
+        "ParamEnum.eProfileParamSlot_F",
+        "ParamEnum.eProfileParamSlot_IZone",
+        "ParamEnum.eProfileParamSlot_AllowableErr",
+        "ParamEnum.eProfileParamSlot_MaxIAccum",
+        "ParamEnum.eProfileParamSlot_PeakOutput",
+        "ParamEnum.eClearPositionOnLimitF",
+        "ParamEnum.eClearPositionOnLimitR",
+        "ParamEnum.eClearPositionOnQuadIdx",
+        "ParamEnum.eSampleVelocityPeriod",
+        "ParamEnum.eSampleVelocityWindow",
+        "ParamEnum.eFeedbackSensorType",
+        "ParamEnum.eSelectedSensorPosition",
+        "ParamEnum.eFeedbackNotContinuous",
+        "ParamEnum.eRemoteSensorSource",
+        "ParamEnum.eRemoteSensorDeviceID",
+        "ParamEnum.eSensorTerm",
+        "ParamEnum.eRemoteSensorClosedLoopDisableNeutralOnLOS",
+        "ParamEnum.ePIDLoopPolarity",
+        "ParamEnum.ePIDLoopPeriod",
+        "ParamEnum.eSelectedSensorCoefficient",
+        "ParamEnum.eForwardSoftLimitThreshold",
+        "ParamEnum.eReverseSoftLimitThreshold",
+        "ParamEnum.eForwardSoftLimitEnable",
+        "ParamEnum.eReverseSoftLimitEnable",
+        "ParamEnum.eNominalBatteryVoltage",
+        "ParamEnum.eBatteryVoltageFilterSize",
+        "ParamEnum.eContinuousCurrentLimitAmps",
+        "ParamEnum.ePeakCurrentLimitMs",
+        "ParamEnum.ePeakCurrentLimitAmps",
+        "ParamEnum.eClosedLoopIAccum",
+        "ParamEnum.eCustomParam",
+        "ParamEnum.eStickyFaults",
+        "ParamEnum.eAnalogPosition",
+        "ParamEnum.eQuadraturePosition",
+        "ParamEnum.ePulseWidthPosition",
+        "ParamEnum.eMotMag_Accel",
+        "ParamEnum.eMotMag_VelCruise",
+        "ParamEnum.eLimitSwitchSource",
+        "ParamEnum.eLimitSwitchNormClosedAndDis",
+        "ParamEnum.eLimitSwitchDisableNeutralOnLOS",
+        "ParamEnum.eLimitSwitchRemoteDevID",
+        "ParamEnum.eSoftLimitDisableNeutralOnLOS",
+        "ParamEnum.ePulseWidthPeriod_EdgesPerRot",
+        "ParamEnum.ePulseWidthPeriod_FilterWindowSz",
+        "ParamEnum.eYawOffset",
+        "ParamEnum.eCompassOffset",
+        "ParamEnum.eBetaGain",
+        "ParamEnum.eEnableCompassFusion",
+        "ParamEnum.eGyroNoMotionCal",
+        "ParamEnum.eEnterCalibration",
+        "ParamEnum.eFusedHeadingOffset",
+        "ParamEnum.eStatusFrameRate",
+        "ParamEnum.eAccumZ",
+        "ParamEnum.eTempCompDisable",
+        "ParamEnum.eMotionMeas_tap_threshX",
+        "ParamEnum.eMotionMeas_tap_threshY",
+        "ParamEnum.eMotionMeas_tap_threshZ",
+        "ParamEnum.eMotionMeas_tap_count",
+        "ParamEnum.eMotionMeas_tap_time",
+        "ParamEnum.eMotionMeas_tap_time_multi",
+        "ParamEnum.eMotionMeas_shake_reject_thresh",
+        "ParamEnum.eMotionMeas_shake_reject_time",
+        "ParamEnum.eMotionMeas_shake_reject_timeout",
+        "ParamEnum.eDefaultConfig"
+        ).collect(Collectors.toList());
+ 
+        List<ErrorCodeString> errorCodes = new ArrayList<ErrorCodeString>();  
+    
+        TalonSRX testTalon = new TalonSRX(0);
+        VictorSPX testVictor = new VictorSPX(0);
+        PigeonIMU testPigeon = new PigeonIMU(0);
+        CANifier testCANifier = new CANifier(0);
+
+        for(int i = 0; i < allParamEnums.size(); i++) {    
+            testTalon.configGetParameter(allParamEnums.get(i), 0, 1);    
+            errorCodes.add(new ErrorCodeString(testTalon.getLastError(), "testTalon.configGetParameter(" + allParamEnumStrings.get(i) + ", 0, 1);"));
+        }
+        for(int i = 0; i < allParamEnums.size(); i++) {    
+            testVictor.configGetParameter(allParamEnums.get(i), 0, 1);    
+            errorCodes.add(new ErrorCodeString(testVictor.getLastError(), "testVictor.configGetParameter(" + allParamEnumStrings.get(i) + ", 0, 1);"));
+        }
+        for(int i = 0; i < allParamEnums.size(); i++) {    
+            testPigeon.configGetParameter(allParamEnums.get(i), 0, 1);    
+            errorCodes.add(new ErrorCodeString(testPigeon.getLastError(), "testPigeon.configGetParameter(" + allParamEnumStrings.get(i) + ", 0, 1);"));
+        }
+        for(int i = 0; i < allParamEnums.size(); i++) {    
+            testCANifier.configGetParameter(allParamEnums.get(i), 0, 1);    
+            errorCodes.add(new ErrorCodeString(testCANifier.getLastError(), "testTalon.configGetParameter(" + allParamEnumStrings.get(i) + ", 0, 1);"));
+        }
         for(ErrorCodeString err : errorCodes) { 
             assertEquals(ErrorCode.SigNotUpdated, err.code, err.string);
         }
