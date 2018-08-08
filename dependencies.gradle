@@ -1,3 +1,5 @@
+import org.gradle.internal.os.OperatingSystem
+
 model {
     dependencyConfigs {
         niLibraries(DependencyConfig) {
@@ -21,7 +23,7 @@ model {
                 version = '+'
             }
             sharedConfigs = project.sharedConfigs
-            staticConfigs = staticTestConfigs
+            staticConfigs = project.staticTestConfigs
         }
         phoenixCanutils(DependencyConfig) {
             groupId = 'com.ctre.phoenix'
@@ -34,8 +36,8 @@ model {
             else{
                 version = '+'
             }
-            sharedConfigs = [:]
-            staticConfigs = staticTestConfigs
+            sharedConfigs = project.sharedTestConfigs
+            staticConfigs = project.staticTestConfigs
         }
         phoenixPlatformOnlyHeaders(DependencyConfig) {
             groupId = 'com.ctre.phoenix'
@@ -62,8 +64,8 @@ model {
             else{
                 version = '+'
             }
-            sharedConfigs = [:]
-            staticConfigs = staticTestConfigs
+            sharedConfigs = project.sharedTestConfigs
+            staticConfigs = project.staticTestConfigs
         }
         hal(DependencyConfig) {
             groupId = 'edu.wpi.first.hal'
@@ -132,6 +134,7 @@ dependencies {
   testCompile('org.junit.jupiter:junit-jupiter-params:5.2.0')
   testRuntime('org.junit.jupiter:junit-jupiter-engine:5.2.0')
 }
+
 
 test {
     useJUnitPlatform()

@@ -1,0 +1,40 @@
+com.ctre.phoenix.Error > configSetTimeout() PASSED
+CTR: No new response to update signal
+        Talon SRX 0 ConfigGetParameter
+CTR: No new response to update signal
+        Talon SRX 0 ConfigGetParameter
+CTR: No new response to update signal
+        Talon SRX 0 GetLastError
+CTR: No new response to update signal
+        Victor SPX 0 ConfigGetParameter
+CTR: No new response to update signal
+        Victor SPX 0 ConfigGetParameter
+CTR: No new response to update signal
+        Victor SPX 0 GetLastError
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  SIGSEGV (0xb) at pc=0x00007f05801b09fc, pid=32045, tid=0x00007f057b5f9700
+#
+# JRE version: OpenJDK Runtime Environment (8.0_171-b11) (build 1.8.0_171-8u171-b11-0ubuntu0.16.04.1-b11)
+# Java VM: OpenJDK 64-Bit Server VM (25.171-b11 mixed mode linux-amd64 compressed oops)
+# Problematic frame:
+# C  [libCTRE_PhoenixCanutils.so+0x249fc]  ctre::phoenix::platform::canutil::RxStream::ProcessFrame(ctre::phoenix::platform::can::_canframe_t const&)+0x1a
+#
+# Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again
+#
+# An error report file with more information is saved as:
+# /home/ryan/Documents/CTRE/Phoenix-Framework/Phoenix-frc-lib/hs_err_pid32045.log
+CTR: No new response to update signal
+        Pigeon IMU 0 ConfigGetParameter
+CTR: No new response to update signal
+        Pigeon IMU 0 ConfigGetParameter
+CTR: No new response to update signal
+        Pigeon IMU 0 GetLastError
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.java.com/bugreport/crash.jsp
+#
+
+com.ctre.phoenix.Error > getParamTimeout() SKIPPED
+

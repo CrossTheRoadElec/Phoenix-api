@@ -14,12 +14,19 @@ apply from: "options.gradle"
 
 apply from: 'config.gradle'
 
+def everythingExceptAthena = ['linux:x86-64', 'linux:armhf', 'linux:aarch64', 'windows:x86-64', 'windows:x86', 'osx:x86-64']
+
 ext.sharedFrcConfigs = [CTRE_Phoenix: ['linux:athena']]
-ext.sharedConfigs = [CTRE_Phoenix: []]
+ext.sharedConfigs = [CTRE_Phoenix: [], DummyLinkForJavaTest: ['linux:x86-64', 'linux:armhf', 'linux:aarch64', 'windows:x86-64', 'windows:x86', 'osx:x86-64']]
 
 //For googletest
 ext.staticTestConfigs = [CTRE_PhoenixTest: []]
 
+//For java unit test linking
+ext.sharedTestConfigs = [DummyLinkForJavaTest: ['linux:x86-64', 'linux:armhf', 'linux:aarch64', 'windows:x86-64', 'windows:x86', 'osx:x86-64']]
+
+ext.javaLibsFiles = []
+ext.javaLibsDir = []
 
 apply from: 'dependencies.gradle'
 
@@ -46,6 +53,19 @@ model {
           }
           exportedHeaders {
             srcDirs 'src/main/native/include'
+          }
+        }
+      }
+    }
+    DummyLinkForJavaTest(NativeLibrarySpec) {
+      sources {
+        cpp {
+          source {
+            srcDirs 'src/dummy/native/cpp'
+            include '**/*.cpp'
+          }
+          exportedHeaders {
+            srcDirs 'src/dummy/native/include'
           }
         }
       }
@@ -83,14 +103,53 @@ model {
       lib library: 'CTRE_Phoenix', linkage: 'static'
     }
     //If we are not building for windows, don't bother with the shared library
+    withType(StaticLibraryBinarySpec) {
+      if(it.component.name == 'DummyLinkForJavaTest') {
+        it.buildable = false
+      }
+    }
     withType(SharedLibraryBinarySpec) {
-      if (it.targetPlatform.operatingSystem != 'windows') {
+      if(it.component.name == 'DummyLinkForJavaTest') {
+        if (it.targetPlatform.architecture.name == 'x86' || it.targetPlatform.architecture.name == 'x86-64') {
+          for(lib in it.libs) {
+            if(lib.linkFiles.asFileTrees.size() > 0) {
+              javaLibsDir << lib.linkFiles.asFileTrees.get(0).dir
+              javaLibsFiles << lib.linkFiles.asFileTrees.get(0).file
+            }  
+          }
+        }
+      }
+      else if (it.targetPlatform.operatingSystem.name != 'windows') {
         it.buildable = false
         return
       }    
     }
   }
 }
+
+task linkJava {
+    doLast {
+        for(dir in javaLibsDir) {
+            println dir
+            if(dir.toString().contains('cci')) {
+                test.jvmArgs = ['-Djava.library.path=' + dir.toString()]
+            }
+        }
+        if(OperatingSystem.current().isWindows()) {
+            javaLibsDir << test.environment.get('PATH')
+            test.environment.put('PATH', javaLibsDir.join(';'))
+        }
+        else if(OperatingSystem.current().isMacOsX()) { 
+            test.environment.put('DYLD_LIBRARY_PATH', javaLibsDir.join(';'))
+        }
+        else if(OperatingSystem.current().isLinux()) { 
+            test.environment.put('LD_LIBRARY_PATH', javaLibsDir.join(';'))
+        } 
+    }
+}
+
+test.dependsOn linkJava
+linkJava.dependsOn assemble
 
 
 apply from: 'publish.gradle'
