@@ -95,6 +95,7 @@ def mac32PlatformDetect = {
     }
 }
 
+//Athena is included just so platform-onlyheaders is general
 if (!project.hasProperty('skipAthena')) {
     model {
         buildConfigs {
@@ -114,6 +115,7 @@ if (!project.hasProperty('skipAthena')) {
     }
 }
 
+//pi/tk1
 if (!project.hasProperty('skipArmhf')) {
     model {
         buildConfigs {
@@ -133,6 +135,7 @@ if (!project.hasProperty('skipArmhf')) {
     }
 }
 
+//tx1/tx2
 if (!project.hasProperty('skipAarch64')) {
     model {
         buildConfigs {
@@ -153,7 +156,7 @@ if (!project.hasProperty('skipAarch64')) {
 }
 
 
-if (!project.hasProperty('onlyAthena')) {
+if (!project.hasProperty('noNative')) {
     model {
         buildConfigs {
             winX86(BuildConfig) {

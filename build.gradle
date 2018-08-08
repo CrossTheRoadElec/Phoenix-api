@@ -16,6 +16,8 @@ apply from: 'config.gradle'
 
 ext.sharedFrcConfigs = [CTRE_Phoenix: ['linux:athena']]
 ext.sharedConfigs = [CTRE_Phoenix: []]
+
+//For googletest
 ext.staticTestConfigs = [CTRE_PhoenixTest: []]
 
 
