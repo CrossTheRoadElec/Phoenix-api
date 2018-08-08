@@ -7,8 +7,8 @@ def windowsReleaseCompilerArgs = ['/O2']
 def windowsLinkerArgs = ['/DEBUG:FULL', '/FORCE:UNRESOLVED']
 def windowsReleaseLinkerArgs = ['/OPT:REF', '/OPT:ICF', '/FORCE:UNRESOLVED']
 
-def linuxCompilerArgs = ['-std=c++14', '-Wformat=2', '-Wall', '-Wextra', '-Werror', '-pedantic', '-Wno-psabi', '-Wno-error=deprecated-declarations', '-fPIC', '-rdynamic', '-pthread']
-def linuxCCompilerArgs = ['-Wformat=2', '-Wall', '-Wextra', '-Werror', '-pedantic', '-Wno-psabi', '-Wno-unused-parameter', '-fPIC', '-rdynamic', '-pthread']
+def linuxCompilerArgs = ['-std=c++14', '-Wformat=2', '-Wall', '-Wextra', '-Werror', '-pedantic', '-Wno-psabi','-Wno-error=deprecated-declarations', '-fPIC', '-rdynamic', '-pthread']
+def linuxCCompilerArgs = ['-Wformat=2', '-Wall', '-Wextra', '-Werror', '-pedantic', '-Wno-psabi', '-g', '-Wno-unused-parameter', '-fPIC', '-rdynamic', '-pthread']
 def linuxLinkerArgs = ['-rdynamic', '-pthread', '-ldl']
 def linuxReleaseCompilerArgs = ['-Og']
 def linuxDebugCompilerArgs = ['-O0', '-g']
@@ -114,11 +114,11 @@ if (!project.hasProperty('skipAthena')) {
     }
 }
 
-if (!project.hasProperty('skipRaspberry')) {
+if (!project.hasProperty('skipArmhf')) {
     model {
         buildConfigs {
-            raspberry(CrossBuildConfig) {
-                architecture = 'raspberry'
+            armhf(CrossBuildConfig) {
+                architecture = 'armhf'
                 operatingSystem = 'linux'
                 toolChainPrefix = 'arm-linux-gnueabihf-'
                 compilerArgs = linuxCompilerArgs
@@ -132,6 +132,26 @@ if (!project.hasProperty('skipRaspberry')) {
         }
     }
 }
+
+if (!project.hasProperty('skipAarch64')) {
+    model {
+        buildConfigs {
+            aarch64(CrossBuildConfig) {
+                architecture = 'aarch64'
+                operatingSystem = 'linux'
+                toolChainPrefix = 'aarch64-linux-gnu-'
+                compilerArgs = linuxCompilerArgs
+                CCompilerArgs = linuxCCompilerArgs
+                linkerArgs = linuxLinkerArgs
+                debugCompilerArgs = linuxDebugCompilerArgs
+                releaseCompilerArgs = linuxReleaseCompilerArgs
+                releaseStripBinaries = true
+                compilerFamily = 'Gcc'
+            }
+        }
+    }
+}
+
 
 if (!project.hasProperty('onlyAthena')) {
     model {
@@ -306,21 +326,17 @@ ext.includeStandardZipFormat = { task, value ->
         if (binary.buildable) {
             if (binary instanceof SharedLibraryBinarySpec) {
                 task.dependsOn binary.buildTask
-                task.from(new File(binary.sharedLibraryFile.absolutePath + ".debug")) {
-                    into getPlatformPath(binary) + '/shared'
-                }
+                
                 def sharedPath = binary.sharedLibraryFile.absolutePath
                 sharedPath = sharedPath.substring(0, sharedPath.length() - 4)
 
-                task.from(new File(sharedPath + '.pdb')) {
-                    into getPlatformPath(binary) + '/shared'
-                }
                 task.from(binary.sharedLibraryFile) {
                     into getPlatformPath(binary) + '/shared'
                 }
                 task.from(binary.sharedLibraryLinkFile) {
                     into getPlatformPath(binary) + '/shared'
                 }
+                
             } else if (binary instanceof StaticLibraryBinarySpec) {
                 task.dependsOn binary.buildTask
                 task.from(binary.staticLibraryFile) {

@@ -80,14 +80,12 @@ model {
 
       lib library: 'CTRE_Phoenix', linkage: 'static'
     }
-    //If we are not building for FRC, don't bother with the shared library
+    //If we are not building for windows, don't bother with the shared library
     withType(SharedLibraryBinarySpec) {
-      if (it.targetPlatform.architecture.name != 'athena') {
+      if (it.targetPlatform.operatingSystem != 'windows') {
         it.buildable = false
         return
       }    
-
-      lib library: 'CTRE_Phoenix', linkage: 'static'
     }
   }
 }

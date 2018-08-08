@@ -37,12 +37,26 @@ model {
             sharedConfigs = [:]
             staticConfigs = staticTestConfigs
         }
-        phoenixPlatform(DependencyConfig) {
+        phoenixPlatformOnlyHeaders(DependencyConfig) {
             groupId = 'com.ctre.phoenix'
-            artifactId = 'platformsim'
+            artifactId = 'platform-onlyheaders'
             headerClassifier = 'headers'
             ext = 'zip'
-            if(ext.hasProperty("platformsimVersion")){
+            if(ext.hasProperty("platform-onlyheadersVersion")){
+                version = ext.platform-headersonlyVersion
+            }
+            else{
+                version = '+'
+            }
+            sharedConfigs = project.sharedConfigs
+            staticConfigs = [:]
+        }
+        phoenixPlatformSim(DependencyConfig) {
+            groupId = 'com.ctre.phoenix'
+            artifactId = 'platform-sim'
+            headerClassifier = 'headers'
+            ext = 'zip'
+            if(ext.hasProperty("platform-simVersion")){
                 version = ext.platformsimVersion
             }
             else{
