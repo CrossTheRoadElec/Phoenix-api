@@ -2,6 +2,7 @@ import org.gradle.internal.os.OperatingSystem
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
 
 plugins {
   id 'cpp'
@@ -20,12 +21,12 @@ apply from: 'config.gradle'
 def everythingExceptAthena = ['linux:x86-64', 'linux:armhf', 'linux:aarch64', 'windows:x86-64', 'windows:x86', 'osx:x86-64']
 
 ext.sharedFrcConfigs = [CTRE_Phoenix: ['linux:athena']]
-ext.sharedConfigs = [CTRE_Phoenix: [], DummyLinkForJavaTest: ['linux:x86-64', 'linux:armhf', 'linux:aarch64', 'windows:x86-64', 'windows:x86', 'osx:x86-64']]
+ext.sharedCCIConfigs = [CTRE_Phoenix: [], DummyLinkForJavaTest: ['linux:x86-64', 'linux:armhf', 'linux:aarch64', 'windows:x86-64', 'windows:x86', 'osx:x86-64']]
 
 //For googletest
 ext.staticTestConfigs = [CTRE_PhoenixTest: []]
 
-//For java unit test linking
+//For java unit test linking (just exists so dlls are pulled in)
 ext.sharedTestConfigs = [DummyLinkForJavaTest: ['linux:x86-64', 'linux:armhf', 'linux:aarch64', 'windows:x86-64', 'windows:x86', 'osx:x86-64']]
 
 ext.javaLibsFiles = []
@@ -60,7 +61,16 @@ model {
         }
       }
     }
-    DummyLinkForJavaTest(NativeLibrarySpec) {
+  }
+  testSuites {
+    //For java unit test linking (just exists so dlls are pulled in)
+    DummyLinkForJavaTest(GoogleTestTestSuiteSpec) {
+      for(NativeComponentSpec c : $.components) {
+        if (c.name == 'CTRE_Phoenix') {
+          testing c
+          break
+        }
+      }
       sources {
         cpp {
           source {
@@ -73,8 +83,6 @@ model {
         }
       }
     }
-  }
-  testSuites {
     CTRE_PhoenixTest(GoogleTestTestSuiteSpec) {
       for(NativeComponentSpec c : $.components) {
         if (c.name == 'CTRE_Phoenix') {
@@ -100,61 +108,42 @@ model {
     withType(GoogleTestTestSuiteBinarySpec) {
       if (it.targetPlatform.architecture.name != 'x86' && it.targetPlatform.architecture.name != 'x86-64') {
         it.buildable = false
-        return
       }    
-
-      lib library: 'CTRE_Phoenix', linkage: 'static'
-    }
-    //If we are not building for windows, don't bother with the shared library
-    withType(StaticLibraryBinarySpec) {
-      if(it.component.name == 'DummyLinkForJavaTest') {
-        it.buildable = false
-      }
-    }
-    withType(SharedLibraryBinarySpec) {
       if(it.component.name == 'DummyLinkForJavaTest') {
         if (it.targetPlatform.architecture.name == 'x86' || it.targetPlatform.architecture.name == 'x86-64') {
           for(lib in it.libs) {
             if(lib.linkFiles.asFileTrees.size() > 0) {
               javaLibsDir << lib.linkFiles.asFileTrees.get(0).dir
               javaLibsFiles << lib.linkFiles.asFileTrees.get(0).file
-            }  
+            }
           }
         }
+      } else {
+        lib library: 'CTRE_Phoenix', linkage: 'static'
       }
-      else if (it.targetPlatform.operatingSystem.name != 'windows') {
+    }
+    //If we are not building for windows, don't bother with the shared library
+    withType(SharedLibraryBinarySpec) {
+      if (it.targetPlatform.operatingSystem.name != 'windows') {
         it.buildable = false
-        return
-      }    
+      }
     }
   }
 }
 
-//task renamePlatformForJavaLink(type: Copy) {
-//    def cpDir = ''
-//    for(dir in javaLibsDir) {
-//        println dir
-//        if(dir.toString().contains('platform')) {
-//        
-//        }
-//    }
-//    from dir
-//    into dir
-//    include 'libCTRE_PhoenixPlatform_sim.so'
-//    rename 'libCTRE_PhoenixPlatform_sim.so', 'libCTRE_PhoenixPlatform.so'
-//}
-
-
 task linkJava {
     doLast {
+        def prefix = OperatingSystem.current().isWindows() ? '' : 'lib'
+        def extension = OperatingSystem.current().isWindows() ? 'dll' : OperatingSystem.current().isMacOsX() ? 'dylib' : 'so'
+        
         for(dir in javaLibsDir) {
             if(dir.toString().contains('cci')) {
-                test.jvmArgs = ['-Djava.library.path=' + dir.toString()]
+                test.systemProperty 'java.library.path', dir.toString()
             }
             if(dir.toString().contains('platform')) {
-                Path source = Paths.get(dir.toString() + java.io.File.separator + 'libCTRE_PhoenixPlatform_sim.so')           
-                Path target = Paths.get(dir.toString() + java.io.File.separator + 'libCTRE_PhoenixPlatform.so')
-                Files.copy(source, target)     
+                Path source = Paths.get(dir.toString() + java.io.File.separator + prefix + 'CTRE_PhoenixPlatform_sim.' + extension)           
+                Path target = Paths.get(dir.toString() + java.io.File.separator + prefix + 'CTRE_PhoenixPlatform.' + extension)
+                Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING)     
             }
         }
         if(OperatingSystem.current().isWindows()) {

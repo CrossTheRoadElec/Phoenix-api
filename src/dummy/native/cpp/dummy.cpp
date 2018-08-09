@@ -1,3 +1,3 @@
-void dummyFunc() {
-
+int main() {
+    return 0;
 }

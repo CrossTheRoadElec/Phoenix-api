@@ -13,7 +13,6 @@ class DeviceID {
     
     @Test
     void Get() {
-       //System.loadLibrary("CTRE_PhoenixCanutils");
         for(int i = 0; i < 63; i++) { 
             TalonSRX testTalon = new TalonSRX(i);
             VictorSPX testVictor = new VictorSPX(i);

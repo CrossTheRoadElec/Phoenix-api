@@ -8,6 +8,7 @@ model {
             headerClassifier = 'headers'
             ext = 'zip'
             version = '2018.4.1'
+            
             sharedConfigs = project.sharedFrcConfigs
             staticConfigs = [:]
         }
@@ -122,6 +123,7 @@ model {
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
