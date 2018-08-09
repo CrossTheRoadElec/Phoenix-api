@@ -130,13 +130,15 @@ model {
   }
 }
 
+tasks.whenTaskAdded { task ->
+    if(task.name == 'runDummyLinkForJavaTestX86-64GoogleTestExe') {
+                task.enabled = false
+    }
+}
+
+
 task linkJava {
     doFirst {
-        tasks.each {
-            if(it.name == 'runDummyLinkForJavaTestX86-64GoogleTestExe') { //There is technically a dependency race condition here
-                it.enabled = false
-            }
-        }
         
         def prefix = OperatingSystem.current().isWindows() ? '' : 'lib'
         def extension = OperatingSystem.current().isWindows() ? 'dll' : OperatingSystem.current().isMacOsX() ? 'dylib' : 'so'
@@ -164,10 +166,8 @@ task linkJava {
     }
 }
 
-tasks.create(name: 'DummyLinkForJavaTestX86-64GoogleTestExe') 
-
 test.dependsOn linkJava
-linkJava.dependsOn('linkDummyLinkForJavaTestX86-64GoogleTestExe')
+linkJava.dependsOn('runDummyLinkForJavaTestX86-64GoogleTestExe')
 
 apply from: 'publish.gradle'
 
