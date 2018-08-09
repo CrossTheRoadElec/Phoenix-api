@@ -23,7 +23,7 @@ model {
             else{
                 version = '+'
             }
-            sharedConfigs = project.sharedConfigs
+            sharedConfigs = project.sharedCCIConfigs + project.sharedTestConfigs
             staticConfigs = project.staticTestConfigs
         }
         phoenixCanutils(DependencyConfig) {
@@ -51,7 +51,7 @@ model {
             else{
                 version = '+'
             }
-            sharedConfigs = project.sharedConfigs
+            sharedConfigs = project.sharedCCIConfigs
             staticConfigs = [:]
         }
         phoenixPlatformSim(DependencyConfig) {
