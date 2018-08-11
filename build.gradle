@@ -177,6 +177,8 @@ tasks.whenTaskAdded { task ->
     }
 }
 
+test.dependsOn('runDummyLinkForJavaTestX86-64GoogleTestExe')
+test.dependsOn('runCTRE_PhoenixTestX86-64GoogleTestExe')
 test.dependsOn('CopyPlatformLib')
 
 apply from: 'publish.gradle'
