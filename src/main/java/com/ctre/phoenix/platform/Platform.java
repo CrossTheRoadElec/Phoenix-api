@@ -24,16 +24,16 @@ package com.ctre.phoenix.platform;
 
 public class Platform {
     
-    public static int SimCreate(int type, int id) {
-        return PlatformJNI.JNI_SimCreate(type, id);
+    public static int SimCreate(DeviceType type, int id) {
+        return PlatformJNI.JNI_SimCreate(type.value, id);
     }
    
-    public static int[] SimConfigGet(int type, int param, int valueToSend, int ordinal, int id) {
-        return PlatformJNI.JNI_SimConfigGet(type, param, valueToSend, ordinal, id);
+    public static int[] SimConfigGet(DeviceType type, int param, int valueToSend, int ordinal, int id) {
+        return PlatformJNI.JNI_SimConfigGet(type.value, param, valueToSend, ordinal, id);
     }
 
-    public static int SimConfigSet(int type, int param, int value, int subValue, int ordinal, int id) {
-        return PlatformJNI.JNI_SimConfigSet(type, param, value, subValue, ordinal, id);
+    public static int SimConfigSet(DeviceType type, int param, int value, int subValue, int ordinal, int id) {
+        return PlatformJNI.JNI_SimConfigSet(type.value, param, value, subValue, ordinal, id);
     }
 
 }
