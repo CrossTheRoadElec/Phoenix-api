@@ -28,8 +28,7 @@ ext.staticTestConfigs = [CTRE_PhoenixTest: []]
 //For java unit test linking (just exists so dlls are pulled in)
 ext.sharedTestConfigs = [DummyLinkForJavaTest: ['linux:x86-64', 'linux:armhf', 'linux:aarch64', 'windows:x86-64', 'windows:x86', 'osx:x86-64']]
 
-ext.javaLibsFiles = []
-ext.javaLibsDir = []
+ext.sharedConfigsFirmwareSim = [CTRE_PhoenixTest: []]
 
 apply from: 'dependencies.gradle'
 
@@ -105,20 +104,62 @@ model {
   binaries {
     //Only build a test suite for native execution (for now at least)
     withType(GoogleTestTestSuiteBinarySpec) {
-      if (it.targetPlatform.architecture.name != 'x86' && it.targetPlatform.architecture.name != 'x86-64') {
-        it.buildable = false
-      }    
-      if(it.component.name == 'DummyLinkForJavaTest') {
-        if (it.targetPlatform.architecture.name == 'x86' || it.targetPlatform.architecture.name == 'x86-64') {
+      if (it.targetPlatform.architecture.name == 'x86' || it.targetPlatform.architecture.name == 'x86-64') {
+        if(it.component.name == 'DummyLinkForJavaTest') {
+          //Do all of the test setup using the lib dir
           for(lib in it.libs) {
             if(lib.linkFiles.asFileTrees.size() > 0) {
-              javaLibsDir << lib.linkFiles.asFileTrees.get(0).dir
-              javaLibsFiles << lib.linkFiles.asFileTrees.get(0).file
-            }
+              def dir = lib.linkFiles.asFileTrees.get(0).dir
+              def libPaths = []
+              def prefix = OperatingSystem.current().isWindows() ? '' : 'lib'
+              def extension = OperatingSystem.current().isWindows() ? 'dll' : OperatingSystem.current().isMacOsX() ? 'dylib' : 'so'
+
+              if(dir.toString().contains('cci')) {
+                project.test.systemProperty 'java.library.path', dir.toString()
+              }
+              def dirStr = dir.toString()
+              if(dir.toString().contains('platform')) {
+                
+                project.tasks.create(name: 'CopyPlatformLib', type: Copy) {
+                  
+                  from dir.toString() + File.separator
+                  into "${buildDir}/tmpPlatformSO"
+                  
+                  rename(prefix + 'CTRE_PhoenixPlatform_sim.' + extension, prefix + 'CTRE_PhoenixPlatform.' + extension)
+                }
+ 
+                project.test.dependsOn(CopyPlatformLib)
+                CopyPlatformLib.dependsOn('linkDummyLinkForJavaTestX86-64GoogleTestExe')
+                
+                dirStr = "${buildDir}/tmpPlatformSO"
+              }
+              if(OperatingSystem.current().isWindows()) {
+                libPaths << test.environment.get('PATH') << dirStr
+                project.test.environment.put('PATH', libPaths.join(';'))
+              }
+              else if(OperatingSystem.current().isMacOsX()) {
+                libPaths << test.environment.get('DYLD_LIBRARY_PATH') << dirStr
+                println libPaths
+                project.test.environment.put('DYLD_LIBRARY_PATH', libPaths.join(';'))
+              }
+              else if(OperatingSystem.current().isLinux()) {
+                libPaths << test.environment.get('LD_LIBRARY_PATH') << dirStr
+                project.test.environment.put('LD_LIBRARY_PATH', libPaths.join(';'))
+              }
           }
         }
       } else {
+        if (it.targetPlatform.architecture.name == 'x86' || it.targetPlatform.architecture.name == 'x86-64') {
+            for(lib in it.libs) {
+              if(lib.linkFiles.asFileTrees.size() > 0 && lib.linkFiles.asFileTrees.get(0).dir.toString().contains('firmware')) {
+                  tasks.run.getProperties().environment.put('CTRE_TALON_LIBRARY_PATH', lib.linkFiles.asFileTrees.get(0).file.toString())
+              }
+            }
+          }
+        }
         lib library: 'CTRE_Phoenix', linkage: 'static'
+      } else {
+        it.buildable = false
       }
     }
     //If we are not building for windows, don't bother with the shared library
@@ -130,44 +171,13 @@ model {
   }
 }
 
-task linkJava {
-    doFirst {
-        tasks.each {
-            if(it.name == 'runDummyLinkForJavaTestX86-64GoogleTestExe') { //There is technically a dependency race condition here
-                it.enabled = false
-            }
-        }
-        
-        def prefix = OperatingSystem.current().isWindows() ? '' : 'lib'
-        def extension = OperatingSystem.current().isWindows() ? 'dll' : OperatingSystem.current().isMacOsX() ? 'dylib' : 'so'
-        
-        for(dir in javaLibsDir) {
-            if(dir.toString().contains('cci')) {
-                test.systemProperty 'java.library.path', dir.toString()
-            }
-            if(dir.toString().contains('platform')) {
-                Path source = Paths.get(dir.toString() + java.io.File.separator + prefix + 'CTRE_PhoenixPlatform_sim.' + extension)           
-                Path target = Paths.get(dir.toString() + java.io.File.separator + prefix + 'CTRE_PhoenixPlatform.' + extension)
-                Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING)     
-            }
-        }
-        if(OperatingSystem.current().isWindows()) {
-            javaLibsDir << test.environment.get('PATH')
-            test.environment.put('PATH', javaLibsDir.join(';'))
-        }
-        else if(OperatingSystem.current().isMacOsX()) { 
-            test.environment.put('DYLD_LIBRARY_PATH', javaLibsDir.join(';'))
-        }
-        else if(OperatingSystem.current().isLinux()) { 
-            test.environment.put('LD_LIBRARY_PATH', javaLibsDir.join(';'))
-        } 
+tasks.whenTaskAdded { task ->
+    if(task.name == 'runDummyLinkForJavaTestX86-64GoogleTestExe') {
+        task.enabled = false
     }
 }
 
-tasks.create(name: 'DummyLinkForJavaTestX86-64GoogleTestExe') 
-
-test.dependsOn linkJava
-linkJava.dependsOn('linkDummyLinkForJavaTestX86-64GoogleTestExe')
+test.dependsOn('CopyPlatformLib')
 
 apply from: 'publish.gradle'
 

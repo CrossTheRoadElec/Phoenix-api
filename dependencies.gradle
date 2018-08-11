@@ -45,8 +45,8 @@ model {
             artifactId = 'platform-onlyheaders'
             headerClassifier = 'headers'
             ext = 'zip'
-            if(ext.hasProperty("platform-onlyheadersVersion")){
-                version = ext.platform-headersonlyVersion
+            if(ext.hasProperty("platformonlyheadersVersion")){
+                version = ext.platformheadersonlyVersion
             }
             else{
                 version = '+'
@@ -59,7 +59,7 @@ model {
             artifactId = 'platform-sim'
             headerClassifier = 'headers'
             ext = 'zip'
-            if(ext.hasProperty("platform-simVersion")){
+            if(ext.hasProperty("platformsimVersion")){
                 version = ext.platformsimVersion
             }
             else{
@@ -67,6 +67,20 @@ model {
             }
             sharedConfigs = project.sharedTestConfigs
             staticConfigs = project.staticTestConfigs
+        }
+        phoenixPlatform(DependencyConfig) {
+            groupId = 'com.ctre.phoenix'
+            artifactId = 'firmware-sim'
+            headerClassifier = 'headers'
+            ext = 'zip'
+            if(ext.hasProperty("firmwaresimVersion")){
+                version = ext.firmwaresimVersion
+            }
+            else{
+                version = '+'
+            }
+            sharedConfigs = project.sharedConfigsFirmwareSim
+            staticConfigs = [:]
         }
         hal(DependencyConfig) {
             groupId = 'edu.wpi.first.hal'

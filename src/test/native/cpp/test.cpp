@@ -1,8 +1,11 @@
 #include <gtest/gtest.h>
 #include "ctre/Phoenix.h"
+#include "ctre/phoenix/platform/Platform.h"
 #include <string>
 #include <utility>
 #include <vector>
+#include <chrono>
+#include <thread>
 
 std::string baseErrString = "Failed due to error from ";
 
@@ -607,6 +610,12 @@ TEST(Error, GetParamTimeoutError) {
     for(const auto &err : errorCodes) { 
         ASSERT_EQ(ctre::phoenix::ErrorCode::SIG_NOT_UPDATED, err.first) << baseErrString << err.second;
     }
+}
+
+TEST(Simulator, Load) {
+    ctre::phoenix::platform::SimCreate(ctre::phoenix::platform::DeviceType::TalonSRX, 1);  
+
+    ASSERT_EQ(1, 1);
 }
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
