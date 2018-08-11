@@ -613,9 +613,9 @@ TEST(Error, GetParamTimeoutError) {
 }
 
 TEST(Simulator, Load) {
-    ctre::phoenix::platform::SimCreate(ctre::phoenix::platform::DeviceType::TalonSRX, 1);  
-
-    ASSERT_EQ(1, 1);
+    for(int i = 0; i < 16; i++) { //Fails after 22nd Talon?
+        ctre::phoenix::platform::SimCreate(ctre::phoenix::platform::DeviceType::TalonSRX, i);  
+    }
 }
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
