@@ -20,7 +20,7 @@ class PlatformTest {
 
     @Test
     void Create() {
-        for(int i = 0; i < 1; i++) { //Fails after some number of Talons?
+        for(int i = 0; i < 63; i++) {
             Platform.simCreate(DeviceType.TalonSRX, i);  
         }
     }

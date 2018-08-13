@@ -613,7 +613,7 @@ TEST(Error, GetParamTimeoutError) {
 }
 
 TEST(Simulator, Load) {
-    for(int i = 0; i < 63; i++) { //There is some bizare stuff going on here... number of talons that can be created without a crash depends on number of config calls (WTF).
+    for(int i = 0; i < 63; i++) { 
         ctre::phoenix::platform::SimCreate(ctre::phoenix::platform::DeviceType::TalonSRX, i);  
     }
 }
