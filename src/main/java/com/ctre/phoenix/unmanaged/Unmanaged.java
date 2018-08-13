@@ -24,11 +24,11 @@ package com.ctre.phoenix.unmanaged;
 
 public class Unmanaged {
     
-    public static void FeedEnable(int timeoutMs) {
+    public static void feedEnable(int timeoutMs) {
         UnmanagedJNI.JNI_FeedEnable(timeoutMs);
     }
 
-    public static boolean JNI_GetEnableState() {
+    public static boolean getEnableState() {
         return  UnmanagedJNI.JNI_GetEnableState();
     }
 }

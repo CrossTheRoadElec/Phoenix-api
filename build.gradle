@@ -152,7 +152,9 @@ model {
         if (it.targetPlatform.architecture.name == 'x86' || it.targetPlatform.architecture.name == 'x86-64') {
             for(lib in it.libs) {
               if(lib.linkFiles.asFileTrees.size() > 0 && lib.linkFiles.asFileTrees.get(0).dir.toString().contains('firmware')) {
-                  tasks.run.getProperties().environment.put('CTRE_TALON_LIBRARY_PATH', lib.linkFiles.asFileTrees.get(0).file.toString())
+                tasks.run.getProperties().environment.put('CTRE_TALON_LIBRARY_PATH', lib.linkFiles.asFileTrees.get(0).file.toString())
+                project.test.environment.put('CTRE_TALON_LIBRARY_PATH', lib.linkFiles.asFileTrees.get(0).file.toString())
+
               }
             }
           }

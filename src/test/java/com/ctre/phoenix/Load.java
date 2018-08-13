@@ -11,8 +11,8 @@ class Load {
     
     @Test
     void Create() {
-        for(int i = 0; i < 2; i++) { //Fails after 22nd Talon?
-            Platform.SimCreate(DeviceType.TalonSRX, i);  
+        for(int i = 0; i < 1; i++) { //Fails after 22nd Talon?
+            Platform.simCreate(DeviceType.TalonSRX, i);  
         }
     }
 }
