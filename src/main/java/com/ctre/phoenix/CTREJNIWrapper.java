@@ -14,8 +14,4 @@ public class CTREJNIWrapper {
       libraryLoaded = true;
     }
   }
-
-  public static native int getPortWithModule(byte module, byte channel);
-
-  public static native int getPort(byte channel);
 }
