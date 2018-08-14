@@ -163,6 +163,9 @@ public:
 
 	virtual int GetStatusFramePeriod(StatusFrameEnhanced frame, int timeoutMs = 0);
 	virtual int GetStatusFramePeriod(StatusFrame frame, int timeoutMs = 0);
+	
+	//------ General Status ----------//
+    virtual double GetOutputCurrent();
 
 	//------ Velocity measurement ----------//
 	virtual ctre::phoenix::ErrorCode ConfigVelocityMeasurementPeriod(VelocityMeasPeriod period,

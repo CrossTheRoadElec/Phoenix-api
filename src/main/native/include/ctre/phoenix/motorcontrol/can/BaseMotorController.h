@@ -323,6 +323,9 @@ protected:
 	virtual ctre::phoenix::ErrorCode BaseConfigAllSettings(const BaseMotorControllerConfiguration &allConfigs, int timeoutMs);
 	virtual void BaseGetAllConfigs(BaseMotorControllerConfiguration &allConfigs, int timeoutMs);
 	virtual void BaseGetPIDConfigs(BasePIDSetConfiguration &pid, int pidIdx, int timeoutMs);
+	
+    //------ General Status ----------//
+	virtual double GetOutputCurrent();
 public:
 	BaseMotorController(int arbId);
 	~BaseMotorController();
@@ -365,7 +368,6 @@ public:
 	virtual double GetBusVoltage();
 	virtual double GetMotorOutputPercent();
 	virtual double GetMotorOutputVoltage();
-	virtual double GetOutputCurrent();
 	virtual double GetTemperature();
 	//------ sensor selection ----------//
 	virtual ctre::phoenix::ErrorCode ConfigSelectedFeedbackSensor(

@@ -1,8 +1,11 @@
 #include <gtest/gtest.h>
 #include "ctre/Phoenix.h"
+#include "ctre/phoenix/platform/Platform.h"
 #include <string>
 #include <utility>
 #include <vector>
+#include <chrono>
+#include <thread>
 
 std::string baseErrString = "Failed due to error from ";
 
@@ -606,6 +609,25 @@ TEST(Error, GetParamTimeoutError) {
     }
     for(const auto &err : errorCodes) { 
         ASSERT_EQ(ctre::phoenix::ErrorCode::SIG_NOT_UPDATED, err.first) << baseErrString << err.second;
+    }
+}
+
+TEST(Simulator, Load) {
+    //In windows, this becomes increasingly slower per talon as the number of talons loaded increases (~300 ms for 8 Talons, ~10000 ms for 32 talons, and ~32000 ms for 63 talons).
+    //Based on some testing, the time required to copy the file and the time required to get a function pointer expand over time. 
+    //No such increasing cost occurs in linux and the load time is generally far lower.
+    
+    #if defined(WIN32) || defined(_WIN32) || defined(_WIN64)
+    
+    for(int i = 0; i < 8; i++) { 
+    
+    #else
+
+    for(int i = 0; i < 63; i++) { 
+
+    #endif
+
+        ctre::phoenix::platform::SimCreate(ctre::phoenix::platform::DeviceType::TalonSRX, i);  
     }
 }
 int main(int argc, char **argv) {

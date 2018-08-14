@@ -91,6 +91,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 		set(mode, outputValue, DemandType.Neutral, 0);
 	}
 	/**
+     * @deprecated use 4 parameter set
 	 * @param mode Sets the appropriate output on the talon, depending on the mode.
 	 * @param demand0 The output value to apply.
 	 * 	such as advanced feed forward and/or auxiliary close-looping in firmware.
@@ -104,6 +105,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 *
 	 * @param demand1 Supplemental value.  This will also be control mode specific for future features.
 	 */
+    @Deprecated
 	public void set(ControlMode mode, double demand0, double demand1) {
 		set(mode, demand0, DemandType.Neutral, demand1);
 	}
@@ -512,7 +514,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 *
 	 * @return The output current (in amps).
 	 */
-	public double getOutputCurrent() {
+	protected double getOutputCurrent() {
 		return MotControllerJNI.GetOutputCurrent(m_handle);
 	}
 
@@ -2158,7 +2160,6 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 		id24 = (short) id24;
 		id24 <<= 8;
 		id24 |= (id32 & 0xFF);
-		set(ControlMode.Follower, id24);
 
 		switch (followerType){
 			case PercentOutput:
