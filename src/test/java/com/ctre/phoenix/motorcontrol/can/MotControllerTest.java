@@ -3,6 +3,7 @@ package com.ctre.phoenix.motorcontrol.can;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.ctre.phoenix.motorcontrol.can.MotControllerJNI;
+import com.ctre.phoenix.motion.TrajectoryPoint;
 
 import org.junit.jupiter.api.Test;
 
@@ -136,4 +137,12 @@ class MotControllerTest {
 	    MotControllerJNI.ConfigClosedLoopPeakOutput(handle, 0, 0, 0);
 	    MotControllerJNI.ConfigClosedLoopPeriod(handle, 0, 0, 0);
     }
+    
+    @Test
+    void pushMotionProfileTrajectoryNullPointerCheck () {
+        TrajectoryPoint emptyPoint = new TrajectoryPoint();
+        TalonSRX testMotController = new TalonSRX(0);
+        testMotController.pushMotionProfileTrajectory(emptyPoint);       
+    }
+    
 }

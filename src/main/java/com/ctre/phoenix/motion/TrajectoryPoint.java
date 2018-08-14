@@ -81,5 +81,5 @@ public class TrajectoryPoint {
 	 * This time unit is ADDED to the existing base time set by
 	 * configMotionProfileTrajectoryPeriod().
 	 */
-	public TrajectoryDuration timeDur;
+	public TrajectoryDuration timeDur = TrajectoryDuration.Trajectory_Duration_0ms;
 }
