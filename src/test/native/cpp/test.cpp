@@ -613,7 +613,9 @@ TEST(Error, GetParamTimeoutError) {
 }
 
 TEST(Simulator, Load) {
-    for(int i = 0; i < 63; i++) { 
+    //In windows, this becomes increasingly slower per talon as the number of talons loaded increases (~300 ms for 8 Talons, ~10000 ms for 32 talons, and ~32000 ms for 63 talons).
+    //Based on some testing, the time required to copy the file and the time required to get a function pointer expand over time. 
+    for(int i = 0; i < 32; i++) { 
         ctre::phoenix::platform::SimCreate(ctre::phoenix::platform::DeviceType::TalonSRX, i);  
     }
 }

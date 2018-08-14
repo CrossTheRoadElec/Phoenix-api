@@ -20,7 +20,7 @@ class PlatformTest {
 
     @Test
     void Create() {
-        for(int i = 0; i < 63; i++) {
+        for(int i = 0; i < 8; i++) {
             Platform.simCreate(DeviceType.TalonSRX, i);  
         }
     }
