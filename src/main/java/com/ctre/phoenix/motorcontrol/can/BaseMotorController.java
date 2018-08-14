@@ -2158,7 +2158,6 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 		id24 = (short) id24;
 		id24 <<= 8;
 		id24 |= (id32 & 0xFF);
-		set(ControlMode.Follower, id24);
 
 		switch (followerType){
 			case PercentOutput:
