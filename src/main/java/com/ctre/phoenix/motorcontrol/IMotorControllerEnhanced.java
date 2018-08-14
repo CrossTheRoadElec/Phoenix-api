@@ -30,6 +30,9 @@ public interface IMotorControllerEnhanced extends IMotorController {
     public ErrorCode setStatusFramePeriod(StatusFrameEnhanced frame, int periodMs, int timeoutMs );
     public int getStatusFramePeriod(StatusFrameEnhanced frame, int timeoutMs );
 
+	// ------ General Status ----------//
+	public double getOutputCurrent() ;
+
     //----- velocity signal conditionaing ------//
     public ErrorCode configVelocityMeasurementPeriod(VelocityMeasPeriod period, int timeoutMs );
     public ErrorCode configVelocityMeasurementWindow(int windowSize, int timeoutMs );

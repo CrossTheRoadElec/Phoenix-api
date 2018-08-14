@@ -512,7 +512,7 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 	 *
 	 * @return The output current (in amps).
 	 */
-	public double getOutputCurrent() {
+	protected double getOutputCurrent() {
 		return MotControllerJNI.GetOutputCurrent(m_handle);
 	}
 
