@@ -69,6 +69,7 @@ void BaseMotorController::Set(ControlMode Mode, double value) {
 	Set(Mode, value, DemandType_Neutral, 0);
 }
 /**
+ * @deprecated use 4 parameter set
  * @param mode Sets the appropriate output on the talon, depending on the mode.
  * @param demand0 The output value to apply.
  * 	such as advanced feed forward and/or auxiliary close-looping in firmware.
