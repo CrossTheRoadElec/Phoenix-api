@@ -19,56 +19,57 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="cpp\src\CANifier.cpp" />
-    <ClCompile Include="cpp\src\CompileTest.cpp" />
-    <ClCompile Include="cpp\src\CTRLogger.cpp" />
-    <ClCompile Include="cpp\src\HsvToRgb.cpp" />
-    <ClCompile Include="cpp\src\LinearInterpolation.cpp" />
-    <ClCompile Include="cpp\src\MotorControl\CAN\BaseMotorController.cpp" />
-    <ClCompile Include="cpp\src\MotorControl\CAN\TalonSRX.cpp" />
-    <ClCompile Include="cpp\src\MotorControl\CAN\VictorSPX.cpp" />
-    <ClCompile Include="cpp\src\MotorControl\CAN\WPI_TalonSRX.cpp" />
-    <ClCompile Include="cpp\src\MotorControl\CAN\WPI_VictorSPX.cpp" />
-    <ClCompile Include="cpp\src\MotorControl\DeviceCatalog.cpp" />
-    <ClCompile Include="cpp\src\MotorControl\GroupMotorControllers.cpp" />
-    <ClCompile Include="cpp\src\MotorControl\SensorCollection.cpp" />
-    <ClCompile Include="cpp\src\RCRadio3Ch.cpp" />
-    <ClCompile Include="cpp\src\Sensors\PigeonIMU.cpp" />
-    <ClCompile Include="cpp\src\Stopwatch.cpp" />
-    <ClCompile Include="cpp\src\Tasking\ButtonMonitor.cpp" />
-    <ClCompile Include="cpp\src\Tasking\Schedulers\ConcurrentScheduler.cpp" />
-    <ClCompile Include="cpp\src\Tasking\Schedulers\SequentialScheduler.cpp" />
-    <ClCompile Include="cpp\src\Utilities.cpp" />
+    <ClCompile Include="src\main\native\cpp\CANifier.cpp" />
+    <ClCompile Include="src\main\native\cpp\CompileTest.cpp" />
+    <ClCompile Include="src\main\native\cpp\CTRLogger.cpp" />
+    <ClCompile Include="src\main\native\cpp\HsvToRgb.cpp" />
+    <ClCompile Include="src\main\native\cpp\LinearInterpolation.cpp" />
+    <ClCompile Include="src\main\native\cpp\motorcontrol\can\BaseMotorController.cpp" />
+    <ClCompile Include="src\main\native\cpp\motorcontrol\can\TalonSRX.cpp" />
+    <ClCompile Include="src\main\native\cpp\motorcontrol\can\VictorSPX.cpp" />
+    <ClCompile Include="src\main\native\cpp\motorcontrol\can\WPI_TalonSRX.cpp" />
+    <ClCompile Include="src\main\native\cpp\motorcontrol\can\WPI_VictorSPX.cpp" />
+    <ClCompile Include="src\main\native\cpp\motorcontrol\DeviceCatalog.cpp" />
+    <ClCompile Include="src\main\native\cpp\motorcontrol\GroupMotorControllers.cpp" />
+    <ClCompile Include="src\main\native\cpp\motorcontrol\SensorCollection.cpp" />
+    <ClCompile Include="src\main\native\cpp\RCRadio3Ch.cpp" />
+    <ClCompile Include="src\main\native\cpp\sensors\PigeonIMU.cpp" />
+    <ClCompile Include="src\main\native\cpp\Stopwatch.cpp" />
+    <ClCompile Include="src\main\native\cpp\tasking\ButtonMonitor.cpp" />
+    <ClCompile Include="src\main\native\cpp\tasking\Schedulers\ConcurrentScheduler.cpp" />
+    <ClCompile Include="src\main\native\cpp\tasking\Schedulers\SequentialScheduler.cpp" />
+    <ClCompile Include="src\main\native\cpp\Utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="cpp\include\ctre\Phoenix.h" />
-    <ClInclude Include="cpp\include\ctre\phoenix\CANifier.h" />
-    <ClInclude Include="cpp\include\ctre\phoenix\CTRLogger.h" />
-    <ClInclude Include="cpp\include\ctre\phoenix\HsvToRgb.h" />
-    <ClInclude Include="cpp\include\ctre\phoenix\LinearInterpolation.h" />
-    <ClInclude Include="cpp\include\ctre\phoenix\MotorControl\CAN\BaseMotorController.h" />
-    <ClInclude Include="cpp\include\ctre\phoenix\MotorControl\CAN\TalonSRX.h" />
-    <ClInclude Include="cpp\include\ctre\phoenix\MotorControl\CAN\VictorSPX.h" />
-    <ClInclude Include="cpp\include\ctre\phoenix\MotorControl\CAN\WPI_TalonSRX.h" />
-    <ClInclude Include="cpp\include\ctre\phoenix\MotorControl\CAN\WPI_VictorSPX.h" />
-    <ClInclude Include="cpp\include\ctre\phoenix\MotorControl\DeviceCatalog.h" />
-    <ClInclude Include="cpp\include\ctre\phoenix\MotorControl\GroupMotorControllers.h" />
-    <ClInclude Include="cpp\include\ctre\phoenix\MotorControl\IFollower.h" />
-    <ClInclude Include="cpp\include\ctre\phoenix\MotorControl\IMotorController.h" />
-    <ClInclude Include="cpp\include\ctre\phoenix\MotorControl\IMotorControllerEnhanced.h" />
-    <ClInclude Include="cpp\include\ctre\phoenix\MotorControl\SensorCollection.h" />
-    <ClInclude Include="cpp\include\ctre\phoenix\RCRadio3Ch.h" />
-    <ClInclude Include="cpp\include\ctre\phoenix\Sensors\PigeonIMU.h" />
-    <ClInclude Include="cpp\include\ctre\phoenix\Signals\IInvertable.h" />
-    <ClInclude Include="cpp\include\ctre\phoenix\Signals\IOutputSignal.h" />
-    <ClInclude Include="cpp\include\ctre\phoenix\Signals\MovingAverage.h" />
-    <ClInclude Include="cpp\include\ctre\phoenix\Stopwatch.h" />
-    <ClInclude Include="cpp\include\ctre\phoenix\Tasking\ButtonMonitor.h" />
-    <ClInclude Include="cpp\include\ctre\phoenix\Tasking\ILoopable.h" />
-    <ClInclude Include="cpp\include\ctre\phoenix\Tasking\IProcessable.h" />
-    <ClInclude Include="cpp\include\ctre\phoenix\Tasking\Schedulers\ConcurrentScheduler.h" />
-    <ClInclude Include="cpp\include\ctre\phoenix\Tasking\Schedulers\SequentialScheduler.h" />
-    <ClInclude Include="cpp\include\ctre\phoenix\Utilities.h" />
+    <ClInclude Include="src\main\native\include\ctre\Phoenix.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\CANifier.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\CTRLogger.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\CustomParamConfiguration.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\HsvToRgb.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\LinearInterpolation.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\motorcontrol\can\BaseMotorController.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\motorcontrol\can\TalonSRX.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\motorcontrol\can\VictorSPX.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\motorcontrol\can\WPI_TalonSRX.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\motorcontrol\can\WPI_VictorSPX.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\motorcontrol\DeviceCatalog.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\motorcontrol\GroupMotorControllers.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\motorcontrol\IFollower.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\motorcontrol\IMotorController.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\motorcontrol\IMotorControllerEnhanced.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\motorcontrol\SensorCollection.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\RCRadio3Ch.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\sensors\PigeonIMU.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\signals\IInvertable.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\signals\IOutputSignal.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\signals\MovingAverage.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\Stopwatch.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\tasking\ButtonMonitor.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\tasking\ILoopable.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\tasking\IProcessable.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\tasking\Schedulers\ConcurrentScheduler.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\tasking\Schedulers\SequentialScheduler.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\Utilities.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -144,7 +145,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>cpp\include;..\Phoenix-cci-lib\driver\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src/main/native/include;../Phoenix-platform-lib/src/include;../Phoenix-cci-lib/src/main/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile />
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -153,12 +155,14 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>src/main/native/include;../Phoenix-platform-lib/src/include;../Phoenix-cci-lib/src/main/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile />
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -167,7 +171,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -175,7 +179,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>cpp\include;..\Phoenix-cci-lib\driver\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src/main/native/include;../Phoenix-platform-lib/src/include;../Phoenix-cci-lib/src/main/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile />
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -186,7 +191,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -194,6 +199,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>src/main/native/include;../Phoenix-platform-lib/src/include;../Phoenix-cci-lib/src/main/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile />
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
