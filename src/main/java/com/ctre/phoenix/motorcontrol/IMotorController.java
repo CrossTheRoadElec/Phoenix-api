@@ -47,6 +47,8 @@ public interface IMotorController
 
 	public void enableVoltageCompensation(boolean enable);
 
+	// ------ General Status ----------//
+	
 	public double getBusVoltage() ;
 
 	public double getMotorOutputPercent() ;
