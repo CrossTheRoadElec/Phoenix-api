@@ -1,9 +1,7 @@
 #include "ConfigHelper.h"
 #include <memory>
 
-std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> ConfigAllIndividualTalon(int id, int timeoutMs, ctre::phoenix::motorcontrol::can::TalonSRXConfiguration &testTalonConfigs) {
-
-    std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> errorCodes;
+void ConfigAllIndividualTalon(int id, int timeoutMs, ctre::phoenix::motorcontrol::can::TalonSRXConfiguration &testTalonConfigs, ErrorCodeString &errorCodes) {
 
     std::shared_ptr<ctre::phoenix::motorcontrol::can::TalonSRX> testTalon = std::make_shared<ctre::phoenix::motorcontrol::can::TalonSRX>(id);
 
@@ -176,13 +174,10 @@ std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> ConfigAllIndividua
     errorCodes.push_back(std::make_pair(testTalon->ConfigContinuousCurrentLimit(testTalonConfigs.continuousCurrentLimit, timeoutMs),
         "testTalon->ConfigContinuousCurrentLimit(testTalonConfigs.continuousCurrentLimit, timeoutMs)"));
 
-    return errorCodes;
 }
 
-std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> ConfigAllIndividualVictor(int id, int timeoutMs, ctre::phoenix::motorcontrol::can::VictorSPXConfiguration &testVictorConfigs) {
+void ConfigAllIndividualVictor(int id, int timeoutMs, ctre::phoenix::motorcontrol::can::VictorSPXConfiguration &testVictorConfigs, ErrorCodeString &errorCodes) {
     
-    std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> errorCodes;
-
     std::shared_ptr<ctre::phoenix::motorcontrol::can::VictorSPX> testVictor = std::make_shared<ctre::phoenix::motorcontrol::can::VictorSPX>(id);
 
     errorCodes.push_back(std::make_pair(testVictor->ConfigOpenloopRamp(testVictorConfigs.openloopRamp, timeoutMs),
@@ -345,13 +340,11 @@ std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> ConfigAllIndividua
     errorCodes.push_back(std::make_pair(testVictor->ConfigReverseLimitSwitchSource(testVictorConfigs.reverseLimitSwitchSource, testVictorConfigs.reverseLimitSwitchNormal, testVictorConfigs.reverseLimitSwitchDeviceID, timeoutMs),
         "testVictor->ConfigReverseLimitSwitchSource(testVictorConfigs.reverseLimitSwitchSource, testVictorConfigs.reverseLimitSwitchNormal, testVictorConfigs.reverseLimitSwitchDeviceID, timeoutMs)"));
 
-    return errorCodes;
+    
 }
 
-std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> ConfigAllIndividualPigeon(int id, int timeoutMs, ctre::phoenix::sensors::PigeonIMUConfiguration &testPigeonConfigs) {
+void ConfigAllIndividualPigeon(int id, int timeoutMs, ctre::phoenix::sensors::PigeonIMUConfiguration &testPigeonConfigs, ErrorCodeString &errorCodes) {
     
-    std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> errorCodes;
-
     std::shared_ptr<ctre::phoenix::sensors::PigeonIMU> testPigeon = std::make_shared<ctre::phoenix::sensors::PigeonIMU>(id);
 
     errorCodes.push_back(std::make_pair(testPigeon->ConfigSetCustomParam(testPigeonConfigs.customParam0, 0, timeoutMs),
@@ -359,13 +352,11 @@ std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> ConfigAllIndividua
     errorCodes.push_back(std::make_pair(testPigeon->ConfigSetCustomParam(testPigeonConfigs.customParam1, 1, timeoutMs),
         "testPigeon->ConfigSetCustomParam(testPigeonConfigs.customParam1, 1, timeoutMs)"));
 
-    return errorCodes;
+    
 }
 
-std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> ConfigAllIndividualCANifier(int id, int timeoutMs, ctre::phoenix::CANifierConfiguration &testCANifierConfigs) {
+void ConfigAllIndividualCANifier(int id, int timeoutMs, ctre::phoenix::CANifierConfiguration &testCANifierConfigs, ErrorCodeString &errorCodes) {
     
-    std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> errorCodes;
-
     std::shared_ptr<ctre::phoenix::CANifier> testCANifier = std::make_shared<ctre::phoenix::CANifier>(id);
     
     errorCodes.push_back(std::make_pair(testCANifier->ConfigVelocityMeasurementPeriod(testCANifierConfigs.velocityMeasurementPeriod, timeoutMs),
@@ -383,101 +374,85 @@ std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> ConfigAllIndividua
     errorCodes.push_back(std::make_pair(testCANifier->ConfigSetCustomParam(testCANifierConfigs.customParam1, 1, timeoutMs),
         "testCANifier->ConfigSetCustomParam(testCANifierConfigs.customParam1, 1, timeoutMs)"));
     
-    return errorCodes;
+    
 }
 
-std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> ConfigFactoryDefaultTalon(int id, int timeoutMs) {
-
-    std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> errorCodes;
+void ConfigFactoryDefaultTalon(int id, int timeoutMs, ErrorCodeString &errorCodes) {
 
     std::shared_ptr<ctre::phoenix::motorcontrol::can::TalonSRX> testTalon = std::make_shared<ctre::phoenix::motorcontrol::can::TalonSRX>(id);
     
     errorCodes.push_back(std::make_pair(testTalon->ConfigFactoryDefault(timeoutMs),
         "testTalon->ConfigFactoryDefault(timeoutMs)"));
 
-    return errorCodes;
+    
 }
 
-std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> ConfigFactoryDefaultVictor(int id, int timeoutMs) {
-
-    std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> errorCodes;
+void ConfigFactoryDefaultVictor(int id, int timeoutMs, ErrorCodeString &errorCodes) {
 
     std::shared_ptr<ctre::phoenix::motorcontrol::can::VictorSPX> testVictor = std::make_shared<ctre::phoenix::motorcontrol::can::VictorSPX>(id);
     
     errorCodes.push_back(std::make_pair(testVictor->ConfigFactoryDefault(timeoutMs),
         "testVictor->ConfigFactoryDefault(timeoutMs)"));
 
-    return errorCodes;
+    
 }
 
-std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> ConfigFactoryDefaultPigeon(int id, int timeoutMs) {
-
-    std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> errorCodes;
+void ConfigFactoryDefaultPigeon(int id, int timeoutMs, ErrorCodeString &errorCodes) {
 
     std::shared_ptr<ctre::phoenix::sensors::PigeonIMU> testPigeon = std::make_shared<ctre::phoenix::sensors::PigeonIMU>(id);
     
     errorCodes.push_back(std::make_pair(testPigeon->ConfigFactoryDefault(timeoutMs),
         "testPigeon->ConfigFactoryDefault(timeoutMs)"));
 
-    return errorCodes;
+    
 }
 
-std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> ConfigFactoryDefaultCANifier(int id, int timeoutMs) {
-
-    std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> errorCodes;
+void ConfigFactoryDefaultCANifier(int id, int timeoutMs, ErrorCodeString &errorCodes) {
 
     std::shared_ptr<ctre::phoenix::CANifier> testCANifier = std::make_shared<ctre::phoenix::CANifier>(id);
     
     errorCodes.push_back(std::make_pair(testCANifier->ConfigFactoryDefault(timeoutMs),
         "testCANifier->ConfigFactoryDefault(timeoutMs)"));
 
-    return errorCodes;
+    
 }
 
-std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> ConfigAllTalon(int id, int timeoutMs, ctre::phoenix::motorcontrol::can::TalonSRXConfiguration &testTalonConfigs) {
-
-    std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> errorCodes;
+void ConfigAllTalon(int id, int timeoutMs, ctre::phoenix::motorcontrol::can::TalonSRXConfiguration &testTalonConfigs, ErrorCodeString &errorCodes) {
 
     std::shared_ptr<ctre::phoenix::motorcontrol::can::TalonSRX> testTalon = std::make_shared<ctre::phoenix::motorcontrol::can::TalonSRX>(id);
     
     errorCodes.push_back(std::make_pair(testTalon->ConfigAllSettings(testTalonConfigs, timeoutMs),
         "testTalon->ConfigAllSettings(testTalonConfigs, timeoutMs)"));
     
-    return errorCodes;
+    
 }
 
-std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> ConfigAllVictor(int id, int timeoutMs, ctre::phoenix::motorcontrol::can::VictorSPXConfiguration &testVictorConfigs) {
-
-    std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> errorCodes;
+void ConfigAllVictor(int id, int timeoutMs, ctre::phoenix::motorcontrol::can::VictorSPXConfiguration &testVictorConfigs, ErrorCodeString &errorCodes) {
 
     std::shared_ptr<ctre::phoenix::motorcontrol::can::VictorSPX> testVictor = std::make_shared<ctre::phoenix::motorcontrol::can::VictorSPX>(id);
     
     errorCodes.push_back(std::make_pair(testVictor->ConfigAllSettings(testVictorConfigs, timeoutMs),
         "testVictor->ConfigAllSettings(testVictorConfigs, timeoutMs)"));
 
-    return errorCodes;
+    
 }
 
-std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> ConfigAllPigeon(int id, int timeoutMs, ctre::phoenix::sensors::PigeonIMUConfiguration &testPigeonConfigs) {
-
-    std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> errorCodes;
+void ConfigAllPigeon(int id, int timeoutMs, ctre::phoenix::sensors::PigeonIMUConfiguration &testPigeonConfigs, ErrorCodeString &errorCodes) {
 
     std::shared_ptr<ctre::phoenix::sensors::PigeonIMU> testPigeon = std::make_shared<ctre::phoenix::sensors::PigeonIMU>(id);
     
     errorCodes.push_back(std::make_pair(testPigeon->ConfigAllSettings(testPigeonConfigs, timeoutMs),
         "testPigeon->ConfigAllSettings(testPigeonConfigs, timeoutMs)"));
 
-    return errorCodes;
+    
 }
 
-std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> ConfigAllCANifier(int id, int timeoutMs, ctre::phoenix::CANifierConfiguration &testCANifierConfigs) {
-
-    std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> errorCodes;
+void ConfigAllCANifier(int id, int timeoutMs, ctre::phoenix::CANifierConfiguration &testCANifierConfigs, ErrorCodeString &errorCodes) {
 
     std::shared_ptr<ctre::phoenix::CANifier> testCANifier = std::make_shared<ctre::phoenix::CANifier>(id);
     
     errorCodes.push_back(std::make_pair(testCANifier->ConfigAllSettings(testCANifierConfigs, timeoutMs),
         "testCANifier->ConfigAllSettings(testCANifierConfigs, timeoutMs)"));
 
-    return errorCodes;
+    
 }

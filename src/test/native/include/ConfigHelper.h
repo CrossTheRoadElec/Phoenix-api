@@ -5,26 +5,28 @@
 #include <utility>
 #include <vector>
 
-std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> ConfigAllIndividualTalon(int id, int timeoutMs, ctre::phoenix::motorcontrol::can::TalonSRXConfiguration &testTalonConfigs);
+typedef std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> ErrorCodeString;
 
-std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> ConfigAllIndividualVictor(int id, int timeoutMs, ctre::phoenix::motorcontrol::can::VictorSPXConfiguration &testVictorConfigs);
+void ConfigAllIndividualTalon(int id, int timeoutMs, ctre::phoenix::motorcontrol::can::TalonSRXConfiguration &testTalonConfigs, ErrorCodeString &errorCodes);
 
-std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> ConfigAllIndividualPigeon(int id, int timeoutMs, ctre::phoenix::sensors::PigeonIMUConfiguration &testPigeonConfigs);
+void ConfigAllIndividualVictor(int id, int timeoutMs, ctre::phoenix::motorcontrol::can::VictorSPXConfiguration &testVictorConfigs, ErrorCodeString &errorCodes);
 
-std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> ConfigAllIndividualCANifier(int id, int timeoutMs, ctre::phoenix::CANifierConfiguration &testCANifierConfigs);
+void ConfigAllIndividualPigeon(int id, int timeoutMs, ctre::phoenix::sensors::PigeonIMUConfiguration &testPigeonConfigs, ErrorCodeString &errorCodes);
 
-std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> ConfigFactoryDefaultTalon(int id, int timeoutMs);
+void ConfigAllIndividualCANifier(int id, int timeoutMs, ctre::phoenix::CANifierConfiguration &testCANifierConfigs, ErrorCodeString &errorCodes);
 
-std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> ConfigFactoryDefaultVictor(int id, int timeoutMs);
+void ConfigFactoryDefaultTalon(int id, int timeoutMs, ErrorCodeString &errorCodes);
 
-std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> ConfigFactoryDefaultPigeon(int id, int timeoutMs);
+void ConfigFactoryDefaultVictor(int id, int timeoutMs, ErrorCodeString &errorCodes);
 
-std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> ConfigFactoryDefaultCANifier(int id, int timeoutMs);
+void ConfigFactoryDefaultPigeon(int id, int timeoutMs, ErrorCodeString &errorCodes);
 
-std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> ConfigAllTalon(int id, int timeoutMs, ctre::phoenix::motorcontrol::can::TalonSRXConfiguration &testTalonConfigs);
+void ConfigFactoryDefaultCANifier(int id, int timeoutMs, ErrorCodeString &errorCodes);
 
-std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> ConfigAllVictor(int id, int timeoutMs, ctre::phoenix::motorcontrol::can::VictorSPXConfiguration &testVictorConfigs);
+void ConfigAllTalon(int id, int timeoutMs, ctre::phoenix::motorcontrol::can::TalonSRXConfiguration &testTalonConfigs, ErrorCodeString &errorCodes);
 
-std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> ConfigAllPigeon(int id, int timeoutMs, ctre::phoenix::sensors::PigeonIMUConfiguration &testPigeonConfigs);
+void ConfigAllVictor(int id, int timeoutMs, ctre::phoenix::motorcontrol::can::VictorSPXConfiguration &testVictorConfigs, ErrorCodeString &errorCodes);
 
-std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> ConfigAllCANifier(int id, int timeoutMs, ctre::phoenix::CANifierConfiguration &testCANifierConfigs);
+void ConfigAllPigeon(int id, int timeoutMs, ctre::phoenix::sensors::PigeonIMUConfiguration &testPigeonConfigs, ErrorCodeString &errorCodes);
+
+void ConfigAllCANifier(int id, int timeoutMs, ctre::phoenix::CANifierConfiguration &testCANifierConfigs, ErrorCodeString &errorCodes);

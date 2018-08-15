@@ -27,8 +27,16 @@ public class Platform {
     public static int simCreate(DeviceType type, int id) {
         return PlatformJNI.JNI_SimCreate(type.value, id);
     }
+    
+    public static void simDestroy(DeviceType type, int id) {
+        PlatformJNI.JNI_SimDestroy(type.value, id);
+    }
+    
+    public static void simDestroyAll() {
+        PlatformJNI.JNI_SimDestroyAll();
+    }
    
-    public static int[] simConfigGet(DeviceType type, int param, int valueToSend, int ordinal, int id) {
+    public static int simConfigGet(DeviceType type, int param, int valueToSend, int ordinal, int id) {
         return PlatformJNI.JNI_SimConfigGet(type.value, param, valueToSend, ordinal, id);
     }
 

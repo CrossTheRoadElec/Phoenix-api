@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "ConfigHelper.h"
+#include "ParamHelper.h"
 #include "ctre/phoenix/platform/Platform.h"
 #include <chrono>
 #include <thread>
@@ -15,44 +16,32 @@ TEST(Error, ConfigSetTimeoutError) {
     ctre::phoenix::sensors::PigeonIMUConfiguration testPigeonConfigs;
     ctre::phoenix::CANifierConfiguration testCANifierConfigs;
   
-    std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> tempVector;
-    std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> errorCodes;
+    ErrorCodeString tempVector;
+    ErrorCodeString errorCodes;
  
-    tempVector = ConfigAllIndividualTalon( id,  timeoutMs, testTalonConfigs);
-    errorCodes.insert(errorCodes.end(), tempVector.begin(), tempVector.end());
+    ConfigAllIndividualTalon( id,  timeoutMs, testTalonConfigs, errorCodes);
 
-    tempVector = ConfigAllIndividualVictor( id,  timeoutMs, testVictorConfigs);
-    errorCodes.insert(errorCodes.end(), tempVector.begin(), tempVector.end());
+    ConfigAllIndividualVictor( id,  timeoutMs, testVictorConfigs, errorCodes);
 
-    tempVector = ConfigAllIndividualPigeon( id,  timeoutMs, testPigeonConfigs);
-    errorCodes.insert(errorCodes.end(), tempVector.begin(), tempVector.end());
+    ConfigAllIndividualPigeon( id,  timeoutMs, testPigeonConfigs, errorCodes);
 
-    tempVector = ConfigAllIndividualCANifier( id,  timeoutMs, testCANifierConfigs);
-    errorCodes.insert(errorCodes.end(), tempVector.begin(), tempVector.end());
+    ConfigAllIndividualCANifier( id,  timeoutMs, testCANifierConfigs, errorCodes);
 
-    tempVector = ConfigFactoryDefaultTalon( id,  timeoutMs);
-    errorCodes.insert(errorCodes.end(), tempVector.begin(), tempVector.end());
+    ConfigFactoryDefaultTalon( id,  timeoutMs, errorCodes);
 
-    tempVector = ConfigFactoryDefaultVictor( id,  timeoutMs);
-    errorCodes.insert(errorCodes.end(), tempVector.begin(), tempVector.end());
+    ConfigFactoryDefaultVictor( id,  timeoutMs, errorCodes);
 
-    tempVector = ConfigFactoryDefaultPigeon( id,  timeoutMs);
-    errorCodes.insert(errorCodes.end(), tempVector.begin(), tempVector.end());
+    ConfigFactoryDefaultPigeon( id,  timeoutMs, errorCodes);
 
-    tempVector = ConfigFactoryDefaultCANifier( id,  timeoutMs);
-    errorCodes.insert(errorCodes.end(), tempVector.begin(), tempVector.end());
+    ConfigFactoryDefaultCANifier( id,  timeoutMs, errorCodes);
 
-    tempVector = ConfigAllTalon( id,  timeoutMs, testTalonConfigs);
-    errorCodes.insert(errorCodes.end(), tempVector.begin(), tempVector.end());
+    ConfigAllTalon( id,  timeoutMs, testTalonConfigs, errorCodes);
 
-    tempVector = ConfigAllVictor( id,  timeoutMs, testVictorConfigs);
-    errorCodes.insert(errorCodes.end(), tempVector.begin(), tempVector.end());
+    ConfigAllVictor( id,  timeoutMs, testVictorConfigs, errorCodes);
 
-    tempVector = ConfigAllPigeon( id,  timeoutMs, testPigeonConfigs);
-    errorCodes.insert(errorCodes.end(), tempVector.begin(), tempVector.end());
+    ConfigAllPigeon( id,  timeoutMs, testPigeonConfigs, errorCodes);
 
-    tempVector = ConfigAllCANifier( id,  timeoutMs, testCANifierConfigs);
-    errorCodes.insert(errorCodes.end(), tempVector.begin(), tempVector.end());
+    ConfigAllCANifier( id,  timeoutMs, testCANifierConfigs, errorCodes);
 
     for(const auto &err : errorCodes) { 
         ASSERT_EQ(ctre::phoenix::ErrorCode::SIG_NOT_UPDATED, err.first) << baseErrString << err.second;
@@ -61,199 +50,37 @@ TEST(Error, ConfigSetTimeoutError) {
 
 TEST(Error, GetParamTimeoutError) {
 
-    //While we shouldn't expect different behavior from diff enums, might as well
-    std::vector<ctre::phoenix::ParamEnum> allParamEnums = {
-    ctre::phoenix::ParamEnum::eOnBoot_BrakeMode,
-    ctre::phoenix::ParamEnum::eQuadFilterEn,
-    ctre::phoenix::ParamEnum::eQuadIdxPolarity,
-    ctre::phoenix::ParamEnum::eMotionProfileHasUnderrunErr,
-    ctre::phoenix::ParamEnum::eMotionProfileTrajectoryPointDurationMs,
-    ctre::phoenix::ParamEnum::eStatusFramePeriod,
-    ctre::phoenix::ParamEnum::eOpenloopRamp,
-    ctre::phoenix::ParamEnum::eClosedloopRamp,
-    ctre::phoenix::ParamEnum::eNeutralDeadband,
-    ctre::phoenix::ParamEnum::ePeakPosOutput,
-    ctre::phoenix::ParamEnum::eNominalPosOutput,
-    ctre::phoenix::ParamEnum::ePeakNegOutput,
-    ctre::phoenix::ParamEnum::eNominalNegOutput,
-    ctre::phoenix::ParamEnum::eProfileParamSlot_P,
-    ctre::phoenix::ParamEnum::eProfileParamSlot_I,
-    ctre::phoenix::ParamEnum::eProfileParamSlot_D,
-    ctre::phoenix::ParamEnum::eProfileParamSlot_F,
-    ctre::phoenix::ParamEnum::eProfileParamSlot_IZone,
-    ctre::phoenix::ParamEnum::eProfileParamSlot_AllowableErr,
-    ctre::phoenix::ParamEnum::eProfileParamSlot_MaxIAccum,
-    ctre::phoenix::ParamEnum::eProfileParamSlot_PeakOutput,
-    ctre::phoenix::ParamEnum::eClearPositionOnLimitF,
-    ctre::phoenix::ParamEnum::eClearPositionOnLimitR,
-    ctre::phoenix::ParamEnum::eClearPositionOnQuadIdx,
-    ctre::phoenix::ParamEnum::eSampleVelocityPeriod,
-    ctre::phoenix::ParamEnum::eSampleVelocityWindow,
-    ctre::phoenix::ParamEnum::eFeedbackSensorType,
-    ctre::phoenix::ParamEnum::eSelectedSensorPosition,
-    ctre::phoenix::ParamEnum::eFeedbackNotContinuous,
-    ctre::phoenix::ParamEnum::eRemoteSensorSource,
-    ctre::phoenix::ParamEnum::eRemoteSensorDeviceID,
-    ctre::phoenix::ParamEnum::eSensorTerm,
-    ctre::phoenix::ParamEnum::eRemoteSensorClosedLoopDisableNeutralOnLOS,
-    ctre::phoenix::ParamEnum::ePIDLoopPolarity,
-    ctre::phoenix::ParamEnum::ePIDLoopPeriod,
-    ctre::phoenix::ParamEnum::eSelectedSensorCoefficient,
-    ctre::phoenix::ParamEnum::eForwardSoftLimitThreshold,
-    ctre::phoenix::ParamEnum::eReverseSoftLimitThreshold,
-    ctre::phoenix::ParamEnum::eForwardSoftLimitEnable,
-    ctre::phoenix::ParamEnum::eReverseSoftLimitEnable,
-    ctre::phoenix::ParamEnum::eNominalBatteryVoltage,
-    ctre::phoenix::ParamEnum::eBatteryVoltageFilterSize,
-    ctre::phoenix::ParamEnum::eContinuousCurrentLimitAmps,
-    ctre::phoenix::ParamEnum::ePeakCurrentLimitMs,
-    ctre::phoenix::ParamEnum::ePeakCurrentLimitAmps,
-    ctre::phoenix::ParamEnum::eClosedLoopIAccum,
-    ctre::phoenix::ParamEnum::eCustomParam,
-    ctre::phoenix::ParamEnum::eStickyFaults,
-    ctre::phoenix::ParamEnum::eAnalogPosition,
-    ctre::phoenix::ParamEnum::eQuadraturePosition,
-    ctre::phoenix::ParamEnum::ePulseWidthPosition,
-    ctre::phoenix::ParamEnum::eMotMag_Accel,
-    ctre::phoenix::ParamEnum::eMotMag_VelCruise,
-    ctre::phoenix::ParamEnum::eLimitSwitchSource,
-    ctre::phoenix::ParamEnum::eLimitSwitchNormClosedAndDis,
-    ctre::phoenix::ParamEnum::eLimitSwitchDisableNeutralOnLOS,
-    ctre::phoenix::ParamEnum::eLimitSwitchRemoteDevID,
-    ctre::phoenix::ParamEnum::eSoftLimitDisableNeutralOnLOS,
-    ctre::phoenix::ParamEnum::ePulseWidthPeriod_EdgesPerRot,
-    ctre::phoenix::ParamEnum::ePulseWidthPeriod_FilterWindowSz,
-    ctre::phoenix::ParamEnum::eYawOffset,
-    ctre::phoenix::ParamEnum::eCompassOffset,
-    ctre::phoenix::ParamEnum::eBetaGain,
-    ctre::phoenix::ParamEnum::eEnableCompassFusion,
-    ctre::phoenix::ParamEnum::eGyroNoMotionCal,
-    ctre::phoenix::ParamEnum::eEnterCalibration,
-    ctre::phoenix::ParamEnum::eFusedHeadingOffset,
-    ctre::phoenix::ParamEnum::eStatusFrameRate,
-    ctre::phoenix::ParamEnum::eAccumZ,
-    ctre::phoenix::ParamEnum::eTempCompDisable,
-    ctre::phoenix::ParamEnum::eMotionMeas_tap_threshX,
-    ctre::phoenix::ParamEnum::eMotionMeas_tap_threshY,
-    ctre::phoenix::ParamEnum::eMotionMeas_tap_threshZ,
-    ctre::phoenix::ParamEnum::eMotionMeas_tap_count,
-    ctre::phoenix::ParamEnum::eMotionMeas_tap_time,
-    ctre::phoenix::ParamEnum::eMotionMeas_tap_time_multi,
-    ctre::phoenix::ParamEnum::eMotionMeas_shake_reject_thresh,
-    ctre::phoenix::ParamEnum::eMotionMeas_shake_reject_time,
-    ctre::phoenix::ParamEnum::eMotionMeas_shake_reject_timeout,
-    ctre::phoenix::ParamEnum::eDefaultConfig
-    };
-    
-    std::vector<std::string> allParamEnumStrings = {
-    "ctre::phoenix::ParamEnum::eOnBoot_BrakeMode",
-    "ctre::phoenix::ParamEnum::eQuadFilterEn",
-    "ctre::phoenix::ParamEnum::eQuadIdxPolarity",
-    "ctre::phoenix::ParamEnum::eMotionProfileHasUnderrunErr",
-    "ctre::phoenix::ParamEnum::eMotionProfileTrajectoryPointDurationMs",
-    "ctre::phoenix::ParamEnum::eStatusFramePeriod",
-    "ctre::phoenix::ParamEnum::eOpenloopRamp",
-    "ctre::phoenix::ParamEnum::eClosedloopRamp",
-    "ctre::phoenix::ParamEnum::eNeutralDeadband",
-    "ctre::phoenix::ParamEnum::ePeakPosOutput",
-    "ctre::phoenix::ParamEnum::eNominalPosOutput",
-    "ctre::phoenix::ParamEnum::ePeakNegOutput",
-    "ctre::phoenix::ParamEnum::eNominalNegOutput",
-    "ctre::phoenix::ParamEnum::eProfileParamSlot_P",
-    "ctre::phoenix::ParamEnum::eProfileParamSlot_I",
-    "ctre::phoenix::ParamEnum::eProfileParamSlot_D",
-    "ctre::phoenix::ParamEnum::eProfileParamSlot_F",
-    "ctre::phoenix::ParamEnum::eProfileParamSlot_IZone",
-    "ctre::phoenix::ParamEnum::eProfileParamSlot_AllowableErr",
-    "ctre::phoenix::ParamEnum::eProfileParamSlot_MaxIAccum",
-    "ctre::phoenix::ParamEnum::eProfileParamSlot_PeakOutput",
-    "ctre::phoenix::ParamEnum::eClearPositionOnLimitF",
-    "ctre::phoenix::ParamEnum::eClearPositionOnLimitR",
-    "ctre::phoenix::ParamEnum::eClearPositionOnQuadIdx",
-    "ctre::phoenix::ParamEnum::eSampleVelocityPeriod",
-    "ctre::phoenix::ParamEnum::eSampleVelocityWindow",
-    "ctre::phoenix::ParamEnum::eFeedbackSensorType",
-    "ctre::phoenix::ParamEnum::eSelectedSensorPosition",
-    "ctre::phoenix::ParamEnum::eFeedbackNotContinuous",
-    "ctre::phoenix::ParamEnum::eRemoteSensorSource",
-    "ctre::phoenix::ParamEnum::eRemoteSensorDeviceID",
-    "ctre::phoenix::ParamEnum::eSensorTerm",
-    "ctre::phoenix::ParamEnum::eRemoteSensorClosedLoopDisableNeutralOnLOS",
-    "ctre::phoenix::ParamEnum::ePIDLoopPolarity",
-    "ctre::phoenix::ParamEnum::ePIDLoopPeriod",
-    "ctre::phoenix::ParamEnum::eSelectedSensorCoefficient",
-    "ctre::phoenix::ParamEnum::eForwardSoftLimitThreshold",
-    "ctre::phoenix::ParamEnum::eReverseSoftLimitThreshold",
-    "ctre::phoenix::ParamEnum::eForwardSoftLimitEnable",
-    "ctre::phoenix::ParamEnum::eReverseSoftLimitEnable",
-    "ctre::phoenix::ParamEnum::eNominalBatteryVoltage",
-    "ctre::phoenix::ParamEnum::eBatteryVoltageFilterSize",
-    "ctre::phoenix::ParamEnum::eContinuousCurrentLimitAmps",
-    "ctre::phoenix::ParamEnum::ePeakCurrentLimitMs",
-    "ctre::phoenix::ParamEnum::ePeakCurrentLimitAmps",
-    "ctre::phoenix::ParamEnum::eClosedLoopIAccum",
-    "ctre::phoenix::ParamEnum::eCustomParam",
-    "ctre::phoenix::ParamEnum::eStickyFaults",
-    "ctre::phoenix::ParamEnum::eAnalogPosition",
-    "ctre::phoenix::ParamEnum::eQuadraturePosition",
-    "ctre::phoenix::ParamEnum::ePulseWidthPosition",
-    "ctre::phoenix::ParamEnum::eMotMag_Accel",
-    "ctre::phoenix::ParamEnum::eMotMag_VelCruise",
-    "ctre::phoenix::ParamEnum::eLimitSwitchSource",
-    "ctre::phoenix::ParamEnum::eLimitSwitchNormClosedAndDis",
-    "ctre::phoenix::ParamEnum::eLimitSwitchDisableNeutralOnLOS",
-    "ctre::phoenix::ParamEnum::eLimitSwitchRemoteDevID",
-    "ctre::phoenix::ParamEnum::eSoftLimitDisableNeutralOnLOS",
-    "ctre::phoenix::ParamEnum::ePulseWidthPeriod_EdgesPerRot",
-    "ctre::phoenix::ParamEnum::ePulseWidthPeriod_FilterWindowSz",
-    "ctre::phoenix::ParamEnum::eYawOffset",
-    "ctre::phoenix::ParamEnum::eCompassOffset",
-    "ctre::phoenix::ParamEnum::eBetaGain",
-    "ctre::phoenix::ParamEnum::eEnableCompassFusion",
-    "ctre::phoenix::ParamEnum::eGyroNoMotionCal",
-    "ctre::phoenix::ParamEnum::eEnterCalibration",
-    "ctre::phoenix::ParamEnum::eFusedHeadingOffset",
-    "ctre::phoenix::ParamEnum::eStatusFrameRate",
-    "ctre::phoenix::ParamEnum::eAccumZ",
-    "ctre::phoenix::ParamEnum::eTempCompDisable",
-    "ctre::phoenix::ParamEnum::eMotionMeas_tap_threshX",
-    "ctre::phoenix::ParamEnum::eMotionMeas_tap_threshY",
-    "ctre::phoenix::ParamEnum::eMotionMeas_tap_threshZ",
-    "ctre::phoenix::ParamEnum::eMotionMeas_tap_count",
-    "ctre::phoenix::ParamEnum::eMotionMeas_tap_time",
-    "ctre::phoenix::ParamEnum::eMotionMeas_tap_time_multi",
-    "ctre::phoenix::ParamEnum::eMotionMeas_shake_reject_thresh",
-    "ctre::phoenix::ParamEnum::eMotionMeas_shake_reject_time",
-    "ctre::phoenix::ParamEnum::eMotionMeas_shake_reject_timeout",
-    "ctre::phoenix::ParamEnum::eDefaultConfig"
-    };
-   
-    std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> errorCodes;
-    
-    std::shared_ptr<ctre::phoenix::motorcontrol::can::TalonSRX> testTalon = std::make_shared<ctre::phoenix::motorcontrol::can::TalonSRX>(0);
-    std::shared_ptr<ctre::phoenix::motorcontrol::can::VictorSPX> testVictor = std::make_shared<ctre::phoenix::motorcontrol::can::VictorSPX>(0);
-    std::shared_ptr<ctre::phoenix::sensors::PigeonIMU> testPigeon = std::make_shared<ctre::phoenix::sensors::PigeonIMU>(0);
-    std::shared_ptr<ctre::phoenix::CANifier> testCANifier = std::make_shared<ctre::phoenix::CANifier>(0);
+    ErrorCodeDoubleString errorCodes;
 
-    for(size_t i = 0; i < allParamEnums.size(); i++) {    
-        testTalon->ConfigGetParameter(allParamEnums[i], 0, 1);    
-        errorCodes.push_back(std::make_pair(testTalon->GetLastError(), "testTalon->ConfigGetParameter(" + allParamEnumStrings[i] + ", 0, 1);"));
-    }
-    for(size_t i = 0; i < allParamEnums.size(); i++) {    
-        testVictor->ConfigGetParameter(allParamEnums[i], 0, 1);    
-        errorCodes.push_back(std::make_pair(testVictor->GetLastError(), "testVictor->ConfigGetParameter(" + allParamEnumStrings[i] + ", 0, 1);"));
-    }
-    for(size_t i = 0; i < allParamEnums.size(); i++) {    
-        testPigeon->ConfigGetParameter(allParamEnums[i], 0, 1);    
-        errorCodes.push_back(std::make_pair(testPigeon->GetLastError(), "testPigeon->ConfigGetParameter(" + allParamEnumStrings[i] + ", 0, 1);"));
-    }
-    for(size_t i = 0; i < allParamEnums.size(); i++) {    
-        testCANifier->ConfigGetParameter(allParamEnums[i], 0, 1);    
-        errorCodes.push_back(std::make_pair(testCANifier->GetLastError(), "testCANifier->ConfigGetParameter(" + allParamEnumStrings[i] + ", 0, 1);"));
-    }
+    ParamEnumString talonEnums;    
+    ParamEnumString victorEnums;    
+    ParamEnumString pigeonEnums;    
+    ParamEnumString canifierEnums;    
 
+    talonEnums.insert(genericParamEnumStrings.begin(), genericParamEnumStrings.end()); 
+    talonEnums.insert(sensorParamEnumStrings.begin(), sensorParamEnumStrings.end()); 
+    talonEnums.insert(motControllerParamEnumStrings.begin(), motControllerParamEnumStrings.end()); 
+    talonEnums.insert(currentParamEnumStrings.begin(), currentParamEnumStrings.end()); 
+    
+    victorEnums.insert(genericParamEnumStrings.begin(), genericParamEnumStrings.end()); 
+    victorEnums.insert(motControllerParamEnumStrings.begin(), motControllerParamEnumStrings.end()); 
+    
+    pigeonEnums.insert(genericParamEnumStrings.begin(), genericParamEnumStrings.end()); 
+    pigeonEnums.insert(imuParamEnumStrings.begin(), imuParamEnumStrings.end()); 
+    
+    canifierEnums.insert(genericParamEnumStrings.begin(), genericParamEnumStrings.end()); 
+    canifierEnums.insert(sensorParamEnumStrings.begin(), sensorParamEnumStrings.end()); 
+    
+    int id = 0;
+    int timeoutMs = 1;
+  
+    GetAllParamsTalon(id, timeoutMs, talonEnums, errorCodes); 
+    GetAllParamsVictor(id, timeoutMs, victorEnums, errorCodes); 
+    GetAllParamsPigeon(id, timeoutMs, pigeonEnums, errorCodes); 
+    GetAllParamsCANifier(id, timeoutMs, canifierEnums, errorCodes); 
+ 
     for(const auto &err : errorCodes) { 
-        ASSERT_EQ(ctre::phoenix::ErrorCode::SIG_NOT_UPDATED, err.first) << baseErrString << err.second;
+        ASSERT_EQ(ctre::phoenix::ErrorCode::SIG_NOT_UPDATED, err.first.second) << baseErrString << err.second;
     }
 
 }
@@ -292,6 +119,9 @@ TEST(Simulator, Load) {
 
         ctre::phoenix::platform::SimCreate(ctre::phoenix::platform::DeviceType::TalonSRX, i);  
     }
+    
+    ctre::phoenix::platform::SimDestroyAll();  
+    std::this_thread::sleep_for(std::chrono::milliseconds(300)); //Guarantee all msgs are stale
 }
 
 int main(int argc, char **argv) {

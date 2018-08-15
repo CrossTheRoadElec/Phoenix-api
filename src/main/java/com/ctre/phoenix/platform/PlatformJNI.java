@@ -27,8 +27,12 @@ import com.ctre.phoenix.CTREJNIWrapper;
 public class PlatformJNI extends CTREJNIWrapper {
     
     public static native int JNI_SimCreate(int type, int id);
+    
+    public static native void JNI_SimDestroy(int type, int id);
+    
+    public static native void JNI_SimDestroyAll();
    
-    public static native int[] JNI_SimConfigGet(int type, int param, int valueToSend, int ordinal, int id);
+    public static native int JNI_SimConfigGet(int type, int param, int valueToSend, int ordinal, int id);
 
     public static native int JNI_SimConfigSet(int type, int param, int value, int subValue, int ordinal, int id);
 
