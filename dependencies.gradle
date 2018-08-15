@@ -37,7 +37,7 @@ model {
             else{
                 version = '+'
             }
-            sharedConfigs = project.sharedTestConfigs
+            sharedConfigs = project.sharedTestConfigs + project.sharedConfigsJustWind
             staticConfigs = project.staticTestConfigs
         }
         phoenixPlatformOnlyHeaders(DependencyConfig) {
@@ -54,6 +54,20 @@ model {
             sharedConfigs = project.sharedCCIConfigs
             staticConfigs = [:]
         }
+        phoenixPlatformStub(DependencyConfig) {
+            groupId = 'com.ctre.phoenix'
+            artifactId = 'platform-stub'
+            headerClassifier = 'headers'
+            ext = 'zip'
+            if(ext.hasProperty("platformstubVersion")){
+                version = ext.platformstubVersion
+            }
+            else{
+                version = '+'
+            }
+            sharedConfigs = project.sharedConfigsJustWind
+            staticConfigs = [:]
+        }
         phoenixPlatformSim(DependencyConfig) {
             groupId = 'com.ctre.phoenix'
             artifactId = 'platform-sim'
@@ -68,7 +82,7 @@ model {
             sharedConfigs = project.sharedTestConfigs
             staticConfigs = project.staticTestConfigs
         }
-        phoenixPlatform(DependencyConfig) {
+        phoenixFirmwareSim(DependencyConfig) {
             groupId = 'com.ctre.phoenix'
             artifactId = 'firmware-sim'
             headerClassifier = 'headers'
