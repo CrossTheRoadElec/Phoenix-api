@@ -12,7 +12,7 @@ void GroupMotorControllers::Register(IMotorController *motorController) {
 	_mcs.push_back(motorController);
 }
 
-int GroupMotorControllers::MotorControllerCount() {
+size_t GroupMotorControllers::MotorControllerCount() {
 	return _mcs.size();
 }
 

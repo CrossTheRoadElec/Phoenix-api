@@ -21,7 +21,7 @@ apply from: 'config.gradle'
 
 ext.sharedFrcConfigs = [CTRE_Phoenix: ['linux:athena']]
 ext.sharedCCIConfigs = [CTRE_Phoenix: []]
-ext.sharedConfigsJustWind = [CTRE_Phoenix: ['windows:x86-64', 'windows:x86']] 
+ext.sharedConfigsJustWind = [CTRE_Phoenix : ['windows:x86-64', 'windows:x86']] 
 
 //For googletest
 ext.staticTestConfigs = [CTRE_PhoenixTest: []]

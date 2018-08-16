@@ -156,7 +156,7 @@ public:
 
 
 	ErrorCode SetStatusFramePeriod(CANifierStatusFrame statusFrame,
-			int periodMs, int timeoutMs = 0);
+			uint8_t periodMs, int timeoutMs = 0);
 	/**
 	 * Gets the period of the given status frame.
 	 *

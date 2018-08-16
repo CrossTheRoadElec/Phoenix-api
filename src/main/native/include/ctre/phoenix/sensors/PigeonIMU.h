@@ -245,7 +245,7 @@ public:
 			uint8_t subValue, int ordinal, int timeoutMs = 0);
 	double ConfigGetParameter(ctre::phoenix::ParamEnum param, int ordinal, int timeoutMs = 0);
 
-	ErrorCode SetStatusFramePeriod(PigeonIMU_StatusFrame statusFrame, int periodMs,
+	ErrorCode SetStatusFramePeriod(PigeonIMU_StatusFrame statusFrame, uint8_t periodMs,
 			int timeoutMs = 0);
 
 	/**

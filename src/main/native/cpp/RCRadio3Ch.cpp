@@ -10,12 +10,12 @@ RCRadio3Ch::RCRadio3Ch(ctre::phoenix::CANifier *canifier) {
 	_canifier = canifier;
 }
 
-float RCRadio3Ch::GetDutyCycleUs(Channel channel) {
+double RCRadio3Ch::GetDutyCycleUs(Channel channel) {
 	return _pulseWidthAndPeriods[(int) channel][0];
 }
 
-float RCRadio3Ch::GetDutyCyclePerc(Channel channel) {
-	float retval = RCRadio3Ch::GetDutyCycleUs(channel);
+double RCRadio3Ch::GetDutyCyclePerc(Channel channel) {
+	double retval = RCRadio3Ch::GetDutyCycleUs(channel);
 
 	std::vector<double> xData = { 1000, 2000 };
 	std::vector<double> yData = { -1, 1 };
@@ -32,12 +32,12 @@ float RCRadio3Ch::GetDutyCyclePerc(Channel channel) {
 }
 
 bool RCRadio3Ch::GetSwitchValue(Channel channel) {
-	float retval = RCRadio3Ch::GetDutyCyclePerc(channel);
+	double retval = RCRadio3Ch::GetDutyCyclePerc(channel);
 
 	return retval > 0.5f;
 }
 
-float RCRadio3Ch::GetPeriodUs(Channel channel) {
+double RCRadio3Ch::GetPeriodUs(Channel channel) {
 	return _pulseWidthAndPeriods[(int) channel][1];
 }
 

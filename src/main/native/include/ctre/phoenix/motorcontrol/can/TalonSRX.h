@@ -157,8 +157,8 @@ public:
 	virtual ctre::phoenix::ErrorCode ConfigSelectedFeedbackSensor(FeedbackDevice feedbackDevice, int pidIdx = 0, int timeoutMs = 0);
 	virtual ctre::phoenix::ErrorCode ConfigSelectedFeedbackSensor(RemoteFeedbackDevice feedbackDevice, int pidIdx = 0, int timeoutMs = 0);
 
-	virtual ctre::phoenix::ErrorCode SetStatusFramePeriod(StatusFrameEnhanced frame,int periodMs, int timeoutMs = 0);
-	virtual ctre::phoenix::ErrorCode SetStatusFramePeriod(StatusFrame frame,int periodMs, int timeoutMs = 0);
+	virtual ctre::phoenix::ErrorCode SetStatusFramePeriod(StatusFrameEnhanced frame,uint8_t periodMs, int timeoutMs = 0);
+	virtual ctre::phoenix::ErrorCode SetStatusFramePeriod(StatusFrame frame,uint8_t periodMs, int timeoutMs = 0);
 
 	virtual int GetStatusFramePeriod(StatusFrameEnhanced frame, int timeoutMs = 0);
 	virtual int GetStatusFramePeriod(StatusFrame frame, int timeoutMs = 0);

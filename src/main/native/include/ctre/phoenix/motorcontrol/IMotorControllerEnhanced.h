@@ -53,10 +53,10 @@ public:
 	/* in parent */
 
 	//------ status frame period changes ----------//
-	virtual ErrorCode SetStatusFramePeriod(StatusFrame frame, int periodMs,
+	virtual ErrorCode SetStatusFramePeriod(StatusFrame frame, uint8_t periodMs,
 			int timeoutMs = 0) = 0;
 	virtual ErrorCode SetStatusFramePeriod(StatusFrameEnhanced frame,
-			int periodMs, int timeoutMs = 0) = 0;
+			uint8_t periodMs, int timeoutMs = 0) = 0;
 	virtual int GetStatusFramePeriod(StatusFrame frame, int timeoutMs = 0) = 0;
 	virtual int GetStatusFramePeriod(StatusFrameEnhanced frame, int timeoutMs = 0) = 0;
 

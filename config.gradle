@@ -1,14 +1,14 @@
 import edu.wpi.first.nativeutils.*
 import org.gradle.internal.os.OperatingSystem
 
-def windowsCompilerArgs = ['/EHsc', '/DNOMINMAX', '/Zi', '/FS', '/Zc:inline', '/MT']
-def windowsCCompilerArgs = ['/Zi', '/FS', '/Zc:inline', '/MT']
+def windowsCompilerArgs = ['/EHsc', '/DNOMINMAX', '/Zi', '/FS', '/Zc:inline', '/MT', '/W4', '/WX', '/wd4250', '/wd4589']
+def windowsCCompilerArgs = ['/Zi', '/FS', '/Zc:inline', '/MT', '/W4', '/WX', '/wd4250', '/wd4589']
 def windowsReleaseCompilerArgs = ['/O2']
-def windowsLinkerArgs = ['/DEBUG:FULL', '/FORCE:UNRESOLVED']
-def windowsReleaseLinkerArgs = ['/OPT:REF', '/OPT:ICF', '/FORCE:UNRESOLVED']
+def windowsLinkerArgs = ['/DEBUG:FULL']
+def windowsReleaseLinkerArgs = ['/OPT:REF', '/OPT:ICF']
 
-def linuxCompilerArgs = ['-std=c++14', '-Wformat=2', '-Wall', '-Wextra', '-Werror', '-pedantic', '-Wno-psabi','-Wno-error=deprecated-declarations', '-fPIC', '-rdynamic', '-pthread']
-def linuxCCompilerArgs = ['-Wformat=2', '-Wall', '-Wextra', '-Werror', '-pedantic', '-Wno-psabi', '-g', '-Wno-unused-parameter', '-fPIC', '-rdynamic', '-pthread']
+def linuxCompilerArgs = ['-std=c++14', '-Wformat=2', '-Wall', '-Wconversion', '-Wextra', '-Werror', '-pedantic', '-Wno-psabi','-Wno-error=deprecated-declarations', '-fPIC', '-rdynamic', '-pthread']
+def linuxCCompilerArgs = ['-Wformat=2', '-Wall', '-Wconversion', '-Wextra', '-Werror', '-pedantic', '-Wno-psabi', '-g', '-Wno-unused-parameter', '-fPIC', '-rdynamic', '-pthread', '-Wconversion']
 def linuxLinkerArgs = ['-rdynamic', '-pthread', '-ldl']
 def linuxReleaseCompilerArgs = ['-Og']
 def linuxDebugCompilerArgs = ['-O0', '-g']
@@ -95,7 +95,6 @@ def mac32PlatformDetect = {
     }
 }
 
-//Athena is included just so platform-onlyheaders is general
 if (!project.hasProperty('skipAthena')) {
     model {
         buildConfigs {
@@ -115,6 +114,7 @@ if (!project.hasProperty('skipAthena')) {
     }
 }
 
+if(!project.hasProperty('onlyAthena')){
 //pi/tk1
 if (!project.hasProperty('skipArmhf')) {
     model {
@@ -245,6 +245,7 @@ if (project.hasProperty('linuxCross')) {
         }
     }
 }
+}//-PonlyAthena
 
 ext.getClassifier = { binary ->
     return NativeUtils.getClassifier(binary)

@@ -92,7 +92,7 @@ public:
 	//------ status frame period changes ----------//
 	virtual ErrorCode SetControlFramePeriod(ControlFrame frame,
 			int periodMs) = 0;
-	virtual ErrorCode SetStatusFramePeriod(StatusFrame frame, int periodMs,
+	virtual ErrorCode SetStatusFramePeriod(StatusFrame frame, uint8_t periodMs,
 			int timeoutMs = 0) = 0;
 	virtual int GetStatusFramePeriod(StatusFrame frame, int timeoutMs = 0) = 0;
 

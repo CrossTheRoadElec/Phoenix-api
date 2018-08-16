@@ -1,6 +1,7 @@
 #pragma once
 
-#include <time.h>
+#include <chrono>
+#include <cstdint>
 
 namespace ctre {
 namespace phoenix {
@@ -8,13 +9,12 @@ namespace phoenix {
 class Stopwatch {
 public:
 	void Start();
-	unsigned int DurationMs();
-	float Duration();
+	long long int DurationMs();
+	double Duration();
 	
 private:
-	unsigned long _t0 = 0;
-	unsigned long _t1 = 0;
-	float _scalar = 0.001f / CLOCKS_PER_SEC;
+	std::chrono::steady_clock::time_point _t0 = std::chrono::steady_clock::now();
+	std::chrono::steady_clock::time_point _t1 = std::chrono::steady_clock::now();
 };
 
 }}

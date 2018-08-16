@@ -10,12 +10,18 @@
  */
 #pragma once
 #if defined(CTR_INCLUDE_WPILIB_CLASSES) || defined(__FRC_ROBORIO__)
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wconversion"
+
 #include "ctre/phoenix/motorcontrol/can/TalonSRX.h"
 #include "SmartDashboard/SendableBase.h"
 #include "SmartDashboard/SendableBuilder.h"
 #include "SpeedController.h"
 #include "MotorSafety.h"
 #include "MotorSafetyHelper.h"
+
+#pragma GCC diagnostic pop
 
 namespace ctre {
 namespace phoenix {

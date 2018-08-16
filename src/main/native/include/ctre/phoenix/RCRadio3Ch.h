@@ -22,10 +22,10 @@ public:
 	Status CurrentStatus = Status::Okay;
 
 	RCRadio3Ch(ctre::phoenix::CANifier *canifier);
-	float GetDutyCycleUs(Channel channel);
-	float GetDutyCyclePerc(Channel channel);
+	double GetDutyCycleUs(Channel channel);
+	double GetDutyCyclePerc(Channel channel);
 	bool GetSwitchValue(Channel channel);
-	float GetPeriodUs(Channel channel);
+	double GetPeriodUs(Channel channel);
 
 	//ILoopable
 	void Process();

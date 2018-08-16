@@ -13,7 +13,7 @@ public:
 		_mcs.push_back(motorController);
 	}
 
-	int MotorControllerCount() {
+	size_t MotorControllerCount() {
 		return _mcs.size();
 	}
 

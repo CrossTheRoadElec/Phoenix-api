@@ -8,16 +8,16 @@ namespace ctre {
 		class CANBusAddressable {
 
 		public:
-			CANBusAddressable(uint8_t deviceNumber) {
+			CANBusAddressable(int deviceNumber) {
 				_deviceNum = deviceNumber;
 			}
 
-			uint8_t GetDeviceNumber() {
+			int GetDeviceNumber() {
 				return _deviceNum;
 			}
 		protected:
 		private:
-			uint32_t _deviceNum;
+			int _deviceNum;
 		};
 	}
 }

@@ -1,4 +1,5 @@
 #include "ctre/phoenix/motorcontrol/can/VictorSPX.h"
+
 #if defined(CTR_INCLUDE_WPILIB_CLASSES) || defined(__FRC_ROBORIO__)
 #include "HAL/HAL.h"
 #endif
@@ -122,4 +123,3 @@ void VictorSPX::GetAllConfigs(VictorSPXConfiguration &allConfigs, int timeoutMs)
 	allConfigs.reverseLimitSwitchNormal = (LimitSwitchNormal)(int) ConfigGetParameter(eLimitSwitchNormClosedAndDis, 1, timeoutMs);
 
 }
-
