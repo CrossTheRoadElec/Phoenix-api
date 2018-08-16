@@ -13,7 +13,7 @@
 #include "ctre/phoenix/motion/TrajectoryPoint.h"
 #include "ctre/phoenix/motion/MotionProfileStatus.h"
 #include "ctre/phoenix/motion/MotionProfileStatus.h"
-#include "ctre/phoenix/lowlevel/CANBusAddressable.h"
+#include "ctre/phoenix/CANBusAddressable.h"
 #include "ctre/phoenix/CustomParamConfiguration.h"
 #if defined(CTR_INCLUDE_WPILIB_CLASSES) || defined(__FRC_ROBORIO__)
 /* WPILIB */
