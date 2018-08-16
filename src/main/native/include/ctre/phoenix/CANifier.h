@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cstdint>
-#include "ctre/phoenix/lowlevel/CANBusAddressable.h"
+#include "ctre/phoenix/CANBusAddressable.h"
 #include "ctre/phoenix/CustomParamConfiguration.h"
 #include "ctre/phoenix/ErrorCode.h"
 #include "ctre/phoenix/paramEnum.h"

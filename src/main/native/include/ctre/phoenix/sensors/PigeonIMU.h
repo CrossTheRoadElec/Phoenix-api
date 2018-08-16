@@ -24,7 +24,7 @@
 #pragma once
 
 #include <string>
-#include "ctre/phoenix/lowlevel/CANBusAddressable.h"
+#include "ctre/phoenix/CANBusAddressable.h"
 #include "ctre/phoenix/CustomParamConfiguration.h"
 #include "ctre/phoenix/paramEnum.h"
 #include "ctre/phoenix/ErrorCode.h"
