@@ -5,8 +5,8 @@ import com.ctre.phoenix.ErrorCode;
 class ErrorCodeString {
     public String string;
     public ErrorCode code;
-    public ErrorCodeString(ErrorCode inCode, String inString) {
-        string = inString;
-        code = inCode;
+    public ErrorCodeString(ErrorCode code, String string) {
+        this.string = string;
+        this.code = code;
     }
 }

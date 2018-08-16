@@ -19,29 +19,29 @@ TEST(Error, ConfigSetTimeoutError) {
     ErrorCodeString tempVector;
     ErrorCodeString errorCodes;
  
-    ConfigAllIndividualTalon( id,  timeoutMs, testTalonConfigs, errorCodes);
+    ConfigAllIndividualTalon(id, timeoutMs, testTalonConfigs, errorCodes);
 
-    ConfigAllIndividualVictor( id,  timeoutMs, testVictorConfigs, errorCodes);
+    ConfigAllIndividualVictor(id, timeoutMs, testVictorConfigs, errorCodes);
 
-    ConfigAllIndividualPigeon( id,  timeoutMs, testPigeonConfigs, errorCodes);
+    ConfigAllIndividualPigeon(id, timeoutMs, testPigeonConfigs, errorCodes);
 
-    ConfigAllIndividualCANifier( id,  timeoutMs, testCANifierConfigs, errorCodes);
+    ConfigAllIndividualCANifier(id, timeoutMs, testCANifierConfigs, errorCodes);
 
-    ConfigFactoryDefaultTalon( id,  timeoutMs, errorCodes);
+    ConfigFactoryDefaultTalon(id, timeoutMs, errorCodes);
 
-    ConfigFactoryDefaultVictor( id,  timeoutMs, errorCodes);
+    ConfigFactoryDefaultVictor(id, timeoutMs, errorCodes);
 
-    ConfigFactoryDefaultPigeon( id,  timeoutMs, errorCodes);
+    ConfigFactoryDefaultPigeon(id, timeoutMs, errorCodes);
 
-    ConfigFactoryDefaultCANifier( id,  timeoutMs, errorCodes);
+    ConfigFactoryDefaultCANifier(id, timeoutMs, errorCodes);
 
-    ConfigAllTalon( id,  timeoutMs, testTalonConfigs, errorCodes);
+    ConfigAllTalon(id, timeoutMs, testTalonConfigs, errorCodes);
 
-    ConfigAllVictor( id,  timeoutMs, testVictorConfigs, errorCodes);
+    ConfigAllVictor(id, timeoutMs, testVictorConfigs, errorCodes);
 
-    ConfigAllPigeon( id,  timeoutMs, testPigeonConfigs, errorCodes);
+    ConfigAllPigeon(id, timeoutMs, testPigeonConfigs, errorCodes);
 
-    ConfigAllCANifier( id,  timeoutMs, testCANifierConfigs, errorCodes);
+    ConfigAllCANifier(id, timeoutMs, testCANifierConfigs, errorCodes);
 
     for(const auto &err : errorCodes) { 
         ASSERT_EQ(ctre::phoenix::ErrorCode::SIG_NOT_UPDATED, err.first) << baseErrString << err.second;
