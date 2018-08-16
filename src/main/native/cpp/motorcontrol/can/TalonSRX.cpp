@@ -434,8 +434,6 @@ ErrorCode TalonSRX::ConfigAllSettings(const TalonSRXConfiguration &allConfigs, i
 	
 	errorCollection.NewError(ConfigurePID(allConfigs.primaryPID, 0, timeoutMs));
 	errorCollection.NewError(ConfigurePID(allConfigs.auxilaryPID, 1, timeoutMs));
-	
-	// https://docs.google.com/spreadsheets/d/1mU-WOaCnMYSTGq7mqHnahamwzSpflqNpogikiyQMGl8/edit?usp=sharing
 	if(TalonConfigUtil::ForwardLimitSwitchDifferent(allConfigs))
 		errorCollection.NewError(c_MotController_ConfigForwardLimitSwitchSource(m_handle, allConfigs.forwardLimitSwitchSource,
 			allConfigs.forwardLimitSwitchNormal, allConfigs.forwardLimitSwitchDeviceID, timeoutMs));

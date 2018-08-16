@@ -3,7 +3,6 @@ package com.ctre.phoenix.motorcontrol.can;
 class VictorConfigUtil {
 	private static VictorSPXConfiguration _default = new VictorSPXConfiguration();
 	
-	// https://docs.google.com/spreadsheets/d/1mU-WOaCnMYSTGq7mqHnahamwzSpflqNpogikiyQMGl8/edit?usp=sharing
 	static boolean forwardLimitSwitchSourceDifferent (VictorSPXConfiguration settings) { return (!(settings.forwardLimitSwitchSource == _default.forwardLimitSwitchSource)) || !settings.enableOptimizations; }
 	static boolean reverseLimitSwitchSourceDifferent (VictorSPXConfiguration settings) { return (!(settings.reverseLimitSwitchSource == _default.reverseLimitSwitchSource)) || !settings.enableOptimizations; }
 	static boolean forwardLimitSwitchDeviceIDDifferent (VictorSPXConfiguration settings) { return (!(settings.forwardLimitSwitchDeviceID == _default.forwardLimitSwitchDeviceID)) || !settings.enableOptimizations; }

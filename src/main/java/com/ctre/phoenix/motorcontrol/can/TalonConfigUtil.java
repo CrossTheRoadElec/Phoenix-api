@@ -3,7 +3,6 @@ package com.ctre.phoenix.motorcontrol.can;
 class TalonConfigUtil {
 	private static TalonSRXConfiguration _default = new TalonSRXConfiguration();
 	
-	// https://docs.google.com/spreadsheets/d/1mU-WOaCnMYSTGq7mqHnahamwzSpflqNpogikiyQMGl8/edit?usp=sharing
 	static boolean forwardLimitSwitchSourceDifferent (TalonSRXConfiguration settings) { return (!(settings.forwardLimitSwitchSource == _default.forwardLimitSwitchSource)) || !settings.enableOptimizations; }
 	static boolean reverseLimitSwitchSourceDifferent (TalonSRXConfiguration settings) { return (!(settings.reverseLimitSwitchSource == _default.reverseLimitSwitchSource)) || !settings.enableOptimizations; }
 	static boolean forwardLimitSwitchDeviceIDDifferent (TalonSRXConfiguration settings) { return (!(settings.forwardLimitSwitchDeviceID == _default.forwardLimitSwitchDeviceID)) || !settings.enableOptimizations; }

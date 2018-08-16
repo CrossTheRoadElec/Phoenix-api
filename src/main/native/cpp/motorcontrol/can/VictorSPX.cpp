@@ -79,8 +79,7 @@ ErrorCode VictorSPX::ConfigAllSettings(const VictorSPXConfiguration &allConfigs,
     errorCollection.NewError(ConfigurePID(allConfigs.primaryPID, 0, timeoutMs, allConfigs.enableOptimizations));
         
     errorCollection.NewError(ConfigurePID(allConfigs.auxilaryPID, 1, timeoutMs, allConfigs.enableOptimizations));
-     
-	// https://docs.google.com/spreadsheets/d/1mU-WOaCnMYSTGq7mqHnahamwzSpflqNpogikiyQMGl8/edit?usp=sharing
+	
 	if(VictorConfigUtil::ForwardLimitSwitchSourceDifferent(allConfigs)) 
 		errorCollection.NewError(ConfigForwardLimitSwitchSource(allConfigs.forwardLimitSwitchSource, allConfigs.forwardLimitSwitchNormal, 
 			allConfigs.forwardLimitSwitchDeviceID, timeoutMs));

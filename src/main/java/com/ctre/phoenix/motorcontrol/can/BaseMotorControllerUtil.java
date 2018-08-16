@@ -12,7 +12,6 @@ import com.ctre.phoenix.motorcontrol.can.BaseMotorControllerConfiguration;
 class BaseMotorControllerUtil extends CustomParamConfigUtil {
 	private static BaseMotorControllerConfiguration _default = new VictorSPXConfiguration();
 	
-	//https://docs.google.com/spreadsheets/d/1mU-WOaCnMYSTGq7mqHnahamwzSpflqNpogikiyQMGl8/edit?usp=sharing
 	static boolean openloopRampDifferent (BaseMotorControllerConfiguration settings) { return (!(settings.openloopRamp == _default.openloopRamp)) || !settings.enableOptimizations; }
 	static boolean closedloopRampDifferent (BaseMotorControllerConfiguration settings) { return (!(settings.closedloopRamp == _default.closedloopRamp)) || !settings.enableOptimizations; }
 	static boolean peakOutputForwardDifferent (BaseMotorControllerConfiguration settings) { return (!(settings.peakOutputForward == _default.peakOutputForward)) || !settings.enableOptimizations; }

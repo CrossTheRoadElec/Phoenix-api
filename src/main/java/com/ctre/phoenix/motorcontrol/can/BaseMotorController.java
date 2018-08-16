@@ -2210,7 +2210,6 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
     
         errorCollection.NewError(configFactoryDefault(timeoutMs));
 		
-		// https://docs.google.com/spreadsheets/d/1mU-WOaCnMYSTGq7mqHnahamwzSpflqNpogikiyQMGl8/edit?usp=sharing
         if(BaseMotorControllerUtil.openloopRampDifferent(allConfigs)) errorCollection.NewError(configOpenloopRamp(allConfigs.openloopRamp, timeoutMs));
 		if(BaseMotorControllerUtil.closedloopRampDifferent(allConfigs)) errorCollection.NewError(configClosedloopRamp(allConfigs.closedloopRamp, timeoutMs));
 		if(BaseMotorControllerUtil.peakOutputForwardDifferent(allConfigs)) errorCollection.NewError(configPeakOutputForward(allConfigs.peakOutputForward, timeoutMs));

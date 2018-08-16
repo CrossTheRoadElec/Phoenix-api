@@ -140,7 +140,6 @@ class SlotConfigUtil {
 	private:
 		static struct SlotConfiguration _default;
 	public:
-		// https://docs.google.com/spreadsheets/d/1mU-WOaCnMYSTGq7mqHnahamwzSpflqNpogikiyQMGl8/edit?usp=sharing
 		static bool KPDifferent (const SlotConfiguration & settings) { return (!(settings.kP == _default.kP)); }
 		static bool KIDifferent (const SlotConfiguration & settings) { return (!(settings.kI == _default.kI)); }
 		static bool KDDifferent (const SlotConfiguration & settings) { return (!(settings.kD == _default.kD)); }
@@ -275,7 +274,6 @@ class BaseMotorControllerUtil : public ctre::phoenix::CustomParamConfigUtil {
     private :
         static struct BaseMotorControllerConfiguration _default;
     public:
-		// https://docs.google.com/spreadsheets/d/1mU-WOaCnMYSTGq7mqHnahamwzSpflqNpogikiyQMGl8/edit?usp=sharing
         static bool OpenloopRampDifferent (const BaseMotorControllerConfiguration & settings) { return (!(settings.openloopRamp == _default.openloopRamp)) || !settings.enableOptimizations; }
         static bool ClosedloopRampDifferent (const BaseMotorControllerConfiguration & settings) { return (!(settings.closedloopRamp == _default.closedloopRamp)) || !settings.enableOptimizations; }
         static bool PeakOutputForwardDifferent (const BaseMotorControllerConfiguration & settings) { return (!(settings.peakOutputForward == _default.peakOutputForward)) || !settings.enableOptimizations; }

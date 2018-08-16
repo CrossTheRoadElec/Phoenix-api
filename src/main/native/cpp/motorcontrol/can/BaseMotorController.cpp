@@ -1912,8 +1912,6 @@ ctre::phoenix::ErrorCode BaseMotorController::ConfigureSlot(const SlotConfigurat
 
 	ErrorCollection errorCollection;
 	//------ General Close loop ----------//    
-	
-	// https://docs.google.com/spreadsheets/d/1mU-WOaCnMYSTGq7mqHnahamwzSpflqNpogikiyQMGl8/edit?usp=sharing
     
 	if(SlotConfigUtil::KPDifferent(slot) || !enableOptimizations) errorCollection.NewError(Config_kP(slotIdx, slot.kP, timeoutMs));
 	if(SlotConfigUtil::KIDifferent(slot) || !enableOptimizations) errorCollection.NewError(Config_kI(slotIdx, slot.kI, timeoutMs));
@@ -2021,7 +2019,6 @@ ctre::phoenix::ErrorCode BaseMotorController::BaseConfigAllSettings(const BaseMo
 		
     errorCollection.NewError(ConfigFactoryDefault(timeoutMs));
     
-	// https://docs.google.com/spreadsheets/d/1mU-WOaCnMYSTGq7mqHnahamwzSpflqNpogikiyQMGl8/edit?usp=sharing
     if(BaseMotorControllerUtil::OpenloopRampDifferent(allConfigs)) errorCollection.NewError(ConfigOpenloopRamp(allConfigs.openloopRamp, timeoutMs));
 	if(BaseMotorControllerUtil::ClosedloopRampDifferent(allConfigs)) errorCollection.NewError(ConfigClosedloopRamp(allConfigs.closedloopRamp, timeoutMs));
 	if(BaseMotorControllerUtil::PeakOutputForwardDifferent(allConfigs)) errorCollection.NewError(ConfigPeakOutputForward(allConfigs.peakOutputForward, timeoutMs));

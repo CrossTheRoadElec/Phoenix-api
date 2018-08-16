@@ -386,9 +386,7 @@ public class TalonSRX extends com.ctre.phoenix.motorcontrol.can.BaseMotorControl
         //--------PIDs---------------//
 		errorCollection.NewError(configurePID(allConfigs.primaryPID, 0, timeoutMs, allConfigs.enableOptimizations));
 		errorCollection.NewError(configurePID(allConfigs.auxilaryPID, 1, timeoutMs, allConfigs.enableOptimizations));
-		
-		// https://docs.google.com/spreadsheets/d/1mU-WOaCnMYSTGq7mqHnahamwzSpflqNpogikiyQMGl8/edit?usp=sharing
-        
+		        
 		if(TalonConfigUtil.forwardLimitSwitchDifferent(allConfigs)) 
 			errorCollection.NewError(MotControllerJNI.ConfigForwardLimitSwitchSource(m_handle, allConfigs.forwardLimitSwitchSource.value,
 				allConfigs.forwardLimitSwitchNormal.value, allConfigs.forwardLimitSwitchDeviceID, timeoutMs));

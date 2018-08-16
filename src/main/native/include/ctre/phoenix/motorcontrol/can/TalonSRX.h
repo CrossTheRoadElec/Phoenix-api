@@ -116,7 +116,6 @@ class TalonConfigUtil {
 	private:
 		static struct TalonSRXConfiguration _default;
 	public:
-		// https://docs.google.com/spreadsheets/d/1mU-WOaCnMYSTGq7mqHnahamwzSpflqNpogikiyQMGl8/edit?usp=sharing
 		static bool ForwardLimitSwitchSourceDifferent (const TalonSRXConfiguration & settings) { return (!(settings.forwardLimitSwitchSource == _default.forwardLimitSwitchSource)) || !settings.enableOptimizations; }
 		static bool ReverseLimitSwitchSourceDifferent (const TalonSRXConfiguration & settings) { return (!(settings.reverseLimitSwitchSource == _default.reverseLimitSwitchSource)) || !settings.enableOptimizations; }
 		static bool ForwardLimitSwitchDeviceIDDifferent (const TalonSRXConfiguration & settings) { return (!(settings.forwardLimitSwitchDeviceID == _default.forwardLimitSwitchDeviceID)) || !settings.enableOptimizations; }
