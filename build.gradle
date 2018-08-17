@@ -188,7 +188,7 @@ test.dependsOn('CopyPlatformLib')
 
 apply from: 'publish.gradle'
 
-publish.dependsOn build
+publish.dependsOn check
 
 wrapper {
   gradleVersion = '4.9'
