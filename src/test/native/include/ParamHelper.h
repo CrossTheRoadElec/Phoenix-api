@@ -132,10 +132,10 @@ void GetAllParamsPigeon(int id, int timeoutMs, ParamEnumString &paramsToGet, Err
 void GetAllParamsCANifier(int id, int timeoutMs, ParamEnumString &paramsToGet, ErrorCodeString &errorCodes);
 
 
-void SetAllParamsTalon(int id, int timeoutMs, ParamEnumString &paramsToSet, ErrorCodeString &errorCodes);
+void SetAllParamsTalon(int id, int timeoutMs, const ParamEnumString &paramsToSet, ErrorCodeString &errorCodes);
 
-void SetAllParamsVictor(int id, int timeoutMs, ParamEnumString &paramsToSet, ErrorCodeString &errorCodes);
+void SetAllParamsVictor(int id, int timeoutMs, const ParamEnumString &paramsToSet, ErrorCodeString &errorCodes);
 
-void SetAllParamsPigeon(int id, int timeoutMs, ParamEnumString &paramsToSet, ErrorCodeString &errorCodes);
+void SetAllParamsPigeon(int id, int timeoutMs, const ParamEnumString &paramsToSet, ErrorCodeString &errorCodes);
 
-void SetAllParamsCANifier(int id, int timeoutMs, ParamEnumString &paramsToSet, ErrorCodeString &errorCodes);
+void SetAllParamsCANifier(int id, int timeoutMs, const ParamEnumString &paramsToSet, ErrorCodeString &errorCodes);

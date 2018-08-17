@@ -84,6 +84,42 @@ TEST(Error, GetParamTimeoutError) {
 
 }
 
+TEST(Error, SetParamTimeoutError) {
+
+    ErrorCodeString errorCodes;
+
+    ParamEnumString talonEnums;    
+    ParamEnumString victorEnums;    
+    ParamEnumString pigeonEnums;    
+    ParamEnumString canifierEnums;    
+
+    talonEnums.insert(genericParamEnumStrings.begin(), genericParamEnumStrings.end()); 
+    talonEnums.insert(sensorParamEnumStrings.begin(), sensorParamEnumStrings.end()); 
+    talonEnums.insert(motControllerParamEnumStrings.begin(), motControllerParamEnumStrings.end()); 
+    talonEnums.insert(currentParamEnumStrings.begin(), currentParamEnumStrings.end()); 
+    
+    victorEnums.insert(genericParamEnumStrings.begin(), genericParamEnumStrings.end()); 
+    victorEnums.insert(motControllerParamEnumStrings.begin(), motControllerParamEnumStrings.end()); 
+    
+    pigeonEnums.insert(genericParamEnumStrings.begin(), genericParamEnumStrings.end()); 
+    pigeonEnums.insert(imuParamEnumStrings.begin(), imuParamEnumStrings.end()); 
+    
+    canifierEnums.insert(genericParamEnumStrings.begin(), genericParamEnumStrings.end()); 
+    canifierEnums.insert(sensorParamEnumStrings.begin(), sensorParamEnumStrings.end()); 
+    
+    int id = 0;
+    int timeoutMs = 1;
+  
+    SetAllParamsTalon(id, timeoutMs, talonEnums, errorCodes); 
+    SetAllParamsVictor(id, timeoutMs, victorEnums, errorCodes); 
+    SetAllParamsPigeon(id, timeoutMs, pigeonEnums, errorCodes); 
+    SetAllParamsCANifier(id, timeoutMs, canifierEnums, errorCodes); 
+ 
+    for(const auto &err : errorCodes) { 
+        ASSERT_EQ(ctre::phoenix::ErrorCode::SIG_NOT_UPDATED, err.first) << baseErrString << err.second;
+    }
+
+}
 
 TEST(DeviceID, Get) {
     for(int i = 0; i < 63; i++) {
