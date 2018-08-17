@@ -146,25 +146,24 @@ model {
                 libPaths << test.environment.get('LD_LIBRARY_PATH') << dirStr
                 project.test.environment.put('LD_LIBRARY_PATH', libPaths.join(';'))
               }
-          }
-        }
-      } else {
-        if (it.targetPlatform.architecture.name == 'x86' || it.targetPlatform.architecture.name == 'x86-64') {
-            for(lib in it.libs) {
-              if(lib.linkFiles.asFileTrees.size() > 0 && lib.linkFiles.asFileTrees.get(0).dir.toString().contains('firmware')) {
-                def libFileName = lib.linkFiles.asFileTrees.get(0).file.toString()
-                if(OperatingSystem.current().isWindows()) {
-                  libFileName = libFileName.replaceAll('\\.lib', '.dll')
-                }
-
-                tasks.run.getProperties().environment.put('CTRE_TALON_LIBRARY_PATH', libFileName)
-                project.test.environment.put('CTRE_TALON_LIBRARY_PATH', libFileName)
-              }
             }
           }
-        }
-        lib library: 'CTRE_Phoenix', linkage: 'static'
-      } else {
+        } else {
+          for(lib in it.libs) {
+            if(lib.linkFiles.asFileTrees.size() > 0 && lib.linkFiles.asFileTrees.get(0).dir.toString().contains('firmware')) {
+              def libFileName = lib.linkFiles.asFileTrees.get(0).file.toString()
+              if(OperatingSystem.current().isWindows()) {
+                libFileName = libFileName.replaceAll('\\.lib', '.dll')
+              }
+
+              tasks.run.getProperties().environment.put('CTRE_TALON_LIBRARY_PATH', libFileName)
+              project.test.environment.put('CTRE_TALON_LIBRARY_PATH', libFileName)
+            }
+          }
+          lib library: 'CTRE_Phoenix', linkage: 'static'
+        } 
+      }
+      else {
         it.buildable = false
       }
     }
