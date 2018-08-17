@@ -391,6 +391,37 @@ double CANifier::ConfigGetParameter(ParamEnum param, int ordinal, int timeoutMs)
 	return value;
 }
 
+/**
+ * Gets a parameter. Generally this is not used. (This function 
+ * is only implemented in c++)
+ * 
+ * This can be utilized in
+ * - Using new features without updating API installation.
+ * - Errata workarounds to circumvent API implementation.
+ * - Allows for rapid testing / unit testing of firmware.
+ *
+ * @param param
+ *            Parameter enumeration.
+ * @param valueToSend
+ *            Value to send as part of frame
+ * @param valueReceived
+ *            Value returned by device
+ * @param subValue
+ *            Sub Value returned by device
+ * @param ordinal
+ *            Ordinal of parameter.
+ * @param timeoutMs
+ *            Timeout value in ms. If nonzero, function will wait for
+ *            config success and report an error if it times out.
+ *            If zero, no blocking or checking is performed.
+ * @return ErrorCode
+ */
+ErrorCode CANifier::ConfigGetParameter(ParamEnum param, int32_t valueToSend,
+            int32_t & valueReceived, uint8_t & subValue, int32_t ordinal,
+            int32_t timeoutMs) {
+	return c_CANifier_ConfigGetParameter_6(m_handle, param, valueToSend, &valueReceived, &subValue, ordinal, timeoutMs);
+}
+
 //------ Frames ----------//
 /**
  * Sets the period of the given status frame.

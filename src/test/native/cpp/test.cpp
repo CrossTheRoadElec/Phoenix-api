@@ -7,7 +7,8 @@
 #include <random>
 
 std::string baseErrString = "Failed due to error from ";
-std::default_random_engine generator;
+std::random_device randomDevice1;
+std::default_random_engine generator{randomDevice1()};
 std::uniform_int_distribution<int> idDistribution(0,62);
 
 TEST(Error, ConfigSetTimeoutError) {
@@ -66,39 +67,18 @@ TEST(Error, GetParamTimeoutError) {
 
     ErrorCodeString errorCodes;
 
-    ParamEnumString talonEnums;    
-    ParamEnumString victorEnums;    
-    ParamEnumString pigeonEnums;    
-    ParamEnumString canifierEnums;    
+    ParamEnumSet enums;    
 
-    talonEnums.insert(genericParamEnumStrings.begin(), genericParamEnumStrings.end()); 
-    talonEnums.insert(sensorParamEnumStrings.begin(), sensorParamEnumStrings.end()); 
-    talonEnums.insert(motControllerParamEnumStrings.begin(), motControllerParamEnumStrings.end()); 
-    talonEnums.insert(currentParamEnumStrings.begin(), currentParamEnumStrings.end()); 
+    enums.insert(genericParamEnumSets.begin(), genericParamEnumSets.end()); 
+    enums.insert(sensorParamEnumSets.begin(), sensorParamEnumSets.end()); 
+    enums.insert(motControllerParamEnumSets.begin(), motControllerParamEnumSets.end()); 
+    enums.insert(currentParamEnumSets.begin(), currentParamEnumSets.end()); 
+    enums.insert(imuParamEnumSets.begin(), imuParamEnumSets.end()); 
     
-    victorEnums.insert(genericParamEnumStrings.begin(), genericParamEnumStrings.end()); 
-    victorEnums.insert(motControllerParamEnumStrings.begin(), motControllerParamEnumStrings.end()); 
-    
-    pigeonEnums.insert(genericParamEnumStrings.begin(), genericParamEnumStrings.end()); 
-    pigeonEnums.insert(imuParamEnumStrings.begin(), imuParamEnumStrings.end()); 
-    
-    canifierEnums.insert(genericParamEnumStrings.begin(), genericParamEnumStrings.end()); 
-    canifierEnums.insert(sensorParamEnumStrings.begin(), sensorParamEnumStrings.end()); 
-    
-    int id;
+    std::map<ctre::phoenix::platform::DeviceType, int> idMap = {{ctre::phoenix::platform::DeviceType::TalonSRXType, idDistribution(generator)}, {ctre::phoenix::platform::DeviceType::VictorSPXType, idDistribution(generator)}, {ctre::phoenix::platform::DeviceType::CANifierType, idDistribution(generator)}, {ctre::phoenix::platform::DeviceType::PigeonIMUType, idDistribution(generator)}};
     int timeoutMs = 1;
   
-    id = idDistribution(generator);
-    GetAllParamsTalon(id, timeoutMs, talonEnums, errorCodes); 
-    
-    id = idDistribution(generator);
-    GetAllParamsVictor(id, timeoutMs, victorEnums, errorCodes); 
-    
-    id = idDistribution(generator);
-    GetAllParamsPigeon(id, timeoutMs, pigeonEnums, errorCodes); 
-    
-    id = idDistribution(generator);
-    GetAllParamsCANifier(id, timeoutMs, canifierEnums, errorCodes); 
+    GetAllParams(idMap, timeoutMs, enums, errorCodes); 
  
     for(const auto &err : errorCodes) { 
         ASSERT_EQ(ctre::phoenix::ErrorCode::SIG_NOT_UPDATED, err.first) << baseErrString << err.second;
@@ -109,45 +89,26 @@ TEST(Error, GetParamTimeoutError) {
 TEST(Error, SetParamTimeoutError) {
 
     ErrorCodeString errorCodes;
+    
+    ParamEnumSet enums;
 
-    ParamEnumString talonEnums;    
-    ParamEnumString victorEnums;    
-    ParamEnumString pigeonEnums;    
-    ParamEnumString canifierEnums;    
+    enums.insert(genericParamEnumSets.begin(), genericParamEnumSets.end()); 
+    enums.insert(sensorParamEnumSets.begin(), sensorParamEnumSets.end()); 
+    enums.insert(motControllerParamEnumSets.begin(), motControllerParamEnumSets.end()); 
+    enums.insert(currentParamEnumSets.begin(), currentParamEnumSets.end()); 
+    enums.insert(imuParamEnumSets.begin(), imuParamEnumSets.end()); 
+   
+    GenerateSendValues(enums);
+ 
+    std::map<ctre::phoenix::platform::DeviceType, int> idMap = {{ctre::phoenix::platform::DeviceType::TalonSRXType, idDistribution(generator)}, {ctre::phoenix::platform::DeviceType::VictorSPXType, idDistribution(generator)}, {ctre::phoenix::platform::DeviceType::CANifierType, idDistribution(generator)}, {ctre::phoenix::platform::DeviceType::PigeonIMUType, idDistribution(generator)}};
 
-    talonEnums.insert(genericParamEnumStrings.begin(), genericParamEnumStrings.end()); 
-    talonEnums.insert(sensorParamEnumStrings.begin(), sensorParamEnumStrings.end()); 
-    talonEnums.insert(motControllerParamEnumStrings.begin(), motControllerParamEnumStrings.end()); 
-    talonEnums.insert(currentParamEnumStrings.begin(), currentParamEnumStrings.end()); 
-    
-    victorEnums.insert(genericParamEnumStrings.begin(), genericParamEnumStrings.end()); 
-    victorEnums.insert(motControllerParamEnumStrings.begin(), motControllerParamEnumStrings.end()); 
-    
-    pigeonEnums.insert(genericParamEnumStrings.begin(), genericParamEnumStrings.end()); 
-    pigeonEnums.insert(imuParamEnumStrings.begin(), imuParamEnumStrings.end()); 
-    
-    canifierEnums.insert(genericParamEnumStrings.begin(), genericParamEnumStrings.end()); 
-    canifierEnums.insert(sensorParamEnumStrings.begin(), sensorParamEnumStrings.end()); 
-    
-    int id;
     int timeoutMs = 1;
   
-    id = idDistribution(generator);
-    SetAllParamsTalon(id, timeoutMs, talonEnums, errorCodes); 
-    
-    id = idDistribution(generator);
-    SetAllParamsVictor(id, timeoutMs, victorEnums, errorCodes); 
-    
-    id = idDistribution(generator);
-    SetAllParamsPigeon(id, timeoutMs, pigeonEnums, errorCodes); 
-    
-    id = idDistribution(generator);
-    SetAllParamsCANifier(id, timeoutMs, canifierEnums, errorCodes); 
+    SetAllParams(idMap, timeoutMs, enums, errorCodes); 
  
     for(const auto &err : errorCodes) { 
         ASSERT_EQ(ctre::phoenix::ErrorCode::SIG_NOT_UPDATED, err.first) << baseErrString << err.second;
     }
-
 }
 
 TEST(DeviceID, Get) {
@@ -181,8 +142,40 @@ TEST(Simulator, Load) {
     std::this_thread::sleep_for(std::chrono::milliseconds(300)); //Guarantee all msgs are stale
 }
 
-//TEST(Param, ParamSetGet) {
-//    ctre::phoenix::platform::SimCreate(ctre::phoenix::platform::DeviceType::TalonSRXType, 0);  
+TEST(Param, ConfigSetGet) {
+
+    ErrorCodeString errorCodes;
+    
+    ParamEnumSet enums;
+
+    auto copyEnum = genericParamEnumSets.find(ctre::phoenix::ParamEnum::eStatusFramePeriod);
+
+    enums.insert(std::make_pair(copyEnum->first, copyEnum->second)); 
+
+    GenerateSendValues(enums);
+
+    int talonId = idDistribution(generator);
+    
+    ctre::phoenix::platform::SimCreate(ctre::phoenix::platform::DeviceType::TalonSRXType, talonId);
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(300)); //Guarantee devices are initialized
+ 
+    std::map<ctre::phoenix::platform::DeviceType, int> idMap = {{ctre::phoenix::platform::DeviceType::TalonSRXType, talonId}};
+
+    int timeoutMs = 50;
+  
+    SetAllParams(idMap, timeoutMs, enums, errorCodes); 
+    
+    GetAllParams(idMap, timeoutMs, enums, errorCodes); 
+
+    for(const auto &err : errorCodes) { 
+        ASSERT_EQ(ctre::phoenix::ErrorCode::OKAY, err.first) << baseErrString << err.second;
+    }
+    
+    EqualityCheck(enums);     
+}
+
+//TEST(Param, ConfigFactoryDefault) {
 //}
 
 int main(int argc, char **argv) {

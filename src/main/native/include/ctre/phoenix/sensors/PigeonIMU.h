@@ -244,6 +244,9 @@ public:
 	ErrorCode ConfigSetParameter(ParamEnum param, double value,
 			uint8_t subValue, int ordinal, int timeoutMs = 0);
 	double ConfigGetParameter(ctre::phoenix::ParamEnum param, int ordinal, int timeoutMs = 0);
+    ErrorCode ConfigGetParameter(ParamEnum param, int32_t valueToSend,
+            int32_t & valueReceived, uint8_t & subValue, int32_t ordinal,
+            int32_t timeoutMs);
 
 	ErrorCode SetStatusFramePeriod(PigeonIMU_StatusFrame statusFrame, uint8_t periodMs,
 			int timeoutMs = 0);

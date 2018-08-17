@@ -153,6 +153,10 @@ public:
 	ErrorCode ConfigSetParameter(ParamEnum param, double value,
 			uint8_t subValue, int ordinal, int timeoutMs = 0);
 	double ConfigGetParameter(ParamEnum param, int ordinal, int timeoutMs = 0);
+    
+    ErrorCode ConfigGetParameter(ParamEnum param, int32_t valueToSend,
+            int32_t & valueReceived, uint8_t & subValue, int32_t ordinal,
+            int32_t timeoutMs);
 
 
 	ErrorCode SetStatusFramePeriod(CANifierStatusFrame statusFrame,

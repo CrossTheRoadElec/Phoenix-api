@@ -501,6 +501,9 @@ public:
 	virtual ctre::phoenix::ErrorCode ConfigSetParameter(ctre::phoenix::ParamEnum param, double value,
 			uint8_t subValue, int ordinal, int timeoutMs = 0);
 	virtual double ConfigGetParameter(ctre::phoenix::ParamEnum param, int ordinal, int timeoutMs = 0);
+    virtual ErrorCode ConfigGetParameter(ParamEnum param, int32_t valueToSend,
+            int32_t & valueReceived, uint8_t & subValue, int32_t ordinal,
+            int32_t timeoutMs);
 	//------ Misc. ----------//
 	virtual int GetBaseID();
 	virtual ControlMode GetControlMode();
