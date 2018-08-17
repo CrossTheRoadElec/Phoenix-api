@@ -4,13 +4,16 @@
 #include "ctre/phoenix/platform/Platform.h"
 #include <chrono>
 #include <thread>
+#include <random>
 
 std::string baseErrString = "Failed due to error from ";
+std::default_random_engine generator;
+std::uniform_int_distribution<int> idDistribution(0,62);
 
 TEST(Error, ConfigSetTimeoutError) {
-    int id = 0;
     int timeoutMs = 1;
-    
+    int id;    
+
     ctre::phoenix::motorcontrol::can::TalonSRXConfiguration testTalonConfigs;
     ctre::phoenix::motorcontrol::can::VictorSPXConfiguration testVictorConfigs;
     ctre::phoenix::sensors::PigeonIMUConfiguration testPigeonConfigs;
@@ -18,28 +21,40 @@ TEST(Error, ConfigSetTimeoutError) {
   
     ErrorCodeString errorCodes;
  
+    id = idDistribution(generator);
     ConfigAllIndividualTalon(id, timeoutMs, testTalonConfigs, errorCodes);
 
+    id = idDistribution(generator);
     ConfigAllIndividualVictor(id, timeoutMs, testVictorConfigs, errorCodes);
 
+    id = idDistribution(generator);
     ConfigAllIndividualPigeon(id, timeoutMs, testPigeonConfigs, errorCodes);
 
+    id = idDistribution(generator);
     ConfigAllIndividualCANifier(id, timeoutMs, testCANifierConfigs, errorCodes);
 
+    id = idDistribution(generator);
     ConfigFactoryDefaultTalon(id, timeoutMs, errorCodes);
 
+    id = idDistribution(generator);
     ConfigFactoryDefaultVictor(id, timeoutMs, errorCodes);
 
+    id = idDistribution(generator);
     ConfigFactoryDefaultPigeon(id, timeoutMs, errorCodes);
 
+    id = idDistribution(generator);
     ConfigFactoryDefaultCANifier(id, timeoutMs, errorCodes);
 
+    id = idDistribution(generator);
     ConfigAllTalon(id, timeoutMs, testTalonConfigs, errorCodes);
 
+    id = idDistribution(generator);
     ConfigAllVictor(id, timeoutMs, testVictorConfigs, errorCodes);
 
+    id = idDistribution(generator);
     ConfigAllPigeon(id, timeoutMs, testPigeonConfigs, errorCodes);
 
+    id = idDistribution(generator);
     ConfigAllCANifier(id, timeoutMs, testCANifierConfigs, errorCodes);
 
     for(const auto &err : errorCodes) { 
@@ -70,12 +85,19 @@ TEST(Error, GetParamTimeoutError) {
     canifierEnums.insert(genericParamEnumStrings.begin(), genericParamEnumStrings.end()); 
     canifierEnums.insert(sensorParamEnumStrings.begin(), sensorParamEnumStrings.end()); 
     
-    int id = 0;
+    int id;
     int timeoutMs = 1;
   
+    id = idDistribution(generator);
     GetAllParamsTalon(id, timeoutMs, talonEnums, errorCodes); 
+    
+    id = idDistribution(generator);
     GetAllParamsVictor(id, timeoutMs, victorEnums, errorCodes); 
+    
+    id = idDistribution(generator);
     GetAllParamsPigeon(id, timeoutMs, pigeonEnums, errorCodes); 
+    
+    id = idDistribution(generator);
     GetAllParamsCANifier(id, timeoutMs, canifierEnums, errorCodes); 
  
     for(const auto &err : errorCodes) { 
@@ -107,12 +129,19 @@ TEST(Error, SetParamTimeoutError) {
     canifierEnums.insert(genericParamEnumStrings.begin(), genericParamEnumStrings.end()); 
     canifierEnums.insert(sensorParamEnumStrings.begin(), sensorParamEnumStrings.end()); 
     
-    int id = 0;
+    int id;
     int timeoutMs = 1;
   
+    id = idDistribution(generator);
     SetAllParamsTalon(id, timeoutMs, talonEnums, errorCodes); 
+    
+    id = idDistribution(generator);
     SetAllParamsVictor(id, timeoutMs, victorEnums, errorCodes); 
+    
+    id = idDistribution(generator);
     SetAllParamsPigeon(id, timeoutMs, pigeonEnums, errorCodes); 
+    
+    id = idDistribution(generator);
     SetAllParamsCANifier(id, timeoutMs, canifierEnums, errorCodes); 
  
     for(const auto &err : errorCodes) { 
@@ -143,13 +172,18 @@ TEST(Simulator, Load) {
 
     //Linux now has the exact same issue
 
-    for(int i = 0; i < 8; i++) { 
-        ctre::phoenix::platform::SimCreate(ctre::phoenix::platform::DeviceType::TalonSRXType, i);  
+    for(int i = 0; i < 4; i++) { 
+        int id = idDistribution(generator);
+        ctre::phoenix::platform::SimCreate(ctre::phoenix::platform::DeviceType::TalonSRXType, id);  
     }
     
-    ctre::phoenix::platform::SimDestroyAll();  
+    //ctre::phoenix::platform::SimDestroyAll();  
     std::this_thread::sleep_for(std::chrono::milliseconds(300)); //Guarantee all msgs are stale
 }
+
+//TEST(Param, ParamSetGet) {
+//    ctre::phoenix::platform::SimCreate(ctre::phoenix::platform::DeviceType::TalonSRXType, 0);  
+//}
 
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
