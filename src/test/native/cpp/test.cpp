@@ -16,7 +16,6 @@ TEST(Error, ConfigSetTimeoutError) {
     ctre::phoenix::sensors::PigeonIMUConfiguration testPigeonConfigs;
     ctre::phoenix::CANifierConfiguration testCANifierConfigs;
   
-    ErrorCodeString tempVector;
     ErrorCodeString errorCodes;
  
     ConfigAllIndividualTalon(id, timeoutMs, testTalonConfigs, errorCodes);
@@ -50,7 +49,7 @@ TEST(Error, ConfigSetTimeoutError) {
 
 TEST(Error, GetParamTimeoutError) {
 
-    ErrorCodeDoubleString errorCodes;
+    ErrorCodeString errorCodes;
 
     ParamEnumString talonEnums;    
     ParamEnumString victorEnums;    
@@ -80,7 +79,7 @@ TEST(Error, GetParamTimeoutError) {
     GetAllParamsCANifier(id, timeoutMs, canifierEnums, errorCodes); 
  
     for(const auto &err : errorCodes) { 
-        ASSERT_EQ(ctre::phoenix::ErrorCode::SIG_NOT_UPDATED, err.first.second) << baseErrString << err.second;
+        ASSERT_EQ(ctre::phoenix::ErrorCode::SIG_NOT_UPDATED, err.first) << baseErrString << err.second;
     }
 
 }

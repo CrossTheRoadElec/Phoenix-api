@@ -64,7 +64,7 @@ class Error {
     @Test
     void getParamTimeout() { 
  
-        List<ErrorCodeDoubleString> errorCodes = new ArrayList<ErrorCodeDoubleString>();  
+        List<ErrorCodeString> errorCodes = new ArrayList<ErrorCodeString>();  
     
         int id = 0;
         int timeoutMs = 0;
