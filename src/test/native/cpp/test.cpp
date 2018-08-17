@@ -105,18 +105,10 @@ TEST(Simulator, Load) {
     //No such increasing cost occurs in linux and the load time is generally far lower.
     //This is likely because the while loop in firmware uses as much cpu as it can    
 
+    //Linux now has the exact same issue
 
-    #if defined(WIN32) || defined(_WIN32) || defined(_WIN64)
-    
     for(int i = 0; i < 8; i++) { 
-    
-    #else
-
-    for(int i = 0; i < 63; i++) { 
-
-    #endif
-
-        ctre::phoenix::platform::SimCreate(ctre::phoenix::platform::DeviceType::TalonSRX, i);  
+        ctre::phoenix::platform::SimCreate(ctre::phoenix::platform::DeviceType::TalonSRXType, i);  
     }
     
     ctre::phoenix::platform::SimDestroyAll();  
