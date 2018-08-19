@@ -3,6 +3,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
+import java.util.Random
 
 plugins {
   id 'cpp'
@@ -156,7 +157,7 @@ model {
                 libFileName = libFileName.replaceAll('\\.lib', '.dll')
               }
 
-              tasks.run.getProperties().environment.put('CTRE_TALON_LIBRARY_PATH', libFileName)
+              tasks.run.environment.put('CTRE_TALON_LIBRARY_PATH', libFileName)
               project.test.environment.put('CTRE_TALON_LIBRARY_PATH', libFileName)
             }
           }
@@ -177,8 +178,12 @@ model {
 }
 
 tasks.whenTaskAdded { task ->
-    if(task.name == 'runDummyLinkForJavaTestX86-64GoogleTestExe') {
+    if(task.name.contains('runDummyLinkForJavaTest')) {
         task.enabled = false
+    }
+    if(task.name.contains('runCTRE_PhoenixTest')) {
+        Random rand = new Random() 
+        task.args = task.args + ["--gtest_shuffle", "--gtest_random_seed=" +  rand.nextInt(99998)]
     }
 }
 

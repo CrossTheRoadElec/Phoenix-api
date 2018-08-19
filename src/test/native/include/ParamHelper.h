@@ -7,6 +7,8 @@
 #include <vector>
 #include <map>
 #include "ConfigHelper.h"
+#include <float.h>
+#include <climits>
 #include <random>
 
 enum ParamUsage {
@@ -19,9 +21,11 @@ double BasicCast (int32_t recieveValue, uint8_t /*recieveSubValue*/);
 
 double SubValueCast (int32_t /*recieveValue*/, uint8_t recieveSubValue);
 
-double DoubleInRange(std::vector<double> minMax);
+double DoubleInRange(std::vector<double> minMax, std::default_random_engine &engine);
 
-double IntInRange(std::vector<double> minMax);
+double IntInRange(std::vector<double> minMax, std::default_random_engine &engine);
+
+double OneOfValues(std::vector<double> values, std::default_random_engine &engine);
 
 struct ParamValues {
     double defaultValue = 0.0;
@@ -40,7 +44,7 @@ struct ParamParameters {
     std::vector<double> generationParams;
 
     double (*recieveToSend)(int32_t recieveValue, uint8_t recieveSubValue) = BasicCast; 
-    double (*generateToSend)(std::vector<double> generationParams) = DoubleInRange;
+    double (*generateToSend)(std::vector<double> generationParams, std::default_random_engine &engine) = DoubleInRange;
     
     double equalityInterval = 0;    
 };
@@ -48,9 +52,9 @@ struct ParamParameters {
 
 typedef std::map<ctre::phoenix::ParamEnum, ParamParameters> ParamEnumSet;
 
-void GenerateSendValues(ParamEnumSet &toFill);
+void GenerateSendValues(ParamEnumSet &toFill, std::default_random_engine &engine);
 
-void EqualityCheck(ParamEnumSet &toCheck);
+void EqualityCheck(ParamEnumSet &toCheck, std::map<ctre::phoenix::platform::DeviceType, int> &idMap);
 
 //There is some overlap with config set functions
 
@@ -62,27 +66,117 @@ void EqualityCheck(ParamEnumSet &toCheck);
 // Pigeon = generic + imu
 
 const static ParamEnumSet genericParamEnumSets {
-{ctre::phoenix::ParamEnum::eStatusFramePeriod, {"ctre::phoenix::ParamEnum::eStatusFramePeriod", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0x1400, {0.0, 0.0, 0, 0}}}}}, ValueUsedAsIndexAndBinaryORWithArbID, {1, 255}, SubValueCast, IntInRange, 0}},
-{ctre::phoenix::ParamEnum::eCustomParam, {"ctre::phoenix::ParamEnum::eCustomParam", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0.0, 1.0}, BasicCast, DoubleInRange, 0.5}},
-{ctre::phoenix::ParamEnum::eStickyFaults, {"ctre::phoenix::ParamEnum::eStickyFaults", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0.0, 1.0}, BasicCast, DoubleInRange, 0.5}},
-{ctre::phoenix::ParamEnum::eDefaultConfig, {"ctre::phoenix::ParamEnum::eDefaultConfig", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0.0, 1.0}, BasicCast, DoubleInRange, 0.5}}
+//{ctre::phoenix::ParamEnum::eStatusFramePeriod, {"ctre::phoenix::ParamEnum::eStatusFramePeriod", 
+//{
+//
+//{ctre::phoenix::platform::DeviceType::TalonSRXType, 
+//{
+//{0x1400, {0.0, 0.0, 0, 0}}, //Status frames enhanced
+//{0x1440, {0.0, 0.0, 0, 0}},
+//{0x14C0, {0.0, 0.0, 0, 0}},
+//{0x1540, {0.0, 0.0, 0, 0}},
+//{0x1580, {0.0, 0.0, 0, 0}},
+//{0x1600, {0.0, 0.0, 0, 0}},
+//{0x1640, {0.0, 0.0, 0, 0}},
+//{0x16C0, {0.0, 0.0, 0, 0}},
+//{0x1700, {0.0, 0.0, 0, 0}},
+//{0x1740, {0.0, 0.0, 0, 0}},
+//{0x1780, {0.0, 0.0, 0, 0}},
+//{0x1480, {0.0, 0.0, 0, 0}},
+//{0x15C0, {0.0, 0.0, 0, 0}},
+//{0x1680, {0.0, 0.0, 0, 0}}
+//}}, 
+//
+//{ctre::phoenix::platform::DeviceType::VictorSPXType,
+//{
+//{0x1400, {0.0, 0.0, 0, 0}}, //Status frames which aren't enhanced
+//{0x1440, {0.0, 0.0, 0, 0}},
+//{0x14C0, {0.0, 0.0, 0, 0}},
+//{0x1540, {0.0, 0.0, 0, 0}},
+//{0x1580, {0.0, 0.0, 0, 0}},
+//{0x1600, {0.0, 0.0, 0, 0}},
+//{0x1640, {0.0, 0.0, 0, 0}},
+//{0x16C0, {0.0, 0.0, 0, 0}},
+//{0x1700, {0.0, 0.0, 0, 0}},
+//{0x1740, {0.0, 0.0, 0, 0}},
+//{0x1780, {0.0, 0.0, 0, 0}},
+//}}
+//
+//},
+//
+//ValueUsedAsIndexAndBinaryORWithArbID, {1, 255}, SubValueCast, IntInRange, 0}},
+{ctre::phoenix::ParamEnum::eCustomParam, {"ctre::phoenix::ParamEnum::eCustomParam", 
+{
+
+{ctre::phoenix::platform::DeviceType::TalonSRXType, 
+{
+{0, {0.0, 0.0, 0, 0}},
+{1, {0.0, 0.0, 0, 0}},
+}},
+
+{ctre::phoenix::platform::DeviceType::VictorSPXType, 
+{
+{0, {0.0, 0.0, 0, 0}},
+{1, {0.0, 0.0, 0, 0}},
+}},
+
+{ctre::phoenix::platform::DeviceType::PigeonIMUType, 
+{
+{0, {0.0, 0.0, 0, 0}},
+{1, {0.0, 0.0, 0, 0}},
+}},
+
+{ctre::phoenix::platform::DeviceType::CANifierType, 
+{
+{0, {0.0, 0.0, 0, 0}},
+{1, {0.0, 0.0, 0, 0}},
+}},
+
+}, OrdinalUsedAsIndex, {INT_MIN, INT_MAX}, BasicCast, IntInRange, 0}},
+
+//These don't set/get
+//{ctre::phoenix::ParamEnum::eStickyFaults, {"ctre::phoenix::ParamEnum::eStickyFaults", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0.0, 1.0}, BasicCast, DoubleInRange, 0.5}},
+//{ctre::phoenix::ParamEnum::eDefaultConfig, {"ctre::phoenix::ParamEnum::eDefaultConfig", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0.0, 1.0}, BasicCast, DoubleInRange, 0.5}}
 };
 
 const static ParamEnumSet sensorParamEnumSets {
-{ctre::phoenix::ParamEnum::eQuadFilterEn, {"ctre::phoenix::ParamEnum::eQuadFilterEn", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0.0, 1.0}, BasicCast, DoubleInRange, 0.5}},
-{ctre::phoenix::ParamEnum::eQuadIdxPolarity, {"ctre::phoenix::ParamEnum::eQuadIdxPolarity", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0.0, 1.0}, BasicCast, DoubleInRange, 0.5}},
-{ctre::phoenix::ParamEnum::eClearPositionOnLimitF, {"ctre::phoenix::ParamEnum::eClearPositionOnLimitF", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0.0, 1.0}, BasicCast, DoubleInRange, 0.5}},
-{ctre::phoenix::ParamEnum::eClearPositionOnLimitR, {"ctre::phoenix::ParamEnum::eClearPositionOnLimitR", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0.0, 1.0}, BasicCast, DoubleInRange, 0.5}},
-{ctre::phoenix::ParamEnum::eClearPositionOnQuadIdx, {"ctre::phoenix::ParamEnum::eClearPositionOnQuadIdx", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0.0, 1.0}, BasicCast, DoubleInRange, 0.5}},
-{ctre::phoenix::ParamEnum::eSampleVelocityPeriod, {"ctre::phoenix::ParamEnum::eSampleVelocityPeriod", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0.0, 1.0}, BasicCast, DoubleInRange, 0.5}},
-{ctre::phoenix::ParamEnum::eSampleVelocityWindow, {"ctre::phoenix::ParamEnum::eSampleVelocityWindow", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0.0, 1.0}, BasicCast, DoubleInRange, 0.5}},
-{ctre::phoenix::ParamEnum::eFeedbackNotContinuous, {"ctre::phoenix::ParamEnum::eFeedbackNotContinuous", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0.0, 1.0}, BasicCast, DoubleInRange, 0.5}},
-{ctre::phoenix::ParamEnum::eAnalogPosition, {"ctre::phoenix::ParamEnum::eAnalogPosition", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0.0, 1.0}, BasicCast, DoubleInRange, 0.5}},
-{ctre::phoenix::ParamEnum::eQuadraturePosition, {"ctre::phoenix::ParamEnum::eQuadraturePosition", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0.0, 1.0}, BasicCast, DoubleInRange, 0.5}},
-{ctre::phoenix::ParamEnum::ePulseWidthPosition, {"ctre::phoenix::ParamEnum::ePulseWidthPosition", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0.0, 1.0}, BasicCast, DoubleInRange, 0.5}},
-{ctre::phoenix::ParamEnum::eLimitSwitchNormClosedAndDis, {"ctre::phoenix::ParamEnum::eLimitSwitchNormClosedAndDis", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0.0, 1.0}, BasicCast, DoubleInRange, 0.5}},
-{ctre::phoenix::ParamEnum::ePulseWidthPeriod_EdgesPerRot, {"ctre::phoenix::ParamEnum::ePulseWidthPeriod_EdgesPerRot", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0.0, 1.0}, BasicCast, DoubleInRange, 0.5}},
-{ctre::phoenix::ParamEnum::ePulseWidthPeriod_FilterWindowSz, {"ctre::phoenix::ParamEnum::ePulseWidthPeriod_FilterWindowSz", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0.0, 1.0}, BasicCast, DoubleInRange, 0.5}}
+
+//Not currently used
+//{ctre::phoenix::ParamEnum::eQuadFilterEn, {"ctre::phoenix::ParamEnum::eQuadFilterEn", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0.0, 1.0}, BasicCast, DoubleInRange, 0.5}},
+//{ctre::phoenix::ParamEnum::eQuadIdxPolarity, {"ctre::phoenix::ParamEnum::eQuadIdxPolarity", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0, 1}, BasicCast, IntInRange, 0}},
+
+{ctre::phoenix::ParamEnum::eClearPositionOnLimitF, {"ctre::phoenix::ParamEnum::eClearPositionOnLimitF", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0, 1}, BasicCast, IntInRange, 0}},
+{ctre::phoenix::ParamEnum::eClearPositionOnLimitR, {"ctre::phoenix::ParamEnum::eClearPositionOnLimitR", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0, 1}, BasicCast, IntInRange, 0}},
+{ctre::phoenix::ParamEnum::eClearPositionOnQuadIdx, {"ctre::phoenix::ParamEnum::eClearPositionOnQuadIdx", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0, 1}, BasicCast, IntInRange, 0}},
+
+{ctre::phoenix::ParamEnum::eSampleVelocityPeriod, {"ctre::phoenix::ParamEnum::eSampleVelocityPeriod", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {
+1,
+2,
+5,
+10,
+20,
+25,
+50,
+100,
+}, BasicCast, OneOfValues, 0}},
+
+{ctre::phoenix::ParamEnum::eSampleVelocityWindow, {"ctre::phoenix::ParamEnum::eSampleVelocityWindow", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {1, 2, 4, 8, 16, 32, 64}, BasicCast, OneOfValues, 0}},
+
+{ctre::phoenix::ParamEnum::eFeedbackNotContinuous, {"ctre::phoenix::ParamEnum::eFeedbackNotContinuous", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0, 1}, BasicCast, IntInRange, 0}},
+
+
+//Can't be set
+//{ctre::phoenix::ParamEnum::eAnalogPosition, {"ctre::phoenix::ParamEnum::eAnalogPosition", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {-1023, 1023}, BasicCast, IntInRange, 0}},
+
+//{ctre::phoenix::ParamEnum::eQuadraturePosition, {"ctre::phoenix::ParamEnum::eQuadraturePosition", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {-1023, 1023}, BasicCast, IntInRange, 0}},
+
+//{ctre::phoenix::ParamEnum::ePulseWidthPosition, {"ctre::phoenix::ParamEnum::ePulseWidthPosition", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {-1023, 1023}, BasicCast, IntInRange, 0}},
+
+{ctre::phoenix::ParamEnum::eLimitSwitchNormClosedAndDis, {"ctre::phoenix::ParamEnum::eLimitSwitchNormClosedAndDis", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0, 1, 2}, BasicCast, OneOfValues, 0}},
+
+{ctre::phoenix::ParamEnum::ePulseWidthPeriod_EdgesPerRot, {"ctre::phoenix::ParamEnum::ePulseWidthPeriod_EdgesPerRot", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0, 256}, BasicCast, IntInRange, 0}},
+
+{ctre::phoenix::ParamEnum::ePulseWidthPeriod_FilterWindowSz, {"ctre::phoenix::ParamEnum::ePulseWidthPeriod_FilterWindowSz", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0, 256}, BasicCast, IntInRange, 0}}
 };
 
 const static ParamEnumSet imuParamEnumSets {

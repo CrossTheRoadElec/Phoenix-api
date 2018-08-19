@@ -2,9 +2,6 @@
 #include <memory>
 #include <gtest/gtest.h>
 
-std::random_device randomDevice;
-std::default_random_engine engine{randomDevice()};
-
 double BasicCast (int32_t recieveValue, uint8_t /*recieveSubValue*/) {
     return recieveValue;
 }
@@ -13,29 +10,39 @@ double SubValueCast (int32_t /*recieveValue*/, uint8_t recieveSubValue) {
     return recieveSubValue;
 }
 
-double DoubleInRange(std::vector<double> minMax) {
+double DoubleInRange(std::vector<double> minMax, std::default_random_engine &engine) {
     std::uniform_real_distribution<double> unif(minMax[0], minMax[1]);
     return unif(engine);
 }
 
-double IntInRange(std::vector<double> minMax) {
+double IntInRange(std::vector<double> minMax, std::default_random_engine &engine) {
     std::uniform_int_distribution<int>  unif(static_cast<int>(minMax[0]), static_cast<int>(minMax[1]));
     return unif(engine);
 }
+double OneOfValues(std::vector<double> values, std::default_random_engine &engine) {
+    std::uniform_int_distribution<size_t>  unif(0, values.size() - 1);
+    return values[unif(engine)];
+}
 
-void GenerateSendValues(ParamEnumSet &toFill) {
+void GenerateSendValues(ParamEnumSet &toFill, std::default_random_engine &engine) {
     for(auto &paramParameterSet : toFill) {
         for(auto &device : paramParameterSet.second.ValueSet) {
             for(auto &paramValues : device.second) {
-                paramValues.second.sendValue = ( *paramParameterSet.second.generateToSend)(paramParameterSet.second.generationParams);
+                paramValues.second.sendValue = ( *paramParameterSet.second.generateToSend)(paramParameterSet.second.generationParams, engine);
             }
         }
     }
 }
 
-void EqualityCheck(ParamEnumSet &toCheck) {
+//We pass idMap so we can skip devices which aren't tested
+void EqualityCheck(ParamEnumSet &toCheck, std::map<ctre::phoenix::platform::DeviceType, int> &idMap) {
     for(auto &paramParameterSet : toCheck) {
         for(auto &device : paramParameterSet.second.ValueSet) {
+            auto iter = idMap.find(device.first);
+            
+            //make sure device is an instantiated device
+            if(iter == idMap.end())
+                continue;
             for(auto &paramValues : device.second) {
                 ASSERT_NEAR(paramValues.second.sendValue, (* paramParameterSet.second.recieveToSend)(paramValues.second.recieveValue, paramValues.second.recieveSubValue), paramParameterSet.second.equalityInterval) << "Failed due to error from param equality check of " <<  paramParameterSet.second.name << ". recieveValue: " <<  paramValues.second.recieveValue << " recieveSubValue: " << unsigned(paramValues.second.recieveSubValue) << " Device: " << device.first;
             }
@@ -144,7 +151,7 @@ void SetAllParams(std::map<ctre::phoenix::platform::DeviceType, int> &idMap, int
 
             int ArbId = iter->second;
             std::string deviceName = "";         
-
+            
 			switch (iter->first) {
 			    case ctre::phoenix::platform::DeviceType::TalonSRXType:
                     testTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(iter->second);
@@ -186,7 +193,7 @@ void SetAllParams(std::map<ctre::phoenix::platform::DeviceType, int> &idMap, int
                         break;
                 }
                 
-			    switch (iter->first) {
+                switch (iter->first) {
 			        case ctre::phoenix::platform::DeviceType::TalonSRXType:
                         errorCodes.push_back(std::make_pair(testTalon->ConfigSetParameter(paramParameterSet.first, valueToSend, subValue, ordinal, timeoutMs), 
                         deviceName + "->ConfigSetParameter(" + paramParameterSet.second.name + ", " + std::to_string(valueToSend)+ ", " + std::to_string(subValue) + ", " + std::to_string(ordinal) + ", " + std::to_string(timeoutMs) + ");"));

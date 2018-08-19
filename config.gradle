@@ -7,7 +7,7 @@ def windowsReleaseCompilerArgs = ['/O2']
 def windowsLinkerArgs = ['/DEBUG:FULL']
 def windowsReleaseLinkerArgs = ['/OPT:REF', '/OPT:ICF']
 
-def linuxCompilerArgs = ['-std=c++14', '-Wformat=2', '-Wall', '-Wconversion', '-Wextra', '-Werror', '-pedantic', '-Wno-psabi','-Wno-error=deprecated-declarations', '-fPIC', '-rdynamic', '-pthread']
+def linuxCompilerArgs = ['-std=c++14', '-Wformat=2', '-Wall', '-Wconversion', '-Wextra', '-Werror', '-pedantic', '-Wno-psabi','-Wno-error=deprecated-declarations', '-fPIC', '-rdynamic'/*, '-pthread'*/]
 def linuxCCompilerArgs = ['-Wformat=2', '-Wall', '-Wconversion', '-Wextra', '-Werror', '-pedantic', '-Wno-psabi', '-g', '-Wno-unused-parameter', '-fPIC', '-rdynamic', '-pthread', '-Wconversion']
 def linuxLinkerArgs = ['-rdynamic', '-pthread', '-ldl']
 def linuxReleaseCompilerArgs = ['-Og']
