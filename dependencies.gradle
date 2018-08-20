@@ -51,8 +51,8 @@ model {
             else{
                 version = '+'
             }
-            sharedConfigs = project.sharedCCIConfigs
-            staticConfigs = project.staticRoboRIOTestConfigs + project.staticRoboRIOTestLibraryConfigs
+            sharedConfigs = project.sharedCCIConfigs + project.sharedTestConfigs
+            staticConfigs = project.staticRoboRIOTestConfigs + project.staticRoboRIOTestLibraryConfigs + project.staticSocketCanTestConfigs + project.staticTestConfigs
         }
         phoenixPlatformStub(DependencyConfig) {
             groupId = 'com.ctre.phoenix'
