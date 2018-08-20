@@ -2,12 +2,13 @@
 #include "ConfigHelper.h"
 #include "ParamHelper.h"
 #include "ctre/phoenix/platform/PlatformSim.h"
+#include "ctre/phoenix/platform/can/PlatformCAN.h"
 #include <chrono>
 #include <thread>
 
 std::string baseErrString = "Failed due to error from ";
 
-std::uniform_int_distribution<int> idDistribution(0,62);
+std::uniform_int_distribution<int> idDistribution(1,62); //0 is reserved for wired devices (for now)
 
 //Each test has its own random engine to ensure that each test mey be individually replicated (with the correct seed)
 
@@ -129,6 +130,8 @@ TEST(DeviceID, Get) {
     }
 } 
 
+#ifdef SIMULATION_TEST
+
 TEST(Simulator, Load) {
     std::default_random_engine engine{static_cast<unsigned int>(testing::UnitTest::GetInstance()->random_seed())};
     //In windows, this becomes increasingly slower per talon as the number of talons loaded increases (~300 ms for 8 Talons, ~10000 ms for 32 talons, and ~32000 ms for 63 talons).
@@ -147,7 +150,10 @@ TEST(Simulator, Load) {
     std::this_thread::sleep_for(std::chrono::milliseconds(300)); //Guarantee all msgs are stale
 }
 
+#endif
+
 TEST(Param, ConfigSetGet) {
+    
     std::default_random_engine engine{static_cast<unsigned int>(testing::UnitTest::GetInstance()->random_seed())};
     
     ErrorCodeString errorCodes;
@@ -160,15 +166,21 @@ TEST(Param, ConfigSetGet) {
     
     GenerateSendValues(enums, engine);
 
-    int talonId = idDistribution(engine);
+    int talonId = 0; //Id assumed 0 for non sim
+
+    #ifdef SIMULATION_TEST
+    
+    talonId  = idDistribution(engine);
     
     ctre::phoenix::platform::PlatformSim::SimCreate(ctre::phoenix::platform::DeviceType::TalonSRXType, talonId);
 
     std::this_thread::sleep_for(std::chrono::milliseconds(200)); //Guarantee devices are initialized
+    
+    #endif
  
     std::map<ctre::phoenix::platform::DeviceType, int> idMap = {{ctre::phoenix::platform::DeviceType::TalonSRXType, talonId}};
 
-    int timeoutMs = 50;
+    int timeoutMs = 400;
   
     SetAllParams(idMap, timeoutMs, enums, errorCodes); 
     
@@ -180,12 +192,23 @@ TEST(Param, ConfigSetGet) {
     
     EqualityCheck(enums, idMap);     
     
+    #ifdef SIMULATION_TEST
+    
     ctre::phoenix::platform::PlatformSim::SimDestroyAll();  
 
     std::this_thread::sleep_for(std::chrono::milliseconds(300)); //Guarantee all msgs are stale
+    
+    #endif
 }
 
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
+    
+    if(argc > 1) {
+        
+        std::cout << "Using interface: " << argv[1] << " (Note: this option only matters for some platforms)" << std::endl;
+        ctre::phoenix::platform::can::PlatformCAN::SetCANInterface(argv[1]);
+    }
+
     return RUN_ALL_TESTS();
 }

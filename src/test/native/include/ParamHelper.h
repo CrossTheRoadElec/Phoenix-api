@@ -120,7 +120,7 @@ const static ParamEnumSet genericParamEnumSets {
 
 },
 
-ValueUsedAsIndexAndBinaryORWithArbID, {1, 255}, SubValueCast, IntInRange, 0}},
+ValueUsedAsIndexAndBinaryORWithArbID, {150, 255}, SubValueCast, IntInRange, 0}},
 {ctre::phoenix::ParamEnum::eCustomParam, {"ctre::phoenix::ParamEnum::eCustomParam", 
 {
 

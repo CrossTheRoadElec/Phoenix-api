@@ -2,7 +2,7 @@
 #include "ctre/phoenix/motorcontrol/SensorCollection.h"
 #include "ctre/phoenix/cci/MotController_CCI.h"
 
-#if defined(CTR_INCLUDE_WPILIB_CLASSES) || defined(__FRC_ROBORIO__)
+#if (defined(CTR_INCLUDE_WPILIB_CLASSES) || defined(__FRC_ROBORIO__)) && !defined(CTR_EXCLUDE_WPILIB_CLASSES)
 #include "HAL/HAL.h"
 #endif
 using namespace ctre::phoenix;
@@ -19,7 +19,7 @@ TalonSRXConfiguration TalonConfigUtil::_default;
  */
 TalonSRX::TalonSRX(int deviceNumber) :
     BaseMotorController(deviceNumber | 0x02040000) {
-#if defined(CTR_INCLUDE_WPILIB_CLASSES) || defined(__FRC_ROBORIO__)
+#if (defined(CTR_INCLUDE_WPILIB_CLASSES) || defined(__FRC_ROBORIO__)) && !defined(CTR_EXCLUDE_WPILIB_CLASSES)
     HAL_Report(HALUsageReporting::kResourceType_CANTalonSRX, deviceNumber + 1);
 #endif
 

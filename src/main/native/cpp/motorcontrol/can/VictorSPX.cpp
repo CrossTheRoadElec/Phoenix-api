@@ -1,6 +1,6 @@
 #include "ctre/phoenix/motorcontrol/can/VictorSPX.h"
 
-#if defined(CTR_INCLUDE_WPILIB_CLASSES) || defined(__FRC_ROBORIO__)
+#if (defined(CTR_INCLUDE_WPILIB_CLASSES) || defined(__FRC_ROBORIO__)) && !defined(CTR_EXCLUDE_WPILIB_CLASSES)
 #include "HAL/HAL.h"
 #endif
 
@@ -17,7 +17,7 @@ VictorSPXPIDSetConfiguration VictorSPXPIDSetConfigUtil::_default;
  */
 VictorSPX::VictorSPX(int deviceNumber) :
     BaseMotorController(deviceNumber | 0x01040000) {
-#if defined(CTR_INCLUDE_WPILIB_CLASSES) || defined(__FRC_ROBORIO__)
+#if (defined(CTR_INCLUDE_WPILIB_CLASSES) || defined(__FRC_ROBORIO__)) && !defined(CTR_EXCLUDE_WPILIB_CLASSES)
 		HAL_Report(HALUsageReporting::kResourceType_CTRE_future1, deviceNumber + 1);
 #endif
 	}

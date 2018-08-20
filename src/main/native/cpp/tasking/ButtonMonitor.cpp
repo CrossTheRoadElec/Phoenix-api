@@ -1,6 +1,6 @@
 #include "ctre/phoenix/tasking/ButtonMonitor.h"
 
-#if defined(CTR_INCLUDE_WPILIB_CLASSES) || defined(__FRC_ROBORIO__)
+#if (defined(CTR_INCLUDE_WPILIB_CLASSES) || defined(__FRC_ROBORIO__)) && !defined(CTR_EXCLUDE_WPILIB_CLASSES)
 #include <GenericHID.h> // WPILIB
 
 namespace ctre {
@@ -43,4 +43,4 @@ void ButtonMonitor::OnStop() {
 } // namespace phoenix
 } // namespace ctre
 
-#endif // CTR_INCLUDE_WPILIB_CLASSES or __FRC_ROBORIO__
+#endif // CTR_INCLUDE_WPILIB_CLASSES or __FRC_ROBORIO__ and not CTR_EXCLUDE_WPILIB_CLASSES

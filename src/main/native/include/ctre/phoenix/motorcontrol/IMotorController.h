@@ -16,7 +16,7 @@
 #include "ctre/phoenix/motion/MotionProfileStatus.h"
 #include "ctre/phoenix/ErrorCode.h"
 #include "IFollower.h"
-#if defined(CTR_INCLUDE_WPILIB_CLASSES) || defined(__FRC_ROBORIO__)
+#if (defined(CTR_INCLUDE_WPILIB_CLASSES) || defined(__FRC_ROBORIO__)) && !defined(CTR_EXCLUDE_WPILIB_CLASSES)
 /* WPILIB */
 #include "SpeedController.h"
 #endif

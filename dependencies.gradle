@@ -9,7 +9,7 @@ model {
             ext = 'zip'
             version = '2018.4.1'
             
-            sharedConfigs = project.sharedFrcConfigs
+            sharedConfigs = project.sharedFrcConfigs + project.sharedRoboRIOTestConfigs
             staticConfigs = [:]
         }
         phoenixCCI(DependencyConfig) {
@@ -23,8 +23,8 @@ model {
             else{
                 version = '+'
             }
-            sharedConfigs = project.sharedCCIConfigs + project.sharedTestConfigs
-            staticConfigs = project.staticTestConfigs
+            sharedConfigs = project.sharedCCIConfigs + project.sharedTestConfigs + project.sharedRoboRIOTestLibraryConfigs
+            staticConfigs = project.staticTestConfigs + project.staticRoboRIOTestConfigs + project.staticSocketCanTestConfigs
         }
         phoenixCanutils(DependencyConfig) {
             groupId = 'com.ctre.phoenix'
@@ -38,21 +38,21 @@ model {
                 version = '+'
             }
             sharedConfigs = project.sharedTestConfigs + project.sharedConfigsJustWind
-            staticConfigs = project.staticTestConfigs
+            staticConfigs = project.staticTestConfigs + project.staticSocketCanTestConfigs
         }
-        phoenixPlatformOnlyHeaders(DependencyConfig) {
+        phoenixCore(DependencyConfig) {
             groupId = 'com.ctre.phoenix'
-            artifactId = 'platform-onlyheaders'
+            artifactId = 'core'
             headerClassifier = 'headers'
             ext = 'zip'
-            if(ext.hasProperty("platformonlyheadersVersion")){
-                version = ext.platformheadersonlyVersion
+            if(ext.hasProperty("coreVersion")){
+                version = ext.coreVersion
             }
             else{
                 version = '+'
             }
             sharedConfigs = project.sharedCCIConfigs
-            staticConfigs = [:]
+            staticConfigs = project.staticRoboRIOTestConfigs + project.staticRoboRIOTestLibraryConfigs
         }
         phoenixPlatformStub(DependencyConfig) {
             groupId = 'com.ctre.phoenix'
@@ -82,6 +82,21 @@ model {
             sharedConfigs = project.sharedTestConfigs
             staticConfigs = project.staticTestConfigs
         }
+        phoenixPlatformSocketCan(DependencyConfig) {
+            groupId = 'com.ctre.phoenix'
+            artifactId = 'platform-socketcan'
+            headerClassifier = 'headers'
+            ext = 'zip'
+            if(ext.hasProperty("platformsocketcanVersion")){
+                version = ext.platformsocketcanVersion
+            }
+            else{
+                version = '+'
+            }
+            sharedConfigs = [:]
+            staticConfigs = project.staticSocketCanTestConfigs
+        }
+        
         phoenixFirmwareSim(DependencyConfig) {
             groupId = 'com.ctre.phoenix'
             artifactId = 'firmware-sim'
@@ -103,7 +118,7 @@ model {
             sourceClassifier = 'sources'
             ext = 'zip'
             version = '2018.4.1'
-            sharedConfigs = project.sharedFrcConfigs
+            sharedConfigs = project.sharedFrcConfigs + project.sharedRoboRIOTestConfigs
             staticConfigs = [:]
         }
         wpiutil(DependencyConfig) {
@@ -113,7 +128,7 @@ model {
             sourceClassifier = 'sources'
             ext = 'zip'
             version = '3.2.0'
-            sharedConfigs = project.sharedFrcConfigs
+            sharedConfigs = project.sharedFrcConfigs + project.sharedRoboRIOTestConfigs
             staticConfigs = [:]
         }
         ntcore(DependencyConfig) {
@@ -123,7 +138,7 @@ model {
             sourceClassifier = 'sources'
             ext = 'zip'
             version = '4.1.0'
-            sharedConfigs = project.sharedFrcConfigs
+            sharedConfigs = project.sharedFrcConfigs + project.sharedRoboRIOTestConfigs
             staticConfigs = [:]
         }
         wpilibc(DependencyConfig) {
@@ -143,7 +158,7 @@ model {
             ext = 'zip'
             version = '1.8.0-1-4e4df22'
             sharedConfigs = [:]
-            staticConfigs = staticTestConfigs
+            staticConfigs = project.staticTestConfigs + project.staticRoboRIOTestConfigs + project.staticSocketCanTestConfigs
         }
     }
     

@@ -4,7 +4,7 @@
 #include "ctre/phoenix/tasking/IProcessable.h"
 #include <functional>
 
-#if defined(CTR_INCLUDE_WPILIB_CLASSES) || defined(__FRC_ROBORIO__)
+#if (defined(CTR_INCLUDE_WPILIB_CLASSES) || defined(__FRC_ROBORIO__)) && !defined(CTR_EXCLUDE_WPILIB_CLASSES)
 
 /* forward proto's */
 namespace frc {
@@ -46,4 +46,4 @@ private:
 }
 }
 }
-#endif // CTR_INCLUDE_WPILIB_CLASSES or __FRC_ROBORIO__
+#endif // CTR_INCLUDE_WPILIB_CLASSES or __FRC_ROBORIO__ and not CTR_EXCLUDE_WPILIB_CLASSES

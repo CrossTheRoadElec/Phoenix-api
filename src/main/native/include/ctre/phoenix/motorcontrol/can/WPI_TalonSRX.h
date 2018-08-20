@@ -9,7 +9,7 @@
  * - Single Parameter set that assumes a simple motor controller.
  */
 #pragma once
-#if defined(CTR_INCLUDE_WPILIB_CLASSES) || defined(__FRC_ROBORIO__)
+#if (defined(CTR_INCLUDE_WPILIB_CLASSES) || defined(__FRC_ROBORIO__)) && !defined(CTR_EXCLUDE_WPILIB_CLASSES)
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wconversion"

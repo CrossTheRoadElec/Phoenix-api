@@ -23,13 +23,22 @@ ext.sharedFrcConfigs = [CTRE_Phoenix: ['linux:athena']]
 ext.sharedCCIConfigs = [CTRE_Phoenix: []]
 ext.sharedConfigsJustWind = [CTRE_Phoenix : ['windows:x86-64', 'windows:x86']] 
 
-//For googletest
-ext.staticTestConfigs = [CTRE_PhoenixTest: []]
+//For googletest (sim)
+ext.staticTestConfigs = [CTRE_PhoenixTestSim: []]
+
+//For googletest (rio)
+ext.staticRoboRIOTestConfigs = [CTRE_PhoenixTestRoboRIO: []]
+ext.sharedRoboRIOTestConfigs = [CTRE_PhoenixTestRoboRIO: []]
+ext.staticRoboRIOTestLibraryConfigs = [CTRE_PhoenixForRoboRIOTest: []]
+ext.sharedRoboRIOTestLibraryConfigs = [CTRE_PhoenixForRoboRIOTest: []] //Just exists for headers
+
+//For googletest (socketcan)
+ext.staticSocketCanTestConfigs = [CTRE_PhoenixTestSocketCan: []]
 
 //For java unit test linking (just exists so dlls are pulled in)
 ext.sharedTestConfigs = [DummyLinkForJavaTest: ['linux:x86-64', 'linux:armhf', 'linux:aarch64', 'windows:x86-64', 'windows:x86', 'osx:x86-64']]
 
-ext.sharedConfigsFirmwareSim = [CTRE_PhoenixTest: []]
+ext.sharedConfigsFirmwareSim = [CTRE_PhoenixTestSim: []]
 
 apply from: 'dependencies.gradle'
 
@@ -48,6 +57,19 @@ model {
   }
   components {
     CTRE_Phoenix(NativeLibrarySpec) {
+      sources {
+        cpp {
+          source {
+            srcDirs 'src/main/native/cpp'
+            include '**/*.cpp'
+          }
+          exportedHeaders {
+            srcDirs 'src/main/native/include'
+          }
+        }
+      }
+    }
+    CTRE_PhoenixForRoboRIOTest(NativeLibrarySpec) {
       sources {
         cpp {
           source {
@@ -82,9 +104,47 @@ model {
         }
       }
     }
-    CTRE_PhoenixTest(GoogleTestTestSuiteSpec) {
+    CTRE_PhoenixTestSim(GoogleTestTestSuiteSpec) {
       for(NativeComponentSpec c : $.components) {
         if (c.name == 'CTRE_Phoenix') {
+          testing c
+          break
+        }
+      }
+      sources {
+        cpp {
+          source {
+            srcDirs 'src/test/native/cpp'
+            include '**/*.cpp'
+          }
+          exportedHeaders {
+            srcDirs 'src/test/native/include', 'src/main/native/include'
+          }
+        }
+      }
+    }
+    CTRE_PhoenixTestSocketCan(GoogleTestTestSuiteSpec) {
+      for(NativeComponentSpec c : $.components) {
+        if (c.name == 'CTRE_Phoenix') {
+          testing c
+          break
+        }
+      }
+      sources {
+        cpp {
+          source {
+            srcDirs 'src/test/native/cpp'
+            include '**/*.cpp'
+          }
+          exportedHeaders {
+            srcDirs 'src/test/native/include', 'src/main/native/include'
+          }
+        }
+      }
+    }
+    CTRE_PhoenixTestRoboRIO(GoogleTestTestSuiteSpec) {
+      for(NativeComponentSpec c : $.components) {
+        if (c.name == 'CTRE_PhoenixForRoboRIOTest') {
           testing c
           break
         }
@@ -148,7 +208,8 @@ model {
               }
             }
           }
-        } else {
+        } else if(it.component.name == 'CTRE_PhoenixTestSim') {
+          cppCompiler.define "SIMULATION_TEST"
           for(lib in it.libs) {
             if(lib.linkFiles.asFileTrees.size() > 0 && lib.linkFiles.asFileTrees.get(0).dir.toString().contains('firmware')) {
               def libFileName = lib.linkFiles.asFileTrees.get(0).file.toString()
@@ -161,32 +222,60 @@ model {
             }
           }
           lib library: 'CTRE_Phoenix', linkage: 'static'
+        }
+        else if(it.component.name == 'CTRE_PhoenixTestSocketCan') {
+          it.buildable = project.hasProperty('buildSocketCanTest')
+          lib library: 'CTRE_Phoenix', linkage: 'static'
+        } 
+        else { //RoboRIO
+          it.buildable = false
         } 
       }
       else {
-        it.buildable = false
+        if(it.component.name == 'CTRE_PhoenixTestRoboRIO' && it.targetPlatform.architecture.name == 'athena') {
+          //Build athena roborio test
+          lib library: 'CTRE_PhoenixForRoboRIOTest', linkage: 'static'
+
+          it.buildable = project.hasProperty('buildRioTest') 
+          cppCompiler.define "CTR_EXCLUDE_WPILIB_CLASSES"
+        }
+        else {
+          it.buildable = false
+        }
       }
     }
     //If we are not building for windows, don't bother with the shared library
     withType(SharedLibraryBinarySpec) {
-      if (it.targetPlatform.operatingSystem.name != 'windows') {
+      if(it.component.name == 'CTRE_Phoenix') {
+        if (it.targetPlatform.operatingSystem.name != 'windows') {
+          it.buildable = false
+        }
+      }
+      else if(it.component.name == 'CTRE_PhoenixForRoboRIOTest') {
+        it.buildable = false
+      }
+    }
+    withType(StaticLibraryBinarySpec) {
+      if(it.component.name == 'CTRE_PhoenixForRoboRIOTest' && it.targetPlatform.architecture.name == 'athena' && project.hasProperty('buildRioTest')) {
         it.buildable = true
+        cppCompiler.define "CTR_EXCLUDE_WPILIB_CLASSES"
       }
     }
   }
 }
 
 tasks.whenTaskAdded { task ->
-    if(task.name.contains('runDummyLinkForJavaTest')) {
+    if(task.name.contains('runDummyLinkForJavaTest') || task.name.contains('runCTRE_PhoenixTestSocketCan') ||
+        task.name.contains('runCTRE_PhoenixTestRoboRIO')) {
         task.enabled = false
     }
-    if(task.name.contains('runCTRE_PhoenixTest')) {
+    if(task.name.contains('runCTRE_PhoenixTestSim')) {
         task.args = task.args + ["--gtest_shuffle", "--gtest_random_seed=0"]
     }
 }
 
 test.dependsOn('runDummyLinkForJavaTestX86-64GoogleTestExe')
-test.dependsOn('runCTRE_PhoenixTestX86-64GoogleTestExe')
+test.dependsOn('runCTRE_PhoenixTestSimX86-64GoogleTestExe')
 test.dependsOn('CopyPlatformLib')
 
 apply from: 'publish.gradle'
