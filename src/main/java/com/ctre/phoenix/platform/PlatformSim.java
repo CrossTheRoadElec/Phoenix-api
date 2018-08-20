@@ -22,18 +22,18 @@
  */
 package com.ctre.phoenix.platform;
 
-public class Platform {
+public class PlatformSim {
     
     public static int simCreate(DeviceType type, int id) {
         return PlatformJNI.JNI_SimCreate(type.value, id);
     }
     
-    public static void simDestroy(DeviceType type, int id) {
-        PlatformJNI.JNI_SimDestroy(type.value, id);
+    public static int simDestroy(DeviceType type, int id) {
+        return PlatformJNI.JNI_SimDestroy(type.value, id);
     }
     
-    public static void simDestroyAll() {
-        PlatformJNI.JNI_SimDestroyAll();
+    public static int simDestroyAll() {
+        return PlatformJNI.JNI_SimDestroyAll();
     }
    
     public static int simConfigGet(DeviceType type, int param, int valueToSend, int ordinal, int id) {

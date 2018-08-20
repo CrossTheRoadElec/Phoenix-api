@@ -10,6 +10,26 @@ double SubValueCast (int32_t /*recieveValue*/, uint8_t recieveSubValue) {
     return recieveSubValue;
 }
 
+double RampConversion (int32_t recieveValue, uint8_t /*recieveSubValue*/) {
+    return recieveValue / 1023.0 * 100.0;
+}
+
+double Div_1023 (int32_t recieveValue, uint8_t /*recieveSubValue*/) {
+    return recieveValue / 1023.0;
+}
+
+double ToFloat10_22 (int32_t recieveValue, uint8_t /*recieveSubValue*/) {
+    return recieveValue * FXP_TO_FLOAT_10_22;
+}
+
+double Div_256 (int32_t recieveValue, uint8_t /*recieveSubValue*/) {
+    return recieveValue / 256.0;
+}
+
+double Div_65536 (int32_t recieveValue, uint8_t /*recieveSubValue*/) {
+    return recieveValue / 65536.0;
+}
+
 double DoubleInRange(std::vector<double> minMax, std::default_random_engine &engine) {
     std::uniform_real_distribution<double> unif(minMax[0], minMax[1]);
     return unif(engine);

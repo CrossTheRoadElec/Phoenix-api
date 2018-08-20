@@ -3,7 +3,6 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
-import java.util.Random
 
 plugins {
   id 'cpp'
@@ -182,8 +181,7 @@ tasks.whenTaskAdded { task ->
         task.enabled = false
     }
     if(task.name.contains('runCTRE_PhoenixTest')) {
-        Random rand = new Random() 
-        task.args = task.args + ["--gtest_shuffle", "--gtest_random_seed=" +  rand.nextInt(99998)]
+        task.args = task.args + ["--gtest_shuffle", "--gtest_random_seed=0"]
     }
 }
 

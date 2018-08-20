@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "ConfigHelper.h"
 #include "ParamHelper.h"
-#include "ctre/phoenix/platform/Platform.h"
+#include "ctre/phoenix/platform/PlatformSim.h"
 #include <chrono>
 #include <thread>
 
@@ -140,10 +140,10 @@ TEST(Simulator, Load) {
 
     for(int i = 0; i < 4; i++) { 
         int id = idDistribution(engine);
-        ctre::phoenix::platform::SimCreate(ctre::phoenix::platform::DeviceType::TalonSRXType, id);  
+        ctre::phoenix::platform::PlatformSim::SimCreate(ctre::phoenix::platform::DeviceType::TalonSRXType, id);  
     }
     
-    ctre::phoenix::platform::SimDestroyAll();  
+    ctre::phoenix::platform::PlatformSim::SimDestroyAll();  
     std::this_thread::sleep_for(std::chrono::milliseconds(300)); //Guarantee all msgs are stale
 }
 
@@ -156,12 +156,13 @@ TEST(Param, ConfigSetGet) {
 
     enums.insert(genericParamEnumSets.begin(), genericParamEnumSets.end()); 
     enums.insert(sensorParamEnumSets.begin(), sensorParamEnumSets.end()); 
+    enums.insert(motControllerParamEnumSets.begin(), motControllerParamEnumSets.end()); 
     
     GenerateSendValues(enums, engine);
 
     int talonId = idDistribution(engine);
     
-    ctre::phoenix::platform::SimCreate(ctre::phoenix::platform::DeviceType::TalonSRXType, talonId);
+    ctre::phoenix::platform::PlatformSim::SimCreate(ctre::phoenix::platform::DeviceType::TalonSRXType, talonId);
 
     std::this_thread::sleep_for(std::chrono::milliseconds(200)); //Guarantee devices are initialized
  
@@ -179,7 +180,7 @@ TEST(Param, ConfigSetGet) {
     
     EqualityCheck(enums, idMap);     
     
-    ctre::phoenix::platform::SimDestroyAll();  
+    ctre::phoenix::platform::PlatformSim::SimDestroyAll();  
 
     std::this_thread::sleep_for(std::chrono::milliseconds(300)); //Guarantee all msgs are stale
 }
