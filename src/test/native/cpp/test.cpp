@@ -9,16 +9,13 @@
 
 std::string baseErrString = "Failed due to error from ";
 
-#ifdef SIMULATION_TEST
+std::uniform_int_distribution<int> idDistribution(1, 62); //0 is reserved for "wired" devices
+                                                          //More ids may be reserved later
+                                                          //If randomization on wired devices is deemed
+                                                          //needed it could be introduced (diag server etc)
 
-std::uniform_int_distribution<int> idDistribution(0, 62);
-
-#else
-
-std::uniform_int_distribution<int> idDistribution(1, 62); //0 is reserved for wired devices (for now)
-
-#endif
-
+int talonId = 0; //Id assumed 0 for "wired" devices
+    
 //Each test has its own random engine to ensure that each test mey be individually replicated (with the correct seed)
 
 TEST(Error, ConfigSetTimeoutError) {
@@ -155,34 +152,9 @@ TEST(DeviceID, Get) {
     ctre::phoenix::platform::can::PlatformCAN::DestroyAll();    
 } 
 
-#ifdef SIMULATION_TEST
-
-TEST(Simulator, Load) {
-    std::default_random_engine engine{static_cast<unsigned int>(testing::UnitTest::GetInstance()->random_seed())};
-    
-    ctre::phoenix::platform::can::PlatformCAN::StartAll();    
-    //In windows, this becomes increasingly slower per talon as the number of talons loaded increases (~300 ms for 8 Talons, ~10000 ms for 32 talons, and ~32000 ms for 63 talons).
-    //Based on some testing, the time required to copy the file and the time required to get a function pointer expand over time. 
-    //No such increasing cost occurs in linux and the load time is generally far lower.
-    //This is likely because the while loop in firmware uses as much cpu as it can    
-
-    //Linux now has the exact same issue
-
-    for(int i = 0; i < 4; i++) { 
-        int id = idDistribution(engine);
-        ctre::phoenix::platform::PlatformSim::SimCreate(ctre::phoenix::platform::DeviceType::TalonSRXType, id);  
-    }
-    
-    ctre::phoenix::platform::PlatformSim::SimDestroyAll();  
-    std::this_thread::sleep_for(std::chrono::milliseconds(300)); //Guarantee all msgs are stale
-
-    ctre::phoenix::platform::can::PlatformCAN::DestroyAll();    
-}
-
-#endif
-
-
 TEST(Param, ConfigSetGet) {
+    
+    std::this_thread::sleep_for(std::chrono::milliseconds(1200)); //Guarantee all msgs are stale
    
     ctre::phoenix::platform::can::PlatformCAN::StartAll();    
     
@@ -195,24 +167,13 @@ TEST(Param, ConfigSetGet) {
     enums.insert(genericParamEnumSets.begin(), genericParamEnumSets.end()); 
     enums.insert(sensorParamEnumSets.begin(), sensorParamEnumSets.end()); 
     enums.insert(motControllerParamEnumSets.begin(), motControllerParamEnumSets.end()); 
+    enums.insert(currentParamEnumSets.begin(), currentParamEnumSets.end()); 
     
     GenerateSendValues(enums, engine);
 
-    int talonId = 0; //Id assumed 0 for non sim
-
-    #ifdef SIMULATION_TEST
-    
-    talonId = idDistribution(engine);
-    
-    ctre::phoenix::platform::PlatformSim::SimCreate(ctre::phoenix::platform::DeviceType::TalonSRXType, talonId);
-
-    std::this_thread::sleep_for(std::chrono::milliseconds(200)); //Guarantee devices are initialized
-    
-    #endif
- 
     std::map<ctre::phoenix::platform::DeviceType, int> idMap = {{ctre::phoenix::platform::DeviceType::TalonSRXType, talonId}};
 
-    int timeoutMs = 500;
+    int timeoutMs = 500; //Likely excessive
   
     SetAllParams(idMap, timeoutMs, enums, errorCodes); 
     
@@ -224,14 +185,47 @@ TEST(Param, ConfigSetGet) {
     
     EqualityCheck(enums, idMap);     
     
-    #ifdef SIMULATION_TEST
-    
-    ctre::phoenix::platform::PlatformSim::SimDestroyAll();  
+    ctre::phoenix::platform::can::PlatformCAN::DestroyAll();    
+}
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(300)); //Guarantee all msgs are stale
-    
-    #endif
+TEST(Param, ConfigDefault) {
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(1200)); //Guarantee all msgs are stale
    
+    ctre::phoenix::platform::can::PlatformCAN::StartAll();    
+    
+    std::default_random_engine engine{static_cast<unsigned int>(testing::UnitTest::GetInstance()->random_seed())};
+    
+    ErrorCodeString errorCodes;
+    
+    ParamEnumSet enums;
+
+    enums.insert(genericParamEnumSets.begin(), genericParamEnumSets.end()); 
+    enums.insert(sensorParamEnumSets.begin(), sensorParamEnumSets.end()); 
+    enums.insert(motControllerParamEnumSets.begin(), motControllerParamEnumSets.end()); 
+    enums.insert(currentParamEnumSets.begin(), currentParamEnumSets.end()); 
+
+    enums.erase(ctre::phoenix::ParamEnum::eStatusFramePeriod); //Does not default
+    enums.erase(ctre::phoenix::ParamEnum::eClosedLoopIAccum); //Does not default
+    
+    GenerateSendValues(enums, engine);
+
+    std::map<ctre::phoenix::platform::DeviceType, int> idMap = {{ctre::phoenix::platform::DeviceType::TalonSRXType, talonId}};
+
+    int timeoutMs = 500; //Likely excessive
+
+    SetAllParams(idMap, timeoutMs, enums, errorCodes);  //Set everything with noise
+    
+    ConfigFactoryDefaultTalon(talonId, timeoutMs, errorCodes);
+    
+    GetAllParams(idMap, timeoutMs, enums, errorCodes); 
+
+    for(const auto &err : errorCodes) { 
+        ASSERT_EQ(ctre::phoenix::ErrorCode::OKAY, err.first) << baseErrString << err.second;
+    }
+    
+    DefaultCheck(enums, idMap);     
+    
     ctre::phoenix::platform::can::PlatformCAN::DestroyAll();    
 }
 
@@ -243,8 +237,26 @@ int main(int argc, char **argv) {
         std::cout << "Using interface: " << argv[1] << " (Note: this option only matters for some platforms)" << std::endl;
         ctre::phoenix::platform::can::PlatformCAN::SetCANInterface(argv[1]);
     }
+    
+    //We instantiate devices at begining and close at end to better emulate hardware tests and fix sim crashes
+
+    #ifdef SIMULATION_TEST
+    
+    ctre::phoenix::platform::PlatformSim::SimCreate(ctre::phoenix::platform::DeviceType::TalonSRXType, talonId);
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(200)); //Guarantee devices are initialized
+    
+    #endif
    
     ctre::phoenix::platform::can::PlatformCAN::DestroyAll();    
 
-    return RUN_ALL_TESTS();
+    auto ret = RUN_ALL_TESTS();
+    
+    #ifdef SIMULATION_TEST
+    
+    ctre::phoenix::platform::PlatformSim::SimDestroyAll();  
+
+    #endif
+
+    return ret;
 }

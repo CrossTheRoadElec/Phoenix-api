@@ -55,6 +55,23 @@ void GenerateSendValues(ParamEnumSet &toFill, std::default_random_engine &engine
 }
 
 //We pass idMap so we can skip devices which aren't tested
+void DefaultCheck(ParamEnumSet &toCheck, std::map<ctre::phoenix::platform::DeviceType, int> &idMap) {
+    for(auto &paramParameterSet : toCheck) {
+        for(auto &device : paramParameterSet.second.ValueSet) {
+            auto iter = idMap.find(device.first);
+            
+            //make sure device is an instantiated device
+            if(iter == idMap.end())
+                continue;
+            for(auto &paramValues : device.second) {
+                
+                //std::cout << "Failed due to error from param default equality check of " <<  paramParameterSet.second.name << ". recieveValue: " <<  paramValues.second.recieveValue << " recieveSubValue: " << unsigned(paramValues.second.recieveSubValue) << " Device: " << device.first << std::endl;
+                ASSERT_NEAR(paramValues.second.defaultValue, (* paramParameterSet.second.recieveToSend)(paramValues.second.recieveValue, paramValues.second.recieveSubValue), paramParameterSet.second.equalityInterval) << "Failed due to error from param default equality check of " <<  paramParameterSet.second.name << ". recieveValue: " <<  paramValues.second.recieveValue << " recieveSubValue: " << unsigned(paramValues.second.recieveSubValue) << " Device: " << device.first;
+            }
+        }
+    }
+}
+
 void EqualityCheck(ParamEnumSet &toCheck, std::map<ctre::phoenix::platform::DeviceType, int> &idMap) {
     for(auto &paramParameterSet : toCheck) {
         for(auto &device : paramParameterSet.second.ValueSet) {
