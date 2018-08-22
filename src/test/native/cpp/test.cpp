@@ -153,10 +153,10 @@ TEST(DeviceID, Get) {
 } 
 
 TEST(Param, ConfigSetGet) {
-    
-    std::this_thread::sleep_for(std::chrono::milliseconds(1200)); //Guarantee all msgs are stale
    
     ctre::phoenix::platform::can::PlatformCAN::StartAll();    
+    
+    std::this_thread::sleep_for(std::chrono::milliseconds(1200)); //Guarantee all msgs are stale
     
     std::default_random_engine engine{static_cast<unsigned int>(testing::UnitTest::GetInstance()->random_seed())};
     
@@ -189,10 +189,10 @@ TEST(Param, ConfigSetGet) {
 }
 
 TEST(Param, ConfigDefault) {
-
-    std::this_thread::sleep_for(std::chrono::milliseconds(1200)); //Guarantee all msgs are stale
    
     ctre::phoenix::platform::can::PlatformCAN::StartAll();    
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(1200)); //Guarantee all msgs are stale
     
     std::default_random_engine engine{static_cast<unsigned int>(testing::UnitTest::GetInstance()->random_seed())};
     
