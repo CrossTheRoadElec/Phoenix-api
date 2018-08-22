@@ -156,10 +156,16 @@ TEST(Param, ConfigSetGet) {
    
     ctre::phoenix::platform::can::PlatformCAN::StartAll();    
     
-    std::this_thread::sleep_for(std::chrono::milliseconds(1200)); //Guarantee all msgs are stale
-    
     std::default_random_engine engine{static_cast<unsigned int>(testing::UnitTest::GetInstance()->random_seed())};
     
+    //ErrorCodeString errorTemp;
+    
+    int timeoutMs = 500; //Likely excessive
+
+    //ConfigFactoryDefaultTalon(talonId, timeoutMs, errorTemp); //This may be required to fix a sim buffer issue 
+    //ConfigFactoryDefaultTalon(talonId, timeoutMs, errorTemp); //(It only occurs when this test occurs right after
+    //ConfigFactoryDefaultTalon(talonId, timeoutMs, errorTemp); //Device Id test)    
+                                                             
     ErrorCodeString errorCodes;
     
     ParamEnumSet enums;
@@ -173,8 +179,6 @@ TEST(Param, ConfigSetGet) {
 
     std::map<ctre::phoenix::platform::DeviceType, int> idMap = {{ctre::phoenix::platform::DeviceType::TalonSRXType, talonId}};
 
-    int timeoutMs = 500; //Likely excessive
-  
     SetAllParams(idMap, timeoutMs, enums, errorCodes); 
     
     GetAllParams(idMap, timeoutMs, enums, errorCodes); 
@@ -192,12 +196,18 @@ TEST(Param, ConfigDefault) {
    
     ctre::phoenix::platform::can::PlatformCAN::StartAll();    
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(1200)); //Guarantee all msgs are stale
-    
     std::default_random_engine engine{static_cast<unsigned int>(testing::UnitTest::GetInstance()->random_seed())};
     
-    ErrorCodeString errorCodes;
+    //ErrorCodeString errorTemp;
     
+    int timeoutMs = 500; //Likely excessive
+
+    //ConfigFactoryDefaultTalon(talonId, timeoutMs, errorTemp); //This may be required to fix a sim buffer issue 
+    //ConfigFactoryDefaultTalon(talonId, timeoutMs, errorTemp); //(It only occurs when this test occurs right after
+    //ConfigFactoryDefaultTalon(talonId, timeoutMs, errorTemp); //Device Id test)    
+    
+    ErrorCodeString errorCodes;
+
     ParamEnumSet enums;
 
     enums.insert(genericParamEnumSets.begin(), genericParamEnumSets.end()); 
@@ -211,8 +221,6 @@ TEST(Param, ConfigDefault) {
     GenerateSendValues(enums, engine);
 
     std::map<ctre::phoenix::platform::DeviceType, int> idMap = {{ctre::phoenix::platform::DeviceType::TalonSRXType, talonId}};
-
-    int timeoutMs = 500; //Likely excessive
 
     SetAllParams(idMap, timeoutMs, enums, errorCodes);  //Set everything with noise
     

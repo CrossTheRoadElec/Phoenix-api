@@ -69,6 +69,9 @@ model {
         }
       }
     }
+
+    //This project is athena with wpi. It is intended for testing only (it allows for easily building and running
+    //gtest on the rio)
     CTRE_PhoenixForRoboRIOTest(NativeLibrarySpec) {
       sources {
         cpp {
@@ -104,6 +107,7 @@ model {
         }
       }
     }
+    //General unit test, runs on build
     CTRE_PhoenixTestSim(GoogleTestTestSuiteSpec) {
       for(NativeComponentSpec c : $.components) {
         if (c.name == 'CTRE_Phoenix') {
@@ -123,6 +127,8 @@ model {
         }
       }
     }
+    //Only built if -PbuildSocketCanTest is specified (for testing with socket can platform, 
+    //assumes device of each type with id 0)
     CTRE_PhoenixTestSocketCan(GoogleTestTestSuiteSpec) {
       for(NativeComponentSpec c : $.components) {
         if (c.name == 'CTRE_Phoenix') {
@@ -142,6 +148,9 @@ model {
         }
       }
     }
+    //Only built if -PbuildRioTest is specified (for testing on rio, 
+    //assumes device of each type with id 0)
+    //To use just tranfer the file over and run it. (using scp and ssh for instance)
     CTRE_PhoenixTestRoboRIO(GoogleTestTestSuiteSpec) {
       for(NativeComponentSpec c : $.components) {
         if (c.name == 'CTRE_PhoenixForRoboRIOTest') {
@@ -183,6 +192,7 @@ model {
                 
                 project.tasks.create(name: 'CopyPlatformLib', type: Copy) {
                   
+                  //We copy to a different place so gradle doesn't auto clean up and cause issues
                   from dir.toString() + File.separator
                   into buildDir.toString() + File.separator + "tmpPlatformSO"
                   
@@ -265,15 +275,20 @@ model {
 }
 
 tasks.whenTaskAdded { task ->
+    //Don't run dummy link
     if(task.name.contains('runDummyLinkForJavaTest') || task.name.contains('runCTRE_PhoenixTestSocketCan') ||
         task.name.contains('runCTRE_PhoenixTestRoboRIO')) {
         task.enabled = false
     }
+    //use shuffle and random seed of 0 means use timestamp
     if(task.name.contains('runCTRE_PhoenixTestSim')) {
         task.args = task.args + ["--gtest_shuffle", "--gtest_random_seed=0"]
+        
+        task.enabled = !project.hasProperty('skipTesting')
     }
 }
 
+//Java testing depends on these tasks because they set up the libs etc
 test.dependsOn('runDummyLinkForJavaTestX86-64GoogleTestExe')
 test.dependsOn('runCTRE_PhoenixTestSimX86-64GoogleTestExe')
 test.dependsOn('CopyPlatformLib')
