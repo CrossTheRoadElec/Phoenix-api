@@ -330,6 +330,9 @@ public:
 	BaseMotorController() = delete;
 	BaseMotorController(BaseMotorController const&) = delete;
 	BaseMotorController& operator=(BaseMotorController const&) = delete;
+
+    static void DestroyAllMotControllers();
+
 	int GetDeviceID();
 	virtual void Set(ControlMode Mode, double value);
 	virtual void Set(ControlMode mode, double demand0, double demand1);

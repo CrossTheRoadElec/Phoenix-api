@@ -52,6 +52,15 @@ public abstract class BaseMotorController implements com.ctre.phoenix.motorcontr
 		m_handle = MotControllerJNI.Create(arbId);
 		_arbId = arbId;
 	}
+
+    public ErrorCode DestroyObject() {
+        return ErrorCode.valueOf(MotControllerJNI.JNI_destroy_MotController(m_handle));
+    }
+
+    //public static void DestroyAllMotControllers() {
+    //    MotControllerJNI.JNI_destroy_AllMotControllers();
+    //}
+
 	/**
 	 * @return CCI handle for child classes.
 	 */

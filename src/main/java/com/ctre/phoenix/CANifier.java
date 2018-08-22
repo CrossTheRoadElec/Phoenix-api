@@ -144,6 +144,10 @@ public class CANifier {
 		//HAL.report(63, deviceId + 1);
 	}
 
+    public ErrorCode DestroyObject() {
+        return ErrorCode.valueOf(CANifierJNI.JNI_destroy_CANifier(m_handle));
+    }
+
 	/**
 	 * Sets the LED Output
 	 * @param percentOutput Output duty cycle expressed as percentage.

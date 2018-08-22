@@ -23,9 +23,7 @@
 package com.ctre.phoenix.platform.can;
 
 public class PlatformCAN {
-    
     public static int setCANInterface(char[] canInterface) {
         return PlatformCANJNI.JNI_SetCANInterface(canInterface);
     }
-
 }

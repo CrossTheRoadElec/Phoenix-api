@@ -45,6 +45,14 @@ CANifier::CANifier(int deviceNumber): CANBusAddressable(deviceNumber)
 #endif
 }
 
+CANifier::~CANifier() {
+    c_CANifier_Destroy(m_handle);
+}
+
+void CANifier::DestroyAllCANifiers() {
+    c_CANifier_DestroyAll();
+}
+
 /**
  * Sets the LED Output
  * @param percentOutput Output duty cycle expressed as percentage.

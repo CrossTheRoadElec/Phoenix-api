@@ -119,7 +119,12 @@ public:
 	};
 
 	CANifier(int deviceNumber);
-	ErrorCode SetLEDOutput(double percentOutput, LEDChannel ledChannel);
+    
+    ~CANifier();
+
+    static void DestroyAllCANifiers();
+	
+    ErrorCode SetLEDOutput(double percentOutput, LEDChannel ledChannel);
 	ErrorCode SetGeneralOutput(GeneralPin outputPin, bool outputValue, bool outputEnable);
 	ErrorCode SetGeneralOutputs(int outputBits, int isOutputBits);
 	ErrorCode GetGeneralInputs(PinValues &allPins);

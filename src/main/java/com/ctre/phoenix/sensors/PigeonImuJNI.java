@@ -30,6 +30,10 @@ public class PigeonImuJNI extends CTREJNIWrapper {
 
 	public static native long JNI_new_PigeonImu(int deviceNumber);
 
+	public static native int JNI_destroy_PigeonImu(long handle);
+
+	//public static native void JNI_destroy_AllPigeonImus();
+
 	public static native int JNI_ConfigSetCustomParam(long handle, int newValue, int paramIndex, int timeoutMs);
 
 	public static native int JNI_ConfigGetCustomParam(long handle, int paramIndex, int timoutMs);

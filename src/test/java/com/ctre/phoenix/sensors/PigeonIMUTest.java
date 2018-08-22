@@ -66,5 +66,7 @@ class PigeonIMUTest {
 	    PigeonImuJNI.JNI_GetFaults(handle);
 	    PigeonImuJNI.JNI_GetStickyFaults(handle);
 	    PigeonImuJNI.JNI_ClearStickyFaults(handle, 0);
+        //PigeonImuJNI.JNI_destroy_PigeonImu(handle);
+        //PigeonImuJNI.JNI_destroy_AllPigeonImus();
     }
 }

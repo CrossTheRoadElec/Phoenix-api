@@ -212,7 +212,7 @@ void SetAllParams(std::map<ctre::phoenix::platform::DeviceType, int> &idMap, int
                         valueToSend = paramValues.second.sendValue;
                         break;
                 }
-                
+
                 switch (iter->first) {
 			        case ctre::phoenix::platform::DeviceType::TalonSRXType:
                         errorCodes.push_back(std::make_pair(testTalon->ConfigSetParameter(paramParameterSet.first, valueToSend, subValue, ordinal, timeoutMs), 

@@ -259,6 +259,14 @@ public class PigeonIMU {
 		//HAL.report(tResourceType.kResourceType_PigeonIMU, m_deviceNumber + 1);
 	}
 
+    public ErrorCode DestroyObject() {
+        return ErrorCode.valueOf(PigeonImuJNI.JNI_destroy_PigeonImu(m_handle));
+    }
+
+    //public static void DestroyAllPigeonIMUs() {
+    //    PigeonImuJNI.JNI_destroy_AllPigeonImus();
+    //}
+
 	/**
 	 * Create a Pigeon object that communciates with Pigeon through the
 	 * Gadgeteer ribbon cable connected to a Talon on CAN Bus.

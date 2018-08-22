@@ -30,8 +30,13 @@ void* BaseMotorController::GetHandle() {
 	return m_handle;
 }
 
-BaseMotorController::~BaseMotorController() {}
+BaseMotorController::~BaseMotorController() {
+    c_MotController_Destroy(m_handle);
+}
 
+void BaseMotorController::DestroyAllMotControllers() {
+    c_MotController_DestroyAll();
+}
 
 
 /**

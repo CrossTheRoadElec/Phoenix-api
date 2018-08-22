@@ -51,5 +51,7 @@ class CANifierTest {
 	    CANifierJNI.JNI_GetStickyFaults(handle);
 	    CANifierJNI.JNI_ClearStickyFaults(handle, 0);
 	    CANifierJNI.JNI_GetBusVoltage(handle);
+        //CANifierJNI.JNI_destroy_CANifier(handle);
+        //CANifierJNI.JNI_destroy_AllCANifiers();
     }
 }

@@ -185,6 +185,10 @@ public:
 	PigeonIMU(int deviceNumber);
 	PigeonIMU(ctre::phoenix::motorcontrol::can::TalonSRX * talonSrx);
 
+    ~PigeonIMU();
+
+    static void DestroyAllPigeonIMUs();
+
 	int SetYaw(double angleDeg, int timeoutMs = 0);
 	int AddYaw(double angleDeg, int timeoutMs = 0);
 	int SetYawToCompass(int timeoutMs = 0);

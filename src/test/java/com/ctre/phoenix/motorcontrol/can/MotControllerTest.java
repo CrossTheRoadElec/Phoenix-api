@@ -21,6 +21,7 @@ class MotControllerTest {
         int [] array11i = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
             
 	    long handle = MotControllerJNI.Create(0);
+        
         MotControllerJNI.GetDeviceNumber(handle); 
 	    MotControllerJNI.SetDemand(handle, 0, 0, 0);
 	    MotControllerJNI.Set_4(handle, 0, 0, 0, 0);
@@ -31,7 +32,7 @@ class MotControllerTest {
 	    MotControllerJNI.ConfigOpenLoopRamp(handle, 0, 0);
 	    MotControllerJNI.ConfigClosedLoopRamp(handle, 0, 0);
 	    MotControllerJNI.ConfigPeakOutputForward(handle, 0, 0);
-	    MotControllerJNI.ConfigPeakOutputReverse(handle, 0, 0);
+        MotControllerJNI.ConfigPeakOutputReverse(handle, 0, 0);
 	    MotControllerJNI.ConfigNominalOutputForward(handle, 0, 0);
 	    MotControllerJNI.ConfigNominalOutputReverse(handle, 0, 0);
 	    MotControllerJNI.ConfigNeutralDeadband(handle, 0, 0);
@@ -143,6 +144,8 @@ class MotControllerTest {
         TrajectoryPoint emptyPoint = new TrajectoryPoint();
         TalonSRX testMotController = new TalonSRX(0);
         testMotController.pushMotionProfileTrajectory(emptyPoint);       
+
+        testMotController.DestroyObject();
     }
     
 }

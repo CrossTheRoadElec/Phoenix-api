@@ -67,6 +67,14 @@ PigeonIMU::PigeonIMU(ctre::phoenix::motorcontrol::can::TalonSRX * talonSrx) :
 #endif // CTR_INCLUDE_WPILIB_CLASSES or __FRC_ROBORIO__ and not CTR_EXCLUDE_WPILIB_CLASSES
 }
 
+PigeonIMU::~PigeonIMU() {
+    c_PigeonIMU_Destroy(_handle);
+}
+
+void PigeonIMU::DestroyAllPigeonIMUs() {
+    c_PigeonIMU_DestroyAll();
+}
+
 /**
  * Sets the Yaw register to the specified value.
  *

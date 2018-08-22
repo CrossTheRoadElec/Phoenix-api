@@ -28,4 +28,7 @@ public class PlatformCANJNI extends CTREJNIWrapper {
     
     public static native int JNI_SetCANInterface(char[] canInterface);
 
+    //public static native int JNI_DestroyAll();
+    //
+    //public static native int JNI_StartAll();
 }

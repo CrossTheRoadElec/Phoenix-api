@@ -5,6 +5,10 @@ import com.ctre.phoenix.CTREJNIWrapper;
 public class MotControllerJNI extends CTREJNIWrapper {
 
 	public static native long Create(int baseArbId);
+	
+    public static native int JNI_destroy_MotController(long handle);
+
+	//public static native void JNI_destroy_AllMotControllers();
 
 	/**
 	 * Returns the Device ID

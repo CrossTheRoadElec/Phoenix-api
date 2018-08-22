@@ -120,7 +120,7 @@ const static ParamEnumSet genericParamEnumSets {
 
 },
 
-ValueUsedAsIndexAndBinaryORWithArbID, {150, 255}, SubValueCast, IntInRange, 0}},
+ValueUsedAsIndexAndBinaryORWithArbID, {100, 255}, SubValueCast, IntInRange, 0}},
 {ctre::phoenix::ParamEnum::eCustomParam, {"ctre::phoenix::ParamEnum::eCustomParam", 
 {
 
@@ -190,9 +190,9 @@ const static ParamEnumSet sensorParamEnumSets {
 
 {ctre::phoenix::ParamEnum::eLimitSwitchNormClosedAndDis, {"ctre::phoenix::ParamEnum::eLimitSwitchNormClosedAndDis", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0, 1, 2}, BasicCast, OneOfValues, 0}},
 
-{ctre::phoenix::ParamEnum::ePulseWidthPeriod_EdgesPerRot, {"ctre::phoenix::ParamEnum::ePulseWidthPeriod_EdgesPerRot", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0, 256}, BasicCast, IntInRange, 0}},
+{ctre::phoenix::ParamEnum::ePulseWidthPeriod_EdgesPerRot, {"ctre::phoenix::ParamEnum::ePulseWidthPeriod_EdgesPerRot", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {1, 256}, BasicCast, IntInRange, 0}},
 
-{ctre::phoenix::ParamEnum::ePulseWidthPeriod_FilterWindowSz, {"ctre::phoenix::ParamEnum::ePulseWidthPeriod_FilterWindowSz", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0, 256}, BasicCast, IntInRange, 0}}
+{ctre::phoenix::ParamEnum::ePulseWidthPeriod_FilterWindowSz, {"ctre::phoenix::ParamEnum::ePulseWidthPeriod_FilterWindowSz", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {1, 256}, BasicCast, IntInRange, 0}}
 };
 
 //This has not yet been filled out:
@@ -240,24 +240,24 @@ const static ParamEnumSet motControllerParamEnumSets {
 //{ctre::phoenix::ParamEnum::eSelectedSensorPosition, {"ctre::phoenix::ParamEnum::eSelectedSensorPosition", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0.0, 1.0}, BasicCast, DoubleInRange, 0.5}},
 
 //12749 is arbitrary max set by firmware
-{ctre::phoenix::ParamEnum::eOpenloopRamp, {"ctre::phoenix::ParamEnum::eOpenloopRamp", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {1, 65536}, BasicCast, IntInRange, 0}},
-{ctre::phoenix::ParamEnum::eClosedloopRamp, {"ctre::phoenix::ParamEnum::eClosedloopRamp", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {1, 65536}, BasicCast, IntInRange, 0}},
+{ctre::phoenix::ParamEnum::eOpenloopRamp, {"ctre::phoenix::ParamEnum::eOpenloopRamp", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {1, 65535}, BasicCast, IntInRange, 0}},
+{ctre::phoenix::ParamEnum::eClosedloopRamp, {"ctre::phoenix::ParamEnum::eClosedloopRamp", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {1, 65535}, BasicCast, IntInRange, 0}},
 
 //???
 //{ctre::phoenix::ParamEnum::eNeutralDeadband, {"ctre::phoenix::ParamEnum::eNeutralDeadband", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0, 1023}, BasicCast, IntInRange, 0.0}},
 {ctre::phoenix::ParamEnum::ePeakPosOutput, {"ctre::phoenix::ParamEnum::ePeakPosOutput", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0, 1023}, BasicCast, IntInRange, 0.0}},
 {ctre::phoenix::ParamEnum::eNominalPosOutput, {"ctre::phoenix::ParamEnum::eNominalPosOutput", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0, 1023}, BasicCast, IntInRange, 0.0}},
-{ctre::phoenix::ParamEnum::ePeakNegOutput, {"ctre::phoenix::ParamEnum::ePeakNegOutput", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {-1022, 0}, BasicCast, IntInRange, 0.0}},
-{ctre::phoenix::ParamEnum::eNominalNegOutput, {"ctre::phoenix::ParamEnum::eNominalNegOutput", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {-1022, 0}, BasicCast, IntInRange, 0.0}},
+{ctre::phoenix::ParamEnum::ePeakNegOutput, {"ctre::phoenix::ParamEnum::ePeakNegOutput", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {-1023, 0}, BasicCast, IntInRange, 0.0}},
+{ctre::phoenix::ParamEnum::eNominalNegOutput, {"ctre::phoenix::ParamEnum::eNominalNegOutput", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {-1023, 0}, BasicCast, IntInRange, 0.0}},
 
 //Contrary to code, true max val appears to be 512
 {ctre::phoenix::ParamEnum::eProfileParamSlot_P, {"ctre::phoenix::ParamEnum::eProfileParamSlot_P", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0.0, 512.0}, ToFloat10_22, DoubleInRange, FXP_TO_FLOAT_10_22 * 1.01}},
 {ctre::phoenix::ParamEnum::eProfileParamSlot_I, {"ctre::phoenix::ParamEnum::eProfileParamSlot_I", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0.0, 512.0}, ToFloat10_22, DoubleInRange, FXP_TO_FLOAT_10_22 * 1.01}},
 {ctre::phoenix::ParamEnum::eProfileParamSlot_D, {"ctre::phoenix::ParamEnum::eProfileParamSlot_D", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0.0, 512.0}, ToFloat10_22, DoubleInRange, FXP_TO_FLOAT_10_22 * 1.01}},
 {ctre::phoenix::ParamEnum::eProfileParamSlot_F, {"ctre::phoenix::ParamEnum::eProfileParamSlot_F", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {-512.0, 512.0}, ToFloat10_22, DoubleInRange, FXP_TO_FLOAT_10_22 * 1.01}},
-{ctre::phoenix::ParamEnum::eProfileParamSlot_IZone, {"ctre::phoenix::ParamEnum::eProfileParamSlot_IZone", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0, 65536}, BasicCast, IntInRange, 0}},
-{ctre::phoenix::ParamEnum::eProfileParamSlot_AllowableErr, {"ctre::phoenix::ParamEnum::eProfileParamSlot_AllowableErr", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0, 65536}, BasicCast, IntInRange, 0}},
-{ctre::phoenix::ParamEnum::eProfileParamSlot_MaxIAccum, {"ctre::phoenix::ParamEnum::eProfileParamSlot_MaxIAccum", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0.0, 65536}, BasicCast, IntInRange, 0}},
+{ctre::phoenix::ParamEnum::eProfileParamSlot_IZone, {"ctre::phoenix::ParamEnum::eProfileParamSlot_IZone", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0, 65535}, BasicCast, IntInRange, 0}},
+{ctre::phoenix::ParamEnum::eProfileParamSlot_AllowableErr, {"ctre::phoenix::ParamEnum::eProfileParamSlot_AllowableErr", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0, 65535}, BasicCast, IntInRange, 0}},
+{ctre::phoenix::ParamEnum::eProfileParamSlot_MaxIAccum, {"ctre::phoenix::ParamEnum::eProfileParamSlot_MaxIAccum", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0.0, 65535}, BasicCast, IntInRange, 0}},
 
 //Always returns 1023???
 //{ctre::phoenix::ParamEnum::eProfileParamSlot_PeakOutput, {"ctre::phoenix::ParamEnum::eProfileParamSlot_PeakOutput", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0, 1023}, BasicCast, IntInRange, 0}},
@@ -269,14 +269,14 @@ const static ParamEnumSet motControllerParamEnumSets {
 {ctre::phoenix::ParamEnum::eRemoteSensorClosedLoopDisableNeutralOnLOS, {"ctre::phoenix::ParamEnum::eRemoteSensorClosedLoopDisableNeutralOnLOS", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0, 1}, BasicCast, IntInRange, 0}},
 {ctre::phoenix::ParamEnum::ePIDLoopPolarity, {"ctre::phoenix::ParamEnum::ePIDLoopPolarity", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{1, {0.0, 0.0, 0, 0}}}}}, OrdinalUsedAsIndex, {0, 1}, BasicCast, IntInRange, 0}},
 {ctre::phoenix::ParamEnum::ePIDLoopPeriod, {"ctre::phoenix::ParamEnum::ePIDLoopPeriod", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {1, 64}, BasicCast, IntInRange, 0}},
-{ctre::phoenix::ParamEnum::eSelectedSensorCoefficient, {"ctre::phoenix::ParamEnum::eSelectedSensorCoefficient", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {1.0 / 65536.0, 1.0}, Div_65536, DoubleInRange, 1.05 / 65536.0}},
+{ctre::phoenix::ParamEnum::eSelectedSensorCoefficient, {"ctre::phoenix::ParamEnum::eSelectedSensorCoefficient", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {1.0 / 65536.0, 1.0}, Div_65536, DoubleInRange, 1.01 / 65536.0}},
 {ctre::phoenix::ParamEnum::eForwardSoftLimitThreshold, {"ctre::phoenix::ParamEnum::eForwardSoftLimitThreshold", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {INT_MIN, INT_MAX}, BasicCast, IntInRange, 0}},
 
 {ctre::phoenix::ParamEnum::eReverseSoftLimitThreshold, {"ctre::phoenix::ParamEnum::eReverseSoftLimitThreshold", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {INT_MIN, INT_MAX}, BasicCast, IntInRange, 0}},
 {ctre::phoenix::ParamEnum::eForwardSoftLimitEnable, {"ctre::phoenix::ParamEnum::eForwardSoftLimitEnable", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0, 1}, BasicCast, IntInRange, 0}},
 //Doesn't pass due to known issue (2 instead of 1 etc)
 //{ctre::phoenix::ParamEnum::eReverseSoftLimitEnable, {"ctre::phoenix::ParamEnum::eReverseSoftLimitEnable", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0, 1}, BasicCast, IntInRange, 0}},
-{ctre::phoenix::ParamEnum::eNominalBatteryVoltage, {"ctre::phoenix::ParamEnum::eNominalBatteryVoltage", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0, 255.0}, Div_256, DoubleInRange, 1.05 / 256.0}},
+{ctre::phoenix::ParamEnum::eNominalBatteryVoltage, {"ctre::phoenix::ParamEnum::eNominalBatteryVoltage", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0, 255.0}, Div_256, DoubleInRange, 1.01 / 256.0}},
 {ctre::phoenix::ParamEnum::eBatteryVoltageFilterSize, {"ctre::phoenix::ParamEnum::eBatteryVoltageFilterSize", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {1, 2, 4, 8, 16, 32, 64, 128}, BasicCast, IntInRange, 0}},
 {ctre::phoenix::ParamEnum::eClosedLoopIAccum, {"ctre::phoenix::ParamEnum::eClosedLoopIAccum", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {INT_MIN, INT_MAX}, BasicCast, IntInRange, 0}},
 {ctre::phoenix::ParamEnum::eMotMag_Accel, {"ctre::phoenix::ParamEnum::eMotMag_Accel", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0, INT_MAX}, BasicCast, IntInRange, 0}},

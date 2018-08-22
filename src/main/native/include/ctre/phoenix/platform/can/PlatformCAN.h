@@ -8,6 +8,10 @@ namespace can {
 class PlatformCAN {
 public:
     static int32_t SetCANInterface(const char * canInterface);
+
+    static int32_t StartAll();
+
+    static int32_t DestroyAll();
 };
 
 }
