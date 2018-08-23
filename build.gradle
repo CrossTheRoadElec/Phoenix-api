@@ -275,7 +275,7 @@ tasks.whenTaskAdded { task ->
     }
     //use shuffle and random seed of 0 means use timestamp
     if(task.name.contains('runCTRE_PhoenixTestSim')) {
-        task.args = task.args + ["--gtest_shuffle", "--gtest_random_seed=0"]
+        //task.args = task.args + ["--gtest_shuffle", "--gtest_random_seed=0"]
         
         task.enabled = !project.hasProperty('skipTesting')
     }

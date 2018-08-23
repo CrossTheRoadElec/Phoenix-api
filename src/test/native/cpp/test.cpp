@@ -308,6 +308,8 @@ TEST(Config, SetGet) {
 }
 
 int main(int argc, char **argv) {
+    std::cout << "_____________________________________0" << std::endl;
+    
     ::testing::InitGoogleTest(&argc, argv);
     
     if(argc > 1) {
@@ -318,15 +320,23 @@ int main(int argc, char **argv) {
     
     //We instantiate devices at begining and close at end to better emulate hardware tests and fix sim crashes
 
+    std::cout << "_____________________________________1" << std::endl;
+    
     #ifdef SIMULATION_TEST
     
+    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+    
     ctre::phoenix::platform::PlatformSim::SimCreate(ctre::phoenix::platform::DeviceType::TalonSRXType, talonId);
+    
+    std::cout << "_____________________________________2" << std::endl;
 
     std::this_thread::sleep_for(std::chrono::milliseconds(200)); //Guarantee devices are initialized
     
     #endif
    
     ctre::phoenix::platform::can::PlatformCAN::DestroyAll();    
+    
+    std::cout << "_____________________________________3" << std::endl;
 
     auto ret = RUN_ALL_TESTS();
     
