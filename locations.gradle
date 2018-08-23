@@ -1,3 +1,0 @@
-// Folder to put release zips into
-ext.releaseDir = file("${rootDir}/release")
-ext.archiveReleaseDir = file("${rootDir}/build/tmp/archive")

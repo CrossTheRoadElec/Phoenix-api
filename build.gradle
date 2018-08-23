@@ -14,9 +14,6 @@ plugins {
   id "com.dorongold.task-tree" version "1.3"
 }
 
-apply from: "locations.gradle"
-apply from: "options.gradle"
-
 apply from: 'config.gradle'
 
 ext.sharedFrcConfigs = [CTRE_Phoenix: ['linux:athena']]
