@@ -152,20 +152,14 @@ TEST(DeviceID, Get) {
     ctre::phoenix::platform::can::PlatformCAN::DestroyAll();    
 } 
 
-TEST(Param, ConfigSetGet) {
+TEST(Param, SetGet) {
    
     ctre::phoenix::platform::can::PlatformCAN::StartAll();    
     
     std::default_random_engine engine{static_cast<unsigned int>(testing::UnitTest::GetInstance()->random_seed())};
     
-    //ErrorCodeString errorTemp;
-    
     int timeoutMs = 500; //Likely excessive
 
-    //ConfigFactoryDefaultTalon(talonId, timeoutMs, errorTemp); //This may be required to fix a sim buffer issue 
-    //ConfigFactoryDefaultTalon(talonId, timeoutMs, errorTemp); //(It only occurs when this test occurs right after
-    //ConfigFactoryDefaultTalon(talonId, timeoutMs, errorTemp); //Device Id test)    
-                                                             
     ErrorCodeString errorCodes;
     
     ParamEnumSet enums;
@@ -192,20 +186,14 @@ TEST(Param, ConfigSetGet) {
     ctre::phoenix::platform::can::PlatformCAN::DestroyAll();    
 }
 
-TEST(Param, ConfigDefault) {
+TEST(Param, Default) {
    
     ctre::phoenix::platform::can::PlatformCAN::StartAll();    
 
     std::default_random_engine engine{static_cast<unsigned int>(testing::UnitTest::GetInstance()->random_seed())};
     
-    //ErrorCodeString errorTemp;
-    
     int timeoutMs = 500; //Likely excessive
 
-    //ConfigFactoryDefaultTalon(talonId, timeoutMs, errorTemp); //This may be required to fix a sim buffer issue 
-    //ConfigFactoryDefaultTalon(talonId, timeoutMs, errorTemp); //(It only occurs when this test occurs right after
-    //ConfigFactoryDefaultTalon(talonId, timeoutMs, errorTemp); //Device Id test)    
-    
     ErrorCodeString errorCodes;
 
     ParamEnumSet enums;
@@ -235,6 +223,27 @@ TEST(Param, ConfigDefault) {
     DefaultCheck(enums, idMap);     
     
     ctre::phoenix::platform::can::PlatformCAN::DestroyAll();    
+}
+TEST(Config, Default) {
+   
+    ctre::phoenix::platform::can::PlatformCAN::StartAll();    
+
+    std::default_random_engine engine{static_cast<unsigned int>(testing::UnitTest::GetInstance()->random_seed())};
+    
+    int timeoutMs = 500; //Likely excessive
+    
+    ErrorCodeString errorCodes;
+
+    //For right now we just run this test on the talon
+    ConfigFactoryDefaultTalon(talonId, timeoutMs, errorCodes);
+
+    ctre::phoenix::motorcontrol::can::TalonSRXConfiguration testTalonConfigs;
+
+    GetAllConfigsTalon(talonId, timeoutMs, testTalonConfigs, errorCodes);
+
+    ctre::phoenix::motorcontrol::can::TalonSRXConfiguration defaultTalonConfigs;
+    
+    EqualityCheckTalon(testTalonConfigs, defaultTalonConfigs);
 }
 
 int main(int argc, char **argv) {

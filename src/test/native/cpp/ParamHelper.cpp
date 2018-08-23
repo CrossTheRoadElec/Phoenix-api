@@ -10,12 +10,16 @@ double SubValueCast (int32_t /*recieveValue*/, uint8_t recieveSubValue) {
     return recieveSubValue;
 }
 
-double RampConversion (int32_t recieveValue, uint8_t /*recieveSubValue*/) {
+double RampConversion (double recieveValue) {
     return recieveValue / 1023.0 * 100.0;
 }
 
-double Div_1023 (int32_t recieveValue, uint8_t /*recieveSubValue*/) {
+double Div_1023 (double recieveValue) {
     return recieveValue / 1023.0;
+}
+
+double Div_1023 (int32_t recieveValue, uint8_t /*recieveSubValue*/) {
+    return Div_1023(recieveValue);
 }
 
 double ToFloat10_22 (int32_t recieveValue, uint8_t /*recieveSubValue*/) {

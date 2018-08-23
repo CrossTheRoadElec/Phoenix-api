@@ -195,7 +195,7 @@ struct BaseMotorControllerConfiguration : ctre::phoenix::CustomParamConfiguratio
         peakOutputReverse(-1.0),
         nominalOutputForward(0.0),
         nominalOutputReverse(0.0),
-        neutralDeadband(0.04),
+        neutralDeadband(41.0 / 1023.0),
         voltageCompSaturation(0.0),
         voltageMeasurementFilter(32),
         velocityMeasurementPeriod(Period_100Ms),

@@ -6,7 +6,7 @@
 #include <utility>
 #include <vector>
 #include <map>
-#include "ConfigHelper.h"
+//#include "ConfigHelper.h"
 #include <float.h>
 #include <climits>
 #include <random>
@@ -14,6 +14,7 @@
 const static double FXP_TO_FLOAT_10_22 = 0.0000002384185791015625f; 
 const static double FXP_TO_FLOAT_0_8 = 0.00390625f; 
 
+typedef std::vector<std::pair<ctre::phoenix::ErrorCode, std::string>> ErrorCodeString;
 
 enum ParamUsage {
     OrdinalUsedAsIndex,
@@ -25,9 +26,11 @@ double BasicCast (int32_t recieveValue, uint8_t /*recieveSubValue*/);
 
 double SubValueCast (int32_t /*recieveValue*/, uint8_t recieveSubValue);
 
-double RampConversion (int32_t recieveValue, uint8_t /*recieveSubValue*/);
+double RampConversion (double recieveValue);
 
-double Div_1023 (int32_t recieveValue, uint8_t /*recieveSubValue*/);
+double Div_1023 (int32_t recieveValue, uint8_t recieveSubValue);
+
+double Div_1023 (double recieveValue);
 
 double ToFloat10_22 (int32_t recieveValue, uint8_t /*recieveSubValue*/);
 
@@ -194,7 +197,7 @@ const static ParamEnumSet sensorParamEnumSets {
 
 //{ctre::phoenix::ParamEnum::ePulseWidthPosition, {"ctre::phoenix::ParamEnum::ePulseWidthPosition", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {-1023, 1023}, BasicCast, IntInRange, 0}},
 
-{ctre::phoenix::ParamEnum::eLimitSwitchNormClosedAndDis, {"ctre::phoenix::ParamEnum::eLimitSwitchNormClosedAndDis", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0, 1, 2}, BasicCast, OneOfValues, 0}},
+{ctre::phoenix::ParamEnum::eLimitSwitchNormClosedAndDis, {"ctre::phoenix::ParamEnum::eLimitSwitchNormClosedAndDis", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}, {1, {0.0, 0.0, 0, 0}}}}}, OrdinalUsedAsIndex, {0, 1, 2}, BasicCast, OneOfValues, 0}},
 
 {ctre::phoenix::ParamEnum::ePulseWidthPeriod_EdgesPerRot, {"ctre::phoenix::ParamEnum::ePulseWidthPeriod_EdgesPerRot", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {1, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {1, 256}, BasicCast, IntInRange, 0}},
 
@@ -268,8 +271,8 @@ const static ParamEnumSet motControllerParamEnumSets {
 {ctre::phoenix::ParamEnum::eSensorTerm, {"ctre::phoenix::ParamEnum::eSensorTerm", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}, {1, {0.0, 0.0, 0, 0}}, {2, {0.0, 0.0, 0, 0}}, {3, {0.0, 0.0, 0, 0}}}}}, OrdinalUsedAsIndex, {0, 3}, BasicCast, IntInRange, 0}}, //We can use int in range because the enum doesn't have explictly declared values
 {ctre::phoenix::ParamEnum::eRemoteSensorClosedLoopDisableNeutralOnLOS, {"ctre::phoenix::ParamEnum::eRemoteSensorClosedLoopDisableNeutralOnLOS", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0, 1}, BasicCast, IntInRange, 0}},
 {ctre::phoenix::ParamEnum::ePIDLoopPolarity, {"ctre::phoenix::ParamEnum::ePIDLoopPolarity", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{1, {0.0, 0.0, 0, 0}}}}}, OrdinalUsedAsIndex, {0, 1}, BasicCast, IntInRange, 0}},
-{ctre::phoenix::ParamEnum::ePIDLoopPeriod, {"ctre::phoenix::ParamEnum::ePIDLoopPeriod", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {1, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {1, 64}, BasicCast, IntInRange, 0}},
-{ctre::phoenix::ParamEnum::eSelectedSensorCoefficient, {"ctre::phoenix::ParamEnum::eSelectedSensorCoefficient", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}, {1, {0.0, 0.0, 0, 0}}}}}, OrdinalUsedAsIndex, {1.0 / 65536.0, 1.0}, Div_65536, DoubleInRange, 1.01 / 65536.0}},
+{ctre::phoenix::ParamEnum::ePIDLoopPeriod, {"ctre::phoenix::ParamEnum::ePIDLoopPeriod", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {1, 0.0, 0, 0}}, {1, {1, 0.0, 0, 0}}, {2, {1, 0.0, 0, 0}}, {3, {1, 0.0, 0, 0}}}}}, OrdinalUsedAsIndex, {1, 64}, BasicCast, IntInRange, 0}},
+{ctre::phoenix::ParamEnum::eSelectedSensorCoefficient, {"ctre::phoenix::ParamEnum::eSelectedSensorCoefficient", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {1.0, 0.0, 0, 0}}, {1, {1.0, 0.0, 0, 0}}}}}, OrdinalUsedAsIndex, {1.0 / 65536.0, 1.0}, Div_65536, DoubleInRange, 1.01 / 65536.0}},
 {ctre::phoenix::ParamEnum::eForwardSoftLimitThreshold, {"ctre::phoenix::ParamEnum::eForwardSoftLimitThreshold", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {INT_MIN, INT_MAX}, BasicCast, IntInRange, 0}},
 
 {ctre::phoenix::ParamEnum::eReverseSoftLimitThreshold, {"ctre::phoenix::ParamEnum::eReverseSoftLimitThreshold", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {INT_MIN, INT_MAX}, BasicCast, IntInRange, 0}},
@@ -283,9 +286,9 @@ const static ParamEnumSet motControllerParamEnumSets {
 {ctre::phoenix::ParamEnum::eClosedLoopIAccum, {"ctre::phoenix::ParamEnum::eClosedLoopIAccum", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {INT_MIN, INT_MAX}, BasicCast, IntInRange, 0}},
 {ctre::phoenix::ParamEnum::eMotMag_Accel, {"ctre::phoenix::ParamEnum::eMotMag_Accel", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0, INT_MAX}, BasicCast, IntInRange, 0}},
 {ctre::phoenix::ParamEnum::eMotMag_VelCruise, {"ctre::phoenix::ParamEnum::eMotMag_VelCruise", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0, INT_MAX}, BasicCast, IntInRange, 0}},
-{ctre::phoenix::ParamEnum::eLimitSwitchSource, {"ctre::phoenix::ParamEnum::eLimitSwitchSource", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0, 3}, BasicCast, IntInRange, 0}}, //This enum happens to be in accending order
+{ctre::phoenix::ParamEnum::eLimitSwitchSource, {"ctre::phoenix::ParamEnum::eLimitSwitchSource", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}, {1, {0.0, 0.0, 0, 0}}}}}, OrdinalUsedAsIndex, {0, 3}, BasicCast, IntInRange, 0}}, //This enum happens to be in accending order
 {ctre::phoenix::ParamEnum::eLimitSwitchDisableNeutralOnLOS, {"ctre::phoenix::ParamEnum::eLimitSwitchDisableNeutralOnLOS", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0, 1}, BasicCast, IntInRange, 0}},
-{ctre::phoenix::ParamEnum::eLimitSwitchRemoteDevID, {"ctre::phoenix::ParamEnum::eLimitSwitchRemoteDevID", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0, 62}, BasicCast, IntInRange, 0}},
+{ctre::phoenix::ParamEnum::eLimitSwitchRemoteDevID, {"ctre::phoenix::ParamEnum::eLimitSwitchRemoteDevID", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}, {1, {0.0, 0.0, 0, 0}}}}}, OrdinalUsedAsIndex, {0, 62}, BasicCast, IntInRange, 0}},
 {ctre::phoenix::ParamEnum::eSoftLimitDisableNeutralOnLOS, {"ctre::phoenix::ParamEnum::eSoftLimitDisableNeutralOnLOS", {{ctre::phoenix::platform::DeviceType::TalonSRXType, {{0, {0.0, 0.0, 0, 0}}}}}, NoSubValueOrOrdinalUse, {0, 1}, BasicCast, IntInRange, 0}}
 };
 
