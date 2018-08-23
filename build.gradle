@@ -231,11 +231,9 @@ model {
               project.test.environment.put('CTRE_TALON_LIBRARY_PATH', libFileName)
             }
           }
-          lib library: 'CTRE_Phoenix', linkage: 'static'
         }
         else if(it.component.name == 'CTRE_PhoenixTestSocketCan') {
           it.buildable = project.hasProperty('buildSocketCanTest')
-          lib library: 'CTRE_Phoenix', linkage: 'static'
         } 
         else { //RoboRIO
           it.buildable = false
@@ -244,8 +242,6 @@ model {
       else {
         if(it.component.name == 'CTRE_PhoenixTestRoboRIO' && it.targetPlatform.architecture.name == 'athena') {
           //Build athena roborio test
-          lib library: 'CTRE_PhoenixForRoboRIOTest', linkage: 'static'
-
           it.buildable = project.hasProperty('buildRioTest') 
           cppCompiler.define "CTR_EXCLUDE_WPILIB_CLASSES"
         }
