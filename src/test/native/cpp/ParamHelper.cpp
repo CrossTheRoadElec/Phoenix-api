@@ -11,7 +11,7 @@ double SubValueCast (int32_t /*recieveValue*/, uint8_t recieveSubValue) {
 }
 
 double RampConversion (double recieveValue) {
-    return recieveValue / 1023.0 * 100.0;
+    return  1023.0 / 100.0 / recieveValue;
 }
 
 double Div_1023 (double recieveValue) {

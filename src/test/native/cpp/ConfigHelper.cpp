@@ -678,9 +678,9 @@ void GenerateBaseMotControllerSendValues(ctre::phoenix::motorcontrol::can::BaseM
 
     configs.feedbackNotContinuous = static_cast<bool>((*iterFeedbackNotContinuous->second.generateToSend)(iterFeedbackNotContinuous->second.generationParams, engine));
  
-    auto itereRemoteSensorClosedLoopDisableNeutralOnLOS = sensorParamEnumSets.find(ctre::phoenix::ParamEnum::eRemoteSensorClosedLoopDisableNeutralOnLOS);
+    auto iterRemoteSensorClosedLoopDisableNeutralOnLOS = motControllerParamEnumSets.find(ctre::phoenix::ParamEnum::eRemoteSensorClosedLoopDisableNeutralOnLOS);
 
-    configs.remoteSensorClosedLoopDisableNeutralOnLOS = static_cast<bool>((*itereRemoteSensorClosedLoopDisableNeutralOnLOS->second.generateToSend)(itereRemoteSensorClosedLoopDisableNeutralOnLOS->second.generationParams, engine));
+    configs.remoteSensorClosedLoopDisableNeutralOnLOS = static_cast<bool>((*iterRemoteSensorClosedLoopDisableNeutralOnLOS->second.generateToSend)(iterRemoteSensorClosedLoopDisableNeutralOnLOS->second.generationParams, engine));
  
     auto iterClearPositionOnLimitF = sensorParamEnumSets.find(ctre::phoenix::ParamEnum::eClearPositionOnLimitF);
 
@@ -694,11 +694,11 @@ void GenerateBaseMotControllerSendValues(ctre::phoenix::motorcontrol::can::BaseM
 
     configs.clearPositionOnQuadIdx = static_cast<bool>((*iterClearPositionOnQuadIdx->second.generateToSend)(iterClearPositionOnQuadIdx->second.generationParams, engine));
  
-    auto iterLimitSwitchDisableNeutralOnLOS = sensorParamEnumSets.find(ctre::phoenix::ParamEnum::eLimitSwitchDisableNeutralOnLOS);
+    auto iterLimitSwitchDisableNeutralOnLOS = motControllerParamEnumSets.find(ctre::phoenix::ParamEnum::eLimitSwitchDisableNeutralOnLOS);
 
     configs.limitSwitchDisableNeutralOnLOS = static_cast<bool>((*iterLimitSwitchDisableNeutralOnLOS->second.generateToSend)(iterLimitSwitchDisableNeutralOnLOS->second.generationParams, engine));
  
-    auto iterSoftLimitDisableNeutralOnLOS = sensorParamEnumSets.find(ctre::phoenix::ParamEnum::eSoftLimitDisableNeutralOnLOS);
+    auto iterSoftLimitDisableNeutralOnLOS = motControllerParamEnumSets.find(ctre::phoenix::ParamEnum::eSoftLimitDisableNeutralOnLOS);
 
     configs.softLimitDisableNeutralOnLOS = static_cast<bool>((*iterSoftLimitDisableNeutralOnLOS->second.generateToSend)(iterSoftLimitDisableNeutralOnLOS->second.generationParams, engine));
  
@@ -749,19 +749,19 @@ void GenerateTalonSendValues(ctre::phoenix::motorcontrol::can::TalonSRXConfigura
  
     configs.reverseLimitSwitchNormal = static_cast<ctre::phoenix::motorcontrol::LimitSwitchNormal>((*iterLimitSwitchNormClosedAndDis->second.generateToSend)(iterLimitSwitchNormClosedAndDis->second.generationParams, engine));
  
-    auto iterFeedbackSensorType = motControllerParamEnumSets.find(ctre::phoenix::ParamEnum::eFeedbackSensorType);
+    auto iterSensorTerm = motControllerParamEnumSets.find(ctre::phoenix::ParamEnum::eSensorTerm);
 
-    configs.sum0Term = static_cast<ctre::phoenix::motorcontrol::FeedbackDevice>((*iterFeedbackSensorType->second.generateToSend)(iterFeedbackSensorType->second.generationParams, engine));
+    configs.sum0Term = static_cast<ctre::phoenix::motorcontrol::FeedbackDevice>((*iterSensorTerm->second.generateToSend)(iterSensorTerm->second.generationParams, engine));
  
-    configs.sum1Term = static_cast<ctre::phoenix::motorcontrol::FeedbackDevice>((*iterFeedbackSensorType->second.generateToSend)(iterFeedbackSensorType->second.generationParams, engine));
+    configs.sum1Term = static_cast<ctre::phoenix::motorcontrol::FeedbackDevice>((*iterSensorTerm->second.generateToSend)(iterSensorTerm->second.generationParams, engine));
  
-    configs.diff0Term = static_cast<ctre::phoenix::motorcontrol::FeedbackDevice>((*iterFeedbackSensorType->second.generateToSend)(iterFeedbackSensorType->second.generationParams, engine));
+    configs.diff0Term = static_cast<ctre::phoenix::motorcontrol::FeedbackDevice>((*iterSensorTerm->second.generateToSend)(iterSensorTerm->second.generationParams, engine));
  
-    configs.diff1Term = static_cast<ctre::phoenix::motorcontrol::FeedbackDevice>((*iterFeedbackSensorType->second.generateToSend)(iterFeedbackSensorType->second.generationParams, engine));
+    configs.diff1Term = static_cast<ctre::phoenix::motorcontrol::FeedbackDevice>((*iterSensorTerm->second.generateToSend)(iterSensorTerm->second.generationParams, engine));
  
-    auto iterePeakCurrentLimitAmps = currentParamEnumSets.find(ctre::phoenix::ParamEnum::ePeakCurrentLimitAmps);
+    auto iterPeakCurrentLimitAmps = currentParamEnumSets.find(ctre::phoenix::ParamEnum::ePeakCurrentLimitAmps);
 
-    configs.peakCurrentLimit = static_cast<int>((*iterePeakCurrentLimitAmps->second.generateToSend)(iterePeakCurrentLimitAmps->second.generationParams, engine));
+    configs.peakCurrentLimit = static_cast<int>((*iterPeakCurrentLimitAmps->second.generateToSend)(iterPeakCurrentLimitAmps->second.generationParams, engine));
  
     auto iterPeakCurrentLimitMs = currentParamEnumSets.find(ctre::phoenix::ParamEnum::ePeakCurrentLimitMs);
 
@@ -795,15 +795,15 @@ void GenerateVictorSendValues(ctre::phoenix::motorcontrol::can::VictorSPXConfigu
 
     configs.reverseLimitSwitchNormal = static_cast<ctre::phoenix::motorcontrol::LimitSwitchNormal>((*iterLimitSwitchNormClosedAndDis->second.generateToSend)(iterLimitSwitchNormClosedAndDis->second.generationParams, engine));
  
-    auto iterFeedbackSensorType = motControllerParamEnumSets.find(ctre::phoenix::ParamEnum::eFeedbackSensorType);
+    auto iterSensorTerm = motControllerParamEnumSets.find(ctre::phoenix::ParamEnum::eSensorTerm);
 
-    configs.sum0Term = static_cast<ctre::phoenix::motorcontrol::RemoteFeedbackDevice>((*iterFeedbackSensorType->second.generateToSend)(iterFeedbackSensorType->second.generationParams, engine));
+    configs.sum0Term = static_cast<ctre::phoenix::motorcontrol::RemoteFeedbackDevice>((*iterSensorTerm->second.generateToSend)(iterSensorTerm->second.generationParams, engine));
 
-    configs.sum1Term = static_cast<ctre::phoenix::motorcontrol::RemoteFeedbackDevice>((*iterFeedbackSensorType->second.generateToSend)(iterFeedbackSensorType->second.generationParams, engine));
+    configs.sum1Term = static_cast<ctre::phoenix::motorcontrol::RemoteFeedbackDevice>((*iterSensorTerm->second.generateToSend)(iterSensorTerm->second.generationParams, engine));
  
-    configs.diff0Term = static_cast<ctre::phoenix::motorcontrol::RemoteFeedbackDevice>((*iterFeedbackSensorType->second.generateToSend)(iterFeedbackSensorType->second.generationParams, engine));
+    configs.diff0Term = static_cast<ctre::phoenix::motorcontrol::RemoteFeedbackDevice>((*iterSensorTerm->second.generateToSend)(iterSensorTerm->second.generationParams, engine));
 
-    configs.diff1Term = static_cast<ctre::phoenix::motorcontrol::RemoteFeedbackDevice>((*iterFeedbackSensorType->second.generateToSend)(iterFeedbackSensorType->second.generationParams, engine));
+    configs.diff1Term = static_cast<ctre::phoenix::motorcontrol::RemoteFeedbackDevice>((*iterSensorTerm->second.generateToSend)(iterSensorTerm->second.generationParams, engine));
  
 }
 

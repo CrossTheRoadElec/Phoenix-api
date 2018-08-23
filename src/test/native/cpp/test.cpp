@@ -234,6 +234,12 @@ TEST(Config, Default) {
     
     ErrorCodeString errorCodes;
 
+    ctre::phoenix::motorcontrol::can::TalonSRXConfiguration setTalonConfigs; //Set everything with noise
+
+    GenerateTalonSendValues(setTalonConfigs, engine);
+
+    ConfigAllTalon(talonId, timeoutMs, setTalonConfigs, errorCodes);
+
     //For right now we just run this test on the talon
     ConfigFactoryDefaultTalon(talonId, timeoutMs, errorCodes);
 
@@ -243,7 +249,58 @@ TEST(Config, Default) {
 
     ctre::phoenix::motorcontrol::can::TalonSRXConfiguration defaultTalonConfigs;
     
+    for(const auto &err : errorCodes) { 
+        ASSERT_EQ(ctre::phoenix::ErrorCode::OKAY, err.first) << baseErrString << err.second;
+    }
+    
     EqualityCheckTalon(testTalonConfigs, defaultTalonConfigs);
+
+    ctre::phoenix::platform::can::PlatformCAN::DestroyAll();    
+}
+
+TEST(Config, SetGet) {
+
+    ctre::phoenix::platform::can::PlatformCAN::StartAll();    
+
+    std::default_random_engine engine{static_cast<unsigned int>(testing::UnitTest::GetInstance()->random_seed())};
+    
+    int timeoutMs = 500; //Likely excessive
+    
+    ErrorCodeString errorCodes;
+
+    //For right now we just run this test on the talon
+
+    ctre::phoenix::motorcontrol::can::TalonSRXConfiguration setTalonConfigs;
+
+    ctre::phoenix::motorcontrol::can::VictorSPXConfiguration setVictorConfigs;
+
+    ctre::phoenix::CANifierConfiguration setCANifierConfigs;
+
+    ctre::phoenix::sensors::PigeonIMUConfiguration setPigeonConfigs;
+
+
+    GenerateTalonSendValues(setTalonConfigs, engine);
+
+    GenerateVictorSendValues(setVictorConfigs, engine);
+
+    GenerateCANifierSendValues(setCANifierConfigs, engine);
+
+    GeneratePigeonSendValues(setPigeonConfigs, engine);
+
+
+    ConfigAllTalon(talonId, timeoutMs, setTalonConfigs, errorCodes);
+
+    ctre::phoenix::motorcontrol::can::TalonSRXConfiguration getTalonConfigs;
+
+    GetAllConfigsTalon(talonId, timeoutMs, getTalonConfigs, errorCodes);
+
+    for(const auto &err : errorCodes) { 
+        ASSERT_EQ(ctre::phoenix::ErrorCode::OKAY, err.first) << baseErrString << err.second;
+    }
+    
+    EqualityCheckTalon(setTalonConfigs, getTalonConfigs);
+    
+    ctre::phoenix::platform::can::PlatformCAN::DestroyAll();    
 }
 
 int main(int argc, char **argv) {
