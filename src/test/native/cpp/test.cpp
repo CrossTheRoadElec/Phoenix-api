@@ -133,6 +133,8 @@ TEST(Error, SetParamTimeoutError) {
     ctre::phoenix::platform::can::PlatformCAN::DestroyAll();    
 }
 
+#ifndef __FRC_ROBORIO__ //Too much spam for the poor rio
+
 TEST(DeviceID, Get) {
 
     ctre::phoenix::platform::can::PlatformCAN::StartAll();    
@@ -150,7 +152,9 @@ TEST(DeviceID, Get) {
     }
     
     ctre::phoenix::platform::can::PlatformCAN::DestroyAll();    
-} 
+}
+
+#endif 
 
 TEST(Param, SetGet) {
    
