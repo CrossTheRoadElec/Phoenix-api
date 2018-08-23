@@ -127,7 +127,7 @@ model {
             headerClassifier = 'headers'
             sourceClassifier = 'sources'
             ext = 'zip'
-            version = '2018.4.1+'
+            version = '3.2+'
             sharedConfigs = project.sharedFrcConfigs + project.sharedRoboRIOTestConfigs
             staticConfigs = [:]
         }
@@ -137,7 +137,7 @@ model {
             headerClassifier = 'headers'
             sourceClassifier = 'sources'
             ext = 'zip'
-            version = '2018.4.1+'
+            version = '4.1.0+'
             sharedConfigs = project.sharedFrcConfigs + project.sharedRoboRIOTestConfigs
             staticConfigs = [:]
         }
