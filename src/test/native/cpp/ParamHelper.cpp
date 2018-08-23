@@ -68,7 +68,7 @@ void DefaultCheck(ParamEnumSet &toCheck, std::map<ctre::phoenix::platform::Devic
             if(iter == idMap.end())
                 continue;
             for(auto &paramValues : device.second) {
-                ASSERT_NEAR(paramValues.second.defaultValue, (* paramParameterSet.second.recieveToSend)(paramValues.second.recieveValue, paramValues.second.recieveSubValue), paramParameterSet.second.equalityInterval) << "Failed due to error from param default equality check of " <<  paramParameterSet.second.name << ". recieveValue: " <<  paramValues.second.recieveValue << " recieveSubValue: " << unsigned(paramValues.second.recieveSubValue) << " Device: " << device.first;
+                ASSERT_NEAR(paramValues.second.defaultValue, (* paramParameterSet.second.recieveToSend)(paramValues.second.recieveValue, paramValues.second.recieveSubValue), paramParameterSet.second.equalityInterval) << "Failed due to error from param default equality check of " <<  paramParameterSet.second.name << ". recieveValue: " <<  paramValues.second.recieveValue << " recieveSubValue: " << unsigned(paramValues.second.recieveSubValue) << " Device: " << device.first << " Index (in hex): " << std::hex << paramValues.first << std::dec;
             }
         }
     }
@@ -83,7 +83,7 @@ void EqualityCheck(ParamEnumSet &toCheck, std::map<ctre::phoenix::platform::Devi
             if(iter == idMap.end())
                 continue;
             for(auto &paramValues : device.second) {
-                ASSERT_NEAR(paramValues.second.sendValue, (* paramParameterSet.second.recieveToSend)(paramValues.second.recieveValue, paramValues.second.recieveSubValue), paramParameterSet.second.equalityInterval) << "Failed due to error from param equality check of " <<  paramParameterSet.second.name << ". recieveValue: " <<  paramValues.second.recieveValue << " recieveSubValue: " << unsigned(paramValues.second.recieveSubValue) << " Device: " << device.first;
+                ASSERT_NEAR(paramValues.second.sendValue, (* paramParameterSet.second.recieveToSend)(paramValues.second.recieveValue, paramValues.second.recieveSubValue), paramParameterSet.second.equalityInterval) << "Failed due to error from param equality check of " <<  paramParameterSet.second.name << ". recieveValue: " <<  paramValues.second.recieveValue << " recieveSubValue: " << unsigned(paramValues.second.recieveSubValue) << " Device: " << device.first << " Index (in hex): " << std::hex << paramValues.first << std::dec;
             }
         }
     }

@@ -6,6 +6,7 @@
 #include "ctre/phoenix/platform/can/PlatformCAN.h"
 #include <chrono>
 #include <thread>
+#include "ctre/phoenix/unmanaged/Unmanaged.h"
 
 std::string baseErrString = "Failed due to error from ";
 
@@ -16,6 +17,13 @@ std::uniform_int_distribution<int> idDistribution(1, 62); //0 is reserved for "w
 
 int talonId = 0; //Id assumed 0 for "wired" devices
     
+ctre::phoenix::motorcontrol::can::TalonSRXConfiguration initialTalonConfigs;
+
+ParamEnumSet initialParams;
+
+ErrorCodeString initialErrorCodes;
+
+std::map<ctre::phoenix::platform::DeviceType, int> wiredDevicesIdMap = {{ctre::phoenix::platform::DeviceType::TalonSRXType, talonId}};
 //Each test has its own random engine to ensure that each test mey be individually replicated (with the correct seed)
 
 TEST(Error, ConfigSetTimeoutError) {
@@ -133,7 +141,8 @@ TEST(Error, SetParamTimeoutError) {
     ctre::phoenix::platform::can::PlatformCAN::DestroyAll();    
 }
 
-#ifndef __FRC_ROBORIO__ //Too much spam for the poor rio
+//The rio's destruction behavior is less clean, so this test is problematic
+#ifndef __FRC_ROBORIO__
 
 TEST(DeviceID, Get) {
 
@@ -175,17 +184,15 @@ TEST(Param, SetGet) {
     
     GenerateSendValues(enums, engine);
 
-    std::map<ctre::phoenix::platform::DeviceType, int> idMap = {{ctre::phoenix::platform::DeviceType::TalonSRXType, talonId}};
-
-    SetAllParams(idMap, timeoutMs, enums, errorCodes); 
+    SetAllParams(wiredDevicesIdMap, timeoutMs, enums, errorCodes); 
     
-    GetAllParams(idMap, timeoutMs, enums, errorCodes); 
+    GetAllParams(wiredDevicesIdMap, timeoutMs, enums, errorCodes); 
 
     for(const auto &err : errorCodes) { 
         ASSERT_EQ(ctre::phoenix::ErrorCode::OKAY, err.first) << baseErrString << err.second;
     }
     
-    EqualityCheck(enums, idMap);     
+    EqualityCheck(enums, wiredDevicesIdMap);     
     
     ctre::phoenix::platform::can::PlatformCAN::DestroyAll();    
 }
@@ -307,6 +314,42 @@ TEST(Config, SetGet) {
     ctre::phoenix::platform::can::PlatformCAN::DestroyAll();    
 }
 
+#ifndef __FRC_ROBORIO__
+
+TEST(Unmanaged, Enable) {
+    ctre::phoenix::unmanaged::Unmanaged::FeedEnable(10);
+
+    ASSERT_EQ(true, ctre::phoenix::unmanaged::Unmanaged::GetEnableState());
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(5));
+
+    ASSERT_EQ(true, ctre::phoenix::unmanaged::Unmanaged::GetEnableState());
+    
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+}
+
+#endif
+
+//If we error in the initial set up, fail
+TEST(Error, Initial) {
+    for(const auto &err : initialErrorCodes) { 
+        ASSERT_EQ(ctre::phoenix::ErrorCode::OKAY, err.first) << baseErrString << err.second;
+    }
+}
+
+
+//Initial params aren't guaranteed if not in sim (if they aren't configs), so we only test initial params in sim
+#ifdef SIMULATION_TEST 
+
+TEST(Param, Initial) {
+    ctre::phoenix::motorcontrol::can::TalonSRXConfiguration defaultTalonConfigs;
+    
+    DefaultCheck(initialParams, wiredDevicesIdMap);     
+    EqualityCheckTalon(initialTalonConfigs, defaultTalonConfigs);
+}
+
+#endif
+
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     
@@ -325,8 +368,24 @@ int main(int argc, char **argv) {
     ctre::phoenix::platform::PlatformSim::SimCreate(ctre::phoenix::platform::DeviceType::TalonSRXType, talonId);
     
     std::this_thread::sleep_for(std::chrono::milliseconds(200)); //Guarantee devices are initialized
+
+    #else
+
+    //Hardware talons won't neccesarily be defaulted
+    ConfigFactoryDefaultTalon(talonId, timeoutMs, initialErrorCodes);
     
     #endif
+
+    int timeoutMs = 500;
+
+    initialParams.insert(genericParamEnumSets.begin(), genericParamEnumSets.end()); 
+    initialParams.insert(sensorParamEnumSets.begin(), sensorParamEnumSets.end()); 
+    initialParams.insert(motControllerParamEnumSets.begin(), motControllerParamEnumSets.end()); 
+    initialParams.insert(currentParamEnumSets.begin(), currentParamEnumSets.end()); 
+
+    GetAllConfigsTalon(talonId, timeoutMs, initialTalonConfigs, initialErrorCodes);
+    
+    GetAllParams(wiredDevicesIdMap, timeoutMs, initialParams, initialErrorCodes); 
    
     ctre::phoenix::platform::can::PlatformCAN::DestroyAll();    
     
