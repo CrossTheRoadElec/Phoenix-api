@@ -358,22 +358,26 @@ TEST(Drive, PercentOutput) {
 
     std::uniform_int_distribution<int> trialDistribution(10, 15);
     
-    //std::uniform_real_distribution<double> outputDistribution(-1.0, 1.0);
+    std::uniform_real_distribution<double> outputDistribution(-1.0, 1.0);
     
     std::unique_ptr<ctre::phoenix::motorcontrol::can::TalonSRX> testTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(talonId);
    
     //Ensure talon sees enable 
-    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+    std::this_thread::sleep_for(std::chrono::milliseconds(200));
     
     for(int i = trialDistribution(engine); i > 0; i--) {
-        double output = 0.3;//outputDistribution(engine);
+        double output = outputDistribution(engine);
 
         testTalon->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, output);
-    
-        std::this_thread::sleep_for(std::chrono::milliseconds(25));
+
+        uint32_t sleepTime = 300;    
+#ifdef SIMULATION_TEST
+         sleepTime = 75;
+#endif
+        std::this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
         
         ASSERT_EQ(trueBool, ctre::phoenix::unmanaged::Unmanaged::GetEnableState());
-        ASSERT_NEAR(testTalon->GetMotorOutputPercent(), output, 0.05); //Arbitary equality bound
+        ASSERT_NEAR(testTalon->GetMotorOutputPercent(), output, 0.05); //Arbitrary bounds interval
     } 
 
 

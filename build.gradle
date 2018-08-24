@@ -281,14 +281,14 @@ tasks.whenTaskAdded { task ->
     else if(task.name.contains('runCTRE_PhoenixTestSim')) {
         task.args = task.args + ["--gtest_shuffle", "--gtest_random_seed=0"]
         
-        task.enabled = !project.hasProperty('skipTesting')
+        task.enabled = !project.hasProperty('skipTesting') && !project.hasProperty('skipRunningTest')
     }
 }
 
 //Java testing depends on these tasks because they set up the libs etc
 
 
-test.enabled = !project.hasProperty('skipTesting') && !project.hasProperty('onlyAthena')
+test.enabled = !project.hasProperty('skipTesting') && !project.hasProperty('onlyAthena') && !project.hasProperty('skipRunningTest')
 if(!project.hasProperty('skipTesting') && !project.hasProperty('onlyAthena')) {
   test.dependsOn('runDummyLinkForJavaTestX86-64GoogleTestExe')
   test.dependsOn('runCTRE_PhoenixTestSimX86-64GoogleTestExe')
