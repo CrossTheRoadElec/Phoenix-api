@@ -438,8 +438,8 @@ int main(int argc, char **argv) {
 
     //Hardware devices won't neccesarily be defaulted or have the hypothetical default values for non persistants
     //We can't test non persistant default vals with hardware devices (unless we have a way to restart etc)
-    ConfigFactoryDefaultTalon(talonId, timeoutMs, initialErrorCodes);
     SetAllParamsDefault(wiredDevicesIdMap, timeoutMs, nonPersistantParams, initialErrorCodes);
+    ConfigFactoryDefaultTalon(talonId, timeoutMs, initialErrorCodes);
     
     #endif
 

@@ -180,8 +180,6 @@ model {
               if(lib.linkFiles.asFileTrees.size() > 0) {
                 def dir = lib.linkFiles.asFileTrees.get(0).dir
                 def libPaths = []
-                def prefix = OperatingSystem.current().isWindows() ? '' : 'lib'
-                def extension = OperatingSystem.current().isWindows() ? 'dll' : OperatingSystem.current().isMacOsX() ? 'dylib' : 'so'
 
                 if(dir.toString().contains('cci')) {
                   project.test.systemProperty 'java.library.path', dir.toString()
@@ -266,7 +264,7 @@ model {
     }
     withType(StaticLibraryBinarySpec) {
       if(it.component.name == 'CTRE_PhoenixForRoboRIOTest' && it.targetPlatform.architecture.name == 'athena' && project.hasProperty('buildRioTest')) {
-        it.buildable = true
+        it.buildable = !project.hasProperty('skipTesting') && !project.hasProperty('onlyAthena')
         cppCompiler.define "CTR_EXCLUDE_WPILIB_CLASSES"
       }
     }
