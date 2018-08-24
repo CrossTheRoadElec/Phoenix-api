@@ -12,6 +12,7 @@ model {
             sharedConfigs = project.sharedFrcConfigs + project.sharedRoboRIOTestConfigs
             staticConfigs = [:]
         }
+        //cci to link against
         phoenixCCI(DependencyConfig) {
             groupId = 'com.ctre.phoenix'
             artifactId = 'cci'
@@ -26,6 +27,7 @@ model {
             sharedConfigs = project.sharedCCIConfigs + project.sharedTestConfigs + project.sharedRoboRIOTestLibraryConfigs
             staticConfigs = project.staticTestConfigs + project.staticRoboRIOTestConfigs + project.staticSocketCanTestConfigs
         }
+        //canutils to link against
         phoenixCanutils(DependencyConfig) {
             groupId = 'com.ctre.phoenix'
             artifactId = 'canutils'
@@ -40,6 +42,7 @@ model {
             sharedConfigs = project.sharedTestConfigs + project.sharedConfigsJustWind
             staticConfigs = project.staticTestConfigs + project.staticSocketCanTestConfigs
         }
+        //Headers
         phoenixCore(DependencyConfig) {
             groupId = 'com.ctre.phoenix'
             artifactId = 'core'
@@ -54,6 +57,7 @@ model {
             sharedConfigs = project.sharedCCIConfigs + project.sharedTestConfigs
             staticConfigs = project.staticRoboRIOTestConfigs + project.staticRoboRIOTestLibraryConfigs + project.staticSocketCanTestConfigs + project.staticTestConfigs
         }
+        //platform to link against
         phoenixPlatformStub(DependencyConfig) {
             groupId = 'com.ctre.phoenix'
             artifactId = 'platform-stub'
@@ -68,6 +72,7 @@ model {
             sharedConfigs = project.sharedConfigsJustWind
             staticConfigs = [:]
         }
+        //Platform for sim unit tests
         phoenixPlatformSim(DependencyConfig) {
             groupId = 'com.ctre.phoenix'
             artifactId = 'platform-sim'
@@ -82,6 +87,7 @@ model {
             sharedConfigs = project.sharedTestConfigs
             staticConfigs = project.staticTestConfigs
         }
+        //Platform for socket can unit tests
         phoenixPlatformSocketCan(DependencyConfig) {
             groupId = 'com.ctre.phoenix'
             artifactId = 'platform-socketcan'
@@ -96,7 +102,7 @@ model {
             sharedConfigs = [:]
             staticConfigs = project.staticSocketCanTestConfigs
         }
-        
+        //Firmware sim for sim unit tests 
         phoenixFirmwareSim(DependencyConfig) {
             groupId = 'com.ctre.phoenix'
             artifactId = 'firmware-sim'
@@ -111,6 +117,7 @@ model {
             sharedConfigs = project.sharedConfigsFirmwareSim
             staticConfigs = [:]
         }
+        //hal is needed for frc
         hal(DependencyConfig) {
             groupId = 'edu.wpi.first.hal'
             artifactId = 'hal'
@@ -121,6 +128,7 @@ model {
             sharedConfigs = project.sharedFrcConfigs + project.sharedRoboRIOTestConfigs
             staticConfigs = [:]
         }
+        //wpiutil for frc
         wpiutil(DependencyConfig) {
             groupId = 'edu.wpi.first.wpiutil'
             artifactId = 'wpiutil-cpp'
@@ -131,6 +139,7 @@ model {
             sharedConfigs = project.sharedFrcConfigs + project.sharedRoboRIOTestConfigs
             staticConfigs = [:]
         }
+        //ntcore for frc
         ntcore(DependencyConfig) {
             groupId = 'edu.wpi.first.ntcore'
             artifactId = 'ntcore-cpp'
@@ -141,6 +150,7 @@ model {
             sharedConfigs = project.sharedFrcConfigs + project.sharedRoboRIOTestConfigs
             staticConfigs = [:]
         }
+        //wpilibc for frc
         wpilibc(DependencyConfig) {
             groupId = 'edu.wpi.first.wpilibc'
             artifactId = 'wpilibc'
@@ -151,6 +161,7 @@ model {
             sharedConfigs = project.sharedFrcConfigs
             staticConfigs = [:]
         }
+        //googletest for unit tests
         googletest(DependencyConfig) {
             groupId = 'edu.wpi.first.thirdparty.frc2018'
             artifactId = 'googletest'
@@ -164,6 +175,7 @@ model {
     
 }
 
+//Needed for JUnit
 repositories {
     mavenCentral()
     mavenLocal()
@@ -174,13 +186,13 @@ dependencies {
       compile 'edu.wpi.first.ntcore:ntcore-java:4.1.0+'
       compile 'edu.wpi.first.wpilibj:wpilibj-java:2018.4.1+'
     }
-  
+  //Add JUnit
   testCompile('org.junit.jupiter:junit-jupiter-api:5.2.0')
   testCompile('org.junit.jupiter:junit-jupiter-params:5.2.0')
   testRuntime('org.junit.jupiter:junit-jupiter-engine:5.2.0')
 }
 
-
+//Set up JUnit
 test {
     useJUnitPlatform()
     testLogging {
