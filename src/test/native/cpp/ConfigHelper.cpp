@@ -4,7 +4,7 @@
 
 void ConfigAllIndividualTalon(int id, int timeoutMs, const ctre::phoenix::motorcontrol::can::TalonSRXConfiguration &testTalonConfigs, ErrorCodeString &errorCodes) {
 
-    std::shared_ptr<ctre::phoenix::motorcontrol::can::TalonSRX> testTalon = std::make_shared<ctre::phoenix::motorcontrol::can::TalonSRX>(id);
+    std::unique_ptr<ctre::phoenix::motorcontrol::can::TalonSRX> testTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(id);
 
     errorCodes.push_back(std::make_pair(testTalon->ConfigOpenloopRamp(testTalonConfigs.openloopRamp, timeoutMs),
         "testTalon->ConfigOpenloopRamp(testTalonConfigs.openloopRamp, timeoutMs)"));
@@ -179,7 +179,7 @@ void ConfigAllIndividualTalon(int id, int timeoutMs, const ctre::phoenix::motorc
 
 void ConfigAllIndividualVictor(int id, int timeoutMs, const ctre::phoenix::motorcontrol::can::VictorSPXConfiguration &testVictorConfigs, ErrorCodeString &errorCodes) {
     
-    std::shared_ptr<ctre::phoenix::motorcontrol::can::VictorSPX> testVictor = std::make_shared<ctre::phoenix::motorcontrol::can::VictorSPX>(id);
+    std::unique_ptr<ctre::phoenix::motorcontrol::can::VictorSPX> testVictor = std::make_unique<ctre::phoenix::motorcontrol::can::VictorSPX>(id);
 
     errorCodes.push_back(std::make_pair(testVictor->ConfigOpenloopRamp(testVictorConfigs.openloopRamp, timeoutMs),
         "testVictor->ConfigOpenloopRamp(testVictorConfigs.openloopRamp, timeoutMs)"));
@@ -346,7 +346,7 @@ void ConfigAllIndividualVictor(int id, int timeoutMs, const ctre::phoenix::motor
 
 void ConfigAllIndividualPigeon(int id, int timeoutMs, const ctre::phoenix::sensors::PigeonIMUConfiguration &testPigeonConfigs, ErrorCodeString &errorCodes) {
     
-    std::shared_ptr<ctre::phoenix::sensors::PigeonIMU> testPigeon = std::make_shared<ctre::phoenix::sensors::PigeonIMU>(id);
+    std::unique_ptr<ctre::phoenix::sensors::PigeonIMU> testPigeon = std::make_unique<ctre::phoenix::sensors::PigeonIMU>(id);
 
     errorCodes.push_back(std::make_pair(testPigeon->ConfigSetCustomParam(testPigeonConfigs.customParam0, 0, timeoutMs),
         "testPigeon->ConfigSetCustomParam(testPigeonConfigs.customParam0, 0, timeoutMs)"));
@@ -358,7 +358,7 @@ void ConfigAllIndividualPigeon(int id, int timeoutMs, const ctre::phoenix::senso
 
 void ConfigAllIndividualCANifier(int id, int timeoutMs, const ctre::phoenix::CANifierConfiguration &testCANifierConfigs, ErrorCodeString &errorCodes) {
     
-    std::shared_ptr<ctre::phoenix::CANifier> testCANifier = std::make_shared<ctre::phoenix::CANifier>(id);
+    std::unique_ptr<ctre::phoenix::CANifier> testCANifier = std::make_unique<ctre::phoenix::CANifier>(id);
     
     errorCodes.push_back(std::make_pair(testCANifier->ConfigVelocityMeasurementPeriod(testCANifierConfigs.velocityMeasurementPeriod, timeoutMs),
         "testCANifier->ConfigVelocityMeasurementPeriod(testCANifierConfigs.velocityMeasurementPeriod, timeoutMs)"));
@@ -380,7 +380,7 @@ void ConfigAllIndividualCANifier(int id, int timeoutMs, const ctre::phoenix::CAN
 
 void ConfigFactoryDefaultTalon(int id, int timeoutMs, ErrorCodeString &errorCodes) {
 
-    std::shared_ptr<ctre::phoenix::motorcontrol::can::TalonSRX> testTalon = std::make_shared<ctre::phoenix::motorcontrol::can::TalonSRX>(id);
+    std::unique_ptr<ctre::phoenix::motorcontrol::can::TalonSRX> testTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(id);
     
     errorCodes.push_back(std::make_pair(testTalon->ConfigFactoryDefault(timeoutMs),
         "testTalon->ConfigFactoryDefault(timeoutMs)"));
@@ -390,7 +390,7 @@ void ConfigFactoryDefaultTalon(int id, int timeoutMs, ErrorCodeString &errorCode
 
 void ConfigFactoryDefaultVictor(int id, int timeoutMs, ErrorCodeString &errorCodes) {
 
-    std::shared_ptr<ctre::phoenix::motorcontrol::can::VictorSPX> testVictor = std::make_shared<ctre::phoenix::motorcontrol::can::VictorSPX>(id);
+    std::unique_ptr<ctre::phoenix::motorcontrol::can::VictorSPX> testVictor = std::make_unique<ctre::phoenix::motorcontrol::can::VictorSPX>(id);
     
     errorCodes.push_back(std::make_pair(testVictor->ConfigFactoryDefault(timeoutMs),
         "testVictor->ConfigFactoryDefault(timeoutMs)"));
@@ -400,7 +400,7 @@ void ConfigFactoryDefaultVictor(int id, int timeoutMs, ErrorCodeString &errorCod
 
 void ConfigFactoryDefaultPigeon(int id, int timeoutMs, ErrorCodeString &errorCodes) {
 
-    std::shared_ptr<ctre::phoenix::sensors::PigeonIMU> testPigeon = std::make_shared<ctre::phoenix::sensors::PigeonIMU>(id);
+    std::unique_ptr<ctre::phoenix::sensors::PigeonIMU> testPigeon = std::make_unique<ctre::phoenix::sensors::PigeonIMU>(id);
     
     errorCodes.push_back(std::make_pair(testPigeon->ConfigFactoryDefault(timeoutMs),
         "testPigeon->ConfigFactoryDefault(timeoutMs)"));
@@ -410,7 +410,7 @@ void ConfigFactoryDefaultPigeon(int id, int timeoutMs, ErrorCodeString &errorCod
 
 void ConfigFactoryDefaultCANifier(int id, int timeoutMs, ErrorCodeString &errorCodes) {
 
-    std::shared_ptr<ctre::phoenix::CANifier> testCANifier = std::make_shared<ctre::phoenix::CANifier>(id);
+    std::unique_ptr<ctre::phoenix::CANifier> testCANifier = std::make_unique<ctre::phoenix::CANifier>(id);
     
     errorCodes.push_back(std::make_pair(testCANifier->ConfigFactoryDefault(timeoutMs),
         "testCANifier->ConfigFactoryDefault(timeoutMs)"));
@@ -420,7 +420,7 @@ void ConfigFactoryDefaultCANifier(int id, int timeoutMs, ErrorCodeString &errorC
 
 void ConfigAllTalon(int id, int timeoutMs, const ctre::phoenix::motorcontrol::can::TalonSRXConfiguration &testTalonConfigs, ErrorCodeString &errorCodes) {
 
-    std::shared_ptr<ctre::phoenix::motorcontrol::can::TalonSRX> testTalon = std::make_shared<ctre::phoenix::motorcontrol::can::TalonSRX>(id);
+    std::unique_ptr<ctre::phoenix::motorcontrol::can::TalonSRX> testTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(id);
     
     errorCodes.push_back(std::make_pair(testTalon->ConfigAllSettings(testTalonConfigs, timeoutMs),
         "testTalon->ConfigAllSettings(testTalonConfigs, timeoutMs)"));
@@ -430,7 +430,7 @@ void ConfigAllTalon(int id, int timeoutMs, const ctre::phoenix::motorcontrol::ca
 
 void ConfigAllVictor(int id, int timeoutMs, const ctre::phoenix::motorcontrol::can::VictorSPXConfiguration &testVictorConfigs, ErrorCodeString &errorCodes) {
 
-    std::shared_ptr<ctre::phoenix::motorcontrol::can::VictorSPX> testVictor = std::make_shared<ctre::phoenix::motorcontrol::can::VictorSPX>(id);
+    std::unique_ptr<ctre::phoenix::motorcontrol::can::VictorSPX> testVictor = std::make_unique<ctre::phoenix::motorcontrol::can::VictorSPX>(id);
     
     errorCodes.push_back(std::make_pair(testVictor->ConfigAllSettings(testVictorConfigs, timeoutMs),
         "testVictor->ConfigAllSettings(testVictorConfigs, timeoutMs)"));
@@ -440,7 +440,7 @@ void ConfigAllVictor(int id, int timeoutMs, const ctre::phoenix::motorcontrol::c
 
 void ConfigAllPigeon(int id, int timeoutMs, const ctre::phoenix::sensors::PigeonIMUConfiguration &testPigeonConfigs, ErrorCodeString &errorCodes) {
 
-    std::shared_ptr<ctre::phoenix::sensors::PigeonIMU> testPigeon = std::make_shared<ctre::phoenix::sensors::PigeonIMU>(id);
+    std::unique_ptr<ctre::phoenix::sensors::PigeonIMU> testPigeon = std::make_unique<ctre::phoenix::sensors::PigeonIMU>(id);
     
     errorCodes.push_back(std::make_pair(testPigeon->ConfigAllSettings(testPigeonConfigs, timeoutMs),
         "testPigeon->ConfigAllSettings(testPigeonConfigs, timeoutMs)"));
@@ -450,7 +450,7 @@ void ConfigAllPigeon(int id, int timeoutMs, const ctre::phoenix::sensors::Pigeon
 
 void ConfigAllCANifier(int id, int timeoutMs, const ctre::phoenix::CANifierConfiguration &testCANifierConfigs, ErrorCodeString &errorCodes) {
 
-    std::shared_ptr<ctre::phoenix::CANifier> testCANifier = std::make_shared<ctre::phoenix::CANifier>(id);
+    std::unique_ptr<ctre::phoenix::CANifier> testCANifier = std::make_unique<ctre::phoenix::CANifier>(id);
     
     errorCodes.push_back(std::make_pair(testCANifier->ConfigAllSettings(testCANifierConfigs, timeoutMs),
         "testCANifier->ConfigAllSettings(testCANifierConfigs, timeoutMs)"));
@@ -459,7 +459,7 @@ void ConfigAllCANifier(int id, int timeoutMs, const ctre::phoenix::CANifierConfi
 
 void GetAllConfigsTalon(int id, int timeoutMs, ctre::phoenix::motorcontrol::can::TalonSRXConfiguration &testTalonConfigs, ErrorCodeString &errorCodes) {
 
-    std::shared_ptr<ctre::phoenix::motorcontrol::can::TalonSRX> testTalon = std::make_shared<ctre::phoenix::motorcontrol::can::TalonSRX>(id);
+    std::unique_ptr<ctre::phoenix::motorcontrol::can::TalonSRX> testTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(id);
 
     testTalon->GetAllConfigs(testTalonConfigs, timeoutMs);    
 
@@ -471,7 +471,7 @@ void GetAllConfigsTalon(int id, int timeoutMs, ctre::phoenix::motorcontrol::can:
 
 void GetAllConfigsVictor(int id, int timeoutMs, ctre::phoenix::motorcontrol::can::VictorSPXConfiguration &testVictorConfigs, ErrorCodeString &errorCodes) {
 
-    std::shared_ptr<ctre::phoenix::motorcontrol::can::VictorSPX> testVictor = std::make_shared<ctre::phoenix::motorcontrol::can::VictorSPX>(id);
+    std::unique_ptr<ctre::phoenix::motorcontrol::can::VictorSPX> testVictor = std::make_unique<ctre::phoenix::motorcontrol::can::VictorSPX>(id);
     
     testVictor->GetAllConfigs(testVictorConfigs, timeoutMs);    
 
@@ -482,7 +482,7 @@ void GetAllConfigsVictor(int id, int timeoutMs, ctre::phoenix::motorcontrol::can
 
 void GetAllConfigsPigeon(int id, int timeoutMs, ctre::phoenix::sensors::PigeonIMUConfiguration &testPigeonConfigs, ErrorCodeString &errorCodes) {
 
-    std::shared_ptr<ctre::phoenix::sensors::PigeonIMU> testPigeon = std::make_shared<ctre::phoenix::sensors::PigeonIMU>(id);
+    std::unique_ptr<ctre::phoenix::sensors::PigeonIMU> testPigeon = std::make_unique<ctre::phoenix::sensors::PigeonIMU>(id);
     
     testPigeon->GetAllConfigs(testPigeonConfigs, timeoutMs);    
 
@@ -493,7 +493,7 @@ void GetAllConfigsPigeon(int id, int timeoutMs, ctre::phoenix::sensors::PigeonIM
 
 void GetAllConfigsCANifier(int id, int timeoutMs, ctre::phoenix::CANifierConfiguration &testCANifierConfigs, ErrorCodeString &errorCodes) {
 
-    std::shared_ptr<ctre::phoenix::CANifier> testCANifier = std::make_shared<ctre::phoenix::CANifier>(id);
+    std::unique_ptr<ctre::phoenix::CANifier> testCANifier = std::make_unique<ctre::phoenix::CANifier>(id);
     
     testCANifier->GetAllConfigs(testCANifierConfigs, timeoutMs);    
 

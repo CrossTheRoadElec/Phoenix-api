@@ -20,6 +20,7 @@ int talonId = 0; //Id assumed 0 for "wired" devices
 ctre::phoenix::motorcontrol::can::TalonSRXConfiguration initialTalonConfigs;
 
 ParamEnumSet initialParams;
+ParamEnumSet nonPersistantParams;
 
 ErrorCodeString initialErrorCodes;
 
@@ -159,7 +160,7 @@ TEST(DeviceID, Get) {
         ASSERT_EQ(testPigeon->GetDeviceNumber(), i) << "Failed at Pigeon id " << i;
         ASSERT_EQ(testCANifier->GetDeviceNumber(), i) << "Failed at CANifier id " << i;
     }
-    
+   
     ctre::phoenix::platform::can::PlatformCAN::DestroyAll();    
 }
 
@@ -187,6 +188,10 @@ TEST(Param, SetGet) {
     SetAllParams(wiredDevicesIdMap, timeoutMs, enums, errorCodes); 
     
     GetAllParams(wiredDevicesIdMap, timeoutMs, enums, errorCodes); 
+    
+    //Default all devices
+    ConfigFactoryDefaultTalon(talonId, timeoutMs, errorCodes);
+    SetAllParamsDefault(wiredDevicesIdMap, timeoutMs, nonPersistantParams, errorCodes);
 
     for(const auto &err : errorCodes) { 
         ASSERT_EQ(ctre::phoenix::ErrorCode::OKAY, err.first) << baseErrString << err.second;
@@ -317,18 +322,72 @@ TEST(Config, SetGet) {
 #ifndef __FRC_ROBORIO__
 
 TEST(Unmanaged, Enable) {
+    bool falseBool = false;
+    bool trueBool = true;
+
+    ASSERT_EQ(falseBool, ctre::phoenix::unmanaged::Unmanaged::GetEnableState());
+    
     ctre::phoenix::unmanaged::Unmanaged::FeedEnable(10);
 
-    ASSERT_EQ(true, ctre::phoenix::unmanaged::Unmanaged::GetEnableState());
+    ASSERT_EQ(trueBool, ctre::phoenix::unmanaged::Unmanaged::GetEnableState());
 
     std::this_thread::sleep_for(std::chrono::milliseconds(5));
 
-    ASSERT_EQ(true, ctre::phoenix::unmanaged::Unmanaged::GetEnableState());
+    ASSERT_EQ(trueBool, ctre::phoenix::unmanaged::Unmanaged::GetEnableState());
     
-    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    ctre::phoenix::unmanaged::Unmanaged::FeedEnable(0);
+    
+    ASSERT_EQ(falseBool, ctre::phoenix::unmanaged::Unmanaged::GetEnableState());
+    
 }
 
 #endif
+
+TEST(Drive, PercentOutput) {
+    ctre::phoenix::platform::can::PlatformCAN::StartAll();    
+
+    std::default_random_engine engine{static_cast<unsigned int>(testing::UnitTest::GetInstance()->random_seed())};
+    
+    bool trueBool = true;
+
+    ErrorCodeString errorCodes;
+
+    ConfigFactoryDefaultTalon(talonId, 500, errorCodes);
+    
+    ctre::phoenix::unmanaged::Unmanaged::FeedEnable(100000);
+
+    std::uniform_int_distribution<int> trialDistribution(10, 15);
+    
+    //std::uniform_real_distribution<double> outputDistribution(-1.0, 1.0);
+    
+    std::unique_ptr<ctre::phoenix::motorcontrol::can::TalonSRX> testTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(talonId);
+   
+    //Ensure talon sees enable 
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+    
+    for(int i = trialDistribution(engine); i > 0; i--) {
+        double output = 0.3;//outputDistribution(engine);
+
+        testTalon->Set(ctre::phoenix::motorcontrol::ControlMode::PercentOutput, output);
+    
+        std::this_thread::sleep_for(std::chrono::milliseconds(25));
+        
+        ASSERT_EQ(trueBool, ctre::phoenix::unmanaged::Unmanaged::GetEnableState());
+        ASSERT_NEAR(testTalon->GetMotorOutputPercent(), output, 0.05); //Arbitary equality bound
+    } 
+
+
+    ctre::phoenix::unmanaged::Unmanaged::FeedEnable(0);
+    
+    //Ensure talon sees disable
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+
+    for(const auto &err : errorCodes) { 
+        ASSERT_EQ(ctre::phoenix::ErrorCode::OKAY, err.first) << baseErrString << err.second;
+    }
+    
+    ctre::phoenix::platform::can::PlatformCAN::DestroyAll();    
+}
 
 //If we error in the initial set up, fail
 TEST(Error, Initial) {
@@ -361,9 +420,15 @@ int main(int argc, char **argv) {
     
     //We instantiate devices at begining and close at end to better emulate hardware tests and fix sim crashes
 
-    #ifdef SIMULATION_TEST
+    int timeoutMs = 500;
     
-    std::this_thread::sleep_for(std::chrono::milliseconds(200));
+    auto param = genericParamEnumSets.find(ctre::phoenix::ParamEnum::eStatusFramePeriod);
+    nonPersistantParams.insert(*param);
+
+    param = motControllerParamEnumSets.find(ctre::phoenix::ParamEnum::eClosedLoopIAccum);
+    nonPersistantParams.insert(*param);
+
+    #ifdef SIMULATION_TEST
     
     ctre::phoenix::platform::PlatformSim::SimCreate(ctre::phoenix::platform::DeviceType::TalonSRXType, talonId);
     
@@ -371,12 +436,12 @@ int main(int argc, char **argv) {
 
     #else
 
-    //Hardware talons won't neccesarily be defaulted
+    //Hardware devices won't neccesarily be defaulted or have the hypothetical default values for non persistants
+    //We can't test non persistant default vals with hardware devices (unless we have a way to restart etc)
     ConfigFactoryDefaultTalon(talonId, timeoutMs, initialErrorCodes);
+    SetAllParamsDefault(wiredDevicesIdMap, timeoutMs, nonPersistantParams, initialErrorCodes);
     
     #endif
-
-    int timeoutMs = 500;
 
     initialParams.insert(genericParamEnumSets.begin(), genericParamEnumSets.end()); 
     initialParams.insert(sensorParamEnumSets.begin(), sensorParamEnumSets.end()); 

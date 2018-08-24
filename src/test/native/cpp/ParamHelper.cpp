@@ -254,3 +254,87 @@ void SetAllParams(std::map<ctre::phoenix::platform::DeviceType, int> &idMap, int
         }
     }
 }
+
+void SetAllParamsDefault(std::map<ctre::phoenix::platform::DeviceType, int> &idMap, int timeoutMs, const ParamEnumSet &paramsToSet, ErrorCodeString &errorCodes) {
+   
+    std::unique_ptr<ctre::phoenix::motorcontrol::can::TalonSRX> testTalon;
+    std::unique_ptr<ctre::phoenix::motorcontrol::can::VictorSPX> testVictor;
+    std::unique_ptr<ctre::phoenix::sensors::PigeonIMU> testPigeon;
+    std::unique_ptr<ctre::phoenix::CANifier> testCANifier;
+    
+    for(auto &paramParameterSet : paramsToSet) {
+        
+        for(auto &device : paramParameterSet.second.ValueSet) {
+            
+            auto iter = idMap.find(device.first);
+            
+            //make sure device is an instantiated device
+            if(iter == idMap.end())
+                continue;
+
+            int ArbId = iter->second;
+            std::string deviceName = "";         
+            
+			switch (iter->first) {
+			    case ctre::phoenix::platform::DeviceType::TalonSRXType:
+                    testTalon = std::make_unique<ctre::phoenix::motorcontrol::can::TalonSRX>(iter->second);
+                    ArbId |= 0x02040000;
+                    deviceName = "testTalon";
+                    break;
+			    case ctre::phoenix::platform::DeviceType::VictorSPXType:
+                    testVictor = std::make_unique<ctre::phoenix::motorcontrol::can::VictorSPX>(iter->second);
+                    ArbId |= 0x01040000;
+                    deviceName = "testVictor";
+			    	break;
+			    case ctre::phoenix::platform::DeviceType::CANifierType:
+			    	testCANifier = std::make_unique<ctre::phoenix::CANifier>(iter->second);
+                    ArbId |= 0x03040000;
+                    deviceName = "testCANifier";
+                    break;
+			    case ctre::phoenix::platform::DeviceType::PigeonIMUType:
+			    	testPigeon = std::make_unique<ctre::phoenix::sensors::PigeonIMU>(iter->second);
+                    ArbId |= 0x15000000;
+                    deviceName = "testPigeon";
+			    	break;
+            } 
+            
+            for(auto &paramValues : device.second) {
+                int ordinal = 0;
+                double valueToSend = 0;
+                uint8_t subValue = 0;
+                switch (paramParameterSet.second.paramUsage) {
+                    case OrdinalUsedAsIndex:
+                        ordinal = paramValues.first;
+                        valueToSend = paramValues.second.defaultValue;
+                        break;
+                    case ValueUsedAsIndexAndBinaryORWithArbID:
+                        valueToSend = paramValues.first | ArbId;
+                        subValue = static_cast<uint8_t>(paramValues.second.defaultValue);
+                        break;
+                    default:
+                        valueToSend = paramValues.second.defaultValue;
+                        break;
+                }
+
+                switch (iter->first) {
+			        case ctre::phoenix::platform::DeviceType::TalonSRXType:
+                        errorCodes.push_back(std::make_pair(testTalon->ConfigSetParameter(paramParameterSet.first, valueToSend, subValue, ordinal, timeoutMs), 
+                        deviceName + "->ConfigSetParameter(" + paramParameterSet.second.name + ", " + std::to_string(valueToSend)+ ", " + std::to_string(subValue) + ", " + std::to_string(ordinal) + ", " + std::to_string(timeoutMs) + ");"));
+			        	break;
+			        case ctre::phoenix::platform::DeviceType::VictorSPXType:
+                        errorCodes.push_back(std::make_pair(testVictor->ConfigSetParameter(paramParameterSet.first, valueToSend, subValue, ordinal, timeoutMs), 
+                        deviceName + "->ConfigSetParameter(" + paramParameterSet.second.name + ", " + std::to_string(valueToSend)+ ", " + std::to_string(subValue) + ", " + std::to_string(ordinal) + ", " + std::to_string(timeoutMs) + ");"));
+			        	break;
+			        case ctre::phoenix::platform::DeviceType::CANifierType:
+                        errorCodes.push_back(std::make_pair(testCANifier->ConfigSetParameter(paramParameterSet.first, valueToSend, subValue, ordinal, timeoutMs), 
+                        deviceName + "->ConfigSetParameter(" + paramParameterSet.second.name + ", " + std::to_string(valueToSend)+ ", " + std::to_string(subValue) + ", " + std::to_string(ordinal) + ", " + std::to_string(timeoutMs) + ");"));
+                        break;
+			        case ctre::phoenix::platform::DeviceType::PigeonIMUType:
+                        errorCodes.push_back(std::make_pair(testPigeon->ConfigSetParameter(paramParameterSet.first, valueToSend, subValue, ordinal, timeoutMs), 
+                        deviceName + "->ConfigSetParameter(" + paramParameterSet.second.name + ", " + std::to_string(valueToSend)+ ", " + std::to_string(subValue) + ", " + std::to_string(ordinal) + ", " + std::to_string(timeoutMs) + ");"));
+                        break;
+                }
+            }
+        }
+    }
+}

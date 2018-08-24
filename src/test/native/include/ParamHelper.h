@@ -99,10 +99,10 @@ const static ParamEnumSet genericParamEnumSets {
 {0x1400, {10, 0.0, 0, 0}}, //Status frames enhanced
 {0x1440, {20, 0.0, 0, 0}},
 {0x14C0, {160, 0.0, 0, 0}},
-{0x1540, {0, 0.0, 0, 0}},
-{0x1580, {0, 0.0, 0, 0}},
-{0x1600, {0, 0.0, 0, 0}},
-{0x1640, {0, 0.0, 0, 0}},
+//{0x1540, {0, 0.0, 0, 0}},
+//{0x1580, {0, 0.0, 0, 0}},
+//{0x1600, {0, 0.0, 0, 0}},
+//{0x1640, {0, 0.0, 0, 0}},
 {0x16C0, {250, 0.0, 0, 0}},
 {0x1700, {160, 0.0, 0, 0}},
 {0x1740, {250, 0.0, 0, 0}},
@@ -117,10 +117,10 @@ const static ParamEnumSet genericParamEnumSets {
 {0x1400, {10, 0.0, 0, 0}}, //Status frames which aren't enhanced
 {0x1440, {20, 0.0, 0, 0}},
 {0x14C0, {160, 0.0, 0, 0}},
-{0x1540, {0, 0.0, 0, 0}},
-{0x1580, {0, 0.0, 0, 0}},
-{0x1600, {0, 0.0, 0, 0}},
-{0x1640, {0, 0.0, 0, 0}},
+//{0x1540, {0, 0.0, 0, 0}},
+//{0x1580, {0, 0.0, 0, 0}},
+//{0x1600, {0, 0.0, 0, 0}},
+//{0x1640, {0, 0.0, 0, 0}},
 {0x16C0, {250, 0.0, 0, 0}},
 {0x1700, {160, 0.0, 0, 0}},
 {0x1740, {250, 0.0, 0, 0}},
@@ -301,3 +301,5 @@ const static ParamEnumSet currentParamEnumSets {
 void GetAllParams(std::map<ctre::phoenix::platform::DeviceType, int> &idMap, int timeoutMs, ParamEnumSet &paramsToGet, ErrorCodeString &errorCodes);
 
 void SetAllParams(std::map<ctre::phoenix::platform::DeviceType, int> &idMap, int timeoutMs, const ParamEnumSet &paramsToSet, ErrorCodeString &errorCodes);
+
+void SetAllParamsDefault(std::map<ctre::phoenix::platform::DeviceType, int> &idMap, int timeoutMs, const ParamEnumSet &paramsToSet, ErrorCodeString &errorCodes);
