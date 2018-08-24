@@ -171,80 +171,86 @@ model {
   binaries {
     //Only build a test suite for native execution (for now at least)
     withType(GoogleTestTestSuiteBinarySpec) {
-      if (it.targetPlatform.architecture.name == 'x86' || it.targetPlatform.architecture.name == 'x86-64') {
-        if(it.component.name == 'DummyLinkForJavaTest') {
-          //Do all of the test setup using the lib dir
-          for(lib in it.libs) {
-            if(lib.linkFiles.asFileTrees.size() > 0) {
-              def dir = lib.linkFiles.asFileTrees.get(0).dir
-              def libPaths = []
-              def prefix = OperatingSystem.current().isWindows() ? '' : 'lib'
-              def extension = OperatingSystem.current().isWindows() ? 'dll' : OperatingSystem.current().isMacOsX() ? 'dylib' : 'so'
+          
+      if(!project.hasProperty('skipTesting')) {
+        if (it.targetPlatform.architecture.name == 'x86' || it.targetPlatform.architecture.name == 'x86-64') {
+          if(it.component.name == 'DummyLinkForJavaTest') {
+            //Do all of the test setup using the lib dir
+            for(lib in it.libs) {
+              if(lib.linkFiles.asFileTrees.size() > 0) {
+                def dir = lib.linkFiles.asFileTrees.get(0).dir
+                def libPaths = []
+                def prefix = OperatingSystem.current().isWindows() ? '' : 'lib'
+                def extension = OperatingSystem.current().isWindows() ? 'dll' : OperatingSystem.current().isMacOsX() ? 'dylib' : 'so'
 
-              if(dir.toString().contains('cci')) {
-                project.test.systemProperty 'java.library.path', dir.toString()
-              }
-              def dirStr = dir.toString()
-              if(dir.toString().contains('platform')) {
-                
-                project.tasks.create(name: 'CopyPlatformLib', type: Copy) {
-                  
-                  //We copy to a different place so gradle doesn't auto clean up and cause issues
-                  from dir.toString() + File.separator
-                  into buildDir.toString() + File.separator + "tmpPlatformSO"
-                  
-                  rename('(.+)_sim(.+)', '$1$2')
+                if(dir.toString().contains('cci')) {
+                  project.test.systemProperty 'java.library.path', dir.toString()
                 }
+                def dirStr = dir.toString()
+                if(dir.toString().contains('platform')) {
+                  
+                  project.tasks.create(name: 'CopyPlatformLib', type: Copy) {
+                    
+                    //We copy to a different place so gradle doesn't auto clean up and cause issues
+                    from dir.toString() + File.separator
+                    into buildDir.toString() + File.separator + "tmpPlatformSO"
+                    
+                    rename('(.+)_sim(.+)', '$1$2')
+                  }
  
-                project.test.dependsOn(CopyPlatformLib)
-                CopyPlatformLib.dependsOn('linkDummyLinkForJavaTestX86-64GoogleTestExe')
-                
-                dirStr = buildDir.toString() + File.separator + "tmpPlatformSO"                
-              }
-              if(OperatingSystem.current().isWindows()) {
-                libPaths << test.environment.get('PATH') << dirStr
-                project.test.environment.put('PATH', libPaths.join(';'))
-              }
-              else if(OperatingSystem.current().isMacOsX()) {
-                libPaths << test.environment.get('DYLD_LIBRARY_PATH') << dirStr
-                project.test.environment.put('DYLD_LIBRARY_PATH', libPaths.join(';'))
-              }
-              else if(OperatingSystem.current().isLinux()) {
-                libPaths << test.environment.get('LD_LIBRARY_PATH') << dirStr
-                project.test.environment.put('LD_LIBRARY_PATH', libPaths.join(';'))
+                  project.test.dependsOn(CopyPlatformLib)
+                  CopyPlatformLib.dependsOn('linkDummyLinkForJavaTestX86-64GoogleTestExe')
+                  
+                  dirStr = buildDir.toString() + File.separator + "tmpPlatformSO"                
+                }
+                if(OperatingSystem.current().isWindows()) {
+                  libPaths << test.environment.get('PATH') << dirStr
+                  project.test.environment.put('PATH', libPaths.join(';'))
+                }
+                else if(OperatingSystem.current().isMacOsX()) {
+                  libPaths << test.environment.get('DYLD_LIBRARY_PATH') << dirStr
+                  project.test.environment.put('DYLD_LIBRARY_PATH', libPaths.join(';'))
+                }
+                else if(OperatingSystem.current().isLinux()) {
+                  libPaths << test.environment.get('LD_LIBRARY_PATH') << dirStr
+                  project.test.environment.put('LD_LIBRARY_PATH', libPaths.join(';'))
+                }
               }
             }
-          }
-        } else if(it.component.name == 'CTRE_PhoenixTestSim') {
-          cppCompiler.define "SIMULATION_TEST"
-          for(lib in it.libs) {
-            if(lib.linkFiles.asFileTrees.size() > 0 && lib.linkFiles.asFileTrees.get(0).dir.toString().contains('firmware')) {
-              def libFileName = lib.linkFiles.asFileTrees.get(0).file.toString()
-              if(OperatingSystem.current().isWindows()) {
-                libFileName = libFileName.replaceAll('\\.lib', '.dll')
-              }
+          } else if(it.component.name == 'CTRE_PhoenixTestSim') {
+            cppCompiler.define "SIMULATION_TEST"
+            for(lib in it.libs) {
+              if(lib.linkFiles.asFileTrees.size() > 0 && lib.linkFiles.asFileTrees.get(0).dir.toString().contains('firmware')) {
+                def libFileName = lib.linkFiles.asFileTrees.get(0).file.toString()
+                if(OperatingSystem.current().isWindows()) {
+                  libFileName = libFileName.replaceAll('\\.lib', '.dll')
+                }
 
-              tasks.run.environment.put('CTRE_TALON_LIBRARY_PATH', libFileName)
-              project.test.environment.put('CTRE_TALON_LIBRARY_PATH', libFileName)
+                tasks.run.environment.put('CTRE_TALON_LIBRARY_PATH', libFileName)
+                project.test.environment.put('CTRE_TALON_LIBRARY_PATH', libFileName)
+              }
             }
           }
-        }
-        else if(it.component.name == 'CTRE_PhoenixTestSocketCan') {
-          it.buildable = project.hasProperty('buildSocketCanTest')
-        } 
-        else { //RoboRIO
-          it.buildable = false
-        } 
-      }
-      else {
-        if(it.component.name == 'CTRE_PhoenixTestRoboRIO' && it.targetPlatform.architecture.name == 'athena') {
-          //Build athena roborio test
-          it.buildable = project.hasProperty('buildRioTest') 
-          cppCompiler.define "CTR_EXCLUDE_WPILIB_CLASSES"
+          else if(it.component.name == 'CTRE_PhoenixTestSocketCan') {
+            it.buildable = project.hasProperty('buildSocketCanTest')
+          } 
+          else { //RoboRIO
+            it.buildable = false
+          } 
         }
         else {
-          it.buildable = false
+          if(it.component.name == 'CTRE_PhoenixTestRoboRIO' && it.targetPlatform.architecture.name == 'athena') {
+            //Build athena roborio test
+            it.buildable = project.hasProperty('buildRioTest') 
+            cppCompiler.define "CTR_EXCLUDE_WPILIB_CLASSES"
+          }
+          else {
+            it.buildable = false
+          }
         }
+      }
+      else {
+        it.buildable = false;
       }
     }
     //If we are not building for windows, don't bother with the shared library
@@ -274,7 +280,7 @@ tasks.whenTaskAdded { task ->
         task.enabled = false
     }
     //use shuffle and random seed of 0 means use timestamp
-    if(task.name.contains('runCTRE_PhoenixTestSim')) {
+    else if(task.name.contains('runCTRE_PhoenixTestSim')) {
         task.args = task.args + ["--gtest_shuffle", "--gtest_random_seed=0"]
         
         task.enabled = !project.hasProperty('skipTesting')
@@ -282,9 +288,14 @@ tasks.whenTaskAdded { task ->
 }
 
 //Java testing depends on these tasks because they set up the libs etc
-test.dependsOn('runDummyLinkForJavaTestX86-64GoogleTestExe')
-test.dependsOn('runCTRE_PhoenixTestSimX86-64GoogleTestExe')
-test.dependsOn('CopyPlatformLib')
+
+
+test.enabled = !project.hasProperty('skipTesting') && !project.hasProperty('onlyAthena')
+if(!project.hasProperty('skipTesting') && !project.hasProperty('onlyAthena')) {
+  test.dependsOn('runDummyLinkForJavaTestX86-64GoogleTestExe')
+  test.dependsOn('runCTRE_PhoenixTestSimX86-64GoogleTestExe')
+  test.dependsOn('CopyPlatformLib')
+}
 
 apply from: 'publish.gradle'
 
