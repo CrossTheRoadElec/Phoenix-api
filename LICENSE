@@ -9,6 +9,8 @@
  * Phoenix Software API Libraries ONLY when in use with CTR Electronics hardware products
  * as well as the FRC roboRIO when in use in FRC Competition.
  * 
+ * Software may not be used to design custom or commerical CAN actuators under any circumstance.
+ *
  * THE SOFTWARE AND DOCUMENTATION ARE PROVIDED "AS IS" WITHOUT
  * WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT
  * LIMITATION, ANY WARRANTY OF MERCHANTABILITY, FITNESS FOR A
