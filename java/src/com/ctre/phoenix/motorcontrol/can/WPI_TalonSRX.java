@@ -59,7 +59,7 @@ public class WPI_TalonSRX extends TalonSRX implements SpeedController, Sendable,
 	 */
 	@Override
 	public double get() {
-		return _speed;
+		return getMotorOutputPercent();
 	}
 
 	// ---------Intercept CTRE calls for motor safety ---------//
