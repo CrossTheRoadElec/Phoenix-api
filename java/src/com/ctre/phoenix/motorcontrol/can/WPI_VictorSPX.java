@@ -59,7 +59,7 @@ public class WPI_VictorSPX extends VictorSPX implements SpeedController, Sendabl
 	 */
 	@Override
 	public double get() {
-		return _speed;
+		return getMotorOutputPercent();
 	}
 
 	// ---------Intercept CTRE calls for motor safety ---------//
