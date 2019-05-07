@@ -1,101 +1,84 @@
 import org.gradle.internal.os.OperatingSystem
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
 
 plugins {
-    id 'net.ltgt.errorprone' version '0.0.8'
-    id 'edu.wpi.first.wpilib.versioning.WPILibVersioningPlugin' version '2.0'
+  id 'cpp'
+  id 'java'
+  id 'edu.wpi.first.wpilib.versioning.WPILibVersioningPlugin' version '2.1'
+  id 'edu.wpi.first.NativeUtils' version '2.0.1'
+  id 'edu.wpi.first.GradleVsCode' version '0.3.0'
 }
 
-allprojects {
-    repositories {
-        mavenCentral()
-    }
-}
-
+// Ensure that the WPILibVersioningPlugin is setup by setting the release type, if releaseType wasn't
+// already specified on the command line
 if (!hasProperty('releaseType')) {
     WPILibVersion {
-        releaseType = 'official'
+        releaseType = 'DEV'
     }
 }
 
-ext.compilerPrefixToUse = project.hasProperty('compilerPrefix') ? project.compilerPrefix : 'arm-frc-linux-gnueabi-'
-
-ext.setupDefines = { project, binaries ->
-    binaries.all {
-        if (project.hasProperty('debug')) {
-            project.setupDebugDefines(cppCompiler, linker)
-        } else {
-            project.setupReleaseDefines(cppCompiler, linker)
-        }
-    }
-}
-
-apply from: "locations.gradle"
-
-ext.addUserLinks = { linker, targetPlatform, implLib ->
-    def libPattern = /.*((\\/|\\).*)+lib(?<libName>.+).(.+)$/
-    def libraryArgs = []
-    def libraryPath = file(driverLibraryLib).path
-
-    // adds all libraries found in the driver folder
-    def libraryTree = fileTree(libraryPath)
-    libraryTree.include '*.so'
-    libraryTree.include '*.a'
-
-    libraryTree.each { lib ->
-        def nameMatcher = (lib.path =~ libPattern)
-        if (nameMatcher[0].size() > 1) {
-            def name = nameMatcher.group('libName')
-            libraryArgs << '-l' + name
-        }
-    }
-    
-    if (implLib) {
-        // adds all libraries found in the impl folder
-        def implLibraryPath = file(cppLibraryLib).path
-        def implLibraryTree = fileTree(implLibraryPath)
-        implLibraryTree.include '*.so'
-        implLibraryTree.include '*.a'
-
-        implLibraryTree.each { lib ->
-            def nameMatcher = (lib.path =~ libPattern)
-            if (nameMatcher[0].size() > 1) {
-                def name = nameMatcher.group('libName')
-                libraryArgs << '-l' + name
-            }
-        }
-    }
-     
-    // Add all arguments
-    String architecture = targetPlatform.architecture
-    if (architecture.contains('arm')){
-        linker.args << '-L' + libraryPath
-        linker.args.addAll(libraryArgs)
-    }
-}
-
-apply from: "properties.gradle"
 apply from: "options.gradle"
+apply from: 'config.gradle'
 
-apply from: wpiDeps
+ext.sharedFrcConfigs = [CTRE_Phoenix: ['linux:athena']]
+ext.sharedCCIConfigs = [CTRE_Phoenix: []]
+ext.sharedConfigsJustWind = [CTRE_Phoenix : ['windows:x86-64', 'windows:x86']] 
 
-apply from: "cpp.gradle"
+apply from: 'dependencies.gradle'
 
-// Empty task for build so that zips will be
-// built when running ./gradlew build
-task build
+model {
+  exportsConfigs {
+      CTRE_Phoenix(ExportsConfig) {
+          x86ExcludeSymbols = ['_CT??_R0?AV_System_error', '_CT??_R0?AVexception', '_CT??_R0?AVfailure',
+                                '_CT??_R0?AVbad_cast',
+                                '_CT??_R0?AVruntime_error', '_CT??_R0?AVsystem_error', '_CTA5?AVfailure',
+                                '_TI5?AVfailure']
+          x64ExcludeSymbols = ['_CT??_R0?AV_System_error', '_CT??_R0?AVexception', '_CT??_R0?AVfailure',
+                                '_CT??_R0?AVbad_cast',
+                                '_CT??_R0?AVruntime_error', '_CT??_R0?AVsystem_error', '_CTA5?AVfailure',
+                                '_TI5?AVfailure']
+      }
+  }
 
-apply from: "releases.gradle"
-
-task clean(type: Delete) {
-    description = "Deletes the build directory"
-    group = "Build"
-    delete buildDir
+  components {
+    CTRE_Phoenix(NativeLibrarySpec) {
+      sources {
+        cpp {
+          source {
+            srcDirs 'src/main/native/cpp'
+            include '**/*.cpp'
+          }
+          exportedHeaders {
+            srcDirs 'src/main/native/include'
+          }
+        }
+      }
+    }
+  }
+ 
+  binaries {
+    //If we are not building for windows, don't bother with the shared library
+    withType(SharedLibraryBinarySpec) {
+      if(it.component.name == 'CTRE_Phoenix') {
+        if (it.targetPlatform.operatingSystem.name != 'windows') {
+          it.buildable = false
+        }
+      }
+      cppCompiler.define "POST_WPI_LLVM_MOVE"
+    }
+    withType(StaticLibraryBinarySpec) {
+        cppCompiler.define "POST_WPI_LLVM_MOVE"
+    }
+  }
 }
 
-clean {
-    delete releaseDir
-}
+apply from: 'publish.gradle'
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '3.3'
+publish.dependsOn check
+
+wrapper {
+  gradleVersion = '4.9'
 }

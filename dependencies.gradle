@@ -1,0 +1,81 @@
+import org.gradle.internal.os.OperatingSystem
+
+model {
+    dependencyConfigs {
+        frcNetComm(DependencyConfig) {
+            groupId = 'edu.wpi.first.ni-libraries'
+            artifactId = 'netcomm'
+            headerClassifier = 'headers'
+            ext = 'zip'
+            version = niLibVersion
+            sharedConfigs = project.sharedFrcConfigs
+            staticConfigs = [:]
+        }
+        //cci to link against
+        phoenixCCI(DependencyConfig) {
+            groupId = phoenixGroup
+            artifactId = 'cci'
+            headerClassifier = 'headers'
+            ext = 'zip'
+            if(ext.hasProperty("cciVersion")){
+                version = ext.cciVersion
+            }
+            else{
+                version = '+'
+            }
+            sharedConfigs = project.sharedCCIConfigs
+            staticConfigs = [:]
+        }
+        //canutils to link against
+        phoenixCanutils(DependencyConfig) {
+            groupId = phoenixGroup
+            artifactId = 'canutils'
+            ext = 'zip'
+            headerClassifier = 'headers'
+            if(ext.hasProperty("canutilsVersion")){
+                version = ext.canutilsVersion
+            }
+            else{
+                version = '+'
+            }
+            sharedConfigs = project.sharedConfigsJustWind
+            staticConfigs = [:]
+        }
+        //Headers
+        phoenixCore(DependencyConfig) {
+            groupId = phoenixGroup
+            artifactId = 'core'
+            headerClassifier = 'headers'
+            ext = 'zip'
+            if(ext.hasProperty("coreVersion")){
+                version = ext.coreVersion
+            }
+            else{
+                version = '+'
+            }
+            headerOnlyConfigs = project.sharedCCIConfigs
+            sharedConfigs = [:]
+            staticConfigs = [:]
+        }
+        //platform to link against
+        phoenixPlatformStub(DependencyConfig) {
+            groupId = phoenixGroup
+            artifactId = 'platform-stub'
+            headerClassifier = 'headers'
+            ext = 'zip'
+            if(ext.hasProperty("platformstubVersion")){
+                version = ext.platformstubVersion
+            }
+            else{
+                version = '+'
+            }
+            sharedConfigs = project.sharedConfigsJustWind
+            staticConfigs = [:]
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
