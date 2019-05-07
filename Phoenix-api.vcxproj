@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main\native\cpp\CANifier.cpp" />
+    <ClCompile Include="src\main\native\cpp\CompileTest.cpp" />
+    <ClCompile Include="src\main\native\cpp\CTRLogger.cpp" />
+    <ClCompile Include="src\main\native\cpp\HsvToRgb.cpp" />
+    <ClCompile Include="src\main\native\cpp\LinearInterpolation.cpp" />
+    <ClCompile Include="src\main\native\cpp\motion\BufferedTrajectoryPointStream.cpp" />
+    <ClCompile Include="src\main\native\cpp\motorcontrol\can\BaseMotorController.cpp" />
+    <ClCompile Include="src\main\native\cpp\motorcontrol\can\TalonSRX.cpp" />
+    <ClCompile Include="src\main\native\cpp\motorcontrol\can\VictorSPX.cpp" />
+    <ClCompile Include="src\main\native\cpp\motorcontrol\DeviceCatalog.cpp" />
+    <ClCompile Include="src\main\native\cpp\motorcontrol\GroupMotorControllers.cpp" />
+    <ClCompile Include="src\main\native\cpp\motorcontrol\SensorCollection.cpp" />
+    <ClCompile Include="src\main\native\cpp\RCRadio3Ch.cpp" />
+    <ClCompile Include="src\main\native\cpp\sensors\PigeonIMU.cpp" />
+    <ClCompile Include="src\main\native\cpp\Stopwatch.cpp" />
+    <ClCompile Include="src\main\native\cpp\tasking\Schedulers\ConcurrentScheduler.cpp" />
+    <ClCompile Include="src\main\native\cpp\tasking\Schedulers\SequentialScheduler.cpp" />
+    <ClCompile Include="src\main\native\cpp\Utilities.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\main\native\include\ctre\Phoenix.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\CANifier.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\CTRLogger.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\CustomParamConfiguration.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\HsvToRgb.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\LinearInterpolation.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\motorcontrol\can\BaseMotorController.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\motorcontrol\can\TalonSRX.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\motorcontrol\can\VictorSPX.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\motorcontrol\DeviceCatalog.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\motorcontrol\GroupMotorControllers.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\motorcontrol\IFollower.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\motorcontrol\IMotorController.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\motorcontrol\IMotorControllerEnhanced.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\motorcontrol\SensorCollection.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\RCRadio3Ch.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\sensors\PigeonIMU.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\signals\IInvertable.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\signals\IOutputSignal.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\signals\MovingAverage.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\Stopwatch.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\tasking\ILoopable.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\tasking\IProcessable.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\tasking\Schedulers\ConcurrentScheduler.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\tasking\Schedulers\SequentialScheduler.h" />
+    <ClInclude Include="src\main\native\include\ctre\phoenix\Utilities.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\main\java\com\ctre\phoenix\CANifier.java" />
+    <None Include="src\main\java\com\ctre\phoenix\CANifierConfiguration.java" />
+    <None Include="src\main\java\com\ctre\phoenix\CANifierConfigUtil.java" />
+    <None Include="src\main\java\com\ctre\phoenix\CANifierControlFrame.java" />
+    <None Include="src\main\java\com\ctre\phoenix\CANifierFaults.java" />
+    <None Include="src\main\java\com\ctre\phoenix\CANifierJNI.java" />
+    <None Include="src\main\java\com\ctre\phoenix\CANifierStatusFrame.java" />
+    <None Include="src\main\java\com\ctre\phoenix\CANifierStickyFaults.java" />
+    <None Include="src\main\java\com\ctre\phoenix\CTREJNIWrapper.java" />
+    <None Include="src\main\java\com\ctre\phoenix\CTRLoggerJNI.java" />
+    <None Include="src\main\java\com\ctre\phoenix\CustomParamConfiguration.java" />
+    <None Include="src\main\java\com\ctre\phoenix\CustomParamConfigUtil.java" />
+    <None Include="src\main\java\com\ctre\phoenix\ErrorCode.java" />
+    <None Include="src\main\java\com\ctre\phoenix\ErrorCollection.java" />
+    <None Include="src\main\java\com\ctre\phoenix\GadgeteerUartClient.java" />
+    <None Include="src\main\java\com\ctre\phoenix\ILoopable.java" />
+    <None Include="src\main\java\com\ctre\phoenix\Logger.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motion\BufferedTrajectoryPointStream.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motion\BuffTrajPointStreamJNI.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motion\MotionProfileStatus.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motion\SetValueMotionProfile.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motion\TrajectoryPoint.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\can\BaseMotorController.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\can\BaseMotorControllerConfiguration.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\can\BaseMotorControllerUtil.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\can\BasePIDSetConfiguration.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\can\FilterConfiguration.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\can\FilterConfigUtil.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\can\MotControllerJNI.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\can\SlotConfiguration.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\can\SlotConfigurationUtil.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\can\TalonConfigUtil.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\can\TalonSRX.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\can\TalonSRXConfiguration.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\can\TalonSRXPIDSetConfiguration.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\can\TalonSRXPIDSetConfigUtil.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\can\VictorConfigUtil.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\can\VictorSPX.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\can\VictorSPXConfiguration.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\can\VictorSPXPIDSetConfiguration.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\can\VictorSPXPIDSetConfigUtil.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\ControlFrame.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\ControlFrameEnhanced.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\ControlMode.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\DemandType.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\Faults.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\FeedbackDevice.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\FollowerType.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\GroupMotorControllers.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\IFollower.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\IMotorController.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\IMotorControllerEnhanced.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\InvertType.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\LimitSwitchNormal.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\LimitSwitchSource.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\NeutralMode.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\RemoteFeedbackDevice.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\RemoteLimitSwitchSource.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\RemoteSensorSource.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\SensorCollection.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\SensorTerm.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\StatusFrame.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\StatusFrameEnhanced.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\StickyFaults.java" />
+    <None Include="src\main\java\com\ctre\phoenix\motorcontrol\VelocityMeasPeriod.java" />
+    <None Include="src\main\java\com\ctre\phoenix\ParamEnum.java" />
+    <None Include="src\main\java\com\ctre\phoenix\platform\can\AutocacheState.java" />
+    <None Include="src\main\java\com\ctre\phoenix\platform\can\PlatformCAN.java" />
+    <None Include="src\main\java\com\ctre\phoenix\platform\can\PlatformCANJNI.java" />
+    <None Include="src\main\java\com\ctre\phoenix\platform\DeviceType.java" />
+    <None Include="src\main\java\com\ctre\phoenix\platform\PlatformJNI.java" />
+    <None Include="src\main\java\com\ctre\phoenix\platform\PlatformSim.java" />
+    <None Include="src\main\java\com\ctre\phoenix\schedulers\ConcurrentScheduler.java" />
+    <None Include="src\main\java\com\ctre\phoenix\schedulers\SequentialScheduler.java" />
+    <None Include="src\main\java\com\ctre\phoenix\sensors\PigeonIMU.java" />
+    <None Include="src\main\java\com\ctre\phoenix\sensors\PigeonIMUConfiguration.java" />
+    <None Include="src\main\java\com\ctre\phoenix\sensors\PigeonImuJNI.java" />
+    <None Include="src\main\java\com\ctre\phoenix\sensors\PigeonIMU_ControlFrame.java" />
+    <None Include="src\main\java\com\ctre\phoenix\sensors\PigeonIMU_Faults.java" />
+    <None Include="src\main\java\com\ctre\phoenix\sensors\PigeonIMU_StatusFrame.java" />
+    <None Include="src\main\java\com\ctre\phoenix\sensors\PigeonIMU_StickyFaults.java" />
+    <None Include="src\main\java\com\ctre\phoenix\signals\IInvertable.java" />
+    <None Include="src\main\java\com\ctre\phoenix\signals\IOutputSignal.java" />
+    <None Include="src\main\java\com\ctre\phoenix\time\StopWatch.java" />
+    <None Include="src\main\java\com\ctre\phoenix\unmanaged\Unmanaged.java" />
+    <None Include="src\main\java\com\ctre\phoenix\unmanaged\UnmanagedJNI.java" />
+    <None Include="src\main\java\com\ctre\phoenix\Util.java" />
+    <None Include="src\main\java\com\ctre\phoenix\VelocityPeriod.java" />
+    <None Include="src\test\java\com\ctre\phoenix\CANifierTest.java" />
+    <None Include="src\test\java\com\ctre\phoenix\ConfigHelper.java" />
+    <None Include="src\test\java\com\ctre\phoenix\CTRLoggerTest.java" />
+    <None Include="src\test\java\com\ctre\phoenix\DeviceID.java" />
+    <None Include="src\test\java\com\ctre\phoenix\Error.java" />
+    <None Include="src\test\java\com\ctre\phoenix\ErrorCodeDoubleString.java" />
+    <None Include="src\test\java\com\ctre\phoenix\ErrorCodeString.java" />
+    <None Include="src\test\java\com\ctre\phoenix\motorcontrol\can\MotControllerTest.java" />
+    <None Include="src\test\java\com\ctre\phoenix\ParamEnumParameters.java" />
+    <None Include="src\test\java\com\ctre\phoenix\ParamHelper.java" />
+    <None Include="src\test\java\com\ctre\phoenix\platform\can\PlatformCANTest.java" />
+    <None Include="src\test\java\com\ctre\phoenix\platform\PlatformSimTest.java" />
+    <None Include="src\test\java\com\ctre\phoenix\sensors\PigeonIMUTest.java" />
+    <None Include="src\test\java\com\ctre\phoenix\unmanaged\Unmanaged.java" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{AB55EE6F-5B11-49A7-9F9E-1F9F8C0565E7}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Phoenixfrclib</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(ProjectDir)..\bin\$(Configuration)</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectDir)..\bin\$(Configuration)</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>../Phoenix-core/src/include/;../Phoenix-cci/src/main/include;src/main/native/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>../Phoenix-core/src/include/;../Phoenix-cci/src/main/include;src/main/native/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>../Phoenix-core/src/include/;../Phoenix-cci/src/main/include;src/main/native/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>../Phoenix-core/src/include/;../Phoenix-cci/src/main/include;src/main/native/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

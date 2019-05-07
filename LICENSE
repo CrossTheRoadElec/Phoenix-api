@@ -6,8 +6,7 @@
  * 
  * Cross The Road Electronics (CTRE) licenses to you the right to 
  * use, publish, and distribute copies of CRF (Cross The Road) firmware files (*.crf) and 
- * Phoenix Software API Libraries ONLY when in use with CTR Electronics hardware products
- * as well as the FRC roboRIO when in use in FRC Competition.
+ * Phoenix Software API Libraries ONLY when in use with CTR Electronics CAN peripherals.
  * 
  * Software may not be used to design custom or commerical CAN actuators under any circumstance.
  *
